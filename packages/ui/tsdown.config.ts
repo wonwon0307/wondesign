@@ -3,7 +3,7 @@ import { vanillaExtractPlugin } from "@vanilla-extract/rollup-plugin";
 
 export default defineConfig([
   {
-    entry: ["src/components/*/index.ts"],
+    entry: ["src/components/*/index.ts", "src/index.ts"],
     plugins: [vanillaExtractPlugin()],
     format: ["esm"],
     dts: true,
@@ -13,17 +13,6 @@ export default defineConfig([
       onlyBundle: false,
       neverBundle: [/^@justkits\//],
     },
-  },
-  {
-    entry: ["src/index.ts"],
-    plugins: [vanillaExtractPlugin()],
-    format: ["esm"],
-    dts: true,
-    clean: false,
-    deps: {
-      onlyBundle: false,
-    },
-    banner: "'use client';",
     css: {
       fileName: "styles.css",
     },
