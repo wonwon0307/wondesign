@@ -22,7 +22,7 @@ export type IconLinkProps = Omit<AnchorProps, "children"> & {
 export function IconLink({
   icon,
   children,
-  rounded = true,
+  rounded = false,
   ghost = false,
   size = "medium",
   className,
