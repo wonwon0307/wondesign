@@ -21,7 +21,7 @@ export interface SemanticColors {
   // Text colors
   text: string;
   textMuted: string;
-  textDisabled: string;
+  textInverted: string;
   // Border colors
   border: string;
   borderMuted: string;
