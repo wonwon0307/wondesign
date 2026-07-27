@@ -12,17 +12,17 @@ const colors = convertToLightDark(wondesignLight, wondesignDark);
 
 const typography: TypographyTokens = {
   fontSize: {
-    headingSmall: "1.5rem",
-    headingMedium: "2rem",
-    headingLarge: "2.5rem",
+    headingSmall: "1.25rem",
+    headingMedium: "1.5rem",
+    headingLarge: "2rem",
     bodySmall: "0.875rem",
     bodyMedium: "1rem",
     bodyLarge: "1.125rem",
   },
   lineHeight: {
     headingSmall: "1.8rem",
-    headingMedium: "2.4rem",
-    headingLarge: "2.7rem",
+    headingMedium: "2.1rem",
+    headingLarge: "2.5rem",
     bodySmall: "1.25rem",
     bodyMedium: "1.5rem",
     bodyLarge: "1.5rem",
@@ -41,7 +41,7 @@ const typography: TypographyTokens = {
 };
 
 const text: TextTokens = {
-  hero: `${typography.fontWeight.bold} 3rem/3.6rem ${typography.fontFamily.brand}`,
+  hero: `${typography.fontWeight.bold} ${typography.fontSize.headingLarge}/${typography.lineHeight.headingLarge} ${typography.fontFamily.brand}`,
   titleLarge: `${typography.fontWeight.bold} ${typography.fontSize.headingLarge}/${typography.lineHeight.headingLarge} ${typography.fontFamily.normal}`,
   titleMedium: `${typography.fontWeight.bold} ${typography.fontSize.headingMedium}/${typography.lineHeight.headingMedium} ${typography.fontFamily.normal}`,
   titleSmall: `${typography.fontWeight.bold} ${typography.fontSize.headingSmall}/${typography.lineHeight.headingSmall} ${typography.fontFamily.normal}`,
