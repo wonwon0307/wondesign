@@ -13,7 +13,7 @@ const iconButton = recipe({
     transition: "all 0.3s ease",
     selectors: {
       "&[data-disabled]": {
-        color: tokens.colors.textDisabled,
+        color: tokens.colors.textMuted,
       },
     },
     "@media": {
