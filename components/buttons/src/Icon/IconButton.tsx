@@ -22,7 +22,7 @@ export type IconButtonProps = Omit<PressableProps, "children"> & {
 export function IconButton({
   icon,
   children,
-  rounded = true,
+  rounded = false,
   ghost = false,
   size = "medium",
   className,
