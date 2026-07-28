@@ -17,7 +17,6 @@ const anchor = style({
     [mediaQueries.hoverable]: {
       selectors: {
         "&:not([data-disabled]):hover": {
-          textDecoration: "underline",
           textDecorationColor: tokens.colors.primary,
         },
       },
