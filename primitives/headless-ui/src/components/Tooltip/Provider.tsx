@@ -10,7 +10,7 @@ export interface TooltipProps {
   children: React.ReactNode;
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
-  portal?: boolean;
+  inline?: boolean;
   position?: FloatingPlacement;
   unmountOnHide?: boolean;
   openDelay?: number;
@@ -23,7 +23,7 @@ export function TooltipProvider({
   children,
   isOpen: controlledOpen,
   onOpenChange,
-  portal = false,
+  inline = false,
   position = "bottom",
   unmountOnHide = true,
   openDelay = 0,
@@ -82,7 +82,7 @@ export function TooltipProvider({
       hideTooltip,
       hideTooltipWithDelay,
       clearTimer,
-      isPortalMode: portal,
+      isPortalMode: !inline,
       unmountOnHide,
       tooltipId,
       containerStyles: container,
@@ -98,7 +98,7 @@ export function TooltipProvider({
       hideTooltip,
       hideTooltipWithDelay,
       clearTimer,
-      portal,
+      inline,
       unmountOnHide,
       tooltipId,
       container,
