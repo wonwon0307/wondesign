@@ -9,13 +9,11 @@ describe("Tooltip - structure", () => {
   describe("SSR", () => {
     setupSSR();
 
-    it("renders in-place when portal prop is set (portal bypassed before mount)", () => {
+    it("renders in-place in portal mode (portal bypassed before mount)", () => {
       // window/document가 없는 SSR 환경에서는 useSyncExternalStore가 서버 스냅샷(false)을 사용하므로
       // portal 모드이더라도 children이 인라인으로 렌더링되어 hydration mismatch를 방지한다.
       const html = renderToString(
-        <TestComponent portal isOpen>
-          Tooltip Message
-        </TestComponent>,
+        <TestComponent isOpen>Tooltip Message</TestComponent>,
       );
 
       expect(html).toContain('data-testid="tooltip-trigger"');

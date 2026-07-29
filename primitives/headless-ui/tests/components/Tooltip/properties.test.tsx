@@ -60,9 +60,7 @@ describe("Tooltip - properties", () => {
     it("supports portal mode", () => {
       // portal 모드에서는, content가 document.body에 렌더링되어야 한다.
       const { getByTestId } = render(
-        <TestComponent portal isOpen>
-          Tooltip Message
-        </TestComponent>,
+        <TestComponent isOpen>Tooltip Message</TestComponent>,
       );
 
       expect(getByTestId("tooltip-content").parentElement).toBe(document.body);
@@ -77,7 +75,9 @@ describe("Tooltip - properties", () => {
       // portal 모드가 아니면, content가 document.body가 아닌, div 내부에 렌더링되어야 한다.
       const { getByTestId } = render(
         <div data-testid="container">
-          <TestComponent isOpen>Tooltip Message</TestComponent>
+          <TestComponent isOpen inline>
+            Tooltip Message
+          </TestComponent>
         </div>,
       );
 
