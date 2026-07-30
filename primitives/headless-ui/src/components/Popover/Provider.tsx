@@ -1,17 +1,17 @@
 import { useCallback, useId, useMemo, useRef, useState } from "react";
 
 import { useOpenState } from "@/core/disclosure";
+import { useFloating, type FloatingOptions } from "@/core/floating";
 import { useAutoFocus, useEscapeClose, useFocusTrap } from "@/core/keyboard";
 import { useClickOutside } from "@/core/pointer";
-import { useFloatingPosition, type FloatingPlacement } from "@/core/position";
 import { PopoverContext } from "./_internals/contexts";
 
 export interface PopoverProps {
   children: React.ReactNode;
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
-  portal?: boolean;
-  position?: FloatingPlacement;
+  inline?: boolean;
+  floatingOptions?: FloatingOptions;
   unmountOnHide?: boolean;
 }
 
@@ -19,8 +19,14 @@ export function PopoverProvider({
   children,
   isOpen: controlledOpen,
   onOpenChange,
-  portal = false,
-  position = "bottom",
+  inline = false,
+  floatingOptions = {
+    placement: "bottom",
+    forcePlacement: false,
+    align: "center",
+    offset: 0,
+    padding: 0,
+  },
   unmountOnHide = false,
 }: Readonly<PopoverProps>) {
   const {
@@ -30,21 +36,23 @@ export function PopoverProvider({
   } = useOpenState(controlledOpen, onOpenChange, false);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const floatingRef = useRef<HTMLDialogElement | null>(null);
+  const arrowRef = useRef<HTMLDivElement | null>(null);
   const [isPending, setPending] = useState<boolean>(false);
   const [titleId, setTitleId] = useState<string | undefined>(undefined);
   const contentId = useId();
+
+  const { floating, arrow } = useFloating(
+    triggerRef,
+    floatingRef,
+    arrowRef,
+    floatingOptions,
+    isOpen,
+  );
 
   useClickOutside(floatingRef, hidePopover, isOpen, triggerRef);
   useEscapeClose(hidePopover, isOpen);
   useAutoFocus(floatingRef, isOpen, triggerRef);
   useFocusTrap(floatingRef, isOpen);
-
-  const { container, arrow } = useFloatingPosition(
-    triggerRef,
-    floatingRef,
-    position,
-    isOpen,
-  );
 
   const togglePopover = useCallback(() => {
     if (isOpen) {
@@ -61,15 +69,16 @@ export function PopoverProvider({
       hidePopover,
       isPending,
       setPending,
-      isPortalMode: portal,
+      isPortalMode: !inline,
       unmountOnHide,
       titleId,
       setTitleId,
       contentId,
       triggerRef,
       floatingRef,
-      containerStyles: container,
-      arrowStyles: arrow,
+      arrowRef,
+      floatingPosition: floating,
+      arrowPosition: arrow,
     }),
     [
       isOpen,
@@ -77,12 +86,12 @@ export function PopoverProvider({
       hidePopover,
       isPending,
       setPending,
-      portal,
+      inline,
       unmountOnHide,
       titleId,
       setTitleId,
       contentId,
-      container,
+      floating,
       arrow,
     ],
   );

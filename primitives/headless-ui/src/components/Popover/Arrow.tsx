@@ -25,14 +25,17 @@ export function PopoverArrow({
     throw new Error("Popover.Arrow must be used inside Popover.Content.");
   }
 
-  const { arrowStyles } = context;
+  const { arrowPosition, arrowRef } = context;
 
   return (
     <div
+      ref={arrowRef}
       {...rest}
       style={{
+        position: "absolute",
+        left: arrowPosition.x,
+        top: arrowPosition.y,
         ...style,
-        ...arrowStyles,
       }}
       aria-hidden="true"
     />

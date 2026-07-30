@@ -27,12 +27,15 @@ export function TooltipArrow({
     throw new Error("Tooltip.Arrow must be used inside Tooltip.Content.");
   }
 
-  const { arrowStyles } = context;
+  const { arrowPosition, arrowRef } = context;
 
   return (
     <div
+      ref={arrowRef}
       style={{
-        ...arrowStyles,
+        position: "absolute",
+        left: arrowPosition.x,
+        top: arrowPosition.y,
         ...style,
       }}
       className={className}

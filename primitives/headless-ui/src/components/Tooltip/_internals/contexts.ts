@@ -1,5 +1,7 @@
 import { createContext } from "react";
 
+import type { ArrowPosition, FloatingPosition } from "@/core/floating";
+
 type TooltipContextType = {
   // Open State
   isDisabled: boolean;
@@ -14,12 +16,13 @@ type TooltipContextType = {
   unmountOnHide: boolean;
   // ARIA 연결을 위한 id
   tooltipId: string;
-  // 툴팁 위치 스타일
-  containerStyles: React.CSSProperties;
-  arrowStyles: React.CSSProperties;
+  // 툴팁/화살표 위치
+  floatingPosition: FloatingPosition;
+  arrowPosition: ArrowPosition;
   // DOM 참조
   triggerRef: React.RefObject<HTMLButtonElement | null>;
   floatingRef: React.RefObject<HTMLDivElement | null>;
+  arrowRef: React.RefObject<HTMLDivElement | null>;
 };
 
 export const TooltipContext = createContext<TooltipContextType | undefined>(

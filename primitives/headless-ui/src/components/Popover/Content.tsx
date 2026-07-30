@@ -38,7 +38,7 @@ export function PopoverContent({
     titleId,
     contentId,
     floatingRef,
-    containerStyles,
+    floatingPosition,
   } = context;
 
   if (unmountOnHide && !isOpen) {
@@ -55,7 +55,9 @@ export function PopoverContent({
           open={isOpen}
           tabIndex={-1}
           style={{
-            ...containerStyles,
+            position: "fixed",
+            left: floatingPosition.x,
+            top: floatingPosition.y,
             zIndex: zIndex.popover,
             ...style,
           }}
