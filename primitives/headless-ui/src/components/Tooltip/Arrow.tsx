@@ -6,11 +6,13 @@ export interface TooltipArrowProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "children" | "aria-hidden"
 > {
+  children: React.ReactNode;
   // context가 없는 경우에 대한 에러 메시지
   ctxErrMsg?: string;
 }
 
 export function TooltipArrow({
+  children,
   className,
   style,
   ctxErrMsg = "Tooltip.Arrow must be used inside the Tooltip wrapper.",
@@ -41,6 +43,8 @@ export function TooltipArrow({
       className={className}
       {...rest}
       aria-hidden="true"
-    />
+    >
+      {children}
+    </div>
   );
 }
