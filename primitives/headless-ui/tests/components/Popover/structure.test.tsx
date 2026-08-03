@@ -3,33 +3,49 @@ import { renderToString } from "react-dom/server";
 
 import { Popover } from "@/components/Popover";
 import { setupSSR } from "../_setup";
-import { AlwaysOpenTestComponent, TestComponent } from "./_setup";
+import { TestComponent } from "./_setup";
 
 describe("Popover - structure", () => {
   describe("SSR environment", () => {
     setupSSR();
 
-    it("renders in-place when portal prop is set (portal bypassed before mount)", () => {
+    it("renders in-place when inline prop is false (portal bypassed before mount)", () => {
       // window/document가 없는 SSR 환경에서는 useSyncExternalStore가 서버 스냅샷(false)을 사용하므로
       // portal 모드이더라도 children이 인라인으로 렌더링되어 hydration mismatch를 방지한다.
-      const html = renderToString(<AlwaysOpenTestComponent portal />);
+      const html = renderToString(<TestComponent>Test Popover</TestComponent>);
 
       expect(html).toContain('data-testid="popover-trigger"');
     });
   });
 
-  it("supports portal mode", () => {
-    // portal 모드에서는, content가 document.body에 렌더링되어야 한다.
-    const { getByTestId } = render(<TestComponent portal />);
+  describe("portal mode", () => {
+    it("should be rendered in portal mode by default", () => {
+      // portal 모드에서는, content가 document.body에 렌더링되어야 한다.
+      const { getByTestId } = render(
+        <TestComponent>Test Popover</TestComponent>,
+      );
 
-    fireEvent.click(getByTestId("popover-trigger"));
+      fireEvent.click(getByTestId("popover-trigger"));
 
-    expect(getByTestId("popover-content").parentElement).toBe(document.body);
+      expect(getByTestId("popover-content").parentElement).toBe(document.body);
 
-    // trigger는 portal 안에 포함되지 않는다.
-    expect(getByTestId("popover-trigger").parentElement).not.toBe(
-      document.body,
-    );
+      // trigger는 portal 안에 포함되지 않는다.
+      expect(getByTestId("popover-trigger").parentElement).not.toBe(
+        document.body,
+      );
+    });
+
+    it("supports inline mode", () => {
+      const { getByTestId } = render(
+        <TestComponent inline>Test Popover</TestComponent>,
+      );
+
+      fireEvent.click(getByTestId("popover-trigger"));
+
+      expect(getByTestId("popover-content").parentElement).not.toBe(
+        document.body,
+      );
+    });
   });
 
   describe("Popover.Content", () => {
@@ -39,8 +55,10 @@ describe("Popover - structure", () => {
       );
     });
 
-    it("renders in place when portal prop is not set", () => {
-      const { getByTestId } = render(<TestComponent />);
+    it("renders in place when inline prop is true", () => {
+      const { getByTestId } = render(
+        <TestComponent inline>Test Popover</TestComponent>,
+      );
 
       fireEvent.click(getByTestId("popover-trigger"));
 
@@ -104,7 +122,7 @@ describe("Popover - structure", () => {
 
     it("should support `asChild` property", () => {
       const { container } = render(
-        <Popover isOpen onOpenChange={() => {}}>
+        <Popover isOpen inline>
           <Popover.Content>
             <Popover.Close asChild>
               <button>닫기</button>

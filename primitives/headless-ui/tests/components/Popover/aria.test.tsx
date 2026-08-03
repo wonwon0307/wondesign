@@ -1,11 +1,14 @@
 import { fireEvent, render } from "@testing-library/react";
 
-import { AlwaysOpenTestComponent, TestComponent } from "./_setup";
+import { Popover } from "@/components/Popover";
+import { TestComponent } from "./_setup";
 
 describe("Popover - aria", () => {
   describe("ID", () => {
     it("Popover.Content's ID matches Popover.Trigger's aria-controls", () => {
-      const { getByTestId } = render(<AlwaysOpenTestComponent />);
+      const { getByTestId } = render(
+        <TestComponent isOpen>Test Popover</TestComponent>,
+      );
 
       const trigger = getByTestId("popover-trigger");
       const content = getByTestId("popover-content");
@@ -13,7 +16,9 @@ describe("Popover - aria", () => {
     });
 
     it("Popover.Title's ID matches Popover.Content's aria-labelledby", () => {
-      const { getByTestId } = render(<AlwaysOpenTestComponent />);
+      const { getByTestId } = render(
+        <TestComponent isOpen>Test Popover</TestComponent>,
+      );
 
       const content = getByTestId("popover-content");
       const title = getByTestId("popover-title");
@@ -21,7 +26,19 @@ describe("Popover - aria", () => {
     });
 
     it("Popover.Content's aria-label is 'Popover Content' if Popover.Title is not rendered", () => {
-      const { getByTestId } = render(<TestComponent omit="title" />);
+      const { getByTestId } = render(
+        <Popover isOpen>
+          <Popover.Trigger data-testid="popover-trigger">
+            트리거
+          </Popover.Trigger>
+          <Popover.Content
+            data-testid="popover-content"
+            aria-label="Popover Content"
+          >
+            Test Popover
+          </Popover.Content>
+        </Popover>,
+      );
 
       // Trigger를 클릭하여 Popover를 연다
       fireEvent.click(getByTestId("popover-trigger"));
@@ -34,7 +51,9 @@ describe("Popover - aria", () => {
 
   describe("Attributes", () => {
     it("Popover.Trigger has aria-haspopup=dialog", () => {
-      const { getByTestId } = render(<AlwaysOpenTestComponent />);
+      const { getByTestId } = render(
+        <TestComponent isOpen>Test Popover</TestComponent>,
+      );
 
       expect(getByTestId("popover-trigger").getAttribute("aria-haspopup")).toBe(
         "dialog",
@@ -42,7 +61,9 @@ describe("Popover - aria", () => {
     });
 
     it("Popover.Trigger has aria-expanded=false when closed and aria-expanded=true when open", () => {
-      const { getByTestId } = render(<TestComponent />);
+      const { getByTestId } = render(
+        <TestComponent>Test Popover</TestComponent>,
+      );
 
       const trigger = getByTestId("popover-trigger");
       expect(trigger.getAttribute("aria-expanded")).toBe("false");
@@ -55,7 +76,9 @@ describe("Popover - aria", () => {
     });
 
     it("Popover.Content uses a <dialog> element (implicit role=dialog)", () => {
-      const { getByTestId } = render(<AlwaysOpenTestComponent />);
+      const { getByTestId } = render(
+        <TestComponent isOpen>Test Popover</TestComponent>,
+      );
 
       expect(getByTestId("popover-content").tagName).toBe("DIALOG");
       expect(
@@ -64,7 +87,9 @@ describe("Popover - aria", () => {
     });
 
     it("Popover.Arrow has aria-hidden=true", () => {
-      const { getByTestId } = render(<AlwaysOpenTestComponent />);
+      const { getByTestId } = render(
+        <TestComponent isOpen>Test Popover</TestComponent>,
+      );
 
       expect(getByTestId("popover-arrow").getAttribute("aria-hidden")).toBe(
         "true",
