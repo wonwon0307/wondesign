@@ -24,13 +24,7 @@ export function TooltipProvider({
   isOpen: controlledOpen,
   onOpenChange,
   inline = false,
-  floatingOptions = {
-    placement: "bottom",
-    forcePlacement: false,
-    align: "center",
-    offset: 0,
-    padding: 0,
-  },
+  floatingOptions: userOptions,
   unmountOnHide = true,
   openDelay = 0,
   closeDelay = 0,
@@ -47,6 +41,18 @@ export function TooltipProvider({
   const arrowRef = useRef<HTMLDivElement | null>(null);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const tooltipId = useId();
+
+  const floatingOptions: FloatingOptions = useMemo(
+    () => ({
+      placement: "bottom",
+      forcePlacement: false,
+      align: "center",
+      offset: 8,
+      padding: 8,
+      ...userOptions,
+    }),
+    [userOptions],
+  );
 
   const { floating, arrow } = useFloating(
     triggerRef,

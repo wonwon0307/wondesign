@@ -20,13 +20,7 @@ export function PopoverProvider({
   isOpen: controlledOpen,
   onOpenChange,
   inline = false,
-  floatingOptions = {
-    placement: "bottom",
-    forcePlacement: false,
-    align: "center",
-    offset: 0,
-    padding: 0,
-  },
+  floatingOptions: userOptions,
   unmountOnHide = false,
 }: Readonly<PopoverProps>) {
   const {
@@ -40,6 +34,18 @@ export function PopoverProvider({
   const [isPending, setPending] = useState<boolean>(false);
   const [titleId, setTitleId] = useState<string | undefined>(undefined);
   const contentId = useId();
+
+  const floatingOptions: FloatingOptions = useMemo(
+    () => ({
+      placement: "bottom",
+      forcePlacement: false,
+      align: "center",
+      offset: 8,
+      padding: 8,
+      ...userOptions,
+    }),
+    [userOptions],
+  );
 
   const { floating, arrow } = useFloating(
     triggerRef,
