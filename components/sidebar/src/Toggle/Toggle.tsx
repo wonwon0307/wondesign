@@ -24,7 +24,9 @@ export function SidebarToggle({
 
   if (!disableTooltip && keyboardShortkey) {
     return (
-      <Tooltip position={side === "left" ? "right" : "left"}>
+      <Tooltip
+        floatingOptions={{ placement: side === "left" ? "right" : "left" }}
+      >
         <Tooltip.Trigger
           {...rest}
           className={clsx(styles.toggle, className)}
