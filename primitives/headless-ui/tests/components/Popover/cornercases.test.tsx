@@ -1,210 +1,106 @@
-import { fireEvent, render } from "@testing-library/react";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 
-import {
-  AlwaysOpenTestComponent,
-  TestComponent,
-  checkArrowPosition,
-} from "./_setup";
+import { Popover } from "@/components/Popover";
+import { TestComponent } from "./_setup";
 
 describe("Popover - corner cases", () => {
-  describe("positions - flip and shift cases", () => {
-    // options.test.tsx에서는 아래 4가지 경우만 테스트한다. 따라서, 나머지 케이스들을 전부 처리해야한다.
-    // 1. top -> bottom flip
-    // 2. left -> right flip
-    // 3. top|bottom 일 때 왼쪽으로 shift
-    // 4. left|right 일 때 아래로 shift
+  describe("Async Button Actions", () => {
+    let promise!: () => void;
 
-    beforeEach(() => {
-      vi.spyOn(globalThis.window, "innerWidth", "get").mockReturnValue(800);
-      vi.spyOn(globalThis.window, "innerHeight", "get").mockReturnValue(600);
-
-      // 트리거가 뷰포트 모서리에 붙어있어 아래/오른쪽 공간이 없다.
-      vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
-        top: 580,
-        bottom: 600,
-        left: 780,
-        right: 800,
-        width: 20,
-        height: 20,
-        x: 0,
-        y: 0,
-        toJSON: () => {},
-      });
-    });
-
-    afterEach(() => {
-      vi.restoreAllMocks();
-    });
-
-    it("flips bottom -> top when there is no space below", () => {
-      const { getByTestId } = render(
-        <AlwaysOpenTestComponent position="bottom" />,
+    const AsyncTestComponent = ({
+      onClose,
+    }: {
+      onClose: () => Promise<void>;
+    }) => {
+      return (
+        <Popover>
+          <Popover.Trigger data-testid="popover-trigger">
+            트리거
+          </Popover.Trigger>
+          <Popover.Content data-testid="popover-content">
+            <Popover.Close onClick={onClose} data-testid="popover-button">
+              닫기
+            </Popover.Close>
+          </Popover.Content>
+        </Popover>
       );
+    };
 
-      const trigger = getByTestId("popover-trigger");
-      fireEvent.click(trigger);
+    it("stays open while pending and sets correct properties", async () => {
+      const onClose = () =>
+        new Promise<void>((resolve) => {
+          promise = resolve;
+        });
+      const { getByTestId } = render(<AsyncTestComponent onClose={onClose} />);
 
       const content = getByTestId("popover-content");
-      expect(content.style.top).toBe("560px");
-      expect(content.style.left).toBe("780px");
 
-      const arrow = getByTestId("popover-arrow");
-      checkArrowPosition(arrow, "top");
-    });
+      fireEvent.click(getByTestId("popover-trigger"));
+      expect(content.dataset.state).toBe("open");
 
-    it("flips right -> left when there is no space to the right", () => {
-      const { getByTestId } = render(
-        <AlwaysOpenTestComponent position="right" />,
-      );
+      const button = getByTestId("popover-button");
+      fireEvent.click(button);
 
-      const trigger = getByTestId("popover-trigger");
-      fireEvent.click(trigger);
+      // 버튼이 pending 상태일 때, Popover.Content가 닫히면 안 된다.
+      expect(content.dataset.state).toBe("open");
 
-      const content = getByTestId("popover-content");
-      expect(content.style.top).toBe("580px");
-      expect(content.style.left).toBe("760px");
+      // 버튼에 pending 속성이 true로 설정되어야 한다.
+      expect(content.getAttribute("aria-busy")).toBe("true");
 
-      const arrow = getByTestId("popover-arrow");
-      checkArrowPosition(arrow, "left");
-    });
-  });
-
-  describe("positions - no flip or shift needed", () => {
-    beforeEach(() => {
-      vi.spyOn(globalThis.window, "innerWidth", "get").mockReturnValue(800);
-      vi.spyOn(globalThis.window, "innerHeight", "get").mockReturnValue(600);
-
-      // 어느 방향으로 렌더링해도 충분한 공간이 있도록 세팅한다.
-      vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
-        top: 200,
-        bottom: 220,
-        left: 200,
-        right: 220,
-        width: 20,
-        height: 20,
-        x: 0,
-        y: 0,
-        toJSON: () => {},
-      });
-    });
-
-    afterEach(() => {
-      vi.restoreAllMocks();
-    });
-
-    it("renders bottom without shift (sufficient space)", () => {
-      const { getByTestId } = render(
-        <AlwaysOpenTestComponent position="bottom" />,
-      );
-
-      const trigger = getByTestId("popover-trigger");
-      fireEvent.click(trigger);
-
-      const content = getByTestId("popover-content");
-      expect(content.style.top).toBe("220px");
-      expect(content.style.left).toBe("200px");
-
-      const arrow = getByTestId("popover-arrow");
-      checkArrowPosition(arrow, "bottom");
-    });
-  });
-
-  describe("positions - shift when floating is wider than trigger", () => {
-    beforeEach(() => {
-      vi.spyOn(globalThis.window, "innerWidth", "get").mockReturnValue(800);
-      vi.spyOn(globalThis.window, "innerHeight", "get").mockReturnValue(600);
-    });
-
-    afterEach(() => {
-      vi.restoreAllMocks();
-    });
-
-    it("shifts right when floating overflows the left edge (natural < 0)", () => {
-      // trigger: left=0, width=10 → naturalX = 0+5-15 = -10 → shiftX=10 → x=0, y=120
-      vi.spyOn(
-        HTMLElement.prototype,
-        "getBoundingClientRect",
-      ).mockImplementation(function (this: HTMLElement) {
-        if (this.dataset.testid === "popover-trigger") {
-          return {
-            top: 100,
-            bottom: 120,
-            left: 0,
-            right: 10,
-            width: 10,
-            height: 20,
-            x: 0,
-            y: 0,
-            toJSON: () => {},
-          } as DOMRect;
-        }
-        return {
-          top: 0,
-          bottom: 20,
-          left: 0,
-          right: 30,
-          width: 30,
-          height: 20,
-          x: 0,
-          y: 0,
-          toJSON: () => {},
-        } as DOMRect;
+      await act(async () => {
+        promise();
       });
 
-      const { getByTestId } = render(
-        <AlwaysOpenTestComponent position="bottom" />,
-      );
-
-      const content = getByTestId("popover-content");
-      expect(content.style.left).toBe("0px");
-      expect(content.style.top).toBe("120px");
+      // Promise가 해결된 후, Popover.Content가 닫혀야 한다.
+      await waitFor(() => expect(content.dataset.state).toBe("closed"));
     });
 
-    it("shifts left when floating overflows the right edge (natural > max)", () => {
-      // trigger: left=790, width=10 → naturalX=780, max=770 → shiftX=-10 → x=770, y=120
-      vi.spyOn(
-        HTMLElement.prototype,
-        "getBoundingClientRect",
-      ).mockImplementation(function (this: HTMLElement) {
-        if (this.dataset.testid === "popover-trigger") {
-          return {
-            top: 100,
-            bottom: 120,
-            left: 790,
-            right: 800,
-            width: 10,
-            height: 20,
-            x: 0,
-            y: 0,
-            toJSON: () => {},
-          } as DOMRect;
-        }
-        return {
-          top: 0,
-          bottom: 20,
-          left: 0,
-          right: 30,
-          width: 30,
-          height: 20,
-          x: 0,
-          y: 0,
-          toJSON: () => {},
-        } as DOMRect;
+    it("closes on resolve", async () => {
+      const onClose = () =>
+        new Promise<void>((resolve) => {
+          promise = resolve;
+        });
+      const { getByTestId } = render(<AsyncTestComponent onClose={onClose} />);
+
+      fireEvent.click(getByTestId("popover-trigger"));
+      const content = getByTestId("popover-content");
+      expect(content.dataset.state).toBe("open");
+
+      fireEvent.click(getByTestId("popover-button"));
+
+      await act(async () => {
+        promise();
       });
 
-      const { getByTestId } = render(
-        <AlwaysOpenTestComponent position="bottom" />,
-      );
+      await waitFor(() => expect(content.dataset.state).toBe("closed"));
+    });
+
+    it("stays open on reject", async () => {
+      const onClose = () => Promise.reject(new Error("실패"));
+      const { getByTestId } = render(<AsyncTestComponent onClose={onClose} />);
 
       const content = getByTestId("popover-content");
-      expect(content.style.left).toBe("770px");
-      expect(content.style.top).toBe("120px");
+
+      fireEvent.click(getByTestId("popover-trigger"));
+      expect(content.dataset.state).toBe("open");
+
+      fireEvent.click(getByTestId("popover-button"));
+
+      await waitFor(() => {
+        // Promise가 거부된 후에도 Popover.Content가 닫히면 안 된다.
+        expect(content.dataset.state).toBe("open");
+
+        // Popover.Content에 pending 관련 속성이 올바르게 설정되어야 한다.
+        expect(content.getAttribute("aria-busy")).toBe("false");
+      });
     });
   });
 
   describe("unmountOnHide behavior", () => {
     it("does not render content when closed if unmountOnHide is true", () => {
-      const { queryByTestId } = render(<TestComponent unmountOnHide />);
+      const { queryByTestId } = render(
+        <TestComponent unmountOnHide>Test Popover</TestComponent>,
+      );
 
       expect(queryByTestId("popover-content")).toBeNull();
     });

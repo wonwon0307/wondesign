@@ -27,7 +27,7 @@ export function TooltipContent({
   const {
     isOpen,
     tooltipId,
-    containerStyles,
+    floatingPosition,
     floatingRef,
     isPortalMode,
     unmountOnHide,
@@ -50,7 +50,9 @@ export function TooltipContent({
           onMouseEnter={clearTimer}
           onMouseLeave={hideTooltipWithDelay}
           style={{
-            ...containerStyles,
+            position: "fixed",
+            left: floatingPosition.x,
+            top: floatingPosition.y,
             zIndex: zIndex.tooltip,
             ...style,
           }}

@@ -5,7 +5,7 @@ import { TestComponent } from "./_setup";
 
 describe("Popover - state", () => {
   it("supports uncontrolled mode", () => {
-    const { getByTestId } = render(<TestComponent />);
+    const { getByTestId } = render(<TestComponent>Test Popover</TestComponent>);
 
     const content = getByTestId("popover-content");
 

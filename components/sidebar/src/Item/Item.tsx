@@ -84,7 +84,10 @@ function ItemMain({
 
   if (state === "collapsed") {
     return (
-      <Tooltip position={side === "left" ? "right" : "left"} openDelay={200}>
+      <Tooltip
+        floatingOptions={{ placement: side === "left" ? "right" : "left" }}
+        openDelay={200}
+      >
         <Tooltip.Trigger asChild>
           <Link {...linkProps} isActive={isActive}>
             {icon}

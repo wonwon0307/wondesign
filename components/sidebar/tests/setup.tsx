@@ -16,11 +16,13 @@ vi.mock("@wondesign/headless-ui/Tooltip", () => ({
   Tooltip: Object.assign(
     ({
       children,
-      position,
+      floatingOptions,
     }: {
       children: React.ReactNode;
-      position: "left" | "right";
-    }) => <div data-testid={`tooltip-${position}`}>{children}</div>,
+      floatingOptions: { placement: "left" | "right" };
+    }) => (
+      <div data-testid={`tooltip-${floatingOptions.placement}`}>{children}</div>
+    ),
     {
       Trigger: (props: React.HTMLAttributes<HTMLButtonElement>) => (
         <button {...props} />

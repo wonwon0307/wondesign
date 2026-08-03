@@ -1,5 +1,7 @@
 import { createContext } from "react";
 
+import type { ArrowPosition, FloatingPosition } from "@/core/floating";
+
 type PopoverContextValue = {
   isOpen: boolean;
   togglePopover: () => void;
@@ -13,8 +15,9 @@ type PopoverContextValue = {
   contentId: string;
   triggerRef: React.RefObject<HTMLButtonElement | null>;
   floatingRef: React.RefObject<HTMLDialogElement | null>;
-  containerStyles: React.CSSProperties;
-  arrowStyles: React.CSSProperties;
+  arrowRef: React.RefObject<HTMLDivElement | null>;
+  floatingPosition: FloatingPosition;
+  arrowPosition: ArrowPosition;
 };
 
 export const PopoverContext = createContext<PopoverContextValue | null>(null);

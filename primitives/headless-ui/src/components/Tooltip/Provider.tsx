@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useId, useMemo, useRef } from "react";
 
 import { useOpenState } from "@/core/disclosure";
+import { useFloating, type FloatingOptions } from "@/core/floating";
 import { useEscapeClose } from "@/core/keyboard";
 import { useClickOutside, useLongTouch } from "@/core/pointer";
-import { useFloatingPosition, type FloatingPlacement } from "@/core/position";
 import { TooltipContext } from "./_internals/contexts";
 
 export interface TooltipProps {
@@ -11,7 +11,7 @@ export interface TooltipProps {
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   inline?: boolean;
-  position?: FloatingPlacement;
+  floatingOptions?: FloatingOptions;
   unmountOnHide?: boolean;
   openDelay?: number;
   closeDelay?: number;
@@ -24,7 +24,7 @@ export function TooltipProvider({
   isOpen: controlledOpen,
   onOpenChange,
   inline = false,
-  position = "bottom",
+  floatingOptions: userOptions,
   unmountOnHide = true,
   openDelay = 0,
   closeDelay = 0,
@@ -38,13 +38,27 @@ export function TooltipProvider({
   } = useOpenState(controlledOpen, onOpenChange);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const floatingRef = useRef<HTMLDivElement | null>(null);
+  const arrowRef = useRef<HTMLDivElement | null>(null);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const tooltipId = useId();
 
-  const { container, arrow } = useFloatingPosition(
+  const floatingOptions: FloatingOptions = useMemo(
+    () => ({
+      placement: "bottom",
+      forcePlacement: false,
+      align: "center",
+      offset: 8,
+      padding: 8,
+      ...userOptions,
+    }),
+    [userOptions],
+  );
+
+  const { floating, arrow } = useFloating(
     triggerRef,
     floatingRef,
-    position,
+    arrowRef,
+    floatingOptions,
     isOpen,
   );
 
@@ -85,10 +99,11 @@ export function TooltipProvider({
       isPortalMode: !inline,
       unmountOnHide,
       tooltipId,
-      containerStyles: container,
-      arrowStyles: arrow,
+      floatingPosition: floating,
+      arrowPosition: arrow,
       triggerRef,
       floatingRef,
+      arrowRef,
     }),
     [
       isDisabled,
@@ -101,7 +116,7 @@ export function TooltipProvider({
       inline,
       unmountOnHide,
       tooltipId,
-      container,
+      floating,
       arrow,
     ],
   );
