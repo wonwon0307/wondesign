@@ -50,6 +50,7 @@ export function TooltipContent({
           onMouseEnter={clearTimer}
           onMouseLeave={hideTooltipWithDelay}
           style={{
+            display: isOpen ? undefined : "none",
             position: "fixed",
             left: floatingPosition.x,
             top: floatingPosition.y,
