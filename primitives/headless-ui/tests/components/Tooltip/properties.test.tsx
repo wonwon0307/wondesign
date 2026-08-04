@@ -202,7 +202,7 @@ describe("Tooltip - properties", () => {
           </Tooltip.Trigger>
           <Tooltip.Content data-testid="tooltip-content">
             <Tooltip.Message>Tooltip Message</Tooltip.Message>
-            <Tooltip.Arrow />
+            <Tooltip.Arrow>Arrow</Tooltip.Arrow>
           </Tooltip.Content>
         </Tooltip>,
       );

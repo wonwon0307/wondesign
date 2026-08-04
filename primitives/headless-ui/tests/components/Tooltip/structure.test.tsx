@@ -114,7 +114,7 @@ describe("Tooltip - structure", () => {
 
   describe("Tooltip.Arrow", () => {
     it("must be used within the Tooltip wrapper", () => {
-      expect(() => render(<Tooltip.Arrow />)).toThrow(
+      expect(() => render(<Tooltip.Arrow>Arrow</Tooltip.Arrow>)).toThrow(
         "Tooltip.Arrow must be used inside the Tooltip wrapper",
       );
     });
@@ -123,7 +123,7 @@ describe("Tooltip - structure", () => {
       expect(() =>
         render(
           <Tooltip>
-            <Tooltip.Arrow />
+            <Tooltip.Arrow>Arrow</Tooltip.Arrow>
           </Tooltip>,
         ),
       ).toThrow("Tooltip.Arrow must be used inside Tooltip.Content");
