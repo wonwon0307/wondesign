@@ -38,7 +38,7 @@ export function SidebarToggle({
           <Tooltip.Message>
             <KeyboardGroup keys={keyboardShortkey} />
           </Tooltip.Message>
-          <Tooltip.Arrow />
+          <Tooltip.Arrow>Arrow</Tooltip.Arrow>
         </Tooltip.Content>
       </Tooltip>
     );

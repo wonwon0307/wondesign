@@ -8,7 +8,7 @@ export function TestComponent({ children, ...rest }: Readonly<TooltipProps>) {
         <Tooltip.Message data-testid="tooltip-message">
           {children}
         </Tooltip.Message>
-        <Tooltip.Arrow data-testid="tooltip-arrow" />
+        <Tooltip.Arrow data-testid="tooltip-arrow">Arrow</Tooltip.Arrow>
       </Tooltip.Content>
     </Tooltip>
   );

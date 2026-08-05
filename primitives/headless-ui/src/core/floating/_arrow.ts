@@ -12,6 +12,30 @@ function clampArrowOffset(
   return Math.max(0, Math.min(natural, contentSize - arrowSize));
 }
 
+// Centers the arrow on the content's edge that faces the trigger, straddling
+// the boundary - half inside the content (blending into its background),
+// half poking out. A square rotated 45deg cut exactly in half this way
+// renders as a clean triangular point instead of a diamond floating past
+// the edge, touching it at only one corner.
+function mainAxisArrowOffset(
+  finalPlacement: FloatingPlacement,
+  contentRect: DOMRect,
+  arrowWidth: number,
+  arrowHeight: number,
+): number {
+  switch (finalPlacement) {
+    case "top":
+      return contentRect.height - arrowHeight / 2;
+    case "bottom":
+      // `0 -` rather than unary `-` so a zero-sized arrow yields +0, not -0.
+      return 0 - arrowHeight / 2;
+    case "left":
+      return contentRect.width - arrowWidth / 2;
+    case "right":
+      return 0 - arrowWidth / 2;
+  }
+}
+
 export function computeArrowPosition(
   finalPlacement: FloatingPlacement,
   triggerRect: DOMRect,
@@ -31,7 +55,7 @@ export function computeArrowPosition(
   const arrowHeight = arrowEl.offsetHeight;
 
   const isVertical = finalPlacement === "top" || finalPlacement === "bottom";
-  const offset = isVertical
+  const crossOffset = isVertical
     ? clampArrowOffset(
         triggerRect.left,
         triggerRect.width,
@@ -46,6 +70,14 @@ export function computeArrowPosition(
         contentRect.height,
         arrowHeight,
       );
+  const mainOffset = mainAxisArrowOffset(
+    finalPlacement,
+    contentRect,
+    arrowWidth,
+    arrowHeight,
+  );
 
-  return isVertical ? { x: offset, y: 0 } : { x: 0, y: offset };
+  return isVertical
+    ? { x: crossOffset, y: mainOffset }
+    : { x: mainOffset, y: crossOffset };
 }
