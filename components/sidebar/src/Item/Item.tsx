@@ -95,7 +95,7 @@ function ItemMain({
         </Tooltip.Trigger>
         <Tooltip.Content>
           <Tooltip.Message>{label}</Tooltip.Message>
-          <Tooltip.Arrow />
+          <Tooltip.Arrow>Arrow</Tooltip.Arrow>
         </Tooltip.Content>
       </Tooltip>
     );
