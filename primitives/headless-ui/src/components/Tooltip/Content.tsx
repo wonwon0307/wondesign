@@ -1,5 +1,6 @@
 import { useContext } from "react";
 
+import { AsChild } from "@/core/asChild";
 import { Portal } from "@/core/portal";
 import { zIndex } from "@/core/zIndex";
 import { ContentContext, TooltipContext } from "./_internals/contexts";
@@ -9,11 +10,13 @@ export interface TooltipContentProps extends Omit<
   "children" | "id" | "role" | "aria-hidden" | "onMouseEnter" | "onMouseLeave"
 > {
   children: React.ReactNode;
+  asChild?: boolean;
   ctxErrMsg?: string;
 }
 
 export function TooltipContent({
   children,
+  asChild,
   ctxErrMsg = "Tooltip.Content must be used inside the Tooltip wrapper.",
   style,
   ...rest
@@ -39,10 +42,12 @@ export function TooltipContent({
     return null;
   }
 
+  const Component = asChild ? AsChild : "div";
+
   return (
     <Portal isPortalMode={isPortalMode}>
       <ContentContext.Provider value={true}>
-        <div
+        <Component
           {...rest}
           id={tooltipId}
           role="tooltip"
@@ -61,7 +66,7 @@ export function TooltipContent({
           data-state={isOpen ? "open" : "closed"}
         >
           {children}
-        </div>
+        </Component>
       </ContentContext.Provider>
     </Portal>
   );

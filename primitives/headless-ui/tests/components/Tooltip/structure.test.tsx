@@ -71,10 +71,27 @@ describe("Tooltip - structure", () => {
     });
   });
 
-  it("Tooltip.Content must be used within the Tooltip wrapper", () => {
-    expect(() => render(<Tooltip.Content>Content</Tooltip.Content>)).toThrow(
-      "Tooltip.Content must be used inside the Tooltip wrapper",
-    );
+  describe("Tooltip.Content", () => {
+    it("Tooltip.Content must be used within the Tooltip wrapper", () => {
+      expect(() => render(<Tooltip.Content>Content</Tooltip.Content>)).toThrow(
+        "Tooltip.Content must be used inside the Tooltip wrapper",
+      );
+    });
+
+    it("should support `asChild` property", () => {
+      const { container, getByText } = render(
+        <Tooltip isOpen>
+          <Tooltip.Content asChild>
+            <section>Custom Content</section>
+          </Tooltip.Content>
+        </Tooltip>,
+      );
+
+      const customContent = getByText("Custom Content");
+      expect(customContent).toBeTruthy();
+      expect(customContent.tagName).toBe("SECTION");
+      expect(container.querySelector("div")).toBeNull();
+    });
   });
 
   describe("Tooltip.Message", () => {
