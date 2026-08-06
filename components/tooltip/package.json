@@ -1,13 +1,15 @@
 {
-  "name": "@wondesign/ui",
-  "description": "WonDesign - Design System UI components",
+  "name": "@wondesign/tooltip",
+  "description": "WonDesign - Tooltip",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "keywords": [
-    "design-system",
+    "design",
+    "system",
     "ui",
-    "reset-css",
+    "components",
+    "tooltip",
     "react",
     "typescript"
   ],
@@ -15,11 +17,6 @@
     ".": {
       "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
-    },
-    "./styles.css": "./dist/styles.css",
-    "./*": {
-      "types": "./dist/components/*/index.d.mts",
-      "default": "./dist/components/*/index.mjs"
     }
   },
   "scripts": {
@@ -27,23 +24,15 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
-    "icons": "svg2tsx && prettier --write ./src/atoms/Icons/ --log-level silent"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@vanilla-extract/css": "catalog:",
     "@vanilla-extract/recipes": "catalog:",
     "@vanilla-extract/rollup-plugin": "catalog:",
-    "@wondesign/buttons": "workspace:*",
     "@wondesign/headless-ui": "workspace:*",
-    "@wondesign/icons": "workspace:*",
-    "@wondesign/reset-css": "workspace:*",
-    "@wondesign/sidebar": "workspace:*",
-    "@wondesign/svg2tsx": "workspace:*",
     "@wondesign/texts": "workspace:*",
-    "@wondesign/theme": "workspace:*",
     "@wondesign/tokens": "workspace:*",
-    "@wondesign/tooltip": "workspace:*",
     "clsx": "catalog:"
   },
   "peerDependencies": {
