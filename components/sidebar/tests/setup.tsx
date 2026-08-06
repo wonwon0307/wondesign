@@ -12,29 +12,20 @@ Object.defineProperty(window, "matchMedia", {
   })),
 });
 
-vi.mock("@wondesign/headless-ui/Tooltip", () => ({
-  Tooltip: Object.assign(
-    ({
-      children,
-      floatingOptions,
-    }: {
-      children: React.ReactNode;
-      floatingOptions: { placement: "left" | "right" };
-    }) => (
-      <div data-testid={`tooltip-${floatingOptions.placement}`}>{children}</div>
-    ),
-    {
-      Trigger: (props: React.HTMLAttributes<HTMLButtonElement>) => (
-        <button {...props} />
-      ),
-      Content: ({ children }: { children: React.ReactNode }) => (
-        <div data-testid="tooltip-content">{children}</div>
-      ),
-      Message: ({ children }: { children: React.ReactNode }) => (
-        <span data-testid="tooltip-message">{children}</span>
-      ),
-      Arrow: () => <div data-testid="tooltip-arrow" />,
-    },
+vi.mock("@wondesign/tooltip", () => ({
+  Tooltip: ({
+    children,
+    text,
+    floatingOptions,
+  }: {
+    children: React.ReactNode;
+    text: React.ReactNode;
+    floatingOptions: { placement: "left" | "right" };
+  }) => (
+    <div data-testid={`tooltip-${floatingOptions.placement}`}>
+      <button data-testid="tooltip-trigger">{children}</button>
+      <span data-testid="tooltip-content">{text}</span>
+    </div>
   ),
 }));
 
