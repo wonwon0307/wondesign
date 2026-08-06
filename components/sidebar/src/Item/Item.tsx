@@ -1,6 +1,6 @@
 import { Collapsible } from "@wondesign/headless-ui/Collapsible";
 import { SidebarLink } from "@wondesign/headless-ui/Sidebar";
-import { Tooltip } from "@wondesign/headless-ui/Tooltip";
+import { Tooltip } from "@wondesign/tooltip";
 
 import { useSidebar } from "@/core";
 import { styles } from "./styles.css";
@@ -87,16 +87,12 @@ function ItemMain({
       <Tooltip
         floatingOptions={{ placement: side === "left" ? "right" : "left" }}
         openDelay={200}
+        text={label}
+        asChild
       >
-        <Tooltip.Trigger asChild>
-          <Link {...linkProps} isActive={isActive}>
-            {icon}
-          </Link>
-        </Tooltip.Trigger>
-        <Tooltip.Content>
-          <Tooltip.Message>{label}</Tooltip.Message>
-          <Tooltip.Arrow>Arrow</Tooltip.Arrow>
-        </Tooltip.Content>
+        <Link {...linkProps} isActive={isActive}>
+          {icon}
+        </Link>
       </Tooltip>
     );
   }

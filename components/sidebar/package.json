@@ -31,6 +31,7 @@
     "@wondesign/icons": "workspace:*",
     "@wondesign/texts": "workspace:*",
     "@wondesign/tokens": "workspace:*",
+    "@wondesign/tooltip": "workspace:*",
     "clsx": "catalog:"
   },
   "peerDependencies": {
