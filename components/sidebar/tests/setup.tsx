@@ -23,8 +23,8 @@ vi.mock("@wondesign/tooltip", () => ({
     floatingOptions: { placement: "left" | "right" };
   }) => (
     <div data-testid={`tooltip-${floatingOptions.placement}`}>
-      <button data-testid="tooltip-trigger">{children}</button>
-      <span data-testid="tooltip-content">{text}</span>
+      {children}
+      {text}
     </div>
   ),
 }));
