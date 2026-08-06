@@ -11,7 +11,7 @@ import { styles } from "./styles.css";
 
 export interface TooltipProps extends HeadlessProps {
   content?: React.ReactNode;
-  text?: string;
+  text?: string | React.ReactNode;
   left?: React.ReactNode;
   right?: React.ReactNode;
   hideArrow?: boolean;
@@ -59,6 +59,8 @@ export function Tooltip({
     );
   }
 
+  const isString = typeof text === "string";
+
   return (
     <Headless {...rest}>
       <Headless.Trigger
@@ -72,7 +74,7 @@ export function Tooltip({
         {left}
         {text && (
           <TooltipMessage asChild>
-            <Text variant="bodySmall">{text}</Text>
+            {isString ? <Text variant="bodySmall">{text}</Text> : text}
           </TooltipMessage>
         )}
         {right}

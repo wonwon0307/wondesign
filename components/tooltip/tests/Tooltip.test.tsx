@@ -16,6 +16,21 @@ describe("Tooltip", () => {
       expect(document.querySelector("svg")).toBeTruthy();
     });
 
+    it("renders non-string text correctly", () => {
+      const { getByText } = render(
+        <Tooltip
+          text={<span style={{ color: "red" }}>Tooltip text</span>}
+          unmountOnHide={false}
+        >
+          Hover me
+        </Tooltip>,
+      );
+
+      expect(getByText("Hover me")).toBeTruthy();
+      expect(getByText("Tooltip text")).toBeTruthy();
+      expect(document.querySelector("svg")).toBeTruthy();
+    });
+
     it("renders correctly with left and right content", () => {
       const { getByText } = render(
         <Tooltip
