@@ -42,13 +42,4 @@ const arrowIcon = style({
   },
 });
 
-const tooltip = style({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  marginLeft: tokens.spacing.md,
-  padding: tokens.spacing.md,
-  borderRadius: tokens.radius.md,
-});
-
-export const styles = { toggle, sidebarIcon, arrowIcon, tooltip };
+export const styles = { toggle, sidebarIcon, arrowIcon };
