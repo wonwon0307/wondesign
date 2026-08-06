@@ -43,6 +43,7 @@
     "@wondesign/texts": "workspace:*",
     "@wondesign/theme": "workspace:*",
     "@wondesign/tokens": "workspace:*",
+    "@wondesign/tooltip": "workspace:*",
     "clsx": "catalog:"
   },
   "peerDependencies": {
