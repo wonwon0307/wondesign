@@ -1,11 +1,13 @@
 import {
   TooltipArrow as Headless,
-  type TooltipArrowProps,
+  type TooltipArrowProps as HeadlessProps,
 } from "@wondesign/headless-ui/Tooltip";
+
+export type TooltipArrowProps = Omit<HeadlessProps, "ctxErrMsg">;
 
 export function TooltipArrow({
   children,
   ...rest
-}: Readonly<Omit<TooltipArrowProps, "ctxErrMsg">>) {
+}: Readonly<TooltipArrowProps>) {
   return <Headless {...rest}>{children}</Headless>;
 }
