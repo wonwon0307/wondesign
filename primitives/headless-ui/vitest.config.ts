@@ -4,7 +4,7 @@ import { sharedReactConfig } from "@repo/vitest-config/shared";
 
 const config = defineProject({
   test: {
-    root: __dirname,
+    root: import.meta.dirname,
     setupFiles: ["./tests/mocks.ts"],
   },
 });

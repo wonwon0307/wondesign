@@ -1,12 +1,1 @@
-import { defineProject, mergeConfig } from "vitest/config";
-
-import { sharedReactConfig } from "@repo/vitest-config/shared";
-
-const config = defineProject({
-  test: {
-    root: __dirname,
-    environment: "jsdom",
-  },
-});
-
-export default mergeConfig(sharedReactConfig, config);
+export { sharedReactConfig as default } from "@repo/vitest-config/shared";
