@@ -2,8 +2,8 @@ import {
   SidebarToggle as Button,
   type SidebarToggleProps as Props,
 } from "@wondesign/headless-ui/Sidebar";
-import { Tooltip } from "@wondesign/headless-ui/Tooltip";
 import { KeyboardGroup } from "@wondesign/texts/Keyboard";
+import { Tooltip } from "@wondesign/tooltip";
 import clsx from "clsx";
 
 import { useSidebar } from "@/core";
@@ -26,20 +26,16 @@ export function SidebarToggle({
     return (
       <Tooltip
         floatingOptions={{ placement: side === "left" ? "right" : "left" }}
+        text={<KeyboardGroup keys={keyboardShortkey} />}
+        asChild
       >
-        <Tooltip.Trigger
+        <Button
           {...rest}
           className={clsx(styles.toggle, className)}
           aria-keyshortcuts={ariaKeyshortcuts}
         >
           {children}
-        </Tooltip.Trigger>
-        <Tooltip.Content className={styles.tooltip}>
-          <Tooltip.Message>
-            <KeyboardGroup keys={keyboardShortkey} />
-          </Tooltip.Message>
-          <Tooltip.Arrow>Arrow</Tooltip.Arrow>
-        </Tooltip.Content>
+        </Button>
       </Tooltip>
     );
   }

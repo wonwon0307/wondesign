@@ -189,6 +189,9 @@ importers:
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../primitives/tokens
+      '@wondesign/tooltip':
+        specifier: workspace:*
+        version: link:../tooltip
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
