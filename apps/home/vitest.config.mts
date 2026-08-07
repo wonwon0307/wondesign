@@ -3,11 +3,7 @@ import { nextConfig } from "@repo/vitest-config/next";
 
 const appConfig = defineProject({
   test: {
-    setupFiles: [
-      "./tests/mocks/ui.tsx",
-      "./tests/mocks/docs.ts",
-      "./tests/mocks/rest.ts",
-    ],
+    setupFiles: ["./tests/mocks.tsx"],
   },
 });
 
