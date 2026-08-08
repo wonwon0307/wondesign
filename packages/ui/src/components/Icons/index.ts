@@ -1,1 +1,1 @@
-export { AppIcon, type IconName } from "@wondesign/icons";
+export { AppIcon, type IconName, type IconProps } from "@wondesign/icons";
