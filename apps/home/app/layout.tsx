@@ -7,4 +7,4 @@ export const metadata: Metadata = {
   authors: [{ name: "WonWon" }],
 };
 
-export { RootLayout as default } from "@/_app/RootLayout";
+export { RootLayout as default } from "@/app/RootLayout";
