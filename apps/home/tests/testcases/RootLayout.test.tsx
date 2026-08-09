@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { RootLayout } from "@/_app/RootLayout";
+import { RootLayout } from "@/app/RootLayout";
 
 describe("RootLayout", () => {
   it("renders header, main and footer correctly", () => {
