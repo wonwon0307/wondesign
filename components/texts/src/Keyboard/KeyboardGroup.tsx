@@ -1,12 +1,13 @@
-import clsx from "clsx";
-
-import { Keyboard } from "./Keyboard";
+import { usePlatform } from "@wondesign/platform";
 import {
-  formatShortkey,
-  getPlatform,
+  getShortkeyLabel,
   parseShortkey,
   type Shortkey,
 } from "@wondesign/shortkeys";
+
+import clsx from "clsx";
+
+import { Keyboard } from "./Keyboard";
 import { styles } from "./styles.css";
 
 export interface KeyboardGroupProps extends React.HTMLAttributes<HTMLElement> {
@@ -15,17 +16,16 @@ export interface KeyboardGroupProps extends React.HTMLAttributes<HTMLElement> {
   platform?: "mac" | "windows";
 }
 
-// KeyboardGroup renders platform-specific symbols (⌘, ⇧, ⌥ on Mac vs Ctrl, Shift, Alt elsewhere).
-// isMac is always false on the server, so the server and client render different content.
-// suppressHydrationWarning should be added to the rendered elements to suppress the mismatch warning.
 export function KeyboardGroup({
   keys,
   size,
-  platform = getPlatform(),
+  platform,
   "aria-label": ariaLabel,
   className,
   ...rest
 }: Readonly<KeyboardGroupProps>) {
+  const detectedPlatform = usePlatform();
+  platform ??= detectedPlatform;
   const { targetKey, ctrlKey, shiftKey, altKey, metaKey } = parseShortkey(
     keys,
     platform,
@@ -42,7 +42,7 @@ export function KeyboardGroup({
 
   keysToRender.push(targetKey);
 
-  const resolvedLabel = ariaLabel ?? formatShortkey(keys, platform);
+  const resolvedLabel = ariaLabel ?? getShortkeyLabel(keys, platform);
 
   if (keysToRender.length === 1) {
     return (
