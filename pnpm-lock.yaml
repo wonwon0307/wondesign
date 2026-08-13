@@ -97,8 +97,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       '@wondocs/core':
-        specifier: 0.1.0-beta.2
-        version: 0.1.0-beta.2
+        specifier: 0.1.0-beta.0
+        version: 0.1.0-beta.0
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -116,8 +116,8 @@ importers:
         specifier: ^2.5.2
         version: 2.5.2(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(next@16.3.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.1.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(supports-color@8.1.1)(terser@5.49.0)(webpack@5.109.0(@swc/core@1.15.47)(csso@5.0.5)(esbuild@0.28.1)(lightningcss@1.33.0)(postcss@8.5.23))(yaml@2.9.0)
       '@wondocs/next-plugin':
-        specifier: 0.1.0-beta.2
-        version: 0.1.0-beta.2(next@16.3.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.1.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))
+        specifier: 0.1.0-beta.0
+        version: 0.1.0-beta.0(next@16.3.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.1.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))
       babel-plugin-react-compiler:
         specifier: 1.0.0
         version: 1.0.0
@@ -2061,11 +2061,11 @@ packages:
   '@webassemblyjs/wast-printer@1.14.1':
     resolution: {integrity: sha512-kPSSXE6De1XOR820C90RIo2ogvZG+c3KiHzqUoO/F34Y2shGzesfqv7o57xrxovZJH/MetF5UjroJ/R/3isoiw==}
 
-  '@wondocs/core@0.1.0-beta.2':
-    resolution: {integrity: sha512-yC5hsvfetsEtfj4tBD0jHw4MXcYg8HjfloTOFGfMOdt3HsJ4/vbsK/AJ6MUsDzdHluhfedBiZ6GmQjj1Hmmdjw==}
+  '@wondocs/core@0.1.0-beta.0':
+    resolution: {integrity: sha512-6zLSPDZROmWL6DAvmGzo9wJtHBdnFUL2tS918FRQge18i09o8hS/HJa9++QUc9if2OL74zJJbhi5eNJjXGbVBg==}
 
-  '@wondocs/next-plugin@0.1.0-beta.2':
-    resolution: {integrity: sha512-s11aNC956U0x23Lffuj/zN3aP46SRPlvcAsBx9y7qtouaoLlpQe4CtyznmajcFZg+IhGo5NijJIAayPHwJBChQ==}
+  '@wondocs/next-plugin@0.1.0-beta.0':
+    resolution: {integrity: sha512-4HA8QVTI2U7Q4uNiG6WfDy8baitLDOhzTnTJP8WFUoz/HRrzFl3HLdTQxSQRH9D0zIIosmd77c37XcxLoaBxGA==}
     peerDependencies:
       next: '>=16.0.0'
 
@@ -6255,11 +6255,11 @@ snapshots:
       '@webassemblyjs/ast': 1.14.1
       '@xtuc/long': 4.2.2
 
-  '@wondocs/core@0.1.0-beta.2': {}
+  '@wondocs/core@0.1.0-beta.0': {}
 
-  '@wondocs/next-plugin@0.1.0-beta.2(next@16.3.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.1.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))':
+  '@wondocs/next-plugin@0.1.0-beta.0(next@16.3.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.1.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))':
     dependencies:
-      '@wondocs/core': 0.1.0-beta.2
+      '@wondocs/core': 0.1.0-beta.0
       next: 16.3.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.1.2)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
   '@xtuc/ieee754@1.2.0': {}
