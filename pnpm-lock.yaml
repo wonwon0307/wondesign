@@ -221,6 +221,9 @@ importers:
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
+      '@wondesign/platform':
+        specifier: workspace:*
+        version: link:../../primitives/platform
       '@wondesign/shortkeys':
         specifier: workspace:*
         version: link:../../primitives/shortkeys
