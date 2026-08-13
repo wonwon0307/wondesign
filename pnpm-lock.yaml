@@ -401,6 +401,10 @@ importers:
       react-dom:
         specifier: ^19
         version: 19.2.8(react@19.2.8)
+    devDependencies:
+      '@wondesign/platform':
+        specifier: workspace:*
+        version: link:../platform
 
   primitives/svg2tsx:
     dependencies:
