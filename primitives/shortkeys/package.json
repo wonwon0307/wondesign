@@ -26,6 +26,9 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
+  "devDependencies": {
+    "@wondesign/platform": "workspace:*"
+  },
   "peerDependencies": {
     "react": "^19",
     "react-dom": "^19"
