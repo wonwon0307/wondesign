@@ -8,44 +8,48 @@ describe("useKeyboardShortkey", () => {
       const callback = vi.fn();
       renderHook(() => useKeyboardShortkey("K", callback));
 
-      fireEvent.keyDown(document, { key: "k" });
+      fireEvent.keyDown(document, { code: "KeyK" });
       expect(callback).toHaveBeenCalledTimes(1);
 
-      // should work with uppercase as well
-      fireEvent.keyDown(document, { key: "K" });
-      expect(callback).toHaveBeenCalledTimes(2);
-
       // should not trigger with extra modifiers
-      fireEvent.keyDown(document, { key: "k", ctrlKey: true });
-      expect(callback).toHaveBeenCalledTimes(2);
+      fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
+      expect(callback).toHaveBeenCalledTimes(1);
 
-      fireEvent.keyDown(document, { key: "k", altKey: true });
-      expect(callback).toHaveBeenCalledTimes(2);
+      fireEvent.keyDown(document, { code: "KeyK", altKey: true });
+      expect(callback).toHaveBeenCalledTimes(1);
 
-      fireEvent.keyDown(document, { key: "k", shiftKey: true });
-      expect(callback).toHaveBeenCalledTimes(2);
+      fireEvent.keyDown(document, { code: "KeyK", shiftKey: true });
+      expect(callback).toHaveBeenCalledTimes(1);
 
       // should not trigger on other keys
-      fireEvent.keyDown(document, { key: "j" });
-      expect(callback).toHaveBeenCalledTimes(2);
+      fireEvent.keyDown(document, { code: "KeyJ" });
+      expect(callback).toHaveBeenCalledTimes(1);
     });
 
     it("when shortkey with the ctrl modifier is pressed", () => {
       const callback = vi.fn();
       renderHook(() => useKeyboardShortkey("Ctrl+K", callback));
 
-      fireEvent.keyDown(document, { key: "k", ctrlKey: true });
+      fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
       expect(callback).toHaveBeenCalledTimes(1);
 
       // should not trigger if ctrl is not pressed
-      fireEvent.keyDown(document, { key: "k" });
+      fireEvent.keyDown(document, { code: "KeyK" });
       expect(callback).toHaveBeenCalledTimes(1);
 
       // should not trigger with extra modifiers
-      fireEvent.keyDown(document, { key: "k", ctrlKey: true, altKey: true });
+      fireEvent.keyDown(document, {
+        code: "KeyK",
+        ctrlKey: true,
+        altKey: true,
+      });
       expect(callback).toHaveBeenCalledTimes(1);
 
-      fireEvent.keyDown(document, { key: "k", ctrlKey: true, shiftKey: true });
+      fireEvent.keyDown(document, {
+        code: "KeyK",
+        ctrlKey: true,
+        shiftKey: true,
+      });
       expect(callback).toHaveBeenCalledTimes(1);
     });
 
@@ -53,15 +57,19 @@ describe("useKeyboardShortkey", () => {
       const callback = vi.fn();
       renderHook(() => useKeyboardShortkey("Alt+K", callback));
 
-      fireEvent.keyDown(document, { key: "k", altKey: true });
+      fireEvent.keyDown(document, { code: "KeyK", altKey: true });
       expect(callback).toHaveBeenCalledTimes(1);
 
       // should not trigger if alt is not pressed
-      fireEvent.keyDown(document, { key: "k" });
+      fireEvent.keyDown(document, { code: "KeyK" });
       expect(callback).toHaveBeenCalledTimes(1);
 
       // should not trigger with extra modifiers
-      fireEvent.keyDown(document, { key: "k", altKey: true, ctrlKey: true });
+      fireEvent.keyDown(document, {
+        code: "KeyK",
+        altKey: true,
+        ctrlKey: true,
+      });
       expect(callback).toHaveBeenCalledTimes(1);
     });
 
@@ -69,15 +77,19 @@ describe("useKeyboardShortkey", () => {
       const callback = vi.fn();
       renderHook(() => useKeyboardShortkey("Shift+K", callback));
 
-      fireEvent.keyDown(document, { key: "k", shiftKey: true });
+      fireEvent.keyDown(document, { code: "KeyK", shiftKey: true });
       expect(callback).toHaveBeenCalledTimes(1);
 
       // should not trigger if shift is not pressed
-      fireEvent.keyDown(document, { key: "k" });
+      fireEvent.keyDown(document, { code: "KeyK" });
       expect(callback).toHaveBeenCalledTimes(1);
 
       // should not trigger with extra modifiers
-      fireEvent.keyDown(document, { key: "k", shiftKey: true, ctrlKey: true });
+      fireEvent.keyDown(document, {
+        code: "KeyK",
+        shiftKey: true,
+        ctrlKey: true,
+      });
       expect(callback).toHaveBeenCalledTimes(1);
     });
 
@@ -85,100 +97,43 @@ describe("useKeyboardShortkey", () => {
       const callback = vi.fn();
       renderHook(() => useKeyboardShortkey("Meta+K", callback));
 
-      fireEvent.keyDown(document, { key: "k", metaKey: true });
+      fireEvent.keyDown(document, { code: "KeyK", metaKey: true });
       expect(callback).toHaveBeenCalledTimes(1);
 
       // should not trigger with extra modifiers
-      fireEvent.keyDown(document, { key: "k", metaKey: true, ctrlKey: true });
+      fireEvent.keyDown(document, {
+        code: "KeyK",
+        metaKey: true,
+        ctrlKey: true,
+      });
       expect(callback).toHaveBeenCalledTimes(1);
 
-      fireEvent.keyDown(document, { key: "k", metaKey: true, altKey: true });
+      fireEvent.keyDown(document, {
+        code: "KeyK",
+        metaKey: true,
+        altKey: true,
+      });
       expect(callback).toHaveBeenCalledTimes(1);
 
       // should not trigger if meta is not pressed
-      fireEvent.keyDown(document, { key: "k" });
+      fireEvent.keyDown(document, { code: "KeyK" });
       expect(callback).toHaveBeenCalledTimes(1);
     });
   });
 
   it("does not call callback when disabled", () => {
     const callback = vi.fn();
-    renderHook(() => useKeyboardShortkey("K", callback, { enabled: false }));
+    renderHook(() => useKeyboardShortkey("K", callback, false));
 
-    fireEvent.keyDown(document, { key: "k" });
+    fireEvent.keyDown(document, { code: "KeyK" });
     expect(callback).not.toHaveBeenCalled();
   });
 
-  it("does not call callback and returns undefined ariaKeyshortcuts when key is null", () => {
+  it("does not call callback if when key is null", () => {
     const callback = vi.fn();
-    const { result } = renderHook(() => useKeyboardShortkey(null, callback));
+    renderHook(() => useKeyboardShortkey(null, callback));
 
-    fireEvent.keyDown(document, { key: "k" });
+    fireEvent.keyDown(document, { code: "KeyK" });
     expect(callback).not.toHaveBeenCalled();
-    expect(result.current.ariaKeyshortcuts).toBeUndefined();
-  });
-
-  it("should not trigger when focus is on input/textarea if shortkey does not have command modifier", () => {
-    const callback = vi.fn();
-    renderHook(() => useKeyboardShortkey("K", callback));
-
-    const input = document.createElement("input");
-    document.body.appendChild(input);
-    input.focus();
-
-    fireEvent.keyDown(input, { key: "k" });
-    expect(callback).not.toHaveBeenCalled();
-
-    const textarea = document.createElement("textarea");
-    document.body.appendChild(textarea);
-    textarea.focus();
-
-    fireEvent.keyDown(textarea, { key: "k" });
-    expect(callback).not.toHaveBeenCalled();
-  });
-
-  it("should not trigger when focus is on content editable element if shortkey does not have command modifier", () => {
-    const callback = vi.fn();
-    renderHook(() => useKeyboardShortkey("K", callback));
-
-    const contentEditable = document.createElement("div");
-    contentEditable.contentEditable = "true";
-    document.body.appendChild(contentEditable);
-    contentEditable.focus();
-
-    fireEvent.keyDown(contentEditable, { key: "k" });
-    expect(callback).not.toHaveBeenCalled();
-  });
-
-  it("should trigger when focus is on input/textarea element if shortkey has command modifier", () => {
-    const callback = vi.fn();
-    renderHook(() => useKeyboardShortkey("Ctrl+K", callback));
-
-    const input = document.createElement("input");
-    document.body.appendChild(input);
-    input.focus();
-
-    fireEvent.keyDown(input, { key: "k", ctrlKey: true });
-    expect(callback).toHaveBeenCalledTimes(1);
-
-    const textarea = document.createElement("textarea");
-    document.body.appendChild(textarea);
-    textarea.focus();
-
-    fireEvent.keyDown(textarea, { key: "k", ctrlKey: true });
-    expect(callback).toHaveBeenCalledTimes(2);
-  });
-
-  it("should trigger even when focus is on content editable element if shortkey has command modifier", () => {
-    const callback = vi.fn();
-    renderHook(() => useKeyboardShortkey("Ctrl+K", callback));
-
-    const contentEditable = document.createElement("div");
-    contentEditable.contentEditable = "true";
-    document.body.appendChild(contentEditable);
-    contentEditable.focus();
-
-    fireEvent.keyDown(contentEditable, { key: "k", ctrlKey: true });
-    expect(callback).toHaveBeenCalledTimes(1);
   });
 });

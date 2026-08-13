@@ -1,49 +1,6 @@
-import {
-  buildAriaKeyshortcuts,
-  formatShortkey,
-  getPlatform,
-  parseShortkey,
-} from "@/utils";
-import type { Shortkey } from "@/types";
-
-describe("getPlatform", () => {
-  it("returns 'windows' when window is not defined", () => {
-    vi.stubGlobal("window", undefined);
-    vi.resetModules();
-
-    expect(getPlatform()).toBe("windows");
-
-    vi.unstubAllGlobals();
-    vi.resetModules();
-  });
-
-  it("returns 'windows' when navigator is not defined", () => {
-    vi.stubGlobal("navigator", undefined);
-    vi.resetModules();
-
-    expect(getPlatform()).toBe("windows");
-
-    vi.unstubAllGlobals();
-    vi.resetModules();
-  });
-
-  it("returns 'mac' for macOS platform", () => {
-    Object.defineProperty(globalThis.navigator, "userAgent", {
-      value: "Mozilla/5.0 (Macintosh; Intel Mac OS X)",
-      configurable: true,
-    });
-
-    expect(getPlatform()).toBe("mac");
-  });
-
-  it("returns 'windows' for Windows platform", () => {
-    Object.defineProperty(globalThis.navigator, "userAgent", {
-      value: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-      configurable: true,
-    });
-    expect(getPlatform()).toBe("windows");
-  });
-});
+import type { Shortkey } from "@/types/shortkeys";
+import { getKeyShortcuts, getShortkeyLabel } from "@/utils/aria";
+import { parseShortkey } from "@/utils/parse";
 
 describe("parseShortkey", () => {
   it("parses a simple shortkey correctly", () => {
@@ -52,6 +9,7 @@ describe("parseShortkey", () => {
 
     expect(result).toEqual({
       targetKey: "A",
+      targetKeyCode: "KeyA",
       ctrlKey: false,
       altKey: false,
       shiftKey: false,
@@ -65,6 +23,7 @@ describe("parseShortkey", () => {
 
     expect(result).toEqual({
       targetKey: "A",
+      targetKeyCode: "KeyA",
       ctrlKey: true,
       altKey: false,
       shiftKey: true,
@@ -78,6 +37,7 @@ describe("parseShortkey", () => {
 
     expect(result).toEqual({
       targetKey: "K",
+      targetKeyCode: "KeyK",
       ctrlKey: false,
       altKey: false,
       shiftKey: false,
@@ -91,41 +51,64 @@ describe("parseShortkey", () => {
 
     expect(result).toEqual({
       targetKey: "K",
+      targetKeyCode: "KeyK",
       ctrlKey: true,
       altKey: false,
       shiftKey: false,
       metaKey: false,
     });
   });
-});
 
-describe("buildAriaKeyshortcuts", () => {
-  it("builds aria keyshortcuts string correctly", () => {
-    const shortkey: Shortkey = "Ctrl+Shift+A";
-    const result = buildAriaKeyshortcuts(shortkey);
+  it("throws for an unsupported modifier", () => {
+    expect(() => parseShortkey("Foo+A" as Shortkey)).toThrowError(
+      'Invalid shortkey: "Foo" is not a supported modifier.',
+    );
+  });
 
-    expect(result).toBe("Control+Shift+A");
+  it("throws for an unsupported key", () => {
+    expect(() => parseShortkey("Ctrl+Foo" as Shortkey)).toThrowError(
+      'Invalid shortkey: "Foo" is not a supported key.',
+    );
   });
 });
 
-describe("formatShortkey", () => {
+describe("getKeyShortcuts", () => {
+  it("builds aria keyshortcuts string correctly", () => {
+    const shortkey: Shortkey = "Ctrl+Shift+A";
+    const result = getKeyShortcuts(parseShortkey(shortkey, "windows"));
+
+    expect(result).toBe("Control+Shift+A");
+  });
+
+  it("includes the meta and alt modifiers", () => {
+    const shortkey: Shortkey = "Meta+Alt+A";
+    const result = getKeyShortcuts(parseShortkey(shortkey, "windows"));
+
+    expect(result).toBe("Meta+Alt+A");
+  });
+});
+
+describe("getShortkeyLabel", () => {
   it("formats a shortkey for mac platform correctly 1", () => {
     const shortkey: Shortkey = "Ctrl+Shift+A";
-    const result = formatShortkey(shortkey, "mac");
+    const result = getShortkeyLabel(parseShortkey(shortkey, "mac"), "mac");
 
     expect(result).toBe("Control Shift A");
   });
 
   it("formats a shortkey for mac platform correctly 2", () => {
     const shortkey: Shortkey = "Meta+Alt+A";
-    const result = formatShortkey(shortkey, "mac");
+    const result = getShortkeyLabel(parseShortkey(shortkey, "mac"), "mac");
 
     expect(result).toBe("Option Command A");
   });
 
   it("formats a shortkey for windows platform correctly", () => {
     const shortkey: Shortkey = "Meta+Alt+A";
-    const result = formatShortkey(shortkey, "windows");
+    const result = getShortkeyLabel(
+      parseShortkey(shortkey, "windows"),
+      "windows",
+    );
 
     expect(result).toBe("Alt Windows A");
   });
