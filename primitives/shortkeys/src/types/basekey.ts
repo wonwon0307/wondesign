@@ -40,6 +40,29 @@ type SpecialKey =
   "`" | "-" | "=" | "[" | "]" | "\\" | ";" | "'" | "," | "." | "/";
 
 export type BaseKey = AlphaNumericKey | SpecialKey;
-
-// Future additions: Function keys and more Special keys
-// Enter, Return, Tab, Space, Arrow keys, Backspace, etc.
+export type FullBaseKey =
+  | BaseKey
+  | "Escape"
+  | "Tab"
+  | "CapsLock"
+  | "Enter"
+  | "Return"
+  | "Space"
+  | "↑"
+  | "↓"
+  | "←"
+  | "→"
+  | "Backspace"
+  | "Delete"
+  | "F1"
+  | "F2"
+  | "F3"
+  | "F4"
+  | "F5"
+  | "F6"
+  | "F7"
+  | "F8"
+  | "F9"
+  | "F10"
+  | "F11"
+  | "F12";
