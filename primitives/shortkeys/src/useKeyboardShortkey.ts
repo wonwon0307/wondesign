@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { usePlatform } from "@wondesign/platform";
 
 import type { Shortkey } from "./types/shortkeys";
-import { parseShortkey } from "./utils/parse";
+import { parseShortkeyInternal } from "./utils/parse";
 
 /**
  * Registers a global keyboard shortkey and calls `callback` when it is pressed.
@@ -27,7 +27,7 @@ export function useKeyboardShortkey(
   const callbackRef = useRef(callback);
   const platform = usePlatform();
   const parsedKeys = useMemo(
-    () => (key ? parseShortkey(key, platform) : null),
+    () => (key ? parseShortkeyInternal(key, platform) : null),
     [key, platform],
   );
 
