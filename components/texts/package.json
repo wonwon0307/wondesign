@@ -30,6 +30,7 @@
     "@vanilla-extract/css": "catalog:",
     "@vanilla-extract/recipes": "catalog:",
     "@vanilla-extract/rollup-plugin": "catalog:",
+    "@wondesign/platform": "workspace:*",
     "@wondesign/shortkeys": "workspace:*",
     "@wondesign/tokens": "workspace:*",
     "clsx": "catalog:"

@@ -1,14 +1,7 @@
+export { useEscapeKey } from "./useEscapeKey";
 export { useKeyboardShortkey } from "./useKeyboardShortkey";
-export type {
-  UseKeyboardShortkeyOptions,
-  UseKeyboardShortkeyResult,
-} from "./useKeyboardShortkey";
 
-export {
-  buildAriaKeyshortcuts,
-  formatShortkey,
-  getPlatform,
-  parseShortkey,
-} from "./utils";
+export { getKeyShortcuts, getShortkeyLabel } from "./utils/aria";
+export { parseShortkey } from "./utils/parse";
 
-export type { Shortkey } from "./types";
+export type { FullShortkey, Shortkey } from "./types/shortkeys";

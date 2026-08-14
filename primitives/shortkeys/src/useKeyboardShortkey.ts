@@ -1,17 +1,8 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { usePlatform } from "@wondesign/platform";
 
-import type { Shortkey } from "./types";
-import { buildAriaKeyshortcuts, parseShortkey } from "./utils";
-
-export interface UseKeyboardShortkeyOptions {
-  /** Whether the shortkey listener is active. Defaults to `true`. */
-  enabled?: boolean;
-}
-
-export interface UseKeyboardShortkeyResult {
-  /** Value for the `aria-keyshortcuts` attribute on the element that triggers this shortkey. `undefined` when `key` is `null`. */
-  ariaKeyshortcuts: string | undefined;
-}
+import type { Shortkey } from "./types/shortkeys";
+import { parseShortkeyInternal } from "./utils/parse";
 
 /**
  * Registers a global keyboard shortkey and calls `callback` when it is pressed.
@@ -31,23 +22,27 @@ export interface UseKeyboardShortkeyResult {
 export function useKeyboardShortkey(
   key: Shortkey | null,
   callback: () => void,
-  { enabled = true }: UseKeyboardShortkeyOptions = {},
-): UseKeyboardShortkeyResult {
+  enabled: boolean = true,
+) {
   const callbackRef = useRef(callback);
+  const platform = usePlatform();
+  const parsedKeys = useMemo(
+    () => (key ? parseShortkeyInternal(key, platform) : null),
+    [key, platform],
+  );
 
   useLayoutEffect(() => {
     callbackRef.current = callback;
   });
 
   useEffect(() => {
-    if (!enabled || !key) return;
+    if (!enabled || !parsedKeys) return;
 
-    const { targetKey, ctrlKey, altKey, shiftKey, metaKey } =
-      parseShortkey(key);
+    const { targetKeyCode, ctrlKey, altKey, shiftKey, metaKey } = parsedKeys;
     const hasCommandModifier = metaKey || ctrlKey;
 
     const handler = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() !== targetKey.toLowerCase()) return;
+      if (e.code !== targetKeyCode) return;
       if (metaKey !== e.metaKey) return;
       if (ctrlKey !== e.ctrlKey) return;
       if (altKey !== e.altKey) return;
@@ -72,9 +67,5 @@ export function useKeyboardShortkey(
 
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [key, enabled]);
-
-  const ariaKeyshortcuts = key ? buildAriaKeyshortcuts(key) : undefined;
-
-  return { ariaKeyshortcuts };
+  }, [enabled, parsedKeys]);
 }

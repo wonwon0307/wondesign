@@ -1,3 +1,5 @@
+import { getKeyShortcuts } from "@wondesign/shortkeys";
+
 import { Button, type ButtonProps } from "@/components/Button";
 import { useSidebar } from "./_internals/contexts";
 
@@ -11,10 +13,13 @@ export function SidebarToggle({
     state,
     toggleSidebar,
     contentId,
-    ariaKeyshortcuts,
+    keyboardShortkey,
     side,
     isMobile,
   } = useSidebar();
+  const ariaKeyshortcuts = keyboardShortkey
+    ? getKeyShortcuts(keyboardShortkey)
+    : undefined;
   const isOpen = state !== "closed";
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

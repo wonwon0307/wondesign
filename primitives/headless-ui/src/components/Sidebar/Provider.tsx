@@ -42,13 +42,7 @@ export function SidebarProvider({
   }, [isOpen, show, hide]);
 
   const isMobile = useMobile(isMobileOverride);
-  const { ariaKeyshortcuts } = useKeyboardShortkey(
-    keyboardShortkey,
-    toggleSidebar,
-    {
-      enabled: collapse !== "disable",
-    },
-  );
+  useKeyboardShortkey(keyboardShortkey, toggleSidebar, collapse !== "disable");
 
   const finalState: "closed" | "collapsed" | "expanded" = useMemo(() => {
     if (isOpen || collapse === "disable") return "expanded";
@@ -64,7 +58,6 @@ export function SidebarProvider({
       isMobile,
       side,
       keyboardShortkey,
-      ariaKeyshortcuts,
       contentId,
     }),
     [
@@ -74,7 +67,6 @@ export function SidebarProvider({
       isMobile,
       side,
       keyboardShortkey,
-      ariaKeyshortcuts,
       contentId,
     ],
   );
