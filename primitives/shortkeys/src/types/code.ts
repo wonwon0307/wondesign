@@ -46,9 +46,7 @@ export type BaseKeyCode =
   | "Comma"
   | "Period"
   | "Slash";
-
-export type FullBaseKeyCode =
-  | BaseKeyCode
+/*
   | "Escape"
   | "Tab"
   | "CapsLock"
@@ -72,3 +70,4 @@ export type FullBaseKeyCode =
   | "F10"
   | "F11"
   | "F12";
+*/
