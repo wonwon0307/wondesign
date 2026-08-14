@@ -43,11 +43,11 @@ describe("SidebarToggle", () => {
     expect(getByTestId("tooltip-right")).toBeTruthy();
 
     // Check keyboard shortcut
-    fireEvent.keyDown(document, { key: "b", ctrlKey: true });
+    fireEvent.keyDown(document, { code: "KeyB", ctrlKey: true });
     const sidebar = getByTestId("sidebar");
     expect(sidebar.dataset.state).toBe("expanded");
 
-    fireEvent.keyDown(document, { key: "b", ctrlKey: true });
+    fireEvent.keyDown(document, { code: "KeyB", ctrlKey: true });
     expect(sidebar.dataset.state).toBe("closed");
 
     // Check tooltip content
