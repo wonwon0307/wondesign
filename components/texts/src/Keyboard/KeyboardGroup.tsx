@@ -2,16 +2,15 @@ import { usePlatform } from "@wondesign/platform";
 import {
   getShortkeyLabel,
   parseShortkey,
-  type Shortkey,
+  type FullShortkey,
 } from "@wondesign/shortkeys";
-
 import clsx from "clsx";
 
 import { Keyboard } from "./Keyboard";
 import { styles } from "./styles.css";
 
 export interface KeyboardGroupProps extends React.HTMLAttributes<HTMLElement> {
-  keys: Shortkey;
+  keys: FullShortkey;
   size?: "small" | "large";
   platform?: "mac" | "windows";
 }
