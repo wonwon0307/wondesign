@@ -20,7 +20,7 @@ export function SidebarToggle({
   className,
   ...rest
 }: Readonly<SidebarToggleProps>) {
-  const { side, ariaKeyshortcuts, keyboardShortkey } = useSidebar();
+  const { side, keyboardShortkey } = useSidebar();
 
   if (!disableTooltip && keyboardShortkey) {
     return (
@@ -29,11 +29,7 @@ export function SidebarToggle({
         text={<KeyboardGroup keys={keyboardShortkey} />}
         asChild
       >
-        <Button
-          {...rest}
-          className={clsx(styles.toggle, className)}
-          aria-keyshortcuts={ariaKeyshortcuts}
-        >
+        <Button {...rest} className={clsx(styles.toggle, className)}>
           {children}
         </Button>
       </Tooltip>
