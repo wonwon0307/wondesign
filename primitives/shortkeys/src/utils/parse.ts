@@ -1,6 +1,11 @@
 import { BASE_KEY_MAP } from "./map";
-import type { BaseKey } from "@/types/basekey";
-import type { ParsedShortkey, Shortkey } from "@/types/shortkeys";
+import type { FullBaseKey, BaseKey } from "@/types/basekey";
+import type {
+  FullShortkey,
+  ParsedShortkey,
+  ParsedShortkeyInternal,
+  Shortkey,
+} from "@/types/shortkeys";
 
 const VALID_MODIFIERS = new Set([
   "Ctrl",
@@ -18,19 +23,12 @@ const VALID_MODIFIERS = new Set([
 ]);
 
 export function parseShortkey(
-  shortkey: Shortkey,
+  key: FullShortkey,
   platform: "mac" | "windows" = "windows",
 ): ParsedShortkey {
-  const parts = shortkey.split("+");
-  const targetKey = parts.pop() as BaseKey;
+  const parts = key.split("+");
+  const targetKey = parts.pop() as FullBaseKey;
   const isMac = platform === "mac";
-
-  const invalidModifier = parts.find((part) => !VALID_MODIFIERS.has(part));
-  if (invalidModifier) {
-    throw new Error(
-      `Invalid shortkey: "${invalidModifier}" is not a supported modifier.`,
-    );
-  }
 
   let ctrlKey = parts.includes("Ctrl") || parts.includes("Control");
   const altKey =
@@ -52,14 +50,43 @@ export function parseShortkey(
     }
   }
 
-  const targetKeyCode = BASE_KEY_MAP[targetKey];
+  return {
+    targetKey,
+    ctrlKey,
+    altKey,
+    shiftKey,
+    metaKey,
+  };
+}
 
+export function parseShortkeyInternal(
+  shortkey: Shortkey,
+  platform: "mac" | "windows" = "windows",
+): ParsedShortkeyInternal {
+  const modifierParts = shortkey.split("+");
+  modifierParts.pop();
+
+  const invalidModifier = modifierParts.find(
+    (part) => !VALID_MODIFIERS.has(part),
+  );
+  if (invalidModifier) {
+    throw new Error(
+      `Invalid shortkey: "${invalidModifier}" is not a supported modifier.`,
+    );
+  }
+
+  const { targetKey, ctrlKey, altKey, shiftKey, metaKey } = parseShortkey(
+    shortkey,
+    platform,
+  );
+
+  const targetKeyCode = BASE_KEY_MAP[targetKey as BaseKey];
   if (!targetKeyCode) {
     throw new Error(`Invalid shortkey: "${targetKey}" is not a supported key.`);
   }
 
   return {
-    targetKey,
+    targetKey: targetKey as BaseKey,
     targetKeyCode,
     ctrlKey,
     altKey,
