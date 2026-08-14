@@ -1,8 +1,8 @@
 import { parseShortkey } from "./parse";
-import type { Shortkey } from "@/types/shortkeys";
+import type { FullShortkey } from "@/types/shortkeys";
 
 export function getShortkeyLabel(
-  key: Shortkey,
+  key: FullShortkey,
   platform: "mac" | "windows" = "windows",
 ): string {
   const { targetKey, ctrlKey, altKey, shiftKey, metaKey } = parseShortkey(
@@ -22,7 +22,7 @@ export function getShortkeyLabel(
   return parts.join(" ");
 }
 
-export function getKeyShortcuts(key: Shortkey): string {
+export function getKeyShortcuts(key: FullShortkey): string {
   const { targetKey, ctrlKey, altKey, shiftKey, metaKey } = parseShortkey(key);
   const parts: string[] = [];
 
