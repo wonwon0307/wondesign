@@ -12,6 +12,13 @@ vi.mock("next/font/google", () => ({
     className: "--font-roboto-slab",
   }),
 }));
+vi.mock("next/navigation", () => ({
+  redirect: vi.fn(),
+  usePathname: vi.fn().mockReturnValue("/test-collection/test-link"),
+  RedirectType: {
+    replace: "replace",
+  },
+}));
 
 vi.mock("@wondocs/core/sidebar", () => ({
   getSidebar: vi.fn().mockReturnValue([
