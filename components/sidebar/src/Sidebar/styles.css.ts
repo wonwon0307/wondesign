@@ -10,6 +10,7 @@ const sidebar = recipe({
     gridTemplateColumns: "1fr",
     gridTemplateRows: "auto 1fr auto",
     height: "100vh",
+    padding: `${tokens.spacing.lg} 0`,
     flexShrink: 0,
     overflow: "hidden",
     backgroundColor: tokens.colors.surface,
@@ -18,8 +19,7 @@ const sidebar = recipe({
   variants: {
     appearance: {
       default: {
-        borderLeft: `1px solid ${tokens.colors.border}`,
-        borderRight: `1px solid ${tokens.colors.border}`,
+        boxShadow: tokens.elevation.lv1,
       },
       floating: {
         borderRadius: tokens.radius.lg,

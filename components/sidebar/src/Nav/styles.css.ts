@@ -7,7 +7,7 @@ const nav = style({
   flexDirection: "column",
   overflowY: "auto",
   padding: `0 ${tokens.spacing.sm}`,
-  gap: tokens.spacing.md,
+  gap: tokens.spacing.sm,
   scrollbarWidth: "thin",
   scrollbarColor: `${tokens.colors.border} transparent`,
   scrollbarGutter: "auto",
