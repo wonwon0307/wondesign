@@ -7,13 +7,18 @@ import clsx from "clsx";
 
 import { styles } from "./styles.css";
 
+export interface SidebarItemToggleProps extends CollapsibleToggleProps {
+  size?: number;
+}
+
 export function SidebarItemToggle({
+  size = 16,
   className,
   ...rest
-}: Readonly<CollapsibleToggleProps>) {
+}: Readonly<SidebarItemToggleProps>) {
   return (
     <CollapsibleToggle {...rest} className={clsx(styles.toggle, className)}>
-      <AppIcon icon="chevron-right" className={styles.toggleIcon} />
+      <AppIcon size={size} icon="chevron-right" className={styles.toggleIcon} />
     </CollapsibleToggle>
   );
 }
