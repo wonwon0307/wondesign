@@ -32,6 +32,7 @@ const link = recipe({
   variants: {
     isActive: {
       true: {
+        fontWeight: tokens.typography.fontWeight.semibold,
         color: tokens.colors.primary,
 
         "@media": {
