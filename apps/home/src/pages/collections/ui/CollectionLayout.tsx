@@ -1,9 +1,4 @@
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarNav,
-  SidebarToggle,
-} from "@wondesign/ui/Sidebar";
+import { SidebarProvider, Sidebar, SidebarNav } from "@wondesign/ui/Sidebar";
 import { getSidebar } from "@wondocs/core/sidebar";
 
 import { DocsSidebarItem } from "@/entities/document";
@@ -29,10 +24,7 @@ export async function CollectionLayout({ params, children }: Readonly<Props>) {
             ))}
           </SidebarNav>
         </Sidebar>
-        <div>
-          <SidebarToggle />
-          {children}
-        </div>
+        {children}
       </div>
     </SidebarProvider>
   );
