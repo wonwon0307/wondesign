@@ -66,6 +66,11 @@ const linkOverlay = style({
 const labelSlot = style({
   flex: 1,
   font: tokens.text.bodyMedium,
+  selectors: {
+    [`${link.classNames.base}[data-active='true'] &`]: {
+      fontWeight: tokens.typography.fontWeight.semibold,
+    },
+  },
 });
 
 const indicator = style({
@@ -86,20 +91,25 @@ const subitems = style({
 });
 
 const toggle = style({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "100%",
+  borderRadius: tokens.radius.sm,
   position: "relative",
   zIndex: 1,
   cursor: "pointer",
-  opacity: 0,
-  transition: "opacity 0.15s ease",
+  transition: "background-color 0.15s ease",
   selectors: {
     [`${link.classNames.base}:hover &, ${link.classNames.base}:focus-visible &`]:
       {
-        opacity: 1,
+        backgroundColor: tokens.colors.backgroundHover,
       },
   },
 });
 
 const toggleIcon = style({
+  transition: "transform 0.15s ease",
   selectors: {
     [`${toggle}[data-state='open'] &`]: {
       transform: "rotate(90deg)",
