@@ -14,7 +14,7 @@ const typography: TypographyTokens = {
   fontSize: {
     headingSmall: "1.25rem",
     headingMedium: "1.5rem",
-    headingLarge: "2rem",
+    headingLarge: "1.75rem",
     bodySmall: "0.875rem",
     bodyMedium: "1rem",
     bodyLarge: "1.125rem",
@@ -22,7 +22,7 @@ const typography: TypographyTokens = {
   lineHeight: {
     headingSmall: "1.8rem",
     headingMedium: "2.1rem",
-    headingLarge: "2.5rem",
+    headingLarge: "2.4rem",
     bodySmall: "1.25rem",
     bodyMedium: "1.5rem",
     bodyLarge: "1.5rem",
