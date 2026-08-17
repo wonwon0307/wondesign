@@ -14,7 +14,7 @@ describe("presets", () => {
     expect(wondesignDefault).toContain("--radius-sm: 4px");
     expect(wondesignDefault).toContain("--spacing-md: 8px");
     expect(wondesignDefault).toContain(
-      '--text-hero: 700 2rem/2.5rem "Kalam", "Kalam Fallback"',
+      '--text-hero: 700 1.75rem/2.4rem "Kalam", "Kalam Fallback"',
     );
     expect(wondesignDefault).toContain("--font-size-heading-sm: 1.25rem");
   });
