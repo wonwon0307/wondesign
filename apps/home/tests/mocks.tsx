@@ -19,7 +19,20 @@ vi.mock("next/navigation", () => ({
     replace: "replace",
   },
 }));
-
+vi.mock("@wondocs/core/page", () => ({
+  getPage: vi.fn().mockReturnValue({
+    component: () =>
+      Promise.resolve({
+        default: () => (
+          <div data-testid="page-content">Example Page Content</div>
+        ),
+      }),
+    meta: {
+      title: "Example Page Title",
+      description: "Example Page Description",
+    },
+  }),
+}));
 vi.mock("@wondocs/core/sidebar", () => ({
   getSidebar: vi.fn().mockReturnValue([
     {
