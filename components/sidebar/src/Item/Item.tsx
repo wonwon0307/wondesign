@@ -1,6 +1,7 @@
 import { Collapsible } from "@wondesign/headless-ui/Collapsible";
 import { SidebarLink } from "@wondesign/headless-ui/Sidebar";
 import { Tooltip } from "@wondesign/tooltip";
+import clsx from "clsx";
 
 import { useSidebar } from "@/core";
 import { styles } from "./styles.css";
@@ -116,6 +117,8 @@ interface LinkProps {
   isActive?: boolean;
   isDisabled?: boolean;
   isExternal?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 function Link({
@@ -125,10 +128,16 @@ function Link({
   isActive = false,
   isDisabled = false,
   isExternal,
+  className,
+  style,
 }: Readonly<LinkProps>) {
   return (
     <div
-      className={styles.link({ isActive, isDisabled, collapsed: false })}
+      className={clsx(
+        styles.link({ isActive, isDisabled, collapsed: false }),
+        className,
+      )}
+      style={style}
       data-active={isActive || undefined}
       data-disabled={isDisabled || undefined}
     >
