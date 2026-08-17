@@ -11,9 +11,8 @@ import { styles } from "./styles.css";
 
 export function Header() {
   const pages = [
-    { label: "Primitives", href: "/design-primitives" },
-    { label: "Design System", href: "/design-system" },
-    { label: "Colors", href: "/colors" },
+    { label: "Primitives", href: "/primitives" },
+    { label: "Components", href: "/components" },
   ];
   const pathname = usePathname();
 
@@ -21,7 +20,7 @@ export function Header() {
     <header role="banner" className={styles.header}>
       <div className={styles.headerLeft}>
         <Anchor href="/" className={styles.homeLink}>
-          <WonDesignLogo />
+          <WonDesignLogo size={32} />
           <Text variant="hero" className={styles.homeText}>
             WonDesign
           </Text>

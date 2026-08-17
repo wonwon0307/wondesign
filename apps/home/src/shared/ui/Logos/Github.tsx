@@ -1,11 +1,14 @@
-export function GithubLogo() {
+import { type IconProps } from "@wondesign/ui/Icons";
+
+export function GithubLogo({ size = 24, ...rest }: Readonly<IconProps>) {
   return (
     <svg
+      {...rest}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      width={24}
-      height={24}
+      width={size}
+      height={size}
     >
       <path
         fill="currentColor"

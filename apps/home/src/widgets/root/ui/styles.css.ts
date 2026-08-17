@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { tokens } from "@wondesign/ui";
+import { mediaQueries, tokens } from "@wondesign/ui";
 
 const HEADER_HEIGHT = "48px";
 const SIDEBAR_WIDTH = "280px";
@@ -12,13 +12,25 @@ const header = style({
   height: HEADER_HEIGHT,
   backgroundColor: tokens.colors.surface,
   boxShadow: tokens.elevation.lv1,
+  zIndex: 1,
   overflow: "hidden",
+  "@media": {
+    [mediaQueries.breakpoints.small]: {
+      gridTemplateColumns: `auto 1fr auto`,
+      gap: tokens.spacing.layoutSmall,
+    },
+  },
 });
 
 const headerLeft = style({
   display: "flex",
   alignItems: "center",
   padding: `0 ${tokens.spacing.layoutSmall}`,
+  "@media": {
+    [mediaQueries.breakpoints.small]: {
+      padding: `0 ${tokens.spacing.lg}`,
+    },
+  },
 });
 
 const tabs = style({
@@ -29,6 +41,12 @@ const tabs = style({
   padding: `0 ${tokens.spacing.layoutSmall}`,
   gap: tokens.spacing.xl,
   height: "100%",
+  overflow: "hidden",
+  "@media": {
+    [mediaQueries.breakpoints.small]: {
+      padding: `0 ${tokens.spacing.lg}`,
+    },
+  },
 });
 
 const headerRight = style({
@@ -37,6 +55,11 @@ const headerRight = style({
   alignItems: "center",
   padding: `0 ${tokens.spacing.layoutSmall}`,
   gap: tokens.spacing.md,
+  "@media": {
+    [mediaQueries.breakpoints.small]: {
+      padding: `0 ${tokens.spacing.lg}`,
+    },
+  },
 });
 
 const homeLink = style({
@@ -52,6 +75,11 @@ const homeLink = style({
 
 const homeText = style({
   marginTop: tokens.spacing.md,
+  "@media": {
+    [mediaQueries.breakpoints.small]: {
+      display: "none",
+    },
+  },
 });
 
 export const styles = {

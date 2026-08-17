@@ -3,6 +3,7 @@ import { mediaQueries, tokens } from "@wondesign/tokens";
 
 const iconButton = recipe({
   base: {
+    flexShrink: 0,
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
