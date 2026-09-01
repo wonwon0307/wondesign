@@ -8,6 +8,7 @@ const withVanillaExtract = createVanillaExtractPlugin({
 
 const withWonDocs = createWonDocs({
   contentsDir: ["./docs/components", "./docs/primitives"],
+  allowUnlinkedPages: true,
 });
 
 const nextConfig: NextConfig = {
