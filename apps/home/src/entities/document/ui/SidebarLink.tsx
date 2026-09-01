@@ -14,16 +14,15 @@ interface Props {
 
 export function SidebarLink({ link, children }: Readonly<Props>) {
   const pathname = usePathname();
+  const isExactMatch = pathname === link.url;
+  const startsWithUrl = isExactMatch || pathname?.startsWith(link.url + "/");
 
-  // isActive: item 자체가 active인 경우
-  const isActive = link.url === pathname;
-  // isOpen: item 자체가 active이거나, 자식 중 하나라도 active인 경우
-  // = pathname이 item.href로 시작하는 경우
-  const defaultOpen = pathname?.startsWith(link.url);
+  // isActive: children이 있으면 정확히 일치해야 active, 없으면 startsWith만 해도 active
+  const isActive = link.items ? isExactMatch : startsWithUrl;
 
   return (
     <SidebarItem
-      defaultOpen={defaultOpen}
+      defaultOpen={startsWithUrl}
       isActive={isActive}
       label={link.label}
       href={link.url}

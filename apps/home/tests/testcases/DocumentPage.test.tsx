@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { render } from "@testing-library/react";
 import * as Next from "next/navigation";
 import * as DocsPages from "@wondocs/core/pages";
@@ -26,6 +27,38 @@ describe("DocumentPage", () => {
 
     expect(metadata.title).toBe("Example Page Title");
     expect(metadata.description).toBe("Example Page Description");
+  });
+
+  it("redirects correctly when it is given in the metadata (frontmatter)", async () => {
+    vi.spyOn(DocsPages, "getPage").mockReturnValue({
+      component: () =>
+        Promise.resolve({
+          default: () => (
+            <div data-testid="page-content">Example Page Content</div>
+          ),
+        }),
+      meta: {
+        title: "Redirect Page",
+        description: "This page redirects to another page.",
+        redirect: "/new-page",
+      },
+      toc: [],
+    } as any);
+
+    // next/navigation's redirect() never returns — it throws to halt rendering.
+    vi.mocked(Next.redirect).mockImplementation(() => {
+      throw new Error("NEXT_REDIRECT");
+    });
+
+    await expect(
+      DocumentPage({
+        params,
+      }),
+    ).rejects.toThrow();
+
+    expect(Next.redirect).toHaveBeenCalledWith("/new-page", "replace");
+
+    vi.mocked(Next.redirect).mockReset();
   });
 
   it("redirects to 404 if document is not found on page render", async () => {
