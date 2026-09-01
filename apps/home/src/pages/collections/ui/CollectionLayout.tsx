@@ -17,14 +17,14 @@ export async function CollectionLayout({ params, children }: Readonly<Props>) {
   return (
     <SidebarProvider keyboardShortkey="Mod+B" defaultOpen>
       <div className={styles.container}>
-        <Sidebar>
+        <Sidebar className={styles.sidebar}>
           <SidebarNav>
             {sidebarItems.map((item, idx) => (
               <DocsSidebarItem key={`${item.type}-${idx}`} item={item} />
             ))}
           </SidebarNav>
         </Sidebar>
-        {children}
+        <div className={styles.contents}>{children}</div>
       </div>
     </SidebarProvider>
   );

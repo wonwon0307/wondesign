@@ -1,0 +1,481 @@
+---
+title: Getting Started
+description: Getting Started with WonDesign
+---
+
+# Getting Started
+
+Welcome to WonDesign. This page is intentionally long and full of headings so you
+can test scroll behavior, sticky navigation, the table of contents, scroll-spy
+highlighting, anchor links, and "back to top" affordances. None of the content
+below is authoritative — it is filler designed to push the viewport around.
+
+## Introduction
+
+WonDesign is a component system that tries to stay out of your way. It ships
+primitives, a handful of opinionated components, and a theming layer that leans
+on CSS variables so you can retheme without rebuilding.
+
+The rest of this document walks through installation, configuration, theming,
+usage patterns, and a long troubleshooting appendix. Skip around using the table
+of contents on the right.
+
+### Who this is for
+
+If you build web interfaces with React and you want a design system that is small
+enough to read in an afternoon, you are the target audience. If you need a
+kitchen-sink framework with a hundred components, this will feel sparse.
+
+### What you should already know
+
+- Basic React (function components, hooks, props)
+- Some familiarity with a bundler such as Vite, webpack, or the Next.js compiler
+- Enough CSS to be dangerous
+
+## Installation
+
+Install the packages you need. The core package is required; everything else is
+optional.
+
+```bash
+pnpm add @wondesign/core @wondesign/texts @wondesign/buttons
+```
+
+If you use npm or yarn, the equivalent commands work the same way.
+
+```bash
+npm install @wondesign/core @wondesign/texts @wondesign/buttons
+yarn add @wondesign/core @wondesign/texts @wondesign/buttons
+```
+
+### Peer dependencies
+
+WonDesign expects `react` and `react-dom` at version 18 or later. It does not
+bundle React. If you see two-copies-of-React errors, deduplicate your lockfile
+before filing an issue.
+
+### Verifying the install
+
+Create a throwaway component and render a button. If it shows up styled, you are
+done.
+
+```tsx
+import { Button } from "@wondesign/buttons";
+
+export function Smoke() {
+  return <Button>It works</Button>;
+}
+```
+
+## Project setup
+
+### Importing the stylesheet
+
+The base stylesheet defines the CSS variables every component reads from. Import
+it once, as high in your tree as you can.
+
+```tsx
+import "@wondesign/core/styles.css";
+```
+
+### Wrapping your app
+
+Wrap your application in the provider so theme changes propagate through context.
+
+```tsx
+import { WonProvider } from "@wondesign/core";
+
+export function App({ children }: { children: React.ReactNode }) {
+  return <WonProvider>{children}</WonProvider>;
+}
+```
+
+### TypeScript configuration
+
+No special configuration is required. The packages ship their own type
+declarations. If you use `paths` aliases, make sure `@wondesign/*` is not
+accidentally rewritten.
+
+## Theming
+
+Theming is the part people spend the most time on, so this section is long on
+purpose.
+
+### The token model
+
+Every visual value — color, spacing, radius, font size, shadow — is a token.
+Tokens are plain CSS custom properties with a `--won-` prefix. Components never
+hardcode values; they read tokens. That means you can retheme by overriding
+variables and never touching component source.
+
+### Color tokens
+
+The color system has three layers:
+
+1. **Palette** — raw colors, e.g. `--won-blue-500`. You rarely touch these.
+2. **Semantic** — role-based, e.g. `--won-color-accent`. Point these at palette
+   values.
+3. **Component** — scoped overrides, e.g. `--won-button-bg`. Point these at
+   semantic values or override per-component.
+
+```css
+:root {
+  --won-color-accent: var(--won-blue-500);
+  --won-color-accent-contrast: white;
+  --won-color-surface: white;
+  --won-color-text: var(--won-gray-900);
+}
+```
+
+### Dark mode
+
+Dark mode is just another set of token values behind a selector. Use whichever
+strategy your app already has — a class, a data attribute, or a media query.
+
+```css
+[data-theme="dark"] {
+  --won-color-surface: var(--won-gray-900);
+  --won-color-text: var(--won-gray-50);
+}
+```
+
+#### Class strategy
+
+Add `.dark` to `<html>` and scope your overrides to `.dark`.
+
+#### Data attribute strategy
+
+Set `data-theme="dark"` on `<html>` and scope to `[data-theme="dark"]`. This is
+what the docs site itself uses.
+
+#### System preference strategy
+
+Wrap the overrides in `@media (prefers-color-scheme: dark)` and accept that you
+cannot offer a manual toggle without extra work.
+
+### Spacing scale
+
+The spacing scale is a geometric-ish progression. Stick to the scale unless you
+have a strong reason not to.
+
+| Token           | Value | Typical use             |
+| --------------- | ----- | ----------------------- |
+| `--won-space-1` | 4px   | Icon-to-label gap       |
+| `--won-space-2` | 8px   | Tight padding           |
+| `--won-space-3` | 12px  | Default control padding |
+| `--won-space-4` | 16px  | Card padding            |
+| `--won-space-5` | 24px  | Section gap             |
+| `--won-space-6` | 32px  | Page gutter             |
+| `--won-space-7` | 48px  | Large vertical rhythm   |
+| `--won-space-8` | 64px  | Hero spacing            |
+
+### Typography
+
+Type tokens cover family, size, line height, and weight. The defaults assume a
+system font stack so you get fast first paint.
+
+```css
+:root {
+  --won-font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --won-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --won-text-sm: 0.875rem;
+  --won-text-base: 1rem;
+  --won-text-lg: 1.125rem;
+  --won-leading-normal: 1.5;
+}
+```
+
+### Radius and elevation
+
+Radius tokens run from `--won-radius-sm` (4px) to `--won-radius-xl` (16px), plus
+`--won-radius-full` for pills and avatars. Elevation tokens are pre-baked
+box-shadow strings named `--won-shadow-1` through `--won-shadow-4`.
+
+## Components overview
+
+This is a quick tour. Each component has its own page with the full API.
+
+### Text
+
+`Text` is the typographic primitive. It renders a `<p>` by default and accepts an
+`as` prop to change the element without changing the styling.
+
+```tsx
+import { Text } from "@wondesign/texts";
+
+<Text as="span" size="sm" tone="muted">
+  Fine print
+</Text>;
+```
+
+### Callout
+
+`Callout` draws attention to a block of content. It has `info`, `success`,
+`warning`, and `danger` variants.
+
+```tsx
+import { Callout } from "@wondesign/texts";
+
+<Callout variant="warning" title="Heads up">
+  This action cannot be undone.
+</Callout>;
+```
+
+### Button
+
+`Button` supports variants (`solid`, `soft`, `outline`, `ghost`), sizes, loading
+state, and icon slots.
+
+```tsx
+import { Button } from "@wondesign/buttons";
+
+<Button variant="outline" size="lg" loading>
+  Saving
+</Button>;
+```
+
+### Link
+
+`Link` is a styled anchor that integrates with your router. Pass `url` for the
+destination; pass a router component through the `as` prop for client-side
+navigation.
+
+```tsx
+import { Link } from "@wondesign/buttons";
+
+<Link url="/pricing">See pricing</Link>;
+```
+
+## Usage patterns
+
+### Composition over configuration
+
+Prefer composing small components over passing large configuration objects. If a
+component grows a dozen boolean props, that is a smell.
+
+### Controlled and uncontrolled
+
+Interactive components accept both a controlled `value` / `onChange` pair and an
+uncontrolled `defaultValue`. Pick one; do not mix them on the same instance.
+
+### Portals and stacking
+
+Overlays render through a portal into a container managed by the provider. If you
+nest providers, the innermost one wins for portal placement.
+
+### Server components
+
+The primitives are server-safe. Anything with interactivity is marked with
+`"use client"` and must be imported from a client boundary.
+
+## Accessibility
+
+### Focus management
+
+Overlays trap focus while open and restore it to the trigger on close. Do not
+disable this without a replacement plan.
+
+### Keyboard interaction
+
+Every interactive component is operable with the keyboard alone. Menus support
+type-ahead. Dialogs close on `Escape` unless you opt out.
+
+### Reduced motion
+
+When `prefers-reduced-motion: reduce` is set, transitions collapse to near-zero
+duration. Respect this in your own extensions.
+
+### Color contrast
+
+The default light and dark themes meet WCAG AA for body text. If you retheme,
+re-check contrast — the system cannot do it for you.
+
+## Performance
+
+### Bundle size
+
+Core is small. Import components individually so tree-shaking can drop what you
+do not use. Avoid barrel files that re-export everything.
+
+### Runtime cost
+
+Styling is static CSS, so there is no runtime style recalculation on the hot
+path. Context updates are scoped to theme changes, which are rare.
+
+### Measuring
+
+Use your framework's build analyzer and the browser performance panel. Do not
+guess.
+
+## Migration
+
+### From version 1
+
+- `href` is now `url` on `Link`
+- `Text` no longer accepts `variant`; use `size` and `tone`
+- The default export was removed; use named imports
+
+### From other systems
+
+There is no automated codemod. Migrate one screen at a time, keep both systems
+mounted during the transition, and delete the old imports last.
+
+## Troubleshooting
+
+### Styles are missing
+
+You forgot to import `@wondesign/core/styles.css`, or your bundler is stripping
+side-effect imports. Add the package to your bundler's allowlist.
+
+### Wrong colors in dark mode
+
+Your dark selector does not match what the provider sets. Check whether you are
+using a class or a data attribute and align your CSS.
+
+### Hydration mismatch
+
+Something rendered a theme-dependent value on the server that differed on the
+client. Defer theme-dependent rendering until after mount, or read the theme from
+a cookie on the server.
+
+### Two copies of React
+
+Deduplicate your lockfile. With pnpm, try `pnpm dedupe`. With npm, delete
+`node_modules` and the lockfile, then reinstall.
+
+### TypeScript cannot find types
+
+Your `moduleResolution` is set to `node` instead of `bundler` or `node16`.
+Update `tsconfig.json`.
+
+### The portal renders in the wrong place
+
+You have nested providers. Remove the inner one or set its portal container
+explicitly.
+
+## Frequently asked questions
+
+### Can I use this without React?
+
+No. The components are React components. The token layer is plain CSS and could
+be reused, but that is not supported.
+
+### Does it work with Next.js?
+
+Yes. The primitives are server components; interactive pieces are client
+components. Import them from the right boundary.
+
+### Can I override a single component's styles?
+
+Yes, through its component-level tokens or by targeting its stable class name.
+Avoid deep descendant selectors.
+
+### Is there a Figma library?
+
+Not an official one.
+
+### How do I report a bug?
+
+Open an issue with a minimal reproduction. "It does not work" will be closed.
+
+## Appendix A: token reference
+
+This appendix repeats the token names in one place so you can grep it.
+
+- `--won-color-accent`
+- `--won-color-accent-contrast`
+- `--won-color-surface`
+- `--won-color-surface-raised`
+- `--won-color-text`
+- `--won-color-text-muted`
+- `--won-color-border`
+- `--won-space-1` … `--won-space-8`
+- `--won-radius-sm` … `--won-radius-xl`, `--won-radius-full`
+- `--won-shadow-1` … `--won-shadow-4`
+- `--won-font-sans`, `--won-font-mono`
+- `--won-text-sm` … `--won-text-lg`
+- `--won-leading-normal`
+
+## Appendix B: example theme
+
+```css
+:root {
+  --won-color-accent: #4f46e5;
+  --won-color-accent-contrast: #ffffff;
+  --won-color-surface: #ffffff;
+  --won-color-surface-raised: #f8fafc;
+  --won-color-text: #0f172a;
+  --won-color-text-muted: #475569;
+  --won-color-border: #e2e8f0;
+  --won-radius-sm: 4px;
+  --won-radius-md: 8px;
+  --won-radius-lg: 12px;
+  --won-radius-xl: 16px;
+  --won-radius-full: 9999px;
+}
+
+[data-theme="dark"] {
+  --won-color-surface: #0f172a;
+  --won-color-surface-raised: #1e293b;
+  --won-color-text: #f1f5f9;
+  --won-color-text-muted: #94a3b8;
+  --won-color-border: #334155;
+}
+```
+
+## Appendix C: long prose for scroll testing
+
+The following paragraphs contain no useful information. They exist so the page
+scrolls well past a single viewport and the table of contents has to track
+through many sections.
+
+Consistency is the quiet virtue of a design system. Any one screen can be made
+beautiful by hand; the hard part is making the hundredth screen look like it
+belongs to the same product as the first. Tokens buy you that consistency by
+removing the moment of choice — a developer reaches for `--won-space-4` instead
+of typing `16px`, and the decision has already been made, once, by someone who
+thought about it.
+
+Constraints are a feature. A spacing scale with eight steps is easier to use than
+an infinite ruler, because most of the time you do not want to think about
+whether the gap should be seventeen or eighteen pixels. You want it to match the
+gap on the next card over. The scale makes the matching automatic.
+
+Escape hatches matter too. Every rule in a design system eventually meets a
+layout that breaks it, and a system with no way out forces people to abandon it
+entirely at the first friction. WonDesign leans on CSS variables precisely
+because they are easy to override in a single place without forking anything.
+
+Documentation is part of the product. A component that is not documented does not
+exist, in the sense that no one outside the team can use it with confidence. This
+is why each component page carries a full prop table, a few worked examples, and
+notes on accessibility — the parts people actually need when they are trying to
+ship.
+
+Performance is a design concern, not just an engineering one. A gorgeous
+interface that janks on scroll or blocks the main thread for two hundred
+milliseconds feels cheap regardless of how it looks in a screenshot. Static CSS,
+small bundles, and scoped context updates are how this system keeps the
+interaction budget intact.
+
+Accessibility is also a design concern. Focus order, contrast, keyboard support,
+and reduced-motion handling are not features you bolt on at the end; they are
+constraints that shape the component from the first sketch. A dialog that cannot
+be closed with the keyboard is not finished, no matter how nice the backdrop
+blur looks.
+
+Naming is the last hard problem. `Callout` or `Alert` or `Banner` or `Notice` —
+each name pulls in slightly different expectations, and once a name ships it is
+almost impossible to change without breaking everyone. The rule here is boring on
+purpose: pick the word a newcomer would guess first, and never be clever.
+
+You have now scrolled through the entire getting-started page. If your table of
+contents highlighted each section as it entered the viewport, scroll-spy is
+working. If the anchor links jumped cleanly to each heading, fragment navigation
+is working. If a "back to top" control appeared somewhere along the way, that is
+working too.
+
+### The end
+
+That is all. Head to any component page for the real API documentation.

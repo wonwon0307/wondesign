@@ -1,9 +1,3 @@
 {
-  "items": [
-    {
-      "type": "link",
-      "href": "/getting-started",
-      "label": "Getting Started"
-    }
-  ]
+  "sidebar": ["[Getting Started](/getting-started)"]
 }

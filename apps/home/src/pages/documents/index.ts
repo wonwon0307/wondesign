@@ -1,3 +1,1 @@
-export { generateMetadata } from "./models/metadata";
-
-export { DocumentPage } from "./ui/DocumentPage";
+export { DocumentPage, generateMetadata } from "./ui/DocumentPage";
