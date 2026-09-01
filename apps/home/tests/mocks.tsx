@@ -13,13 +13,14 @@ vi.mock("next/font/google", () => ({
   }),
 }));
 vi.mock("next/navigation", () => ({
+  notFound: vi.fn(),
   redirect: vi.fn(),
   usePathname: vi.fn().mockReturnValue("/test-collection/test-link"),
   RedirectType: {
     replace: "replace",
   },
 }));
-vi.mock("@wondocs/core/page", () => ({
+vi.mock("@wondocs/core/pages", () => ({
   getPage: vi.fn().mockReturnValue({
     component: () =>
       Promise.resolve({
@@ -31,6 +32,13 @@ vi.mock("@wondocs/core/page", () => ({
       title: "Example Page Title",
       description: "Example Page Description",
     },
+    toc: [
+      {
+        href: "section-1",
+        depth: 1,
+        value: "Section 1",
+      },
+    ],
   }),
 }));
 vi.mock("@wondocs/core/sidebar", () => ({
@@ -38,7 +46,7 @@ vi.mock("@wondocs/core/sidebar", () => ({
     {
       type: "link",
       label: "Test Link",
-      href: "/test-link",
+      url: "/test-link",
     },
     {
       type: "separator",
@@ -50,13 +58,13 @@ vi.mock("@wondocs/core/sidebar", () => ({
         {
           type: "link",
           label: "Nested Link 1",
-          href: "/nested-link-1",
+          url: "/nested-link-1",
         },
         {
           type: "link",
           label: "Nested Link 2",
-          href: "/nested-link-2",
-          badge: "coming-soon",
+          url: "/nested-link-2",
+          right: "coming-soon",
         },
       ],
     },
@@ -66,12 +74,12 @@ vi.mock("@wondocs/core/sidebar", () => ({
     {
       type: "link",
       label: "Test Link 2",
-      href: "/test-link-2",
+      url: "/test-link-2",
       items: [
         {
           type: "link",
           label: "Nested Link 3",
-          href: "/nested-link-3",
+          url: "/nested-link-3",
         },
       ],
     },
@@ -81,6 +89,11 @@ vi.mock("@wondocs/core/sidebar", () => ({
 vi.mock("@wondesign/ui/Buttons", () => ({
   Anchor: ({ children, ...props }: { children: React.ReactNode }) => (
     <a {...props} data-testid="anchor">
+      {children}
+    </a>
+  ),
+  Link: ({ children, ...props }: { children: React.ReactNode }) => (
+    <a {...props} data-testid="link">
       {children}
     </a>
   ),
