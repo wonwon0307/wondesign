@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { getPage } from "@wondocs/core/page";
+
+import { getPage } from "../api/page";
 
 interface Props {
-  params: Promise<{ slug: string[] }>;
+  params: Promise<{ collection: string; slug: string[] }>;
 }
 
 export async function generateMetadata({
   params,
 }: Readonly<Props>): Promise<Metadata> {
-  const { slug } = await params;
+  const { collection, slug } = await params;
 
-  const { meta } = getPage(slug.join("/"));
+  const { meta } = getPage(collection, slug);
 
   return {
     title: meta.title,
