@@ -14,5 +14,5 @@ export async function CollectionRedirect({ params }: Props) {
   // Ensure First Item in meta.json is always a link
   const firstItem = sidebarItems[0] as DocsLink;
 
-  redirect(firstItem.href, RedirectType.replace);
+  redirect(firstItem.url, RedirectType.replace);
 }
