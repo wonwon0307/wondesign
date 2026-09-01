@@ -6,7 +6,9 @@ const withVanillaExtract = createVanillaExtractPlugin({
   unstable_turbopack: { mode: "on" },
 });
 
-const withWonDocs = createWonDocs();
+const withWonDocs = createWonDocs({
+  contentsDir: ["./docs/components", "./docs/primitives"],
+});
 
 const nextConfig: NextConfig = {
   /* config options here */
