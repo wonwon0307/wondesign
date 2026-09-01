@@ -1,8 +1,3 @@
 {
-  "sidebar": [
-    "[Getting Started](/getting-started)",
-    "[Tokens](/tokens)",
-    "[Linter](/lint)",
-    "[Colors](/colors)"
-  ]
+  "sidebar": ["[Getting Started](/getting-started)"]
 }
