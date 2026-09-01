@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { Metadata } from "next";
 import { Link } from "@wondesign/ui/Buttons";
 
 import { getPage } from "../api/page";
@@ -6,6 +7,19 @@ import { styles } from "./styles.css";
 
 interface Props {
   params: Promise<{ collection: string; slug: string[] }>;
+}
+
+export async function generateMetadata({
+  params,
+}: Readonly<Props>): Promise<Metadata> {
+  const { collection, slug } = await params;
+
+  const { meta } = getPage(collection, slug);
+
+  return {
+    title: meta.title,
+    description: meta.description,
+  };
 }
 
 export async function DocumentPage({ params }: Readonly<Props>) {
