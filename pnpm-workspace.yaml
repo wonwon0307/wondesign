@@ -18,8 +18,5 @@ allowBuilds:
   unrs-resolver: false
 
 minimumReleaseAgeExclude:
-  - '@wondocs/core@0.1.0-beta.3'
-  - '@wondocs/next-plugin@0.1.0-beta.3'
-
-overrides:
-  nanoid: "3.3.18"
+  - '@wondocs/core@0.1.0-beta.4'
+  - '@wondocs/next-plugin@0.1.0-beta.4'
