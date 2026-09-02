@@ -1,23 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { mediaQueries, tokens } from "@wondesign/ui";
 
-const container = style({
-  display: "flex",
-  flexDirection: "column",
-});
-
-const header = style({});
-
-const body = style({
-  display: "flex",
-  flexDirection: "row",
-  gap: tokens.spacing.lg,
-});
-
-const contents = style({
-  flex: 1,
-});
-
 const toc = style({
   display: "flex",
   flexDirection: "column",
@@ -35,4 +18,4 @@ const toc = style({
   },
 });
 
-export const styles = { container, header, body, contents, toc };
+export const styles = { toc };
