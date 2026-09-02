@@ -1,3 +1,3 @@
-export { generateMetadata } from "@/pages/documents";
+export { generateMetadata } from "@/pages/document/metadata";
 
-export { DocumentPage as default } from "@/pages/documents";
+export { DocumentPage as default } from "@/pages/document/page";

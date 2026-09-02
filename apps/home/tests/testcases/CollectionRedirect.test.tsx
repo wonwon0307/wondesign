@@ -1,6 +1,6 @@
 import * as navigation from "next/navigation";
 
-import { CollectionRedirect } from "@/pages/collections";
+import { CollectionRedirect } from "@/pages/collection/page";
 
 describe("CollectionRedirect", () => {
   it("renders correctly", async () => {

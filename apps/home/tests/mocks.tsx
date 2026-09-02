@@ -64,7 +64,7 @@ vi.mock("@wondocs/core/sidebar", () => ({
           type: "link",
           label: "Nested Link 2",
           url: "/nested-link-2",
-          right: "coming-soon",
+          right: "Coming Soon",
         },
       ],
     },
