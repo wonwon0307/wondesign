@@ -7,7 +7,7 @@ import {
 import { ThemeProvider, wondesignDefault } from "@wondesign/ui";
 import clsx from "clsx";
 
-import { Header } from "@/widgets/root";
+import { Header } from "./header/header";
 import { styles } from "./styles.css";
 import "@wondesign/ui/styles.css";
 
