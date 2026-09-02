@@ -24,6 +24,7 @@ export function SidebarLink({ link, children }: Readonly<Props>) {
     <SidebarItem
       defaultOpen={startsWithUrl}
       isActive={isActive}
+      isDisabled={link.disabled}
       label={link.label}
       href={link.url}
       icon={children ? <SidebarItemToggle size={16} /> : <div />}
@@ -40,7 +41,7 @@ interface StatusProps {
 }
 
 function SidebarStatus({ badge }: Readonly<StatusProps>) {
-  if (badge === "coming-soon") {
+  if (badge === "Coming Soon") {
     return <Badge color="#e18115" label={badge} />;
   }
   return null;
