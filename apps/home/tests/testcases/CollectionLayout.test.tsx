@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { CollectionLayout } from "@/pages/collections";
+import { CollectionLayout } from "@/pages/collection/layout";
 
 describe("CollectionLayout", () => {
   it("renders sidebar correctly", async () => {

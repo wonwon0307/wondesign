@@ -3,7 +3,8 @@ import { render } from "@testing-library/react";
 import * as Next from "next/navigation";
 import * as DocsPages from "@wondocs/core/pages";
 
-import { DocumentPage, generateMetadata } from "@/pages/documents";
+import { generateMetadata } from "@/pages/document/metadata";
+import { DocumentPage } from "@/pages/document/page";
 
 describe("DocumentPage", () => {
   const params = Promise.resolve({
