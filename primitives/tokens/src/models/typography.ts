@@ -60,19 +60,19 @@ export const typographyCssVariables: TypographyTokens = {
 
 export const defaultTypographyTokens: TypographyTokens = {
   fontSize: {
-    headingSmall: "1.5rem",
-    headingMedium: "2rem",
-    headingLarge: "2.5rem",
-    bodySmall: "0.875rem",
-    bodyMedium: "1rem",
-    bodyLarge: "1.125rem",
+    headingSmall: "1.25rem",
+    headingMedium: "1.5rem",
+    headingLarge: "1.75rem",
+    bodySmall: "0.75rem",
+    bodyMedium: "0.875rem",
+    bodyLarge: "1rem",
   },
   lineHeight: {
-    headingSmall: "1.8rem",
-    headingMedium: "2.4rem",
-    headingLarge: "2.7rem",
+    headingSmall: "1.75rem",
+    headingMedium: "2rem",
+    headingLarge: "2.5rem",
     bodySmall: "1.25rem",
-    bodyMedium: "1.5rem",
+    bodyMedium: "1.375rem",
     bodyLarge: "1.5rem",
   },
   fontWeight: {
