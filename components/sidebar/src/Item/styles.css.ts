@@ -86,8 +86,8 @@ const indicator = style({
 const subitems = style({
   display: "flex",
   flexDirection: "column",
-  gap: tokens.spacing.sm,
   paddingLeft: tokens.spacing.xl,
+  gap: tokens.spacing.xs,
 });
 
 const toggle = style({

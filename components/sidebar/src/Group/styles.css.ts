@@ -4,8 +4,6 @@ import { mediaQueries, tokens } from "@wondesign/tokens";
 const group = style({
   display: "flex",
   flexDirection: "column",
-  padding: `${tokens.spacing.sm} 0`,
-  margin: `${tokens.spacing.md} 0`,
   gap: tokens.spacing.xs,
 });
 
@@ -14,10 +12,9 @@ const header = style({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `0 ${tokens.spacing.sm}`,
+  padding: `${tokens.spacing.sm} ${tokens.spacing.md}`,
   borderRadius: tokens.radius.md,
-  fontSize: tokens.typography.fontSize.bodySmall,
-  lineHeight: tokens.typography.lineHeight.bodySmall,
+  font: tokens.text.bodySmall,
   fontWeight: tokens.typography.fontWeight.semibold,
   color: tokens.colors.textMuted,
 
@@ -92,8 +89,7 @@ const icon = style({
 const subitems = style({
   display: "flex",
   flexDirection: "column",
-  paddingLeft: tokens.spacing.md,
-  gap: tokens.spacing.sm,
+  gap: tokens.spacing.xs,
 });
 
 export const styles = {
