@@ -1,7 +1,7 @@
 import { SidebarProvider, Sidebar, SidebarNav } from "@wondesign/ui/Sidebar";
 import { getSidebar } from "@wondocs/core/sidebar";
 
-import { DocsSidebarItem } from "@/entities/document";
+import { DocsSidebarItem } from "@/entities/sidebar";
 import { styles } from "./styles.css";
 
 interface Props {

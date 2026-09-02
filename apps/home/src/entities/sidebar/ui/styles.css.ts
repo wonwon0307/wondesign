@@ -2,7 +2,7 @@ import { style } from "@vanilla-extract/css";
 
 const item = style({
   display: "grid",
-  gridTemplateColumns: "24px 1fr auto",
+  gridTemplateColumns: "20px 1fr auto",
   alignItems: "center",
 });
 
