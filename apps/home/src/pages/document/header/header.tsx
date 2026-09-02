@@ -13,7 +13,7 @@ export function DocumentHeader({ meta }: Readonly<Props>) {
       <h1>{meta.title}</h1>
       <h3>{meta.description}</h3>
       {/*breadcrumbs*/}
-      {meta.component && (
+      {meta.type === "component" && (
         <div className={styles.tabs}>
           <TabLink href="./overview">Overview</TabLink>
           <TabLink href="./examples">Examples</TabLink>

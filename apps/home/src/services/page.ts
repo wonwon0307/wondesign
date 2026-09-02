@@ -14,8 +14,8 @@ export function getPage(collection: string, slug: string[]) {
     notFound();
   }
 
-  if (data.meta.component === true) {
-    redirect(`/${collection}/${slug.join("/")}/overview`, RedirectType.replace);
+  if (data.meta.redirect) {
+    redirect(data.meta.redirect, RedirectType.replace);
   }
 
   return data;
