@@ -2,7 +2,7 @@ import {
   Tooltip as Headless,
   type TooltipProps as HeadlessProps,
 } from "@wondesign/headless-ui/Tooltip";
-import { Text } from "@wondesign/texts/Text";
+import { Description } from "@wondesign/texts/Description";
 import clsx from "clsx";
 
 import { TooltipArrow } from "./Arrow/Arrow";
@@ -74,7 +74,7 @@ export function Tooltip({
         {left}
         {text && (
           <TooltipMessage asChild>
-            {isString ? <Text variant="bodySmall">{text}</Text> : text}
+            {isString ? <Description size="small">{text}</Description> : text}
           </TooltipMessage>
         )}
         {right}
