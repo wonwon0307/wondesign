@@ -31,7 +31,7 @@ export function IconLink({
   return (
     <Anchor
       {...rest}
-      className={clsx(styles.iconButton({ rounded, ghost, size }), className)}
+      className={clsx(styles.iconlink({ rounded, ghost, size }), className)}
     >
       {icon ? <AppIcon icon={icon} /> : children}
     </Anchor>
