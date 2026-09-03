@@ -1,25 +1,24 @@
-export interface AnchorProps extends Omit<
+export interface HeadlessAnchorProps extends Omit<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,
   "target" | "rel" | "aria-disabled" | "aria-current"
 > {
   as?: React.ElementType;
   isDisabled?: boolean;
-  isExternal?: boolean;
+  isNewTab?: boolean;
 }
 
-export function Anchor({
+export function HeadlessAnchor({
   children,
   href,
   onClick,
   onKeyDown,
-  isExternal,
   isDisabled = false,
+  isNewTab,
   as: Component = "a",
   ...rest
-}: Readonly<AnchorProps>) {
-  const hrefExternal =
-    !!href && (href.includes("://") || href.startsWith("//"));
-  const newTab = isExternal ?? hrefExternal;
+}: Readonly<HeadlessAnchorProps>) {
+  const isExternal = !!href && (href.includes("://") || href.startsWith("//"));
+  const newTab = isNewTab ?? isExternal;
 
   const doNothingOnClick = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
