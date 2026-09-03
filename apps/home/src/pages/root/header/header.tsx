@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import { Anchor, IconLink, TabLink } from "@wondesign/ui/Buttons";
 import { AppIcon } from "@wondesign/ui/Icons";
-import { Text } from "@wondesign/ui/Texts";
 import { Tooltip } from "@wondesign/ui/Tooltip";
 
 import { WonDesignLogo, GithubLogo } from "@/shared/ui/Logos";
@@ -21,9 +20,7 @@ export function Header() {
       <div className={styles.headerLeft}>
         <Anchor href="/" className={styles.homeLink}>
           <WonDesignLogo size={32} />
-          <Text variant="hero" className={styles.homeText}>
-            WonDesign
-          </Text>
+          <span className={styles.homeText}>WonDesign</span>
         </Anchor>
       </div>
       <nav

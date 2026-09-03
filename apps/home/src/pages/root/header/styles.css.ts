@@ -79,6 +79,7 @@ const homeLink = style({
 
 const homeText = style({
   marginTop: tokens.spacing.md,
+  font: tokens.text.hero,
   "@media": {
     [mediaQueries.breakpoints.small]: {
       display: "none",
