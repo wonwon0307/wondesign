@@ -10,8 +10,8 @@ const iconlink = recipe({
     padding: tokens.spacing.sm,
 
     borderRadius: tokens.radius.sm,
-    backgroundColor: "transparent",
-    transition: "all 0.3s ease",
+    backgroundColor: tokens.colors.background,
+    transition: "background-color 0.15s ease, color 0.15s ease",
     selectors: {
       "&[data-disabled]": {
         color: tokens.colors.textMuted,
@@ -20,7 +20,7 @@ const iconlink = recipe({
     "@media": {
       [mediaQueries.hoverable]: {
         selectors: {
-          "&:not(:disabled):hover": {
+          "&:not([data-disabled]):hover": {
             backgroundColor: tokens.colors.backgroundHover,
           },
         },
