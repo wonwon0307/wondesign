@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { Anchor, IconLink, TabLink } from "@wondesign/ui/Buttons";
+//import { usePathname } from "next/navigation";
+import { Anchor, IconLink } from "@wondesign/ui/Links";
 import { AppIcon } from "@wondesign/ui/Icons";
 import { Tooltip } from "@wondesign/ui/Tooltip";
 
@@ -13,7 +13,7 @@ export function Header() {
     { label: "Primitives", href: "/primitives" },
     { label: "Components", href: "/components" },
   ];
-  const pathname = usePathname();
+  //const pathname = usePathname();
 
   return (
     <header role="banner" className={styles.header}>
@@ -29,13 +29,13 @@ export function Header() {
         aria-label="Main Tab Navigation"
       >
         {pages.map((page) => (
-          <TabLink
+          <Anchor
             key={page.href}
             href={page.href}
-            isActive={pathname?.startsWith(page.href)}
+            //isActive={pathname?.startsWith(page.href)}
           >
             {page.label}
-          </TabLink>
+          </Anchor>
         ))}
       </nav>
       <div className={styles.headerRight}>
@@ -43,12 +43,12 @@ export function Header() {
           text="View the source code on GitHub"
           left={<AppIcon icon="external-link" />}
         >
-          <IconLink href="https://github.com/wonwon0307/wondesign" isExternal>
+          <IconLink href="https://github.com/wonwon0307/wondesign" openInNewTab>
             <GithubLogo />
           </IconLink>
         </Tooltip>
         <Tooltip text="Read my blog" left={<AppIcon icon="external-link" />}>
-          <IconLink href="https://justwon.dev" isExternal>
+          <IconLink href="https://justwon.dev" openInNewTab>
             BlogLink
           </IconLink>
         </Tooltip>
