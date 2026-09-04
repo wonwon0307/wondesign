@@ -6,3 +6,6 @@ export type { HyperlinkProps } from "@wondesign/links/Hyperlink";
 
 export { IconLink } from "@wondesign/links/IconLink";
 export type { IconLinkProps } from "@wondesign/links/IconLink";
+
+export { NavList, NavLink } from "@wondesign/links/NavList";
+export type { NavListProps, NavLinkProps } from "@wondesign/links/NavList";
