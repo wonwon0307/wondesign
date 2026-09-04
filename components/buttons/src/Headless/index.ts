@@ -1,3 +1,3 @@
 export { HeadlessButton } from "./HeadlessButton";
 
-export type { ButtonProps } from "./HeadlessButton";
+export type { HeadlessButtonProps } from "./HeadlessButton";

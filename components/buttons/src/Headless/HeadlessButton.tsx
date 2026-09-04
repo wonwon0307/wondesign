@@ -1,7 +1,7 @@
 import { type ButtonHTMLAttributes } from "react";
 import { AsChild } from "@wondesign/components-core/asChild";
 
-export interface ButtonProps
+export interface HeadlessButtonProps
   extends
     Omit<
       ButtonHTMLAttributes<HTMLButtonElement>,
@@ -23,7 +23,7 @@ export function HeadlessButton({
   type = "button",
   ref,
   ...rest
-}: Readonly<ButtonProps>) {
+}: Readonly<HeadlessButtonProps>) {
   const disableEvents = isDisabled || isLoading;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
