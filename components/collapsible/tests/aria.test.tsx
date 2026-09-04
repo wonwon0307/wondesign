@@ -1,53 +1,53 @@
 import { fireEvent, render } from "@testing-library/react";
 
-import { TestCollapsible } from "./_setup";
+import { TestCollapsible } from "./test-component";
 
 describe("Collapsible - aria attributes", () => {
   it("should have correct aria attributes when open and closed", () => {
-    const { getByText } = render(<TestCollapsible>Content</TestCollapsible>);
+    const { getByText, queryByText } = render(
+      <TestCollapsible>Content</TestCollapsible>,
+    );
 
     const toggleButton = getByText("Toggle");
-    const content = getByText("Content");
 
     // Initially closed
     expect(toggleButton.getAttribute("aria-expanded")).toBe("false");
-    expect(content).property("hidden", true);
+    expect(queryByText("Content")).toBeNull();
 
     // Open the collapsible
     fireEvent.click(toggleButton);
 
     expect(toggleButton.getAttribute("aria-expanded")).toBe("true");
-    expect(content).property("hidden", false); // hidden property should be false when open
+    expect(getByText("Content")).toBeTruthy(); // content should be visible when open
 
     // Close the collapsible again
     fireEvent.click(toggleButton);
 
     expect(toggleButton.getAttribute("aria-expanded")).toBe("false");
-    expect(content).property("hidden", true);
+    expect(queryByText("Content")).toBeNull();
   });
 
   it("should have correct aria attributes when role is 'group'", () => {
-    const { getByText } = render(
+    const { getByText, queryByText } = render(
       <TestCollapsible role="group">Group Content</TestCollapsible>,
     );
 
     const toggleButton = getByText("Toggle");
-    const content = getByText("Group Content");
 
     // Initially closed
     expect(toggleButton.getAttribute("aria-expanded")).toBe("false");
-    expect(content).property("hidden", true);
+    expect(queryByText("Group Content")).toBeNull();
 
     // Open the collapsible
     fireEvent.click(toggleButton);
 
     expect(toggleButton.getAttribute("aria-expanded")).toBe("true");
-    expect(content).property("hidden", false); // hidden property should be false when open
+    expect(getByText("Group Content")).toBeTruthy();
 
     // Close the collapsible again
     fireEvent.click(toggleButton);
 
     expect(toggleButton.getAttribute("aria-expanded")).toBe("false");
-    expect(content).property("hidden", true);
+    expect(queryByText("Group Content")).toBeNull();
   });
 });

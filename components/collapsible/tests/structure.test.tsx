@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { fireEvent, render } from "@testing-library/react";
 
-import { Collapsible } from "@/components/Collapsible";
+import { Collapsible } from "@/index";
 
 describe("Collapsible - structure", () => {
   it("Collapsible.Content must be used within the Collapsible wrapper", () => {
