@@ -21,7 +21,6 @@
   },
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "tsdown",
     "dev": "tsdown --watch",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
@@ -30,7 +29,7 @@
     "@vanilla-extract/css": "catalog:",
     "@vanilla-extract/recipes": "catalog:",
     "@vanilla-extract/rollup-plugin": "catalog:",
-    "@wondesign/headless-ui": "workspace:*",
+    "@wondesign/components-core": "workspace:*",
     "@wondesign/icons": "workspace:*",
     "@wondesign/tokens": "workspace:*",
     "clsx": "catalog:"
