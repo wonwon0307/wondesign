@@ -21,7 +21,7 @@
   },
   "scripts": {
     "prebuild": "rm -rf dist",
-    "dev": "tsdown --watch",
+    "build": "tsdown",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
