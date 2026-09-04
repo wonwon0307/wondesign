@@ -1,7 +1,8 @@
 export interface HeadlessAnchorProps extends Omit<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,
-  "target" | "rel" | "aria-disabled" | "aria-current"
+  "target" | "rel" | "aria-disabled"
 > {
+  ref?: React.Ref<HTMLAnchorElement>;
   as?: React.ElementType;
   isDisabled?: boolean;
   openInNewTab?: boolean;
@@ -15,6 +16,7 @@ export function HeadlessAnchor({
   isDisabled = false,
   openInNewTab,
   as: Component = "a",
+  tabIndex,
   ...rest
 }: Readonly<HeadlessAnchorProps>) {
   const isExternal = !!href && (href.includes("://") || href.startsWith("//"));
@@ -40,8 +42,11 @@ export function HeadlessAnchor({
       onKeyDown={isDisabled ? doNothingOnKeyDown : onKeyDown}
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noopener noreferrer" : undefined}
+      tabIndex={isDisabled ? -1 : tabIndex}
       aria-disabled={isDisabled || undefined}
-      tabIndex={isDisabled ? -1 : undefined}
+      data-disabled={isDisabled || undefined}
+      data-external={isExternal || undefined}
+      data-new-tab={newTab || undefined}
     >
       {children}
     </Component>
