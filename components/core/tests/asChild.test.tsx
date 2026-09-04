@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { AsChild } from "@/core/asChild";
+import { AsChild } from "@/asChild";
 
 describe("asChild corner cases", () => {
   const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
