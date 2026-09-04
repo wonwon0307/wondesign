@@ -2,7 +2,6 @@ import { style } from "@vanilla-extract/css";
 import { mediaQueries, tokens } from "@wondesign/tokens";
 
 const anchor = style({
-  whiteSpace: "nowrap",
   cursor: "pointer",
   selectors: {
     "&[data-disabled]": {
