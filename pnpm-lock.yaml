@@ -165,6 +165,34 @@ importers:
         specifier: workspace:*
         version: link:../../primitives/svg2tsx
 
+  components/links:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.2.8
+      react-dom:
+        specifier: ^19
+        version: 19.2.8(react@19.2.8)
+    devDependencies:
+      '@vanilla-extract/css':
+        specifier: 'catalog:'
+        version: 1.21.2
+      '@vanilla-extract/recipes':
+        specifier: 'catalog:'
+        version: 0.5.7(@vanilla-extract/css@1.21.2)
+      '@vanilla-extract/rollup-plugin':
+        specifier: 'catalog:'
+        version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
+      '@wondesign/icons':
+        specifier: workspace:*
+        version: link:../icons
+      '@wondesign/tokens':
+        specifier: workspace:*
+        version: link:../../primitives/tokens
+      clsx:
+        specifier: 'catalog:'
+        version: 2.1.1
+
   components/sidebar:
     dependencies:
       react:
@@ -344,6 +372,9 @@ importers:
       '@wondesign/icons':
         specifier: workspace:*
         version: link:../../components/icons
+      '@wondesign/links':
+        specifier: workspace:*
+        version: link:../../components/links
       '@wondesign/reset-css':
         specifier: workspace:*
         version: link:../../primitives/reset-css
