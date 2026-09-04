@@ -6,6 +6,8 @@ const container = style({
   flexDirection: "column",
 });
 
+const header = style({});
+
 const body = style({
   display: "flex",
   flexDirection: "row",
@@ -16,4 +18,4 @@ const contents = style({
   flex: 1,
 });
 
-export const styles = { container, body, contents };
+export const styles = { container, header, body, contents };
