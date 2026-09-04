@@ -15,7 +15,7 @@ export function NavList({
   ...rest
 }: Readonly<NavListProps>) {
   return (
-    <nav aria-label={ariaLabel}>
+    <nav aria-label={ariaLabel} role="navigation">
       <ul
         {...rest}
         className={clsx(
