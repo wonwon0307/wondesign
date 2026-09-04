@@ -1,7 +1,7 @@
 "use client";
 
-//import { usePathname } from "next/navigation";
-import { Anchor, IconLink } from "@wondesign/ui/Links";
+import { usePathname } from "next/navigation";
+import { Anchor, IconLink, NavList, NavLink } from "@wondesign/ui/Links";
 import { AppIcon } from "@wondesign/ui/Icons";
 import { Tooltip } from "@wondesign/ui/Tooltip";
 
@@ -13,7 +13,7 @@ export function Header() {
     { label: "Primitives", href: "/primitives" },
     { label: "Components", href: "/components" },
   ];
-  //const pathname = usePathname();
+  const pathname = usePathname();
 
   return (
     <header role="banner" className={styles.header}>
@@ -23,21 +23,17 @@ export function Header() {
           <span className={styles.homeText}>WonDesign</span>
         </Anchor>
       </div>
-      <nav
-        className={styles.tabs}
-        role="navigation"
-        aria-label="Main Tab Navigation"
-      >
+      <NavList className={styles.tabs} aria-label="Main Tab Navigation">
         {pages.map((page) => (
-          <Anchor
+          <NavLink
             key={page.href}
             href={page.href}
-            //isActive={pathname?.startsWith(page.href)}
+            isActive={pathname?.startsWith(page.href)}
           >
             {page.label}
-          </Anchor>
+          </NavLink>
         ))}
-      </nav>
+      </NavList>
       <div className={styles.headerRight}>
         <Tooltip
           text="View the source code on GitHub"
