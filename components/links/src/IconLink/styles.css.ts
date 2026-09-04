@@ -39,9 +39,15 @@ const iconlink = recipe({
       },
     },
     size: {
-      small: {},
-      medium: {},
-      large: {},
+      small: {
+        padding: tokens.spacing.xs,
+      },
+      medium: {
+        padding: tokens.spacing.sm,
+      },
+      large: {
+        padding: tokens.spacing.md,
+      },
     },
   },
 });
