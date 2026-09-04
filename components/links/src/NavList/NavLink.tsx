@@ -19,6 +19,7 @@ export function NavLink({
         {...rest}
         className={clsx(styles.navLink({ isActive }), className)}
         aria-current={isActive ? "page" : undefined}
+        data-active={isActive ? "true" : "false"}
       >
         {children}
       </Anchor>
