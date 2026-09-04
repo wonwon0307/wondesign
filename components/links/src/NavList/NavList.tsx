@@ -22,6 +22,7 @@ export function NavList({
           styles.list({ orientation: vertical ? "vertical" : "horizontal" }),
           className,
         )}
+        data-orientation={vertical ? "vertical" : "horizontal"}
       >
         {children}
       </ul>
