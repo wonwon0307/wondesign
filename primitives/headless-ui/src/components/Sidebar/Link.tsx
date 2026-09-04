@@ -1,12 +1,15 @@
-import { Anchor, type AnchorProps } from "@/components/Anchor";
 import { useSidebar } from "./_internals/contexts";
 
-export interface SidebarLinkProps extends AnchorProps {
+export interface SidebarLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  as?: React.ElementType;
   isActive?: boolean;
+  isDisabled?: boolean;
+  isExternal?: boolean;
 }
 
 export function SidebarLink({
   children,
+  as: Component = "a",
   href,
   isActive = false,
   isDisabled = false,
@@ -16,11 +19,12 @@ export function SidebarLink({
   const { state, isMobile } = useSidebar();
 
   return (
-    <Anchor
+    <Component
       {...rest}
       href={href}
-      isDisabled={isDisabled}
-      isExternal={isExternal}
+      //isDisabled={isDisabled}
+      //isExternal={isExternal}
+      target={isExternal ? "_blank" : undefined}
       aria-current={isActive ? "page" : undefined}
       data-active={isActive || undefined}
       data-disabled={isDisabled || undefined}
@@ -28,6 +32,6 @@ export function SidebarLink({
       data-device={isMobile ? "mobile" : "desktop"}
     >
       {children}
-    </Anchor>
+    </Component>
   );
 }

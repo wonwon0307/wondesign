@@ -1,4 +1,4 @@
-import { Link } from "@wondesign/ui/Buttons";
+import { Hyperlink } from "@wondesign/ui/Links";
 import type { DocsTocEntry } from "@wondocs/core/pages";
 
 import { styles } from "./styles.css";
@@ -14,14 +14,14 @@ export function TableOfContents({ items }: Readonly<Props>) {
       <ul>
         {items.map((item) => (
           <li key={item.href} data-depth={item.depth}>
-            <Link
+            <Hyperlink
               href={`#${item.href}`}
               aria-current={
                 /*item.href === activeId ? "location" : */ undefined
               }
             >
               {item.value}
-            </Link>
+            </Hyperlink>
           </li>
         ))}
       </ul>

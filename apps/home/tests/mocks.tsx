@@ -86,14 +86,9 @@ vi.mock("@wondocs/core/sidebar", () => ({
   ]),
 }));
 
-vi.mock("@wondesign/ui/Buttons", () => ({
+vi.mock("@wondesign/ui/Links", () => ({
   Anchor: ({ children, ...props }: { children: React.ReactNode }) => (
     <a {...props} data-testid="anchor">
-      {children}
-    </a>
-  ),
-  Link: ({ children, ...props }: { children: React.ReactNode }) => (
-    <a {...props} data-testid="link">
       {children}
     </a>
   ),
@@ -102,19 +97,8 @@ vi.mock("@wondesign/ui/Buttons", () => ({
       {children}
     </a>
   ),
-  TabLink: ({
-    children,
-    isActive,
-    ...props
-  }: {
-    children: React.ReactNode;
-    isActive?: boolean;
-  }) => (
-    <a
-      {...props}
-      data-testid="tab-link"
-      data-active={isActive ? "true" : "false"}
-    >
+  Hyperlink: ({ children, ...props }: { children: React.ReactNode }) => (
+    <a {...props} data-testid="link">
       {children}
     </a>
   ),

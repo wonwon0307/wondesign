@@ -18,8 +18,8 @@
     },
     "./styles.css": "./dist/styles.css",
     "./*": {
-      "types": "./dist/components/*/index.d.mts",
-      "default": "./dist/components/*/index.mjs"
+      "types": "./dist/components/*.d.mts",
+      "default": "./dist/components/*.mjs"
     }
   },
   "scripts": {
@@ -37,6 +37,7 @@
     "@wondesign/buttons": "workspace:*",
     "@wondesign/headless-ui": "workspace:*",
     "@wondesign/icons": "workspace:*",
+    "@wondesign/links": "workspace:*",
     "@wondesign/reset-css": "workspace:*",
     "@wondesign/sidebar": "workspace:*",
     "@wondesign/svg2tsx": "workspace:*",
