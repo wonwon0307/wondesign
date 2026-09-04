@@ -63,9 +63,9 @@ describe("HeadlessAnchor", () => {
   });
 
   describe("external behavior", () => {
-    it("opens in a new tab when isNewTab is true", () => {
+    it("opens in a new tab when openInNewTab is true", () => {
       const { getByText } = render(
-        <HeadlessAnchor href="https://example.com" isNewTab>
+        <HeadlessAnchor href="https://example.com" openInNewTab>
           External Anchor
         </HeadlessAnchor>,
       );
@@ -76,7 +76,7 @@ describe("HeadlessAnchor", () => {
       expect(anchor.getAttribute("rel")).toBe("noopener noreferrer");
     });
 
-    it("opens in a new tab for external anchors even when isNewTab prop is not set", () => {
+    it("opens in a new tab for external anchors even when openInNewTab prop is not set", () => {
       const { getByText } = render(
         <HeadlessAnchor href="https://example.com">
           External Anchor
@@ -89,9 +89,9 @@ describe("HeadlessAnchor", () => {
       expect(anchor.getAttribute("rel")).toBe("noopener noreferrer");
     });
 
-    it("does not open in a new tab when isNewTab is false even for external anchors", () => {
+    it("does not open in a new tab when openInNewTab is false even for external anchors", () => {
       const { getByText } = render(
-        <HeadlessAnchor href="https://example.com" isNewTab={false}>
+        <HeadlessAnchor href="https://example.com" openInNewTab={false}>
           External Anchor
         </HeadlessAnchor>,
       );
@@ -123,7 +123,7 @@ describe("HeadlessAnchor", () => {
 
   it("handles as prop with newtab and disabled correctly", () => {
     const { getByText } = render(
-      <HeadlessAnchor href="/test" as="button" isNewTab isDisabled>
+      <HeadlessAnchor href="/test" as="button" openInNewTab isDisabled>
         Button Anchor
       </HeadlessAnchor>,
     );

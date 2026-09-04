@@ -4,7 +4,7 @@ export interface HeadlessAnchorProps extends Omit<
 > {
   as?: React.ElementType;
   isDisabled?: boolean;
-  isNewTab?: boolean;
+  openInNewTab?: boolean;
 }
 
 export function HeadlessAnchor({
@@ -13,12 +13,12 @@ export function HeadlessAnchor({
   onClick,
   onKeyDown,
   isDisabled = false,
-  isNewTab,
+  openInNewTab,
   as: Component = "a",
   ...rest
 }: Readonly<HeadlessAnchorProps>) {
   const isExternal = !!href && (href.includes("://") || href.startsWith("//"));
-  const newTab = isNewTab ?? isExternal;
+  const newTab = openInNewTab ?? isExternal;
 
   const doNothingOnClick = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
