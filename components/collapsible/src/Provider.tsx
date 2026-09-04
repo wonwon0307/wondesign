@@ -1,15 +1,14 @@
 import { useCallback, useId, useMemo } from "react";
+import { useOpenState } from "@wondesign/components-core/useOpenState";
 
-import { useOpenState } from "@/core/disclosure";
-import { CollapsibleContext } from "./_internals/contexts";
+import { CollapsibleContext } from "./contexts";
 
 export interface CollapsibleProps {
   children: React.ReactNode;
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;
-  isDisabled?: boolean;
-  unmountOnHide?: boolean;
+  keepMounted?: boolean;
 }
 
 export function CollapsibleProvider({
@@ -17,8 +16,7 @@ export function CollapsibleProvider({
   isOpen: controlledOpen,
   onOpenChange,
   defaultOpen = false,
-  isDisabled = false,
-  unmountOnHide = false,
+  keepMounted = false,
 }: Readonly<CollapsibleProps>) {
   const { isOpen, show, hide } = useOpenState(
     controlledOpen,
@@ -38,14 +36,13 @@ export function CollapsibleProvider({
 
   const contextValue = useMemo(
     () => ({
-      isOpen: isDisabled ? false : isOpen,
-      isDisabled,
-      unmountOnHide,
+      isOpen,
+      keepMounted,
       toggle,
       contentId,
       toggleId,
     }),
-    [isOpen, isDisabled, unmountOnHide, toggle, contentId, toggleId],
+    [isOpen, keepMounted, toggle, contentId, toggleId],
   );
 
   return (
