@@ -1,11 +1,11 @@
 import { fireEvent, render } from "@testing-library/react";
 
-import { Button } from "@/components/Button";
+import { HeadlessButton } from "@/Headless";
 
-describe("Button", () => {
+describe("HeadlessButton", () => {
   it("renders a button element by default", () => {
     const { getByTestId } = render(
-      <Button data-testid="button">Click me</Button>,
+      <HeadlessButton data-testid="button">Click me</HeadlessButton>,
     );
 
     const button = getByTestId("button");
@@ -18,14 +18,14 @@ describe("Button", () => {
     const onKeyDown = vi.fn();
 
     const { getByTestId } = render(
-      <Button
+      <HeadlessButton
         data-testid="button"
         isDisabled
         onClick={onClick}
         onKeyDown={onKeyDown}
       >
         Click me
-      </Button>,
+      </HeadlessButton>,
     );
 
     const button = getByTestId("button");
@@ -51,14 +51,14 @@ describe("Button", () => {
     const onKeyDown = vi.fn();
 
     const { getByTestId } = render(
-      <Button
+      <HeadlessButton
         data-testid="button"
         isLoading
         onClick={onClick}
         onKeyDown={onKeyDown}
       >
         Click me
-      </Button>,
+      </HeadlessButton>,
     );
 
     const button = getByTestId("button");
@@ -86,7 +86,7 @@ describe("Button", () => {
     const linkKeyDown = vi.fn();
 
     const { getByTestId } = render(
-      <Button
+      <HeadlessButton
         data-testid="button"
         asChild
         className="button-class"
@@ -103,7 +103,7 @@ describe("Button", () => {
         >
           Click me
         </a>
-      </Button>,
+      </HeadlessButton>,
     );
 
     const button = getByTestId("button");
@@ -135,7 +135,7 @@ describe("Button", () => {
     const onKeyDown = vi.fn();
 
     const { getByTestId } = render(
-      <Button
+      <HeadlessButton
         data-testid="button"
         asChild
         isDisabled
@@ -144,7 +144,7 @@ describe("Button", () => {
         onKeyDown={onKeyDown}
       >
         <a href="./test/">Click me</a>
-      </Button>,
+      </HeadlessButton>,
     );
 
     const button = getByTestId("button");
