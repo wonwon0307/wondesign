@@ -1,6 +1,5 @@
 import { type ButtonHTMLAttributes } from "react";
-
-import { AsChild } from "@/core/asChild";
+import { AsChild } from "@wondesign/components-core/asChild";
 
 export interface ButtonProps
   extends
@@ -14,7 +13,7 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
-export function Button({
+export function HeadlessButton({
   children,
   isDisabled = false,
   isLoading = false,
