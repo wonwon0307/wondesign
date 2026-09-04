@@ -1,9 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Anchor } from "@wondesign/ui/Links";
-
-import { styles } from "./styles.css";
+import { NavList, NavLink } from "@wondesign/ui/Links";
 
 export function ComponentDocumentTabs() {
   const pathname = usePathname();
@@ -13,16 +11,16 @@ export function ComponentDocumentTabs() {
   };
 
   return (
-    <div className={styles.tabs}>
-      <Anchor href="./overview" isDisabled={isActive("/overview")}>
+    <NavList>
+      <NavLink href="./overview" isActive={isActive("/overview")}>
         Overview
-      </Anchor>
-      <Anchor href="./examples" isDisabled={isActive("/examples")}>
+      </NavLink>
+      <NavLink href="./examples" isActive={isActive("/examples")}>
         Examples
-      </Anchor>
-      <Anchor href="./api" isDisabled={isActive("/api")}>
+      </NavLink>
+      <NavLink href="./api" isActive={isActive("/api")}>
         API
-      </Anchor>
-    </div>
+      </NavLink>
+    </NavList>
   );
 }

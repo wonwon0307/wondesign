@@ -102,6 +102,14 @@ vi.mock("@wondesign/ui/Links", () => ({
       {children}
     </a>
   ),
+  NavList: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="nav-list">{children}</div>
+  ),
+  NavLink: ({ children, ...props }: { children: React.ReactNode }) => (
+    <a {...props} data-testid="nav-link">
+      {children}
+    </a>
+  ),
 }));
 vi.mock("@wondesign/ui/Tooltip", () => ({
   Tooltip: ({
