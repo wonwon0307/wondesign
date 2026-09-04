@@ -13,11 +13,14 @@ describe("NavList", () => {
       </NavList>,
     );
 
-    const list = getByTestId("nav-list");
+    const homeLink = getByText("Home");
+    const aboutLink = getByText("About");
 
-    expect(list).toBeTruthy();
-    expect(getByText("Home")).toBeTruthy();
-    expect(getByText("About")).toBeTruthy();
+    expect(getByTestId("nav-list")).toBeTruthy();
+    expect(homeLink.dataset.active).toBe("true");
+    expect(homeLink.getAttribute("aria-current")).toBe("page");
+    expect(aboutLink.dataset.active).toBe("false");
+    expect(aboutLink.getAttribute("aria-current")).toBeNull();
   });
 
   it("renders vertical orientation correctly", () => {
