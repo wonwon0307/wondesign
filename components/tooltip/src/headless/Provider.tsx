@@ -1,47 +1,44 @@
 import { useCallback, useEffect, useId, useMemo, useRef } from "react";
+import {
+  useFloatingPosition,
+  type FloatingOptions,
+} from "@wondesign/components-core/positioning";
+import { useClickOutside } from "@wondesign/components-core/useClickOutside";
+import { useLongTouch } from "@wondesign/components-core/useLongTouch";
+import { useOpenState } from "@wondesign/components-core/useOpenState";
+import { useEscapeKey } from "@wondesign/shortkeys";
 
-import { useOpenState } from "@/core/disclosure";
-import { useFloating, type FloatingOptions } from "@/core/floating";
-import { useEscapeClose } from "@/core/keyboard";
-import { useClickOutside, useLongTouch } from "@/core/pointer";
-import { TooltipContext } from "./_internals/contexts";
+import { TooltipContext } from "./contexts";
 
-export interface TooltipProps {
+export interface HeadlessTooltipProps {
   children: React.ReactNode;
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
-  inline?: boolean;
+  keepMounted?: boolean;
+  showDelay?: number;
+  hideDelay?: number;
   floatingOptions?: FloatingOptions;
-  unmountOnHide?: boolean;
-  openDelay?: number;
-  closeDelay?: number;
-  longTouchDelay?: number;
-  isDisabled?: boolean;
 }
 
 export function TooltipProvider({
   children,
   isOpen: controlledOpen,
   onOpenChange,
-  inline = false,
+  keepMounted = false,
+  showDelay = 300,
+  hideDelay = 300,
   floatingOptions: userOptions,
-  unmountOnHide = true,
-  openDelay = 0,
-  closeDelay = 0,
-  longTouchDelay = 500,
-  isDisabled = false,
-}: Readonly<TooltipProps>) {
+}: Readonly<HeadlessTooltipProps>) {
   const {
     isOpen,
-    show: showTooltip,
-    hide: hideTooltip,
+    show: showImmediate,
+    hide: hideImmediate,
   } = useOpenState(controlledOpen, onOpenChange);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const floatingRef = useRef<HTMLDivElement | null>(null);
   const arrowRef = useRef<HTMLDivElement | null>(null);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const tooltipId = useId();
-
   const floatingOptions: FloatingOptions = useMemo(
     () => ({
       placement: "bottom",
@@ -54,7 +51,11 @@ export function TooltipProvider({
     [userOptions],
   );
 
-  const { floating, arrow } = useFloating(
+  useClickOutside(floatingRef, hideImmediate, isOpen, triggerRef);
+  // 롱터치는 터치 자체에 delay가 있기 때문에, show에 delay를 주지 않는다.
+  useLongTouch(triggerRef, showImmediate, !isOpen);
+  useEscapeKey(hideImmediate, isOpen);
+  const { floating, arrow } = useFloatingPosition(
     triggerRef,
     floatingRef,
     arrowRef,
@@ -62,19 +63,15 @@ export function TooltipProvider({
     isOpen,
   );
 
-  useClickOutside(floatingRef, hideTooltip, isOpen, triggerRef);
-  useEscapeClose(hideTooltip, isOpen);
-  useLongTouch(triggerRef, showTooltip, !isOpen && !isDisabled, longTouchDelay); // 롱터치는 터치 자체에 delay가 있기 때문에, show에 delay를 주지 않는다.
-
-  const showTooltipWithDelay = useCallback(() => {
+  const showWithDelay = useCallback(() => {
     if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(showTooltip, openDelay);
-  }, [openDelay, showTooltip]);
+    timer.current = setTimeout(showImmediate, showDelay);
+  }, [showImmediate, showDelay]);
 
-  const hideTooltipWithDelay = useCallback(() => {
+  const hideWithDelay = useCallback(() => {
     if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(hideTooltip, closeDelay);
-  }, [closeDelay, hideTooltip]);
+    timer.current = setTimeout(hideImmediate, hideDelay);
+  }, [hideImmediate, hideDelay]);
 
   const clearTimer = useCallback(() => {
     if (timer.current) {
@@ -83,38 +80,35 @@ export function TooltipProvider({
     }
   }, []);
 
+  // 컴포넌트가 언마운트될 때 타이머 정리.
   useEffect(() => {
     return () => clearTimer();
   }, [clearTimer]);
 
   const contextValue = useMemo(
     () => ({
-      isDisabled,
       isOpen,
-      showTooltip,
-      showTooltipWithDelay,
-      hideTooltip,
-      hideTooltipWithDelay,
+      keepMounted,
+      showImmediate,
+      showWithDelay,
+      hideImmediate,
+      hideWithDelay,
       clearTimer,
-      isPortalMode: !inline,
-      unmountOnHide,
       tooltipId,
-      floatingPosition: floating,
-      arrowPosition: arrow,
       triggerRef,
       floatingRef,
       arrowRef,
+      floatingPosition: floating,
+      arrowPosition: arrow,
     }),
     [
-      isDisabled,
       isOpen,
-      showTooltip,
-      showTooltipWithDelay,
-      hideTooltip,
-      hideTooltipWithDelay,
+      keepMounted,
+      showImmediate,
+      showWithDelay,
+      hideImmediate,
+      hideWithDelay,
       clearTimer,
-      inline,
-      unmountOnHide,
       tooltipId,
       floating,
       arrow,
