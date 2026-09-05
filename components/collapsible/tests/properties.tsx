@@ -1,41 +1,8 @@
-import { useState } from "react";
 import { fireEvent, render } from "@testing-library/react";
 
 import { TestCollapsible } from "./test-component";
 
-describe("Collapsible - interactions", () => {
-  it("should handle controlled mode correctly", () => {
-    const TestComponent = () => {
-      const [isOpen, setIsOpen] = useState(false);
-
-      return (
-        <TestCollapsible isOpen={isOpen} onOpenChange={setIsOpen}>
-          Controlled Content
-        </TestCollapsible>
-      );
-    };
-
-    const { getByText, queryByText } = render(<TestComponent />);
-
-    const toggleButton = getByText("Toggle");
-
-    // Initially closed
-    expect(toggleButton.getAttribute("aria-expanded")).toBe("false");
-    expect(queryByText("Controlled Content")).toBeNull();
-
-    // Open the collapsible
-    fireEvent.click(toggleButton);
-
-    expect(toggleButton.getAttribute("aria-expanded")).toBe("true");
-    expect(getByText("Controlled Content")).toBeTruthy();
-
-    // Close the collapsible again
-    fireEvent.click(toggleButton);
-
-    expect(toggleButton.getAttribute("aria-expanded")).toBe("false");
-    expect(queryByText("Controlled Content")).toBeNull();
-  });
-
+describe("Collapsible - properties", () => {
   it("should handle disabled state correctly", () => {
     const { getByText, queryByText } = render(
       <TestCollapsible defaultOpen={false} isDisabled>
