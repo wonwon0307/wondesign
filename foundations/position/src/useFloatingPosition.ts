@@ -1,9 +1,14 @@
 import { useCallback, useLayoutEffect, useState } from "react";
 
-import { computeArrowPosition } from "./_arrow";
-import { computeFloatingPosition } from "./_floating";
-import { finalizePlacement } from "./_placement";
-import type { ArrowPosition, FloatingOptions, FloatingPosition } from "./types";
+import { finalizePlacement } from "./placement";
+import { getContentPosition } from "./content/position";
+import { getArrowPosition } from "./arrow/position";
+import type {
+  Coordinates,
+  FloatingOptions,
+  FloatingPlacement,
+  FloatingPositions,
+} from "./types";
 
 export function useFloatingPosition(
   triggerRef: React.RefObject<HTMLElement | null>,
@@ -11,13 +16,13 @@ export function useFloatingPosition(
   arrowRef: React.RefObject<HTMLElement | null>,
   options: FloatingOptions,
   isOpen: boolean = false,
-): { floating: FloatingPosition; arrow: ArrowPosition } {
-  const [position, setPosition] = useState<FloatingPosition>({
+): FloatingPositions {
+  const [placement, setPlacement] = useState<FloatingPlacement>("bottom");
+  const [content, setContent] = useState<Coordinates>({
     x: 0,
     y: 0,
-    placement: "bottom",
   });
-  const [arrowPosition, setArrowPosition] = useState<ArrowPosition>({
+  const [arrow, setArrow] = useState<Coordinates>({
     x: 0,
     y: 0,
   });
@@ -30,26 +35,23 @@ export function useFloatingPosition(
 
     // forcePlacement가 true이면 preferredPlacement를 그대로 사용, 아니면 계산
     const finalPlacement = finalizePlacement(triggerRect, contentRect, options);
-    const { x, y } = computeFloatingPosition(
+    const contentPosition = getContentPosition(
       finalPlacement,
       triggerRect,
       contentRect,
       options,
     );
-    setPosition({
-      x,
-      y,
-      placement: finalPlacement,
-    });
 
-    const { x: arrowX, y: arrowY } = computeArrowPosition(
+    const { x: arrowX, y: arrowY } = getArrowPosition(
       finalPlacement,
       triggerRect,
       contentRect,
-      { x, y },
+      contentPosition,
       arrowRef.current,
     );
-    setArrowPosition({ x: arrowX, y: arrowY });
+    setPlacement(finalPlacement);
+    setContent(contentPosition);
+    setArrow({ x: arrowX, y: arrowY });
   }, [triggerRef, floatingRef, arrowRef, options]);
 
   useLayoutEffect(() => {
@@ -82,5 +84,5 @@ export function useFloatingPosition(
     };
   }, [isOpen, triggerRef, floatingRef, arrowRef, updatePosition]);
 
-  return { floating: position, arrow: arrowPosition };
+  return { placement, content, arrow };
 }
