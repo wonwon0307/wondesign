@@ -1,8 +1,8 @@
 import { useCallback, useLayoutEffect, useState } from "react";
 
-import { finalizePlacement } from "./placement";
-import { getContentPosition } from "./content/position";
 import { getArrowPosition } from "./arrow/position";
+import { getContentPosition } from "./content/position";
+import { finalizePlacement } from "./placement";
 import type {
   Coordinates,
   FloatingOptions,
