@@ -5,7 +5,7 @@ import { computeFloatingPosition } from "./_floating";
 import { finalizePlacement } from "./_placement";
 import type { ArrowPosition, FloatingOptions, FloatingPosition } from "./types";
 
-export function useFloating(
+export function useFloatingPosition(
   triggerRef: React.RefObject<HTMLElement | null>,
   floatingRef: React.RefObject<HTMLElement | null>,
   arrowRef: React.RefObject<HTMLElement | null>,

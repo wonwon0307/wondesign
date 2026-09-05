@@ -5,4 +5,4 @@ export type {
   FloatingPlacement,
   FloatingPosition,
 } from "./types";
-export { useFloating } from "./useFloating";
+export { useFloatingPosition } from "./useFloatingPosition";
