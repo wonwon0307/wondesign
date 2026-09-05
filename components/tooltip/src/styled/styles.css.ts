@@ -15,6 +15,12 @@ const content = style({
   backgroundColor: tokens.colors.backgroundInverted,
 });
 
+const text = style({
+  whiteSpace: "normal",
+  wordBreak: "break-word",
+  textAlign: "center",
+});
+
 const arrow = style({
   width: 8,
   height: 8,
@@ -25,4 +31,4 @@ const arrow = style({
   fill: tokens.colors.backgroundInverted,
 });
 
-export const styles = { trigger, content, arrow };
+export const styles = { trigger, content, text, arrow };

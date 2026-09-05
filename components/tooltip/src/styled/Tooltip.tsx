@@ -1,24 +1,21 @@
-import {
-  Tooltip as Headless,
-  type TooltipProps as HeadlessProps,
-} from "@wondesign/headless-ui/Tooltip";
 import { Description } from "@wondesign/texts/Description";
 import clsx from "clsx";
 
-import { TooltipArrow } from "./Arrow/Arrow";
-import { TooltipMessage } from "./Message/Message";
+import {
+  TooltipProvider,
+  type HeadlessTooltipProps,
+} from "@/headless/Provider";
+import { TooltipTrigger } from "@/headless/Trigger";
+import { TooltipContent } from "@/headless/Content";
+import { TooltipArrow } from "@/headless/Arrow";
 import { styles } from "./styles.css";
 
-export interface TooltipProps extends HeadlessProps {
+export interface TooltipProps extends HeadlessTooltipProps {
   content?: React.ReactNode;
-  text?: string | React.ReactNode;
+  text?: React.ReactNode;
   left?: React.ReactNode;
   right?: React.ReactNode;
   hideArrow?: boolean;
-  /**
-   * If true, the children itself will be used as the trigger for the tooltip.
-   * Use it if the children is a button, link or any other interactive element
-   */
   asChild?: boolean;
   className?: string;
   style?: React.CSSProperties;
@@ -38,21 +35,22 @@ export function Tooltip({
 }: Readonly<TooltipProps>) {
   if (content) {
     return (
-      <Headless {...rest}>
-        <Headless.Trigger
+      <TooltipProvider {...rest}>
+        <TooltipTrigger
           asChild={asChild}
           className={clsx(styles.trigger, className)}
           style={style}
         >
           {children}
-        </Headless.Trigger>
-        <Headless.Content className={styles.content} asChild>
+        </TooltipTrigger>
+        <TooltipContent className={styles.content} asChild>
           {content}
-        </Headless.Content>
-      </Headless>
+        </TooltipContent>
+      </TooltipProvider>
     );
   }
 
+  // content도 없고 text도 없으면 경고 메시지 출력
   if (!text) {
     console.warn(
       "[WonDesign] Tooltip: You must provide either `content` or `text` prop to render the tooltip content.",
@@ -62,21 +60,17 @@ export function Tooltip({
   const isString = typeof text === "string";
 
   return (
-    <Headless {...rest}>
-      <Headless.Trigger
+    <TooltipProvider {...rest}>
+      <TooltipTrigger
         asChild={asChild}
         className={clsx(styles.trigger, className)}
         style={style}
       >
         {children}
-      </Headless.Trigger>
-      <Headless.Content className={styles.content}>
+      </TooltipTrigger>
+      <TooltipContent className={styles.content}>
         {left}
-        {text && (
-          <TooltipMessage asChild>
-            {isString ? <Description size="small">{text}</Description> : text}
-          </TooltipMessage>
-        )}
+        {isString ? <Description size="small">{text}</Description> : text}
         {right}
         {!hideArrow && (
           <TooltipArrow>
@@ -85,7 +79,7 @@ export function Tooltip({
             </svg>
           </TooltipArrow>
         )}
-      </Headless.Content>
-    </Headless>
+      </TooltipContent>
+    </TooltipProvider>
   );
 }
