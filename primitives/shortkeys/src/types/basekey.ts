@@ -37,11 +37,17 @@ type AlphaNumericKey =
   | "9";
 
 type SpecialKey =
-  "`" | "-" | "=" | "[" | "]" | "\\" | ";" | "'" | "," | "." | "/";
-
-export type BaseKey = AlphaNumericKey | SpecialKey;
-export type FullBaseKey =
-  | BaseKey
+  | "`"
+  | "-"
+  | "="
+  | "["
+  | "]"
+  | "\\"
+  | ";"
+  | "'"
+  | ","
+  | "."
+  | "/"
   | "Escape"
   | "Tab"
   | "CapsLock"
@@ -53,7 +59,9 @@ export type FullBaseKey =
   | "←"
   | "→"
   | "Backspace"
-  | "Delete"
+  | "Delete";
+
+type FunctionKey =
   | "F1"
   | "F2"
   | "F3"
@@ -66,3 +74,5 @@ export type FullBaseKey =
   | "F10"
   | "F11"
   | "F12";
+
+export type BaseKey = AlphaNumericKey | SpecialKey | FunctionKey;
