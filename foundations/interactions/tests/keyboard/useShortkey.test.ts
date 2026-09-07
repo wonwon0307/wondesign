@@ -34,6 +34,17 @@ describe("useShortkey", () => {
     expect(callback).toHaveBeenCalled();
   });
 
+  it("calls callback when shortkey with meta modifier is pressed", () => {
+    const callback = vi.fn();
+    renderHook(() => useShortkey("Meta+K", callback));
+
+    fireEvent.keyDown(document, {
+      code: "KeyK",
+      metaKey: true,
+    });
+    expect(callback).toHaveBeenCalled();
+  });
+
   it("should not call callback when shortkey does not match", () => {
     const callback = vi.fn();
     renderHook(() => useShortkey("Ctrl+K", callback));
@@ -72,24 +83,6 @@ describe("useShortkey", () => {
   it("should handle null key gracefully", () => {
     const callback = vi.fn();
     renderHook(() => useShortkey(null, callback, false));
-
-    fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
-    expect(callback).not.toHaveBeenCalled();
-  });
-
-  it("should handle invalid modifier gracefully", () => {
-    const callback = vi.fn();
-    // @ts-expect-error Testing Invalid shortkey
-    renderHook(() => useShortkey("Invalid+K", callback));
-
-    fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
-    expect(callback).not.toHaveBeenCalled();
-  });
-
-  it("should handle invalid base key gracefully", () => {
-    const callback = vi.fn();
-    // @ts-expect-error Testing Invalid shortkey
-    renderHook(() => useShortkey("Ctrl+Enter", callback));
 
     fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
     expect(callback).not.toHaveBeenCalled();
