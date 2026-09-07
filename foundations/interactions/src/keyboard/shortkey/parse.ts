@@ -1,4 +1,4 @@
-import { parseShortkey as parse } from "@wondesign/shortkeys";
+import { parseShortkey as parse } from "@wondesign/shortkey";
 
 import { BASE_KEY_MAP } from "./map";
 import type { BindableBaseKey, BindableShortkey } from "./types";

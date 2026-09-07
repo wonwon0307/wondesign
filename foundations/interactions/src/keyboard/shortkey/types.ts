@@ -1,4 +1,4 @@
-import type { BaseKey, Modifier } from "@wondesign/shortkeys";
+import type { BaseKey, Modifier } from "@wondesign/shortkey";
 
 // exclude keys that this package does not support
 export type BindableBaseKey = Exclude<
