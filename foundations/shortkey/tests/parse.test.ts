@@ -57,4 +57,23 @@ describe("parseShortkey", () => {
       metaKey: true,
     });
   });
+
+  it("gracefully handles SSR environment", () => {
+    const originalNavigator = globalThis.navigator;
+
+    vi.stubGlobal("navigator", undefined);
+
+    const shortkey: Shortkey = "Mod+K";
+    const result = parseShortkey(shortkey);
+
+    expect(result).toEqual({
+      targetKey: "K",
+      ctrlKey: true,
+      altKey: false,
+      shiftKey: false,
+      metaKey: false,
+    });
+
+    globalThis.navigator = originalNavigator;
+  });
 });
