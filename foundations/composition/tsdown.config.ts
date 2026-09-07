@@ -2,12 +2,9 @@ import { defineConfig } from "tsdown";
 
 export default defineConfig([
   {
-    entry: ["src/*.ts", "src/*.tsx"],
+    entry: ["src/portal.tsx", "src/asChild.ts"],
     format: ["esm"],
     dts: true,
     clean: false,
-    deps: {
-      onlyBundle: false,
-    },
   },
 ]);
