@@ -1,7 +1,5 @@
-export { useEscapeKey } from "./useEscapeKey";
-export { useKeyboardShortkey } from "./useKeyboardShortkey";
+export { parseShortkey } from "./parse";
 
-export { getKeyShortcuts, getShortkeyLabel } from "./utils/aria";
-export { parseShortkey } from "./utils/parse";
-
-export type { FullShortkey, Shortkey } from "./types/shortkeys";
+export type { BaseKey } from "./types/basekey";
+export type { Modifier } from "./types/modifier";
+export type { Shortkey } from "./types/shortkey";
