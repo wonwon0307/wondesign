@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 
-import { useOpenState } from "@/disclosure";
+import { useOpenState } from "@/disclosure/useOpenState";
 
 function TestComponent({
   controlledOpen,
