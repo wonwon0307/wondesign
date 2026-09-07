@@ -73,8 +73,12 @@ export function Tooltip({
         {isString ? <Description size="small">{text}</Description> : text}
         {right}
         {!hideArrow && (
-          <TooltipArrow>
-            <svg viewBox="0 0 8 8" className={styles.arrow} aria-hidden="true">
+          <TooltipArrow className={styles.arrow}>
+            <svg
+              viewBox="0 0 8 8"
+              className={styles.arrowIcon}
+              aria-hidden="true"
+            >
               <polygon points="4,0 8,4 4,8 0,4" />
             </svg>
           </TooltipArrow>
