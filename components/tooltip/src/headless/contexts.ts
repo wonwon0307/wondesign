@@ -1,9 +1,5 @@
 import { createContext, useContext } from "react";
-
-import type {
-  FloatingPosition,
-  ArrowPosition,
-} from "@wondesign/components-core/positioning";
+import type { Position } from "@wondesign/position";
 
 type TooltipContextType = {
   // state
@@ -22,8 +18,8 @@ type TooltipContextType = {
   floatingRef: React.RefObject<HTMLDivElement | null>;
   arrowRef: React.RefObject<HTMLDivElement | null>;
   // positioning
-  floatingPosition: FloatingPosition;
-  arrowPosition: ArrowPosition;
+  content: Position;
+  arrow: Position;
 };
 
 export const TooltipContext = createContext<TooltipContextType | undefined>(
@@ -41,3 +37,5 @@ export function useTooltip(componentName: string) {
 
   return context;
 }
+
+export const ContentContext = createContext(false);
