@@ -1,4 +1,6 @@
-import { useTooltip } from "./contexts";
+import { useContext } from "react";
+
+import { ContentContext, useTooltip } from "./contexts";
 
 export interface TooltipArrowProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -13,17 +15,24 @@ export function TooltipArrow({
   style,
   ...rest
 }: Readonly<TooltipArrowProps>) {
-  const { arrowPosition, arrowRef } = useTooltip("Arrow");
+  const isInsideContent = useContext(ContentContext);
+
+  if (!isInsideContent) {
+    throw new Error(`Tooltip.Arrow must be used inside Tooltip.Content.`);
+  }
+
+  const { arrow, arrowRef } = useTooltip("Arrow");
 
   return (
     <div
       ref={arrowRef}
-      style={{
-        position: "absolute",
-        left: arrowPosition.x,
-        top: arrowPosition.y,
-        ...style,
-      }}
+      style={
+        {
+          ...style,
+          "--wds-tooltip-arrow-x": `${arrow.x}px`,
+          "--wds-tooltip-arrow-y": `${arrow.y}px`,
+        } as React.CSSProperties
+      }
       className={className}
       {...rest}
       aria-hidden="true"
