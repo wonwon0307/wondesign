@@ -1,11 +1,23 @@
 import { finalizePlacement } from "@/placement";
-import type { FloatingPlacement } from "@/types";
+import type { FloatingOptions } from "@/types";
 
 describe("finalizePlacement", () => {
   const triggerRect = new DOMRect(0, 0, 100, 50);
   const contentRect = new DOMRect(0, 0, 100, 50);
-  const bottomOptions = { placement: "bottom" as FloatingPlacement };
-  const leftOptions = { placement: "left" as FloatingPlacement };
+  const baseOptions = {
+    forcePlacement: false,
+    offset: 0,
+    padding: 0,
+    align: "center",
+  };
+  const bottomOptions = {
+    ...baseOptions,
+    placement: "bottom",
+  } as Required<FloatingOptions>;
+  const leftOptions = {
+    ...baseOptions,
+    placement: "left",
+  } as Required<FloatingOptions>;
 
   it("should correctly return bottom when there is enough space", () => {
     const result = finalizePlacement(triggerRect, contentRect, bottomOptions);
@@ -35,9 +47,10 @@ describe("finalizePlacement", () => {
 
   it("should respect forcePlacement option even if there is not enough space", () => {
     const forcePlacementOptions = {
-      placement: "bottom" as FloatingPlacement,
+      ...baseOptions,
+      placement: "bottom",
       forcePlacement: true,
-    };
+    } as Required<FloatingOptions>;
 
     // triggerRect의 y 좌표를 740으로 설정하여 화면 하단에 위치하도록 함
     const triggerRect = new DOMRect(0, 740, 100, 50);

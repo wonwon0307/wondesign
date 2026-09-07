@@ -10,7 +10,13 @@ describe("getContentPosition", () => {
   // Content is deliberately a different size than the trigger so that
   // start / center / end resolve to distinct coordinates on the cross axis.
   const contentRect = new DOMRect(0, 0, 40, 20);
-  const baseOptions = { offset: 5, padding: 10 } as FloatingOptions;
+  const baseOptions = {
+    offset: 5,
+    padding: 10,
+    align: "center",
+    forcePlacement: false,
+    placement: "bottom",
+  } as Required<FloatingOptions>;
 
   const testCases = [
     { placement: "top", align: "start", expectedX: 300, expectedY: 275 },
