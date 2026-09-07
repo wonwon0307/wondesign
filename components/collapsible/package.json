@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@wondesign/buttons": "workspace:*",
-    "@wondesign/components-core": "workspace:*",
+    "@wondesign/composition": "workspace:*",
     "@wondesign/interactions": "workspace:*"
   },
   "peerDependencies": {

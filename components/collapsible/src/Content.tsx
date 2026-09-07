@@ -1,4 +1,4 @@
-import { AsChild } from "@wondesign/components-core/asChild";
+import { AsChild } from "@wondesign/composition/asChild";
 
 import { useCollapsible } from "./contexts";
 
