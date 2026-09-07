@@ -41,4 +41,6 @@ export type ParsedShortkey = {
   altKey: boolean;
   shiftKey: boolean;
   metaKey: boolean;
+  ariaKeyshortcuts: string;
+  usesMod: boolean;
 };

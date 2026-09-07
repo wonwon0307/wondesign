@@ -1,7 +1,28 @@
-import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 
 import { parseShortkey } from "./shortkey/parse";
 import type { BindableShortkey } from "./shortkey/types";
+
+const noopSubscribe = () => () => {};
+
+/**
+ * `false` on the server and during the hydration render, `true` afterwards.
+ * Lets a value that differs between server and client be withheld until the
+ * client has taken over, without tripping a hydration mismatch.
+ */
+function useHydrated() {
+  return useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false,
+  );
+}
 
 /**
  * Registers a global keyboard shortkey and calls `callback` when it is pressed.
@@ -16,7 +37,11 @@ import type { BindableShortkey } from "./shortkey/types";
  * @param key - The shortkey string, e.g. `"Mod+K"` or `"Shift+/"`. Pass `null` to disable entirely.
  * @param callback - Called when the shortkey is matched. Stable across renders — no need to wrap in `useCallback`.
  * @param options - Optional configuration.
- * @returns `ariaKeyshortcuts` — the formatted value for the `aria-keyshortcuts` attribute, or `undefined` when `key` is `null`.
+ * @returns An object `{ ariaKeyshortcuts }` holding the formatted string for the
+ *          `aria-keyshortcuts` attribute, or `undefined` when `key` is `null`.
+ *          For `Mod`-based shortkeys the value resolves per platform (`Meta` on
+ *          Apple, `Control` elsewhere), so it is `undefined` on the server and
+ *          during hydration and only becomes available once mounted on the client.
  */
 export function useShortkey(
   key: BindableShortkey | null,
@@ -25,6 +50,7 @@ export function useShortkey(
 ) {
   const callbackRef = useRef(callback);
   const parsedKeys = useMemo(() => (key ? parseShortkey(key) : null), [key]);
+  const hydrated = useHydrated();
 
   useLayoutEffect(() => {
     callbackRef.current = callback;
@@ -63,4 +89,9 @@ export function useShortkey(
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [enabled, parsedKeys]);
+
+  if (!parsedKeys) return undefined;
+  if (parsedKeys.usesMod && !hydrated) return undefined;
+
+  return { ariaKeyshortcuts: parsedKeys.ariaKeyshortcuts };
 }

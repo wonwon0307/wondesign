@@ -39,6 +39,8 @@ export function parseShortkey(
     return null;
   }
 
+  const usesMod = modifierParts.includes("Mod");
+
   const { targetKey, ctrlKey, altKey, shiftKey, metaKey } = parse(shortkey);
 
   const targetKeyCode = BASE_KEY_MAP[targetKey as BindableBaseKey];
@@ -48,6 +50,13 @@ export function parseShortkey(
     return null;
   }
 
+  const parts: string[] = [];
+  if (ctrlKey) parts.push("Control");
+  if (altKey) parts.push("Alt");
+  if (shiftKey) parts.push("Shift");
+  if (metaKey) parts.push("Meta");
+  parts.push(targetKey);
+
   return {
     targetKey: targetKey as BindableBaseKey,
     targetKeyCode,
@@ -55,5 +64,7 @@ export function parseShortkey(
     altKey,
     shiftKey,
     metaKey,
+    ariaKeyshortcuts: parts.join("+"),
+    usesMod,
   };
 }
