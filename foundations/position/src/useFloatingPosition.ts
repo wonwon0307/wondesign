@@ -4,10 +4,10 @@ import { getArrowPosition } from "./arrow/position";
 import { getContentPosition } from "./content/position";
 import { finalizePlacement } from "./placement";
 import type {
-  Coordinates,
   FloatingOptions,
   FloatingPlacement,
   FloatingPositions,
+  Position,
 } from "./types";
 
 export function useFloatingPosition(
@@ -17,12 +17,22 @@ export function useFloatingPosition(
   options: FloatingOptions,
   isOpen: boolean = false,
 ): FloatingPositions {
+  // options는 호출부에서 인라인 객체로 넘어오는 경우가 많다. 참조 안정성에
+  // 의존하지 않도록 원시값으로 분해해서 아래 deps에 사용한다.
+  const {
+    placement: preferredPlacement = "bottom",
+    forcePlacement = false,
+    align = "center",
+    offset = 0,
+    padding = 0,
+  } = options;
+
   const [placement, setPlacement] = useState<FloatingPlacement>("bottom");
-  const [content, setContent] = useState<Coordinates>({
+  const [content, setContent] = useState<Position>({
     x: 0,
     y: 0,
   });
-  const [arrow, setArrow] = useState<Coordinates>({
+  const [arrow, setArrow] = useState<Position>({
     x: 0,
     y: 0,
   });
@@ -33,13 +43,25 @@ export function useFloatingPosition(
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const contentRect = floatingRef.current.getBoundingClientRect();
 
+    const resolvedOptions: Required<FloatingOptions> = {
+      placement: preferredPlacement,
+      forcePlacement,
+      align,
+      offset,
+      padding,
+    };
+
     // forcePlacement가 true이면 preferredPlacement를 그대로 사용, 아니면 계산
-    const finalPlacement = finalizePlacement(triggerRect, contentRect, options);
+    const finalPlacement = finalizePlacement(
+      triggerRect,
+      contentRect,
+      resolvedOptions,
+    );
     const contentPosition = getContentPosition(
       finalPlacement,
       triggerRect,
       contentRect,
-      options,
+      resolvedOptions,
     );
 
     const { x: arrowX, y: arrowY } = getArrowPosition(
@@ -52,7 +74,16 @@ export function useFloatingPosition(
     setPlacement(finalPlacement);
     setContent(contentPosition);
     setArrow({ x: arrowX, y: arrowY });
-  }, [triggerRef, floatingRef, arrowRef, options]);
+  }, [
+    triggerRef,
+    floatingRef,
+    arrowRef,
+    preferredPlacement,
+    forcePlacement,
+    align,
+    offset,
+    padding,
+  ]);
 
   useLayoutEffect(() => {
     if (!isOpen || !triggerRef.current || !floatingRef.current) {
