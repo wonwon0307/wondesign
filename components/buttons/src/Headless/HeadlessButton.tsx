@@ -1,5 +1,5 @@
 import { type ButtonHTMLAttributes } from "react";
-import { AsChild } from "@wondesign/components-core/asChild";
+import { AsChild } from "@wondesign/composition/asChild";
 
 export interface HeadlessButtonProps
   extends
