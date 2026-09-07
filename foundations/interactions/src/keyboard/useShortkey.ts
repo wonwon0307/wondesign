@@ -1,8 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
-import { usePlatform } from "@wondesign/platform";
 
-import type { Shortkey } from "./types/shortkeys";
-import { parseShortkeyInternal } from "./utils/parse";
+import { parseShortkey } from "./shortkey/parse";
+import type { BindableShortkey } from "./shortkey/types";
 
 /**
  * Registers a global keyboard shortkey and calls `callback` when it is pressed.
@@ -19,17 +18,13 @@ import { parseShortkeyInternal } from "./utils/parse";
  * @param options - Optional configuration.
  * @returns `ariaKeyshortcuts` — the formatted value for the `aria-keyshortcuts` attribute, or `undefined` when `key` is `null`.
  */
-export function useKeyboardShortkey(
-  key: Shortkey | null,
+export function useShortkey(
+  key: BindableShortkey | null,
   callback: () => void,
   enabled: boolean = true,
 ) {
   const callbackRef = useRef(callback);
-  const platform = usePlatform();
-  const parsedKeys = useMemo(
-    () => (key ? parseShortkeyInternal(key, platform) : null),
-    [key, platform],
-  );
+  const parsedKeys = useMemo(() => (key ? parseShortkey(key) : null), [key]);
 
   useLayoutEffect(() => {
     callbackRef.current = callback;
