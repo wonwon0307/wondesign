@@ -1,23 +1,18 @@
 import { useCallback, useEffect, useId, useMemo, useRef } from "react";
-import {
-  useFloatingPosition,
-  type FloatingOptions,
-} from "@wondesign/components-core/positioning";
-import { useClickOutside } from "@wondesign/components-core/useClickOutside";
-import { useLongTouch } from "@wondesign/components-core/useLongTouch";
-import { useOpenState } from "@wondesign/components-core/useOpenState";
-import { useEscapeKey } from "@wondesign/shortkeys";
+import { useOpenState } from "@wondesign/interactions/disclosure";
+import { useEscapeKey } from "@wondesign/interactions/keyboard";
+import { useClickOutside, useLongTouch } from "@wondesign/interactions/pointer";
+import { useFloatingPosition, type FloatingOptions } from "@wondesign/position";
 
 import { TooltipContext } from "./contexts";
 
-export interface HeadlessTooltipProps {
+export interface HeadlessTooltipProps extends FloatingOptions {
   children: React.ReactNode;
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   keepMounted?: boolean;
   showDelay?: number;
   hideDelay?: number;
-  floatingOptions?: FloatingOptions;
 }
 
 export function TooltipProvider({
@@ -27,7 +22,11 @@ export function TooltipProvider({
   keepMounted = false,
   showDelay = 300,
   hideDelay = 300,
-  floatingOptions: userOptions,
+  placement: userPlacement = "bottom",
+  forcePlacement = false,
+  align = "center",
+  offset = 0,
+  padding = 0,
 }: Readonly<HeadlessTooltipProps>) {
   const {
     isOpen,
@@ -39,27 +38,22 @@ export function TooltipProvider({
   const arrowRef = useRef<HTMLDivElement | null>(null);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const tooltipId = useId();
-  const floatingOptions: FloatingOptions = useMemo(
-    () => ({
-      placement: "bottom",
-      forcePlacement: false,
-      align: "center",
-      offset: 8,
-      padding: 8,
-      ...userOptions,
-    }),
-    [userOptions],
-  );
 
   useClickOutside(floatingRef, hideImmediate, isOpen, triggerRef);
   // 롱터치는 터치 자체에 delay가 있기 때문에, show에 delay를 주지 않는다.
   useLongTouch(triggerRef, showImmediate, !isOpen);
   useEscapeKey(hideImmediate, isOpen);
-  const { floating, arrow } = useFloatingPosition(
+  const { content, arrow } = useFloatingPosition(
     triggerRef,
     floatingRef,
     arrowRef,
-    floatingOptions,
+    {
+      placement: userPlacement,
+      forcePlacement,
+      align,
+      offset,
+      padding,
+    },
     isOpen,
   );
 
@@ -98,8 +92,8 @@ export function TooltipProvider({
       triggerRef,
       floatingRef,
       arrowRef,
-      floatingPosition: floating,
-      arrowPosition: arrow,
+      content,
+      arrow,
     }),
     [
       isOpen,
@@ -110,7 +104,7 @@ export function TooltipProvider({
       hideWithDelay,
       clearTimer,
       tooltipId,
-      floating,
+      content,
       arrow,
     ],
   );
