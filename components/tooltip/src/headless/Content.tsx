@@ -1,7 +1,7 @@
-import { AsChild } from "@wondesign/components-core/asChild";
-import { Portal } from "@wondesign/components-core/portal";
+import { AsChild } from "@wondesign/composition/asChild";
+import { Portal } from "@wondesign/composition/portal";
 
-import { useTooltip } from "./contexts";
+import { ContentContext, useTooltip } from "./contexts";
 
 export interface TooltipContentProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -23,7 +23,7 @@ export function TooltipContent({
     isOpen,
     keepMounted,
     tooltipId,
-    floatingPosition,
+    content,
     floatingRef,
     hideWithDelay,
     clearTimer,
@@ -36,27 +36,28 @@ export function TooltipContent({
   const Component = asChild ? AsChild : "div";
 
   return (
-    <Portal disable={disablePortal}>
-      <Component
-        {...rest}
-        id={tooltipId}
-        role="tooltip"
-        ref={floatingRef}
-        onMouseEnter={clearTimer} // 마우스가 trigger를 떠나 content로 들어오면, 타이머를 초기화하여, 사라지지 않도록 해야한다.
-        onMouseLeave={hideWithDelay}
-        style={{
-          display: isOpen ? undefined : "none",
-          position: "fixed",
-          left: floatingPosition.x,
-          top: floatingPosition.y,
-          zIndex: zIndex.tooltip,
-          ...style,
-        }}
-        aria-hidden={!isOpen}
-        data-state={isOpen ? "open" : "closed"}
-      >
-        {children}
-      </Component>
-    </Portal>
+    <ContentContext.Provider value={true}>
+      <Portal disable={disablePortal}>
+        <Component
+          {...rest}
+          id={tooltipId}
+          role="tooltip"
+          ref={floatingRef}
+          onMouseEnter={clearTimer} // 마우스가 trigger를 떠나 content로 들어오면, 타이머를 초기화하여, 사라지지 않도록 해야한다.
+          onMouseLeave={hideWithDelay}
+          style={
+            {
+              ...style,
+              "--wds-tooltip-content-x": `${content.x}px`,
+              "--wds-tooltip-content-y": `${content.y}px`,
+            } as React.CSSProperties
+          }
+          aria-hidden={!isOpen}
+          data-state={isOpen ? "open" : "closed"}
+        >
+          {children}
+        </Component>
+      </Portal>
+    </ContentContext.Provider>
   );
 }
