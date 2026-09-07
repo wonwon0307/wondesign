@@ -5,4 +5,5 @@ export type {
   FloatingOptions,
   FloatingPlacement,
   FloatingPositions,
+  Position,
 } from "./types";
