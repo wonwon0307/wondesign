@@ -1,10 +1,10 @@
-import type { FullShortkey, Shortkey } from "@/types/shortkeys";
-import { parseShortkey, parseShortkeyInternal } from "@/utils/parse";
+import { parseShortkey } from "@/parse";
+import type { Shortkey } from "@/types/shortkey";
 
 describe("parseShortkey", () => {
   it("parses a simple shortkey correctly", () => {
     const shortkey: Shortkey = "A";
-    const result = parseShortkey(shortkey, "windows");
+    const result = parseShortkey(shortkey);
 
     expect(result).toEqual({
       targetKey: "A",
@@ -17,11 +17,10 @@ describe("parseShortkey", () => {
 
   it("parses a shortkey with modifiers correctly", () => {
     const shortkey: Shortkey = "Ctrl+Shift+A";
-    const result = parseShortkeyInternal(shortkey, "windows");
+    const result = parseShortkey(shortkey);
 
     expect(result).toEqual({
       targetKey: "A",
-      targetKeyCode: "KeyA",
       ctrlKey: true,
       altKey: false,
       shiftKey: true,
@@ -29,58 +28,33 @@ describe("parseShortkey", () => {
     });
   });
 
-  it("parses a shortkey that's not supported by the useKeyboardShortkey hook", () => {
-    const shortkey: FullShortkey = "Enter";
-    const result = parseShortkey(shortkey, "windows");
-
-    expect(result).toEqual({
-      targetKey: "Enter",
-      ctrlKey: false,
-      altKey: false,
-      shiftKey: false,
-      metaKey: false,
-    });
-  });
-
-  it("parses a shortkey with 'Mod' modifier correctly for mac", () => {
+  it("parses a shortkey with 'Mod' modifier correctly for non-apple platforms", () => {
     const shortkey: Shortkey = "Mod+K";
-    const result = parseShortkeyInternal(shortkey, "mac");
+    const result = parseShortkey(shortkey);
 
     expect(result).toEqual({
       targetKey: "K",
-      targetKeyCode: "KeyK",
-      ctrlKey: false,
-      altKey: false,
-      shiftKey: false,
-      metaKey: true,
-    });
-  });
-
-  it("parses a shortkey with 'Mod' modifier correctly for windows", () => {
-    const shortkey: Shortkey = "Mod+K";
-    const result = parseShortkeyInternal(shortkey, "windows");
-
-    expect(result).toEqual({
-      targetKey: "K",
-      targetKeyCode: "KeyK",
       ctrlKey: true,
       altKey: false,
       shiftKey: false,
       metaKey: false,
     });
   });
-});
 
-describe("parseShortkeyInternal", () => {
-  it("throws for an unsupported modifier", () => {
-    expect(() => parseShortkeyInternal("Foo+A" as Shortkey)).toThrowError(
-      'Invalid shortkey: "Foo" is not a supported modifier.',
-    );
-  });
+  it("parses a shortkey with 'Mod' modifier correctly for an apple platform", () => {
+    Object.defineProperty(navigator, "platform", {
+      value: "MacIntel",
+      configurable: true,
+    });
+    const shortkey: Shortkey = "Mod+K";
+    const result = parseShortkey(shortkey);
 
-  it("throws for an unsupported key", () => {
-    expect(() => parseShortkeyInternal("Ctrl+Foo" as Shortkey)).toThrowError(
-      'Invalid shortkey: "Foo" is not a supported key.',
-    );
+    expect(result).toEqual({
+      targetKey: "K",
+      ctrlKey: false,
+      altKey: false,
+      shiftKey: false,
+      metaKey: true,
+    });
   });
 });
