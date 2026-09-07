@@ -1,8 +1,9 @@
+import { isApple } from "./isApple";
 import type { BaseKey } from "./types/basekey";
 import type { ParsedShortkey, Shortkey } from "./types/shortkey";
 
-export function parseShortkey(key: Shortkey): ParsedShortkey {
-  const parts = key.split("+");
+export function parseShortkey(shortkey: Shortkey): ParsedShortkey {
+  const parts = shortkey.split("+");
   const targetKey = parts.pop() as BaseKey;
 
   let ctrlKey = parts.includes("Ctrl") || parts.includes("Control");
@@ -17,12 +18,8 @@ export function parseShortkey(key: Shortkey): ParsedShortkey {
     parts.includes("Win") ||
     parts.includes("Windows");
 
-  const isApple = /Mac|iPhone|iPad|iPod/.test(
-    navigator.platform || navigator.userAgent,
-  );
-
   if (parts.includes("Mod")) {
-    if (isApple) {
+    if (isApple()) {
       metaKey = true;
     } else {
       ctrlKey = true;
