@@ -33,3 +33,12 @@ export type BindableShortkey =
   | BindableBaseKey
   | `${Modifier}+${BindableBaseKey}`
   | `${Modifier}+${Modifier}+${BindableBaseKey}`;
+
+export type ParsedShortkey = {
+  targetKey: BindableBaseKey;
+  targetKeyCode: string;
+  ctrlKey: boolean;
+  altKey: boolean;
+  shiftKey: boolean;
+  metaKey: boolean;
+};
