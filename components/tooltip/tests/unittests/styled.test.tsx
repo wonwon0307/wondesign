@@ -1,12 +1,12 @@
 import { render } from "@testing-library/react";
 
-import { Tooltip } from "@/Tooltip";
+import { Tooltip } from "@/styled/Tooltip";
 
 describe("Tooltip", () => {
   describe("simple tooltip", () => {
     it("renders a simple tooltip correctly", () => {
       const { getByText } = render(
-        <Tooltip text="Tooltip text" unmountOnHide={false}>
+        <Tooltip text="Tooltip text" keepMounted>
           Hover me
         </Tooltip>,
       );
@@ -20,7 +20,7 @@ describe("Tooltip", () => {
       const { getByText } = render(
         <Tooltip
           text={<span style={{ color: "red" }}>Tooltip text</span>}
-          unmountOnHide={false}
+          keepMounted
         >
           Hover me
         </Tooltip>,
@@ -37,7 +37,7 @@ describe("Tooltip", () => {
           text="Tooltip text"
           left={<span>Left</span>}
           right={<span>Right</span>}
-          unmountOnHide={false}
+          keepMounted
         >
           Hover me
         </Tooltip>,
@@ -50,7 +50,7 @@ describe("Tooltip", () => {
 
     it("renders correctly without the arrow", () => {
       const { getByText } = render(
-        <Tooltip text="Tooltip text" unmountOnHide={false} hideArrow>
+        <Tooltip text="Tooltip text" hideArrow keepMounted>
           Hover me
         </Tooltip>,
       );
@@ -65,7 +65,7 @@ describe("Tooltip", () => {
       const Content = () => <div>Tooltip text</div>;
 
       const { getByText } = render(
-        <Tooltip unmountOnHide={false} content={<Content />}>
+        <Tooltip content={<Content />} keepMounted>
           Hover me
         </Tooltip>,
       );
@@ -79,7 +79,7 @@ describe("Tooltip", () => {
       .spyOn(console, "warn")
       .mockImplementation(() => {});
 
-    render(<Tooltip unmountOnHide={false}>Hover me</Tooltip>);
+    render(<Tooltip>Hover me</Tooltip>);
 
     expect(consoleWarnSpy).toHaveBeenCalledWith(
       "[WonDesign] Tooltip: You must provide either `content` or `text` prop to render the tooltip content.",
