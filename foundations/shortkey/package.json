@@ -1,6 +1,6 @@
 {
-  "name": "@wondesign/shortkeys",
-  "description": "WonDesign - Shortkeys",
+  "name": "@wondesign/shortkey",
+  "description": "WonDesign - Shortkey",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -8,7 +8,9 @@
     "design",
     "system",
     "utilities",
-    "shortkeys",
+    "keyboard",
+    "shortkey",
+    "hotkey",
     "hooks",
     "react",
     "typescript"
@@ -22,7 +24,6 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "tsdown",
-    "dev": "tsdown --watch",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
