@@ -1,11 +1,11 @@
-import type { FloatingPlacement } from "@/types";
+import type { FloatingPlacement, Position } from "@/types";
 import { getCrossAxisOffset, getMainAxisOffset } from "./offset";
 
 export function getArrowPosition(
   finalPlacement: FloatingPlacement,
   triggerRect: DOMRect,
   contentRect: DOMRect,
-  contentPosition: { x: number; y: number },
+  contentPosition: Position,
   arrowEl: HTMLElement | null,
 ): { x: number; y: number } {
   if (!arrowEl) return { x: 0, y: 0 };
