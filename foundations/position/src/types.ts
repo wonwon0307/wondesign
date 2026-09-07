@@ -9,13 +9,13 @@ export interface FloatingOptions {
   padding?: number;
 }
 
-export interface Coordinates {
+export interface Position {
   x: number;
   y: number;
 }
 
 export type FloatingPositions = {
   placement: FloatingPlacement;
-  content: Coordinates;
-  arrow: Coordinates;
+  content: Position;
+  arrow: Position;
 };
