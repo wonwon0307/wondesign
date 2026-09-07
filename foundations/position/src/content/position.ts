@@ -6,9 +6,9 @@ export function getContentPosition(
   finalPlacement: FloatingPlacement,
   triggerRect: DOMRect,
   contentRect: DOMRect,
-  options: FloatingOptions,
+  options: Required<FloatingOptions>,
 ): { x: number; y: number } {
-  const { offset = 0, align = "center", padding = 0 } = options;
+  const { offset, align, padding } = options;
   const isVertical = finalPlacement === "top" || finalPlacement === "bottom";
 
   const mainOffset = getMainAxisOffset(

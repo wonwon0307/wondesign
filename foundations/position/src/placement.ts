@@ -1,4 +1,4 @@
-import type { FloatingPlacement } from "./types";
+import type { FloatingOptions, FloatingPlacement } from "./types";
 
 const OPPOSITE: Record<FloatingPlacement, FloatingPlacement> = {
   top: "bottom",
@@ -10,14 +10,9 @@ const OPPOSITE: Record<FloatingPlacement, FloatingPlacement> = {
 export function finalizePlacement(
   triggerRect: DOMRect,
   floatingRect: DOMRect,
-  options: {
-    placement?: FloatingPlacement;
-    forcePlacement?: boolean;
-    offset?: number;
-    padding?: number;
-  },
+  options: Required<FloatingOptions>,
 ): FloatingPlacement {
-  const { placement: preferred = "bottom", forcePlacement = false } = options;
+  const { placement: preferred, forcePlacement } = options;
 
   // forcePlacement가 true면, 무조건 preferred placement를 사용
   if (forcePlacement) return preferred;
@@ -48,12 +43,9 @@ function computeSurplus(
   side: FloatingPlacement,
   triggerRect: DOMRect,
   floatingRect: DOMRect,
-  options: {
-    offset?: number;
-    padding?: number;
-  },
+  options: Required<FloatingOptions>,
 ): number {
-  const { offset = 0, padding = 0 } = options;
+  const { offset, padding } = options;
   const needed =
     (side === "top" || side === "bottom"
       ? floatingRect.height
