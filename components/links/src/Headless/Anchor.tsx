@@ -10,25 +10,34 @@ export interface HeadlessAnchorProps extends Omit<
 
 export function HeadlessAnchor({
   children,
+  as = "a",
   href,
   onClick,
   onKeyDown,
   isDisabled = false,
   openInNewTab,
-  as: Component = "a",
   tabIndex,
   ...rest
 }: Readonly<HeadlessAnchorProps>) {
-  const isExternal = !!href && (href.includes("://") || href.startsWith("//"));
+  const Component = isDisabled ? "a" : as;
+  const isExternal =
+    !!href &&
+    (href.startsWith("http://") ||
+      href.startsWith("https://") ||
+      href.startsWith("//"));
   const newTab = openInNewTab ?? isExternal;
 
   const doNothingOnClick = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-  ) => e.preventDefault();
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
 
   const doNothingOnKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
+      e.stopPropagation();
     } else {
       onKeyDown?.(e);
     }
