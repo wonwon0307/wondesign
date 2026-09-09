@@ -4,12 +4,13 @@ import { fireEvent, render } from "@testing-library/react";
 import { Collapsible } from "@/index";
 
 describe("Collapsible - structure", () => {
+  const errorMsg =
+    "[WonDesign Collapsible] useCollapsible() must be used inside the Collapsible wrapper.";
+
   it("Collapsible.Content must be used within the Collapsible wrapper", () => {
     expect(() =>
       render(<Collapsible.Content>Content</Collapsible.Content>),
-    ).toThrow(
-      "Collapsible.Content must be used inside the Collapsible wrapper.",
-    );
+    ).toThrow(errorMsg);
   });
 
   it("Collapsible.Content should support asChild property", () => {
@@ -34,9 +35,7 @@ describe("Collapsible - structure", () => {
   it("Collapsible.Toggle must be used within the Collapsible wrapper", () => {
     expect(() =>
       render(<Collapsible.Toggle>Trigger</Collapsible.Toggle>),
-    ).toThrow(
-      "Collapsible.Toggle must be used inside the Collapsible wrapper.",
-    );
+    ).toThrow(errorMsg);
   });
 
   it("Collapsible.Toggle should support asChild property", () => {
