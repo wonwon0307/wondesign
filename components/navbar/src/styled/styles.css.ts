@@ -8,17 +8,17 @@ const list = recipe({
   },
   variants: {
     orientation: {
-      vertical: {
-        flexDirection: "column",
-      },
       horizontal: {
         flexDirection: "row",
+      },
+      vertical: {
+        flexDirection: "column",
       },
     },
   },
 });
 
-const navLink = recipe({
+const link = recipe({
   base: {
     display: "inline-flex",
     alignItems: "center",
@@ -31,12 +31,17 @@ const navLink = recipe({
     backgroundColor: "transparent",
     transition:
       "color 0.15s ease, background-color 0.15s ease, text-decoration-color 0.15s ease",
+    selectors: {
+      "&:focus-visible": {
+        color: tokens.colors.primary,
+        textDecoration: "underline",
+      },
+    },
     "@media": {
       [mediaQueries.hoverable]: {
         selectors: {
           "&:not([data-disabled]):hover": {
-            textDecoration: "underline",
-            textDecorationColor: tokens.colors.primary,
+            color: tokens.colors.primary,
           },
         },
       },
@@ -71,4 +76,4 @@ const navLink = recipe({
   },
 });
 
-export const styles = { list, navLink };
+export const styles = { list, link };

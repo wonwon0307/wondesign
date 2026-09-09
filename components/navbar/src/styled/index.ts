@@ -1,5 +1,5 @@
-export { NavList } from "./NavList";
+export { Navbar } from "./Navbar";
 export { NavLink } from "./NavLink";
 
-export type { NavListProps } from "./NavList";
+export type { NavbarProps } from "./Navbar";
 export type { NavLinkProps } from "./NavLink";
