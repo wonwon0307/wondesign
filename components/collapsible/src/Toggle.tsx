@@ -3,7 +3,7 @@ import {
   type HeadlessButtonProps,
 } from "@wondesign/buttons/Headless";
 
-import { useCollapsible } from "./contexts";
+import { useCollapsibleInternal } from "./contexts";
 
 export type CollapsibleToggleProps = Omit<
   HeadlessButtonProps,
@@ -17,7 +17,7 @@ export function CollapsibleToggle({
   ...rest
 }: Readonly<CollapsibleToggleProps>) {
   const { isOpen, keepMounted, toggle, contentId, toggleId } =
-    useCollapsible("Toggle");
+    useCollapsibleInternal();
   // DOM에 Content가 없을 때는, aria-controls를 undefined로 설정.
   const ariaControls = !keepMounted && !isOpen ? undefined : contentId;
 

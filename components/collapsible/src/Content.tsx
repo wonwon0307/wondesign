@@ -1,6 +1,6 @@
 import { AsChild } from "@wondesign/composition/asChild";
 
-import { useCollapsible } from "./contexts";
+import { useCollapsibleInternal } from "./contexts";
 
 export interface CollapsibleContentProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -17,8 +17,7 @@ export function CollapsibleContent({
   role = asChild ? undefined : "group",
   ...rest
 }: Readonly<CollapsibleContentProps>) {
-  const { isOpen, keepMounted, contentId, toggleId } =
-    useCollapsible("Content");
+  const { isOpen, keepMounted, contentId, toggleId } = useCollapsibleInternal();
 
   if (!keepMounted && !isOpen) {
     return null;
