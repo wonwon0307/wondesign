@@ -12,14 +12,20 @@ export const CollapsibleContext = createContext<CollapsibleContextValue | null>(
   null,
 );
 
-export function useCollapsible(componentName: string) {
+export function useCollapsibleInternal() {
   const context = useContext(CollapsibleContext);
 
   if (!context) {
     throw new Error(
-      `Collapsible.${componentName} must be used inside the Collapsible wrapper.`,
+      `[WonDesign Collapsible] useCollapsible() must be used inside the Collapsible wrapper.`,
     );
   }
 
   return context;
+}
+
+export function useCollapsible() {
+  const { isOpen, toggle } = useCollapsibleInternal();
+
+  return { isOpen, toggle };
 }
