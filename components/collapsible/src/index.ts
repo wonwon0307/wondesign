@@ -7,6 +7,8 @@ export const Collapsible = Object.assign(CollapsibleProvider, {
   Content: CollapsibleContent,
 });
 
+export { useCollapsible } from "./contexts";
+
 export { CollapsibleContent } from "./Content";
 export { CollapsibleToggle } from "./Toggle";
 export { CollapsibleProvider } from "./Provider";
