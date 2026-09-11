@@ -1,16 +1,16 @@
 import {
-  SidebarToggle as Button,
-  type SidebarToggleProps as Props,
-} from "@wondesign/headless-ui/Sidebar";
+  HeadlessButton,
+  type HeadlessButtonProps,
+} from "@wondesign/buttons/Headless";
 import { KeyboardGroup } from "@wondesign/texts/Keyboard";
 import { Tooltip } from "@wondesign/tooltip";
 import clsx from "clsx";
 
-import { useSidebar } from "@/core";
+import { useInternalSidebar } from "@/contexts/sidebar";
 import { SidebarToggleIcon } from "./Icon";
 import { styles } from "./styles.css";
 
-export interface SidebarToggleProps extends Props {
+export interface SidebarToggleProps extends HeadlessButtonProps {
   disableTooltip?: boolean;
 }
 
@@ -20,25 +20,54 @@ export function SidebarToggle({
   className,
   ...rest
 }: Readonly<SidebarToggleProps>) {
-  const { side, keyboardShortkey } = useSidebar();
+  const { side, shortkey } = useInternalSidebar();
 
-  if (!disableTooltip && keyboardShortkey) {
+  if (!disableTooltip && shortkey) {
     return (
       <Tooltip
-        floatingOptions={{ placement: side === "left" ? "right" : "left" }}
-        text={<KeyboardGroup keys={keyboardShortkey} />}
+        placement={side === "left" ? "right" : "left"}
+        text={<KeyboardGroup shortkey={shortkey} />}
         asChild
       >
-        <Button {...rest} className={clsx(styles.toggle, className)}>
+        <Toggle {...rest} className={clsx(styles.toggle, className)}>
           {children}
-        </Button>
+        </Toggle>
       </Tooltip>
     );
   }
 
   return (
-    <Button {...rest} className={clsx(styles.toggle, className)}>
+    <Toggle {...rest} className={clsx(styles.toggle, className)}>
       {children}
-    </Button>
+    </Toggle>
+  );
+}
+
+function Toggle({ children, ...rest }: Readonly<HeadlessButtonProps>) {
+  const {
+    collapse,
+    state,
+    toggleSidebar,
+    side,
+    isMobile,
+    contentId,
+    ariaKeyshortcuts,
+  } = useInternalSidebar();
+
+  return (
+    <HeadlessButton
+      {...rest}
+      onClick={toggleSidebar}
+      isDisabled={collapse === "disable" && !isMobile}
+      aria-controls={contentId}
+      aria-expanded={state !== "closed"}
+      aria-keyshortcuts={ariaKeyshortcuts}
+      data-open={state === "expanded"}
+      data-side={side}
+      data-state={state}
+      data-device={isMobile ? "mobile" : "desktop"}
+    >
+      {children}
+    </HeadlessButton>
   );
 }
