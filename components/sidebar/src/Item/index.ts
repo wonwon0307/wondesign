@@ -8,6 +8,10 @@ export { SidebarItemSubitems } from "./fragments/Subitems";
 export { SidebarItemToggle } from "./fragments/Toggle";
 export { SidebarItemWrapper } from "./fragments/Wrapper";
 
+export type { SidebarItemProps } from "./Item/Item";
+export type { SidebarItemLinkProps } from "./Item/ItemLink";
+export type { SidebarGroupProps } from "./Group/Group";
+
 export type { SidebarItemHeaderProps } from "./fragments/Header";
 export type { SidebarLinkProps } from "./fragments/Link";
 export type { SidebarItemSubitemsProps } from "./fragments/Subitems";
