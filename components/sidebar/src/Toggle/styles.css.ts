@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { keyframes, style } from "@vanilla-extract/css";
 import { tokens } from "@wondesign/tokens";
 
 const toggle = style({
@@ -33,13 +33,58 @@ const arrowIcon = style({
   transition: "opacity 0.15s ease, transform 0.2s ease",
   selectors: {
     [`${toggle}:hover &`]: { opacity: 1 },
-    [`${toggle}[data-side="left"][data-expanded="true"] &`]: {
+    [`${toggle}[data-side="left"][data-open="true"] &`]: {
       transform: "scaleX(-1)",
     },
-    [`${toggle}[data-side="right"][data-expanded="false"] &`]: {
+    [`${toggle}[data-side="right"][data-open="false"] &`]: {
       transform: "scaleX(-1)",
     },
   },
 });
 
-export const styles = { toggle, sidebarIcon, arrowIcon };
+const swapContainer = style({
+  display: "grid",
+  placeItems: "center",
+});
+
+const fadeIn = keyframes({
+  from: { opacity: 0 },
+  to: { opacity: 1 },
+});
+
+const collapsedIcon = style({
+  gridArea: "1 / 1",
+  opacity: 1,
+  transition: "opacity 200ms ease",
+  selectors: {
+    [`${swapContainer}:hover &, ${swapContainer}:focus-within &`]: {
+      opacity: 0,
+      pointerEvents: "none",
+    },
+  },
+});
+
+const swapToggle = style({
+  gridArea: "1 / 1",
+  opacity: 0,
+  cursor: "pointer",
+  pointerEvents: "none",
+  animation: `${fadeIn} 200ms ease`,
+  animationPlayState: "paused",
+  selectors: {
+    [`${swapContainer}:hover &, ${swapContainer}:focus-within &`]: {
+      opacity: 1,
+      pointerEvents: "auto",
+      animationPlayState: "running",
+    },
+  },
+});
+
+export const styles = {
+  toggle,
+  sidebarIcon,
+  arrowIcon,
+  swapContainer,
+  collapsedIcon,
+  swapToggle,
+};
