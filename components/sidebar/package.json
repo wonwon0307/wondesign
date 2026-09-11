@@ -11,6 +11,10 @@
     "typescript"
   ],
   "exports": {
+    ".": {
+      "types": "./dist/contexts/index.d.mts",
+      "default": "./dist/contexts/index.mjs"
+    },
     "./*": {
       "types": "./dist/*/index.d.mts",
       "default": "./dist/*/index.mjs"
