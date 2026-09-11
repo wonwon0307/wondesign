@@ -1,14 +1,13 @@
 import { style } from "@vanilla-extract/css";
 import { mediaQueries, tokens } from "@wondesign/tokens";
 
-const group = style({
+const wrapper = style({
   display: "flex",
   flexDirection: "column",
   gap: tokens.spacing.xs,
 });
 
 const header = style({
-  position: "relative",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -17,7 +16,6 @@ const header = style({
   font: tokens.text.bodySmall,
   fontWeight: tokens.typography.fontWeight.semibold,
   color: tokens.colors.textMuted,
-
   userSelect: "none",
   "@media": {
     [mediaQueries.hoverable]: {
@@ -57,12 +55,7 @@ const headerRight = style({
   },
 });
 
-const toggle = style({
-  position: "absolute",
-  inset: 0,
-  zIndex: 0,
-  cursor: "pointer",
-});
+const toggle = style({});
 
 const icon = style({
   transition: "transform 200ms ease, opacity 200ms ease",
@@ -89,11 +82,11 @@ const icon = style({
 const subitems = style({
   display: "flex",
   flexDirection: "column",
-  gap: tokens.spacing.xs,
+  gap: tokens.spacing.sm,
 });
 
 export const styles = {
-  group,
+  wrapper,
   header,
   headerLeft,
   headerRight,
