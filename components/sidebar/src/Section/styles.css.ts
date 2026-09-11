@@ -1,24 +1,25 @@
 import { recipe } from "@vanilla-extract/recipes";
 import { tokens } from "@wondesign/tokens";
 
-const footer = recipe({
+const section = recipe({
   base: {
-    flexShrink: 0,
     display: "flex",
+    flexShrink: 0,
     alignItems: "center",
     gap: tokens.spacing.sm,
     padding: `${tokens.spacing.lg} ${tokens.spacing.sm}`,
     overflow: "hidden",
   },
   variants: {
-    state: {
-      collapsed: {
+    collapsed: {
+      true: {
         justifyContent: "center",
       },
-      expanded: {},
-      closed: {},
+      false: {
+        justifyContent: "flex-start",
+      },
     },
   },
 });
 
-export const styles = { footer };
+export const styles = { section };
