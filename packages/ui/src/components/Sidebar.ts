@@ -1,30 +1,51 @@
 // core
-export { SidebarProvider, useSidebar } from "@wondesign/sidebar/core";
-export type { SidebarProviderProps } from "@wondesign/sidebar/core";
+export {
+  SidebarProvider,
+  useSidebar,
+  useSidebarItem,
+} from "@wondesign/sidebar";
+export type { SidebarProps } from "@wondesign/sidebar";
 
 // main body
-export { Sidebar } from "@wondesign/sidebar/Sidebar";
-export type { SidebarProps } from "@wondesign/sidebar/Sidebar";
+export { SidebarBody } from "@wondesign/sidebar/Body";
+export type { SidebarBodyProps } from "@wondesign/sidebar/Body";
 
 // wrappers
-export { SidebarHeader, SidebarHeaderIcon } from "@wondesign/sidebar/Header";
-export type {
-  SidebarHeaderProps,
-  SidebarHeaderIconProps,
-} from "@wondesign/sidebar/Header";
-
-export { SidebarFooter } from "@wondesign/sidebar/Footer";
-export type { SidebarFooterProps } from "@wondesign/sidebar/Footer";
+export { SidebarSection } from "@wondesign/sidebar/Section";
+export type { SidebarSectionProps } from "@wondesign/sidebar/Section";
 
 export { SidebarNav } from "@wondesign/sidebar/Nav";
 export type { SidebarNavProps } from "@wondesign/sidebar/Nav";
 
 // toggle
-export { SidebarToggle, SidebarToggleIcon } from "@wondesign/sidebar/Toggle";
-export type { SidebarToggleProps } from "@wondesign/sidebar/Toggle";
+export {
+  SidebarToggle,
+  SidebarToggleIcon,
+  SidebarSwappableToggle,
+} from "@wondesign/sidebar/Toggle";
+export type {
+  SidebarToggleProps,
+  SidebarSwappableToggleProps,
+} from "@wondesign/sidebar/Toggle";
 
 // group & item
-export { SidebarGroup } from "@wondesign/sidebar/Group";
-export type { SidebarGroupProps } from "@wondesign/sidebar/Group";
-export { SidebarItem, SidebarItemToggle } from "@wondesign/sidebar/Item";
-export type { SidebarItemProps } from "@wondesign/sidebar/Item";
+export {
+  SidebarItem,
+  SidebarItemLink,
+  SidebarGroup,
+  SidebarItemHeader,
+  SidebarLink,
+  SidebarItemSubitems,
+  SidebarItemToggle,
+  SidebarItemWrapper,
+} from "@wondesign/sidebar/Item";
+export type {
+  SidebarItemProps,
+  SidebarItemLinkProps,
+  SidebarGroupProps,
+  SidebarItemHeaderProps,
+  SidebarLinkProps,
+  SidebarItemSubitemsProps,
+  SidebarItemToggleProps,
+  SidebarItemWrapperProps,
+} from "@wondesign/sidebar/Item";
