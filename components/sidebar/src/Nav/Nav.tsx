@@ -1,5 +1,6 @@
 import clsx from "clsx";
 
+import { SidebarNavContext, useSidebarBody } from "@/contexts/body";
 import { styles } from "./styles.css";
 
 export interface SidebarNavProps extends Omit<
@@ -7,6 +8,7 @@ export interface SidebarNavProps extends Omit<
   "children"
 > {
   children: React.ReactNode;
+  ref?: React.Ref<HTMLElement>;
 }
 
 export function SidebarNav({
@@ -15,14 +17,18 @@ export function SidebarNav({
   className,
   ...rest
 }: Readonly<SidebarNavProps>) {
+  useSidebarBody();
+
   return (
-    <nav
-      {...rest}
-      role="navigation"
-      aria-label={ariaLabel}
-      className={clsx(styles.nav, className)}
-    >
-      {children}
-    </nav>
+    <SidebarNavContext.Provider value={true}>
+      <nav
+        {...rest}
+        className={clsx(styles.nav, className)}
+        aria-label={ariaLabel}
+        data-orientation="vertical"
+      >
+        {children}
+      </nav>
+    </SidebarNavContext.Provider>
   );
 }
