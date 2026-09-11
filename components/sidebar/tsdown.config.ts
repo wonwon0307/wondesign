@@ -8,7 +8,6 @@ export default defineConfig([
     format: ["esm"],
     dts: true,
     clean: false,
-    banner: "'use client';",
     deps: {
       onlyBundle: false,
     },
