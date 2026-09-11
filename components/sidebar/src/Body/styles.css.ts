@@ -41,7 +41,8 @@ const sidebar = recipe({
         width: ICON_WIDTH,
       },
       closed: {
-        width: 0,
+        width: "0px",
+        overflow: "hidden",
       },
     },
   },
