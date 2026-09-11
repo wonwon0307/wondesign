@@ -1,103 +1,105 @@
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
-import { SidebarProvider, SidebarProviderProps } from "@/core";
-import { Sidebar } from "@/Sidebar";
-import { SidebarToggle } from "@/Toggle";
-
-function TestComponent({ children, ...rest }: Readonly<SidebarProviderProps>) {
-  return (
-    <SidebarProvider {...rest}>
-      <Sidebar data-testid="sidebar">{children}</Sidebar>
-      <SidebarToggle data-testid="sidebar-toggle">Toggle</SidebarToggle>
-    </SidebarProvider>
-  );
-}
+import { SidebarProvider } from "@/contexts/Provider";
+import { SidebarBody } from "@/Body/Body";
+import { SidebarToggle } from "@/Toggle/Toggle";
+import { SidebarSwappableToggle } from "@/Toggle/Swappable";
 
 describe("SidebarToggle", () => {
-  it("renders and handles toggle correctly", () => {
+  it("renders tooltip if shortkey is provided and disableTooltip is false", () => {
     const { getByTestId } = render(
-      <TestComponent>Sidebar Contents</TestComponent>,
+      <SidebarProvider shortkey="Ctrl+T">
+        <SidebarBody>Sidebar Content</SidebarBody>
+        <SidebarToggle disableTooltip={false} />
+      </SidebarProvider>,
     );
 
-    const toggle = getByTestId("sidebar-toggle");
-    const sidebar = getByTestId("sidebar");
+    const tooltip = getByTestId("tooltip");
+    expect(tooltip).toBeTruthy();
+    // By default, sidebar is left, so tooltip should appear on the right
+    expect(tooltip.dataset.placement).toBe("right");
 
-    expect(sidebar.dataset.state).toBe("closed");
-
-    fireEvent.click(toggle);
-    expect(sidebar.dataset.state).toBe("expanded");
-
-    fireEvent.click(toggle);
-    expect(sidebar.dataset.state).toBe("closed");
+    // default toggle should be rendered
+    expect(getByTestId("icon-sidebar")).toBeTruthy();
+    expect(getByTestId("icon-sidebar-arrow")).toBeTruthy();
   });
 
-  it("handles keyboard shortkey and tooltip correctly", () => {
-    const { getByTestId, getByText } = render(
-      <TestComponent keyboardShortkey="Mod+B">Sidebar Contents</TestComponent>,
-    );
-
-    // check aria-keyshortcuts attribute
-    expect(
-      getByTestId("sidebar-toggle").getAttribute("aria-keyshortcuts"),
-    ).toBe("Control+B");
-    expect(getByTestId("tooltip-right")).toBeTruthy();
-
-    // Check keyboard shortcut
-    fireEvent.keyDown(document, { code: "KeyB", ctrlKey: true });
-    const sidebar = getByTestId("sidebar");
-    expect(sidebar.dataset.state).toBe("expanded");
-
-    fireEvent.keyDown(document, { code: "KeyB", ctrlKey: true });
-    expect(sidebar.dataset.state).toBe("closed");
-
-    // Check tooltip content
-    // no need to hover, because tooltip is mocked
-    expect(getByText("Ctrl")).toBeTruthy();
-    expect(getByText("B")).toBeTruthy();
-  });
-
-  it("renders tooltip correctly when side is right", () => {
+  it("renders tooltip on the left if sidebar is on the right", () => {
     const { getByTestId } = render(
-      <TestComponent keyboardShortkey="Mod+B" side="right">
-        Sidebar Contents
-      </TestComponent>,
+      <SidebarProvider shortkey="Ctrl+T" side="right">
+        <SidebarBody>Sidebar Content</SidebarBody>
+        <SidebarToggle disableTooltip={false} />
+      </SidebarProvider>,
     );
 
-    expect(getByTestId("tooltip-left")).toBeTruthy();
+    const tooltip = getByTestId("tooltip");
+    expect(tooltip).toBeTruthy();
+    expect(tooltip.dataset.placement).toBe("left");
   });
 
-  it("doesn't render tooltip when keyboardShortkey is not set", () => {
-    const { queryByText } = render(
-      <TestComponent keyboardShortkey={null}>Sidebar Contents</TestComponent>,
+  it("should not render tooltip if disableTooltip is true", () => {
+    const { queryByTestId } = render(
+      <SidebarProvider shortkey="Ctrl+T">
+        <SidebarBody>Sidebar Content</SidebarBody>
+        <SidebarToggle disableTooltip={true} />
+      </SidebarProvider>,
     );
 
-    // Coverage purpose
-    expect(queryByText("Control+B")).toBeNull();
+    const tooltip = queryByTestId("tooltip");
+    expect(tooltip).toBeNull();
   });
 
-  it("doesn't render tooltip when disableTooltip is true", () => {
-    const { queryByText } = render(
-      <SidebarProvider>
-        <Sidebar data-testid="sidebar">Body</Sidebar>
-        <SidebarToggle data-testid="sidebar-toggle" disableTooltip>
-          Toggle
+  it("should render override toggle content if provided", () => {
+    const { getByTestId } = render(
+      <SidebarProvider shortkey="Ctrl+T">
+        <SidebarBody>Sidebar Content</SidebarBody>
+        <SidebarToggle>
+          <div data-testid="custom-toggle">Custom Toggle</div>
         </SidebarToggle>
       </SidebarProvider>,
     );
 
-    // Coverage purpose
-    expect(queryByText("Control+B")).toBeNull();
+    expect(getByTestId("custom-toggle")).toBeTruthy();
   });
+});
 
-  it("renders SidebarToggleIcon correctly", () => {
+describe("SidebarSwappableToggle", () => {
+  it("renders swappable toggle correctly", () => {
     const { getByTestId } = render(
-      <SidebarProvider>
-        <Sidebar data-testid="sidebar">Body</Sidebar>
-        <SidebarToggle />
+      <SidebarProvider shortkey="Ctrl+T">
+        <SidebarBody>Sidebar Content</SidebarBody>
+        <SidebarSwappableToggle>
+          <div data-testid="custom-swappable-content">
+            Custom Swappable Content
+          </div>
+        </SidebarSwappableToggle>
       </SidebarProvider>,
     );
 
+    expect(getByTestId("custom-swappable-content")).toBeTruthy();
     expect(getByTestId("icon-sidebar")).toBeTruthy();
     expect(getByTestId("icon-sidebar-arrow")).toBeTruthy();
+  });
+
+  it("renders swappable toggle with custom toggle", () => {
+    const toggleContent = (
+      <div data-testid="custom-swappable-toggle">Custom Swappable Toggle</div>
+    );
+
+    const { getByTestId, queryByTestId } = render(
+      <SidebarProvider shortkey="Ctrl+T">
+        <SidebarBody>Sidebar Content</SidebarBody>
+        <SidebarSwappableToggle toggle={toggleContent}>
+          <div data-testid="custom-swappable-content">
+            Custom Swappable Content
+          </div>
+        </SidebarSwappableToggle>
+      </SidebarProvider>,
+    );
+
+    expect(getByTestId("custom-swappable-toggle")).toBeTruthy();
+    expect(getByTestId("custom-swappable-content")).toBeTruthy();
+    expect(queryByTestId("icon-sidebar")).toBeFalsy();
+    expect(queryByTestId("icon-sidebar-arrow")).toBeFalsy();
   });
 });

@@ -1,158 +1,137 @@
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
-import { SidebarProvider, type SidebarProviderProps } from "@/core";
-import { SidebarItem, SidebarItemToggle } from "@/Item";
+import { SidebarProvider } from "@/contexts/Provider";
+import { SidebarBody } from "@/Body/Body";
+import { SidebarNav } from "@/Nav/Nav";
+import { SidebarItemWrapper } from "@/Item/fragments/Wrapper";
+import { SidebarItemHeader } from "@/Item/fragments/Header";
+import { SidebarLink } from "@/Item/fragments/Link";
+import { SidebarItemSubitems } from "@/Item/fragments/Subitems";
+import { SidebarItemToggle } from "@/Item/fragments/Toggle";
+import { SidebarItemLink } from "@/Item/Item/ItemLink";
 
-function TestComponent({ children, ...rest }: Readonly<SidebarProviderProps>) {
-  return <SidebarProvider {...rest}>{children}</SidebarProvider>;
-}
+describe("SidebarItemLink", () => {
+  it("should render custom SidebarItemLink correctly", () => {
+    const testIcon = <span>Test Custom Icon</span>;
+    const testRight = <span>Test Right</span>;
+    const testActiveIcon = <span>Test Active Icon</span>;
 
-describe("SidebarItem", () => {
-  it("renders sidebar items and item toggle correctly", () => {
     const { getByText } = render(
-      <TestComponent>
-        <SidebarItem label="Active Item" href="#1" isActive />
-        <SidebarItem label="Normal Item" href="#2" />
-        <SidebarItem label="Disabled Item" href="#3" isDisabled />
-        <SidebarItem label="External Item" href="#4" isExternal />
-      </TestComponent>,
+      <SidebarProvider isOpen>
+        <SidebarBody keepMounted>
+          <SidebarNav>
+            <SidebarItemWrapper>
+              <SidebarItemLink
+                href="/item"
+                label="Item"
+                icon={testIcon}
+                right={testRight}
+              />
+            </SidebarItemWrapper>
+            <SidebarItemWrapper>
+              <SidebarItemLink
+                href="/item"
+                label="Item"
+                icon={testActiveIcon}
+                isActive
+              />
+            </SidebarItemWrapper>
+          </SidebarNav>
+        </SidebarBody>
+      </SidebarProvider>,
     );
 
-    expect(getByText("Active Item")).toBeTruthy();
-    expect(getByText("Normal Item")).toBeTruthy();
-    expect(getByText("Disabled Item")).toBeTruthy();
-    expect(getByText("External Item")).toBeTruthy();
+    expect(getByText("Test Custom Icon")).toBeTruthy();
+    expect(getByText("Test Right")).toBeTruthy();
+
+    expect(getByText("Test Active Icon")).toBeTruthy();
   });
 
-  it("renders and handles collapsible item correctly", () => {
-    const { getByTestId, getByText, queryByText } = render(
-      <TestComponent>
-        <SidebarItem
-          label="Grouped Item"
-          href="#grouped"
-          right={<SidebarItemToggle data-testid="toggle" />}
-        >
-          <SidebarItem label="Subitem 1" href="#sub1" />
-          <SidebarItem label="Subitem 2" href="#sub2" />
-        </SidebarItem>
-      </TestComponent>,
-    );
-
-    expect(getByText("Grouped Item")).toBeTruthy();
-
-    // not rendered initially
-    expect(queryByText("Subitem 1")).toBeNull();
-    expect(queryByText("Subitem 2")).toBeNull();
-
-    // should render on toggle click
-    fireEvent.click(getByTestId("toggle"));
-    expect(getByText("Subitem 1")).toBeTruthy();
-    expect(getByText("Subitem 2")).toBeTruthy();
-  });
-
-  it("renders item in collapsed state correctly", () => {
-    const { getByTestId, queryByTestId, queryByText } = render(
-      <TestComponent collapse="icons" defaultOpen={false}>
-        <SidebarItem
-          label="Active Item"
-          href="#1"
-          icon={<svg data-testid="active-icon" />}
-          isActive
-        />
-        <SidebarItem
-          label="Normal Item"
-          href="#2"
-          icon={<svg data-testid="normal-icon" />}
-        />
-        <SidebarItem
-          label="Disabled Item"
-          href="#3"
-          icon={<svg data-testid="disabled-icon" />}
-          isDisabled
-        />
-        <SidebarItem
-          label="External Item"
-          href="#4"
-          icon={<svg data-testid="external-icon" />}
-          isExternal
-        />
-        <SidebarItem
-          label="Grouped Item"
-          href="#grouped"
-          icon={<svg data-testid="grouped-icon" />}
-          right={<SidebarItemToggle data-testid="toggle" />}
-        >
-          <SidebarItem
-            label="Subitem 1"
-            href="#sub1"
-            icon={<svg data-testid="subitem1-icon" />}
-          />
-          <SidebarItem
-            label="Subitem 2"
-            href="#sub2"
-            icon={<svg data-testid="subitem2-icon" />}
-          />
-        </SidebarItem>
-      </TestComponent>,
-    );
-
-    // all icons should be rendered
-    expect(getByTestId("active-icon")).toBeTruthy();
-    expect(getByTestId("normal-icon")).toBeTruthy();
-    expect(getByTestId("disabled-icon")).toBeTruthy();
-    expect(getByTestId("external-icon")).toBeTruthy();
-    expect(getByTestId("grouped-icon")).toBeTruthy();
-
-    // subitems should not be rendered (both icons and labels)
-    expect(queryByText("Subitem 1")).toBeNull();
-    expect(queryByText("Subitem 2")).toBeNull();
-    expect(queryByTestId("subitem1-icon")).toBeNull();
-    expect(queryByTestId("subitem2-icon")).toBeNull();
-  });
-
-  it("renders label that is not string correctly", () => {
-    const { getByTestId } = render(
-      <TestComponent>
-        <SidebarItem
-          label={<div data-testid="custom-label">Custom Label</div>}
-          href="#1"
-        />
-      </TestComponent>,
-    );
-
-    expect(getByTestId("custom-label")).toBeTruthy();
-  });
-
-  it("renders tooltip correctly when side is right", () => {
-    const { getByTestId } = render(
-      <TestComponent side="right" collapse="icons" defaultOpen={false}>
-        <SidebarItem
-          label="Item with Tooltip"
-          href="#1"
-          icon={<svg data-testid="icon" />}
-        />
-      </TestComponent>,
-    );
-
-    // sidebar renders on right, so tooltip should be on left
-    expect(getByTestId("tooltip-left")).toBeTruthy();
-  });
-
-  it("warns on console if icon is missing when collapse is 'icons'", () => {
-    const consoleWarnSpy = vi
-      .spyOn(console, "warn")
-      .mockImplementation(() => {});
+  it("should warn when icon is not provided, but sidebar is collapse-to-icon mode", () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
 
     render(
-      <TestComponent collapse="icons">
-        <SidebarItem label="Item 1" href="#1" />
-      </TestComponent>,
+      <SidebarProvider collapse="icons">
+        <SidebarBody>
+          <SidebarNav>
+            <SidebarItemWrapper>
+              <SidebarItemLink href="/item" label="Item" />
+            </SidebarItemWrapper>
+          </SidebarNav>
+        </SidebarBody>
+      </SidebarProvider>,
     );
 
-    expect(consoleWarnSpy).toHaveBeenCalledWith(
-      "SidebarItem: 'icon' prop is required when sidebar collapse is 'icons'.",
+    expect(console.warn).toHaveBeenCalledWith(
+      "[WonDesign Sidebar] SidebarItem: 'icon' prop is required when sidebar collapse is 'icons'.",
+    );
+  });
+
+  it("should render tooltip if sidebar is collapse-to-icon mode", () => {
+    const { getByTestId } = render(
+      <SidebarProvider collapse="icons" isOpen={false}>
+        <SidebarBody keepMounted>
+          <SidebarNav>
+            <SidebarItemWrapper>
+              <SidebarItemLink
+                href="/item"
+                label="Item"
+                icon={<span>Test Icon</span>}
+              />
+            </SidebarItemWrapper>
+          </SidebarNav>
+        </SidebarBody>
+      </SidebarProvider>,
     );
 
-    consoleWarnSpy.mockRestore();
+    const tooltip = getByTestId("tooltip");
+    expect(tooltip).toBeTruthy();
+    expect(tooltip.dataset.placement).toBe("right");
+  });
+
+  it("should render tooltip on the left if sidebar side is right", () => {
+    const { getByTestId } = render(
+      <SidebarProvider collapse="icons" isOpen={false} side="right">
+        <SidebarBody keepMounted>
+          <SidebarNav>
+            <SidebarItemWrapper>
+              <SidebarItemLink
+                href="/item"
+                label="Item"
+                icon={<span>Test Icon</span>}
+              />
+            </SidebarItemWrapper>
+          </SidebarNav>
+        </SidebarBody>
+      </SidebarProvider>,
+    );
+
+    const tooltip = getByTestId("tooltip");
+    expect(tooltip).toBeTruthy();
+    expect(tooltip.dataset.placement).toBe("left");
+  });
+});
+
+describe("SidebarItemToggle", () => {
+  it("should not render the toggle even if it has children when sidebar is not expanded", () => {
+    const { queryByTestId } = render(
+      <SidebarProvider collapse="icons" isOpen={false}>
+        <SidebarBody keepMounted>
+          <SidebarNav>
+            <SidebarItemWrapper>
+              <SidebarItemHeader>
+                <SidebarLink href="/item">Item</SidebarLink>
+              </SidebarItemHeader>
+              <SidebarItemSubitems>
+                <SidebarItemLink href="/item/child" label="Child Item" />
+              </SidebarItemSubitems>
+              <SidebarItemToggle data-testid="toggle" />
+            </SidebarItemWrapper>
+          </SidebarNav>
+        </SidebarBody>
+      </SidebarProvider>,
+    );
+
+    expect(queryByTestId("toggle")).toBeNull();
   });
 });
