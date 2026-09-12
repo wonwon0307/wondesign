@@ -150,7 +150,7 @@ importers:
         version: link:../icons
       '@wondesign/tokens':
         specifier: workspace:*
-        version: link:../../primitives/tokens
+        version: link:../../foundations/tokens
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -210,7 +210,7 @@ importers:
         version: link:../icons
       '@wondesign/tokens':
         specifier: workspace:*
-        version: link:../../primitives/tokens
+        version: link:../../foundations/tokens
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -241,7 +241,7 @@ importers:
         version: link:../links
       '@wondesign/tokens':
         specifier: workspace:*
-        version: link:../../primitives/tokens
+        version: link:../../foundations/tokens
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -269,7 +269,7 @@ importers:
         version: link:../../foundations/shortkey
       '@wondesign/tokens':
         specifier: workspace:*
-        version: link:../../primitives/tokens
+        version: link:../../foundations/tokens
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -303,7 +303,7 @@ importers:
         version: link:../../foundations/position
       '@wondesign/tokens':
         specifier: workspace:*
-        version: link:../../primitives/tokens
+        version: link:../../foundations/tokens
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -401,6 +401,12 @@ importers:
         specifier: ^19
         version: 19.2.8(react@19.2.8)
 
+  foundations/tokens:
+    devDependencies:
+      '@wondesign/colors':
+        specifier: workspace:*
+        version: link:../../primitives/colors
+
   packages/sidebar:
     dependencies:
       react:
@@ -439,7 +445,7 @@ importers:
         version: link:../../components/texts
       '@wondesign/tokens':
         specifier: workspace:*
-        version: link:../../primitives/tokens
+        version: link:../../foundations/tokens
       '@wondesign/tooltip':
         specifier: workspace:*
         version: link:../../components/tooltip
@@ -456,15 +462,6 @@ importers:
         specifier: ^19
         version: 19.2.8(react@19.2.8)
     devDependencies:
-      '@vanilla-extract/css':
-        specifier: 'catalog:'
-        version: 1.21.2
-      '@vanilla-extract/recipes':
-        specifier: 'catalog:'
-        version: 0.5.7(@vanilla-extract/css@1.21.2)
-      '@vanilla-extract/rollup-plugin':
-        specifier: 'catalog:'
-        version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
       '@wondesign/buttons':
         specifier: workspace:*
         version: link:../../components/buttons
@@ -480,12 +477,6 @@ importers:
       '@wondesign/reset-css':
         specifier: workspace:*
         version: link:../../primitives/reset-css
-      '@wondesign/sidebar':
-        specifier: workspace:*
-        version: link:../sidebar
-      '@wondesign/svg2tsx':
-        specifier: workspace:*
-        version: link:../../primitives/svg2tsx
       '@wondesign/texts':
         specifier: workspace:*
         version: link:../../components/texts
@@ -494,7 +485,7 @@ importers:
         version: link:../../primitives/theme
       '@wondesign/tokens':
         specifier: workspace:*
-        version: link:../../primitives/tokens
+        version: link:../../foundations/tokens
       '@wondesign/tooltip':
         specifier: workspace:*
         version: link:../../components/tooltip
@@ -539,12 +530,6 @@ importers:
       react:
         specifier: ^19
         version: 19.2.8
-
-  primitives/tokens:
-    devDependencies:
-      '@wondesign/colors':
-        specifier: workspace:*
-        version: link:../colors
 
 packages:
 
