@@ -92,6 +92,9 @@ importers:
       '@vanilla-extract/recipes':
         specifier: 'catalog:'
         version: 0.5.7(@vanilla-extract/css@1.21.2)
+      '@wondesign/sidebar':
+        specifier: workspace:*
+        version: link:../../packages/sidebar
       '@wondesign/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -139,9 +142,9 @@ importers:
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/headless-ui':
+      '@wondesign/composition':
         specifier: workspace:*
-        version: link:../../primitives/headless-ui
+        version: link:../../foundations/composition
       '@wondesign/icons':
         specifier: workspace:*
         version: link:../icons
@@ -151,6 +154,25 @@ importers:
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
+
+  components/collapsible:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.2.8
+      react-dom:
+        specifier: ^19
+        version: 19.2.8(react@19.2.8)
+    devDependencies:
+      '@wondesign/buttons':
+        specifier: workspace:*
+        version: link:../buttons
+      '@wondesign/composition':
+        specifier: workspace:*
+        version: link:../../foundations/composition
+      '@wondesign/interactions':
+        specifier: workspace:*
+        version: link:../../foundations/interactions
 
   components/icons:
     dependencies:
@@ -193,7 +215,7 @@ importers:
         specifier: 'catalog:'
         version: 2.1.1
 
-  components/sidebar:
+  components/navbar:
     dependencies:
       react:
         specifier: ^19
@@ -211,21 +233,15 @@ importers:
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/headless-ui':
+      '@wondesign/composition':
         specifier: workspace:*
-        version: link:../../primitives/headless-ui
-      '@wondesign/icons':
+        version: link:../../foundations/composition
+      '@wondesign/links':
         specifier: workspace:*
-        version: link:../icons
-      '@wondesign/texts':
-        specifier: workspace:*
-        version: link:../texts
+        version: link:../links
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../primitives/tokens
-      '@wondesign/tooltip':
-        specifier: workspace:*
-        version: link:../tooltip
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -248,12 +264,9 @@ importers:
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/platform':
+      '@wondesign/shortkey':
         specifier: workspace:*
-        version: link:../../primitives/platform
-      '@wondesign/shortkeys':
-        specifier: workspace:*
-        version: link:../../primitives/shortkeys
+        version: link:../../foundations/shortkey
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../primitives/tokens
@@ -273,18 +286,21 @@ importers:
       '@vanilla-extract/css':
         specifier: 'catalog:'
         version: 1.21.2
-      '@vanilla-extract/recipes':
-        specifier: 'catalog:'
-        version: 0.5.7(@vanilla-extract/css@1.21.2)
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/headless-ui':
+      '@wondesign/buttons':
         specifier: workspace:*
-        version: link:../../primitives/headless-ui
-      '@wondesign/texts':
+        version: link:../buttons
+      '@wondesign/composition':
         specifier: workspace:*
-        version: link:../texts
+        version: link:../../foundations/composition
+      '@wondesign/interactions':
+        specifier: workspace:*
+        version: link:../../foundations/interactions
+      '@wondesign/position':
+        specifier: workspace:*
+        version: link:../../foundations/position
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../primitives/tokens
@@ -345,6 +361,92 @@ importers:
         specifier: ^29.1.1
         version: 29.1.1
 
+  foundations/composition:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.2.8
+      react-dom:
+        specifier: ^19
+        version: 19.2.8(react@19.2.8)
+
+  foundations/interactions:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.2.8
+      react-dom:
+        specifier: ^19
+        version: 19.2.8(react@19.2.8)
+    devDependencies:
+      '@wondesign/shortkey':
+        specifier: workspace:*
+        version: link:../shortkey
+
+  foundations/position:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.2.8
+      react-dom:
+        specifier: ^19
+        version: 19.2.8(react@19.2.8)
+
+  foundations/shortkey:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.2.8
+      react-dom:
+        specifier: ^19
+        version: 19.2.8(react@19.2.8)
+
+  packages/sidebar:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.2.8
+      react-dom:
+        specifier: ^19
+        version: 19.2.8(react@19.2.8)
+    devDependencies:
+      '@vanilla-extract/css':
+        specifier: 'catalog:'
+        version: 1.21.2
+      '@vanilla-extract/recipes':
+        specifier: 'catalog:'
+        version: 0.5.7(@vanilla-extract/css@1.21.2)
+      '@vanilla-extract/rollup-plugin':
+        specifier: 'catalog:'
+        version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
+      '@wondesign/buttons':
+        specifier: workspace:*
+        version: link:../../components/buttons
+      '@wondesign/collapsible':
+        specifier: workspace:*
+        version: link:../../components/collapsible
+      '@wondesign/icons':
+        specifier: workspace:*
+        version: link:../../components/icons
+      '@wondesign/interactions':
+        specifier: workspace:*
+        version: link:../../foundations/interactions
+      '@wondesign/links':
+        specifier: workspace:*
+        version: link:../../components/links
+      '@wondesign/texts':
+        specifier: workspace:*
+        version: link:../../components/texts
+      '@wondesign/tokens':
+        specifier: workspace:*
+        version: link:../../primitives/tokens
+      '@wondesign/tooltip':
+        specifier: workspace:*
+        version: link:../../components/tooltip
+      clsx:
+        specifier: 'catalog:'
+        version: 2.1.1
+
   packages/ui:
     dependencies:
       react:
@@ -366,21 +468,21 @@ importers:
       '@wondesign/buttons':
         specifier: workspace:*
         version: link:../../components/buttons
-      '@wondesign/headless-ui':
-        specifier: workspace:*
-        version: link:../../primitives/headless-ui
       '@wondesign/icons':
         specifier: workspace:*
         version: link:../../components/icons
       '@wondesign/links':
         specifier: workspace:*
         version: link:../../components/links
+      '@wondesign/navbar':
+        specifier: workspace:*
+        version: link:../../components/navbar
       '@wondesign/reset-css':
         specifier: workspace:*
         version: link:../../primitives/reset-css
       '@wondesign/sidebar':
         specifier: workspace:*
-        version: link:../../components/sidebar
+        version: link:../sidebar
       '@wondesign/svg2tsx':
         specifier: workspace:*
         version: link:../../primitives/svg2tsx
@@ -402,42 +504,7 @@ importers:
 
   primitives/colors: {}
 
-  primitives/headless-ui:
-    dependencies:
-      react:
-        specifier: ^19
-        version: 19.2.8
-      react-dom:
-        specifier: ^19
-        version: 19.2.8(react@19.2.8)
-    devDependencies:
-      '@wondesign/shortkeys':
-        specifier: workspace:*
-        version: link:../shortkeys
-
-  primitives/platform:
-    dependencies:
-      react:
-        specifier: ^19
-        version: 19.2.8
-      react-dom:
-        specifier: ^19
-        version: 19.2.8(react@19.2.8)
-
   primitives/reset-css: {}
-
-  primitives/shortkeys:
-    dependencies:
-      react:
-        specifier: ^19
-        version: 19.2.8
-      react-dom:
-        specifier: ^19
-        version: 19.2.8(react@19.2.8)
-    devDependencies:
-      '@wondesign/platform':
-        specifier: workspace:*
-        version: link:../platform
 
   primitives/svg2tsx:
     dependencies:
