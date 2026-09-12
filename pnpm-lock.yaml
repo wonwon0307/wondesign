@@ -401,6 +401,12 @@ importers:
         specifier: ^19
         version: 19.2.8(react@19.2.8)
 
+  foundations/theme:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.2.8
+
   foundations/tokens:
     devDependencies:
       '@wondesign/colors':
@@ -482,7 +488,7 @@ importers:
         version: link:../../components/texts
       '@wondesign/theme':
         specifier: workspace:*
-        version: link:../../primitives/theme
+        version: link:../../foundations/theme
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../foundations/tokens
@@ -524,12 +530,6 @@ importers:
       p-limit:
         specifier: ^7.3.2
         version: 7.3.2
-
-  primitives/theme:
-    dependencies:
-      react:
-        specifier: ^19
-        version: 19.2.8
 
 packages:
 
