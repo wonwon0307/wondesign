@@ -1,7 +1,7 @@
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
-const vertical = style({
+const wrapper = style({
   display: "flex",
   flexDirection: "column",
 });
@@ -29,4 +29,14 @@ const baseInteractive = recipe({
   },
 });
 
-export const styles = { vertical, header, baseInteractive };
+const subitems = style({
+  display: "flex",
+  flexDirection: "column",
+  selectors: {
+    "&[data-state='closed']": {
+      display: "none",
+    },
+  },
+});
+
+export const styles = { wrapper, header, baseInteractive, subitems };

@@ -53,7 +53,7 @@ export function SidebarItemWrapper({
     return (
       <CollapsibleProvider defaultOpen={defaultOpen} keepMounted>
         <SidebarItemContext.Provider value={contextValue}>
-          <Component {...rest} className={clsx(styles.vertical, className)} />
+          <Component {...rest} className={clsx(styles.wrapper, className)} />
         </SidebarItemContext.Provider>
       </CollapsibleProvider>
     );
@@ -61,7 +61,7 @@ export function SidebarItemWrapper({
 
   return (
     <SidebarItemContext.Provider value={contextValue}>
-      <Component {...rest} className={clsx(styles.vertical, className)} />
+      <Component {...rest} className={clsx(styles.wrapper, className)} />
     </SidebarItemContext.Provider>
   );
 }

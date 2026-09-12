@@ -17,12 +17,13 @@ const item = recipe({
     borderRadius: tokens.radius.sm,
     position: "relative",
     font: tokens.text.bodyMedium,
+    backgroundColor: "transparent",
     userSelect: "none",
     selectors: {
       "&:focus-visible": {
         backgroundColor: tokens.colors.backgroundHover,
-        outline: `2px solid ${tokens.colors.primary}`,
-        outlineOffset: "2px",
+        outline: `1px solid ${tokens.colors.primary}`,
+        outlineOffset: "0px",
       },
     },
     "@media": {
@@ -40,16 +41,17 @@ const item = recipe({
       true: {
         color: tokens.colors.primary,
         fontWeight: tokens.typography.fontWeight.semibold,
+        backgroundColor: colorWithOpacity(tokens.colors.primary, 12),
         selectors: {
           "&:focus-visible": {
-            backgroundColor: colorWithOpacity(tokens.colors.primary, 16),
+            backgroundColor: colorWithOpacity(tokens.colors.primary, 24),
           },
         },
         "@media": {
           [mediaQueries.hoverable]: {
             selectors: {
               "&:hover": {
-                backgroundColor: colorWithOpacity(tokens.colors.primary, 12),
+                backgroundColor: colorWithOpacity(tokens.colors.primary, 24),
               },
             },
           },

@@ -33,7 +33,7 @@ export function SidebarItemSubitems({
   if (variant === "collapsible" && state === "expanded") {
     return (
       <CollapsibleContent asChild>
-        <Component {...rest} className={clsx(styles.vertical, className)}>
+        <Component {...rest} className={clsx(styles.subitems, className)}>
           {children}
         </Component>
       </CollapsibleContent>
@@ -41,7 +41,7 @@ export function SidebarItemSubitems({
   }
 
   return (
-    <Component {...rest} className={clsx(styles.vertical, className)}>
+    <Component {...rest} className={clsx(styles.subitems, className)}>
       {children}
     </Component>
   );
