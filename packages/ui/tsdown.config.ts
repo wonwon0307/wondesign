@@ -11,10 +11,15 @@ export default defineConfig([
     banner: "'use client';",
     deps: {
       onlyBundle: false,
-      neverBundle: [/^@justkits\//],
     },
     css: {
       fileName: "styles.css",
     },
+  },
+  {
+    entry: ["src/tokens.ts"],
+    format: ["esm"],
+    dts: true,
+    clean: false,
   },
 ]);
