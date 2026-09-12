@@ -11,7 +11,7 @@ export function ComponentDocumentTabs() {
   };
 
   return (
-    <Navbar>
+    <Navbar aria-label="Document Tabs">
       <NavLink href="./overview" isActive={isActive("/overview")}>
         Overview
       </NavLink>
