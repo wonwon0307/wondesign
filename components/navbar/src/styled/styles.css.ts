@@ -31,42 +31,39 @@ const link = recipe({
     backgroundColor: "transparent",
     transition:
       "color 0.15s ease, background-color 0.15s ease, text-decoration-color 0.15s ease",
-    selectors: {
-      "&:focus-visible": {
-        color: tokens.colors.primary,
-        textDecoration: "underline",
-      },
-    },
-    "@media": {
-      [mediaQueries.hoverable]: {
-        selectors: {
-          "&:not([data-disabled]):hover": {
-            color: tokens.colors.primary,
-          },
-        },
-      },
-    },
   },
   variants: {
     isActive: {
       true: {
         color: tokens.colors.primary,
+        selectors: {
+          "&:focus-visible": {
+            textDecoration: "underline",
+          },
+        },
         "@media": {
           [mediaQueries.hoverable]: {
             selectors: {
               "&:hover": {
-                backgroundColor: tokens.colors.backgroundHover,
+                backgroundColor: colorWithOpacity(tokens.colors.primary, 15),
               },
             },
           },
         },
       },
       false: {
+        selectors: {
+          "&:focus-visible": {
+            color: tokens.colors.text,
+            textDecoration: "underline",
+          },
+        },
         "@media": {
           [mediaQueries.hoverable]: {
             selectors: {
-              "&:hover": {
-                backgroundColor: colorWithOpacity(tokens.colors.primary, 15),
+              "&:not([data-disabled]):hover": {
+                color: tokens.colors.text,
+                backgroundColor: tokens.colors.backgroundHover,
               },
             },
           },
