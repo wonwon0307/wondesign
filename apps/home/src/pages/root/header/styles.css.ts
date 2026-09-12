@@ -42,15 +42,9 @@ const tabs = style({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
-  padding: `0 ${tokens.spacing.layoutSmall}`,
   gap: tokens.spacing.xl,
   height: "100%",
   overflow: "hidden",
-  "@media": {
-    [mediaQueries.breakpoints.small]: {
-      padding: `0 ${tokens.spacing.lg}`,
-    },
-  },
 });
 
 const headerRight = style({

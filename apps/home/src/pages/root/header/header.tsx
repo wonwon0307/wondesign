@@ -1,8 +1,9 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Anchor, IconLink, NavList, NavLink } from "@wondesign/ui/Links";
 import { AppIcon } from "@wondesign/ui/Icons";
+import { Anchor, IconLink } from "@wondesign/ui/Links";
+import { Navbar, NavLink } from "@wondesign/ui/Navbar";
 import { Tooltip } from "@wondesign/ui/Tooltip";
 
 import { WonDesignLogo, GithubLogo } from "@/shared/ui/Logos";
@@ -23,7 +24,7 @@ export function Header() {
           <span className={styles.homeText}>WonDesign</span>
         </Anchor>
       </div>
-      <NavList className={styles.tabs} aria-label="Main Tab Navigation">
+      <Navbar className={styles.tabs} aria-label="Main Tab Navigation">
         {pages.map((page) => (
           <NavLink
             key={page.href}
@@ -33,11 +34,12 @@ export function Header() {
             {page.label}
           </NavLink>
         ))}
-      </NavList>
+      </Navbar>
       <div className={styles.headerRight}>
         <Tooltip
           text="View the source code on GitHub"
           left={<AppIcon icon="external-link" />}
+          keepMounted
         >
           <IconLink href="https://github.com/wonwon0307/wondesign" openInNewTab>
             <GithubLogo />
