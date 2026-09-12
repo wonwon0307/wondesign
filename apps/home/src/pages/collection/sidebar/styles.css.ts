@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
-import { colorWithOpacity, mediaQueries, tokens } from "@wondesign/ui";
+import { colorWithOpacity, mediaQueries, tokens } from "@wondesign/ui/tokens";
 
 const item = recipe({
   base: {

@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { mediaQueries, tokens } from "@wondesign/ui";
+import { mediaQueries, tokens } from "@wondesign/ui/tokens";
 
 const HEADER_HEIGHT = "48px";
 const SIDEBAR_WIDTH = "280px";
