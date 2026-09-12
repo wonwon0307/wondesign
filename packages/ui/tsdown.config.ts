@@ -2,11 +2,10 @@ import { defineConfig } from "tsdown";
 
 export default defineConfig([
   {
-    entry: ["src/components/*.ts", "src/index.ts"],
+    entry: ["src/components/*.ts", "src/css.ts"],
     format: ["esm"],
     dts: true,
     clean: false,
-    banner: "'use client';",
     deps: {
       onlyBundle: false,
     },
@@ -19,5 +18,12 @@ export default defineConfig([
     format: ["esm"],
     dts: true,
     clean: false,
+  },
+  {
+    entry: ["src/theme.ts"],
+    format: ["esm"],
+    dts: true,
+    clean: false,
+    banner: "'use client';",
   },
 ]);
