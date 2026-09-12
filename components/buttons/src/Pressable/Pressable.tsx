@@ -1,16 +1,18 @@
-import { Button, type ButtonProps } from "@wondesign/headless-ui/Button";
 import clsx from "clsx";
 
+import { HeadlessButton, type HeadlessButtonProps } from "@/Headless";
 import { styles } from "./styles.css";
+
+export type PressableProps = HeadlessButtonProps;
 
 export function Pressable({
   children,
   className,
   ...rest
-}: Readonly<ButtonProps>) {
+}: Readonly<PressableProps>) {
   return (
-    <Button {...rest} className={clsx(styles.pressable, className)}>
+    <HeadlessButton {...rest} className={clsx(styles.pressable, className)}>
       {children}
-    </Button>
+    </HeadlessButton>
   );
 }

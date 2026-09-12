@@ -1,4 +1,6 @@
-import { SidebarProvider, Sidebar, SidebarNav } from "@wondesign/ui/Sidebar";
+import { SidebarProvider } from "@wondesign/sidebar";
+import { SidebarBody } from "@wondesign/sidebar/Body";
+import { SidebarNav } from "@wondesign/sidebar/Nav";
 import { getSidebar, type DocsItem } from "@wondocs/core/sidebar";
 
 import { SidebarGroup } from "./sidebar/group";
@@ -16,15 +18,15 @@ export async function CollectionLayout({ params, children }: Readonly<Props>) {
   const sidebarItems = getSidebar(collection);
 
   return (
-    <SidebarProvider keyboardShortkey="Mod+B" defaultOpen>
+    <SidebarProvider shortkey="Mod+B" defaultOpen>
       <div className={styles.container}>
-        <Sidebar className={styles.sidebar}>
+        <SidebarBody className={styles.sidebar}>
           <SidebarNav>
             {sidebarItems.map((item, idx) => (
               <SidebarItem key={`${item.type}-${idx}`} item={item} />
             ))}
           </SidebarNav>
-        </Sidebar>
+        </SidebarBody>
         <div className={styles.contents}>{children}</div>
       </div>
     </SidebarProvider>

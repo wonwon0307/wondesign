@@ -1,0 +1,48 @@
+{
+  "name": "@wondesign/sidebar",
+  "description": "WonDesign - Sidebar",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "sidebar",
+    "navigation",
+    "react",
+    "typescript"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/contexts/index.d.mts",
+      "default": "./dist/contexts/index.mjs"
+    },
+    "./*": {
+      "types": "./dist/*/index.d.mts",
+      "default": "./dist/*/index.mjs"
+    }
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@vanilla-extract/css": "catalog:",
+    "@vanilla-extract/recipes": "catalog:",
+    "@vanilla-extract/rollup-plugin": "catalog:",
+    "@wondesign/buttons": "workspace:*",
+    "@wondesign/collapsible": "workspace:*",
+    "@wondesign/icons": "workspace:*",
+    "@wondesign/interactions": "workspace:*",
+    "@wondesign/links": "workspace:*",
+    "@wondesign/texts": "workspace:*",
+    "@wondesign/tokens": "workspace:*",
+    "@wondesign/tooltip": "workspace:*",
+    "clsx": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  }
+}

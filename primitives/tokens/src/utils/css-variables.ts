@@ -12,6 +12,8 @@ import {
   typographyCssVariables,
   defaultTypographyTokens,
 } from "@/models/typography";
+import { zIndexCssVariables, defaultZIndexTokens } from "@/models/z-index";
+
 import { type DesignTokens } from "@/tokens";
 
 function flatEntries(cssVars: object, values: object): [string, string][] {
@@ -31,6 +33,7 @@ export function buildCssVariables(
     spacing = defaultSpacingTokens,
     text = defaultTextTokens,
     typography = defaultTypographyTokens,
+    zIndex = defaultZIndexTokens,
   }: Partial<DesignTokens> = {},
   selector = ":root",
 ): string {
@@ -40,6 +43,8 @@ export function buildCssVariables(
     ...flatEntries(radiusCssVariables, radius),
     ...flatEntries(spacingCssVariables, spacing),
     ...flatEntries(textCssVariables, text),
+    ...flatEntries(typographyCssVariables, typography),
+    ...flatEntries(zIndexCssVariables, zIndex),
   ];
 
   for (const group of [

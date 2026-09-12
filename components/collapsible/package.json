@@ -1,0 +1,37 @@
+{
+  "name": "@wondesign/collapsible",
+  "description": "WonDesign - Collapsible",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "design",
+    "system",
+    "ui",
+    "components",
+    "collapsible",
+    "react",
+    "typescript"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsdown",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@wondesign/buttons": "workspace:*",
+    "@wondesign/composition": "workspace:*",
+    "@wondesign/interactions": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  }
+}

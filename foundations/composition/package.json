@@ -1,0 +1,29 @@
+{
+  "name": "@wondesign/composition",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./portal": {
+      "types": "./dist/portal.d.mts",
+      "default": "./dist/portal.mjs"
+    },
+    "./asChild": {
+      "types": "./dist/asChild.d.mts",
+      "default": "./dist/asChild.mjs"
+    }
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsdown",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  }
+}

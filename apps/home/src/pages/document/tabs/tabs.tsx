@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { NavList, NavLink } from "@wondesign/ui/Links";
+import { Navbar, NavLink } from "@wondesign/ui/Navbar";
 
 export function ComponentDocumentTabs() {
   const pathname = usePathname();
@@ -11,7 +11,7 @@ export function ComponentDocumentTabs() {
   };
 
   return (
-    <NavList>
+    <Navbar>
       <NavLink href="./overview" isActive={isActive("/overview")}>
         Overview
       </NavLink>
@@ -21,6 +21,6 @@ export function ComponentDocumentTabs() {
       <NavLink href="./api" isActive={isActive("/api")}>
         API
       </NavLink>
-    </NavList>
+    </Navbar>
   );
 }

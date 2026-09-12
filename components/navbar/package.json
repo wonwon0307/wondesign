@@ -1,0 +1,46 @@
+{
+  "name": "@wondesign/navbar",
+  "description": "WonDesign - Navbar",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "design",
+    "system",
+    "ui",
+    "components",
+    "navigation",
+    "navbar",
+    "react",
+    "typescript"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/styled/index.d.mts",
+      "default": "./dist/styled/index.mjs"
+    },
+    "./headless": {
+      "types": "./dist/headless/index.d.mts",
+      "default": "./dist/headless/index.mjs"
+    }
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsdown",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@vanilla-extract/css": "catalog:",
+    "@vanilla-extract/recipes": "catalog:",
+    "@vanilla-extract/rollup-plugin": "catalog:",
+    "@wondesign/composition": "workspace:*",
+    "@wondesign/links": "workspace:*",
+    "@wondesign/tokens": "workspace:*",
+    "clsx": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  }
+}

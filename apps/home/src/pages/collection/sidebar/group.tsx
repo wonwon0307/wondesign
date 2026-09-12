@@ -1,4 +1,4 @@
-import { SidebarGroup as Component } from "@wondesign/ui/Sidebar";
+import { SidebarGroup as Component } from "@wondesign/sidebar/Item";
 import type { DocsGroup } from "@wondocs/core/sidebar";
 
 interface Props {

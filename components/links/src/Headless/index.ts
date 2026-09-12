@@ -1,3 +1,3 @@
-export { HeadlessAnchor } from "./HeadlessAnchor";
+export { HeadlessAnchor } from "./Anchor";
 
-export type { HeadlessAnchorProps } from "./HeadlessAnchor";
+export type { HeadlessAnchorProps } from "./Anchor";

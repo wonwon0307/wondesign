@@ -50,8 +50,8 @@ const text: TextTokens = {
   bodyMedium: `${typography.fontWeight.regular} ${typography.fontSize.bodyMedium}/${typography.lineHeight.bodyMedium} ${typography.fontFamily.normal}`,
   bodySmall: `${typography.fontWeight.regular} ${typography.fontSize.bodySmall}/${typography.lineHeight.bodySmall} ${typography.fontFamily.normal}`,
   description: `${typography.fontWeight.regular} 0.75rem/1rem ${typography.fontFamily.normal}`,
-  codeLarge: `${typography.fontWeight.regular} ${typography.fontSize.bodySmall}/${typography.fontSize.bodySmall} ${typography.fontFamily.code}`,
-  codeSmall: `${typography.fontWeight.regular} 0.75rem/0.75rem ${typography.fontFamily.code}`,
+  codeLarge: `${typography.fontWeight.regular} ${typography.fontSize.bodyMedium}/${typography.lineHeight.bodyMedium} ${typography.fontFamily.code}`,
+  codeSmall: `${typography.fontWeight.regular} ${typography.fontSize.bodySmall}/${typography.lineHeight.bodySmall} ${typography.fontFamily.code}`,
   quoteLarge: `${typography.fontWeight.regular} ${typography.fontSize.bodyLarge}/${typography.lineHeight.bodyLarge} ${typography.fontFamily.quote}`,
   quoteSmall: `${typography.fontWeight.regular} ${typography.fontSize.bodySmall}/${typography.lineHeight.bodySmall} ${typography.fontFamily.quote}`,
 };

@@ -6,6 +6,7 @@ import { radiusTokens, type RadiusTokens } from "./models/radius";
 import { spacingTokens, type SpacingTokens } from "./models/spacing";
 import { textTokens, type TextTokens } from "./models/text";
 import { typographyTokens, type TypographyTokens } from "./models/typography";
+import { zIndexTokens, type ZIndexTokens } from "./models/z-index";
 import { createSimpleBreakpointQueries } from "./utils/breakpoint-queries";
 
 export type DesignTokens = {
@@ -15,6 +16,7 @@ export type DesignTokens = {
   spacing: SpacingTokens;
   text: TextTokens;
   typography: TypographyTokens;
+  zIndex: ZIndexTokens;
 };
 
 export const tokens: DesignTokens = {
@@ -24,6 +26,7 @@ export const tokens: DesignTokens = {
   spacing: { ...spacingTokens },
   text: { ...textTokens },
   typography: { ...typographyTokens },
+  zIndex: { ...zIndexTokens },
 };
 
 export const mediaQueries = {

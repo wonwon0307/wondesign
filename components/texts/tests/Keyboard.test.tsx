@@ -16,14 +16,14 @@ describe("Keyboard", () => {
 });
 
 describe("KeyboardGroup", () => {
-  it("handles normal keys correctly", () => {
-    // alphabet, numeric and function keys
+  it("handles normal shortkey correctly", () => {
+    // alphabet, numeric and function shortkey
     const { getByText } = render(
       <div>
-        <KeyboardGroup keys="K" />
-        <KeyboardGroup keys="1" />
-        <KeyboardGroup keys="Enter" />
-        <KeyboardGroup keys="Escape" />
+        <KeyboardGroup shortkey="K" />
+        <KeyboardGroup shortkey="1" />
+        <KeyboardGroup shortkey="Enter" />
+        <KeyboardGroup shortkey="Escape" />
       </div>,
     );
 
@@ -44,82 +44,125 @@ describe("KeyboardGroup", () => {
     expect(element4.ariaLabel).toBe("Escape");
   });
 
-  it("handles ctrl+key combination correctly", () => {
-    const { getByTestId } = render(
-      <div>
-        <KeyboardGroup keys="Ctrl+K" platform="windows" data-testid="win" />
-        <KeyboardGroup keys="Ctrl+K" platform="mac" data-testid="mac" />
-      </div>,
-    );
+  describe("non-apple", () => {
+    // jsdom의 기본이 non-apple이다
+    it("handles shortkey with a modifier in non-apple platforms correctly", () => {
+      const { getAllByText, getByTestId, getByText } = render(
+        <div>
+          <KeyboardGroup shortkey="Ctrl+K" data-testid="kbd-grp" />
+          <KeyboardGroup shortkey="Shift+K" data-testid="kbd-grp-2" />
+          <KeyboardGroup shortkey="Alt+K" data-testid="kbd-grp-3" />
+          <KeyboardGroup shortkey="Meta+K" data-testid="kbd-grp-4" />
+          <KeyboardGroup shortkey="Mod+K" data-testid="kbd-grp-5" />
+        </div>,
+      );
 
-    const winElement = getByTestId("win");
-    expect(winElement.tagName).toBe("KBD");
-    expect(winElement.ariaLabel).toBe("Control K");
+      expect(getByTestId("kbd-grp").ariaLabel).toBe("Control K");
+      expect(getByTestId("kbd-grp-2").ariaLabel).toBe("Shift K");
+      expect(getByTestId("kbd-grp-3").ariaLabel).toBe("Alt K");
+      expect(getByTestId("kbd-grp-4").ariaLabel).toBe("Windows K");
+      // Mod는 non-apple에서 Control로 처리되어야 한다
+      expect(getByTestId("kbd-grp-5").ariaLabel).toBe("Control K");
 
-    const macElement = getByTestId("mac");
-    expect(macElement.tagName).toBe("KBD");
-    expect(macElement.ariaLabel).toBe("Control K");
-    expect(macElement.textContent).toBe("^K");
+      expect(getAllByText("Ctrl").length).toBe(2);
+      expect(getByText("Shift")).toBeTruthy();
+      expect(getByText("Alt")).toBeTruthy();
+      expect(getByText("Win")).toBeTruthy();
+    });
+
+    it("handles shortkey with 2 modifiers in non-apple platforms correctly", () => {
+      const { getByTestId } = render(
+        <div>
+          <KeyboardGroup shortkey="Ctrl+Shift+K" data-testid="kbd-grp" />
+          <KeyboardGroup shortkey="Ctrl+Alt+K" data-testid="kbd-grp-2" />
+          <KeyboardGroup shortkey="Ctrl+Win+K" data-testid="kbd-grp-3" />
+          <KeyboardGroup shortkey="Alt+Shift+K" data-testid="kbd-grp-4" />
+          <KeyboardGroup shortkey="Alt+Win+K" data-testid="kbd-grp-5" />
+          <KeyboardGroup shortkey="Win+Shift+K" data-testid="kbd-grp-6" />
+        </div>,
+      );
+
+      // Labels should always be resolved in the order of
+      // Win > Control > Alt > Shift
+      expect(getByTestId("kbd-grp").ariaLabel).toBe("Control Shift K");
+      expect(getByTestId("kbd-grp-2").ariaLabel).toBe("Control Alt K");
+      expect(getByTestId("kbd-grp-3").ariaLabel).toBe("Windows Control K");
+      expect(getByTestId("kbd-grp-4").ariaLabel).toBe("Alt Shift K");
+      expect(getByTestId("kbd-grp-5").ariaLabel).toBe("Windows Alt K");
+      expect(getByTestId("kbd-grp-6").ariaLabel).toBe("Windows Shift K");
+    });
   });
 
-  it("handles shift+key combination correctly", () => {
-    const { getByTestId } = render(
-      <div>
-        <KeyboardGroup keys="Shift+K" platform="windows" data-testid="win" />
-        <KeyboardGroup keys="Shift+K" platform="mac" data-testid="mac" />
-      </div>,
-    );
+  describe("apple", () => {
+    beforeAll(() => {
+      Object.defineProperty(window.navigator, "platform", {
+        value: "MacIntel",
+        writable: true,
+      });
+    });
 
-    const winElement = getByTestId("win");
-    expect(winElement.tagName).toBe("KBD");
-    expect(winElement.ariaLabel).toBe("Shift K");
+    afterAll(() => {
+      Object.defineProperty(window.navigator, "platform", {
+        value: "",
+        writable: true,
+      });
+    });
 
-    const macElement = getByTestId("mac");
-    expect(macElement.tagName).toBe("KBD");
-    expect(macElement.ariaLabel).toBe("Shift K");
-    expect(macElement.textContent).toBe("⇧K");
-  });
+    it("handles shortkey with a modifier in apple platforms correctly", () => {
+      Object.defineProperty(window.navigator, "platform", {
+        value: "MacIntel",
+        writable: true,
+      });
+      const { getAllByText, getByTestId, getByText } = render(
+        <div>
+          <KeyboardGroup shortkey="Ctrl+K" data-testid="kbd-grp" />
+          <KeyboardGroup shortkey="Shift+K" data-testid="kbd-grp-2" />
+          <KeyboardGroup shortkey="Alt+K" data-testid="kbd-grp-3" />
+          <KeyboardGroup shortkey="Meta+K" data-testid="kbd-grp-4" />
+          <KeyboardGroup shortkey="Mod+K" data-testid="kbd-grp-5" />
+        </div>,
+      );
 
-  it("handles alt+key combination correctly", () => {
-    const { getByTestId } = render(
-      <div>
-        <KeyboardGroup keys="Alt+K" platform="windows" data-testid="win" />
-        <KeyboardGroup keys="Alt+K" platform="mac" data-testid="mac" />
-      </div>,
-    );
+      expect(getByTestId("kbd-grp").ariaLabel).toBe("Control K");
+      expect(getByTestId("kbd-grp-2").ariaLabel).toBe("Shift K");
+      expect(getByTestId("kbd-grp-3").ariaLabel).toBe("Option K");
+      expect(getByTestId("kbd-grp-4").ariaLabel).toBe("Command K");
+      // Mod는 apple에서 Command로 처리되어야 한다
+      expect(getByTestId("kbd-grp-5").ariaLabel).toBe("Command K");
 
-    const winElement = getByTestId("win");
-    expect(winElement.tagName).toBe("KBD");
-    expect(winElement.ariaLabel).toBe("Alt K");
+      expect(getAllByText("⌘").length).toBe(2);
+      expect(getByText("⌃")).toBeTruthy();
+      expect(getByText("⌥")).toBeTruthy();
+      expect(getByText("⇧")).toBeTruthy();
+    });
 
-    const macElement = getByTestId("mac");
-    expect(macElement.tagName).toBe("KBD");
-    expect(macElement.ariaLabel).toBe("Option K");
-    expect(macElement.textContent).toBe("⌥K");
-  });
+    it("handles shortkey with 2 modifiers in apple platforms correctly", () => {
+      const { getByTestId } = render(
+        <div>
+          <KeyboardGroup shortkey="Control+Option+K" data-testid="kbd-grp" />
+          <KeyboardGroup shortkey="Control+Command+K" data-testid="kbd-grp-2" />
+          <KeyboardGroup shortkey="Control+Shift+K" data-testid="kbd-grp-3" />
+          <KeyboardGroup shortkey="Option+Command+K" data-testid="kbd-grp-4" />
+          <KeyboardGroup shortkey="Option+Shift+K" data-testid="kbd-grp-5" />
+          <KeyboardGroup shortkey="Command+Option+K" data-testid="kbd-grp-6" />
+        </div>,
+      );
 
-  it("handles meta+key combination correctly", () => {
-    const { getByTestId } = render(
-      <div>
-        <KeyboardGroup keys="Meta+K" platform="windows" data-testid="win" />
-        <KeyboardGroup keys="Meta+K" platform="mac" data-testid="mac" />
-      </div>,
-    );
-
-    const winElement = getByTestId("win");
-    expect(winElement.tagName).toBe("KBD");
-    expect(winElement.ariaLabel).toBe("Windows K");
-
-    const macElement = getByTestId("mac");
-    expect(macElement.tagName).toBe("KBD");
-    expect(macElement.ariaLabel).toBe("Command K");
-    expect(macElement.textContent).toBe("⌘K");
+      // Labels should always be resolved in the order of
+      // Control > Option > Shift > Command
+      expect(getByTestId("kbd-grp").ariaLabel).toBe("Control Option K");
+      expect(getByTestId("kbd-grp-2").ariaLabel).toBe("Control Command K");
+      expect(getByTestId("kbd-grp-3").ariaLabel).toBe("Control Shift K");
+      expect(getByTestId("kbd-grp-4").ariaLabel).toBe("Option Command K");
+      expect(getByTestId("kbd-grp-5").ariaLabel).toBe("Option Shift K");
+      expect(getByTestId("kbd-grp-6").ariaLabel).toBe("Option Command K");
+    });
   });
 
   it("handles custom aria-label correctly", () => {
     const { getByTestId } = render(
       <KeyboardGroup
-        keys="Ctrl+K"
+        shortkey="Ctrl+K"
         aria-label="Custom Label"
         data-testid="keyboard-group"
       />,

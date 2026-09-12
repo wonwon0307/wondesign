@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 
-import { HeadlessAnchor } from "@/Headless/HeadlessAnchor";
+import { HeadlessAnchor } from "@/Headless/Anchor";
 
 describe("HeadlessAnchor", () => {
   beforeAll(() => {
@@ -76,7 +76,7 @@ describe("HeadlessAnchor", () => {
       expect(anchor.getAttribute("rel")).toBe("noopener noreferrer");
     });
 
-    it("opens in a new tab for external anchors even when openInNewTab prop is not set", () => {
+    it("auto-detects new tab behavior by default", () => {
       const { getByText } = render(
         <HeadlessAnchor href="https://example.com">
           External Anchor
@@ -130,7 +130,7 @@ describe("HeadlessAnchor", () => {
 
     const button = getByText("Button Anchor");
     expect(button).toBeTruthy();
-    expect(button.tagName).toBe("BUTTON");
+    expect(button.tagName).toBe("A"); // disabled인 경우 "a"로 resolve
     expect(button.getAttribute("href")).toBe(null); // disabled 상태에서는 href가 제거되어야 한다.
     expect(button.getAttribute("target")).toBe("_blank");
     expect(button.getAttribute("rel")).toBe("noopener noreferrer");
