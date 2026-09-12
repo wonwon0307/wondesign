@@ -185,7 +185,7 @@ importers:
     devDependencies:
       '@wondesign/svg2tsx':
         specifier: workspace:*
-        version: link:../../primitives/svg2tsx
+        version: link:../../foundations/svg2tsx
 
   components/links:
     dependencies:
@@ -361,6 +361,8 @@ importers:
         specifier: ^29.1.1
         version: 29.1.1
 
+  foundations/colors: {}
+
   foundations/composition:
     dependencies:
       react:
@@ -392,6 +394,8 @@ importers:
         specifier: ^19
         version: 19.2.8(react@19.2.8)
 
+  foundations/reset-css: {}
+
   foundations/shortkey:
     dependencies:
       react:
@@ -400,6 +404,34 @@ importers:
       react-dom:
         specifier: ^19
         version: 19.2.8(react@19.2.8)
+
+  foundations/svg2tsx:
+    dependencies:
+      jiti:
+        specifier: ^2.7.0
+        version: 2.7.0
+    devDependencies:
+      '@svgr/core':
+        specifier: ^8.1.0
+        version: 8.1.0(supports-color@8.1.1)(typescript@6.0.3)
+      '@svgr/plugin-jsx':
+        specifier: ^8.1.0
+        version: 8.1.0(@svgr/core@8.1.0(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)
+      '@svgr/plugin-svgo':
+        specifier: ^8.1.0
+        version: 8.1.0(@svgr/core@8.1.0(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)
+      chalk:
+        specifier: ^5.6.2
+        version: 5.6.2
+      commander:
+        specifier: ^15.0.0
+        version: 15.0.0
+      fast-glob:
+        specifier: ^3.3.3
+        version: 3.3.3
+      p-limit:
+        specifier: ^7.3.2
+        version: 7.3.2
 
   foundations/theme:
     dependencies:
@@ -411,7 +443,7 @@ importers:
     devDependencies:
       '@wondesign/colors':
         specifier: workspace:*
-        version: link:../../primitives/colors
+        version: link:../colors
 
   packages/sidebar:
     dependencies:
@@ -482,7 +514,7 @@ importers:
         version: link:../../components/navbar
       '@wondesign/reset-css':
         specifier: workspace:*
-        version: link:../../primitives/reset-css
+        version: link:../../foundations/reset-css
       '@wondesign/texts':
         specifier: workspace:*
         version: link:../../components/texts
@@ -498,38 +530,6 @@ importers:
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
-
-  primitives/colors: {}
-
-  primitives/reset-css: {}
-
-  primitives/svg2tsx:
-    dependencies:
-      jiti:
-        specifier: ^2.7.0
-        version: 2.7.0
-    devDependencies:
-      '@svgr/core':
-        specifier: ^8.1.0
-        version: 8.1.0(supports-color@8.1.1)(typescript@6.0.3)
-      '@svgr/plugin-jsx':
-        specifier: ^8.1.0
-        version: 8.1.0(@svgr/core@8.1.0(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)
-      '@svgr/plugin-svgo':
-        specifier: ^8.1.0
-        version: 8.1.0(@svgr/core@8.1.0(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)
-      chalk:
-        specifier: ^5.6.2
-        version: 5.6.2
-      commander:
-        specifier: ^15.0.0
-        version: 15.0.0
-      fast-glob:
-        specifier: ^3.3.3
-        version: 3.3.3
-      p-limit:
-        specifier: ^7.3.2
-        version: 7.3.2
 
 packages:
 
