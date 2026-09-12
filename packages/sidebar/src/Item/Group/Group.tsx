@@ -17,7 +17,7 @@ export function SidebarGroup({
   children,
   label,
   right,
-  defaultOpen,
+  defaultOpen = true,
 }: Readonly<SidebarGroupProps>) {
   return (
     <SidebarItemWrapper
