@@ -25,8 +25,8 @@ export function TooltipProvider({
   placement: userPlacement = "bottom",
   forcePlacement = false,
   align = "center",
-  offset = 0,
-  padding = 0,
+  offset = 4,
+  padding = 8,
 }: Readonly<HeadlessTooltipProps>) {
   const {
     isOpen,
