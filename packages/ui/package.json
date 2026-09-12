@@ -16,6 +16,10 @@
       "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     },
+    "./tokens": {
+      "types": "./dist/tokens.d.mts",
+      "default": "./dist/tokens.mjs"
+    },
     "./styles.css": "./dist/styles.css",
     "./*": {
       "types": "./dist/components/*.d.mts",
@@ -31,16 +35,11 @@
     "icons": "svg2tsx && prettier --write ./src/atoms/Icons/ --log-level silent"
   },
   "devDependencies": {
-    "@vanilla-extract/css": "catalog:",
-    "@vanilla-extract/recipes": "catalog:",
-    "@vanilla-extract/rollup-plugin": "catalog:",
     "@wondesign/buttons": "workspace:*",
     "@wondesign/icons": "workspace:*",
     "@wondesign/links": "workspace:*",
     "@wondesign/navbar": "workspace:*",
     "@wondesign/reset-css": "workspace:*",
-    "@wondesign/sidebar": "workspace:*",
-    "@wondesign/svg2tsx": "workspace:*",
     "@wondesign/texts": "workspace:*",
     "@wondesign/theme": "workspace:*",
     "@wondesign/tokens": "workspace:*",

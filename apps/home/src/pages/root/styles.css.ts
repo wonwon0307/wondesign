@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { tokens } from "@wondesign/ui";
+import { tokens } from "@wondesign/ui/tokens";
 
 const body = style({
   display: "flex",
