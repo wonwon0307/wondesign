@@ -4,7 +4,8 @@ import {
   Kalam,
   Roboto_Slab,
 } from "next/font/google";
-import { ThemeProvider, wondesignDefault } from "@wondesign/ui";
+import { ThemeProvider } from "@wondesign/ui";
+import { wondesignDefault } from "@wondesign/ui/tokens";
 import clsx from "clsx";
 
 import { Header } from "./header/header";
