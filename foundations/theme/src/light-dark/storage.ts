@@ -7,6 +7,10 @@ export function loadUserPreference(
   withSystem: boolean,
 ): Mode {
   try {
+    if (typeof localStorage === "undefined") {
+      return defaultMode;
+    }
+
     const storedValue = localStorage.getItem(STORAGE_KEY);
 
     if (storedValue === "system" && withSystem) {

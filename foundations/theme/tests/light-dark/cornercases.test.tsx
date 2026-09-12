@@ -10,6 +10,18 @@ describe("light-dark - corner cases", () => {
     expect(container).toBeTruthy();
   });
 
+  it("should return defaultMode in SSR environment", () => {
+    // mock SSR environment by making localStorage undefined
+    const originalLocalStorage = global.localStorage;
+    // @ts-expect-error Testing SSR environment by deleting localStorage
+    delete global.localStorage;
+
+    const result = loadUserPreference("light", true);
+    expect(result).toBe("light");
+
+    global.localStorage = originalLocalStorage;
+  });
+
   it("should handle local storage access errors gracefully", () => {
     const originalGetItem = Storage.prototype.getItem;
     Storage.prototype.getItem = () => {
