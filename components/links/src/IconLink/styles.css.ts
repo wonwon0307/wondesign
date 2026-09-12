@@ -10,7 +10,7 @@ const iconlink = recipe({
     padding: tokens.spacing.sm,
 
     borderRadius: tokens.radius.sm,
-    backgroundColor: tokens.colors.background,
+    backgroundColor: "transparent",
     transition: "background-color 0.15s ease, color 0.15s ease",
     selectors: {
       "&[data-disabled]": {
