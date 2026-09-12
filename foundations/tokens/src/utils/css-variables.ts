@@ -43,7 +43,6 @@ export function buildCssVariables(
     ...flatEntries(radiusCssVariables, radius),
     ...flatEntries(spacingCssVariables, spacing),
     ...flatEntries(textCssVariables, text),
-    ...flatEntries(typographyCssVariables, typography),
     ...flatEntries(zIndexCssVariables, zIndex),
   ];
 

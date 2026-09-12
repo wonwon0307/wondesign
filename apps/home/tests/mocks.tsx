@@ -92,21 +92,20 @@ vi.mock("@wondesign/ui/Links", () => ({
       {children}
     </a>
   ),
-  IconLink: ({ children, ...props }: { children: React.ReactNode }) => (
-    <a {...props} data-testid="icon-link">
+  IconLink: ({
+    children,
+    openInNewTab,
+    ...props
+  }: {
+    children: React.ReactNode;
+    openInNewTab?: boolean;
+  }) => (
+    <a {...props} data-newtab={openInNewTab} data-testid="icon-link">
       {children}
     </a>
   ),
   Hyperlink: ({ children, ...props }: { children: React.ReactNode }) => (
     <a {...props} data-testid="link">
-      {children}
-    </a>
-  ),
-  NavList: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="nav-list">{children}</div>
-  ),
-  NavLink: ({ children, ...props }: { children: React.ReactNode }) => (
-    <a {...props} data-testid="nav-link">
       {children}
     </a>
   ),
