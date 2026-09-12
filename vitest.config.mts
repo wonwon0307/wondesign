@@ -2,7 +2,13 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    projects: ["apps/*", "components/*", "primitives/*"],
+    projects: [
+      "apps/*",
+      "components/*",
+      "foundations/*",
+      "primitives/*",
+      "packages/*",
+    ],
     coverage: {
       exclude: [
         "**/index.ts",
