@@ -14,6 +14,7 @@ const content = style({
   left: "var(--wds-tooltip-content-x, 0px)",
   top: "var(--wds-tooltip-content-y, 0px)",
   borderRadius: tokens.radius.sm,
+  font: tokens.text.bodySmall,
   color: tokens.colors.textInverted,
   backgroundColor: tokens.colors.backgroundInverted,
   zIndex: tokens.zIndex.tooltip,

@@ -26,7 +26,6 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "tsdown",
-    "dev": "tsdown --watch",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
@@ -37,7 +36,6 @@
     "@wondesign/composition": "workspace:*",
     "@wondesign/interactions": "workspace:*",
     "@wondesign/position": "workspace:*",
-    "@wondesign/texts": "workspace:*",
     "@wondesign/tokens": "workspace:*",
     "clsx": "catalog:"
   },

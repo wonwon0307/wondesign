@@ -1,4 +1,3 @@
-import { Description } from "@wondesign/texts/Description";
 import clsx from "clsx";
 
 import {
@@ -57,8 +56,6 @@ export function Tooltip({
     );
   }
 
-  const isString = typeof text === "string";
-
   return (
     <TooltipProvider {...rest}>
       <TooltipTrigger
@@ -70,7 +67,7 @@ export function Tooltip({
       </TooltipTrigger>
       <TooltipContent className={styles.content}>
         {left}
-        {isString ? <Description size="small">{text}</Description> : text}
+        <span>{text}</span>
         {right}
         {!hideArrow && (
           <TooltipArrow className={styles.arrow}>
