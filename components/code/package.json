@@ -1,6 +1,6 @@
 {
-  "name": "@wondesign/texts",
-  "description": "WonDesign - Texts",
+  "name": "@wondesign/code",
+  "description": "WonDesign - Code",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
     "system",
     "ui",
     "components",
-    "texts",
+    "code",
     "react",
     "typescript"
   ],
@@ -29,6 +29,7 @@
     "@vanilla-extract/css": "catalog:",
     "@vanilla-extract/recipes": "catalog:",
     "@vanilla-extract/rollup-plugin": "catalog:",
+    "@wondesign/shortkey": "workspace:*",
     "@wondesign/tokens": "workspace:*",
     "clsx": "catalog:"
   },

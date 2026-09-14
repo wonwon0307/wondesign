@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@wondesign/buttons": "workspace:*",
+    "@wondesign/code": "workspace:*",
     "@wondesign/icons": "workspace:*",
     "@wondesign/links": "workspace:*",
     "@wondesign/navbar": "workspace:*",

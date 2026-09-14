@@ -32,11 +32,11 @@
     "@vanilla-extract/recipes": "catalog:",
     "@vanilla-extract/rollup-plugin": "catalog:",
     "@wondesign/buttons": "workspace:*",
+    "@wondesign/code": "workspace:*",
     "@wondesign/collapsible": "workspace:*",
     "@wondesign/icons": "workspace:*",
     "@wondesign/interactions": "workspace:*",
     "@wondesign/links": "workspace:*",
-    "@wondesign/texts": "workspace:*",
     "@wondesign/tokens": "workspace:*",
     "@wondesign/tooltip": "workspace:*",
     "clsx": "catalog:"
