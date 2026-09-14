@@ -2,7 +2,7 @@ import {
   HeadlessButton,
   type HeadlessButtonProps,
 } from "@wondesign/buttons/Headless";
-import { KeyboardGroup } from "@wondesign/texts/Keyboard";
+import { KeyboardGroup } from "@wondesign/code/Keyboard";
 import { Tooltip } from "@wondesign/tooltip";
 import clsx from "clsx";
 
