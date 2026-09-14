@@ -1,0 +1,40 @@
+{
+  "name": "@wondesign/code",
+  "description": "WonDesign - Code",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "design",
+    "system",
+    "ui",
+    "components",
+    "code",
+    "react",
+    "typescript"
+  ],
+  "exports": {
+    "./*": {
+      "types": "./dist/*/index.d.mts",
+      "default": "./dist/*/index.mjs"
+    }
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsdown",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@vanilla-extract/css": "catalog:",
+    "@vanilla-extract/recipes": "catalog:",
+    "@vanilla-extract/rollup-plugin": "catalog:",
+    "@wondesign/shortkey": "workspace:*",
+    "@wondesign/tokens": "workspace:*",
+    "clsx": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  }
+}
