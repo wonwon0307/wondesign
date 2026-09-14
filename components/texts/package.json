@@ -29,7 +29,6 @@
     "@vanilla-extract/css": "catalog:",
     "@vanilla-extract/recipes": "catalog:",
     "@vanilla-extract/rollup-plugin": "catalog:",
-    "@wondesign/shortkey": "workspace:*",
     "@wondesign/tokens": "workspace:*",
     "clsx": "catalog:"
   },
