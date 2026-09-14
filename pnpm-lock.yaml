@@ -155,6 +155,34 @@ importers:
         specifier: 'catalog:'
         version: 2.1.1
 
+  components/code:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.2.8
+      react-dom:
+        specifier: ^19
+        version: 19.2.8(react@19.2.8)
+    devDependencies:
+      '@vanilla-extract/css':
+        specifier: 'catalog:'
+        version: 1.21.2
+      '@vanilla-extract/recipes':
+        specifier: 'catalog:'
+        version: 0.5.7(@vanilla-extract/css@1.21.2)
+      '@vanilla-extract/rollup-plugin':
+        specifier: 'catalog:'
+        version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
+      '@wondesign/shortkey':
+        specifier: workspace:*
+        version: link:../../foundations/shortkey
+      '@wondesign/tokens':
+        specifier: workspace:*
+        version: link:../../foundations/tokens
+      clsx:
+        specifier: 'catalog:'
+        version: 2.1.1
+
   components/collapsible:
     dependencies:
       react:
@@ -264,9 +292,6 @@ importers:
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/shortkey':
-        specifier: workspace:*
-        version: link:../../foundations/shortkey
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../foundations/tokens
@@ -466,6 +491,9 @@ importers:
       '@wondesign/buttons':
         specifier: workspace:*
         version: link:../../components/buttons
+      '@wondesign/code':
+        specifier: workspace:*
+        version: link:../../components/code
       '@wondesign/collapsible':
         specifier: workspace:*
         version: link:../../components/collapsible
@@ -478,9 +506,6 @@ importers:
       '@wondesign/links':
         specifier: workspace:*
         version: link:../../components/links
-      '@wondesign/texts':
-        specifier: workspace:*
-        version: link:../../components/texts
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../foundations/tokens
@@ -503,6 +528,9 @@ importers:
       '@wondesign/buttons':
         specifier: workspace:*
         version: link:../../components/buttons
+      '@wondesign/code':
+        specifier: workspace:*
+        version: link:../../components/code
       '@wondesign/icons':
         specifier: workspace:*
         version: link:../../components/icons
