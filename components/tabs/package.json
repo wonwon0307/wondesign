@@ -1,0 +1,51 @@
+{
+  "name": "@wondesign/tabs",
+  "description": "WonDesign - Tabs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "design",
+    "system",
+    "ui",
+    "components",
+    "tabs",
+    "react",
+    "typescript"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/styled/index.d.mts",
+      "default": "./dist/styled/index.mjs"
+    },
+    "./headless": {
+      "types": "./dist/headless/index.d.mts",
+      "default": "./dist/headless/index.mjs"
+    },
+    "./contexts": {
+      "types": "./dist/contexts/index.d.mts",
+      "default": "./dist/contexts/index.mjs"
+    }
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsdown",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@vanilla-extract/css": "catalog:",
+    "@vanilla-extract/recipes": "catalog:",
+    "@vanilla-extract/rollup-plugin": "catalog:",
+    "@wondesign/buttons": "workspace:*",
+    "@wondesign/composition": "workspace:*",
+    "@wondesign/icons": "workspace:*",
+    "@wondesign/interactions": "workspace:*",
+    "@wondesign/tokens": "workspace:*",
+    "clsx": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  }
+}
