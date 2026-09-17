@@ -38,13 +38,13 @@ const headerLeft = style({
 });
 
 const tabs = style({
-  flex: 1,
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
   gap: tokens.spacing.xl,
   height: "100%",
   overflow: "hidden",
+  transform: "translateY(2px)",
 });
 
 const headerRight = style({
