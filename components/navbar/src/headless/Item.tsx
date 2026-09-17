@@ -4,12 +4,11 @@ import { AsChild } from "@wondesign/composition/asChild";
 import { ItemContext } from "@/contexts/item";
 import { useNavbarList } from "@/contexts/list";
 
-export interface NavbarItemProps extends Omit<
-  React.HTMLAttributes<HTMLLIElement>,
-  "children"
-> {
+export interface NavbarItemProps
+  extends
+    Omit<React.HTMLAttributes<HTMLLIElement>, "children">,
+    React.RefAttributes<HTMLLIElement> {
   children: React.ReactNode;
-  ref?: React.Ref<HTMLLIElement>;
   asChild?: boolean;
   isDisabled?: boolean;
 }

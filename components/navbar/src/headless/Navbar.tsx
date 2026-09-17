@@ -2,12 +2,11 @@ import { AsChild } from "@wondesign/composition/asChild";
 
 import { NavbarContext } from "@/contexts/list";
 
-export interface NavbarProps extends Omit<
-  React.HTMLAttributes<HTMLElement>,
-  "children"
-> {
+export interface NavbarProps
+  extends
+    Omit<React.HTMLAttributes<HTMLElement>, "children">,
+    React.RefAttributes<HTMLElement> {
   children: React.ReactNode;
-  ref?: React.Ref<HTMLElement>;
   asChild?: boolean;
 }
 
