@@ -3,7 +3,7 @@ import { TabsList } from "./List";
 import { Tab } from "./Tab";
 import { TabPanel } from "./Panel";
 
-export const Tabs = Object.assign(TabsProvider, {
+export const HeadlessTabs = Object.assign(TabsProvider, {
   List: TabsList,
   Tab,
   Panel: TabPanel,
