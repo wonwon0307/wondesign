@@ -9,6 +9,7 @@ export default defineConfig([
     deps: {
       onlyBundle: false,
     },
+    banner: "'use client';",
     css: {
       fileName: "styles.css",
     },
