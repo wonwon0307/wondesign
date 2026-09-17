@@ -1,5 +1,5 @@
 import { recipe } from "@vanilla-extract/recipes";
-import { colorWithOpacity, mediaQueries, tokens } from "@wondesign/tokens";
+import { mediaQueries, tokens } from "@wondesign/tokens";
 
 const list = recipe({
   base: {
@@ -23,8 +23,8 @@ const link = recipe({
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: `${tokens.spacing.sm} ${tokens.spacing.lg}`,
-    borderRadius: tokens.radius.md,
+    padding: `${tokens.spacing.md} ${tokens.spacing.lg}`,
+    borderRadius: `${tokens.radius.md} ${tokens.radius.md} 0 0`,
     fontWeight: tokens.typography.fontWeight.semibold,
     whiteSpace: "nowrap",
     color: tokens.colors.textMuted,
@@ -36,22 +36,15 @@ const link = recipe({
     isActive: {
       true: {
         color: tokens.colors.primary,
+        borderBottom: `2px solid ${tokens.colors.primary}`,
         selectors: {
           "&:focus-visible": {
             textDecoration: "underline",
           },
         },
-        "@media": {
-          [mediaQueries.hoverable]: {
-            selectors: {
-              "&:hover": {
-                backgroundColor: colorWithOpacity(tokens.colors.primary, 15),
-              },
-            },
-          },
-        },
       },
       false: {
+        borderBottom: `2px solid transparent`,
         selectors: {
           "&:focus-visible": {
             color: tokens.colors.text,
@@ -63,7 +56,7 @@ const link = recipe({
             selectors: {
               "&:not([data-disabled]):hover": {
                 color: tokens.colors.text,
-                backgroundColor: tokens.colors.backgroundHover,
+                borderBottom: `2px solid ${tokens.colors.border}`,
               },
             },
           },
