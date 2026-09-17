@@ -5,12 +5,12 @@ import { colorWithOpacity, mediaQueries, tokens } from "@wondesign/ui/tokens";
 const item = recipe({
   base: {
     display: "grid",
-    gridTemplateColumns: "20px 1fr auto",
+    gridTemplateColumns: "24px 1fr auto",
     alignItems: "center",
     padding: `${tokens.spacing.sm} ${tokens.spacing.md}`,
-    gap: tokens.spacing.md,
+    gap: tokens.spacing.lg,
     borderRadius: tokens.radius.sm,
-    font: tokens.text.bodyMedium,
+    font: tokens.text.bodyLarge,
     userSelect: "none",
     selectors: {
       "&:focus-visible": {

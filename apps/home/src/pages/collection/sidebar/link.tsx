@@ -50,7 +50,7 @@ function Toggle({ label }: Readonly<{ label: string }>) {
       className={styles.toggle}
       aria-label={`Toggle ${label} subitems`}
     >
-      <AppIcon size={16} icon="chevron-right" className={styles.toggleIcon} />
+      <AppIcon size={20} icon="chevron-right" className={styles.toggleIcon} />
     </SidebarItemToggle>
   );
 }
