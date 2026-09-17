@@ -5,7 +5,7 @@ export interface HeadlessButtonProps
   extends
     Omit<
       ButtonHTMLAttributes<HTMLButtonElement>,
-      "disabled" | "aria-disabled" | "aria-busy" | "role"
+      "disabled" | "aria-disabled" | "aria-busy"
     >,
     React.RefAttributes<HTMLButtonElement> {
   isDisabled?: boolean;

@@ -40,6 +40,7 @@
     "@wondesign/links": "workspace:*",
     "@wondesign/navbar": "workspace:*",
     "@wondesign/reset-css": "workspace:*",
+    "@wondesign/tabs": "workspace:*",
     "@wondesign/texts": "workspace:*",
     "@wondesign/theme": "workspace:*",
     "@wondesign/tokens": "workspace:*",
