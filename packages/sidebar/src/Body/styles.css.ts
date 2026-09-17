@@ -42,7 +42,6 @@ const sidebar = recipe({
       },
       closed: {
         width: "0px",
-        overflow: "hidden",
       },
     },
   },
