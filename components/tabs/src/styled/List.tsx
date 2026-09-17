@@ -8,7 +8,7 @@ export function TabsList({
   vertical,
   className,
   ...rest
-}: TabsListProps) {
+}: Readonly<TabsListProps>) {
   return (
     <Headless
       {...rest}
