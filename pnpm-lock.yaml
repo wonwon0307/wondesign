@@ -99,8 +99,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       '@wondocs/core':
-        specifier: 0.1.0-beta.5
-        version: 0.1.0-beta.5
+        specifier: 0.1.0-beta.6
+        version: 0.1.0-beta.6
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -118,8 +118,8 @@ importers:
         specifier: ^2.5.2
         version: 2.5.2(@swc/helpers@0.5.23)(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(next@16.3.4(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(supports-color@8.1.1)(terser@5.49.0)(webpack@5.109.0(@swc/core@1.16.1(@swc/helpers@0.5.23))(csso@5.0.5)(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.26))(yaml@2.9.0)
       '@wondocs/next-plugin':
-        specifier: 0.1.0-beta.5
-        version: 0.1.0-beta.5(next@16.3.4(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))
+        specifier: 0.1.0-beta.6
+        version: 0.1.0-beta.6(next@16.3.4(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))
       babel-plugin-react-compiler:
         specifier: 1.0.0
         version: 1.0.0
@@ -267,6 +267,43 @@ importers:
       '@wondesign/links':
         specifier: workspace:*
         version: link:../links
+      '@wondesign/tokens':
+        specifier: workspace:*
+        version: link:../../foundations/tokens
+      clsx:
+        specifier: 'catalog:'
+        version: 2.1.1
+
+  components/tabs:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.2.8
+      react-dom:
+        specifier: ^19
+        version: 19.2.8(react@19.2.8)
+    devDependencies:
+      '@vanilla-extract/css':
+        specifier: 'catalog:'
+        version: 1.21.2
+      '@vanilla-extract/recipes':
+        specifier: 'catalog:'
+        version: 0.5.7(@vanilla-extract/css@1.21.2)
+      '@vanilla-extract/rollup-plugin':
+        specifier: 'catalog:'
+        version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
+      '@wondesign/buttons':
+        specifier: workspace:*
+        version: link:../buttons
+      '@wondesign/composition':
+        specifier: workspace:*
+        version: link:../../foundations/composition
+      '@wondesign/icons':
+        specifier: workspace:*
+        version: link:../icons
+      '@wondesign/interactions':
+        specifier: workspace:*
+        version: link:../../foundations/interactions
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../foundations/tokens
@@ -543,6 +580,9 @@ importers:
       '@wondesign/reset-css':
         specifier: workspace:*
         version: link:../../foundations/reset-css
+      '@wondesign/tabs':
+        specifier: workspace:*
+        version: link:../../components/tabs
       '@wondesign/texts':
         specifier: workspace:*
         version: link:../../components/texts
@@ -2187,11 +2227,11 @@ packages:
   '@webassemblyjs/wast-printer@1.14.1':
     resolution: {integrity: sha512-kPSSXE6De1XOR820C90RIo2ogvZG+c3KiHzqUoO/F34Y2shGzesfqv7o57xrxovZJH/MetF5UjroJ/R/3isoiw==}
 
-  '@wondocs/core@0.1.0-beta.5':
-    resolution: {integrity: sha512-ZFy0rYpWo5VQOpYJa06yx7UIZuqOLQidWLQFO8gtBN+NoUGibjnXjW15ZxPw0le0pxPePHOE7U5oaqeN95Vchw==}
+  '@wondocs/core@0.1.0-beta.6':
+    resolution: {integrity: sha512-W77oZ57CYio8hunaGuu72fNH0ALJek0tWTpc9ZS/dtnKFKHAlfHj5ORjvFbrhK9Konz2vLZH/A4U6BD0CSCBBg==}
 
-  '@wondocs/next-plugin@0.1.0-beta.5':
-    resolution: {integrity: sha512-vXYxW2wC2/q4ftlUvKeIswx8+/LAWS3ZoXrodgvP+E3riU9z7bU3ZXBJ0eHygExZftsP/OLZ7S5fQQOs7CrIXw==}
+  '@wondocs/next-plugin@0.1.0-beta.6':
+    resolution: {integrity: sha512-dOq8Qw4JlbxsKlQ+uud5VNaGWgZO5REyW6xMTWEOe+0BGl4llotycmbHinAH5gI/+eN55czFteuHgnjrDFL0RQ==}
     peerDependencies:
       next: '>=16.0.0'
 
@@ -6391,11 +6431,11 @@ snapshots:
       '@webassemblyjs/ast': 1.14.1
       '@xtuc/long': 4.2.2
 
-  '@wondocs/core@0.1.0-beta.5': {}
+  '@wondocs/core@0.1.0-beta.6': {}
 
-  '@wondocs/next-plugin@0.1.0-beta.5(next@16.3.4(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))':
+  '@wondocs/next-plugin@0.1.0-beta.6(next@16.3.4(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))':
     dependencies:
-      '@wondocs/core': 0.1.0-beta.5
+      '@wondocs/core': 0.1.0-beta.6
       next: 16.3.4(@babel/core@7.29.7(supports-color@8.1.1))(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
   '@xtuc/ieee754@1.2.0': {}
