@@ -20,7 +20,7 @@ export async function CollectionLayout({ params, children }: Readonly<Props>) {
   return (
     <SidebarProvider shortkey="Mod+B" defaultOpen>
       <div className={styles.container}>
-        <SidebarBody className={styles.sidebar}>
+        <SidebarBody keepMounted className={styles.sidebar}>
           <SidebarNav>
             {sidebarItems.map((item, idx) => (
               <SidebarItem key={`${item.type}-${idx}`} item={item} />
