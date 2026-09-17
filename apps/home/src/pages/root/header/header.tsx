@@ -24,7 +24,7 @@ export function Header() {
           <span className={styles.homeText}>WonDesign</span>
         </Anchor>
       </div>
-      <Navbar className={styles.tabs} aria-label="Main Tab Navigation">
+      <Navbar aria-label="Main Tab Navigation" className={styles.tabs}>
         {pages.map((page) => (
           <NavLink
             key={page.href}
