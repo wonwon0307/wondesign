@@ -95,9 +95,9 @@ describe("HeadlessTooltip - interactions", () => {
       const content = getByTestId("tooltip-content");
       expect(content.dataset.state).toBe("open");
 
-      // Tooltip.Trigger에서 마우스를 내리면 툴팁이 닫혀야 한다. (700ms delay)
+      // Tooltip.Trigger에서 마우스를 내리면 툴팁이 닫혀야 한다.
       fireEvent.mouseLeave(trigger);
-      act(() => vi.advanceTimersByTime(700));
+      act(() => vi.advanceTimersByTime(0));
       expect(queryByTestId("tooltip-content")).toBeNull();
     });
 
@@ -108,9 +108,9 @@ describe("HeadlessTooltip - interactions", () => {
 
       const trigger = getByTestId("tooltip-trigger");
 
-      // Tooltip.Trigger에 마우스를 올려 툴팁을 연다. (500ms delay)
+      // Tooltip.Trigger에 마우스를 올려 툴팁을 연다. (300ms delay)
       fireEvent.mouseEnter(trigger);
-      act(() => vi.advanceTimersByTime(500));
+      act(() => vi.advanceTimersByTime(300));
       const content = getByTestId("tooltip-content");
       expect(content.dataset.state).toBe("open");
 
@@ -120,15 +120,15 @@ describe("HeadlessTooltip - interactions", () => {
       act(() => vi.advanceTimersByTime(1000)); // 충분한 시간을 보낸다.
       expect(content.dataset.state).toBe("open");
 
-      // Tooltip.Content에서도 마우스를 내리면 툴팁이 닫혀야 한다. (700ms delay)
+      // Tooltip.Content에서도 마우스를 내리면 툴팁이 닫혀야 한다.
       fireEvent.mouseLeave(content);
-      act(() => vi.advanceTimersByTime(700));
+      act(() => vi.advanceTimersByTime(0));
       expect(queryByTestId("tooltip-content")).toBeNull();
     });
 
     it("should reset timer when mouse re-enters before hide delay", () => {
       const { getByTestId, queryByTestId } = render(
-        <TestComponent>Tooltip Message</TestComponent>,
+        <TestComponent hideDelay={300}>Tooltip Message</TestComponent>,
       );
 
       const trigger = getByTestId("tooltip-trigger");
@@ -148,7 +148,7 @@ describe("HeadlessTooltip - interactions", () => {
       // 마찬가지로, 내리는 과정에서도 확인한다.
       // 일단 툴팁을 연다.
       fireEvent.mouseEnter(trigger);
-      act(() => vi.advanceTimersByTime(300));
+      act(() => vi.advanceTimersByTime(300)); // set hide delay
       const content = getByTestId("tooltip-content");
       expect(content.dataset.state).toBe("open");
 
