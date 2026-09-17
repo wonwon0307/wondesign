@@ -36,6 +36,7 @@ export function TabPanel({
       ref={asChild ? undefined : ref}
       id={panelId(tabName)}
       role="tabpanel"
+      hidden={!isActive}
       tabIndex={isActive ? 0 : -1}
       aria-hidden={!isActive}
       aria-labelledby={tabId(tabName)}
