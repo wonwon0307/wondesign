@@ -5,6 +5,7 @@ const body = style({
   display: "flex",
   flexDirection: "column",
   minHeight: "100vh",
+  maxWidth: "100vw",
   backgroundColor: tokens.colors.background,
   color: tokens.colors.text,
   fontFamily: tokens.typography.fontFamily.normal,
