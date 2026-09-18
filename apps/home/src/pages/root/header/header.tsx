@@ -24,32 +24,37 @@ export function Header() {
           <span className={styles.homeText}>WonDesign</span>
         </Anchor>
       </div>
-      <Navbar aria-label="Main Tab Navigation" className={styles.tabs}>
-        {pages.map((page) => (
-          <NavLink
-            key={page.href}
-            href={page.href}
-            isActive={pathname?.startsWith(page.href)}
-          >
-            {page.label}
-          </NavLink>
-        ))}
-      </Navbar>
       <div className={styles.headerRight}>
-        <Tooltip
-          text="View the source code on GitHub"
-          left={<AppIcon icon="external-link" />}
-          keepMounted
-        >
-          <IconLink href="https://github.com/wonwon0307/wondesign" openInNewTab>
-            <GithubLogo />
-          </IconLink>
-        </Tooltip>
-        <Tooltip text="Read my blog" left={<AppIcon icon="external-link" />}>
-          <IconLink href="https://justwon.dev" openInNewTab>
-            BlogLink
-          </IconLink>
-        </Tooltip>
+        <Navbar aria-label="Main Tab Navigation" className={styles.tabs}>
+          {pages.map((page) => (
+            <NavLink
+              key={page.href}
+              href={page.href}
+              isActive={pathname?.startsWith(page.href)}
+            >
+              {page.label}
+            </NavLink>
+          ))}
+        </Navbar>
+        <div className={styles.links}>
+          <Tooltip
+            text="View the source code on GitHub"
+            left={<AppIcon icon="external-link" />}
+            keepMounted
+          >
+            <IconLink
+              href="https://github.com/wonwon0307/wondesign"
+              openInNewTab
+            >
+              <GithubLogo />
+            </IconLink>
+          </Tooltip>
+          <Tooltip text="Read my blog" left={<AppIcon icon="external-link" />}>
+            <IconLink href="https://justwon.dev" openInNewTab>
+              BlogLink
+            </IconLink>
+          </Tooltip>
+        </div>
       </div>
     </header>
   );
