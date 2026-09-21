@@ -63,5 +63,8 @@ function SidebarStatus({ badge }: Readonly<StatusProps>) {
   if (badge === "Coming Soon") {
     return <Badge color="#e18115" label={badge} />;
   }
+  if (badge === "Internal") {
+    return <Badge color="#6c757d" label={badge} />;
+  }
   return null;
 }
