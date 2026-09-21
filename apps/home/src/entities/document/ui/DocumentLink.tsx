@@ -18,7 +18,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-export function SidebarLink({ link, children }: Readonly<Props>) {
+export function DocumentLink({ link, children }: Readonly<Props>) {
   const pathname = usePathname();
   const isExactMatch = pathname === link.url;
   const startsWithUrl = isExactMatch || pathname?.startsWith(link.url + "/");
