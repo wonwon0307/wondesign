@@ -1,10 +1,9 @@
 import { SidebarProvider } from "@wondesign/sidebar";
 import { SidebarBody } from "@wondesign/sidebar/Body";
 import { SidebarNav } from "@wondesign/sidebar/Nav";
-import { getSidebar, type DocsItem } from "@wondocs/core/sidebar";
+import { getSidebar } from "@wondocs/core/sidebar";
 
-import { SidebarGroup } from "./sidebar/group";
-import { SidebarLink } from "./sidebar/link";
+import { SidebarItem } from "@/widgets/sidebar";
 import { styles } from "./styles.css";
 
 interface Props {
@@ -18,7 +17,7 @@ export async function CollectionLayout({ params, children }: Readonly<Props>) {
   const sidebarItems = getSidebar(collection);
 
   return (
-    <SidebarProvider shortkey="Mod+B" defaultOpen>
+    <SidebarProvider shortkey="Mod+B" defaultOpen mobileBreakpoint={1024}>
       <div className={styles.container}>
         <SidebarBody keepMounted className={styles.sidebar}>
           <SidebarNav>
@@ -31,31 +30,4 @@ export async function CollectionLayout({ params, children }: Readonly<Props>) {
       </div>
     </SidebarProvider>
   );
-}
-
-interface ItemProps {
-  item: DocsItem;
-}
-
-function SidebarItem({ item }: Readonly<ItemProps>) {
-  if (item.type === "group") {
-    return (
-      <SidebarGroup group={item}>
-        {item.items?.map((item, idx) => (
-          <SidebarItem key={`${item.type}-${idx}`} item={item} />
-        ))}
-      </SidebarGroup>
-    );
-  }
-  if (item.type === "link") {
-    return (
-      <SidebarLink link={item}>
-        {item.items?.map((item, idx) => (
-          <SidebarItem key={`${item.type}-${idx}`} item={item} />
-        ))}
-      </SidebarLink>
-    );
-  }
-
-  return null;
 }
