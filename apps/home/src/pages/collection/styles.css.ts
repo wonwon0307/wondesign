@@ -15,6 +15,7 @@ const sidebar = style({
 
 const contents = style({
   flex: 1,
+  minWidth: 0,
 });
 
 export const styles = { container, sidebar, contents };
