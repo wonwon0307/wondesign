@@ -8,7 +8,7 @@ import { ThemeProvider } from "@wondesign/ui/theme";
 import { wondesignDefault } from "@wondesign/ui/tokens";
 import clsx from "clsx";
 
-import { Header } from "./header/header";
+import { RootHeader } from "@/widgets/header";
 import { styles } from "./styles.css";
 import "@wondesign/ui/styles.css";
 
@@ -67,7 +67,7 @@ export function RootLayout({ children }: Readonly<Props>) {
             styles.body,
           )}
         >
-          <Header />
+          <RootHeader />
           <main className={styles.main} role="main">
             {children}
           </main>
