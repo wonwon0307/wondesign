@@ -9,9 +9,9 @@ import { Tooltip } from "@wondesign/ui/Tooltip";
 import { WonDesignLogo, GithubLogo } from "@/shared/ui/Logos";
 import { styles } from "./styles.css";
 
-export function Header() {
+export function RootHeader() {
   const pages = [
-    { label: "Primitives", href: "/primitives" },
+    { label: "Foundations", href: "/foundations" },
     { label: "Components", href: "/components" },
   ];
   const pathname = usePathname();
@@ -47,11 +47,6 @@ export function Header() {
               openInNewTab
             >
               <GithubLogo />
-            </IconLink>
-          </Tooltip>
-          <Tooltip text="Read my blog" left={<AppIcon icon="external-link" />}>
-            <IconLink href="https://justwon.dev" openInNewTab>
-              BlogLink
             </IconLink>
           </Tooltip>
         </div>

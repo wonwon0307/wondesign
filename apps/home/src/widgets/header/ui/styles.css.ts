@@ -2,7 +2,7 @@ import { style } from "@vanilla-extract/css";
 import { mediaQueries, tokens } from "@wondesign/ui/tokens";
 
 const HEADER_HEIGHT = "48px";
-const SIDEBAR_WIDTH = "240px";
+const SIDEBAR_WIDTH = "280px";
 
 const header = style({
   display: "flex",
@@ -14,7 +14,7 @@ const header = style({
   top: 0,
   left: 0,
   right: 0,
-  backgroundColor: tokens.colors.surface,
+  backgroundColor: tokens.colors.background,
   boxShadow: tokens.elevation.lv1,
   zIndex: 1,
   overflow: "hidden",
