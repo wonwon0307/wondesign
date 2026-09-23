@@ -35,16 +35,26 @@ export const mdxComponents = {
       {children}
     </Heading>
   ),
-  h5: ({ children, className, id }: Props) => (
-    <Heading level={5} className={className} id={id}>
-      {children}
-    </Heading>
-  ),
-  h6: ({ children, className, id }: Props) => (
-    <Heading level={6} className={className} id={id}>
-      {children}
-    </Heading>
-  ),
+  h5: ({ children, className, id }: Props) => {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("h5 heading is not supported. rendering as h4 instead.");
+    }
+    return (
+      <Heading level={4} className={className} id={id}>
+        {children}
+      </Heading>
+    );
+  },
+  h6: ({ children, className, id }: Props) => {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("h6 heading is not supported. rendering as h4 instead.");
+    }
+    return (
+      <Heading level={4} className={className} id={id}>
+        {children}
+      </Heading>
+    );
+  },
   p: (props: Props) => (
     <Paragraph {...props} className={styles.paragraph} size="large" />
   ),
