@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { getPageData } from "@/entities/document";
+import { capitalize } from "@/shared/lib/capitalize";
 
 interface Props {
   params: Promise<{ collection: string; slug: string[] }>;
@@ -11,13 +12,21 @@ export async function generateMetadata({
 }: Readonly<Props>): Promise<Metadata> {
   const { collection, slug } = await params;
 
-  const { meta } = getPageData(collection, slug);
+  const data = getPageData(collection, slug);
+
+  if (!data?.meta) {
+    return {
+      title: "WonDesign",
+      description: "WonDesign documentation",
+    };
+  }
+
+  const { meta } = data;
+
   const title = meta.metaTitle ?? meta.title;
-  const collectionName =
-    collection.charAt(0).toUpperCase() + collection.slice(1);
 
   return {
-    title: `${title} | ${collectionName} | WonDesign`,
+    title: `${title} | ${capitalize(collection)} | WonDesign`,
     description: meta.description,
   };
 }
