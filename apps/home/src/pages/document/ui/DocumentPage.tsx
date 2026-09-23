@@ -1,9 +1,8 @@
-import type { ComponentType } from "react";
 import { Heading } from "@wondesign/ui/Texts";
 
-import { getPage } from "@/services/page";
-import { ComponentDocumentTabs } from "./tabs/tabs";
-import { TableOfContents } from "./toc/toc";
+import { DocumentTabs, DocumentTOC } from "@/widgets/document";
+import { getPageData } from "@/entities/document";
+import { mdxComponents } from "./mdx";
 import { styles } from "./styles.css";
 
 interface Props {
@@ -13,24 +12,26 @@ interface Props {
 export async function DocumentPage({ params }: Readonly<Props>) {
   const { collection, slug } = await params;
 
-  const { component, meta, toc } = getPage(collection, slug);
-  const { default: Content } = (await component()) as {
-    default: ComponentType;
-  };
+  const { component, meta, toc, tabs } = getPageData(collection, slug);
+  const { default: Content } = await component();
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         {meta.title && <Heading level={1}>{meta.title}</Heading>}
-        {meta.description && <Heading level={3}>{meta.description}</Heading>}
+        {meta.description && (
+          <Heading level={4} className={styles.description}>
+            {meta.description}
+          </Heading>
+        )}
         {/*breadcrumbs*/}
-        {meta.type === "component" && <ComponentDocumentTabs />}
+        {tabs && <DocumentTabs tabs={tabs} />}
       </div>
       <div className={styles.body}>
         <div className={styles.contents}>
-          <Content />
+          <Content components={mdxComponents} />
         </div>
-        <TableOfContents items={toc} />
+        <DocumentTOC items={toc} />
       </div>
     </div>
   );
