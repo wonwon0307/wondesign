@@ -1,65 +1,71 @@
-import { notFound, redirect, RedirectType } from "next/navigation";
 import {
   getPage,
   getPageChildren,
   type DocsPageData,
 } from "@wondocs/core/pages";
 
-import {
-  type DocsMeta,
-  type DocumentPageData,
-  TAB_ORDER,
-} from "../models/page";
+import type { DocsMeta, DocumentPageData } from "../models/page";
 
 export function getPageData(
   collection: string,
   slug: string[],
-): DocumentPageData {
+): DocumentPageData | null {
   const path = `/${collection}/${slug.join("/")}`;
-
   let data: DocsPageData<DocsMeta>;
 
   try {
-    data = getPage(path);
+    data = getPage<DocsMeta>(path);
   } catch {
-    notFound();
+    return null;
   }
 
-  // tabs 유형이라면, 기본 탭으로 리디렉트한다
-  // 만약, 기본 탭이 없다면 404 페이지로 이동
   if (data.meta.type === "tabs") {
     const children = getPageChildren<DocsMeta>(path);
-    const defaultTab = TAB_ORDER.map((tabSlug) =>
-      children.find((child) => child.url.endsWith(`/${tabSlug}`)),
-    ).find((child) => child !== undefined);
 
-    if (!defaultTab) notFound();
-
-    redirect(defaultTab.url, RedirectType.replace);
+    return {
+      ...data,
+      tabs: children.map((child) => ({
+        slug: child.url.slice(child.url.lastIndexOf("/") + 1),
+        url: child.url,
+      })),
+    };
   }
 
-  if (slug.length >= 2) {
-    const parentPath = `/${collection}/${slug.slice(0, -1).join("/")}`;
-
-    try {
-      const parentData = getPage<DocsMeta>(parentPath);
-      if (parentData.meta.type === "tabs") {
-        const children = getPageChildren<DocsMeta>(parentPath);
-        return {
-          component: data.component,
-          meta: parentData.meta,
-          toc: data.toc,
-          tabs: children.map((child) => ({
-            slug: child.url.slice(child.url.lastIndexOf("/") + 1),
-            url: child.url,
-          })),
-        };
-      }
-    } catch {
-      // parent 페이지가 없으면
-      // 그냥 무시하고 넘어간다
-    }
+  if (data.meta) {
+    // meta가 있으면, 그대로 반환
+    return data;
   }
 
-  return data;
+  // meta가 없으면, implicitly tabs라는것을 의미
+  // 부모로부터 meta를 가져온다
+  const parentPath = `/${collection}/${slug.slice(0, -1).join("/")}`;
+  let parentMeta: DocsMeta;
+
+  try {
+    const { meta } = getPage<DocsMeta>(parentPath);
+    parentMeta = meta;
+  } catch {
+    return data;
+  }
+
+  if (parentMeta.type !== "tabs") {
+    return data;
+  }
+
+  const siblings = getPageChildren<DocsMeta>(parentPath);
+
+  return {
+    component: data.component,
+    meta: {
+      title: parentMeta.title,
+      description: parentMeta.description,
+      metaTitle: parentMeta.metaTitle,
+      // drop type
+    },
+    toc: data.toc,
+    tabs: siblings.map((child) => ({
+      slug: child.url.slice(child.url.lastIndexOf("/") + 1),
+      url: child.url,
+    })),
+  };
 }
