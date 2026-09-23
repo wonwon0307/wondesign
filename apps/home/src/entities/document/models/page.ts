@@ -5,6 +5,7 @@ import type {
 } from "@wondocs/core/pages";
 
 export interface DocsMeta extends DocsFrontmatter {
+  metaTitle?: string;
   type?: string;
 }
 
