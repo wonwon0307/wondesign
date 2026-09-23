@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { getPage } from "@/services/page";
+import { getPageData } from "@/entities/document";
 
 interface Props {
   params: Promise<{ collection: string; slug: string[] }>;
@@ -11,10 +11,12 @@ export async function generateMetadata({
 }: Readonly<Props>): Promise<Metadata> {
   const { collection, slug } = await params;
 
-  const { meta } = getPage(collection, slug);
+  const { meta } = getPageData(collection, slug);
+  const collectionName =
+    collection.charAt(0).toUpperCase() + collection.slice(1);
 
   return {
-    title: meta.title,
+    title: `${meta.title} | ${collectionName} | WonDesign`,
     description: meta.description,
   };
 }
