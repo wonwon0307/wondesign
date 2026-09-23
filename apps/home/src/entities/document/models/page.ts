@@ -1,8 +1,4 @@
-import type {
-  DocsFrontmatter,
-  DocsMdxModule,
-  DocsTocEntry,
-} from "@wondocs/core/pages";
+import type { DocsFrontmatter, DocsPageData } from "@wondocs/core/pages";
 
 export interface DocsMeta extends DocsFrontmatter {
   metaTitle?: string;
@@ -14,18 +10,6 @@ export interface TabEntry {
   url: string;
 }
 
-export interface DocumentPageData {
-  component: () => Promise<DocsMdxModule>;
-  meta: DocsMeta;
-  toc: DocsTocEntry[];
+export interface DocumentPageData extends DocsPageData<DocsMeta> {
   tabs?: TabEntry[];
 }
-
-export const TAB_LABELS: Record<string, string> = {
-  overview: "Overview",
-  examples: "Examples",
-  api: "API",
-  changelog: "Changelog",
-};
-
-export const TAB_ORDER = Object.keys(TAB_LABELS);
