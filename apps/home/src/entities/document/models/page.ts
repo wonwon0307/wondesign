@@ -11,5 +11,6 @@ export interface TabEntry {
 }
 
 export interface DocumentPageData extends DocsPageData<DocsMeta> {
+  meta: DocsMeta;
   tabs?: TabEntry[];
 }
