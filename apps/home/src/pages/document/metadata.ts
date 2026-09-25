@@ -12,7 +12,9 @@ export async function generateMetadata({
 }: Readonly<Props>): Promise<Metadata> {
   const { collection, slug } = await params;
 
-  const data = getPageData(collection, slug);
+  const path = `/${collection}/${slug.join("/")}`;
+
+  const data = getPageData(path);
 
   if (!data?.meta) {
     return {
