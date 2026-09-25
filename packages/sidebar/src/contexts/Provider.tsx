@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useMemo } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef } from "react";
 import { useOpenState } from "@wondesign/interactions/disclosure";
 import {
   useShortkey,
@@ -27,14 +27,15 @@ export function SidebarProvider({
   mobileBreakpoint = 768,
   isOpen: controlledOpen,
   onOpenChange,
-  defaultOpen = false,
+  defaultOpen,
   side = "left",
   shortkey = null,
 }: Readonly<SidebarProps>) {
+  const isMobile = useIsMobile(isMobileOverride, mobileBreakpoint);
   const { isOpen, show, hide } = useOpenState(
     controlledOpen,
     onOpenChange,
-    defaultOpen,
+    defaultOpen ?? !isMobile,
   );
   const contentId = useId();
 
@@ -46,7 +47,6 @@ export function SidebarProvider({
     }
   }, [isOpen, show, hide]);
 
-  const isMobile = useIsMobile(isMobileOverride, mobileBreakpoint);
   const result = useShortkey(shortkey, toggleSidebar, collapse !== "disable");
 
   const finalState: "closed" | "collapsed" | "expanded" = useMemo(() => {
@@ -55,13 +55,18 @@ export function SidebarProvider({
     return "closed";
   }, [isOpen, collapse, isMobile]);
 
+  const previousIsMobile = useRef(isMobile);
+
   useEffect(() => {
-    if (isMobile && isOpen) {
+    if (previousIsMobile.current === isMobile) return;
+    previousIsMobile.current = isMobile;
+
+    if (isMobile) {
       hide();
-    } else if (!isMobile && !isOpen && collapse !== "disable") {
+    } else {
       show();
     }
-  }, [isMobile, isOpen, hide, show, collapse]);
+  }, [isMobile, hide, show]);
 
   const contextValue = useMemo(
     () => ({
