@@ -11,7 +11,7 @@ const header = style({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: `${tokens.spacing.sm} ${tokens.spacing.md}`,
+  padding: `${tokens.spacing.sm} ${tokens.spacing.lg}`,
   borderRadius: tokens.radius.md,
   font: tokens.text.bodySmall,
   fontWeight: tokens.typography.fontWeight.semibold,

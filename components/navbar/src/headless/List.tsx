@@ -3,12 +3,11 @@ import { AsChild } from "@wondesign/composition/asChild";
 
 import { NavbarContext, NavbarListContext } from "@/contexts/list";
 
-export interface NavbarListProps extends Omit<
-  React.HTMLAttributes<HTMLUListElement>,
-  "children"
-> {
+export interface NavbarListProps
+  extends
+    Omit<React.HTMLAttributes<HTMLUListElement>, "children">,
+    React.RefAttributes<HTMLUListElement> {
   children: React.ReactNode;
-  ref?: React.Ref<HTMLUListElement>;
   asChild?: boolean;
   vertical?: boolean;
   // loop?: boolean;

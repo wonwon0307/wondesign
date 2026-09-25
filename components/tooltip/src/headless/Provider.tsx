@@ -21,7 +21,7 @@ export function TooltipProvider({
   onOpenChange,
   keepMounted = false,
   showDelay = 300,
-  hideDelay = 300,
+  hideDelay = 0,
   placement: userPlacement = "bottom",
   forcePlacement = false,
   align = "center",

@@ -1,8 +1,10 @@
-export interface HeadlessAnchorProps extends Omit<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
-  "target" | "rel" | "aria-disabled"
-> {
-  ref?: React.Ref<HTMLAnchorElement>;
+export interface HeadlessAnchorProps
+  extends
+    Omit<
+      React.AnchorHTMLAttributes<HTMLAnchorElement>,
+      "target" | "rel" | "aria-disabled"
+    >,
+    React.RefAttributes<HTMLAnchorElement> {
   as?: React.ElementType;
   isDisabled?: boolean;
   openInNewTab?: boolean;

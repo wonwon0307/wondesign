@@ -9,7 +9,7 @@ export function TestComponent({
   HeadlessTooltipProps & { isDisabled?: boolean; disablePortal?: boolean }
 >) {
   return (
-    <HeadlessTooltip showDelay={300} hideDelay={700} {...rest}>
+    <HeadlessTooltip {...rest}>
       <HeadlessTooltip.Trigger
         isDisabled={isDisabled}
         data-testid="tooltip-trigger"

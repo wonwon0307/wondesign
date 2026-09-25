@@ -21,12 +21,12 @@ const typography: TypographyTokens = {
     bodyLarge: "1rem",
   },
   lineHeight: {
-    headingSmall: "1.75rem",
-    headingMedium: "2rem",
+    headingSmall: "2rem",
+    headingMedium: "2.25rem",
     headingLarge: "2.5rem",
     bodySmall: "1.25rem",
-    bodyMedium: "1.375rem",
-    bodyLarge: "1.5rem",
+    bodyMedium: "1.5rem",
+    bodyLarge: "1.75rem",
   },
   fontWeight: {
     regular: "400",

@@ -1,1 +1,1 @@
-export { CollectionRedirect as default } from "@/pages/collection/page";
+export { CollectionIndex as default } from "@/pages/collection";

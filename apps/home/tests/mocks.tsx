@@ -1,3 +1,6 @@
+import { testSidebarItems } from "./testdata/collection";
+import { testPageChildrenData, testPageData } from "./testdata/document";
+
 vi.mock("next/font/google", () => ({
   Google_Sans: () => ({
     className: "google-sans-class",
@@ -13,7 +16,7 @@ vi.mock("next/font/google", () => ({
   }),
 }));
 vi.mock("next/navigation", () => ({
-  notFound: vi.fn(),
+  notFound: vi.fn().mockThrow(new Error("notFound called")),
   redirect: vi.fn(),
   usePathname: vi.fn().mockReturnValue("/test-collection/test-link"),
   RedirectType: {
@@ -21,108 +24,11 @@ vi.mock("next/navigation", () => ({
   },
 }));
 vi.mock("@wondocs/core/pages", () => ({
-  getPage: vi.fn().mockReturnValue({
-    component: () =>
-      Promise.resolve({
-        default: () => (
-          <div data-testid="page-content">Example Page Content</div>
-        ),
-      }),
-    meta: {
-      title: "Example Page Title",
-      description: "Example Page Description",
-    },
-    toc: [
-      {
-        href: "section-1",
-        depth: 1,
-        value: "Section 1",
-      },
-    ],
-  }),
+  getPage: vi.fn().mockReturnValue(testPageData.normal),
+  getPageChildren: vi.fn().mockReturnValue(testPageChildrenData),
 }));
 vi.mock("@wondocs/core/sidebar", () => ({
-  getSidebar: vi.fn().mockReturnValue([
-    {
-      type: "link",
-      label: "Test Link",
-      url: "/test-link",
-    },
-    {
-      type: "separator",
-    },
-    {
-      type: "group",
-      label: "Test Group",
-      items: [
-        {
-          type: "link",
-          label: "Nested Link 1",
-          url: "/nested-link-1",
-        },
-        {
-          type: "link",
-          label: "Nested Link 2",
-          url: "/nested-link-2",
-          right: "Coming Soon",
-        },
-      ],
-    },
-    {
-      type: "separator",
-    },
-    {
-      type: "link",
-      label: "Test Link 2",
-      url: "/test-link-2",
-      items: [
-        {
-          type: "link",
-          label: "Nested Link 3",
-          url: "/nested-link-3",
-        },
-      ],
-    },
-  ]),
-}));
-
-vi.mock("@wondesign/ui/Links", () => ({
-  Anchor: ({ children, ...props }: { children: React.ReactNode }) => (
-    <a {...props} data-testid="anchor">
-      {children}
-    </a>
-  ),
-  IconLink: ({
-    children,
-    openInNewTab,
-    ...props
-  }: {
-    children: React.ReactNode;
-    openInNewTab?: boolean;
-  }) => (
-    <a {...props} data-newtab={openInNewTab} data-testid="icon-link">
-      {children}
-    </a>
-  ),
-  Hyperlink: ({ children, ...props }: { children: React.ReactNode }) => (
-    <a {...props} data-testid="link">
-      {children}
-    </a>
-  ),
-}));
-vi.mock("@wondesign/ui/Tooltip", () => ({
-  Tooltip: ({
-    children,
-    text,
-  }: {
-    children: React.ReactNode;
-    text: React.ReactNode;
-  }) => (
-    <div data-testid="tooltip">
-      <div data-testid="tooltip-trigger">{children}</div>
-      <div data-testid="tooltip-content">{text}</div>
-    </div>
-  ),
+  getSidebar: vi.fn().mockReturnValue(testSidebarItems),
 }));
 
 Object.defineProperty(window, "matchMedia", {

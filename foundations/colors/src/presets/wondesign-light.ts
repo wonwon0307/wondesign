@@ -15,7 +15,7 @@ export const wondesignLight: SemanticColors = {
   backgroundHover: "#88888825",
   backgroundInverted: "#0A0A0A",
   surface: "#F5F5F9",
-  overlay: "#1F212580",
+  overlay: "#191A1E80",
   text: "#0A0A0A",
   textMuted: "#505053",
   textInverted: "#F9FAFB",

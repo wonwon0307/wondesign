@@ -1,7 +1,7 @@
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return [{ collection: "primitives" }, { collection: "components" }];
+  return [{ collection: "foundations" }, { collection: "components" }];
 }
 
-export { CollectionLayout as default } from "@/pages/collection/layout";
+export { CollectionLayout as default } from "@/pages/collection";

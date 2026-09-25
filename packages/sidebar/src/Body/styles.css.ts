@@ -1,7 +1,7 @@
 import { recipe } from "@vanilla-extract/recipes";
 import { tokens } from "@wondesign/tokens";
 
-const EXPANDED_WIDTH = "240px";
+const EXPANDED_WIDTH = "280px";
 const ICON_WIDTH = "56px";
 
 const sidebar = recipe({
@@ -13,7 +13,7 @@ const sidebar = recipe({
     padding: `${tokens.spacing.lg} 0`,
     flexShrink: 0,
     overflow: "hidden",
-    backgroundColor: tokens.colors.surface,
+    backgroundColor: tokens.colors.background,
     transition: "width 0.3s ease-in-out",
   },
   variants: {
@@ -42,7 +42,6 @@ const sidebar = recipe({
       },
       closed: {
         width: "0px",
-        overflow: "hidden",
       },
     },
   },
