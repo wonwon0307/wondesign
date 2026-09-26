@@ -17,7 +17,7 @@ export async function CollectionLayout({ params, children }: Readonly<Props>) {
   const sidebarItems = getSidebar(collection);
 
   return (
-    <SidebarProvider shortkey="Mod+B" defaultOpen>
+    <SidebarProvider shortkey="Mod+B" defaultOpen mobileBreakpoint={1024}>
       <div className={styles.container}>
         <SidebarBody keepMounted className={styles.sidebar}>
           <SidebarNav>

@@ -1,4 +1,4 @@
-import { useCallback, useId, useMemo } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef } from "react";
 import { useOpenState } from "@wondesign/interactions/disclosure";
 import {
   useShortkey,
@@ -12,6 +12,7 @@ export interface SidebarProps {
   children: React.ReactNode;
   collapse?: "hide" | "icons" | "disable";
   isMobile?: boolean;
+  mobileBreakpoint?: number;
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;
@@ -23,16 +24,18 @@ export function SidebarProvider({
   children,
   collapse = "hide",
   isMobile: isMobileOverride,
+  mobileBreakpoint = 768,
   isOpen: controlledOpen,
   onOpenChange,
-  defaultOpen = false,
+  defaultOpen,
   side = "left",
   shortkey = null,
 }: Readonly<SidebarProps>) {
+  const isMobile = useIsMobile(isMobileOverride, mobileBreakpoint);
   const { isOpen, show, hide } = useOpenState(
     controlledOpen,
     onOpenChange,
-    defaultOpen,
+    defaultOpen ?? !isMobile,
   );
   const contentId = useId();
 
@@ -44,7 +47,6 @@ export function SidebarProvider({
     }
   }, [isOpen, show, hide]);
 
-  const isMobile = useIsMobile(isMobileOverride);
   const result = useShortkey(shortkey, toggleSidebar, collapse !== "disable");
 
   const finalState: "closed" | "collapsed" | "expanded" = useMemo(() => {
@@ -52,6 +54,19 @@ export function SidebarProvider({
     if (collapse === "icons" && !isMobile) return "collapsed";
     return "closed";
   }, [isOpen, collapse, isMobile]);
+
+  const previousIsMobile = useRef(isMobile);
+
+  useEffect(() => {
+    if (previousIsMobile.current === isMobile) return;
+    previousIsMobile.current = isMobile;
+
+    if (isMobile) {
+      hide();
+    } else {
+      show();
+    }
+  }, [isMobile, hide, show]);
 
   const contextValue = useMemo(
     () => ({
