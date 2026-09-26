@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { Anchor, type AnchorProps } from "@/Anchor";
 import { styles } from "./styles.css";
