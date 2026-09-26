@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import type { DescriptionProps } from "./props";
 import { styles } from "./styles.css";
