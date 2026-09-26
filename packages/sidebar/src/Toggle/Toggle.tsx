@@ -4,7 +4,7 @@ import {
 } from "@wondesign/buttons/Headless";
 import { KeyboardGroup } from "@wondesign/code/Keyboard";
 import { Tooltip } from "@wondesign/tooltip";
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { useInternalSidebar } from "@/contexts/sidebar";
 import { SidebarToggleIcon } from "./Icon";

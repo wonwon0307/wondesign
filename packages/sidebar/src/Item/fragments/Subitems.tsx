@@ -1,5 +1,5 @@
 import { CollapsibleContent } from "@wondesign/collapsible";
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { useSidebarItem } from "@/contexts/item";
 import { useSidebar } from "@/contexts/sidebar";

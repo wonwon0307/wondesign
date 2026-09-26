@@ -1,5 +1,5 @@
 import { Tooltip } from "@wondesign/tooltip";
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { useSidebar } from "@/contexts/sidebar";
 import { SidebarItemHeader } from "../fragments/Header";

@@ -1,6 +1,6 @@
 import { Children, isValidElement, useContext, useMemo } from "react";
 import { CollapsibleProvider } from "@wondesign/collapsible";
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { useSidebarNav } from "@/contexts/body";
 import { SidebarItemContext } from "@/contexts/item";
