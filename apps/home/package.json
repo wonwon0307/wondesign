@@ -13,7 +13,7 @@
     "@vanilla-extract/recipes": "catalog:",
     "@wondesign/sidebar": "workspace:*",
     "@wondesign/ui": "workspace:*",
-    "@wondocs/core": "0.1.0-beta.10",
+    "@wondocs/core": "0.1.0-beta.11",
     "clsx": "catalog:",
     "next": "^16.3.6",
     "react": "^19.3.0",
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@vanilla-extract/next-plugin": "^2.5.2",
-    "@wondocs/next-plugin": "0.1.0-beta.10",
+    "@wondocs/next-plugin": "0.1.0-beta.11",
     "babel-plugin-react-compiler": "1.0.0"
   }
 }
