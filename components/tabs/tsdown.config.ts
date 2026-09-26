@@ -8,7 +8,9 @@ export default defineConfig([
     format: ["esm"],
     dts: true,
     clean: false,
-    banner: "'use client';",
+    banner: {
+      js: '"use client";',
+    },
     deps: {
       onlyBundle: false,
     },
