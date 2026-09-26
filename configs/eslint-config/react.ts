@@ -1,5 +1,6 @@
 import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
+import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
 import { importX } from "eslint-plugin-import-x";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
@@ -24,6 +25,14 @@ export const reactPackageEslintConfig = defineConfig([
     ],
     languageOptions: {
       globals: globals.browser,
+    },
+    settings: {
+      "import-x/resolver-next": [
+        createTypeScriptImportResolver({
+          alwaysTryTypes: true,
+          project: "**/*/tsconfig.json",
+        }),
+      ],
     },
     rules: {
       "@typescript-eslint/consistent-type-imports": [
