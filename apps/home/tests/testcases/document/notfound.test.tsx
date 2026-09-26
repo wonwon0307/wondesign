@@ -21,10 +21,6 @@ describe("DocumentPage - not found", () => {
     return testPageData.tab;
   });
 
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
   it("redirects to 404 if document is not found on page render", async () => {
     vi.spyOn(DocsPages, "getPage").mockThrowOnce(
       new Error("Document not found"),

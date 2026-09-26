@@ -9,10 +9,6 @@ describe("CollectionLayout", () => {
   vi.spyOn(console, "warn").mockImplementation(() => {});
   const params = Promise.resolve({ collection: "test-collection" });
 
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
   it("renders the sidebar correctly", async () => {
     const jsx = await CollectionLayout({
       params,

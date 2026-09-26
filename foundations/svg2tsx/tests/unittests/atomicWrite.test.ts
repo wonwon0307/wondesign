@@ -13,10 +13,6 @@ vi.mock("node:fs/promises", async () => {
 vi.unmock("@/lib/atomicWrite");
 
 describe("atomicWrite", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it("should write content to a temporary file and then rename it", async () => {
     const filePath = "test.txt";
     const content = "hello world";
