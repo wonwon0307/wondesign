@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   quality:
-    name: Quality Checks (Lint, Format, Security)
+    name: Quality Checks (Lint, Types, Format, Security)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -50,6 +50,12 @@ jobs:
           pnpm lint || \
           echo "- ❌ Lint Check Failed" >> error.txt
 
+      - name: Type Check
+        id: typecheck
+        run: |
+          pnpm typecheck || \
+          echo "- ❌ Type Check Failed" >> error.txt
+
       - name: Security Audit
         id: audit
         run: |
@@ -69,8 +75,9 @@ jobs:
             echo "🎉 All checks passed!" >> $GITHUB_STEP_SUMMARY
           fi
 
-  build-and-test:
-    name: Build, Typecheck & Test
+  test:
+    name: Test
+    needs: [quality]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -83,12 +90,6 @@ jobs:
 
       - name: Setup Project
         uses: ./.github/actions/prepare
-
-      - name: Build
-        run: pnpm build
-
-      - name: Type Check
-        run: pnpm typecheck
 
       - name: Test
         run: pnpm test --coverage --coverage.include="**/*/src/**/*.{ts,tsx}" --coverage.reporter=clover --coverage.reporter=lcov
@@ -112,7 +113,7 @@ jobs:
 
   sonar-scan:
     name: SonarCloud Scan
-    needs: [quality, build-and-test]
+    needs: [quality]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
