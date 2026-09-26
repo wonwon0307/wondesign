@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { useSidebarBody } from "@/contexts/body";
 import { useSidebar } from "@/contexts/sidebar";

@@ -1,6 +1,6 @@
-import { HeadlessAnchor, type HeadlessAnchorProps } from "@/Headless";
-import clsx from "clsx";
+import { clsx } from "clsx";
 
+import { HeadlessAnchor, type HeadlessAnchorProps } from "@/Headless";
 import { styles } from "./styles.css";
 
 export type AnchorProps = HeadlessAnchorProps;

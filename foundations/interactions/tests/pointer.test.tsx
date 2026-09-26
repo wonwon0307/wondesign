@@ -29,10 +29,6 @@ function TestComponent({ disabled = false }: { disabled?: boolean }) {
 }
 
 describe("useClickOutside", () => {
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
   it("should call the callback when clicing outside the ref element", () => {
     const { getByTestId } = render(<TestComponent />);
 
@@ -71,10 +67,6 @@ describe("useClickOutside", () => {
 describe("useLongTouch", () => {
   beforeEach(() => {
     vi.useFakeTimers();
-  });
-
-  afterEach(() => {
-    vi.clearAllMocks();
   });
 
   it("should call the callback when long touch is detected", () => {

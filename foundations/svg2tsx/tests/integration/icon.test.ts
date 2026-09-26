@@ -40,7 +40,10 @@ describe("corner cases - icon validation", () => {
       expect.stringContaining("Duplicate SVG content detected in files:"),
     );
     expect(logger.error).toHaveBeenCalledWith(
-      expect.stringContaining(" - name.svg"),
+      expect.stringContaining(" - name1.svg"),
+    );
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.stringContaining(" - name2.svg"),
     );
   });
 

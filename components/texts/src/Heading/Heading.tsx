@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { tagMap, type HeadingProps } from "./props";
 import { styles } from "./styles.css";

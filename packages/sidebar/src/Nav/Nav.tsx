@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { SidebarNavContext, useSidebarBody } from "@/contexts/body";
 import { styles } from "./styles.css";

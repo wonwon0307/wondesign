@@ -15,11 +15,6 @@ vi.mock("fast-glob", () => ({
 }));
 
 describe("generate - family directory structure", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-    vi.clearAllMocks();
-  });
-
   describe("default config (barrel mode, no suffix)", () => {
     it("should generate correct files and content", async () => {
       await generate({ dryRun: false });

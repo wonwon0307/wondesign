@@ -18,8 +18,8 @@ allowBuilds:
   unrs-resolver: false
 
 minimumReleaseAgeExclude:
-  - '@wondocs/core@0.1.0-beta.10'
-  - '@wondocs/next-plugin@0.1.0-beta.10'
+  - '@wondocs/core@0.1.0-beta.11'
+  - '@wondocs/next-plugin@0.1.0-beta.11'
 
 overrides:
   fast-uri: "3.1.6"

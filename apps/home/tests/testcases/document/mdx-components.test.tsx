@@ -3,11 +3,6 @@ import { render } from "@testing-library/react";
 import { mdxComponents } from "@/pages/document/ui/mdx";
 
 describe("MDX Components", () => {
-  afterEach(() => {
-    vi.clearAllMocks();
-    vi.unstubAllEnvs();
-  });
-
   it("maps h1-h4 to the matching heading tag", () => {
     const { getByText } = render(
       <>
@@ -56,6 +51,8 @@ describe("MDX Components", () => {
     );
 
     expect(console.warn).not.toHaveBeenCalled();
+
+    vi.unstubAllEnvs();
   });
 
   it("renders the paragraph, link, and inline code components", () => {

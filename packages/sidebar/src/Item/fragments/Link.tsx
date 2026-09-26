@@ -2,7 +2,7 @@ import {
   HeadlessAnchor,
   type HeadlessAnchorProps,
 } from "@wondesign/links/Headless";
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { useSidebarItem } from "@/contexts/item";
 import { useSidebar } from "@/contexts/sidebar";

@@ -9,9 +9,3 @@ export function prepareConfig(config: Config) {
     vi.restoreAllMocks();
   });
 }
-
-export function setup() {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-}

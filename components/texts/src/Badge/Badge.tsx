@@ -1,5 +1,5 @@
 import { colorWithOpacity } from "@wondesign/tokens";
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { styles } from "./styles.css";
 

@@ -18,6 +18,15 @@ export const nextEslintConfig = defineConfig([
   },
   ...nextVitals,
   ...nextTs,
+  {
+    settings: {
+      // eslint-config-next sets this to "detect", which crashes under ESLint v10
+      // (eslint-plugin-react calls context.getFilename(), removed from the context API).
+      react: {
+        version: "19.3.0",
+      },
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

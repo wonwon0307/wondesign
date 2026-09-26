@@ -94,7 +94,9 @@ export class ConfigManager {
 
       return result as Config;
     } catch (error) {
-      throw new Error(`Failed to load config from ${path}: ${error}`);
+      throw new Error(`Failed to load config from ${path}: ${error}`, {
+        cause: error,
+      });
     }
   }
 }

@@ -16,7 +16,7 @@
       "outputs": []
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^build", "^lint"]
     }
   },
   "concurrency": "15"
