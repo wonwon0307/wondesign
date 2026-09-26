@@ -6,7 +6,7 @@ import {
 } from "next/font/google";
 import { ThemeProvider } from "@wondesign/ui/theme";
 import { wondesignDefault } from "@wondesign/ui/tokens";
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { RootHeader } from "@/widgets/header";
 import { styles } from "./styles.css";
