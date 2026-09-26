@@ -34,7 +34,7 @@
     "tsdown": "^0.22.14",
     "turbo": "^2.11.4",
     "typescript": "6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.1"
   },
   "lint-staged": {
     "*.{json,md,yml,yaml}": "prettier --check",
