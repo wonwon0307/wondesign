@@ -2,6 +2,7 @@
 **/dist/*
 **/build/*
 **/coverage/*
+**/.wondocs/*
 **/.next/*
 **/.turbo/*
 
