@@ -19,6 +19,7 @@ export async function clean(dir: string): Promise<void> {
   } catch (error) {
     throw new Error(
       `Error cleaning directory "${dir}": ${error instanceof Error ? error.message : String(error)}`,
+      { cause: error },
     );
   }
 }

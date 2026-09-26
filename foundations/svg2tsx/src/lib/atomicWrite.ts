@@ -23,6 +23,7 @@ export async function atomicWrite(
     await rm(tempFilePath, { force: true });
     throw new Error(
       `Error writing file "${filePath}": ${error instanceof Error ? error.message : String(error)}`,
+      { cause: error },
     );
   }
 }
