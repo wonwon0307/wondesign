@@ -1,5 +1,6 @@
 import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
+import { importX } from "eslint-plugin-import-x";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import globals from "globals";
@@ -15,6 +16,8 @@ export const reactPackageEslintConfig = defineConfig([
     files: ["**/src/**/*.{ts,tsx}"],
     extends: [
       js.configs.recommended,
+      importX.flatConfigs.recommended,
+      importX.flatConfigs.typescript,
       tseslint.configs.recommended,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.recommended,
