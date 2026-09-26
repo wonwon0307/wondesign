@@ -2,11 +2,9 @@ import * as fg from "fast-glob";
 
 import { generate } from "@/generate";
 import { logger } from "@/lib/logger";
-import { prepareConfig, setup } from "../setup";
+import { prepareConfig } from "../setup";
 
 describe("corner cases - invalid directory structure", () => {
-  setup();
-
   it("should exit program when handling empty directory", async () => {
     vi.spyOn(fg, "default").mockResolvedValue([]);
 

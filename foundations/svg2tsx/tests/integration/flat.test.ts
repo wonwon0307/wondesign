@@ -1,10 +1,8 @@
 import { generate } from "@/generate";
 import { atomicWrite } from "@/lib/atomicWrite";
-import { prepareConfig, setup } from "../setup";
+import { prepareConfig } from "../setup";
 
 describe("generate - flat directory structure", () => {
-  setup();
-
   describe("default config (barrel mode, no suffix)", () => {
     it("should generate correct files and content", async () => {
       await generate({ dryRun: false });
