@@ -1,6 +1,6 @@
 import { useCallback, useId, useMemo, useState } from "react";
 
-import { TabsContext } from "@/contexts/tabs";
+import { TabsContext } from "./contexts";
 
 export interface TabsProps {
   children: React.ReactNode;

@@ -1,6 +1,5 @@
-import { AsChild } from "@wondesign/composition/asChild";
-
-import { useTabsInternal } from "@/contexts/tabs";
+import { AsChild } from "@/AsChild/AsChild";
+import { useTabsInternal } from "./contexts";
 
 export interface TabPanelProps
   extends
@@ -18,7 +17,6 @@ export function TabPanel({
   children,
   tabName,
   asChild = false,
-  ref,
   ...rest
 }: Readonly<TabPanelProps>) {
   const { activeTab, tabId, panelId, keepPanelsMounted } = useTabsInternal();
@@ -33,7 +31,6 @@ export function TabPanel({
   return (
     <Component
       {...rest}
-      ref={asChild ? undefined : ref}
       id={panelId(tabName)}
       role="tabpanel"
       hidden={!isActive}

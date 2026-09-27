@@ -1,13 +1,8 @@
-import {
-  HeadlessButton,
-  type HeadlessButtonProps,
-} from "@wondesign/buttons/Headless";
-
-import { useTabsList } from "@/contexts/list";
-import { useTabsInternal } from "@/contexts/tabs";
+import { Button, type ButtonProps } from "@/Button/Button";
+import { useTabsInternal, useTabsList } from "./contexts";
 
 export interface TabProps extends Omit<
-  HeadlessButtonProps,
+  ButtonProps,
   | "onClick"
   | "onFocus"
   | "role"
@@ -47,7 +42,7 @@ export function Tab({
   };
 
   return (
-    <HeadlessButton
+    <Button
       {...rest}
       id={tabId(tabName)}
       role="tab"
@@ -62,6 +57,6 @@ export function Tab({
       data-value={tabName}
     >
       {children}
-    </HeadlessButton>
+    </Button>
   );
 }

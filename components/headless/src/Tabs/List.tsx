@@ -1,9 +1,8 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
-import { AsChild } from "@wondesign/composition/asChild";
-import { useArrowNavigation } from "@wondesign/interactions/focus";
+import { useArrowNavigation } from "@wondesign/focus/nav";
 
-import { TabsListContext } from "@/contexts/list";
-import { useTabsInternal } from "@/contexts/tabs";
+import { AsChild } from "@/AsChild/AsChild";
+import { TabsListContext, useTabsInternal } from "./contexts";
 
 const TAB_ITEM_SELECTOR = '[role="tab"]:not([aria-disabled="true"])';
 

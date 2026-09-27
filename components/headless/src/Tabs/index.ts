@@ -3,11 +3,13 @@ import { TabsList } from "./List";
 import { Tab } from "./Tab";
 import { TabPanel } from "./Panel";
 
-export const HeadlessTabs = Object.assign(TabsProvider, {
+export const Tabs = Object.assign(TabsProvider, {
   List: TabsList,
   Tab,
   Panel: TabPanel,
 });
+
+export { useTabs, useTabsList } from "./contexts";
 
 export { TabsProvider } from "./Provider";
 export { TabsList } from "./List";

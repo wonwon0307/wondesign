@@ -23,7 +23,25 @@ export function useTabsInternal() {
 }
 
 export function useTabs() {
-  const { activeTab, updateActiveTab } = useTabsInternal();
+  const { activeTab, updateActiveTab, isDisabled } = useTabsInternal();
 
-  return { activeTab, updateActiveTab };
+  return { activeTab, updateActiveTab, isDisabled };
+}
+
+type TabsListContextValue = {
+  orientation: "vertical" | "horizontal";
+};
+
+export const TabsListContext = createContext<TabsListContextValue | undefined>(
+  undefined,
+);
+
+export function useTabsList() {
+  const context = useContext(TabsListContext);
+
+  if (!context) {
+    throw new Error("useTabsList must be used within TabsList");
+  }
+
+  return context;
 }
