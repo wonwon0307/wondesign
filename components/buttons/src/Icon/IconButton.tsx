@@ -1,5 +1,5 @@
 import { AppIcon, type IconName } from "@wondesign/icons";
-import clsx from "clsx";
+import { clsx } from "clsx";
 
 import { Pressable, type PressableProps } from "@/Pressable";
 import { styles } from "./styles.css";
