@@ -1,8 +1,8 @@
 import { fireEvent, render } from "@testing-library/react";
 
-import { HeadlessAnchor } from "@/Headless/Anchor";
+import { Anchor } from "@/Anchor/Anchor";
 
-describe("HeadlessAnchor", () => {
+describe("Anchor - basic usages", () => {
   beforeAll(() => {
     // Not Implemented: navigation to another Document 경고 무시
     globalThis.window.addEventListener("click", (e) => e.preventDefault());
@@ -12,9 +12,9 @@ describe("HeadlessAnchor", () => {
     const onClick = vi.fn();
     const onKeyDown = vi.fn();
     const { getByText } = render(
-      <HeadlessAnchor href="/test" onClick={onClick} onKeyDown={onKeyDown}>
+      <Anchor href="/test" onClick={onClick} onKeyDown={onKeyDown}>
         Test Anchor
-      </HeadlessAnchor>,
+      </Anchor>,
     );
 
     const anchor = getByText("Test Anchor");
@@ -34,14 +34,9 @@ describe("HeadlessAnchor", () => {
     const onClick = vi.fn();
     const onKeyDown = vi.fn();
     const { getByText } = render(
-      <HeadlessAnchor
-        href="/test"
-        isDisabled
-        onClick={onClick}
-        onKeyDown={onKeyDown}
-      >
+      <Anchor href="/test" isDisabled onClick={onClick} onKeyDown={onKeyDown}>
         Disabled Anchor
-      </HeadlessAnchor>,
+      </Anchor>,
     );
 
     const anchor = getByText("Disabled Anchor");
@@ -62,57 +57,16 @@ describe("HeadlessAnchor", () => {
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
-  describe("external behavior", () => {
-    it("opens in a new tab when openInNewTab is true", () => {
-      const { getByText } = render(
-        <HeadlessAnchor href="https://example.com" openInNewTab>
-          External Anchor
-        </HeadlessAnchor>,
-      );
-
-      const anchor = getByText("External Anchor");
-      expect(anchor).toBeTruthy();
-      expect(anchor.getAttribute("target")).toBe("_blank");
-      expect(anchor.getAttribute("rel")).toBe("noopener noreferrer");
-    });
-
-    it("auto-detects new tab behavior by default", () => {
-      const { getByText } = render(
-        <HeadlessAnchor href="https://example.com">
-          External Anchor
-        </HeadlessAnchor>,
-      );
-
-      const anchor = getByText("External Anchor");
-      expect(anchor).toBeTruthy();
-      expect(anchor.getAttribute("target")).toBe("_blank");
-      expect(anchor.getAttribute("rel")).toBe("noopener noreferrer");
-    });
-
-    it("does not open in a new tab when openInNewTab is false even for external anchors", () => {
-      const { getByText } = render(
-        <HeadlessAnchor href="https://example.com" openInNewTab={false}>
-          External Anchor
-        </HeadlessAnchor>,
-      );
-
-      const anchor = getByText("External Anchor");
-      expect(anchor).toBeTruthy();
-      expect(anchor.getAttribute("target")).toBeNull();
-      expect(anchor.getAttribute("rel")).toBeNull();
-    });
-  });
-
   it("handles as prop correctly", () => {
     const { getByText } = render(
-      <HeadlessAnchor
+      <Anchor
         href="/test"
         as="button"
         className="anchor-class"
         style={{ color: "blue" }}
       >
         Button Anchor
-      </HeadlessAnchor>,
+      </Anchor>,
     );
 
     const button = getByText("Button Anchor");
@@ -121,11 +75,11 @@ describe("HeadlessAnchor", () => {
     expect(button.getAttribute("href")).toBe("/test");
   });
 
-  it("handles as prop with newtab and disabled correctly", () => {
+  it("handles as prop with openInNewTab and disabled correctly", () => {
     const { getByText } = render(
-      <HeadlessAnchor href="/test" as="button" openInNewTab isDisabled>
+      <Anchor href="/test" as="button" openInNewTab isDisabled>
         Button Anchor
-      </HeadlessAnchor>,
+      </Anchor>,
     );
 
     const button = getByText("Button Anchor");
@@ -135,5 +89,18 @@ describe("HeadlessAnchor", () => {
     expect(button.getAttribute("target")).toBe("_blank");
     expect(button.getAttribute("rel")).toBe("noopener noreferrer");
     expect(button.getAttribute("aria-disabled")).toBe("true");
+  });
+
+  it("passes ref correctly", () => {
+    const ref = vi.fn();
+    const { getByText } = render(
+      <Anchor href="/test" ref={ref}>
+        Test Anchor
+      </Anchor>,
+    );
+
+    const anchor = getByText("Test Anchor");
+    expect(anchor).toBeTruthy();
+    expect(ref).toHaveBeenCalledWith(anchor);
   });
 });

@@ -1,4 +1,4 @@
-export interface HeadlessAnchorProps
+export interface AnchorProps
   extends
     Omit<
       React.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -10,7 +10,7 @@ export interface HeadlessAnchorProps
   openInNewTab?: boolean;
 }
 
-export function HeadlessAnchor({
+export function Anchor({
   children,
   as = "a",
   href,
@@ -20,7 +20,7 @@ export function HeadlessAnchor({
   openInNewTab,
   tabIndex,
   ...rest
-}: Readonly<HeadlessAnchorProps>) {
+}: Readonly<AnchorProps>) {
   const Component = isDisabled ? "a" : as;
   const isExternal =
     !!href &&
