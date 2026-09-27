@@ -11,8 +11,8 @@ const content = style({
   gap: tokens.spacing.sm,
   width: "max-content",
   position: "fixed",
-  left: "var(--wds-tooltip-content-x, 0px)",
-  top: "var(--wds-tooltip-content-y, 0px)",
+  left: 0,
+  top: 0,
   borderRadius: tokens.radius.sm,
   font: tokens.text.bodySmall,
   color: tokens.colors.textInverted,
@@ -29,8 +29,8 @@ const text = style({
 
 const arrow = style({
   position: "absolute",
-  left: "var(--wds-tooltip-arrow-x, 0px)",
-  top: "var(--wds-tooltip-arrow-y, 0px)",
+  left: 0,
+  top: 0,
   width: 8,
   height: 8,
   lineHeight: 0,
