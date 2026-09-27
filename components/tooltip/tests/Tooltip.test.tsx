@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { Tooltip } from "@/styled/Tooltip";
+import { Tooltip } from "@/Tooltip";
 
 describe("Tooltip", () => {
   describe("simple tooltip", () => {
