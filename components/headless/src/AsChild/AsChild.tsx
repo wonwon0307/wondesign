@@ -6,6 +6,9 @@ function mergeProps(props: AnyProps, childProps: AnyProps): AnyProps {
   const merged: AnyProps = { ...props };
 
   for (const key in childProps) {
+    // ref is handled separately by AsChild: the slot's ref always wins.
+    if (key === "ref") continue;
+
     const slotVal = props[key];
     const childVal = childProps[key];
 
@@ -36,10 +39,12 @@ function mergeProps(props: AnyProps, childProps: AnyProps): AnyProps {
 
 type AsChildProps = {
   children: React.ReactNode;
+  ref?: React.Ref<unknown>;
 } & AnyProps;
 
 export function AsChild({
   children,
+  ref,
   ...props
 }: AsChildProps): React.ReactElement | null {
   if (!isValidElement(children)) {
@@ -51,5 +56,10 @@ export function AsChild({
     return null;
   }
 
-  return cloneElement(children, mergeProps(props, children.props as AnyProps));
+  const config: AnyProps = {
+    ...mergeProps(props, children.props as AnyProps),
+    ref,
+  };
+
+  return cloneElement(children, config);
 }

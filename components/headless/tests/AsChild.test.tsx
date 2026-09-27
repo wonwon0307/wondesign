@@ -42,6 +42,36 @@ describe("asChild", () => {
     expect(childCB).toHaveBeenCalled();
   });
 
+  it("passes ref correctly to the child element", () => {
+    const ref = vi.fn();
+
+    const { getByText } = render(
+      <AsChild ref={ref}>
+        <button>Click me</button>
+      </AsChild>,
+    );
+
+    const button = getByText("Click me");
+    expect(button).toBeTruthy();
+    expect(ref).toHaveBeenCalled();
+  });
+
+  it("parent's ref should always win when both parent and child have refs", () => {
+    const parentRef = vi.fn();
+    const childRef = vi.fn();
+
+    const { getByText } = render(
+      <AsChild ref={parentRef}>
+        <button ref={childRef}>Click me</button>
+      </AsChild>,
+    );
+
+    const button = getByText("Click me");
+    expect(button).toBeTruthy();
+    expect(parentRef).toHaveBeenCalled();
+    expect(childRef).not.toHaveBeenCalled();
+  });
+
   it("warns on console if no valid child is provided", () => {
     const { container } = render(<AsChild>Not a valid child</AsChild>);
 
