@@ -1,5 +1,5 @@
-import { parseShortkey } from "@/parse";
-import type { Shortkey } from "@/types/shortkey";
+import { parseShortkey } from "@/shortkey/parse";
+import type { Shortkey } from "@/shortkey/types/shortkey";
 
 describe("parseShortkey", () => {
   it("parses a simple shortkey correctly", () => {

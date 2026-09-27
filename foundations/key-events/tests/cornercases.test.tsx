@@ -1,8 +1,8 @@
 import { render, renderHook, fireEvent } from "@testing-library/react";
 import { renderToString } from "react-dom/server";
 
-import { useShortkey } from "@/keyboard/useShortkey";
-import type { BindableShortkey } from "@/keyboard/shortkey/types";
+import { useShortkey } from "@/shortkey/useShortkey";
+import type { BindableShortkey } from "@/shortkey/types/shortkey";
 
 function TestComponent({
   shortkey,

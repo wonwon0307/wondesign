@@ -1,6 +1,6 @@
 import { fireEvent, renderHook } from "@testing-library/react";
 
-import { useShortkey } from "@/keyboard/useShortkey";
+import { useShortkey } from "@/shortkey/useShortkey";
 
 describe("useShortkey", () => {
   it("calls callback when shortkey with ctrl modifier is pressed", () => {
