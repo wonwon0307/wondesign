@@ -3,6 +3,14 @@ import { act, fireEvent, render } from "@testing-library/react";
 import { TestComponent } from "./test-component";
 
 describe("Tooltip - click interactions", () => {
+  beforeAll(() => {
+    vi.useFakeTimers();
+  });
+
+  afterAll(() => {
+    vi.useRealTimers();
+  });
+
   it("should not open the tooltip on clicks", () => {
     const { getByTestId, queryByTestId } = render(
       <TestComponent>Tooltip Message</TestComponent>,

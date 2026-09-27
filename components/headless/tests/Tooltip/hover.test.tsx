@@ -3,6 +3,14 @@ import { act, fireEvent, render } from "@testing-library/react";
 import { TestComponent } from "./test-component";
 
 describe("Tooltip - hover interactions", () => {
+  beforeAll(() => {
+    vi.useFakeTimers();
+  });
+
+  afterAll(() => {
+    vi.useRealTimers();
+  });
+
   it("shows the tooltip on mouse enter and hides it on mouse leave", () => {
     const { getByTestId, queryByTestId } = render(
       <TestComponent>Tooltip Message</TestComponent>,

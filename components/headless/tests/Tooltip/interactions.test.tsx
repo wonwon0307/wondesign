@@ -3,6 +3,14 @@ import { act, fireEvent, render } from "@testing-library/react";
 import { TestComponent } from "./test-component";
 
 describe("Tooltip - other interactions", () => {
+  beforeAll(() => {
+    vi.useFakeTimers();
+  });
+
+  afterAll(() => {
+    vi.useRealTimers();
+  });
+
   it("should open the tooltip on long press", () => {
     const { getByTestId, queryByTestId } = render(
       <TestComponent>Tooltip Message</TestComponent>,

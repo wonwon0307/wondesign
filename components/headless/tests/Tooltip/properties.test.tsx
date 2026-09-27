@@ -1,8 +1,19 @@
 import { act, fireEvent, render } from "@testing-library/react";
 
+import { TooltipProvider } from "@/Tooltip/Provider";
+import { TooltipTrigger } from "@/Tooltip/Trigger";
+import { TooltipContent } from "@/Tooltip/Content";
 import { TestComponent } from "./test-component";
 
 describe("Tooltip - properties", () => {
+  beforeAll(() => {
+    vi.useFakeTimers();
+  });
+
+  afterAll(() => {
+    vi.useRealTimers();
+  });
+
   it("should have appropriate aria attributes", () => {
     const { getByTestId } = render(
       <TestComponent isOpen>Tooltip Message</TestComponent>,
@@ -99,5 +110,26 @@ describe("Tooltip - properties", () => {
     // isOpen이 false이더라도, content가 DOM에 존재해야 한다.
     expect(getByTestId("tooltip-content")).toBeTruthy();
     expect(getByTestId("tooltip-content").dataset.state).toBe("closed");
+  });
+
+  it("supports the asChild property correctly", () => {
+    const { getByTestId } = render(
+      <TooltipProvider isOpen>
+        <TooltipContent asChild>
+          <div data-testid="custom-content">Content</div>
+        </TooltipContent>
+        <TooltipTrigger asChild>
+          <button data-testid="custom-trigger">Trigger</button>
+        </TooltipTrigger>
+      </TooltipProvider>,
+    );
+
+    const trigger = getByTestId("custom-trigger");
+    const content = getByTestId("custom-content");
+
+    expect(trigger).toBeTruthy();
+    expect(trigger.getAttribute("aria-describedby")).toBe(content.id);
+    expect(content).toBeTruthy();
+    expect(content.dataset.state).toBe("open");
   });
 });

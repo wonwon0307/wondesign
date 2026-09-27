@@ -5,7 +5,7 @@ import { useCollapsible } from "@/Collapsible/contexts";
 describe("useCollapsible", () => {
   it("should throw an error if used outside the Collapsible wrapper", () => {
     expect(() => renderHook(() => useCollapsible())).toThrow(
-      "[WonDesign Collapsible] useCollapsible() must be used inside the Collapsible wrapper.",
+      "[WonDesign Headless] useCollapsible() must be used inside the Collapsible wrapper.",
     );
   });
 });

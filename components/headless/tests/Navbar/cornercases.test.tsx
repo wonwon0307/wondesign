@@ -14,7 +14,7 @@ describe("Navbar - corner cases", () => {
     render(<NavbarWrapper>Test</NavbarWrapper>);
 
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      "[WonDesign Navbar] It is strongly recommended to provide either an aria-label or aria-labelledby for the navigation element.",
+      "[WonDesign Headless] It is strongly recommended to provide either an aria-label or aria-labelledby for the navigation element.",
     );
 
     consoleWarnSpy.mockRestore();
@@ -75,19 +75,19 @@ describe("Navbar - corner cases", () => {
 
   it("should throw if NavbarList is used outside of Nav", () => {
     expect(() => render(<NavbarList>Test</NavbarList>)).toThrow(
-      "[WonDesign Navbar] Navbar.List must be used inside the Nav wrapper.",
+      "[WonDesign Headless] Navbar.List must be used inside the Nav wrapper.",
     );
   });
 
   it("should throw if NavbarItem is used outside of NavbarList", () => {
     expect(() => render(<NavbarItem>Test</NavbarItem>)).toThrow(
-      "[WonDesign Navbar] useNavbarList() must be used inside a Navbar.List component.",
+      "[WonDesign Headless] useNavbarList() must be used inside a Navbar.List component.",
     );
   });
 
   it("should throw if NavbarLink is used outside of NavbarItem", () => {
     expect(() => render(<NavbarLink href="#">Test</NavbarLink>)).toThrow(
-      "[WonDesign Navbar] useNavbarItem() must be used inside a Navbar.Item component.",
+      "[WonDesign Headless] useNavbarItem() must be used inside a Navbar.Item component.",
     );
   });
 });

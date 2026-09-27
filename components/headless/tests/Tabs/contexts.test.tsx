@@ -32,7 +32,7 @@ describe("Tabs - contexts", () => {
 
   it("throws if TabsList is used outside TabsProvider", () => {
     expect(() => render(<TabsList data-testid="list">List</TabsList>)).toThrow(
-      "useTabs must be used within a TabsProvider",
+      "[WonDesign Headless] useTabs() must be used inside the Tabs Provider.",
     );
   });
 
@@ -45,6 +45,8 @@ describe("Tabs - contexts", () => {
           </Tab>
         </TabsProvider>,
       ),
-    ).toThrow("useTabsList must be used within TabsList");
+    ).toThrow(
+      "[WonDesign Headless] useTabsList() must be used inside a Tabs.List component.",
+    );
   });
 });
