@@ -9,5 +9,6 @@ export default defineConfig([
     banner: {
       js: '"use client";',
     },
+    suppressWarnings: [/MODULE_LEVEL_DIRECTIVE/],
   },
 ]);
