@@ -1,4 +1,4 @@
-import type { BindableBaseKey } from "./types";
+import type { BindableBaseKey } from "./types/basekey";
 
 export const BASE_KEY_MAP: Record<BindableBaseKey, string> = {
   A: "KeyA",
