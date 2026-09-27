@@ -25,14 +25,16 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@vanilla-extract/recipes": "catalog:",
+    "@wondesign/headless": "workspace:*",
+    "@wondesign/icons": "workspace:*",
+    "clsx": "catalog:"
+  },
   "devDependencies": {
     "@vanilla-extract/css": "catalog:",
-    "@vanilla-extract/recipes": "catalog:",
     "@vanilla-extract/rollup-plugin": "catalog:",
-    "@wondesign/composition": "workspace:*",
-    "@wondesign/icons": "workspace:*",
-    "@wondesign/tokens": "workspace:*",
-    "clsx": "catalog:"
+    "@wondesign/tokens": "workspace:*"
   },
   "peerDependencies": {
     "react": "^19",
