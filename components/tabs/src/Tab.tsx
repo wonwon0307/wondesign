@@ -1,7 +1,10 @@
+import {
+  Tab as Headless,
+  type TabProps as Props,
+} from "@wondesign/headless/Tabs";
 import { AppIcon, type IconName } from "@wondesign/icons";
-import clsx from "clsx";
+import { clsx } from "clsx";
 
-import { Tab as Headless, type TabProps as Props } from "@/headless/Tab";
 import { styles } from "./styles.css";
 
 export interface TabProps extends Omit<Props, "children" | "asChild"> {

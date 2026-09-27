@@ -1,7 +1,8 @@
 import {
   TabsProvider,
-  type TabsProps as ProviderProps,
-} from "@/headless/Provider";
+  type TabsProps as Props,
+} from "@wondesign/headless/Tabs";
+
 import { TabsList } from "./List";
 import { Tab } from "./Tab";
 import { TabPanel } from "./Panel";
@@ -14,7 +15,7 @@ export type TabEntry = {
   isDisabled?: boolean;
 };
 
-export interface TabsProps extends Omit<ProviderProps, "children"> {
+export interface TabsProps extends Omit<Props, "children"> {
   tabs: TabEntry[];
   vertical?: boolean;
   loop?: boolean;

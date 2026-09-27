@@ -1,7 +1,12 @@
-import clsx from "clsx";
+import {
+  TabsList as Headless,
+  type TabsListProps as Props,
+} from "@wondesign/headless/Tabs";
+import { clsx } from "clsx";
 
-import { TabsList as Headless, type TabsListProps } from "@/headless/List";
 import { styles } from "./styles.css";
+
+export type TabsListProps = Props;
 
 export function TabsList({
   children,

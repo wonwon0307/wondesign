@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
+import { TabsProvider } from "@wondesign/headless/Tabs";
 
-import { TabsProvider } from "@/headless/Provider";
-import { Tabs, type TabEntry } from "@/styled/Tabs";
-import { TabsList } from "@/styled/List";
-import { Tab } from "@/styled/Tab";
+import { Tabs, type TabEntry } from "@/Tabs";
+import { TabsList } from "@/List";
+import { Tab } from "@/Tab";
 
 describe("StyledTabs", () => {
   const tabs: TabEntry[] = [
