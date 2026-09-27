@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 
-import { useCollapsible } from "@/contexts";
+import { useCollapsible } from "@/Collapsible/contexts";
 
 describe("useCollapsible", () => {
   it("should throw an error if used outside the Collapsible wrapper", () => {

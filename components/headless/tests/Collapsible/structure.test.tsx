@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { fireEvent, render } from "@testing-library/react";
 
-import { Collapsible } from "@/index";
+import { Collapsible } from "@/Collapsible";
 
 describe("Collapsible - structure", () => {
   const errorMsg =

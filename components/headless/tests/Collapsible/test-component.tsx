@@ -1,6 +1,9 @@
-import { CollapsibleProvider, type CollapsibleProps } from "@/Provider";
-import { CollapsibleToggle } from "@/Toggle";
-import { CollapsibleContent } from "@/Content";
+import {
+  CollapsibleProvider,
+  type CollapsibleProps,
+} from "@/Collapsible/Provider";
+import { CollapsibleToggle } from "@/Collapsible/Toggle";
+import { CollapsibleContent } from "@/Collapsible/Content";
 
 type Props = CollapsibleProps & {
   role?: "region" | "group";

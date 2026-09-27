@@ -1,12 +1,8 @@
-import {
-  HeadlessButton,
-  type HeadlessButtonProps,
-} from "@wondesign/buttons/Headless";
-
+import { Button, type ButtonProps } from "@/Button/Button";
 import { useCollapsibleInternal } from "./contexts";
 
 export type CollapsibleToggleProps = Omit<
-  HeadlessButtonProps,
+  ButtonProps,
   "onClick" | "aria-controls" | "aria-expanded"
 >;
 
@@ -22,7 +18,7 @@ export function CollapsibleToggle({
   const ariaControls = !keepMounted && !isOpen ? undefined : contentId;
 
   return (
-    <HeadlessButton
+    <Button
       {...rest}
       id={toggleId}
       asChild={asChild}
@@ -33,6 +29,6 @@ export function CollapsibleToggle({
       data-state={isOpen ? "open" : "closed"}
     >
       {children}
-    </HeadlessButton>
+    </Button>
   );
 }
