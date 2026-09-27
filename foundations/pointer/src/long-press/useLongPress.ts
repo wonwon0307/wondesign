@@ -8,7 +8,7 @@ import { useEffect, useRef } from "react";
  * @param enabled 길게 터치 기능 활성화 여부 (기본값: true)
  * @param threshold 길게 터치로 간주되는 시간 (기본값: 500ms)
  */
-export function useLongTouch(
+export function useLongPress(
   ref: React.RefObject<HTMLElement | null>,
   callback: () => void,
   enabled = true,
