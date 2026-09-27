@@ -6,16 +6,11 @@ import {
   useSyncExternalStore,
 } from "react";
 
-import { parseShortkey } from "./shortkey/parse";
-import type { BindableShortkey } from "./shortkey/types";
+import { parseBindableShortkey } from "./parse";
+import type { BindableShortkey } from "./types/shortkey";
 
 const noopSubscribe = () => () => {};
 
-/**
- * `false` on the server and during the hydration render, `true` afterwards.
- * Lets a value that differs between server and client be withheld until the
- * client has taken over, without tripping a hydration mismatch.
- */
 function useHydrated() {
   return useSyncExternalStore(
     noopSubscribe,
@@ -49,7 +44,10 @@ export function useShortkey(
   enabled: boolean = true,
 ) {
   const callbackRef = useRef(callback);
-  const parsedKeys = useMemo(() => (key ? parseShortkey(key) : null), [key]);
+  const parsedKeys = useMemo(
+    () => (key ? parseBindableShortkey(key) : null),
+    [key],
+  );
   const hydrated = useHydrated();
 
   useLayoutEffect(() => {

@@ -36,6 +36,7 @@
     "@wondesign/collapsible": "workspace:*",
     "@wondesign/icons": "workspace:*",
     "@wondesign/interactions": "workspace:*",
+    "@wondesign/key-events": "workspace:*",
     "@wondesign/links": "workspace:*",
     "@wondesign/tokens": "workspace:*",
     "@wondesign/tooltip": "workspace:*",

@@ -36,18 +36,10 @@ type AlphaNumericKey =
   | "8"
   | "9";
 
+type SymbolKey =
+  "`" | "-" | "=" | "[" | "]" | "\\" | ";" | "'" | "," | "." | "/";
+
 type SpecialKey =
-  | "`"
-  | "-"
-  | "="
-  | "["
-  | "]"
-  | "\\"
-  | ";"
-  | "'"
-  | ","
-  | "."
-  | "/"
   | "Escape"
   | "Tab"
   | "CapsLock"
@@ -75,4 +67,6 @@ type FunctionKey =
   | "F11"
   | "F12";
 
-export type BaseKey = AlphaNumericKey | SpecialKey | FunctionKey;
+export type BaseKey = AlphaNumericKey | SymbolKey | SpecialKey | FunctionKey;
+
+export type BindableBaseKey = AlphaNumericKey | SymbolKey;

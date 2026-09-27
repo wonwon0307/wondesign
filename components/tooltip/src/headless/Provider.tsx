@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef } from "react";
 import { useOpenState } from "@wondesign/interactions/disclosure";
-import { useEscapeKey } from "@wondesign/interactions/keyboard";
 import { useClickOutside, useLongTouch } from "@wondesign/interactions/pointer";
+import { useEscapeKey } from "@wondesign/key-events/escape-key";
 import { useFloatingPosition, type FloatingOptions } from "@wondesign/position";
 
 import { TooltipContext } from "./contexts";

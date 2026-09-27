@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useId, useMemo, useRef } from "react";
 import { useOpenState } from "@wondesign/interactions/disclosure";
+import { useIsMobile } from "@wondesign/interactions/mobile";
 import {
   useShortkey,
   type BindableShortkey,
-} from "@wondesign/interactions/keyboard";
-import { useIsMobile } from "@wondesign/interactions/mobile";
+} from "@wondesign/key-events/shortkey";
 
 import { SidebarContext } from "@/contexts/sidebar";
 
