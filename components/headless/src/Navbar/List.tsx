@@ -1,7 +1,7 @@
 import { useContext, useMemo } from "react";
-import { AsChild } from "@wondesign/composition/asChild";
 
-import { NavbarContext, NavbarListContext } from "@/contexts/list";
+import { AsChild } from "@/AsChild/AsChild";
+import { NavbarContext, NavbarListContext } from "./contexts";
 
 export interface NavbarListProps
   extends

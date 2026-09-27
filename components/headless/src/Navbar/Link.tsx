@@ -1,15 +1,7 @@
-import {
-  HeadlessAnchor,
-  type HeadlessAnchorProps,
-} from "@wondesign/links/Headless";
+import { Anchor, type AnchorProps } from "@/Anchor/Anchor";
+import { useNavbarItem, useNavbarList } from "./contexts";
 
-import { useNavbarItem } from "@/contexts/item";
-import { useNavbarList } from "@/contexts/list";
-
-export interface NavbarLinkProps extends Omit<
-  HeadlessAnchorProps,
-  "isDisabled"
-> {
+export interface NavbarLinkProps extends Omit<AnchorProps, "isDisabled"> {
   isActive?: boolean;
 }
 
@@ -21,7 +13,7 @@ export function NavbarLink({
   const { orientation } = useNavbarList();
 
   return (
-    <HeadlessAnchor
+    <Anchor
       {...rest}
       isDisabled={isDisabled}
       aria-current={isActive ? "page" : undefined}

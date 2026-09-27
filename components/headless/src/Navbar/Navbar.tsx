@@ -1,6 +1,5 @@
-import { AsChild } from "@wondesign/composition/asChild";
-
-import { NavbarContext } from "@/contexts/list";
+import { AsChild } from "@/AsChild/AsChild";
+import { NavbarContext } from "./contexts";
 
 export interface NavbarProps
   extends
