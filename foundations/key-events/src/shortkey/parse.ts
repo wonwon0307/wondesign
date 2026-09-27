@@ -1,3 +1,4 @@
+import { isApple } from "./isApple";
 import { BASE_KEY_MAP } from "./map";
 import type { BaseKey, BindableBaseKey } from "./types/basekey";
 import type {
@@ -5,15 +6,6 @@ import type {
   ParsedShortkey,
   Shortkey,
 } from "./types/shortkey";
-
-function isApple() {
-  if (typeof navigator !== "undefined") {
-    return /Mac|iPhone|iPad|iPod/.test(
-      navigator.platform || navigator.userAgent,
-    );
-  }
-  return false;
-}
 
 export function parseShortkey(shortkey: Shortkey): ParsedShortkey {
   const parts = shortkey.split("+");

@@ -1,3 +1,4 @@
+export { isApple } from "./isApple";
 export { parseShortkey } from "./parse";
 export { useShortkey } from "./useShortkey";
 
