@@ -50,7 +50,7 @@ export function Button({
   return (
     <Component
       {...rest}
-      ref={asChild ? undefined : ref}
+      ref={ref}
       type={type}
       onClick={handleClick}
       onKeyDown={handleKeyDown}

@@ -89,18 +89,4 @@ describe("Button - asChild", () => {
     fireEvent.keyDown(button, { key: " " });
     expect(onKeyDown).not.toHaveBeenCalled();
   });
-
-  it("should not pass ref if asChild is true", () => {
-    const ref = vi.fn();
-
-    const { getByTestId } = render(
-      <Button data-testid="button" asChild ref={ref}>
-        <button>Click me</button>
-      </Button>,
-    );
-
-    const button = getByTestId("button");
-    expect(button).toBeTruthy();
-    expect(ref).not.toHaveBeenCalled();
-  });
 });
