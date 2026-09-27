@@ -1,4 +1,4 @@
-import { type BindableShortkey } from "@wondesign/interactions/keyboard";
+import { type BindableShortkey } from "@wondesign/key-events/shortkey";
 
 import { SidebarProvider } from "@/contexts/Provider";
 import { SidebarBody } from "@/Body/Body";
