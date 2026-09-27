@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { fireEvent, render } from "@testing-library/react";
 
-import { useArrowNavigation } from "@/focus/useArrowNavigation";
-import type { UseArrowNavigationOptions } from "@/focus/types";
+import { useArrowNavigation } from "@/nav/useArrowNavigation";
+import type { UseArrowNavigationOptions } from "@/nav/types";
 
 function TestComponent({
   children,
