@@ -2,7 +2,7 @@ import { fireEvent, render } from "@testing-library/react";
 
 import { TestComponent } from "./test-component";
 
-describe("HeadlessTabs - interactions", () => {
+describe("Tabs - interactions", () => {
   it("handles tab clicks correctly", () => {
     const { getByTestId } = render(<TestComponent />);
 

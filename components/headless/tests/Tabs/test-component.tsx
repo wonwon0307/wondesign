@@ -1,7 +1,7 @@
-import { TabsProvider, type TabsProps } from "@/headless/Provider";
-import { TabsList } from "@/headless/List";
-import { Tab } from "@/headless/Tab";
-import { TabPanel } from "@/headless/Panel";
+import { TabsProvider, type TabsProps } from "@/Tabs/Provider";
+import { TabsList } from "@/Tabs/List";
+import { Tab } from "@/Tabs/Tab";
+import { TabPanel } from "@/Tabs/Panel";
 
 export function TestComponent({
   keepPanelsMounted = false,

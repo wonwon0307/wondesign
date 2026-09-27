@@ -1,12 +1,12 @@
 import { render } from "@testing-library/react";
 
-import { TabsProvider } from "@/headless/Provider";
-import { TabsList } from "@/headless/List";
-import { Tab } from "@/headless/Tab";
-import { TabPanel } from "@/headless/Panel";
+import { TabsProvider } from "@/Tabs/Provider";
+import { TabsList } from "@/Tabs/List";
+import { Tab } from "@/Tabs/Tab";
+import { TabPanel } from "@/Tabs/Panel";
 import { TestComponent } from "./test-component";
 
-describe("HeadlessTabs - properties", () => {
+describe("Tabs - properties", () => {
   it("renders with default properties correctly", () => {
     const { getByTestId, queryByTestId } = render(<TestComponent />);
 
@@ -85,16 +85,6 @@ describe("HeadlessTabs - properties", () => {
 
     expect(list.getAttribute("aria-orientation")).toBe("vertical");
     expect(list.getAttribute("data-orientation")).toBe("vertical");
-  });
-
-  it("falls back to the first tab when defaultTab matches no tab", () => {
-    const { getByTestId } = render(<TestComponent defaultTab="tab" />);
-
-    const tab1 = getByTestId("tab1");
-    const tab2 = getByTestId("tab2");
-
-    expect(tab1.getAttribute("data-state")).toBe("active");
-    expect(tab2.getAttribute("data-state")).toBe("inactive");
   });
 
   it("handles asChild props correctly for all components", () => {

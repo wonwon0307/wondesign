@@ -1,14 +1,42 @@
 import { render } from "@testing-library/react";
 
-import { TabsProvider } from "@/headless/Provider";
-import { TabsList } from "@/headless/List";
-import { Tab } from "@/headless/Tab";
+import { TabsProvider } from "@/Tabs/Provider";
+import { TabsList } from "@/Tabs/List";
+import { Tab } from "@/Tabs/Tab";
+import { TestComponent } from "./test-component";
 
-describe("HeadlessTabs - corner cases", () => {
+describe("Tabs - corner cases", () => {
   vi.spyOn(console, "warn").mockImplementation(() => {});
 
-  beforeEach(() => {
-    vi.mocked(console.warn).mockClear();
+  it("falls back to the first tab when defaultTab matches no tab", () => {
+    const { getByTestId } = render(<TestComponent defaultTab="tab" />);
+
+    const tab1 = getByTestId("tab1");
+    const tab2 = getByTestId("tab2");
+
+    expect(tab1.getAttribute("data-state")).toBe("active");
+    expect(tab2.getAttribute("data-state")).toBe("inactive");
+  });
+
+  it("falls back to the first enabled tab when the active tab is individually disabled", () => {
+    const { getByTestId } = render(
+      <TabsProvider defaultTab="tab2">
+        <TabsList aria-label="Tabs List" data-testid="list">
+          <Tab tabName="tab1" data-testid="tab1">
+            Tab 1
+          </Tab>
+          <Tab tabName="tab2" isDisabled data-testid="tab2">
+            Tab 2
+          </Tab>
+        </TabsList>
+      </TabsProvider>,
+    );
+
+    const tab1 = getByTestId("tab1");
+    const tab2 = getByTestId("tab2");
+
+    expect(tab1.getAttribute("data-state")).toBe("active");
+    expect(tab2.getAttribute("data-state")).toBe("inactive");
   });
 
   it("warns when neither aria-label nor aria-labelledby is provided for the TabsList", () => {
@@ -53,27 +81,6 @@ describe("HeadlessTabs - corner cases", () => {
     expect(console.warn).not.toHaveBeenCalledWith(
       expect.stringContaining("No enabled tabs found"),
     );
-  });
-
-  it("falls back to the first enabled tab when the active tab is individually disabled", () => {
-    const { getByTestId } = render(
-      <TabsProvider defaultTab="tab2">
-        <TabsList aria-label="Tabs List" data-testid="list">
-          <Tab tabName="tab1" data-testid="tab1">
-            Tab 1
-          </Tab>
-          <Tab tabName="tab2" isDisabled data-testid="tab2">
-            Tab 2
-          </Tab>
-        </TabsList>
-      </TabsProvider>,
-    );
-
-    const tab1 = getByTestId("tab1");
-    const tab2 = getByTestId("tab2");
-
-    expect(tab1.getAttribute("data-state")).toBe("active");
-    expect(tab2.getAttribute("data-state")).toBe("inactive");
   });
 
   it("does not throw when the container ref never attaches (asChild renders nothing)", () => {

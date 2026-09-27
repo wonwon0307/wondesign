@@ -1,12 +1,12 @@
 import { render } from "@testing-library/react";
 
-import { useTabs } from "@/contexts/tabs";
-import { TabsProvider } from "@/headless/Provider";
-import { TabsList } from "@/headless/List";
-import { Tab } from "@/headless/Tab";
-import { TabPanel } from "@/headless/Panel";
+import { useTabs } from "@/Tabs/contexts";
+import { TabsProvider } from "@/Tabs/Provider";
+import { TabsList } from "@/Tabs/List";
+import { Tab } from "@/Tabs/Tab";
+import { TabPanel } from "@/Tabs/Panel";
 
-describe("Tabs contexts", () => {
+describe("Tabs - contexts", () => {
   it("handles useTabs hook correctly", () => {
     const TestHookComponent = () => {
       const { activeTab } = useTabs();
