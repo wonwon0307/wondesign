@@ -5,7 +5,7 @@ import { NavbarList } from "@/Navbar/List";
 import { NavbarItem } from "@/Navbar/Item";
 import { NavbarLink } from "@/Navbar/Link";
 
-describe("HeadlessNavbar - properties", () => {
+describe("Navbar - properties", () => {
   it("should render with default properties correctly", () => {
     const { getAllByTestId, getByTestId } = render(
       <NavbarWrapper aria-label="Main navigation" data-testid="nav">

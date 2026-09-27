@@ -5,7 +5,7 @@ import { NavbarList } from "@/Navbar/List";
 import { NavbarItem } from "@/Navbar/Item";
 import { NavbarLink } from "@/Navbar/Link";
 
-describe("HeadlessNavbar - corner cases", () => {
+describe("Navbar - corner cases", () => {
   it("Nav - should warn in console if neither aria-label nor aria-labelledby is provided", () => {
     const consoleWarnSpy = vi
       .spyOn(console, "warn")
