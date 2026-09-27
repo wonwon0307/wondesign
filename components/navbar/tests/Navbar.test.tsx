@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 
-import { Navbar } from "@/styled/Navbar";
-import { NavLink } from "@/styled/NavLink";
+import { Navbar } from "@/Navbar";
+import { NavLink } from "@/NavLink";
 
 describe("Styled Navbar", () => {
   it("should render correctly", () => {

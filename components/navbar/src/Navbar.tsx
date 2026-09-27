@@ -1,7 +1,6 @@
-import clsx from "clsx";
+import { NavbarWrapper, NavbarList } from "@wondesign/headless/Navbar";
+import { clsx } from "clsx";
 
-import { Navbar as Headless } from "@/headless/Navbar";
-import { NavbarList } from "@/headless/List";
 import { styles } from "./styles.css";
 
 export interface NavbarProps extends React.AriaAttributes {
@@ -19,7 +18,7 @@ export function Navbar({
   ...rest
 }: Readonly<NavbarProps>) {
   return (
-    <Headless {...rest}>
+    <NavbarWrapper {...rest}>
       <NavbarList
         vertical={vertical}
         className={clsx(
@@ -30,6 +29,6 @@ export function Navbar({
       >
         {children}
       </NavbarList>
-    </Headless>
+    </NavbarWrapper>
   );
 }

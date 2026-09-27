@@ -1,7 +1,6 @@
-import clsx from "clsx";
+import { NavbarItem, NavbarLink } from "@wondesign/headless/Navbar";
+import { clsx } from "clsx";
 
-import { NavbarLink } from "@/headless/Link";
-import { NavbarItem } from "@/headless/Item";
 import { styles } from "./styles.css";
 
 export interface NavLinkProps extends React.AriaAttributes {
