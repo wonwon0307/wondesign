@@ -82,7 +82,7 @@ describe("Tooltip", () => {
     render(<Tooltip>Hover me</Tooltip>);
 
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      "[WonDesign] Tooltip: You must provide either `content` or `text` prop to render the tooltip content.",
+      "[WonDesign Tooltip]: You must provide either `content` or `text` prop to render the tooltip content.",
     );
 
     consoleWarnSpy.mockRestore();
