@@ -1,6 +1,6 @@
 import { fireEvent, renderHook } from "@testing-library/react";
 
-import { useEscapeKey } from "@/keyboard/useEscapeKey";
+import { useEscapeKey } from "@/escape-key/useEscapeKey";
 
 describe("useEscapeKey", () => {
   it("calls callback when Escape key is pressed", () => {
