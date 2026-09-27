@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 
-import { AsChild } from "@/asChild";
+import { AsChild } from "@/AsChild/AsChild";
 
 describe("asChild", () => {
   const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});

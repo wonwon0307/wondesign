@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { renderToString } from "react-dom/server";
 
-import { Portal } from "@/portal";
+import { Portal } from "@/Portal/Portal";
 
 describe("portal", () => {
   it("renders children in a portal correctly", () => {
