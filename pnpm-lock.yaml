@@ -173,9 +173,9 @@ importers:
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/shortkey':
+      '@wondesign/key-events':
         specifier: workspace:*
-        version: link:../../foundations/shortkey
+        version: link:../../foundations/key-events
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../foundations/tokens
@@ -360,6 +360,9 @@ importers:
       '@wondesign/interactions':
         specifier: workspace:*
         version: link:../../foundations/interactions
+      '@wondesign/key-events':
+        specifier: workspace:*
+        version: link:../../foundations/key-events
       '@wondesign/position':
         specifier: workspace:*
         version: link:../../foundations/position
@@ -445,10 +448,15 @@ importers:
       react-dom:
         specifier: ^19
         version: 19.3.0(react@19.3.0)
-    devDependencies:
-      '@wondesign/shortkey':
-        specifier: workspace:*
-        version: link:../shortkey
+
+  foundations/key-events:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.3.0
+      react-dom:
+        specifier: ^19
+        version: 19.3.0(react@19.3.0)
 
   foundations/position:
     dependencies:
@@ -460,15 +468,6 @@ importers:
         version: 19.3.0(react@19.3.0)
 
   foundations/reset-css: {}
-
-  foundations/shortkey:
-    dependencies:
-      react:
-        specifier: ^19
-        version: 19.3.0
-      react-dom:
-        specifier: ^19
-        version: 19.3.0(react@19.3.0)
 
   foundations/svg2tsx:
     dependencies:
@@ -543,6 +542,9 @@ importers:
       '@wondesign/interactions':
         specifier: workspace:*
         version: link:../../foundations/interactions
+      '@wondesign/key-events':
+        specifier: workspace:*
+        version: link:../../foundations/key-events
       '@wondesign/links':
         specifier: workspace:*
         version: link:../../components/links
