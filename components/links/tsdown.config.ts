@@ -8,8 +8,5 @@ export default defineConfig([
     format: ["esm"],
     dts: true,
     clean: false,
-    deps: {
-      onlyBundle: false,
-    },
   },
 ]);
