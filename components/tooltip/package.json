@@ -35,6 +35,7 @@
     "@wondesign/buttons": "workspace:*",
     "@wondesign/composition": "workspace:*",
     "@wondesign/interactions": "workspace:*",
+    "@wondesign/key-events": "workspace:*",
     "@wondesign/position": "workspace:*",
     "@wondesign/tokens": "workspace:*",
     "clsx": "catalog:"
