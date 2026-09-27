@@ -1,12 +1,12 @@
 import { render } from "@testing-library/react";
 import { renderToString } from "react-dom/server";
 
-import { TooltipArrow } from "@/headless/Arrow";
-import { TooltipContent } from "@/headless/Content";
-import { TooltipTrigger } from "@/headless/Trigger";
+import { TooltipArrow } from "@/Tooltip/Arrow";
+import { TooltipContent } from "@/Tooltip/Content";
+import { TooltipTrigger } from "@/Tooltip/Trigger";
 import { TestComponent } from "./test-component";
 
-describe("HeadlessTooltip - structure", () => {
+describe("Tooltip - structure", () => {
   it("should handle SSR environments without errors", () => {
     const originalWindow = globalThis.window;
     const originalDocument = globalThis.document;

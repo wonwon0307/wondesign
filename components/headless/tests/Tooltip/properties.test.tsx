@@ -2,7 +2,7 @@ import { act, fireEvent, render } from "@testing-library/react";
 
 import { TestComponent } from "./test-component";
 
-describe("HeadlessTooltip - properties", () => {
+describe("Tooltip - properties", () => {
   it("should have appropriate aria attributes", () => {
     const { getByTestId } = render(
       <TestComponent isOpen>Tooltip Message</TestComponent>,
