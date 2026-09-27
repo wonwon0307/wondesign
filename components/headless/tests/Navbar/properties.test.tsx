@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { Navbar } from "@/Navbar/Navbar";
+import { NavbarWrapper } from "@/Navbar/Wrapper";
 import { NavbarList } from "@/Navbar/List";
 import { NavbarItem } from "@/Navbar/Item";
 import { NavbarLink } from "@/Navbar/Link";
@@ -8,7 +8,7 @@ import { NavbarLink } from "@/Navbar/Link";
 describe("HeadlessNavbar - properties", () => {
   it("should render with default properties correctly", () => {
     const { getAllByTestId, getByTestId } = render(
-      <Navbar aria-label="Main navigation" data-testid="nav">
+      <NavbarWrapper aria-label="Main navigation" data-testid="nav">
         <NavbarList data-testid="list">
           <NavbarItem data-testid="item">
             <NavbarLink href="#" data-testid="link">
@@ -21,7 +21,7 @@ describe("HeadlessNavbar - properties", () => {
             </NavbarLink>
           </NavbarItem>
         </NavbarList>
-      </Navbar>,
+      </NavbarWrapper>,
     );
 
     // 1. Nav
@@ -52,13 +52,13 @@ describe("HeadlessNavbar - properties", () => {
 
   it("Nav - should respect aria-label when both aria-label and aria-labelledby are provided", () => {
     const { getByTestId } = render(
-      <Navbar
+      <NavbarWrapper
         aria-label="Main navigation"
         aria-labelledby="nav-label"
         data-testid="nav"
       >
         <div>Test</div>
-      </Navbar>,
+      </NavbarWrapper>,
     );
 
     const nav = getByTestId("nav");
@@ -68,7 +68,7 @@ describe("HeadlessNavbar - properties", () => {
 
   it("NavbarList - should support the vertical property", () => {
     const { getByTestId } = render(
-      <Navbar aria-label="Main navigation">
+      <NavbarWrapper aria-label="Main navigation">
         <NavbarList vertical data-testid="list">
           <NavbarItem>
             <NavbarLink href="#" data-testid="link">
@@ -76,7 +76,7 @@ describe("HeadlessNavbar - properties", () => {
             </NavbarLink>
           </NavbarItem>
         </NavbarList>
-      </Navbar>,
+      </NavbarWrapper>,
     );
 
     expect(getByTestId("list").getAttribute("data-orientation")).toBe(
@@ -91,7 +91,7 @@ describe("HeadlessNavbar - properties", () => {
 
   it("NavbarItem - should support the isDisabled property", () => {
     const { getByTestId } = render(
-      <Navbar aria-label="Main navigation">
+      <NavbarWrapper aria-label="Main navigation">
         <NavbarList>
           <NavbarItem isDisabled data-testid="item">
             <NavbarLink href="#" data-testid="link">
@@ -99,7 +99,7 @@ describe("HeadlessNavbar - properties", () => {
             </NavbarLink>
           </NavbarItem>
         </NavbarList>
-      </Navbar>,
+      </NavbarWrapper>,
     );
 
     expect(getByTestId("item").getAttribute("aria-disabled")).toBe("true");
@@ -110,7 +110,7 @@ describe("HeadlessNavbar - properties", () => {
 
   it("NavbarLink - should support the isAcitve property", () => {
     const { getByTestId } = render(
-      <Navbar aria-label="Main navigation">
+      <NavbarWrapper aria-label="Main navigation">
         <NavbarList>
           <NavbarItem>
             <NavbarLink href="#" isActive data-testid="link">
@@ -118,7 +118,7 @@ describe("HeadlessNavbar - properties", () => {
             </NavbarLink>
           </NavbarItem>
         </NavbarList>
-      </Navbar>,
+      </NavbarWrapper>,
     );
 
     const link = getByTestId("link");

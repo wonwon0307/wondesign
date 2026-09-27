@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { Navbar } from "@/Navbar/Navbar";
+import { NavbarWrapper } from "@/Navbar/Wrapper";
 import { NavbarList } from "@/Navbar/List";
 import { NavbarItem } from "@/Navbar/Item";
 import { NavbarLink } from "@/Navbar/Link";
@@ -11,7 +11,7 @@ describe("HeadlessNavbar - corner cases", () => {
       .spyOn(console, "warn")
       .mockImplementation(() => {});
 
-    render(<Navbar>Test</Navbar>);
+    render(<NavbarWrapper>Test</NavbarWrapper>);
 
     expect(consoleWarnSpy).toHaveBeenCalledWith(
       "[WonDesign Navbar] It is strongly recommended to provide either an aria-label or aria-labelledby for the navigation element.",
@@ -22,7 +22,7 @@ describe("HeadlessNavbar - corner cases", () => {
 
   it("should support the asChild/as prop on all of the components", () => {
     const { getByTestId } = render(
-      <Navbar asChild aria-label="Main navigation" data-testid="nav">
+      <NavbarWrapper asChild aria-label="Main navigation" data-testid="nav">
         <div>
           <NavbarList asChild data-testid="list">
             <div>
@@ -36,7 +36,7 @@ describe("HeadlessNavbar - corner cases", () => {
             </div>
           </NavbarList>
         </div>
-      </Navbar>,
+      </NavbarWrapper>,
     );
 
     expect(getByTestId("nav").tagName).toBe("DIV");
@@ -52,7 +52,11 @@ describe("HeadlessNavbar - corner cases", () => {
     const linkRef = vi.fn();
 
     const { getByTestId } = render(
-      <Navbar ref={navRef} aria-label="Main navigation" data-testid="nav">
+      <NavbarWrapper
+        ref={navRef}
+        aria-label="Main navigation"
+        data-testid="nav"
+      >
         <NavbarList ref={listRef} data-testid="list">
           <NavbarItem ref={itemRef} data-testid="item">
             <NavbarLink ref={linkRef} href="#" data-testid="link">
@@ -60,7 +64,7 @@ describe("HeadlessNavbar - corner cases", () => {
             </NavbarLink>
           </NavbarItem>
         </NavbarList>
-      </Navbar>,
+      </NavbarWrapper>,
     );
 
     expect(navRef).toHaveBeenCalledWith(getByTestId("nav"));

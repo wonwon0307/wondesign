@@ -9,7 +9,7 @@ export interface NavbarProps
   asChild?: boolean;
 }
 
-export function Navbar({
+export function NavbarWrapper({
   children,
   asChild,
   "aria-label": ariaLabel,

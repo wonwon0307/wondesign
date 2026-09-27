@@ -1,20 +1,22 @@
-import { Navbar } from "./Navbar";
+import { NavbarWrapper } from "./Wrapper";
 import { NavbarList } from "./List";
 import { NavbarItem } from "./Item";
 import { NavbarLink } from "./Link";
 
-export const HeadlessNavbar = Object.assign(Navbar, {
+export const Navbar = Object.assign(NavbarWrapper, {
   List: NavbarList,
   Item: NavbarItem,
   Link: NavbarLink,
 });
 
-export { Navbar } from "./Navbar";
+export { useNavbarList, useNavbarItem } from "./contexts";
+
+export { NavbarWrapper } from "./Wrapper";
 export { NavbarList } from "./List";
 export { NavbarItem } from "./Item";
 export { NavbarLink } from "./Link";
 
-export type { NavbarProps } from "./Navbar";
+export type { NavbarProps } from "./Wrapper";
 export type { NavbarListProps } from "./List";
 export type { NavbarItemProps } from "./Item";
 export type { NavbarLinkProps } from "./Link";
