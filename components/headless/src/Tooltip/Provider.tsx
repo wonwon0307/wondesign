@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useId, useMemo, useRef } from "react";
-import { useOpenState } from "@wondesign/interactions/disclosure";
-import { useClickOutside, useLongTouch } from "@wondesign/interactions/pointer";
 import { useEscapeKey } from "@wondesign/key-events/escape-key";
+import { useClickOutside } from "@wondesign/pointer/click-outside";
+import { useLongPress } from "@wondesign/pointer/long-press";
 import { useFloatingPosition, type FloatingOptions } from "@wondesign/position";
 
+import { useOpenState } from "@/hooks/useOpenState";
 import { TooltipContext } from "./contexts";
 
-export interface HeadlessTooltipProps extends FloatingOptions {
+export interface TooltipProps extends FloatingOptions {
   children: React.ReactNode;
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -27,7 +28,7 @@ export function TooltipProvider({
   align = "center",
   offset = 4,
   padding = 8,
-}: Readonly<HeadlessTooltipProps>) {
+}: Readonly<TooltipProps>) {
   const {
     isOpen,
     show: showImmediate,
@@ -41,7 +42,7 @@ export function TooltipProvider({
 
   useClickOutside(floatingRef, hideImmediate, isOpen, triggerRef);
   // 롱터치는 터치 자체에 delay가 있기 때문에, show에 delay를 주지 않는다.
-  useLongTouch(triggerRef, showImmediate, !isOpen);
+  useLongPress(triggerRef, showImmediate, !isOpen);
   useEscapeKey(hideImmediate, isOpen);
   const { content, arrow } = useFloatingPosition(
     triggerRef,

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { ContentContext, useTooltip } from "./contexts";
+import { ContentContext, useTooltipInternal } from "./contexts";
 
 export interface TooltipArrowProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -18,10 +18,12 @@ export function TooltipArrow({
   const isInsideContent = useContext(ContentContext);
 
   if (!isInsideContent) {
-    throw new Error(`Tooltip.Arrow must be used inside Tooltip.Content.`);
+    throw new Error(
+      `[WonDesign Headless] Tooltip.Arrow must be used inside Tooltip.Content.`,
+    );
   }
 
-  const { arrow, arrowRef } = useTooltip("Arrow");
+  const { arrow, arrowRef } = useTooltipInternal();
 
   return (
     <div

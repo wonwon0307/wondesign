@@ -1,7 +1,6 @@
-import { AsChild } from "@wondesign/composition/asChild";
-import { Portal } from "@wondesign/composition/portal";
-
-import { ContentContext, useTooltip } from "./contexts";
+import { AsChild } from "@/AsChild/AsChild";
+import { Portal } from "@/Portal/Portal";
+import { ContentContext, useTooltipInternal } from "./contexts";
 
 export interface TooltipContentProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -27,7 +26,7 @@ export function TooltipContent({
     floatingRef,
     hideWithDelay,
     clearTimer,
-  } = useTooltip("Content");
+  } = useTooltipInternal();
 
   if (!keepMounted && !isOpen) {
     return null;

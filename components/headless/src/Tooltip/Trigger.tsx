@@ -1,13 +1,10 @@
-import {
-  HeadlessButton,
-  type HeadlessButtonProps,
-} from "@wondesign/buttons/Headless";
-
-import { useTooltip } from "./contexts";
+import { Button, type ButtonProps } from "@/Button/Button";
+import { useTooltipInternal } from "./contexts";
 
 export interface TooltipTriggerProps extends Omit<
-  HeadlessButtonProps,
+  ButtonProps,
   | "children"
+  | "ref"
   | "aria-describedby"
   | "onMouseEnter"
   | "onMouseLeave"
@@ -27,7 +24,7 @@ export function TooltipTrigger({
   isDisabled = false,
   ...rest
 }: Readonly<TooltipTriggerProps>) {
-  const context = useTooltip("Trigger");
+  const context = useTooltipInternal();
 
   const {
     showWithDelay,
@@ -39,7 +36,7 @@ export function TooltipTrigger({
   } = context;
 
   return (
-    <HeadlessButton
+    <Button
       {...rest}
       ref={triggerRef}
       asChild={asChild}
@@ -51,6 +48,6 @@ export function TooltipTrigger({
       onBlur={isDisabled ? undefined : hideImmediate}
     >
       {children}
-    </HeadlessButton>
+    </Button>
   );
 }

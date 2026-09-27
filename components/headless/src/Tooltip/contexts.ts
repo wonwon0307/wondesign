@@ -26,16 +26,22 @@ export const TooltipContext = createContext<TooltipContextType | undefined>(
   undefined,
 );
 
-export function useTooltip(componentName: string) {
+export function useTooltipInternal() {
   const context = useContext(TooltipContext);
 
   if (!context) {
     throw new Error(
-      `Tooltip.${componentName} must be used inside the Tooltip wrapper.`,
+      `[WonDesign Headless] useTooltip() must be used inside the Tooltip Provider.`,
     );
   }
 
   return context;
+}
+
+export function useTooltip() {
+  const { isOpen, showImmediate, hideImmediate } = useTooltipInternal();
+
+  return { isOpen, showImmediate, hideImmediate };
 }
 
 export const ContentContext = createContext(false);
