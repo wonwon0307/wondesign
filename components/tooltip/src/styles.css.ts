@@ -5,20 +5,23 @@ const trigger = style({
   cursor: "pointer",
 });
 
+const baseContent = style({
+  position: "fixed",
+  left: 0,
+  top: 0,
+  selectors: { "&[data-state='closed']": { display: "none" } },
+  zIndex: tokens.zIndex.tooltip,
+});
+
 const content = style({
   display: "inline-flex",
   padding: `${tokens.spacing.sm} ${tokens.spacing.md}`,
   gap: tokens.spacing.sm,
   width: "max-content",
-  position: "fixed",
-  left: 0,
-  top: 0,
   borderRadius: tokens.radius.sm,
   font: tokens.text.bodySmall,
   color: tokens.colors.textInverted,
   backgroundColor: tokens.colors.backgroundInverted,
-  zIndex: tokens.zIndex.tooltip,
-  selectors: { "&[data-state='closed']": { display: "none" } },
 });
 
 const text = style({
@@ -27,10 +30,13 @@ const text = style({
   textAlign: "center",
 });
 
-const arrow = style({
+const baseArrow = style({
   position: "absolute",
   left: 0,
   top: 0,
+});
+
+const arrow = style({
   width: 8,
   height: 8,
   lineHeight: 0,
@@ -47,4 +53,12 @@ const arrowIcon = style({
   fill: tokens.colors.backgroundInverted,
 });
 
-export const styles = { trigger, content, text, arrow, arrowIcon };
+export const styles = {
+  trigger,
+  baseContent,
+  content,
+  text,
+  baseArrow,
+  arrow,
+  arrowIcon,
+};
