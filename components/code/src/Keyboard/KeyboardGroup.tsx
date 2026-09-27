@@ -1,5 +1,9 @@
-import { isApple, parseShortkey, type Shortkey } from "@wondesign/shortkey";
-import clsx from "clsx";
+import {
+  isApple,
+  parseShortkey,
+  type Shortkey,
+} from "@wondesign/key-events/shortkey";
+import { clsx } from "clsx";
 
 import { Keyboard } from "./Keyboard";
 import { styles } from "./styles.css";
