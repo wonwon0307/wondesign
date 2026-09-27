@@ -29,5 +29,11 @@
   "peerDependencies": {
     "react": "^19",
     "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@wondesign/focus": "workspace:*",
+    "@wondesign/key-events": "workspace:*",
+    "@wondesign/pointer": "workspace:*",
+    "@wondesign/position": "workspace:*"
   }
 }
