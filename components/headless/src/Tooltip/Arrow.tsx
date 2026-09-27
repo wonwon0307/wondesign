@@ -12,7 +12,6 @@ export interface TooltipArrowProps extends Omit<
 export function TooltipArrow({
   children,
   className,
-  style,
   ...rest
 }: Readonly<TooltipArrowProps>) {
   const isInsideContent = useContext(ContentContext);
@@ -23,22 +22,10 @@ export function TooltipArrow({
     );
   }
 
-  const { arrow, arrowRef } = useTooltipInternal();
+  const { arrowRef } = useTooltipInternal();
 
   return (
-    <div
-      ref={arrowRef}
-      style={
-        {
-          ...style,
-          "--wds-tooltip-arrow-x": `${arrow.x}px`,
-          "--wds-tooltip-arrow-y": `${arrow.y}px`,
-        } as React.CSSProperties
-      }
-      className={className}
-      {...rest}
-      aria-hidden="true"
-    >
+    <div ref={arrowRef} className={className} {...rest} aria-hidden="true">
       {children}
     </div>
   );
