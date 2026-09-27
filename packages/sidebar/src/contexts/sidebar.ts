@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { BindableShortkey } from "@wondesign/interactions/keyboard";
+import type { BindableShortkey } from "@wondesign/key-events/shortkey";
 
 type SidebarContextValue = {
   // states
