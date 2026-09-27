@@ -1,10 +1,9 @@
-import { type ButtonHTMLAttributes } from "react";
-import { AsChild } from "@wondesign/composition/asChild";
+import { AsChild } from "@/AsChild/AsChild";
 
-export interface HeadlessButtonProps
+export interface ButtonProps
   extends
     Omit<
-      ButtonHTMLAttributes<HTMLButtonElement>,
+      React.ButtonHTMLAttributes<HTMLButtonElement>,
       "disabled" | "aria-disabled" | "aria-busy"
     >,
     React.RefAttributes<HTMLButtonElement> {
@@ -13,7 +12,7 @@ export interface HeadlessButtonProps
   asChild?: boolean;
 }
 
-export function HeadlessButton({
+export function Button({
   children,
   isDisabled = false,
   isLoading = false,
@@ -23,7 +22,7 @@ export function HeadlessButton({
   type = "button",
   ref,
   ...rest
-}: Readonly<HeadlessButtonProps>) {
+}: Readonly<ButtonProps>) {
   const disableEvents = isDisabled || isLoading;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -46,27 +45,12 @@ export function HeadlessButton({
     onKeyDown?.(event);
   };
 
-  if (asChild) {
-    return (
-      <AsChild
-        {...rest}
-        ref={ref}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        aria-disabled={isDisabled ? "true" : undefined}
-        aria-busy={isLoading ? "true" : undefined}
-        data-loading={isLoading}
-        data-disabled={isDisabled}
-      >
-        {children}
-      </AsChild>
-    );
-  }
+  const Component = asChild ? AsChild : "button";
 
   return (
-    <button
+    <Component
       {...rest}
-      ref={ref}
+      ref={asChild ? undefined : ref}
       type={type}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
@@ -76,6 +60,6 @@ export function HeadlessButton({
       data-disabled={isDisabled}
     >
       {children}
-    </button>
+    </Component>
   );
 }
