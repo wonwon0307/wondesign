@@ -2,7 +2,7 @@ import { fireEvent, render } from "@testing-library/react";
 
 import { AsChild } from "@/AsChild/AsChild";
 
-describe("asChild", () => {
+describe("AsChild", () => {
   const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
   beforeEach(() => {

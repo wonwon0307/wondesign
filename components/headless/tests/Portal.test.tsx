@@ -3,7 +3,7 @@ import { renderToString } from "react-dom/server";
 
 import { Portal } from "@/Portal/Portal";
 
-describe("portal", () => {
+describe("Portal", () => {
   it("renders children in a portal correctly", () => {
     const { getByText } = render(
       <Portal>

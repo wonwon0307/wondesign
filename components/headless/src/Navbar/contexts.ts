@@ -11,7 +11,7 @@ export function useNavbarList() {
 
   if (!context) {
     throw new Error(
-      `[WonDesign Navbar] useNavbarList() must be used inside a Navbar.List component.`,
+      `[WonDesign Headless] useNavbarList() must be used inside a Navbar.List component.`,
     );
   }
 
@@ -33,7 +33,7 @@ export function useNavbarItem() {
 
   if (!context) {
     throw new Error(
-      `[WonDesign Navbar] useNavbarItem() must be used inside a Navbar.Item component.`,
+      `[WonDesign Headless] useNavbarItem() must be used inside a Navbar.Item component.`,
     );
   }
 

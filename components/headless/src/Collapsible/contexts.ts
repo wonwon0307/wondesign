@@ -17,7 +17,7 @@ export function useCollapsibleInternal() {
 
   if (!context) {
     throw new Error(
-      `[WonDesign Collapsible] useCollapsible() must be used inside the Collapsible wrapper.`,
+      `[WonDesign Headless] useCollapsible() must be used inside the Collapsible wrapper.`,
     );
   }
 

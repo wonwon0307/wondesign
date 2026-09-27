@@ -24,7 +24,7 @@ export function NavbarList({
 
   if (!isInsideProvider) {
     throw new Error(
-      "[WonDesign Navbar] Navbar.List must be used inside the Nav wrapper.",
+      "[WonDesign Headless] Navbar.List must be used inside the Nav wrapper.",
     );
   }
 

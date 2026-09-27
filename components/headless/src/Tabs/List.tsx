@@ -46,7 +46,7 @@ export function TabsList({
     if (enabledTabs.length === 0) {
       if (process.env.NODE_ENV !== "production" && !isDisabled) {
         console.warn(
-          `[WonDesign Tabs] No enabled tabs found — ` +
+          `[WonDesign Headless] No enabled tabs found — ` +
             `every tab is either disabled or missing. ` +
             `The tablist is unusable until at least one tab is enabled.`,
         );
@@ -67,7 +67,7 @@ export function TabsList({
 
   if (process.env.NODE_ENV !== "production" && !ariaLabel && !ariaLabelledBy) {
     console.warn(
-      "[WonDesign Tabs] It is strongly recommended to provide either an aria-label or aria-labelledby for the tablist element.",
+      "[WonDesign Headless] It is strongly recommended to provide either an aria-label or aria-labelledby for the tablist element.",
     );
   }
 

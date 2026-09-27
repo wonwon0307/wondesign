@@ -18,7 +18,7 @@ export function NavbarWrapper({
 }: Readonly<NavbarProps>) {
   if (process.env.NODE_ENV !== "production" && !ariaLabel && !ariaLabelledBy) {
     console.warn(
-      "[WonDesign Navbar] It is strongly recommended to provide either an aria-label or aria-labelledby for the navigation element.",
+      "[WonDesign Headless] It is strongly recommended to provide either an aria-label or aria-labelledby for the navigation element.",
     );
   }
 
