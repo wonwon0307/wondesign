@@ -27,7 +27,7 @@ export function SidebarProvider({
   mobileBreakpoint = 768,
   isOpen: controlledOpen,
   onOpenChange,
-  defaultOpen,
+  defaultOpen = false,
   side = "left",
   shortkey = null,
 }: Readonly<SidebarProps>) {
@@ -35,7 +35,7 @@ export function SidebarProvider({
   const { isOpen, show, hide } = useOpenState(
     controlledOpen,
     onOpenChange,
-    defaultOpen ?? !isMobile,
+    defaultOpen,
   );
   const contentId = useId();
 
