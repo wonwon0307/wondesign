@@ -1,39 +1,54 @@
-import {
-  HeadlessAnchor,
-  type HeadlessAnchorProps,
-} from "@wondesign/links/Headless";
 import { clsx } from "clsx";
 
-import { useSidebarItem } from "@/contexts/item";
-import { useSidebar } from "@/contexts/sidebar";
+import { useSidebarInternal } from "@/contexts/sidebar";
+import { SidebarAnchor, type SidebarAnchorProps } from "./Anchor";
 import { styles } from "./styles.css";
 
-export interface SidebarLinkProps extends HeadlessAnchorProps {
-  isActive?: boolean;
-  stretch?: boolean;
+export interface SidebarLinkProps extends Omit<
+  SidebarAnchorProps,
+  "href" | "children"
+> {
+  href: string; // make href required
+  label: string;
+  icon?: React.ReactNode;
+  right?: React.ReactNode;
 }
 
 export function SidebarLink({
+  label,
+  icon,
+  right,
   isActive = false,
   isDisabled = false,
-  stretch = false,
   className,
+  style,
+  ref,
   ...rest
 }: Readonly<SidebarLinkProps>) {
-  // To ensure this is used within a SidebarItem context
-  useSidebarItem();
-  const { state, isMobile } = useSidebar();
+  const { state, collapse } = useSidebarInternal();
+
+  if (collapse === "icons" && !icon && process.env.NODE_ENV !== "production") {
+    console.warn(
+      `[WonDesign Sidebar] SidebarItem: 'icon' prop is required ` +
+        `when sidebar collapse is 'icons'.`,
+    );
+  }
+
+  const iconOnly = collapse === "icons" && state === "collapsed";
 
   return (
-    <HeadlessAnchor
-      {...rest}
-      isDisabled={isDisabled}
-      aria-current={isActive ? "page" : undefined}
-      data-active={isActive || undefined}
-      data-device={isMobile ? "mobile" : "desktop"}
-      data-disabled={isDisabled || undefined}
-      data-state={state}
-      className={clsx(styles.baseInteractive({ stretch }), className)}
-    />
+    <div className={clsx(styles.link, className)} style={style}>
+      {icon}
+      {iconOnly ? null : <span className={styles.label}>{label}</span>}
+      {iconOnly ? null : right}
+      <SidebarAnchor
+        {...rest}
+        ref={ref}
+        isActive={isActive}
+        isDisabled={isDisabled}
+        className={styles.overlayLink}
+        aria-label={label}
+      />
+    </div>
   );
 }
