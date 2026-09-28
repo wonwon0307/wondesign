@@ -1,10 +1,12 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 
 import { SidebarProvider } from "@/contexts/Provider";
 import { SidebarBody } from "@/Body/Body";
 import { SidebarNav } from "@/Nav/Nav";
 import { SidebarItem } from "@/Item/Item/Item";
 import { SidebarLink } from "@/Item/fragments/Link";
+import { SidebarItemToggle } from "@/Item/fragments/Toggle";
+import { SidebarToggle } from "@/Toggle/Toggle";
 
 describe("SidebarItem - corner cases", () => {
   it("renders collapsed item tooltip on the left if sidebar is on the right", () => {
@@ -21,6 +23,33 @@ describe("SidebarItem - corner cases", () => {
     const tooltip = getByTestId("tooltip");
     expect(tooltip).toBeTruthy();
     expect(tooltip.dataset.placement).toBe("left");
+  });
+
+  it("renders SidebarItemToggle correctly", () => {
+    const { getByTestId } = render(
+      <SidebarProvider defaultOpen>
+        <SidebarBody>
+          <SidebarNav>
+            <SidebarItem
+              href="#"
+              label="Link"
+              right={<SidebarItemToggle data-testid="sidebar-item-toggle" />}
+              defaultOpen
+            >
+              <SidebarItem href="#child" label="Child Link" />
+            </SidebarItem>
+          </SidebarNav>
+        </SidebarBody>
+        <SidebarToggle data-testid="sidebar-toggle" />
+      </SidebarProvider>,
+    );
+
+    const toggle = getByTestId("sidebar-item-toggle");
+    expect(toggle).toBeTruthy();
+    expect(toggle.dataset.state).toBe("open");
+
+    fireEvent.click(toggle);
+    expect(toggle.dataset.state).toBe("closed");
   });
 
   it("should warn on console if icon is not provided in collapse-to-icons mode", () => {
