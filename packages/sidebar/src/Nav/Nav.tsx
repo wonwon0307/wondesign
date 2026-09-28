@@ -3,12 +3,11 @@ import { clsx } from "clsx";
 import { SidebarNavContext, useSidebarBody } from "@/contexts/body";
 import { styles } from "./styles.css";
 
-export interface SidebarNavProps extends Omit<
-  React.HTMLAttributes<HTMLElement>,
-  "children"
-> {
+export interface SidebarNavProps
+  extends
+    Omit<React.HTMLAttributes<HTMLElement>, "children">,
+    React.RefAttributes<HTMLElement> {
   children: React.ReactNode;
-  ref?: React.Ref<HTMLElement>;
 }
 
 export function SidebarNav({
