@@ -66,7 +66,7 @@ export function parseBindableShortkey(
   );
   if (invalidModifier) {
     console.warn(
-      `Invalid shortkey: "${invalidModifier}" is not a supported modifier.`,
+      `[WonDesign Key-Events] Invalid shortkey: "${invalidModifier}" is not a supported modifier.`,
     );
 
     return null;
@@ -77,7 +77,9 @@ export function parseBindableShortkey(
 
   const targetKeyCode = BASE_KEY_MAP[targetKey as BindableBaseKey];
   if (!targetKeyCode) {
-    console.warn(`Invalid shortkey: "${targetKey}" is not a supported key.`);
+    console.warn(
+      `[WonDesign Key-Events] Invalid shortkey: "${targetKey}" is not a supported key.`,
+    );
 
     return null;
   }
