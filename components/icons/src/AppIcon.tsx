@@ -8,7 +8,7 @@ export function AppIcon({ icon, size, ...rest }: Readonly<Props>) {
   const IconComponent = iconMap[icon];
 
   if (!IconComponent) {
-    console.warn(`Icon not found: ${icon}`);
+    console.warn(`[WonDesign Icons] Icon not found: ${icon}`);
     return null;
   }
 
