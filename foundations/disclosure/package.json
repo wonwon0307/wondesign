@@ -1,0 +1,33 @@
+{
+  "name": "@wondesign/disclosure",
+  "description": "WonDesign - Disclosure Utilities",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "design",
+    "system",
+    "disclosure",
+    "open-close",
+    "utilities",
+    "hooks",
+    "react",
+    "typescript"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsdown",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  }
+}
