@@ -21,6 +21,6 @@ export function SidebarItemToggle({
 
 function DefaultToggle() {
   return (
-    <AppIcon size={16} icon="chevron-right" className={styles.defaultIcon} />
+    <AppIcon size={20} icon="chevron-right" className={styles.defaultIcon} />
   );
 }

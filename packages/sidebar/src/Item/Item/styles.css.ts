@@ -23,7 +23,7 @@ const item = recipe({
       "&:focus-visible": {
         backgroundColor: tokens.colors.backgroundHover,
         outline: `1px solid ${tokens.colors.primary}`,
-        outlineOffset: "0px",
+        outlineOffset: "2px",
       },
     },
     "@media": {
@@ -70,7 +70,7 @@ const item = recipe({
     },
     isDisabled: {
       true: {
-        opacity: 0.5,
+        color: colorWithOpacity(tokens.colors.text, 50),
         pointerEvents: "none",
         cursor: "not-allowed",
       },

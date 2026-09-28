@@ -25,6 +25,7 @@ const label = style({
 });
 
 const toggle = style({
+  cursor: "pointer",
   zIndex: 1,
 });
 
