@@ -33,7 +33,7 @@ export function Tooltip({
 }: Readonly<TooltipProps>) {
   if (!content && !text) {
     console.warn(
-      "[WonDesign Tooltip]: You must provide either `content` or `text` prop to render the tooltip content.",
+      "[WonDesign Tooltip] You must provide either `content` or `text` prop to render the tooltip content.",
     );
   }
 
