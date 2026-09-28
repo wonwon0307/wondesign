@@ -33,5 +33,9 @@ export function SidebarToggle({
     );
   }
 
-  return <HeadlessToggle {...rest}>{children}</HeadlessToggle>;
+  return (
+    <HeadlessToggle {...rest} className={clsx(styles.toggle, className)}>
+      {children}
+    </HeadlessToggle>
+  );
 }
