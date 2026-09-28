@@ -3,6 +3,7 @@ import {
   CollapsibleContent,
 } from "@wondesign/headless/Collapsible";
 import { Tooltip } from "@wondesign/tooltip";
+import { clsx } from "clsx";
 
 import { useSidebarInternal } from "@/contexts/sidebar";
 import { SidebarItemWrapper } from "../fragments/Wrapper";
@@ -65,12 +66,14 @@ interface HeaderProps {
   isActive?: boolean;
   isDisabled?: boolean;
   openInNewTab?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
-function Header(props: Readonly<HeaderProps>) {
+function Header({ className, ...rest }: Readonly<HeaderProps>) {
   const { state, collapse, side } = useSidebarInternal();
 
-  const { label, isActive, isDisabled } = props;
+  const { label, isActive, isDisabled } = rest;
 
   if (collapse === "icons" && state === "collapsed") {
     return (
@@ -81,8 +84,11 @@ function Header(props: Readonly<HeaderProps>) {
         asChild
       >
         <SidebarLink
-          {...props}
-          className={styles.item({ isActive, isDisabled, collapsed: true })}
+          {...rest}
+          className={clsx(
+            styles.item({ isActive, isDisabled, collapsed: true }),
+            className,
+          )}
         />
       </Tooltip>
     );
@@ -90,8 +96,11 @@ function Header(props: Readonly<HeaderProps>) {
 
   return (
     <SidebarLink
-      {...props}
-      className={styles.item({ isActive, isDisabled, collapsed: false })}
+      {...rest}
+      className={clsx(
+        styles.item({ isActive, isDisabled, collapsed: false }),
+        className,
+      )}
     />
   );
 }
