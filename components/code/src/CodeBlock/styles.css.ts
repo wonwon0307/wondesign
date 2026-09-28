@@ -8,10 +8,11 @@ const pre = recipe({
     color: tokens.colors.text,
     backgroundColor: tokens.colors.surface,
     border: `1px solid ${tokens.colors.borderMuted}`,
-    borderRadius: tokens.radius.md,
+    borderRadius: tokens.radius.sm,
     overflowX: "auto",
     whiteSpace: "pre",
     tabSize: 2,
+    scrollbarWidth: "thin",
   },
   variants: {
     size: {
@@ -38,19 +39,31 @@ const pre = recipe({
   },
 });
 
-const line = recipe({
+const code = recipe({
   base: {},
   variants: {
     showLineNumbers: {
       true: {
         counterReset: "line",
+      },
+    },
+  },
+});
+
+const line = recipe({
+  base: {
+    display: "block",
+  },
+  variants: {
+    showLineNumbers: {
+      true: {
         selectors: {
           "&::before": {
             counterIncrement: "line",
             content: "counter(line)",
             display: "inline-block",
             minWidth: "2ch",
-            marginRight: tokens.spacing.md,
+            marginRight: tokens.spacing.xl,
             textAlign: "right",
             color: tokens.colors.textMuted,
             userSelect: "none",
@@ -61,4 +74,4 @@ const line = recipe({
   },
 });
 
-export const styles = { pre, line };
+export const styles = { pre, code, line };
