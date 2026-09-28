@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useId, useMemo, useRef } from "react";
-import { useOpenState } from "@wondesign/interactions/disclosure";
-import { useIsMobile } from "@wondesign/interactions/mobile";
+import { useOpenState } from "@wondesign/disclosure";
 import {
   useShortkey,
   type BindableShortkey,
 } from "@wondesign/key-events/shortkey";
 
-import { SidebarContext } from "@/contexts/sidebar";
+import { SidebarContext } from "./sidebar";
+import { useIsMobile } from "./useIsMobile";
 
 export interface SidebarProps {
   children: React.ReactNode;
@@ -50,8 +50,13 @@ export function SidebarProvider({
   const result = useShortkey(shortkey, toggleSidebar, collapse !== "disable");
 
   const finalState: "closed" | "collapsed" | "expanded" = useMemo(() => {
-    if (isOpen || (collapse === "disable" && !isMobile)) return "expanded";
-    if (collapse === "icons" && !isMobile) return "collapsed";
+    if (isMobile) {
+      if (isOpen) return "expanded";
+      return "closed";
+    }
+
+    if (isOpen || collapse === "disable") return "expanded";
+    if (collapse === "icons") return "collapsed";
     return "closed";
   }, [isOpen, collapse, isMobile]);
 
