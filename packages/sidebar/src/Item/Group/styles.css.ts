@@ -50,14 +50,14 @@ const headerRight = style({
   opacity: 0,
   transition: "opacity 0.15s ease",
   selectors: {
-    [`${header}:focus-within &`]: {
+    [`${header.classNames.base}:focus-within &`]: {
       opacity: 1,
     },
   },
   "@media": {
     [mediaQueries.hoverable]: {
       selectors: {
-        [`${header}:hover &`]: {
+        [`${header.classNames.base}:hover &`]: {
           opacity: 1,
         },
       },
@@ -77,17 +77,17 @@ const icon = style({
   transition: "transform 200ms ease, opacity 200ms ease",
   opacity: 0,
   selectors: {
-    [`${header}:focus-within &`]: {
+    [`${header.classNames.base}:focus-within &`]: {
       opacity: 1,
     },
-    [`${header}:has(${overlayToggle}[data-state="open"]) &`]: {
+    [`${header.classNames.base}:has(${overlayToggle}[data-state="open"]) &`]: {
       transform: "rotate(90deg)",
     },
   },
   "@media": {
     [mediaQueries.hoverable]: {
       selectors: {
-        [`${header}:hover &`]: {
+        [`${header.classNames.base}:hover &`]: {
           opacity: 1,
         },
       },

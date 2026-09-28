@@ -46,7 +46,7 @@ const item = recipe({
           "&:focus-visible": {
             backgroundColor: colorWithOpacity(tokens.colors.primary, 24),
           },
-          "::before": {
+          "&::before": {
             content: '""',
             position: "absolute",
             left: 0,
