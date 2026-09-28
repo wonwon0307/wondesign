@@ -1,14 +1,10 @@
 import { recipe } from "@vanilla-extract/recipes";
 import { tokens } from "@wondesign/tokens";
 
-const EXPANDED_WIDTH = "280px";
-const ICON_WIDTH = "56px";
-
 const sidebar = recipe({
   base: {
-    display: "grid",
-    gridTemplateColumns: "1fr",
-    gridTemplateRows: "auto 1fr auto",
+    display: "flex",
+    flexDirection: "column",
     height: "100vh",
     padding: `${tokens.spacing.lg} 0`,
     flexShrink: 0,
@@ -35,10 +31,10 @@ const sidebar = recipe({
     },
     state: {
       expanded: {
-        width: EXPANDED_WIDTH,
+        width: "280px",
       },
       collapsed: {
-        width: ICON_WIDTH,
+        width: "56px",
       },
       closed: {
         width: "0px",
