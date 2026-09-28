@@ -25,13 +25,15 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
-  "devDependencies": {
-    "@vanilla-extract/css": "catalog:",
+  "dependencies": {
     "@vanilla-extract/recipes": "catalog:",
-    "@vanilla-extract/rollup-plugin": "catalog:",
     "@wondesign/key-events": "workspace:*",
     "@wondesign/tokens": "workspace:*",
     "clsx": "catalog:"
+  },
+  "devDependencies": {
+    "@vanilla-extract/css": "catalog:",
+    "@vanilla-extract/rollup-plugin": "catalog:"
   },
   "peerDependencies": {
     "react": "^19",
