@@ -50,7 +50,7 @@ export function AsChild({
   if (!isValidElement(children)) {
     if (process.env.NODE_ENV !== "production") {
       console.warn(
-        "[AsChild] asChild requires a single valid React element as child.",
+        "[WonDesign Headless] asChild requires a single valid React element as child.",
       );
     }
     return null;

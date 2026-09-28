@@ -77,7 +77,7 @@ describe("AsChild", () => {
 
     expect(container.firstChild).toBeNull();
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      "[AsChild] asChild requires a single valid React element as child.",
+      "[WonDesign Headless] asChild requires a single valid React element as child.",
     );
   });
 
