@@ -1,19 +1,16 @@
+// batteries included
 export { SidebarItem } from "./Item/Item";
-export { SidebarItemLink } from "./Item/ItemLink";
-export { SidebarGroup } from "./Group/Group";
-
-export { SidebarItemHeader } from "./fragments/Header";
-export { SidebarLink } from "./fragments/Link";
-export { SidebarItemSubitems } from "./fragments/Subitems";
-export { SidebarItemToggle } from "./fragments/Toggle";
-export { SidebarItemWrapper } from "./fragments/Wrapper";
-
 export type { SidebarItemProps } from "./Item/Item";
-export type { SidebarItemLinkProps } from "./Item/ItemLink";
+export { SidebarGroup } from "./Group/Group";
 export type { SidebarGroupProps } from "./Group/Group";
 
-export type { SidebarItemHeaderProps } from "./fragments/Header";
+export { SidebarItemWrapper } from "./fragments/Wrapper";
+
+export { SidebarAnchor } from "./fragments/Anchor";
+export type { SidebarAnchorProps } from "./fragments/Anchor";
+
+export { SidebarLink } from "./fragments/Link";
 export type { SidebarLinkProps } from "./fragments/Link";
-export type { SidebarItemSubitemsProps } from "./fragments/Subitems";
-export type { SidebarItemToggleProps } from "./fragments/Toggle";
-export type { SidebarItemWrapperProps } from "./fragments/Wrapper";
+
+export { SidebarItemToggle } from "./fragments/Toggle";
+export { type CollapsibleToggleProps as SidebarItemToggleProps } from "@wondesign/headless/Collapsible";
