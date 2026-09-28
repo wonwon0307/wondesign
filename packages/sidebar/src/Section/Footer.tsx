@@ -1,10 +1,10 @@
 import { clsx } from "clsx";
 
 import { useSidebarBody } from "@/contexts/body";
-import { useSidebar } from "@/contexts/sidebar";
+import { useSidebarInternal } from "@/contexts/sidebar";
 import { styles } from "./styles.css";
 
-export interface SidebarSectionProps extends Omit<
+export interface SidebarFooterProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "children"
 > {
@@ -12,26 +12,25 @@ export interface SidebarSectionProps extends Omit<
   collapsed?: React.ReactNode;
 }
 
-export function SidebarSection({
+export function SidebarFooter({
   children,
   collapsed,
   className,
   ...rest
-}: Readonly<SidebarSectionProps>) {
+}: Readonly<SidebarFooterProps>) {
   useSidebarBody();
-  const { state } = useSidebar();
+  const { state } = useSidebarInternal();
 
   return (
     <div
       {...rest}
       className={clsx(
-        styles.section({ collapsed: state === "collapsed" }),
+        styles.section({ variant: "footer", collapsed: state === "collapsed" }),
         className,
       )}
       data-state={state}
     >
-      {state === "collapsed" && collapsed}
-      {state !== "collapsed" && children}
+      {state === "collapsed" ? collapsed : children}
     </div>
   );
 }

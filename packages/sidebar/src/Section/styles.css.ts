@@ -9,8 +9,19 @@ const section = recipe({
     gap: tokens.spacing.sm,
     padding: `${tokens.spacing.lg} ${tokens.spacing.sm}`,
     overflow: "hidden",
+    position: "sticky",
+    zIndex: 1,
+    backgroundColor: tokens.colors.background,
   },
   variants: {
+    variant: {
+      header: {
+        top: 0,
+      },
+      footer: {
+        bottom: 0,
+      },
+    },
     collapsed: {
       true: {
         justifyContent: "center",
