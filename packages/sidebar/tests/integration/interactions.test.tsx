@@ -39,6 +39,32 @@ describe("Sidebar - interactions", () => {
     const tooltips = getAllByTestId("tooltip");
     expect(tooltips.length).toBeGreaterThan(0);
 
+    // Group
+    // Test Group은 collapsedBehavior가 hide
+    // Another Test Group은 collapsedBehavior가 flatten
+    const testGroup = getByTestId("test-group");
+    const anotherTestGroup = getByTestId("another-test-group");
+
+    // header는 둘다 안보인다
+    expect(
+      testGroup.getElementsByTagName("div")[0].getAttribute("aria-hidden"),
+    ).toBe("true");
+    expect(
+      anotherTestGroup
+        .getElementsByTagName("div")[0]
+        .getAttribute("aria-hidden"),
+    ).toBe("true");
+
+    // children은 flatten인 Another Test Group만 보여야 한다
+    const testGroupList = testGroup.getElementsByTagName("ul")[0];
+    expect(testGroupList.getAttribute("aria-hidden")).toBe("true");
+    expect(testGroupList.getAttribute("data-force-visible")).toBeNull();
+    const anotherTestGroupList = anotherTestGroup.getElementsByTagName("ul")[0];
+    expect(anotherTestGroupList.getAttribute("aria-hidden")).toBe("false");
+    expect(anotherTestGroupList.getAttribute("data-force-visible")).toBe(
+      "true",
+    );
+
     // 기본 툴팁 방향은 오른쪽이다 (사이드바가 왼쪽에 있으니; 하나만 대표로 확인)
     expect(tooltips[0].dataset.placement).toBe("right");
   });

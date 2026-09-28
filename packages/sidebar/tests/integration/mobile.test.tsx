@@ -1,11 +1,11 @@
 import { fireEvent, render } from "@testing-library/react";
-import * as mobile from "@wondesign/interactions/mobile";
+import * as isMobile from "@/contexts/useIsMobile";
 
 import { TestComponent } from "./test-component";
 
 describe("Sidebar - mobile interactions", () => {
   it("forces hide-mode in mobile window size", () => {
-    vi.spyOn(mobile, "useIsMobile").mockReturnValue(true);
+    vi.spyOn(isMobile, "useIsMobile").mockReturnValue(true);
     const { getByTestId, rerender } = render(
       <TestComponent collapse="icons" keepMounted />,
     );
@@ -36,7 +36,7 @@ describe("Sidebar - mobile interactions", () => {
 
   it("hides when the viewport becomes mobile", () => {
     const useIsMobileSpy = vi
-      .spyOn(mobile, "useIsMobile")
+      .spyOn(isMobile, "useIsMobile")
       .mockReturnValue(false);
     const { getByTestId, rerender } = render(
       <TestComponent collapse="icons" keepMounted defaultOpen />,
@@ -55,9 +55,7 @@ describe("Sidebar - mobile interactions", () => {
   });
 
   it("opens when the viewport becomes desktop", () => {
-    const useIsMobileSpy = vi
-      .spyOn(mobile, "useIsMobile")
-      .mockReturnValue(true);
+    vi.spyOn(isMobile, "useIsMobile").mockReturnValue(true);
     const { getByTestId, rerender } = render(
       <TestComponent collapse="icons" keepMounted />,
     );
@@ -68,16 +66,14 @@ describe("Sidebar - mobile interactions", () => {
     expect(body.dataset.state).toBe("closed");
 
     // viewport grows past the breakpoint
-    useIsMobileSpy.mockReturnValue(false);
+    vi.spyOn(isMobile, "useIsMobile").mockReturnValue(false);
     rerender(<TestComponent collapse="icons" keepMounted />);
 
     expect(body.dataset.state).toBe("expanded");
   });
 
   it("hides disable-collapse sidebars when the viewport becomes mobile", () => {
-    const useIsMobileSpy = vi
-      .spyOn(mobile, "useIsMobile")
-      .mockReturnValue(false);
+    vi.spyOn(isMobile, "useIsMobile").mockReturnValue(false);
     const { getByTestId, rerender } = render(
       <TestComponent collapse="disable" keepMounted defaultOpen />,
     );
@@ -89,7 +85,7 @@ describe("Sidebar - mobile interactions", () => {
 
     // viewport shrinks below the breakpoint: disable mode shouldn't
     // keep the sidebar force-open on mobile
-    useIsMobileSpy.mockReturnValue(true);
+    vi.spyOn(isMobile, "useIsMobile").mockReturnValue(true);
     rerender(<TestComponent collapse="disable" keepMounted defaultOpen />);
 
     expect(body.dataset.state).toBe("closed");
