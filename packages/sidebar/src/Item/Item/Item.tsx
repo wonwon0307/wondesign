@@ -25,12 +25,8 @@ export function SidebarItem({
   const hasChildren = Boolean(children);
 
   if (hasChildren) {
-    // forces subitems hidden when the sidebar itself collapses to icons,
-    // independent of this item's own open/closed (accordion) state
     const hideChildren =
       collapsedBehavior === "self-only" && state === "collapsed";
-    // forces subitems visible when flattened, overriding the accordion's
-    // own closed state (there's no toggle UI to open it in icon mode)
     const forceVisible =
       collapsedBehavior === "flatten" && state === "collapsed";
 
