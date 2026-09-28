@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useId, useMemo, useRef } from "react";
+import { useOpenState } from "@wondesign/disclosure";
 import { useEscapeKey } from "@wondesign/key-events/escape-key";
 import { useClickOutside } from "@wondesign/pointer/click-outside";
 import { useLongPress } from "@wondesign/pointer/long-press";
 import { useFloatingPosition, type FloatingOptions } from "@wondesign/position";
 
-import { useOpenState } from "@/hooks/useOpenState";
 import { TooltipContext } from "./contexts";
 
 export interface TooltipProps extends FloatingOptions {

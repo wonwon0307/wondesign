@@ -1,6 +1,6 @@
 import { useCallback, useId, useMemo } from "react";
+import { useOpenState } from "@wondesign/disclosure";
 
-import { useOpenState } from "@/hooks/useOpenState";
 import { CollapsibleContext } from "./contexts";
 
 export interface CollapsibleProps {
