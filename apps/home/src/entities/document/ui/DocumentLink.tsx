@@ -1,13 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import {
-  SidebarItemWrapper,
-  SidebarItemLink,
-  SidebarItemSubitems,
-  SidebarItemToggle,
-} from "@wondesign/sidebar/Item";
-import { AppIcon } from "@wondesign/ui/Icons";
+import { SidebarItem, SidebarItemToggle } from "@wondesign/sidebar/Item";
 import { Badge } from "@wondesign/ui/Texts";
 import { type DocsLink } from "@wondocs/core/sidebar";
 
@@ -27,31 +21,27 @@ export function DocumentLink({ link, children }: Readonly<Props>) {
   const isActive = link.items ? isExactMatch : startsWithUrl;
 
   return (
-    <SidebarItemWrapper defaultOpen={startsWithUrl}>
-      <SidebarItemLink
-        isActive={isActive}
-        isDisabled={link.disabled}
-        label={link.label}
-        href={link.url}
-        icon={children ? <Toggle label={link.label} /> : <div />}
-        right={<SidebarStatus badge={link.right} />}
-        className={styles.item({ isActive, isDisabled: link.disabled })}
-      />
-      <SidebarItemSubitems as="ul" className={styles.subitems}>
-        {children}
-      </SidebarItemSubitems>
-    </SidebarItemWrapper>
-  );
-}
-
-function Toggle({ label }: Readonly<{ label: string }>) {
-  return (
-    <SidebarItemToggle
-      className={styles.toggle}
-      aria-label={`Toggle ${label} subitems`}
+    <SidebarItem
+      defaultOpen={startsWithUrl}
+      isActive={isActive}
+      isDisabled={link.disabled}
+      label={link.label}
+      href={link.url}
+      icon={
+        children ? (
+          <SidebarItemToggle
+            className={styles.toggle}
+            aria-label={`Toggle ${link.label} subitems`}
+          />
+        ) : (
+          <div />
+        )
+      }
+      right={<SidebarStatus badge={link.right} />}
+      className={styles.item}
     >
-      <AppIcon size={20} icon="chevron-right" className={styles.toggleIcon} />
-    </SidebarItemToggle>
+      {children}
+    </SidebarItem>
   );
 }
 
