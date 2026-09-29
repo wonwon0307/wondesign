@@ -126,37 +126,18 @@ importers:
 
   components/buttons:
     dependencies:
-      react:
-        specifier: ^19
-        version: 19.3.0
-      react-dom:
-        specifier: ^19
-        version: 19.3.0(react@19.3.0)
-    devDependencies:
-      '@vanilla-extract/css':
-        specifier: 'catalog:'
-        version: 1.21.2
       '@vanilla-extract/recipes':
         specifier: 'catalog:'
         version: 0.5.7(@vanilla-extract/css@1.21.2)
-      '@vanilla-extract/rollup-plugin':
-        specifier: 'catalog:'
-        version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/composition':
+      '@wondesign/headless':
         specifier: workspace:*
-        version: link:../../foundations/composition
+        version: link:../headless
       '@wondesign/icons':
         specifier: workspace:*
         version: link:../icons
-      '@wondesign/tokens':
-        specifier: workspace:*
-        version: link:../../foundations/tokens
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
-
-  components/code:
-    dependencies:
       react:
         specifier: ^19
         version: 19.3.0
@@ -167,12 +148,18 @@ importers:
       '@vanilla-extract/css':
         specifier: 'catalog:'
         version: 1.21.2
-      '@vanilla-extract/recipes':
-        specifier: 'catalog:'
-        version: 0.5.7(@vanilla-extract/css@1.21.2)
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
+      '@wondesign/tokens':
+        specifier: workspace:*
+        version: link:../../foundations/tokens
+
+  components/code:
+    dependencies:
+      '@vanilla-extract/recipes':
+        specifier: 'catalog:'
+        version: 0.5.7(@vanilla-extract/css@1.21.2)
       '@wondesign/key-events':
         specifier: workspace:*
         version: link:../../foundations/key-events
@@ -182,9 +169,6 @@ importers:
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
-
-  components/collapsible:
-    dependencies:
       react:
         specifier: ^19
         version: 19.3.0
@@ -192,15 +176,36 @@ importers:
         specifier: ^19
         version: 19.3.0(react@19.3.0)
     devDependencies:
-      '@wondesign/buttons':
+      '@vanilla-extract/css':
+        specifier: 'catalog:'
+        version: 1.21.2
+      '@vanilla-extract/rollup-plugin':
+        specifier: 'catalog:'
+        version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
+
+  components/headless:
+    dependencies:
+      '@wondesign/disclosure':
         specifier: workspace:*
-        version: link:../buttons
-      '@wondesign/composition':
+        version: link:../../foundations/disclosure
+      '@wondesign/focus':
         specifier: workspace:*
-        version: link:../../foundations/composition
-      '@wondesign/interactions':
+        version: link:../../foundations/focus
+      '@wondesign/key-events':
         specifier: workspace:*
-        version: link:../../foundations/interactions
+        version: link:../../foundations/key-events
+      '@wondesign/pointer':
+        specifier: workspace:*
+        version: link:../../foundations/pointer
+      '@wondesign/position':
+        specifier: workspace:*
+        version: link:../../foundations/position
+      react:
+        specifier: ^19
+        version: 19.3.0
+      react-dom:
+        specifier: ^19
+        version: 19.3.0(react@19.3.0)
 
   components/icons:
     dependencies:
@@ -217,6 +222,18 @@ importers:
 
   components/links:
     dependencies:
+      '@vanilla-extract/recipes':
+        specifier: 'catalog:'
+        version: 0.5.7(@vanilla-extract/css@1.21.2)
+      '@wondesign/headless':
+        specifier: workspace:*
+        version: link:../headless
+      '@wondesign/icons':
+        specifier: workspace:*
+        version: link:../icons
+      clsx:
+        specifier: 'catalog:'
+        version: 2.1.1
       react:
         specifier: ^19
         version: 19.3.0
@@ -227,24 +244,24 @@ importers:
       '@vanilla-extract/css':
         specifier: 'catalog:'
         version: 1.21.2
-      '@vanilla-extract/recipes':
-        specifier: 'catalog:'
-        version: 0.5.7(@vanilla-extract/css@1.21.2)
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/icons':
-        specifier: workspace:*
-        version: link:../icons
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../foundations/tokens
-      clsx:
-        specifier: 'catalog:'
-        version: 2.1.1
 
   components/navbar:
     dependencies:
+      '@vanilla-extract/recipes':
+        specifier: 'catalog:'
+        version: 0.5.7(@vanilla-extract/css@1.21.2)
+      '@wondesign/headless':
+        specifier: workspace:*
+        version: link:../headless
+      clsx:
+        specifier: 'catalog:'
+        version: 2.1.1
       react:
         specifier: ^19
         version: 19.3.0
@@ -255,89 +272,52 @@ importers:
       '@vanilla-extract/css':
         specifier: 'catalog:'
         version: 1.21.2
-      '@vanilla-extract/recipes':
-        specifier: 'catalog:'
-        version: 0.5.7(@vanilla-extract/css@1.21.2)
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/composition':
-        specifier: workspace:*
-        version: link:../../foundations/composition
-      '@wondesign/links':
-        specifier: workspace:*
-        version: link:../links
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../foundations/tokens
-      clsx:
-        specifier: 'catalog:'
-        version: 2.1.1
 
   components/tabs:
     dependencies:
-      react:
-        specifier: ^19
-        version: 19.3.0
-      react-dom:
-        specifier: ^19
-        version: 19.3.0(react@19.3.0)
-    devDependencies:
-      '@vanilla-extract/css':
-        specifier: 'catalog:'
-        version: 1.21.2
       '@vanilla-extract/recipes':
         specifier: 'catalog:'
         version: 0.5.7(@vanilla-extract/css@1.21.2)
-      '@vanilla-extract/rollup-plugin':
-        specifier: 'catalog:'
-        version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/buttons':
+      '@wondesign/headless':
         specifier: workspace:*
-        version: link:../buttons
-      '@wondesign/composition':
-        specifier: workspace:*
-        version: link:../../foundations/composition
+        version: link:../headless
       '@wondesign/icons':
         specifier: workspace:*
         version: link:../icons
-      '@wondesign/interactions':
-        specifier: workspace:*
-        version: link:../../foundations/interactions
-      '@wondesign/tokens':
-        specifier: workspace:*
-        version: link:../../foundations/tokens
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
+      react:
+        specifier: ^19
+        version: 19.3.0
+      react-dom:
+        specifier: ^19
+        version: 19.3.0(react@19.3.0)
+    devDependencies:
+      '@vanilla-extract/css':
+        specifier: 'catalog:'
+        version: 1.21.2
+      '@vanilla-extract/rollup-plugin':
+        specifier: 'catalog:'
+        version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
+      '@wondesign/tokens':
+        specifier: workspace:*
+        version: link:../../foundations/tokens
 
   components/texts:
     dependencies:
-      react:
-        specifier: ^19
-        version: 19.3.0
-      react-dom:
-        specifier: ^19
-        version: 19.3.0(react@19.3.0)
-    devDependencies:
-      '@vanilla-extract/css':
-        specifier: 'catalog:'
-        version: 1.21.2
       '@vanilla-extract/recipes':
         specifier: 'catalog:'
         version: 0.5.7(@vanilla-extract/css@1.21.2)
-      '@vanilla-extract/rollup-plugin':
-        specifier: 'catalog:'
-        version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/tokens':
-        specifier: workspace:*
-        version: link:../../foundations/tokens
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
-
-  components/tooltip:
-    dependencies:
       react:
         specifier: ^19
         version: 19.3.0
@@ -351,27 +331,34 @@ importers:
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/buttons':
-        specifier: workspace:*
-        version: link:../buttons
-      '@wondesign/composition':
-        specifier: workspace:*
-        version: link:../../foundations/composition
-      '@wondesign/interactions':
-        specifier: workspace:*
-        version: link:../../foundations/interactions
-      '@wondesign/key-events':
-        specifier: workspace:*
-        version: link:../../foundations/key-events
-      '@wondesign/position':
-        specifier: workspace:*
-        version: link:../../foundations/position
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../foundations/tokens
+
+  components/tooltip:
+    dependencies:
+      '@wondesign/headless':
+        specifier: workspace:*
+        version: link:../headless
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
+      react:
+        specifier: ^19
+        version: 19.3.0
+      react-dom:
+        specifier: ^19
+        version: 19.3.0(react@19.3.0)
+    devDependencies:
+      '@vanilla-extract/css':
+        specifier: 'catalog:'
+        version: 1.21.2
+      '@vanilla-extract/rollup-plugin':
+        specifier: 'catalog:'
+        version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
+      '@wondesign/tokens':
+        specifier: workspace:*
+        version: link:../../foundations/tokens
 
   configs/eslint-config:
     devDependencies:
@@ -431,7 +418,7 @@ importers:
 
   foundations/colors: {}
 
-  foundations/composition:
+  foundations/disclosure:
     dependencies:
       react:
         specifier: ^19
@@ -440,7 +427,7 @@ importers:
         specifier: ^19
         version: 19.3.0(react@19.3.0)
 
-  foundations/interactions:
+  foundations/focus:
     dependencies:
       react:
         specifier: ^19
@@ -450,6 +437,15 @@ importers:
         version: 19.3.0(react@19.3.0)
 
   foundations/key-events:
+    dependencies:
+      react:
+        specifier: ^19
+        version: 19.3.0
+      react-dom:
+        specifier: ^19
+        version: 19.3.0(react@19.3.0)
+
+  foundations/pointer:
     dependencies:
       react:
         specifier: ^19
@@ -511,6 +507,30 @@ importers:
 
   packages/sidebar:
     dependencies:
+      '@vanilla-extract/recipes':
+        specifier: 'catalog:'
+        version: 0.5.7(@vanilla-extract/css@1.21.2)
+      '@wondesign/code':
+        specifier: workspace:*
+        version: link:../../components/code
+      '@wondesign/disclosure':
+        specifier: workspace:*
+        version: link:../../foundations/disclosure
+      '@wondesign/headless':
+        specifier: workspace:*
+        version: link:../../components/headless
+      '@wondesign/icons':
+        specifier: workspace:*
+        version: link:../../components/icons
+      '@wondesign/key-events':
+        specifier: workspace:*
+        version: link:../../foundations/key-events
+      '@wondesign/tooltip':
+        specifier: workspace:*
+        version: link:../../components/tooltip
+      clsx:
+        specifier: 'catalog:'
+        version: 2.1.1
       react:
         specifier: ^19
         version: 19.3.0
@@ -521,52 +541,15 @@ importers:
       '@vanilla-extract/css':
         specifier: 'catalog:'
         version: 1.21.2
-      '@vanilla-extract/recipes':
-        specifier: 'catalog:'
-        version: 0.5.7(@vanilla-extract/css@1.21.2)
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.62.2)(supports-color@8.1.1)
-      '@wondesign/buttons':
-        specifier: workspace:*
-        version: link:../../components/buttons
-      '@wondesign/code':
-        specifier: workspace:*
-        version: link:../../components/code
-      '@wondesign/collapsible':
-        specifier: workspace:*
-        version: link:../../components/collapsible
-      '@wondesign/icons':
-        specifier: workspace:*
-        version: link:../../components/icons
-      '@wondesign/interactions':
-        specifier: workspace:*
-        version: link:../../foundations/interactions
-      '@wondesign/key-events':
-        specifier: workspace:*
-        version: link:../../foundations/key-events
-      '@wondesign/links':
-        specifier: workspace:*
-        version: link:../../components/links
       '@wondesign/tokens':
         specifier: workspace:*
         version: link:../../foundations/tokens
-      '@wondesign/tooltip':
-        specifier: workspace:*
-        version: link:../../components/tooltip
-      clsx:
-        specifier: 'catalog:'
-        version: 2.1.1
 
   packages/ui:
     dependencies:
-      react:
-        specifier: ^19
-        version: 19.3.0
-      react-dom:
-        specifier: ^19
-        version: 19.3.0(react@19.3.0)
-    devDependencies:
       '@wondesign/buttons':
         specifier: workspace:*
         version: link:../../components/buttons
@@ -582,9 +565,6 @@ importers:
       '@wondesign/navbar':
         specifier: workspace:*
         version: link:../../components/navbar
-      '@wondesign/reset-css':
-        specifier: workspace:*
-        version: link:../../foundations/reset-css
       '@wondesign/tabs':
         specifier: workspace:*
         version: link:../../components/tabs
@@ -600,9 +580,16 @@ importers:
       '@wondesign/tooltip':
         specifier: workspace:*
         version: link:../../components/tooltip
-      clsx:
-        specifier: 'catalog:'
-        version: 2.1.1
+      react:
+        specifier: ^19
+        version: 19.3.0
+      react-dom:
+        specifier: ^19
+        version: 19.3.0(react@19.3.0)
+    devDependencies:
+      '@wondesign/reset-css':
+        specifier: workspace:*
+        version: link:../../foundations/reset-css
 
 packages:
 
