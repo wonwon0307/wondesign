@@ -1,13 +1,13 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
+import { tokens } from "@wondesign/tokens";
 
 import { styles } from "./styles.css";
 
-export interface PreProps extends Omit<
-  React.HTMLAttributes<HTMLPreElement>,
-  "children"
-> {
+export interface PreProps
+  extends
+    Omit<React.HTMLAttributes<HTMLPreElement>, "children">,
+    React.RefAttributes<HTMLPreElement> {
   code: string;
-  ref?: React.Ref<HTMLPreElement>;
   size?: "small" | "large";
   vertical?: "full" | "scroll"; // "expandable"
   numLines?: number;
@@ -26,7 +26,7 @@ export function Pre({
   style,
   ...rest
 }: Readonly<PreProps>) {
-  const lines = code.split("\n");
+  const lines = code.replace(/\n$/, "").split("\n");
 
   return (
     <pre
@@ -41,17 +41,20 @@ export function Pre({
       )}
       style={{
         ...style,
-        maxHeight: vertical === "scroll" ? `${numLines}lh` : "auto",
+        maxHeight:
+          vertical === "scroll"
+            ? `calc(${numLines}lh + 2 * ${tokens.spacing.md})`
+            : "auto",
       }}
     >
-      <code>
+      <code className={styles.code({ showLineNumbers })}>
         {lines.map((line, index) => (
           <span
             key={`${index}:${line}`}
             className={styles.line({ showLineNumbers })}
             data-line={index + 1}
           >
-            {line}
+            {line || " "}
           </span>
         ))}
       </code>

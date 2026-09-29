@@ -38,7 +38,7 @@ export function ThemeProvider({
     (newMode: Mode) => {
       if (newMode === "system" && !withSystem) {
         console.warn(
-          "System mode is not enabled. Please set withSystem to true to use system mode.",
+          "[WonDesign Theme] System mode is not enabled. Please set withSystem to true to use system mode.",
         );
         return;
       }

@@ -1,0 +1,41 @@
+import { createContext, useContext } from "react";
+
+type ListContextType = {
+  orientation: "vertical" | "horizontal";
+};
+
+export const NavbarListContext = createContext<ListContextType | null>(null);
+
+export function useNavbarList() {
+  const context = useContext(NavbarListContext);
+
+  if (!context) {
+    throw new Error(
+      `[WonDesign Headless] useNavbarList() must be used inside a Navbar.List component.`,
+    );
+  }
+
+  return context;
+}
+
+export const NavbarContext = createContext<boolean>(false);
+
+type ItemContextType = {
+  isDisabled: boolean;
+};
+
+export const ItemContext = createContext<ItemContextType | undefined>(
+  undefined,
+);
+
+export function useNavbarItem() {
+  const context = useContext(ItemContext);
+
+  if (!context) {
+    throw new Error(
+      `[WonDesign Headless] useNavbarItem() must be used inside a Navbar.Item component.`,
+    );
+  }
+
+  return context;
+}

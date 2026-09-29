@@ -1,3 +1,5 @@
-export { SidebarSection } from "./Section";
+export { SidebarHeader } from "./Header";
+export type { SidebarHeaderProps } from "./Header";
 
-export type { SidebarSectionProps } from "./Section";
+export { SidebarFooter } from "./Footer";
+export type { SidebarFooterProps } from "./Footer";

@@ -1,9 +1,12 @@
+import {
+  Anchor as A,
+  type AnchorProps as Props,
+} from "@wondesign/headless/Anchor";
 import { clsx } from "clsx";
 
-import { HeadlessAnchor, type HeadlessAnchorProps } from "@/Headless";
 import { styles } from "./styles.css";
 
-export type AnchorProps = HeadlessAnchorProps;
+export type AnchorProps = Props;
 
 export function Anchor({
   children,
@@ -11,8 +14,8 @@ export function Anchor({
   ...rest
 }: Readonly<AnchorProps>) {
   return (
-    <HeadlessAnchor {...rest} className={clsx(styles.anchor, className)}>
+    <A {...rest} className={clsx(styles.anchor, className)}>
       {children}
-    </HeadlessAnchor>
+    </A>
   );
 }

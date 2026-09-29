@@ -1,15 +1,15 @@
 import { SidebarToggle } from "./Toggle";
 import { styles } from "./styles.css";
 
-export interface SidebarSwappableToggleProps {
+export interface SwappableToggleProps {
   children: React.ReactNode;
   toggle?: React.ReactNode;
 }
 
-export function SidebarSwappableToggle({
+export function SwappableToggle({
   children,
   toggle,
-}: Readonly<SidebarSwappableToggleProps>) {
+}: Readonly<SwappableToggleProps>) {
   return (
     <div className={styles.swapContainer}>
       <span className={styles.collapsedIcon}>{children}</span>

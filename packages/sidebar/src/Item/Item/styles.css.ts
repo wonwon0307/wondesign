@@ -23,7 +23,7 @@ const item = recipe({
       "&:focus-visible": {
         backgroundColor: tokens.colors.backgroundHover,
         outline: `1px solid ${tokens.colors.primary}`,
-        outlineOffset: "0px",
+        outlineOffset: "2px",
       },
     },
     "@media": {
@@ -46,6 +46,16 @@ const item = recipe({
           "&:focus-visible": {
             backgroundColor: colorWithOpacity(tokens.colors.primary, 24),
           },
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            left: 0,
+            top: "25%",
+            bottom: "25%",
+            width: "2px",
+            backgroundColor: tokens.colors.primary,
+            zIndex: 1,
+          },
         },
         "@media": {
           [mediaQueries.hoverable]: {
@@ -60,7 +70,7 @@ const item = recipe({
     },
     isDisabled: {
       true: {
-        opacity: 0.5,
+        color: colorWithOpacity(tokens.colors.text, 50),
         pointerEvents: "none",
         cursor: "not-allowed",
       },
@@ -74,53 +84,25 @@ const item = recipe({
   },
 });
 
-const subitems = style({
-  display: "flex",
-  flexDirection: "column",
-  paddingLeft: tokens.spacing.xl,
-  gap: tokens.spacing.xs,
-});
-
-const toggle = style({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-});
-
-const toggleIcon = style({
-  transition: "transform 0.15s ease",
-  selectors: {
-    [`${toggle}[data-state='open'] &`]: {
-      transform: "rotate(90deg)",
+const subitems = recipe({
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    paddingLeft: tokens.spacing.xl,
+    gap: tokens.spacing.xs,
+    selectors: {
+      "&[data-state='closed']:not([data-force-visible])": {
+        display: "none",
+      },
+    },
+  },
+  variants: {
+    hide: {
+      true: {
+        display: "none",
+      },
     },
   },
 });
 
-const linkWrapper = style({
-  position: "relative",
-});
-
-const label = style({
-  flex: 1,
-});
-
-const indicator = style({
-  position: "absolute",
-  left: 0,
-  top: "25%",
-  bottom: "25%",
-  width: "2px",
-  backgroundColor: tokens.colors.primary,
-  zIndex: 1,
-});
-
-export const styles = {
-  wrapper,
-  item,
-  subitems,
-  toggle,
-  toggleIcon,
-  linkWrapper,
-  label,
-  indicator,
-};
+export const styles = { wrapper, item, subitems };

@@ -89,7 +89,7 @@ describe("light-dark - no system", () => {
       "light",
     );
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      "System mode is not enabled. Please set withSystem to true to use system mode.",
+      "[WonDesign Theme] System mode is not enabled. Please set withSystem to true to use system mode.",
     );
 
     consoleWarnSpy.mockRestore();

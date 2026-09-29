@@ -11,8 +11,5 @@ export default defineConfig([
     banner: {
       js: '"use client";',
     },
-    deps: {
-      onlyBundle: false,
-    },
   },
 ]);

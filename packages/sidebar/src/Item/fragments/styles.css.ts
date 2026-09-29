@@ -1,42 +1,49 @@
 import { style } from "@vanilla-extract/css";
-import { recipe } from "@vanilla-extract/recipes";
 
 const wrapper = style({
   display: "flex",
   flexDirection: "column",
 });
 
-const header = style({
+const anchor = style({
+  cursor: "pointer",
+});
+
+const overlayLink = style({
+  position: "absolute",
+  borderRadius: "inherit",
+  inset: 0,
+  zIndex: 0,
+});
+
+const link = style({
   position: "relative",
 });
 
-const baseInteractive = recipe({
-  base: {
-    cursor: "pointer",
-  },
-  variants: {
-    stretch: {
-      true: {
-        position: "absolute",
-        borderRadius: "inherit",
-        inset: 0,
-        zIndex: 0,
-      },
-      false: {
-        zIndex: 1,
-      },
-    },
-  },
+const label = style({
+  flex: 1,
 });
 
-const subitems = style({
-  display: "flex",
-  flexDirection: "column",
+const toggle = style({
+  cursor: "pointer",
+  zIndex: 1,
+});
+
+const defaultIcon = style({
+  transition: "transform 0.15s ease",
   selectors: {
-    "&[data-state='closed']": {
-      display: "none",
+    [`${toggle}[data-state='open'] &`]: {
+      transform: "rotate(90deg)",
     },
   },
 });
 
-export const styles = { wrapper, header, baseInteractive, subitems };
+export const styles = {
+  wrapper,
+  anchor,
+  overlayLink,
+  link,
+  label,
+  toggle,
+  defaultIcon,
+};

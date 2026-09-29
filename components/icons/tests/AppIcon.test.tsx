@@ -26,7 +26,9 @@ describe("AppIcon", () => {
     // @ts-expect-error: Testing invalid icon type
     render(<AppIcon icon="invalid-icon" />);
 
-    expect(consoleWarnSpy).toHaveBeenCalledWith("Icon not found: invalid-icon");
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      "[WonDesign Icons] Icon not found: invalid-icon",
+    );
     consoleWarnSpy.mockRestore();
   });
 });

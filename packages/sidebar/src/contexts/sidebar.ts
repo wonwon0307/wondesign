@@ -16,7 +16,7 @@ type SidebarContextValue = {
 
 export const SidebarContext = createContext<SidebarContextValue | null>(null);
 
-export function useInternalSidebar() {
+export function useSidebarInternal() {
   const context = useContext(SidebarContext);
 
   if (!context) {
@@ -30,7 +30,7 @@ export function useInternalSidebar() {
 
 export function useSidebar() {
   const { collapse, state, toggleSidebar, isMobile, side, shortkey } =
-    useInternalSidebar();
+    useSidebarInternal();
 
   return { collapse, state, toggleSidebar, isMobile, side, shortkey };
 }

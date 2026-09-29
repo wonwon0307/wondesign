@@ -1,42 +1,26 @@
 import {
   CollapsibleToggle,
   type CollapsibleToggleProps,
-} from "@wondesign/collapsible";
+} from "@wondesign/headless/Collapsible";
+import { AppIcon } from "@wondesign/icons";
 import { clsx } from "clsx";
 
-import { useSidebarItem } from "@/contexts/item";
-import { useSidebar } from "@/contexts/sidebar";
 import { styles } from "./styles.css";
 
-export interface SidebarItemToggleProps extends CollapsibleToggleProps {
-  stretch?: boolean;
-}
-
 export function SidebarItemToggle({
-  stretch = false,
+  children = <DefaultToggle />,
   className,
   ...rest
-}: Readonly<SidebarItemToggleProps>) {
-  const { variant } = useSidebarItem();
-  const { state } = useSidebar();
-
-  if (variant !== "collapsible") {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn(
-        "[WonDesign Sidebar] Invalid usage of SidebarItemToggle. Use it when SidebarItem is collapsible.",
-      );
-    }
-    return null;
-  }
-
-  if (state !== "expanded") {
-    return null;
-  }
-
+}: Readonly<CollapsibleToggleProps>) {
   return (
-    <CollapsibleToggle
-      {...rest}
-      className={clsx(styles.baseInteractive({ stretch }), className)}
-    />
+    <CollapsibleToggle {...rest} className={clsx(styles.toggle, className)}>
+      {children}
+    </CollapsibleToggle>
+  );
+}
+
+function DefaultToggle() {
+  return (
+    <AppIcon size={20} icon="chevron-right" className={styles.defaultIcon} />
   );
 }

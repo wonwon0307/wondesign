@@ -1,58 +1,106 @@
-import { AppIcon } from "@wondesign/icons";
+import {
+  CollapsibleProvider,
+  CollapsibleContent,
+} from "@wondesign/headless/Collapsible";
+import { Tooltip } from "@wondesign/tooltip";
+import { clsx } from "clsx";
 
-import { useSidebar } from "@/contexts/sidebar";
+import { useSidebarInternal } from "@/contexts/sidebar";
 import { SidebarItemWrapper } from "../fragments/Wrapper";
-import { SidebarItemSubitems } from "../fragments/Subitems";
-import { SidebarItemToggle } from "../fragments/Toggle";
-import { SidebarItemLink, type SidebarItemLinkProps } from "./ItemLink";
+import { SidebarLink } from "../fragments/Link";
 import { styles } from "./styles.css";
 
-export interface SidebarItemProps extends Omit<
-  SidebarItemLinkProps,
-  "ref" | "right" | "className" | "style"
-> {
+export interface SidebarItemProps extends HeaderProps {
   children?: React.ReactNode;
   defaultOpen?: boolean;
+  collapsedBehavior?: "self-only" | "flatten";
 }
 
 export function SidebarItem({
   children,
-  defaultOpen,
+  defaultOpen = false,
+  collapsedBehavior = "self-only",
   ...linkProps
 }: Readonly<SidebarItemProps>) {
-  const { state } = useSidebar();
-  const { label, isActive, isDisabled } = linkProps;
+  const { state } = useSidebarInternal();
+  const hasChildren = Boolean(children);
+
+  if (hasChildren) {
+    const hideChildren =
+      collapsedBehavior === "self-only" && state === "collapsed";
+    const forceVisible =
+      collapsedBehavior === "flatten" && state === "collapsed";
+
+    return (
+      <CollapsibleProvider defaultOpen={defaultOpen} keepMounted>
+        <SidebarItemWrapper className={styles.wrapper}>
+          <Header {...linkProps} />
+          <CollapsibleContent asChild>
+            <ul
+              className={styles.subitems({ hide: hideChildren })}
+              hidden={hideChildren}
+              aria-hidden={hideChildren}
+              data-force-visible={forceVisible || undefined}
+            >
+              {children}
+            </ul>
+          </CollapsibleContent>
+        </SidebarItemWrapper>
+      </CollapsibleProvider>
+    );
+  }
 
   return (
-    <SidebarItemWrapper
-      as="auto-detect"
-      collapsedBehavior="hide-children"
-      defaultOpen={defaultOpen}
-      className={styles.wrapper}
-    >
-      <SidebarItemLink
-        {...linkProps}
-        right={children ? <Toggle label={label} /> : undefined}
-        className={styles.item({
-          isActive,
-          isDisabled,
-          collapsed: state === "collapsed",
-        })}
-      />
-      <SidebarItemSubitems as="ul" className={styles.subitems}>
-        {children}
-      </SidebarItemSubitems>
+    <SidebarItemWrapper className={styles.wrapper}>
+      <Header {...linkProps} />
     </SidebarItemWrapper>
   );
 }
 
-function Toggle({ label }: Readonly<Pick<SidebarItemProps, "label">>) {
+interface HeaderProps {
+  href: string;
+  label: string;
+  icon?: React.ReactNode;
+  right?: React.ReactNode;
+  as?: React.ElementType;
+  isActive?: boolean;
+  isDisabled?: boolean;
+  openInNewTab?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+function Header({ className, ...rest }: Readonly<HeaderProps>) {
+  const { state, collapse, side } = useSidebarInternal();
+
+  const { label, isActive, isDisabled } = rest;
+
+  if (collapse === "icons" && state === "collapsed") {
+    return (
+      <Tooltip
+        placement={side === "left" ? "right" : "left"}
+        showDelay={200}
+        text={label}
+        asChild
+      >
+        <SidebarLink
+          {...rest}
+          className={clsx(
+            styles.item({ isActive, isDisabled, collapsed: true }),
+            className,
+          )}
+        />
+      </Tooltip>
+    );
+  }
+
   return (
-    <SidebarItemToggle
-      className={styles.toggle}
-      aria-label={`Toggle ${label} subitems`}
-    >
-      <AppIcon size={16} icon="chevron-right" className={styles.toggleIcon} />
-    </SidebarItemToggle>
+    <SidebarLink
+      {...rest}
+      className={clsx(
+        styles.item({ isActive, isDisabled, collapsed: false }),
+        className,
+      )}
+    />
   );
 }

@@ -63,7 +63,7 @@ describe("light-dark - corner cases", () => {
       .mockImplementation(() => {});
 
     expect(() => render(<TestComponent />)).toThrow(
-      "useTheme must be used within a ThemeProvider",
+      "[WonDesign Theme] useTheme() must be used within a ThemeProvider",
     );
 
     consoleErrorSpy.mockRestore();

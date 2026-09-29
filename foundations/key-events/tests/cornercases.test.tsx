@@ -85,7 +85,7 @@ describe("useShortkey - corner cases", () => {
     fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
     expect(callback).not.toHaveBeenCalled();
     expect(console.warn).toHaveBeenCalledWith(
-      'Invalid shortkey: "Invalid" is not a supported modifier.',
+      '[WonDesign Key-Events] Invalid shortkey: "Invalid" is not a supported modifier.',
     );
   });
 
@@ -97,7 +97,7 @@ describe("useShortkey - corner cases", () => {
     fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
     expect(callback).not.toHaveBeenCalled();
     expect(console.warn).toHaveBeenCalledWith(
-      'Invalid shortkey: "Enter" is not a supported key.',
+      '[WonDesign Key-Events] Invalid shortkey: "Enter" is not a supported key.',
     );
   });
 });

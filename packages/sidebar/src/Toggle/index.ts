@@ -1,7 +1,10 @@
-export { SidebarToggleIcon } from "./Icon";
+export { HeadlessToggle } from "./Headless";
+export type { HeadlessToggleProps } from "./Headless";
+
+export { DefaultToggleIcon } from "./Icon";
 
 export { SidebarToggle } from "./Toggle";
 export type { SidebarToggleProps } from "./Toggle";
 
-export { SidebarSwappableToggle } from "./Swappable";
-export type { SidebarSwappableToggleProps } from "./Swappable";
+export { SwappableToggle } from "./Swappable";
+export type { SwappableToggleProps } from "./Swappable";

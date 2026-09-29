@@ -16,12 +16,8 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/styled/index.d.mts",
-      "default": "./dist/styled/index.mjs"
-    },
-    "./headless": {
-      "types": "./dist/headless/index.d.mts",
-      "default": "./dist/headless/index.mjs"
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     }
   },
   "scripts": {
@@ -30,14 +26,15 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@vanilla-extract/recipes": "catalog:",
+    "@wondesign/headless": "workspace:*",
+    "clsx": "catalog:"
+  },
   "devDependencies": {
     "@vanilla-extract/css": "catalog:",
-    "@vanilla-extract/recipes": "catalog:",
     "@vanilla-extract/rollup-plugin": "catalog:",
-    "@wondesign/composition": "workspace:*",
-    "@wondesign/links": "workspace:*",
-    "@wondesign/tokens": "workspace:*",
-    "clsx": "catalog:"
+    "@wondesign/tokens": "workspace:*"
   },
   "peerDependencies": {
     "react": "^19",
