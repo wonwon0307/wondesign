@@ -1,58 +1,187 @@
+import type { Mock } from "vitest";
 import { render } from "@testing-library/react";
+import { codeToTokens } from "shiki/bundle/web";
 
-import { Pre } from "@/CodeBlock/Pre";
+import { CodeBlock } from "@/CodeBlock/CodeBlock";
+
+vi.mock("shiki/bundle/web", () => ({
+  bundledLanguages: { javascript: {} },
+  bundledLanguagesAlias: { js: {} },
+  codeToTokens: vi.fn(),
+}));
+
+function mockTokens(lines: string[][]) {
+  return {
+    tokens: lines.map((line) =>
+      line.map((content, offset) => ({ content, offset, htmlStyle: {} })),
+    ),
+  };
+}
 
 describe("CodeBlock", () => {
-  it("renders correctly with default properties", () => {
-    const { getByTestId, getByText } = render(
-      <Pre code={`const a = 1;\nconst b = 2;`} data-testid="pre" />,
-    );
+  it("renders nothing until highlighting resolves", () => {
+    (codeToTokens as Mock).mockReturnValue(new Promise(() => {}));
 
-    const pre = getByTestId("pre");
+    const { container } = render(<CodeBlock code="const a = 1;" />);
 
-    expect(pre.className).toContain("small"); // size 확인
-
-    // 줄마다 따로 렌더링 되어야 한다
-    expect(getByText("const a = 1;")).toBeTruthy();
-    expect(getByText("const b = 2;")).toBeTruthy();
+    expect(container.firstChild).toBeNull();
   });
 
-  it("renders correctly with custom properties", () => {
-    const { getByTestId, getByText } = render(
-      <Pre
-        code={`const a = 1;\nconst b = 2;`}
-        size="large"
-        vertical="scroll"
-        numLines={5}
-        horizontal="wrap"
-        showLineNumbers
-        data-testid="pre"
-      />,
+  it("renders highlighted lines once resolved", async () => {
+    (codeToTokens as Mock).mockResolvedValue(
+      mockTokens([["const a = 1;"], ["const b = 2;"]]),
     );
 
-    const pre = getByTestId("pre");
+    const { findByText } = render(
+      <CodeBlock code={"const a = 1;\nconst b = 2;"} />,
+    );
 
-    expect(pre.className).toContain("large"); // size 확인
-    expect(pre.style.maxHeight).toContain("5lh");
-
-    // 줄마다 따로 렌더링 되어야 한다
-    const firstLine = getByText("const a = 1;");
-    expect(firstLine.dataset.line).toBe("1");
+    expect(await findByText("const a = 1;")).toBeTruthy();
+    expect(await findByText("const b = 2;")).toBeTruthy();
   });
 
-  it("renders empty lines correctly", () => {
-    const { getByTestId } = render(
-      <Pre code={`const a = 1;\n\nconst b = 2;\n\n`} data-testid="pre" />,
+  it("renders empty lines as a single space", async () => {
+    (codeToTokens as Mock).mockResolvedValue(mockTokens([["a"], [], ["b"]]));
+
+    const { container, findByText } = render(<CodeBlock code="a\n\nb" />);
+    await findByText("a");
+
+    const lines = container.querySelectorAll("[data-line]");
+    expect(lines).toHaveLength(3);
+    expect(lines[0].textContent).toBe("a");
+    expect(lines[1].textContent).toBe(" ");
+    expect(lines[2].textContent).toBe("b");
+  });
+
+  it("numbers lines with data-line starting at 1", async () => {
+    (codeToTokens as Mock).mockResolvedValue(mockTokens([["a"], ["b"]]));
+
+    const { container, findByText } = render(<CodeBlock code="a\nb" />);
+    await findByText("a");
+
+    const lines = container.querySelectorAll<HTMLElement>("[data-line]");
+    expect(lines[0].dataset.line).toBe("1");
+    expect(lines[1].dataset.line).toBe("2");
+  });
+
+  it("forwards ref to the underlying pre element", async () => {
+    (codeToTokens as Mock).mockResolvedValue(mockTokens([["a"]]));
+    const testRef = vi.fn();
+
+    const { findByText } = render(<CodeBlock code="a" ref={testRef} />);
+
+    const line = await findByText("a");
+    expect(line.closest("pre")?.tagName).toBe("PRE");
+    expect(testRef).toHaveBeenCalledWith(line.closest("pre"));
+  });
+
+  it("resolves an unsupported language to plaintext", async () => {
+    (codeToTokens as Mock).mockResolvedValue(mockTokens([["a"]]));
+
+    const { findByText } = render(<CodeBlock code="a" lang="not-a-lang" />);
+    await findByText("a");
+
+    expect(codeToTokens).toHaveBeenCalledWith(
+      "a",
+      expect.objectContaining({ lang: "plaintext" }),
+    );
+  });
+
+  it("passes through a language known only as an alias", async () => {
+    (codeToTokens as Mock).mockResolvedValue(mockTokens([["a"]]));
+
+    const { findByText } = render(<CodeBlock code="a" lang="js" />);
+    await findByText("a");
+
+    expect(codeToTokens).toHaveBeenCalledWith(
+      "a",
+      expect.objectContaining({ lang: "js" }),
+    );
+  });
+
+  it("ignores a stale highlight response once a newer one resolves first", async () => {
+    let resolveFirst!: (value: unknown) => void;
+    let resolveSecond!: (value: unknown) => void;
+
+    (codeToTokens as Mock)
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            resolveFirst = resolve;
+          }),
+      )
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            resolveSecond = resolve;
+          }),
+      );
+
+    const { rerender, findByText, queryByText } = render(
+      <CodeBlock code="first" />,
+    );
+    rerender(<CodeBlock code="second" />);
+
+    resolveSecond(mockTokens([["second"]]));
+    expect(await findByText("second")).toBeTruthy();
+
+    resolveFirst(mockTokens([["first"]]));
+    await Promise.resolve();
+
+    expect(queryByText("first")).toBeNull();
+  });
+
+  it("falls back to unhighlighted lines and logs when highlighting fails", async () => {
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    const error = new Error("boom");
+    (codeToTokens as Mock).mockRejectedValue(error);
+
+    const { container, findByText } = render(<CodeBlock code={"a\n\nb"} />);
+
+    expect(await findByText("a")).toBeTruthy();
+    expect(await findByText("b")).toBeTruthy();
+
+    const lines = container.querySelectorAll("[data-line]");
+    expect(lines).toHaveLength(3);
+    expect(lines[1].textContent).toBe(" ");
+
+    expect(consoleError).toHaveBeenCalledWith(
+      "[WonDesign Code] CodeBlock syntax highlighting failed",
+      error,
     );
 
-    const pre = getByTestId("pre");
-    expect(pre).toBeTruthy();
+    consoleError.mockRestore();
+  });
 
-    const lines = pre.querySelectorAll("span");
-    expect(lines.length).toBe(4); // 총 4줄이어야 한다 (마지막 빈 줄은 하나로 합쳐진다)
-    expect(lines[0].textContent).toBe("const a = 1;"); // 첫 번째 줄
-    expect(lines[1].textContent).toBe(" "); // 두 번째 줄은 빈 줄이어야 한다
-    expect(lines[2].textContent).toBe("const b = 2;"); // 세 번째 줄
-    expect(lines[3].textContent).toBe(" "); // 네 번째 줄도 빈 줄이어야 한다
+  it("ignores a highlight rejection after the effect has been cancelled", async () => {
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    let rejectFirst!: (reason?: unknown) => void;
+
+    (codeToTokens as Mock)
+      .mockImplementationOnce(
+        () =>
+          new Promise((_resolve, reject) => {
+            rejectFirst = reject;
+          }),
+      )
+      .mockResolvedValueOnce(mockTokens([["second"]]));
+
+    const { rerender, findByText } = render(<CodeBlock code="first" />);
+    rerender(<CodeBlock code="second" />);
+
+    expect(await findByText("second")).toBeTruthy();
+
+    rejectFirst(new Error("stale failure"));
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(consoleError).not.toHaveBeenCalled();
+    expect(await findByText("second")).toBeTruthy();
+
+    consoleError.mockRestore();
   });
 });

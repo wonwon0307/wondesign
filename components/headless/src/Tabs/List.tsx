@@ -89,7 +89,7 @@ export function TabsList({
         aria-orientation={orientation}
         aria-label={ariaLabel}
         data-orientation={orientation}
-        data-disabled={isDisabled}
+        data-disabled={isDisabled || undefined}
       >
         {children}
       </Component>

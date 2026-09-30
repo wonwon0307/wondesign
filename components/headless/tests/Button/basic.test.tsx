@@ -14,8 +14,8 @@ describe("Button - basic usages", () => {
     expect(button.tagName).toBe("BUTTON");
     expect(button.textContent).toBe("Click me");
     expect(button.getAttribute("type")).toBe("button");
-    expect(button.dataset.disabled).toBe("false");
-    expect(button.dataset.loading).toBe("false");
+    expect(button.dataset.disabled).toBe(undefined);
+    expect(button.dataset.loading).toBe(undefined);
   });
 
   it("handles disabled state correctly", () => {

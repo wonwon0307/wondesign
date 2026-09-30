@@ -20,7 +20,7 @@ const iconButton = recipe({
     "@media": {
       [mediaQueries.hoverable]: {
         selectors: {
-          "&:not(:disabled):hover": {
+          "&:not([data-disabled]):hover": {
             backgroundColor: tokens.colors.backgroundHover,
           },
         },

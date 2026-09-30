@@ -39,7 +39,7 @@ describe("StyledTabs", () => {
   it("respects children over icon and iconSide", () => {
     const { getByText, queryByText } = render(
       <TabsProvider>
-        <TabsList>
+        <TabsList aria-label="Test Tab">
           <Tab tabName="tab" icon="chevron-right" iconSide="left">
             Custom Children
           </Tab>
