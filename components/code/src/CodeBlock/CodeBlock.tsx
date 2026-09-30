@@ -35,22 +35,34 @@ export function CodeBlock({
   ...rest
 }: Readonly<CodeBlockProps>) {
   const [tokens, setTokens] = useState<ThemedToken[][]>();
+  const [failed, setFailed] = useState<boolean>(false);
   const resolvedLang = resolveLang(lang);
 
   useEffect(() => {
     let cancelled = false;
 
     async function highlight() {
-      const result = await codeToTokens(code, {
-        lang: resolvedLang,
-        themes: {
-          light: "github-light-default",
-          dark: "github-dark-default",
-        },
-        defaultColor: "light-dark()",
-      });
+      try {
+        const result = await codeToTokens(code, {
+          lang: resolvedLang,
+          themes: {
+            light: "github-light-default",
+            dark: "github-dark-default",
+          },
+          defaultColor: "light-dark()",
+        });
 
-      if (!cancelled) setTokens(result.tokens);
+        if (cancelled) return;
+        setTokens(result.tokens);
+        setFailed(false);
+      } catch (err) {
+        if (cancelled) return;
+        console.error(
+          "[WonDesign Code] CodeBlock syntax highlighting failed",
+          err,
+        );
+        setFailed(true);
+      }
     }
 
     highlight();
@@ -59,6 +71,26 @@ export function CodeBlock({
       cancelled = true;
     };
   }, [code, resolvedLang]);
+
+  if (failed) {
+    const lines = code.replace(/\n$/, "").split("\n");
+
+    return (
+      <pre {...rest} className={clsx(styles.pre, className)}>
+        <code className={styles.code({ showLineNumbers })}>
+          {lines.map((line, index) => (
+            <span
+              key={`${index}:${line}`}
+              className={styles.line({ showLineNumbers })}
+              data-line={index + 1}
+            >
+              {line || " "}
+            </span>
+          ))}
+        </code>
+      </pre>
+    );
+  }
 
   if (!tokens) return null;
 
