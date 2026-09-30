@@ -1,3 +1,2 @@
-export { Pre } from "./Pre";
-
-export type { PreProps } from "./Pre";
+export { CodeBlock } from "./CodeBlock";
+export type { CodeBlockProps } from "./CodeBlock";
