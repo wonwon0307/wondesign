@@ -62,7 +62,7 @@ const tab = recipe({
         color: tokens.colors.primary,
         backgroundColor: tokens.colors.background,
       },
-      "&[data-disabled='true']": {
+      "&[data-disabled]": {
         cursor: "not-allowed",
         color: tokens.colors.textMuted,
         backgroundColor: "transparent",
