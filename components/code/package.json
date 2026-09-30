@@ -27,9 +27,11 @@
   },
   "dependencies": {
     "@vanilla-extract/recipes": "catalog:",
+    "@wondesign/buttons": "workspace:*",
     "@wondesign/key-events": "workspace:*",
     "@wondesign/tokens": "workspace:*",
-    "clsx": "catalog:"
+    "clsx": "catalog:",
+    "shiki": "^4.4.3"
   },
   "devDependencies": {
     "@vanilla-extract/css": "catalog:",
