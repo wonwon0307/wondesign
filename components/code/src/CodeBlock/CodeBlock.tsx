@@ -65,7 +65,7 @@ export function CodeBlock({
       }
     }
 
-    highlight();
+    void highlight();
 
     return () => {
       cancelled = true;
