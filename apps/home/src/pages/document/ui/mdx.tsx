@@ -1,8 +1,6 @@
-import { InlineCode, Pre } from "@wondesign/ui/Code";
+import { CodeWindow, InlineCode } from "@wondesign/ui/Code";
 import { Hyperlink } from "@wondesign/ui/Links";
 import { Heading, Paragraph } from "@wondesign/ui/Texts";
-
-import { styles } from "./styles.css";
 
 interface Props {
   children: React.ReactNode;
@@ -55,12 +53,13 @@ export const mdxComponents = {
       </Heading>
     );
   },
-  p: (props: Props) => (
-    <Paragraph {...props} className={styles.paragraph} size="large" />
-  ),
+  p: (props: Props) => <Paragraph {...props} size="large" />,
   a: (props: Props) => <Hyperlink {...props} appearance="primary" />,
   code: (props: Props) => <InlineCode {...props} size="large" />,
-  pre: ({ children, ...rest }: PreProps) => (
-    <Pre {...rest} size="large" code={children.props.children} />
-  ),
+  pre: ({ children, ...rest }: PreProps) => {
+    const code = children.props.children;
+    const language = children.props.className?.replace("language-", "");
+
+    return <CodeWindow {...rest} size="large" code={code} lang={language} />;
+  },
 };
