@@ -54,10 +54,10 @@ export function Button({
       type={type}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      aria-disabled={isDisabled ? "true" : undefined}
-      aria-busy={isLoading ? "true" : undefined}
-      data-loading={isLoading}
-      data-disabled={isDisabled}
+      aria-disabled={isDisabled || undefined}
+      aria-busy={isLoading || undefined}
+      data-loading={isLoading || undefined}
+      data-disabled={isDisabled || undefined}
     >
       {children}
     </Component>
