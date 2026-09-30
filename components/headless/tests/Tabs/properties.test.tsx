@@ -19,7 +19,7 @@ describe("Tabs - properties", () => {
     expect(list.getAttribute("role")).toBe("tablist");
     expect(list.getAttribute("aria-orientation")).toBe("horizontal");
     expect(list.getAttribute("data-orientation")).toBe("horizontal");
-    expect(list.getAttribute("data-disabled")).toBe("false");
+    expect(list.getAttribute("data-disabled")).toBe(null);
 
     // 기본값은 하나씩만 대표로 확인
     expect(activeTab.tagName).toBe("BUTTON");
