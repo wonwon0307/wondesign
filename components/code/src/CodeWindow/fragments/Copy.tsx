@@ -21,8 +21,14 @@ export function CodeWindowCopyButton({
   const [copied, setCopied] = useState<boolean>(false);
   const { code } = useCodeWindow();
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch (err) {
+      console.error("[WonDesign Code] CodeWindowCopyButton: copy failed", err);
+      return;
+    }
+
     onCopy?.();
     setCopied(true);
     setTimeout(() => setCopied(false), timeout);
