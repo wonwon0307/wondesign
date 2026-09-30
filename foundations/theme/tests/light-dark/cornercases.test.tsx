@@ -6,8 +6,12 @@ import { TestComponent } from "../_setup";
 
 describe("light-dark - corner cases", () => {
   it("server - should handle ThemeScript correctly (default)", () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+
     const { container } = render(<ThemeScript />);
     expect(container).toBeTruthy();
+
+    vi.restoreAllMocks();
   });
 
   it("should return defaultMode in SSR environment", () => {
