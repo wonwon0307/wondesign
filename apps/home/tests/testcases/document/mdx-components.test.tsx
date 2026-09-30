@@ -2,6 +2,24 @@ import { render } from "@testing-library/react";
 
 import { mdxComponents } from "@/pages/document/ui/mdx";
 
+vi.mock("@wondesign/ui/Code", () => ({
+  InlineCode: ({ children }: { children: React.ReactNode }) => (
+    <code>{children}</code>
+  ),
+  CodeWindow: ({
+    children,
+    code,
+  }: {
+    children: React.ReactNode;
+    code: string;
+  }) => (
+    <div>
+      {children}
+      {code}
+    </div>
+  ),
+}));
+
 describe("MDX Components", () => {
   it("maps h1-h4 to the matching heading tag", () => {
     const { getByText } = render(
