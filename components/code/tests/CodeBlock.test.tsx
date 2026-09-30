@@ -1,6 +1,6 @@
+import type { Mock } from "vitest";
 import { render } from "@testing-library/react";
 import { codeToTokens } from "shiki/bundle/web";
-import type { Mock } from "vitest";
 
 import { CodeBlock } from "@/CodeBlock/CodeBlock";
 
