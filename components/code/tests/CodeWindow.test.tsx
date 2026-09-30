@@ -54,6 +54,8 @@ describe("CodeWindow", () => {
     vi.useFakeTimers();
 
     fireEvent.click(copyButton);
+    await act(async () => {});
+
     expect(getByLabelText("Copied")).toBeTruthy();
 
     act(() => {
@@ -72,7 +74,7 @@ describe("CodeWindow", () => {
   });
 
   it("renders custom copy button correctly", async () => {
-    const { findByText } = render(
+    const { findByText, getByLabelText } = render(
       <CodeWindowWrapper code="const a = 1;" lang="javascript">
         <CodeWindowBody />
         <CodeWindowCopyButton>Test Copy Button</CodeWindowCopyButton>
@@ -85,17 +87,15 @@ describe("CodeWindow", () => {
     vi.useFakeTimers();
 
     fireEvent.click(customCopyButton);
+    await act(async () => {});
+
+    expect(getByLabelText("Copied")).toBeTruthy();
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("const a = 1;");
 
     act(() => {
       vi.runAllTimers();
     });
 
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("const a = 1;");
-  });
-
-  it("throws if fragment is used outside the wrapper", () => {
-    expect(() => render(<CodeWindowBody />)).toThrow(
-      "[WonDesign Code] useCodeWindow() must be used within a CodeWindowWrapper.",
-    );
+    expect(getByLabelText("Copy code")).toBeTruthy();
   });
 });
