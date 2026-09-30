@@ -15,7 +15,7 @@ export interface CodeWindowBodyProps
 
 export function CodeWindowBody({
   size = "small",
-  maxNumLines = 10,
+  maxNumLines = 0,
   showLineNumbers = false,
   className,
   style,
@@ -34,7 +34,7 @@ export function CodeWindowBody({
       className={clsx(styles.pre({ size, vertical }), className)}
       style={{
         ...style,
-        maxHeight: vertical === "scroll" ? `${maxNumLines}lh` : "auto",
+        maxHeight: vertical === "scroll" ? `${maxNumLines}lh` : "none",
       }}
     />
   );
