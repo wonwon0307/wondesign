@@ -4,14 +4,20 @@ import { tokens } from "@wondesign/tokens";
 const pre = recipe({
   base: {
     tabSize: 2,
+    lineHeight: tokens.typography.lineHeight.body,
+    fontWeight: tokens.typography.fontWeight.medium,
+    fontFamily: tokens.typography.fontFamily.code,
   },
   variants: {
     size: {
       small: {
-        font: tokens.text.codeSmall,
+        fontSize: tokens.typography.fontSize.bodySmall,
+      },
+      medium: {
+        fontSize: tokens.typography.fontSize.bodyMedium,
       },
       large: {
-        font: tokens.text.codeLarge,
+        fontSize: tokens.typography.fontSize.bodyLarge,
       },
     },
     vertical: {
