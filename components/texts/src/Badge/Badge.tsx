@@ -31,9 +31,7 @@ export function Badge({
       style={{ ...style, backgroundColor }}
     >
       {left}
-      <p className={styles.label} style={{ color }}>
-        {label}
-      </p>
+      {label}
       {right}
     </span>
   );

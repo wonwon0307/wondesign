@@ -7,12 +7,9 @@ const badge = style({
   justifyContent: "center",
   padding: `${tokens.spacing.sm} ${tokens.spacing.md}`,
   gap: tokens.spacing.sm,
+  fontSize: tokens.typography.fontSize.bodyMedium,
+  fontWeight: tokens.typography.fontWeight.medium,
   borderRadius: tokens.radius.sm,
-  font: tokens.text.description,
 });
 
-const label = style({
-  font: tokens.text.description,
-});
-
-export const styles = { badge, label };
+export const styles = { badge };
