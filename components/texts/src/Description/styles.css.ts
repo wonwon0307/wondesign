@@ -4,12 +4,15 @@ import { tokens } from "@wondesign/tokens";
 const description = recipe({
   base: {
     maxWidth: "60ch",
+    lineHeight: tokens.typography.lineHeight.body,
+    fontWeight: tokens.typography.fontWeight.regular,
+    fontFamily: tokens.typography.fontFamily.normal,
   },
   variants: {
     size: {
-      small: { font: tokens.text.bodySmall },
-      medium: { font: tokens.text.bodyMedium },
-      large: { font: tokens.text.bodyLarge },
+      small: { fontSize: tokens.typography.fontSize.bodyLarge },
+      medium: { fontSize: tokens.typography.fontSize.bodyMedium },
+      large: { fontSize: tokens.typography.fontSize.bodyLarge },
     },
     clamped: {
       true: {

@@ -2,14 +2,42 @@ import { recipe } from "@vanilla-extract/recipes";
 import { tokens } from "@wondesign/tokens";
 
 const heading = recipe({
+  base: {
+    lineHeight: tokens.typography.lineHeight.heading,
+    fontFamily: tokens.typography.fontFamily.normal,
+  },
   variants: {
     level: {
-      1: { font: tokens.text.titleLarge },
-      2: { font: tokens.text.titleMedium },
-      3: { font: tokens.text.titleSmall },
-      4: { font: tokens.text.bodyLarge },
-      5: { font: tokens.text.bodyMedium },
-      6: { font: tokens.text.bodySmall },
+      1: {
+        margin: `${tokens.spacing.lg} 0`,
+        fontSize: tokens.typography.fontSize.headingLarge,
+        fontWeight: tokens.typography.fontWeight.bold,
+      },
+      2: {
+        margin: `${tokens.spacing.lg} 0`,
+        fontSize: tokens.typography.fontSize.headingMedium,
+        fontWeight: tokens.typography.fontWeight.bold,
+      },
+      3: {
+        margin: `${tokens.spacing.lg} 0`,
+        fontSize: tokens.typography.fontSize.headingSmall,
+        fontWeight: tokens.typography.fontWeight.bold,
+      },
+      4: {
+        margin: `${tokens.spacing.md} 0`,
+        fontSize: tokens.typography.fontSize.bodyExtraLarge,
+        fontWeight: tokens.typography.fontWeight.semibold,
+      },
+      5: {
+        margin: `${tokens.spacing.md} 0`,
+        fontSize: tokens.typography.fontSize.bodyLarge,
+        fontWeight: tokens.typography.fontWeight.semibold,
+      },
+      6: {
+        margin: `${tokens.spacing.md} 0`,
+        fontSize: tokens.typography.fontSize.bodyMedium,
+        fontWeight: tokens.typography.fontWeight.semibold,
+      },
     },
     clamped: {
       true: {
@@ -20,11 +48,6 @@ const heading = recipe({
         overflowWrap: "anywhere",
         textOverflow: "ellipsis",
       },
-    },
-    weight: {
-      regular: { fontWeight: tokens.typography.fontWeight.regular },
-      semibold: { fontWeight: tokens.typography.fontWeight.semibold },
-      bold: { fontWeight: tokens.typography.fontWeight.bold },
     },
   },
 });
