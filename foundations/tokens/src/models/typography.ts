@@ -81,10 +81,10 @@ export const defaultTypographyTokens: TypographyTokens = {
     paragraph: "1.7",
   },
   fontWeight: {
-    regular: "400, normal",
-    medium: "500, normal",
-    semibold: "600, bold",
-    bold: "700, bold",
+    regular: "400",
+    medium: "500",
+    semibold: "600",
+    bold: "700",
   },
   fontFamily: {
     brand: "Brush Script, cursive",
