@@ -6,6 +6,7 @@ const toc = style({
   display: "flex",
   flexDirection: "column",
   alignSelf: "flex-start",
+  marginTop: tokens.spacing.layoutSmall,
   padding: tokens.spacing.sm,
   gap: tokens.spacing.md,
   position: "sticky",
@@ -27,7 +28,7 @@ const toc = style({
 
 const heading = style({
   padding: `0 ${tokens.spacing.md}`,
-  font: tokens.text.bodyMedium,
+  fontSize: tokens.typography.fontSize.bodyMedium,
   fontWeight: tokens.typography.fontWeight.bold,
 });
 
@@ -41,8 +42,7 @@ const list = style({
 const link = recipe({
   base: {
     display: "block",
-    font: tokens.text.bodyMedium,
-    fontWeight: tokens.typography.fontWeight.semibold,
+    fontSize: tokens.typography.fontSize.bodyMedium,
     selectors: {
       '&[aria-current="location"]': {
         color: tokens.colors.primary,
