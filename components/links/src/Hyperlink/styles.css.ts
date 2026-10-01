@@ -5,7 +5,7 @@ const link = recipe({
   base: {
     fontSize: "inherit",
     lineHeight: "inherit",
-    fontWeight: tokens.typography.fontWeight.semibold,
+    fontWeight: tokens.typography.fontWeight.medium,
     fontFamily: "inherit",
     textDecoration: "none",
     "@media": {
