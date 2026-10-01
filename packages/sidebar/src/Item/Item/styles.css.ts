@@ -21,7 +21,7 @@ const item = recipe({
     gap: tokens.spacing.md,
     borderRadius: tokens.radius.sm,
     position: "relative",
-    font: tokens.text.bodyLarge,
+    fontSize: tokens.typography.fontSize.bodyLarge,
     backgroundColor: "transparent",
     userSelect: "none",
     selectors: {

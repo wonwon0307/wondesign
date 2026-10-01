@@ -16,7 +16,7 @@ const header = recipe({
     padding: `${tokens.spacing.sm} ${tokens.spacing.lg}`,
     position: "relative",
     borderRadius: tokens.radius.md,
-    font: tokens.text.bodySmall,
+    fontSize: tokens.typography.fontSize.bodySmall,
     fontWeight: tokens.typography.fontWeight.semibold,
     color: tokens.colors.textMuted,
     userSelect: "none",
