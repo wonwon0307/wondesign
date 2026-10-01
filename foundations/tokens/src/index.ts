@@ -1,6 +1,7 @@
 // Token interfaces
 export type { ColorTokens } from "./models/colors";
 export type { ElevationTokens } from "./models/elevation";
+export type { OpacityTokens } from "./models/opacity";
 export type { RadiusTokens } from "./models/radius";
 export type { SpacingTokens } from "./models/spacing";
 export type { TextTokens } from "./models/text";
@@ -16,12 +17,12 @@ export type {
 } from "./utils/breakpoint-queries";
 
 // Utility functions
+export { colorWithFade, colorWithOpacity } from "@wondesign/colors";
 export { applyTokens } from "./utils/apply-tokens";
 export {
   createSimpleBreakpointQueries,
   createBreakpointQueries,
 } from "./utils/breakpoint-queries";
-export { colorWithOpacity } from "./utils/color-with-opacity";
 export { buildCssVariables } from "./utils/css-variables";
 
 // Token constant (default)
@@ -33,6 +34,7 @@ export { wondesignDefault } from "./presets/wondesign-default";
 // temp
 export { colorCssVariables } from "./models/colors";
 export { elevationCssVariables } from "./models/elevation";
+export { opacityCssVariables } from "./models/opacity";
 export { radiusCssVariables } from "./models/radius";
 export { spacingCssVariables } from "./models/spacing";
 export { textCssVariables } from "./models/text";
