@@ -16,7 +16,7 @@ const toggle = style({
   transition: "background-color 0.15s ease",
   selectors: {
     [`&:hover,  &:focus-visible`]: {
-      backgroundColor: tokens.colors.backgroundHover,
+      backgroundColor: tokens.colors.backgroundHighlight,
     },
   },
 });
