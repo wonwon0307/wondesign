@@ -14,14 +14,14 @@ const iconButton = recipe({
     transition: "all 0.3s ease",
     selectors: {
       "&[data-disabled]": {
-        color: tokens.colors.textMuted,
+        opacity: tokens.opacity.disabled,
       },
     },
     "@media": {
       [mediaQueries.hoverable]: {
         selectors: {
           "&:not([data-disabled]):hover": {
-            backgroundColor: tokens.colors.backgroundHover,
+            backgroundColor: tokens.colors.background,
           },
         },
       },

@@ -7,9 +7,9 @@ const keyboard = recipe({
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: tokens.colors.surface,
+    backgroundColor: tokens.colors.backgroundMuted,
     color: tokens.colors.text,
-    border: `1px solid ${tokens.colors.border}`,
+    border: `1px solid ${tokens.colors.borderMuted}`,
     borderRadius: tokens.radius.sm,
   },
   variants: {

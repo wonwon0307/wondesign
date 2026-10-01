@@ -22,6 +22,7 @@ const link = style({
 
 const label = style({
   flex: 1,
+  lineHeight: 1.5,
 });
 
 const toggle = style({

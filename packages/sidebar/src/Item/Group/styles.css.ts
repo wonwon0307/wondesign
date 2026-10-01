@@ -24,7 +24,7 @@ const header = recipe({
       [mediaQueries.hoverable]: {
         selectors: {
           "&:hover": {
-            backgroundColor: tokens.colors.backgroundHover,
+            backgroundColor: tokens.colors.backgroundHighlight,
           },
         },
       },
@@ -47,18 +47,18 @@ const headerLeft = style({
 
 const headerRight = style({
   zIndex: 1,
-  opacity: 0,
+  opacity: tokens.opacity.hide,
   transition: "opacity 0.15s ease",
   selectors: {
     [`${header.classNames.base}:focus-within &`]: {
-      opacity: 1,
+      opacity: tokens.opacity.normal,
     },
   },
   "@media": {
     [mediaQueries.hoverable]: {
       selectors: {
         [`${header.classNames.base}:hover &`]: {
-          opacity: 1,
+          opacity: tokens.opacity.normal,
         },
       },
     },
@@ -75,10 +75,10 @@ const overlayToggle = style({
 
 const icon = style({
   transition: "transform 200ms ease, opacity 200ms ease",
-  opacity: 0,
+  opacity: tokens.opacity.hide,
   selectors: {
     [`${header.classNames.base}:focus-within &`]: {
-      opacity: 1,
+      opacity: tokens.opacity.normal,
     },
     [`${header.classNames.base}:has(${overlayToggle}[data-state="open"]) &`]: {
       transform: "rotate(90deg)",
@@ -88,7 +88,7 @@ const icon = style({
     [mediaQueries.hoverable]: {
       selectors: {
         [`${header.classNames.base}:hover &`]: {
-          opacity: 1,
+          opacity: tokens.opacity.normal,
         },
       },
     },

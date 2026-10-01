@@ -10,8 +10,7 @@ const formButton = recipe({
     transition: "all 0.3s ease",
     selectors: {
       "&[data-disabled]": {
-        color: tokens.colors.textMuted,
-        backgroundColor: tokens.colors.surface,
+        opacity: tokens.opacity.disabled,
       },
     },
   },
