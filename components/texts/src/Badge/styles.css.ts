@@ -7,8 +7,8 @@ const badge = style({
   justifyContent: "center",
   padding: `${tokens.spacing.sm} ${tokens.spacing.md}`,
   gap: tokens.spacing.sm,
-  fontSize: tokens.typography.fontSize.bodyMedium,
-  fontWeight: tokens.typography.fontWeight.medium,
+  fontSize: tokens.typography.fontSize.bodyExtraSmall,
+  fontWeight: tokens.typography.fontWeight.regular,
   borderRadius: tokens.radius.sm,
 });
 
