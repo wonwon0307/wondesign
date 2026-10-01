@@ -4,7 +4,6 @@ export type { ElevationTokens } from "./models/elevation";
 export type { OpacityTokens } from "./models/opacity";
 export type { RadiusTokens } from "./models/radius";
 export type { SpacingTokens } from "./models/spacing";
-export type { TextTokens } from "./models/text";
 export type { TypographyTokens } from "./models/typography";
 
 export type { DesignTokens } from "./tokens";
@@ -37,5 +36,4 @@ export { elevationCssVariables } from "./models/elevation";
 export { opacityCssVariables } from "./models/opacity";
 export { radiusCssVariables } from "./models/radius";
 export { spacingCssVariables } from "./models/spacing";
-export { textCssVariables } from "./models/text";
 export { typographyCssVariables } from "./models/typography";
