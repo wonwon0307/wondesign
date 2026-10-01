@@ -3,6 +3,11 @@ import { mediaQueries, tokens } from "@wondesign/tokens";
 
 const link = recipe({
   base: {
+    fontSize: "inherit",
+    lineHeight: "inherit",
+    fontWeight: tokens.typography.fontWeight.semibold,
+    fontFamily: "inherit",
+    textDecoration: "none",
     "@media": {
       [mediaQueries.hoverable]: {
         selectors: {
