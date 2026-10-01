@@ -2,6 +2,7 @@ import type { SemanticColors } from "@wondesign/colors";
 
 import { colorTokens } from "./models/colors";
 import { elevationTokens, type ElevationTokens } from "./models/elevation";
+import { opacityTokens, type OpacityTokens } from "./models/opacity";
 import { radiusTokens, type RadiusTokens } from "./models/radius";
 import { spacingTokens, type SpacingTokens } from "./models/spacing";
 import { textTokens, type TextTokens } from "./models/text";
@@ -16,6 +17,7 @@ export type DesignTokens = {
   spacing: SpacingTokens;
   text: TextTokens;
   typography: TypographyTokens;
+  opacity: OpacityTokens;
   zIndex: ZIndexTokens;
 };
 
@@ -26,6 +28,7 @@ export const tokens: DesignTokens = {
   spacing: { ...spacingTokens },
   text: { ...textTokens },
   typography: { ...typographyTokens },
+  opacity: { ...opacityTokens },
   zIndex: { ...zIndexTokens },
 };
 
