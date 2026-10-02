@@ -14,7 +14,7 @@ export interface CodeWindowBodyProps
 }
 
 export function CodeWindowBody({
-  size = "small",
+  size = "medium",
   maxNumLines = 0,
   showLineNumbers = false,
   className,
