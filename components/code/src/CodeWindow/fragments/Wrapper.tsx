@@ -13,7 +13,10 @@ export function CodeWindowWrapper({
   lang = "plaintext",
   ...rest
 }: Readonly<CodeWindowWrapperProps>) {
-  const contextValue = useMemo(() => ({ code, lang }), [code, lang]);
+  const contextValue = useMemo(
+    () => ({ code: code.replace(/\n$/, ""), lang }),
+    [code, lang],
+  );
 
   return (
     <CodeWindowContext.Provider value={contextValue}>

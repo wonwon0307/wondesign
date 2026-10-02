@@ -1,5 +1,5 @@
 import { notFound, redirect, RedirectType } from "next/navigation";
-import { Heading } from "@wondesign/ui/Texts";
+import { Heading, Description } from "@wondesign/ui/Texts";
 
 import { DocumentTabs, DocumentTOC } from "@/widgets/document";
 import { getPageData } from "@/entities/document";
@@ -43,9 +43,9 @@ export async function DocumentPage({ params }: Readonly<Props>) {
       <div className={styles.header}>
         {meta.title && <Heading level={1}>{meta.title}</Heading>}
         {meta.description && (
-          <Heading level={4} className={styles.description}>
+          <Description className={styles.description}>
             {meta.description}
-          </Heading>
+          </Description>
         )}
         {/*breadcrumbs*/}
         {tabs && <DocumentTabs tabs={tabs} />}

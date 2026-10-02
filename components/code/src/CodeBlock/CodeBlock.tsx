@@ -37,13 +37,14 @@ export function CodeBlock({
   const [tokens, setTokens] = useState<ThemedToken[][]>();
   const [failed, setFailed] = useState<boolean>(false);
   const resolvedLang = resolveLang(lang);
+  const trimmedCode = code.replace(/\n$/, "");
 
   useEffect(() => {
     let cancelled = false;
 
     async function highlight() {
       try {
-        const result = await codeToTokens(code, {
+        const result = await codeToTokens(trimmedCode, {
           lang: resolvedLang,
           themes: {
             light: "github-light-default",
@@ -70,10 +71,10 @@ export function CodeBlock({
     return () => {
       cancelled = true;
     };
-  }, [code, resolvedLang]);
+  }, [trimmedCode, resolvedLang]);
 
   if (failed) {
-    const lines = code.replace(/\n$/, "").split("\n");
+    const lines = trimmedCode.split("\n");
 
     return (
       <pre {...rest} className={clsx(styles.pre, className)}>

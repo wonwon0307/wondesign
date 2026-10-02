@@ -11,13 +11,13 @@ const pre = recipe({
   variants: {
     size: {
       small: {
-        fontSize: tokens.typography.fontSize.bodySmall,
+        fontSize: tokens.typography.fontSize.bodyExtraSmall,
       },
       medium: {
-        fontSize: tokens.typography.fontSize.bodyMedium,
+        fontSize: tokens.typography.fontSize.bodySmall,
       },
       large: {
-        fontSize: tokens.typography.fontSize.bodyLarge,
+        fontSize: tokens.typography.fontSize.bodyMedium,
       },
     },
     vertical: {

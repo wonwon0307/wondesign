@@ -7,7 +7,7 @@ export interface CodeWindowProps {
   children?: React.ReactNode; // header
   code: string;
   lang?: string;
-  size?: "small" | "large";
+  size?: "small" | "medium" | "large";
   maxNumLines?: number;
   showLineNumbers?: boolean;
   disableCopy?: boolean;
@@ -17,7 +17,7 @@ export function CodeWindow({
   children,
   code,
   lang = "plaintext",
-  size = "small",
+  size = "medium",
   maxNumLines,
   showLineNumbers,
   disableCopy = false,
