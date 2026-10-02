@@ -56,13 +56,13 @@ export const mdxComponents = {
       </Heading>
     );
   },
-  p: (props: Props) => <Paragraph {...props} size="large" />,
+  p: (props: Props) => <Paragraph {...props} />,
   a: (props: Props) => <Hyperlink {...props} appearance="primary" />,
   code: (props: Props) => <InlineCode {...props} />,
   pre: ({ children, ...rest }: PreProps) => {
     const code = children.props.children;
     const language = children.props.className?.replace("language-", "");
 
-    return <CodeWindow {...rest} size="large" code={code} lang={language} />;
+    return <CodeWindow {...rest} code={code} lang={language} />;
   },
 };
