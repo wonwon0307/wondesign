@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { styles } from "./styles.css";
 
 export interface KeyboardProps extends React.HTMLAttributes<HTMLElement> {
-  size?: "small" | "large";
+  size?: "small" | "medium" | "large";
   children: string;
 }
 

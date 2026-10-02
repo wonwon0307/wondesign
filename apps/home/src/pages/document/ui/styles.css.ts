@@ -6,15 +6,14 @@ const container = style({
   flex: 1,
   flexDirection: "column",
   minHeight: "100vh",
-  gap: tokens.spacing.layoutMedium,
+  gap: tokens.spacing.layoutSmall,
   backgroundColor: tokens.colors.background,
 });
 
 const header = style({
   display: "flex",
   flexDirection: "column",
-  gap: tokens.spacing.lg,
-  backgroundColor: tokens.colors.surface,
+  backgroundColor: tokens.colors.backgroundMuted,
   "@media": {
     [mediaQueries.breakpoints.large]: {
       padding: `${tokens.spacing.layoutMedium} ${tokens.spacing.layoutLarge} 0 ${tokens.spacing.layoutLarge}`,
@@ -45,18 +44,16 @@ const body = style({
 });
 
 const contents = style({
+  display: "flex",
+  flexDirection: "column",
   flex: 1,
   minWidth: 0,
+  gap: tokens.spacing.md,
 });
 
 const heading = style({
-  margin: `${tokens.spacing.xl} 0`,
   // root header is sticky at 48px; offset anchor-scroll target so it isn't hidden underneath
-  scrollMarginTop: tokens.spacing.layoutLarge,
-});
-
-const paragraph = style({
-  margin: `${tokens.spacing.md} 0`,
+  scrollMarginTop: "64px",
 });
 
 export const styles = {
@@ -66,5 +63,4 @@ export const styles = {
   body,
   contents,
   heading,
-  paragraph,
 };

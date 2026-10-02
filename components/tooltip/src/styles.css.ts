@@ -18,10 +18,12 @@ const content = style({
   padding: `${tokens.spacing.sm} ${tokens.spacing.md}`,
   gap: tokens.spacing.sm,
   width: "max-content",
-  borderRadius: tokens.radius.sm,
-  font: tokens.text.bodySmall,
+  fontSize: tokens.typography.fontSize.bodySmall,
+  lineHeight: tokens.typography.lineHeight.body,
   color: tokens.colors.textInverted,
   backgroundColor: tokens.colors.backgroundInverted,
+  border: `1px solid ${tokens.colors.borderInverted}`,
+  borderRadius: tokens.radius.sm,
 });
 
 const text = style({

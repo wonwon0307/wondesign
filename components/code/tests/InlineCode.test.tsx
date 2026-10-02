@@ -9,21 +9,15 @@ describe("InlineCode", () => {
     const inlineCode = getByText("test");
     expect(inlineCode).toBeTruthy();
     expect(inlineCode.tagName).toBe("CODE");
-    expect(inlineCode.className).toContain("small"); // default size is small
   });
 
-  it("renders with large size correctly and passes ref", () => {
+  it("passes ref correctly", () => {
     const testRef = vi.fn();
-    const { getByText } = render(
-      <InlineCode size="large" ref={testRef}>
-        test
-      </InlineCode>,
-    );
+    const { getByText } = render(<InlineCode ref={testRef}>test</InlineCode>);
 
     const inlineCode = getByText("test");
     expect(inlineCode).toBeTruthy();
     expect(inlineCode.tagName).toBe("CODE");
-    expect(inlineCode.className).toContain("large"); // size is large
     expect(testRef).toHaveBeenCalledWith(inlineCode); // ref is called with the DOM element
   });
 });

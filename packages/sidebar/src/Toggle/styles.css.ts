@@ -12,7 +12,7 @@ const toggle = style({
   color: tokens.colors.textMuted,
   selectors: {
     "&:hover": {
-      backgroundColor: tokens.colors.backgroundHover,
+      backgroundColor: tokens.colors.backgroundHighlight,
       color: tokens.colors.text,
     },
   },
@@ -21,18 +21,19 @@ const toggle = style({
 const sidebarIcon = style({
   display: "flex",
   transition: "opacity 0.15s ease",
+  opacity: tokens.opacity.normal,
   selectors: {
-    [`${toggle}:hover &`]: { opacity: 0 },
+    [`${toggle}:hover &`]: { opacity: tokens.opacity.hide },
   },
 });
 
 const arrowIcon = style({
   position: "absolute",
   display: "flex",
-  opacity: 0,
+  opacity: tokens.opacity.hide,
   transition: "opacity 0.15s ease, transform 0.2s ease",
   selectors: {
-    [`${toggle}:hover &`]: { opacity: 1 },
+    [`${toggle}:hover &`]: { opacity: tokens.opacity.normal },
     [`${toggle}[data-side="left"][data-open="true"] &`]: {
       transform: "scaleX(-1)",
     },
@@ -48,17 +49,17 @@ const swapContainer = style({
 });
 
 const fadeIn = keyframes({
-  from: { opacity: 0 },
-  to: { opacity: 1 },
+  from: { opacity: tokens.opacity.hide },
+  to: { opacity: tokens.opacity.normal },
 });
 
 const collapsedIcon = style({
   gridArea: "1 / 1",
-  opacity: 1,
+  opacity: tokens.opacity.normal,
   transition: "opacity 200ms ease",
   selectors: {
     [`${swapContainer}:hover &, ${swapContainer}:focus-within &`]: {
-      opacity: 0,
+      opacity: tokens.opacity.hide,
       pointerEvents: "none",
     },
   },
@@ -66,14 +67,14 @@ const collapsedIcon = style({
 
 const swapToggle = style({
   gridArea: "1 / 1",
-  opacity: 0,
+  opacity: tokens.opacity.hide,
   cursor: "pointer",
   pointerEvents: "none",
   animation: `${fadeIn} 200ms ease`,
   animationPlayState: "paused",
   selectors: {
     [`${swapContainer}:hover &, ${swapContainer}:focus-within &`]: {
-      opacity: 1,
+      opacity: tokens.opacity.normal,
       pointerEvents: "auto",
       animationPlayState: "running",
     },

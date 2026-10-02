@@ -7,7 +7,6 @@ import {
 } from "@/models/elevation";
 import { radiusCssVariables, defaultRadiusTokens } from "@/models/radius";
 import { spacingCssVariables, defaultSpacingTokens } from "@/models/spacing";
-import { textCssVariables, defaultTextTokens } from "@/models/text";
 import {
   typographyCssVariables,
   defaultTypographyTokens,
@@ -31,7 +30,6 @@ export function buildCssVariables(
     elevation = defaultElevationTokens,
     radius = defaultRadiusTokens,
     spacing = defaultSpacingTokens,
-    text = defaultTextTokens,
     typography = defaultTypographyTokens,
     zIndex = defaultZIndexTokens,
   }: Partial<DesignTokens> = {},
@@ -42,7 +40,6 @@ export function buildCssVariables(
     ...flatEntries(elevationCssVariables, elevation),
     ...flatEntries(radiusCssVariables, radius),
     ...flatEntries(spacingCssVariables, spacing),
-    ...flatEntries(textCssVariables, text),
     ...flatEntries(zIndexCssVariables, zIndex),
   ];
 

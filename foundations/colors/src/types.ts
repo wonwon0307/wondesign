@@ -1,29 +1,26 @@
 export interface SemanticColors {
   // Accent 1: Primary
   primary: string;
-  primaryHover: string;
   onPrimary: string;
-  // Accent 2: Secondary
-  secondary: string;
-  secondaryHover: string;
-  onSecondary: string;
   // Alert colors
   error: string;
   warning: string;
   success: string;
-  info: string;
-  // Background colors
+  // Grayscale
+  // background
   background: string;
-  backgroundHover: string;
+  backgroundHighlight: string;
+  backgroundMuted: string;
   backgroundInverted: string;
   surface: string;
   overlay: string;
-  // Text colors
+  // text
   text: string;
   textMuted: string;
   textInverted: string;
-  // Border colors
+  // border
   border: string;
+  borderHighlight: string;
   borderMuted: string;
   borderInverted: string;
 }

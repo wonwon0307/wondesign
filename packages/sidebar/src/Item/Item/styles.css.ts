@@ -1,6 +1,11 @@
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
-import { colorWithOpacity, mediaQueries, tokens } from "@wondesign/tokens";
+import {
+  colorWithFade,
+  colorWithOpacity,
+  mediaQueries,
+  tokens,
+} from "@wondesign/tokens";
 
 const wrapper = style({
   display: "flex",
@@ -16,12 +21,12 @@ const item = recipe({
     gap: tokens.spacing.md,
     borderRadius: tokens.radius.sm,
     position: "relative",
-    font: tokens.text.bodyLarge,
+    fontSize: tokens.typography.fontSize.bodyLarge,
     backgroundColor: "transparent",
     userSelect: "none",
     selectors: {
       "&:focus-visible": {
-        backgroundColor: tokens.colors.backgroundHover,
+        backgroundColor: tokens.colors.backgroundHighlight,
         outline: `1px solid ${tokens.colors.primary}`,
         outlineOffset: "2px",
       },
@@ -30,7 +35,7 @@ const item = recipe({
       [mediaQueries.hoverable]: {
         selectors: {
           "&:hover": {
-            backgroundColor: tokens.colors.backgroundHover,
+            backgroundColor: tokens.colors.backgroundHighlight,
           },
         },
       },
@@ -41,10 +46,10 @@ const item = recipe({
       true: {
         color: tokens.colors.primary,
         fontWeight: tokens.typography.fontWeight.semibold,
-        backgroundColor: colorWithOpacity(tokens.colors.primary, 12),
+        backgroundColor: colorWithFade(tokens.colors.primary, 0.12),
         selectors: {
           "&:focus-visible": {
-            backgroundColor: colorWithOpacity(tokens.colors.primary, 24),
+            backgroundColor: colorWithOpacity(tokens.colors.primary, 0.24),
           },
           "&::before": {
             content: '""',
@@ -61,7 +66,7 @@ const item = recipe({
           [mediaQueries.hoverable]: {
             selectors: {
               "&:hover": {
-                backgroundColor: colorWithOpacity(tokens.colors.primary, 24),
+                backgroundColor: colorWithOpacity(tokens.colors.primary, 0.24),
               },
             },
           },
@@ -70,7 +75,7 @@ const item = recipe({
     },
     isDisabled: {
       true: {
-        color: colorWithOpacity(tokens.colors.text, 50),
+        color: colorWithOpacity(tokens.colors.text, 0.5),
         pointerEvents: "none",
         cursor: "not-allowed",
       },

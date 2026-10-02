@@ -73,7 +73,7 @@ const tab = recipe({
         selectors: {
           "&:not([data-state='active']):hover": {
             color: tokens.colors.text,
-            backgroundColor: tokens.colors.backgroundHover,
+            backgroundColor: tokens.colors.backgroundHighlight,
           },
         },
       },

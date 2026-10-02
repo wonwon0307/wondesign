@@ -7,20 +7,27 @@ const keyboard = recipe({
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: tokens.colors.surface,
+    lineHeight: tokens.typography.lineHeight.single,
+    fontWeight: tokens.typography.fontWeight.medium,
+    fontFamily: tokens.typography.fontFamily.code,
     color: tokens.colors.text,
-    border: `1px solid ${tokens.colors.border}`,
+    backgroundColor: tokens.colors.backgroundMuted,
+    border: `1px solid ${tokens.colors.borderMuted}`,
     borderRadius: tokens.radius.sm,
   },
   variants: {
     size: {
       small: {
-        font: tokens.text.codeSmall,
+        fontSize: tokens.typography.fontSize.bodySmall,
         padding: `${tokens.spacing.xs} ${tokens.spacing.sm}`,
       },
-      large: {
-        font: tokens.text.codeLarge,
+      medium: {
+        fontSize: tokens.typography.fontSize.bodyMedium,
         padding: `${tokens.spacing.sm} ${tokens.spacing.md}`,
+      },
+      large: {
+        fontSize: tokens.typography.fontSize.bodyLarge,
+        padding: `${tokens.spacing.md} ${tokens.spacing.lg}`,
       },
     },
   },

@@ -17,7 +17,7 @@ export interface BadgeProps extends Omit<
 export function Badge({
   label,
   color = "gray",
-  backgroundColor = colorWithOpacity(color, 25),
+  backgroundColor = colorWithOpacity(color, 0.25),
   left,
   right,
   className,
@@ -28,12 +28,10 @@ export function Badge({
     <span
       {...rest}
       className={clsx(styles.badge, className)}
-      style={{ ...style, backgroundColor }}
+      style={{ ...style, backgroundColor, color }}
     >
       {left}
-      <p className={styles.label} style={{ color }}>
-        {label}
-      </p>
+      {label}
       {right}
     </span>
   );

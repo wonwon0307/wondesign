@@ -5,12 +5,12 @@ import { styles } from "./styles.css";
 export interface InlineCodeProps
   extends React.HTMLAttributes<HTMLElement>, React.RefAttributes<HTMLElement> {
   children: React.ReactNode;
-  size?: "small" | "large";
+  size?: "small" | "medium" | "large";
 }
 
 export function InlineCode({
-  size = "small",
   children,
+  size = "medium",
   className,
   ...rest
 }: Readonly<InlineCodeProps>) {

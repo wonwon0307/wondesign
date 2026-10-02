@@ -3,10 +3,13 @@ import { tokens } from "@wondesign/tokens";
 
 const inlineCode = recipe({
   base: {
-    padding: `0 ${tokens.spacing.sm}`,
-    backgroundColor: tokens.colors.surface,
-    color: tokens.colors.text,
+    fontWeight: tokens.typography.fontWeight.medium,
+    fontFamily: tokens.typography.fontFamily.code,
+    lineHeight: tokens.typography.lineHeight.single,
+    color: "inherit",
+    backgroundColor: tokens.colors.backgroundMuted,
     borderRadius: tokens.radius.sm,
+    boxShadow: tokens.elevation.lv1,
     overflowWrap: "anywhere",
     boxDecorationBreak: "clone",
     WebkitBoxDecorationBreak: "clone",
@@ -14,10 +17,19 @@ const inlineCode = recipe({
   variants: {
     size: {
       small: {
-        font: tokens.text.codeSmall,
+        padding: tokens.spacing.xs,
+        paddingBottom: 0,
+        fontSize: tokens.typography.fontSize.bodyExtraSmall,
+      },
+      medium: {
+        padding: tokens.spacing.sm,
+        paddingBottom: tokens.spacing.xs,
+        fontSize: tokens.typography.fontSize.bodySmall,
       },
       large: {
-        font: tokens.text.codeLarge,
+        padding: tokens.spacing.md,
+        paddingBottom: tokens.spacing.sm,
+        fontSize: tokens.typography.fontSize.bodyMedium,
       },
     },
   },

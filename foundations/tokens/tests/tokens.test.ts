@@ -16,7 +16,6 @@ import {
   spacingCssVariables,
   spacingTokens,
 } from "@/models/spacing";
-import { defaultTextTokens, textCssVariables, textTokens } from "@/models/text";
 import {
   defaultTypographyTokens,
   typographyCssVariables,
@@ -84,21 +83,6 @@ describe("tokens", () => {
     });
   });
 
-  describe("text", () => {
-    it("textTokens values are css variables with textCssVariables and defaults", () => {
-      for (const key in textCssVariables) {
-        const tokenValue = textTokens[key as keyof typeof textTokens];
-        const cssVariable =
-          textCssVariables[key as keyof typeof textCssVariables];
-        const defaultValue =
-          defaultTextTokens[key as keyof typeof defaultTextTokens];
-        expect(tokenValue).toBeDefined();
-        expect(typeof tokenValue).toBe("string");
-        expect(tokenValue).toBe(`var(${cssVariable}, ${defaultValue})`);
-      }
-    });
-  });
-
   describe("typography", () => {
     it("typographyTokens values are css variables with typographyCssVariables and defaults", () => {
       // typography tokens are differently structured: one more level of nesting (e.g. typographyTokens.heading1.fontSize)
@@ -134,7 +118,6 @@ describe("tokens", () => {
       expect(tokens.elevation).toEqual(elevationTokens);
       expect(tokens.radius).toEqual(radiusTokens);
       expect(tokens.spacing).toEqual(spacingTokens);
-      expect(tokens.text).toEqual(textTokens);
       expect(tokens.typography).toEqual(typographyTokens);
     });
   });

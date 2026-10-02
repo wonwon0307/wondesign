@@ -2,9 +2,9 @@ import type { SemanticColors } from "@wondesign/colors";
 
 import { colorTokens } from "./models/colors";
 import { elevationTokens, type ElevationTokens } from "./models/elevation";
+import { opacityTokens, type OpacityTokens } from "./models/opacity";
 import { radiusTokens, type RadiusTokens } from "./models/radius";
 import { spacingTokens, type SpacingTokens } from "./models/spacing";
-import { textTokens, type TextTokens } from "./models/text";
 import { typographyTokens, type TypographyTokens } from "./models/typography";
 import { zIndexTokens, type ZIndexTokens } from "./models/z-index";
 import { createSimpleBreakpointQueries } from "./utils/breakpoint-queries";
@@ -14,8 +14,8 @@ export type DesignTokens = {
   elevation: ElevationTokens;
   radius: RadiusTokens;
   spacing: SpacingTokens;
-  text: TextTokens;
   typography: TypographyTokens;
+  opacity: OpacityTokens;
   zIndex: ZIndexTokens;
 };
 
@@ -24,8 +24,8 @@ export const tokens: DesignTokens = {
   elevation: { ...elevationTokens },
   radius: { ...radiusTokens },
   spacing: { ...spacingTokens },
-  text: { ...textTokens },
   typography: { ...typographyTokens },
+  opacity: { ...opacityTokens },
   zIndex: { ...zIndexTokens },
 };
 

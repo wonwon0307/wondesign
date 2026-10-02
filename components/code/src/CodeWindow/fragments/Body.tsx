@@ -8,7 +8,7 @@ export interface CodeWindowBodyProps
   extends
     Omit<React.HTMLAttributes<HTMLPreElement>, "children">,
     React.RefAttributes<HTMLPreElement> {
-  size?: "small" | "large";
+  size?: "small" | "medium" | "large";
   maxNumLines?: number;
   showLineNumbers?: boolean;
 }

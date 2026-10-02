@@ -10,7 +10,7 @@ import { styles } from "./styles.css";
 
 export interface KeyboardGroupProps extends React.HTMLAttributes<HTMLElement> {
   shortkey: Shortkey;
-  size?: "small" | "large";
+  size?: "small" | "medium" | "large";
 }
 
 export function KeyboardGroup({

@@ -6,12 +6,14 @@ const formButton = recipe({
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
+    lineHeight: tokens.typography.lineHeight.body,
+    fontWeight: tokens.typography.fontWeight.medium,
+    fontFamily: tokens.typography.fontFamily.normal,
     borderRadius: tokens.radius.sm,
     transition: "all 0.3s ease",
     selectors: {
       "&[data-disabled]": {
-        color: tokens.colors.textMuted,
-        backgroundColor: tokens.colors.surface,
+        opacity: tokens.opacity.disabled,
       },
     },
   },
@@ -20,18 +22,18 @@ const formButton = recipe({
       small: {
         padding: `${tokens.spacing.sm} 0`,
         gap: tokens.spacing.sm,
-        font: tokens.text.bodySmall,
+        font: tokens.typography.fontSize.bodySmall,
       },
       large: {
         padding: `${tokens.spacing.lg} 0`,
         gap: tokens.spacing.md,
-        font: tokens.text.bodyLarge,
+        font: tokens.typography.fontSize.bodyLarge,
       },
       fill: {
         flex: 1,
         padding: `${tokens.spacing.lg} 0`,
         gap: tokens.spacing.md,
-        font: tokens.text.bodyLarge,
+        font: tokens.typography.fontSize.bodyLarge,
       },
     },
     variant: {

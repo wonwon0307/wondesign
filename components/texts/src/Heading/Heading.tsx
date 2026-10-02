@@ -7,7 +7,6 @@ export function Heading({
   level,
   children,
   as,
-  weight,
   maxNumLines = 1,
   className,
   style,
@@ -21,7 +20,7 @@ export function Heading({
     <Component
       {...rest}
       ref={ref}
-      className={clsx(styles.heading({ level, clamped, weight }), className)}
+      className={clsx(styles.heading({ level, clamped }), className)}
       style={clamped ? { ...style, WebkitLineClamp: maxNumLines } : style}
     >
       {children}

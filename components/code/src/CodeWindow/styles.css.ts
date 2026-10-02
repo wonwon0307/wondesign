@@ -12,6 +12,7 @@ const pre = recipe({
   base: {
     margin: 0,
     padding: `${tokens.spacing.md} ${tokens.spacing.lg}`,
+    backgroundColor: tokens.colors.backgroundMuted,
     border: `1px solid ${tokens.colors.borderMuted}`,
     boxShadow: tokens.elevation.lv1,
     scrollbarWidth: "thin",
