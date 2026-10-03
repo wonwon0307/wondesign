@@ -30,7 +30,7 @@
     "@wondesign/buttons": "workspace:*",
     "@wondesign/key-events": "workspace:*",
     "clsx": "catalog:",
-    "shiki": "^4.4.3"
+    "shiki": "^4.5.0"
   },
   "devDependencies": {
     "@vanilla-extract/css": "catalog:",
