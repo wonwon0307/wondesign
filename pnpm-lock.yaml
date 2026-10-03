@@ -321,9 +321,6 @@ importers:
       '@wondesign/key-events':
         specifier: workspace:*
         version: link:../../foundations/key-events
-      '@wondesign/tokens':
-        specifier: workspace:*
-        version: link:../../foundations/tokens
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -343,6 +340,9 @@ importers:
       '@vanilla-extract/rollup-plugin':
         specifier: 'catalog:'
         version: 1.5.4(rollup@4.63.5)(supports-color@8.1.1)
+      '@wondesign/tokens':
+        specifier: workspace:*
+        version: link:../../foundations/tokens
 
   components/headless:
     dependencies:
@@ -420,6 +420,31 @@ importers:
       '@wondesign/headless':
         specifier: workspace:*
         version: link:../headless
+      clsx:
+        specifier: 'catalog:'
+        version: 2.1.1
+      react:
+        specifier: ^19
+        version: 19.3.0
+      react-dom:
+        specifier: ^19
+        version: 19.3.0(react@19.3.0)
+    devDependencies:
+      '@vanilla-extract/css':
+        specifier: 'catalog:'
+        version: 1.21.2
+      '@vanilla-extract/rollup-plugin':
+        specifier: 'catalog:'
+        version: 1.5.4(rollup@4.63.5)(supports-color@8.1.1)
+      '@wondesign/tokens':
+        specifier: workspace:*
+        version: link:../../foundations/tokens
+
+  components/separator:
+    dependencies:
+      '@vanilla-extract/recipes':
+        specifier: 'catalog:'
+        version: 0.5.7(@vanilla-extract/css@1.21.2)
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -726,6 +751,9 @@ importers:
       '@wondesign/navbar':
         specifier: workspace:*
         version: link:../../components/navbar
+      '@wondesign/separator':
+        specifier: workspace:*
+        version: link:../../components/separator
       '@wondesign/tabs':
         specifier: workspace:*
         version: link:../../components/tabs
