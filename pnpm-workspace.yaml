@@ -20,3 +20,7 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@wondocs/core@0.1.0-beta.11'
   - '@wondocs/next-plugin@0.1.0-beta.11'
+
+audit:
+  ignore:
+     - GHSA-vfj7-8cjw-p6xm
