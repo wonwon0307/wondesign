@@ -1,6 +1,6 @@
 {
-  "name": "@wondesign/code",
-  "description": "WonDesign - Code",
+  "name": "@wondesign/separator",
+  "description": "WonDesign - Separator",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,14 +9,15 @@
     "system",
     "ui",
     "components",
-    "code",
+    "separator",
+    "line",
     "react",
     "typescript"
   ],
   "exports": {
-    "./*": {
-      "types": "./dist/*/index.d.mts",
-      "default": "./dist/*/index.mjs"
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     }
   },
   "scripts": {
@@ -27,10 +28,7 @@
   },
   "dependencies": {
     "@vanilla-extract/recipes": "catalog:",
-    "@wondesign/buttons": "workspace:*",
-    "@wondesign/key-events": "workspace:*",
-    "clsx": "catalog:",
-    "shiki": "^4.5.0"
+    "clsx": "catalog:"
   },
   "devDependencies": {
     "@vanilla-extract/css": "catalog:",

@@ -96,4 +96,15 @@ describe("MDX Components", () => {
 
     expect(getByText("console.log(1);")).toBeTruthy();
   });
+
+  it("renders a horizontal separator for the hr component", () => {
+    const { getByTestId } = render(
+      <mdxComponents.hr data-testid="separator">Test</mdxComponents.hr>,
+    );
+    const separator = getByTestId("separator");
+
+    expect(separator).toBeTruthy();
+    expect(separator.tagName).toBe("DIV");
+    expect(separator.getAttribute("aria-hidden")).toBe("true");
+  });
 });
