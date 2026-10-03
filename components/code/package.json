@@ -29,13 +29,13 @@
     "@vanilla-extract/recipes": "catalog:",
     "@wondesign/buttons": "workspace:*",
     "@wondesign/key-events": "workspace:*",
-    "@wondesign/tokens": "workspace:*",
     "clsx": "catalog:",
     "shiki": "^4.4.3"
   },
   "devDependencies": {
     "@vanilla-extract/css": "catalog:",
-    "@vanilla-extract/rollup-plugin": "catalog:"
+    "@vanilla-extract/rollup-plugin": "catalog:",
+    "@wondesign/tokens": "workspace:*"
   },
   "peerDependencies": {
     "react": "^19",
