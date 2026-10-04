@@ -17,8 +17,6 @@ export interface CalloutProps {
 
 function defaultIcon(variant: "info" | "warning" | "error" | "success") {
   switch (variant) {
-    case "info":
-      return "info";
     case "warning":
       return "warning";
     case "error":
@@ -26,7 +24,7 @@ function defaultIcon(variant: "info" | "warning" | "error" | "success") {
     case "success":
       return "check-fill";
     default:
-      return null;
+      return "info";
   }
 }
 
@@ -43,8 +41,6 @@ export function Callout({
     switch (size) {
       case "small":
         return 5;
-      case "medium":
-        return 4;
       case "large":
         return 3;
       default:
@@ -56,8 +52,6 @@ export function Callout({
     switch (size) {
       case "small":
         return 16;
-      case "medium":
-        return 24;
       case "large":
         return 28;
       default:
