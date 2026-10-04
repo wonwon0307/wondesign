@@ -55,7 +55,7 @@ describe("Callout", () => {
     expect(getByText("Warning Content")).toBeTruthy();
     expect(getByTestId("warning-icon")).toBeTruthy();
     expect(getByText("Error Content")).toBeTruthy();
-    expect(getByTestId("error-icon")).toBeTruthy();
+    expect(getByTestId("alert-icon")).toBeTruthy();
   });
 
   it("renders correctly with different sizes", () => {
