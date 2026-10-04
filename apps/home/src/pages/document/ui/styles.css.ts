@@ -30,23 +30,23 @@ const description = style({
 const body = style({
   display: "flex",
   flexDirection: "row",
+  gap: tokens.spacing.layoutMedium,
   "@media": {
     [mediaQueries.breakpoints.large]: {
       padding: `0 ${tokens.spacing.layoutLarge}`,
-      gap: tokens.spacing.layoutLarge,
     },
     [mediaQueries.breakpoints.notLarge]: {
       padding: `0 ${tokens.spacing.layoutMedium}`,
-      gap: tokens.spacing.layoutSmall,
     },
   },
 });
 
 const contents = style({
+  flex: 4,
   display: "flex",
   flexDirection: "column",
-  flex: 1,
   minWidth: 0,
+  gap: tokens.spacing.md,
 });
 
 const heading = style({

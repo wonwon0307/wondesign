@@ -3,19 +3,16 @@ import { recipe } from "@vanilla-extract/recipes";
 import { mediaQueries, tokens } from "@wondesign/ui/tokens";
 
 const toc = style({
+  flex: 1,
   display: "flex",
   flexDirection: "column",
   alignSelf: "flex-start",
   marginTop: tokens.spacing.layoutSmall,
-  padding: tokens.spacing.sm,
   gap: tokens.spacing.md,
   position: "sticky",
   top: "128px",
   borderLeft: `1px solid ${tokens.colors.border}`,
   "@media": {
-    [mediaQueries.breakpoints.large]: {
-      width: "240px",
-    },
     [mediaQueries.breakpoints.notLarge]: {
       // mobile 환경에서는 toc를 숨긴다
       display: "none",
@@ -32,6 +29,7 @@ const heading = style({
 const list = style({
   display: "flex",
   flexDirection: "column",
+  marginBottom: tokens.spacing.lg,
   padding: `0 ${tokens.spacing.lg}`,
   gap: tokens.spacing.md,
 });
@@ -39,11 +37,12 @@ const list = style({
 const link = recipe({
   base: {
     display: "block",
-    fontSize: tokens.typography.fontSize.bodyMedium,
+    fontSize: tokens.typography.fontSize.bodySmall,
+    fontWeight: tokens.typography.fontWeight.medium,
     selectors: {
       '&[aria-current="location"]': {
         color: tokens.colors.primary,
-        fontWeight: tokens.typography.fontWeight.bold,
+        fontWeight: tokens.typography.fontWeight.semibold,
       },
     },
   },
