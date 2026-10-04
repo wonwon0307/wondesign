@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@vanilla-extract/recipes": "catalog:",
+    "@wondesign/icons": "workspace:*",
     "clsx": "catalog:"
   },
   "devDependencies": {
