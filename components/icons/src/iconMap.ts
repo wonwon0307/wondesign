@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import type { IconProps } from "@wondesign/svg2tsx";
 
+import { Alert } from "./components/Alert";
 import { CheckCircle } from "./components/CheckCircle";
 import { CheckFill } from "./components/CheckFill";
 import { Check } from "./components/Check";
@@ -9,7 +10,6 @@ import { ChevronRight } from "./components/ChevronRight";
 import { ColorTheme } from "./components/ColorTheme";
 import { CopyCode } from "./components/CopyCode";
 import { Copy } from "./components/Copy";
-import { Error } from "./components/Error";
 import { ExternalLink } from "./components/ExternalLink";
 import { Info } from "./components/Info";
 import { LoadingBubble } from "./components/LoadingBubble";
@@ -21,6 +21,7 @@ import { Sidebar } from "./components/Sidebar";
 import { Warning } from "./components/Warning";
 
 export type IconName =
+  | "alert"
   | "check-circle"
   | "check-fill"
   | "check"
@@ -29,7 +30,6 @@ export type IconName =
   | "color-theme"
   | "copy-code"
   | "copy"
-  | "error"
   | "external-link"
   | "info"
   | "loading-bubble"
@@ -41,6 +41,7 @@ export type IconName =
   | "warning";
 
 export const iconMap: Record<IconName, ComponentType<IconProps>> = {
+  alert: Alert,
   "check-circle": CheckCircle,
   "check-fill": CheckFill,
   check: Check,
@@ -49,7 +50,6 @@ export const iconMap: Record<IconName, ComponentType<IconProps>> = {
   "color-theme": ColorTheme,
   "copy-code": CopyCode,
   copy: Copy,
-  error: Error,
   "external-link": ExternalLink,
   info: Info,
   "loading-bubble": LoadingBubble,
