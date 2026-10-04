@@ -16,10 +16,7 @@ const toc = style({
     [mediaQueries.breakpoints.large]: {
       width: "240px",
     },
-    [mediaQueries.breakpoints.medium]: {
-      width: "140px",
-    },
-    [mediaQueries.breakpoints.small]: {
+    [mediaQueries.breakpoints.notLarge]: {
       // mobile 환경에서는 toc를 숨긴다
       display: "none",
     },
