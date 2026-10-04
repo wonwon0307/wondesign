@@ -501,6 +501,9 @@ importers:
       '@vanilla-extract/recipes':
         specifier: 'catalog:'
         version: 0.5.7(@vanilla-extract/css@1.21.2)
+      '@wondesign/icons':
+        specifier: workspace:*
+        version: link:../icons
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
