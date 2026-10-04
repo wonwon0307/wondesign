@@ -13,19 +13,19 @@ const callout = recipe({
     variant: {
       info: {
         color: tokens.colors.text,
-        backgroundColor: colorWithFade(tokens.colors.text, 0.2),
+        backgroundColor: colorWithFade(tokens.colors.text, 0.12),
       },
       warning: {
         color: tokens.colors.warning,
-        backgroundColor: colorWithFade(tokens.colors.warning, 0.2),
+        backgroundColor: colorWithFade(tokens.colors.warning, 0.12),
       },
       error: {
         color: tokens.colors.error,
-        backgroundColor: colorWithFade(tokens.colors.error, 0.2),
+        backgroundColor: colorWithFade(tokens.colors.error, 0.12),
       },
       success: {
         color: tokens.colors.success,
-        backgroundColor: colorWithFade(tokens.colors.success, 0.2),
+        backgroundColor: colorWithFade(tokens.colors.success, 0.12),
       },
     },
     size: {
@@ -44,14 +44,11 @@ const callout = recipe({
 
 const icon = style({
   gridArea: "1 / 1",
-  display: "flex",
-  alignContent: "center",
-  justifyContent: "center",
+  marginTop: tokens.spacing.lg,
 });
 
 const title = style({
   gridArea: "1 / 2",
-  padding: 0,
 });
 
 const main = style({
