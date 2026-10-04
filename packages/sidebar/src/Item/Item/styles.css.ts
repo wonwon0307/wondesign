@@ -21,7 +21,8 @@ const item = recipe({
     gap: tokens.spacing.md,
     borderRadius: tokens.radius.sm,
     position: "relative",
-    fontSize: tokens.typography.fontSize.bodyLarge,
+    fontSize: tokens.typography.fontSize.bodyMedium,
+    lineHeight: tokens.typography.lineHeight.body,
     backgroundColor: "transparent",
     userSelect: "none",
     selectors: {
@@ -45,7 +46,7 @@ const item = recipe({
     isActive: {
       true: {
         color: tokens.colors.primary,
-        fontWeight: tokens.typography.fontWeight.semibold,
+        fontWeight: tokens.typography.fontWeight.medium,
         backgroundColor: colorWithFade(tokens.colors.primary, 0.12),
         selectors: {
           "&:focus-visible": {

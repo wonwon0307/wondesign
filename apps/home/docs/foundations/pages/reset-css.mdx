@@ -1,0 +1,87 @@
+---
+title: Reset CSS
+description: A minimal, dependency-free CSS reset that normalizes box-sizing, typography, forms, links and much more across browsers.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/reset-css" relPath="foundations/reset-css">
+  `@wondesign/reset-css` is a single plain CSS file. No build step, no config,
+  no JS — just a stylesheet that normalizes browser defaults (box sizing,
+  typography, form elements, links, etc.) before any custom styles are applied.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/reset-css
+```
+
+---
+
+## Usage
+
+A few common ways to load it — pick whichever fits your setup.
+
+<Callout title="Using @wondesign/ui?" size="small">
+  The reset is bundled into `@wondesign/ui/styles.css`, so there's no need to
+  install this package separately.
+</Callout>
+
+### 1. App root import
+
+Import the css from the root of the app. For example, `app/layout.tsx` of NextJS App Router.
+
+```tsx
+// layout.tsx
+import "@wondesign/reset-css";
+
+export default function RootLayout() {
+  // ...
+}
+```
+
+### 2. Root CSS import
+
+Import the css from the root css of the app.
+Make sure this import is done as high in the tree as possible, before any other styles.
+
+```css
+/* root.css */
+@import "@wondesign/reset-css";
+```
+
+And import the root css from app root.
+
+```tsx
+// root.tsx
+import "./root.css";
+
+export default function RootLayout() {
+  // ...
+}
+```
+
+### 3. Via CSS framework API
+
+`@wondesign/reset-css` is just a stylesheet — nothing about it depends on a
+specific loading mechanism. If your framework exposes its own way to apply
+global styles (e.g. a `globalStyle()`/`createGlobalStyle()`-style API), you
+can use that instead of the plain imports in steps 1 and 2 above.
+
+---
+
+## Compatibility
+
+✅ You're free to customize `@wondesign/reset-css` yourself — it's not a
+build artifact, just a stylesheet.
+
+✅ **Browser support.** Targets modern evergreen browsers (Chrome, Firefox,
+Safari, Edge). It does not patch legacy browsers such as IE11.
+
+⚠️ **Tailwind.** Tailwind's Preflight layer already applies its own reset.
+Importing both can cause rules to double up or conflict — pick one, or
+scope `@wondesign/reset-css` to parts of your app that don't use Tailwind.

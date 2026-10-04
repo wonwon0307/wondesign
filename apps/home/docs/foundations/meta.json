@@ -1,3 +1,10 @@
 {
-  "sidebar": ["[About](/about)"]
+  "sidebar": [
+    "[About](/about)",
+    {
+      "type": "group",
+      "label": "Primitives",
+      "items": ["[Reset CSS](/reset-css)"]
+    }
+  ]
 }

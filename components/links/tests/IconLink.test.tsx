@@ -22,4 +22,18 @@ describe("IconLink", () => {
 
     expect(getByText("check-fill")).toBeTruthy(); // mocked in line 5
   });
+
+  it("renders with different sizes correctly", () => {
+    const { getByText } = render(
+      <>
+        <IconLink icon="check-circle" size="small" />
+        <IconLink icon="check-fill" size="medium" />
+        <IconLink icon="check" size="large" />
+      </>,
+    );
+
+    expect(getByText("check-circle")).toBeTruthy();
+    expect(getByText("check-fill")).toBeTruthy();
+    expect(getByText("check")).toBeTruthy();
+  });
 });

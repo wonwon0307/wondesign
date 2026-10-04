@@ -4,7 +4,7 @@ export const wondesignLight: SemanticColors = {
   primary: "#1647E8",
   onPrimary: "#F9FAFB",
   error: "#B91C1C",
-  warning: "#EBB30B",
+  warning: "#D27700",
   success: "#007200",
   background: "#F5F5F9",
   backgroundHighlight: "#88889025",

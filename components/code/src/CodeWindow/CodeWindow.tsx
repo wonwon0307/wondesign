@@ -1,3 +1,5 @@
+import { clsx } from "clsx";
+
 import { CodeWindowWrapper } from "./fragments/Wrapper";
 import { CodeWindowBody } from "./fragments/Body";
 import { CodeWindowCopyButton } from "./fragments/Copy";
@@ -11,6 +13,8 @@ export interface CodeWindowProps {
   maxNumLines?: number;
   showLineNumbers?: boolean;
   disableCopy?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 export function CodeWindow({
@@ -21,11 +25,18 @@ export function CodeWindow({
   maxNumLines,
   showLineNumbers,
   disableCopy = false,
+  className,
+  style,
 }: Readonly<CodeWindowProps>) {
   const hasChildren = Boolean(children);
 
   return (
-    <CodeWindowWrapper code={code} lang={lang} className={styles.wrapper}>
+    <CodeWindowWrapper
+      code={code}
+      lang={lang}
+      className={clsx(styles.wrapper, className)}
+      style={style}
+    >
       {children}
       {!disableCopy && <CodeWindowCopyButton className={styles.codeCopy} />}
       <CodeWindowBody

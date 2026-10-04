@@ -10,14 +10,18 @@ import { ChevronRight } from "./components/ChevronRight";
 import { ColorTheme } from "./components/ColorTheme";
 import { CopyCode } from "./components/CopyCode";
 import { Copy } from "./components/Copy";
+import { DownloadCode } from "./components/DownloadCode";
+import { Download } from "./components/Download";
 import { ExternalLink } from "./components/ExternalLink";
 import { Info } from "./components/Info";
 import { LoadingBubble } from "./components/LoadingBubble";
 import { LoadingLine } from "./components/LoadingLine";
 import { LoadingTail } from "./components/LoadingTail";
 import { Loading } from "./components/Loading";
+import { Package } from "./components/Package";
 import { SidebarArrow } from "./components/SidebarArrow";
 import { Sidebar } from "./components/Sidebar";
+import { Upload } from "./components/Upload";
 import { Warning } from "./components/Warning";
 
 export type IconName =
@@ -30,14 +34,18 @@ export type IconName =
   | "color-theme"
   | "copy-code"
   | "copy"
+  | "download-code"
+  | "download"
   | "external-link"
   | "info"
   | "loading-bubble"
   | "loading-line"
   | "loading-tail"
   | "loading"
+  | "package"
   | "sidebar-arrow"
   | "sidebar"
+  | "upload"
   | "warning";
 
 export const iconMap: Record<IconName, ComponentType<IconProps>> = {
@@ -50,13 +58,17 @@ export const iconMap: Record<IconName, ComponentType<IconProps>> = {
   "color-theme": ColorTheme,
   "copy-code": CopyCode,
   copy: Copy,
+  "download-code": DownloadCode,
+  download: Download,
   "external-link": ExternalLink,
   info: Info,
   "loading-bubble": LoadingBubble,
   "loading-line": LoadingLine,
   "loading-tail": LoadingTail,
   loading: Loading,
+  package: Package,
   "sidebar-arrow": SidebarArrow,
   sidebar: Sidebar,
+  upload: Upload,
   warning: Warning,
 };
