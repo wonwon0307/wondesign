@@ -9,13 +9,16 @@ import { ChevronRight } from "./components/ChevronRight";
 import { ColorTheme } from "./components/ColorTheme";
 import { CopyCode } from "./components/CopyCode";
 import { Copy } from "./components/Copy";
+import { Error } from "./components/Error";
 import { ExternalLink } from "./components/ExternalLink";
+import { Info } from "./components/Info";
 import { LoadingBubble } from "./components/LoadingBubble";
 import { LoadingLine } from "./components/LoadingLine";
 import { LoadingTail } from "./components/LoadingTail";
 import { Loading } from "./components/Loading";
 import { SidebarArrow } from "./components/SidebarArrow";
 import { Sidebar } from "./components/Sidebar";
+import { Warning } from "./components/Warning";
 
 export type IconName =
   | "check-circle"
@@ -26,13 +29,16 @@ export type IconName =
   | "color-theme"
   | "copy-code"
   | "copy"
+  | "error"
   | "external-link"
+  | "info"
   | "loading-bubble"
   | "loading-line"
   | "loading-tail"
   | "loading"
   | "sidebar-arrow"
-  | "sidebar";
+  | "sidebar"
+  | "warning";
 
 export const iconMap: Record<IconName, ComponentType<IconProps>> = {
   "check-circle": CheckCircle,
@@ -43,11 +49,14 @@ export const iconMap: Record<IconName, ComponentType<IconProps>> = {
   "color-theme": ColorTheme,
   "copy-code": CopyCode,
   copy: Copy,
+  error: Error,
   "external-link": ExternalLink,
+  info: Info,
   "loading-bubble": LoadingBubble,
   "loading-line": LoadingLine,
   "loading-tail": LoadingTail,
   loading: Loading,
   "sidebar-arrow": SidebarArrow,
   sidebar: Sidebar,
+  warning: Warning,
 };
