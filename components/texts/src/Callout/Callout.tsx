@@ -20,7 +20,7 @@ function defaultIcon(variant: "info" | "warning" | "error" | "success") {
     case "warning":
       return "warning";
     case "error":
-      return "error";
+      return "alert";
     case "success":
       return "check-fill";
     default:
