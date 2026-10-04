@@ -5,7 +5,7 @@ description: A minimal, dependency-free CSS reset that normalizes box-sizing, ty
 import { Callout } from "@wondesign/ui/Texts";
 import { PackageInfo } from "@/entities/package";
 
-<PackageInfo name="@wondesign/reset-css" relPath="./foundations/reset-css">
+<PackageInfo name="@wondesign/reset-css" relPath="foundations/reset-css">
 `@wondesign/reset-css` is a single plain CSS file. No build step, no config,
 no JS — just a stylesheet that normalizes browser defaults (box sizing,
 typography, form elements, links, etc.) before any custom styles are applied.
@@ -65,7 +65,7 @@ export default function RootLayout() {
 }
 ```
 
-### 3. Via your CSS framework's API
+### 3. Via CSS framework API
 
 `@wondesign/reset-css` is just a stylesheet — nothing about it depends on a
 specific loading mechanism. If your framework exposes its own way to apply
