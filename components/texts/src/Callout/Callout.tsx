@@ -8,7 +8,7 @@ import { styles } from "./styles.css";
 export interface CalloutProps {
   children: React.ReactNode;
   variant?: "info" | "warning" | "error" | "success";
-  title?: string;
+  title?: React.ReactNode;
   icon?: React.ReactNode;
   size?: "small" | "medium" | "large";
   className?: string;
@@ -51,7 +51,7 @@ export function Callout({
   const iconSize = () => {
     switch (size) {
       case "small":
-        return 16;
+        return 20;
       case "large":
         return 28;
       default:
@@ -72,9 +72,13 @@ export function Callout({
         )}
       </div>
       {title && (
-        <Heading level={headingLevel()} className={styles.title}>
-          {title}
-        </Heading>
+        <div className={styles.title}>
+          {typeof title === "string" ? (
+            <Heading level={headingLevel()}>{title}</Heading>
+          ) : (
+            title
+          )}
+        </div>
       )}
       <div className={styles.main}>
         {typeof children === "string" ? (

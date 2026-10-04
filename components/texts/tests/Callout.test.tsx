@@ -13,15 +13,16 @@ describe("Callout", () => {
     expect(getByText("Test Content")).toBeTruthy();
   });
 
-  it("renders correctly with custom children", () => {
+  it("renders correctly with custom children and title", () => {
     const { getByText } = render(
-      <Callout>
+      <Callout title={<h1>Test Title</h1>}>
         <span>
           Custom Child <strong>Test Bold</strong>
         </span>
       </Callout>,
     );
 
+    expect(getByText("Test Title")).toBeTruthy();
     expect(getByText("Custom Child")).toBeTruthy();
     expect(getByText("Test Bold")).toBeTruthy();
   });
