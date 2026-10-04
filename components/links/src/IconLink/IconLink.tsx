@@ -28,12 +28,23 @@ export function IconLink({
   className,
   ...rest
 }: IconLinkProps) {
+  const iconSize = () => {
+    switch (size) {
+      case "small":
+        return 16;
+      case "large":
+        return 32;
+      default:
+        return 24;
+    }
+  };
+
   return (
     <Anchor
       {...rest}
       className={clsx(styles.iconlink({ rounded, ghost, size }), className)}
     >
-      {icon ? <AppIcon icon={icon} /> : children}
+      {icon ? <AppIcon icon={icon} size={iconSize()} /> : children}
     </Anchor>
   );
 }
