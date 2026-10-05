@@ -31,9 +31,5 @@ jobs:
         id: changesets
         uses: changesets/action@v2
         with:
-          # 이 명령어들은 package.json에 정의한 스크립트를 실행합니다.
           version-script: pnpm run version
           publish-script: pnpm release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
