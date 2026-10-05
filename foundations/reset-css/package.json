@@ -21,6 +21,10 @@
     "url": "git+https://github.com/wonwon0307/wondesign.git",
     "directory": "foundations/reset-css"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "license": "MIT",
   "files": [
     "dist"
