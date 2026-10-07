@@ -54,6 +54,7 @@ const defaultOptions: ResolvedConfig = {
   suffix: "",
   facadeSuffix: "Icon",
   entry: {
+    name: "app",
     srcDir: "assets",
     outDir: "src",
   },
