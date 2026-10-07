@@ -40,53 +40,38 @@ export function Callout({
   const headingLevel = () => {
     switch (size) {
       case "small":
-        return 5;
+        return 6;
       case "large":
-        return 3;
-      default:
         return 4;
-    }
-  };
-
-  const iconSize = () => {
-    switch (size) {
-      case "small":
-        return 20;
-      case "large":
-        return 28;
       default:
-        return 24;
+        return 5;
     }
   };
 
   return (
-    <div
-      className={clsx(styles.callout({ variant, size }), className)}
-      style={style}
-    >
-      <div className={styles.icon}>
-        {typeof icon === "string" ? (
-          <AppIcon icon={icon as IconName} size={iconSize()} />
-        ) : (
-          icon
-        )}
+    <div className={clsx(styles.callout({ variant }), className)} style={style}>
+      <div className={styles.icon({ size })}>
+        {typeof icon === "string" ? <AppIcon icon={icon as IconName} /> : icon}
       </div>
-      {title && (
-        <div className={styles.title}>
-          {typeof title === "string" ? (
-            <Heading level={headingLevel()}>{title}</Heading>
-          ) : (
-            title
-          )}
+      {title && typeof title === "string" ? (
+        <Heading level={headingLevel()} className={styles.title}>
+          {title}
+        </Heading>
+      ) : (
+        <div className={styles.title}>{title}</div>
+      )}
+      {typeof children === "string" ? (
+        <Paragraph
+          size={size}
+          className={styles.paragraph({ hasTitle: !!title })}
+        >
+          {children}
+        </Paragraph>
+      ) : (
+        <div className={styles.paragraph({ hasTitle: !!title })}>
+          {children}
         </div>
       )}
-      <div className={styles.main}>
-        {typeof children === "string" ? (
-          <Paragraph size={size}>{children}</Paragraph>
-        ) : (
-          children
-        )}
-      </div>
     </div>
   );
 }
