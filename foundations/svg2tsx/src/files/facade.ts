@@ -1,15 +1,37 @@
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { ConfigManager } from "@/config/manager";
-import { FileToWrite } from "./base";
+import { Converter } from "@/converter";
+import { atomicWrite } from "@/lib/atomicWrite";
+import { kebabToPascal } from "@/lib/format";
+import { logger } from "@/lib/logger";
 
-export class FacadeComponentFile extends FileToWrite {
-  constructor(familyName: string, componentName: string) {
+export class FacadeFile {
+  private readonly componentName: string;
+  private readonly outPath: string;
+  private content: string;
+
+  constructor(familyName: string) {
+    const componentName = `${kebabToPascal(familyName)}${Converter.config.getConfig(familyName).facadeSuffix}`;
     const outPath = join(
-      ConfigManager.config.outDir,
-      familyName,
+      Converter.config.getConfig(familyName).outDir,
       `${componentName}.tsx`,
     );
+
+    this.componentName = componentName;
+    this.outPath = outPath;
+    this.content = "";
+    this.prepare(outPath);
+  }
+
+  private prepare(filePath: string): void {
+    const existingContent = this.readExisting(filePath);
+
+    if (existingContent !== null) {
+      logger.info(`Facade component already exists, preserving: ${filePath}`);
+      this.content = existingContent;
+      return;
+    }
 
     const content = [
       `import type { IconProps } from "@wondesign/svg2tsx";`,
@@ -18,7 +40,7 @@ export class FacadeComponentFile extends FileToWrite {
       "",
       "type Props = IconProps & { icon: IconName };",
       "",
-      `export function ${componentName}({ icon, size, ...rest }: Readonly<Props>) {`,
+      `export function ${this.componentName}({ icon, ...rest }: Readonly<Props>) {`,
       "  const IconComponent = iconMap[icon];",
       "",
       "  if (!IconComponent) {",
@@ -26,15 +48,23 @@ export class FacadeComponentFile extends FileToWrite {
       "    return null;",
       "  }",
       "",
-      "  return <IconComponent size={size} {...rest} />;",
+      "  return <IconComponent {...rest} />;",
       "}",
       "",
     ];
 
-    super(outPath, content);
+    this.content = content.join("\n");
   }
 
-  public prepare(): void {
-    this.content = this.lines.join("\n");
+  private readExisting(filePath: string): string | null {
+    try {
+      return readFileSync(filePath, "utf-8");
+    } catch {
+      return null;
+    }
+  }
+
+  public async save(): Promise<void> {
+    await atomicWrite(this.outPath, this.content);
   }
 }
