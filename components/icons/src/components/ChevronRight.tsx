@@ -1,5 +1,5 @@
 import type { IconProps } from "@wondesign/svg2tsx";
-export function ChevronRight({ size = 16, ...props }: Readonly<IconProps>) {
+export function ChevronRight({ size = "1em", ...props }: Readonly<IconProps>) {
   return (
     <svg
       {...props}

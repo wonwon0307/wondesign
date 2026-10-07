@@ -1,5 +1,5 @@
 import type { IconProps } from "@wondesign/svg2tsx";
-export function LoadingTail({ size = 16, ...props }: Readonly<IconProps>) {
+export function LoadingTail({ size = "1em", ...props }: Readonly<IconProps>) {
   return (
     <svg
       {...props}

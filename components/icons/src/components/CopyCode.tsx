@@ -1,5 +1,5 @@
 import type { IconProps } from "@wondesign/svg2tsx";
-export function CopyCode({ size = 16, ...props }: Readonly<IconProps>) {
+export function CopyCode({ size = "1em", ...props }: Readonly<IconProps>) {
   return (
     <svg
       {...props}
