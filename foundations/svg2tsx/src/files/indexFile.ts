@@ -1,29 +1,43 @@
 import { join } from "node:path";
 
-import { ConfigManager } from "@/config/manager";
-import { FileToWrite } from "./base";
-import { type IconMetadata } from "./icon";
+import { Converter } from "@/converter";
+import { atomicWrite } from "@/lib/atomicWrite";
+import { kebabToPascal } from "@/lib/format";
 
-export class IndexFile extends FileToWrite {
+export class IndexFile {
+  private readonly outPath: string;
+  private readonly lines: string[];
+
   constructor(familyName: string) {
-    const outPath = join(ConfigManager.config.outDir, familyName, "index.ts");
-    super(outPath);
+    const outPath = join(
+      Converter.config.getConfig(familyName).outDir,
+      "index.ts",
+    );
+    this.outPath = outPath;
+    this.lines = [];
   }
 
-  public addIconExport(icon: IconMetadata) {
-    this.addLine(
-      `export { ${icon.componentName} } from "./components/${icon.componentName}";`,
+  public addIcon(componentName: string): void {
+    this.lines.push(
+      `export { ${componentName} } from "./components/${componentName}";`,
     );
   }
 
-  public addFacadeExport(componentName: string) {
-    this.addLine(`export { ${componentName} } from "./${componentName}";`);
-    this.addLine(`export type { IconName } from "./iconMap";\n`);
-    this.addLine(`export type { IconProps } from "@wondesign/svg2tsx";`);
-  }
+  public async save(familyName: string): Promise<void> {
+    const facadeName =
+      kebabToPascal(familyName) +
+      Converter.config.getConfig(familyName).facadeSuffix;
+    if (Converter.config.getConfig(familyName).mode !== "barrel") {
+      const facadeLines = [
+        `export { ${facadeName} } from "./${facadeName}";`,
+        `export type { IconName } from "./iconMap";`,
+        "",
+        `export type { IconProps } from "@wondesign/svg2tsx";`,
+      ];
+      this.lines.push(...facadeLines);
+    }
+    const content = this.lines.join("\n");
 
-  public prepare(): void {
-    // index 파일은 content가 lines와 동일하다.
-    this.content = this.lines.join("\n");
+    await atomicWrite(this.outPath, content);
   }
 }

@@ -1,5 +1,5 @@
 import type { IconProps } from "@wondesign/svg2tsx";
-export function CheckCircle({ size = 16, ...props }: Readonly<IconProps>) {
+export function CheckCircle({ size = "1em", ...props }: Readonly<IconProps>) {
   return (
     <svg
       {...props}

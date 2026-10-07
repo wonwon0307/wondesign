@@ -1,5 +1,5 @@
 import type { IconProps } from "@wondesign/svg2tsx";
-export function Download({ size = 16, ...props }: Readonly<IconProps>) {
+export function Download({ size = "1em", ...props }: Readonly<IconProps>) {
   return (
     <svg
       {...props}

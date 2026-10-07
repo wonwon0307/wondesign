@@ -1,43 +1,45 @@
 import { join } from "node:path";
 
-import { ConfigManager } from "@/config/manager";
-import { FileToWrite } from "./base";
-import { type IconMetadata } from "./icon";
+import { Converter } from "@/converter";
+import { atomicWrite } from "@/lib/atomicWrite";
 
-export class IconMapFile extends FileToWrite {
+export class IconMapFile {
+  private readonly outPath: string;
+  // 최상단 import 라인
+  private readonly lines: string[];
+  // type IconName 정의 라인
   private readonly iconNameTypeLines: string[];
+  // iconMap 레코드 정의 라인
   private readonly iconMapRecordLines: string[];
 
   constructor(familyName: string) {
-    const outPath = join(ConfigManager.config.outDir, familyName, "iconMap.ts");
-    super(outPath);
+    const outPath = join(
+      Converter.config.getConfig(familyName).outDir,
+      "iconMap.ts",
+    );
+    this.outPath = outPath;
 
-    // 최상단에 일단 import를 넣어둔다.
-    this.addLine(`import type { ComponentType } from "react";`);
-    this.addLine(`import type { IconProps } from "@wondesign/svg2tsx";`);
-    this.addLine("");
-
+    this.lines = [
+      'import type { ComponentType } from "react";',
+      'import type { IconProps } from "@wondesign/svg2tsx";',
+      "",
+    ];
     this.iconNameTypeLines = ["export type IconName ="];
-
     this.iconMapRecordLines = [
       "export const iconMap: Record<IconName, ComponentType<IconProps>> = {",
     ];
   }
 
-  public addIconEntry(icon: IconMetadata) {
+  public addIcon(iconName: string, componentName: string): void {
     // 최상단에 import
-    this.addLine(
-      `import { ${icon.componentName} } from "./components/${icon.componentName}";`,
+    this.lines.push(
+      `import { ${componentName} } from "./components/${componentName}";`,
     );
-
-    // IconName 타입 라인 추가
-    this.iconNameTypeLines.push(`  | "${icon.svgName}"`);
-
-    // iconMap 레코드 라인 추가
-    this.iconMapRecordLines.push(`  "${icon.svgName}": ${icon.componentName},`);
+    this.iconNameTypeLines.push(`  | "${iconName}"`);
+    this.iconMapRecordLines.push(`  "${iconName}": ${componentName},`);
   }
 
-  public prepare(): void {
+  public async save(): Promise<void> {
     const fullContent = [
       ...this.lines,
       "",
@@ -45,6 +47,8 @@ export class IconMapFile extends FileToWrite {
       "",
       this.iconMapRecordLines.join("\n") + "};",
     ];
-    this.content = fullContent.join("\n");
+    const content = fullContent.join("\n");
+
+    await atomicWrite(this.outPath, content);
   }
 }
