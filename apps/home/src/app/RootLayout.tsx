@@ -15,8 +15,6 @@ import "@wondesign/ui/styles.css";
 const googleSans = Google_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
-  variable: "--font-family-normal",
-  fallback: ["system-ui"],
   display: "swap",
   preload: true,
 });
@@ -24,8 +22,6 @@ const googleSans = Google_Sans({
 const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
-  variable: "--font-family-code",
-  fallback: ["monospace"],
   display: "swap",
   preload: true,
 });
@@ -33,7 +29,6 @@ const jetBrainsMono = JetBrains_Mono({
 const kalam = Kalam({
   subsets: ["latin"],
   weight: ["400", "700"],
-  variable: "--font-family-brand",
   display: "swap",
   preload: true,
 });
@@ -41,8 +36,6 @@ const kalam = Kalam({
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
-  variable: "--font-family-quote",
-  fallback: ["serif"],
   display: "swap",
   preload: true,
 });
@@ -60,10 +53,10 @@ export function RootLayout({ children }: Readonly<Props>) {
       <ThemeProvider withSystem defaultMode="system">
         <body
           className={clsx(
-            googleSans.variable,
-            jetBrainsMono.variable,
-            kalam.variable,
-            robotoSlab.variable,
+            googleSans.className,
+            jetBrainsMono.className,
+            kalam.className,
+            robotoSlab.className,
             styles.body,
           )}
         >
