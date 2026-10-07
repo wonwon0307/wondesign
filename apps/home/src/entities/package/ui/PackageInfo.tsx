@@ -17,6 +17,7 @@ export function PackageInfo({ name, relPath, children }: Readonly<Props>) {
     <Callout
       title={<Header name={name} relPath={relPath} />}
       icon="package"
+      size="large"
       className={styles.callout}
     >
       {children}
@@ -27,9 +28,7 @@ export function PackageInfo({ name, relPath, children }: Readonly<Props>) {
 function Header({ name, relPath }: Readonly<Pick<Props, "name" | "relPath">>) {
   return (
     <div className={styles.header}>
-      <Heading level={3} className={styles.left}>
-        {name}
-      </Heading>
+      <Heading level={4}>{name}</Heading>
       <div className={styles.right}>
         <Tooltip
           text="View the package on npm"
