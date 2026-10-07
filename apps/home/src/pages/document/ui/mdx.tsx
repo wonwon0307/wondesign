@@ -1,7 +1,7 @@
 import { CodeWindow, InlineCode } from "@wondesign/ui/Code";
 import { Hyperlink } from "@wondesign/ui/Links";
 import { Separator } from "@wondesign/ui/Separator";
-import { Heading, Paragraph } from "@wondesign/ui/Texts";
+import { Callout, Heading, Paragraph } from "@wondesign/ui/Texts";
 
 import { styles } from "./styles.css";
 
@@ -72,4 +72,10 @@ export const mdxComponents = {
       />
     );
   },
+  blockquote: (props: Props) => (
+    <Callout {...props} className={styles.callout} />
+  ),
+  ul: (props: Props) => <ul {...props} className={styles.list} />,
+  ol: (props: Props) => <ol {...props} className={styles.list} />,
+  li: (props: Props) => <li {...props} className={styles.listItem} />,
 };

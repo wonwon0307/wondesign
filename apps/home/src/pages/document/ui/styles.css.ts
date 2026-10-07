@@ -63,6 +63,20 @@ const codeBlock = style({
   margin: `${tokens.spacing.md} 0`,
 });
 
+const callout = style({
+  margin: `${tokens.spacing.md} 0`,
+});
+
+const list = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: tokens.spacing.md,
+});
+
+const listItem = style({
+  marginLeft: tokens.spacing.md,
+});
+
 export const styles = {
   container,
   header,
@@ -72,4 +86,7 @@ export const styles = {
   heading,
   separator,
   codeBlock,
+  callout,
+  list,
+  listItem,
 };
