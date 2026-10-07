@@ -2,7 +2,8 @@
   "extends": "@repo/tsconfig/base.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/tests/*": ["./tests/*"]
     }
   },
   "include": ["**/*.ts"],
