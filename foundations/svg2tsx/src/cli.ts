@@ -4,9 +4,10 @@ declare const __PKG_VERSION__: string;
 
 import { Command } from "commander";
 
-import { generate } from "./generate";
+import { Converter } from "./converter";
 
 const program = new Command();
+const converter = new Converter();
 
 program
   .name("svg2tsx")
@@ -14,6 +15,10 @@ program
   .version(__PKG_VERSION__)
   .option("-c, --config <path>", "path to config file")
   .option("--dry-run", "preview changes without writing any files")
-  .action(() => generate(program.opts()));
+  .action(() => {
+    const opts = program.opts();
+
+    return converter.run(opts.config, opts.dryRun);
+  });
 
 program.parse();

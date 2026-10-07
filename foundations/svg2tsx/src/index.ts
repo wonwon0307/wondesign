@@ -1,7 +1,7 @@
-export { defineConfig } from "./config/manager";
+export { defineConfig } from "./config/defineConfig";
 
-export type { Config } from "./config/manager";
+export type { Config } from "./config/types";
 
 export type IconProps = {
-  size?: number;
+  size?: number | string;
 } & React.SVGProps<SVGSVGElement>;
