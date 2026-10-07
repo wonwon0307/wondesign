@@ -17,9 +17,8 @@ export async function clean(dir: string): Promise<void> {
     await rm(resolvedDir, { recursive: true, force: true });
     await mkdir(resolvedDir, { recursive: true });
   } catch (error) {
-    throw new Error(
-      `Error cleaning directory "${dir}": ${error instanceof Error ? error.message : String(error)}`,
-      { cause: error },
-    );
+    throw new Error(`Error cleaning directory "${dir}": ${error}`, {
+      cause: error,
+    });
   }
 }
