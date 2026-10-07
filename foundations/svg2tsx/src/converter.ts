@@ -38,15 +38,14 @@ export class Converter {
       await Converter.config.loadConfig(filePath);
       this.families = Converter.config.getFamilies();
 
-      for (const family of this.families) {
-        await this.scanFamily(family);
-
-        if (!dryRun) {
-          await clean(Converter.config.getConfig(family).outDir);
-        }
-      }
+      await Promise.all(this.families.map((family) => this.scanFamily(family)));
 
       if (!dryRun) {
+        await Promise.all(
+          this.families.map((family) =>
+            clean(Converter.config.getConfig(family).outDir),
+          ),
+        );
         await this.saveFiles();
       }
     } catch (error) {
@@ -85,9 +84,15 @@ export class Converter {
       );
     }
 
-    for (const absSvgPath of svgFiles) {
-      const iconFile = new IconFile(absSvgPath, familyName);
-      const { svgName, componentName } = await iconFile.scan();
+    const scannedIcons = await Promise.all(
+      svgFiles.map(async (absSvgPath) => {
+        const iconFile = new IconFile(absSvgPath, familyName);
+        const { svgName, componentName } = await iconFile.scan();
+        return { iconFile, svgName, componentName };
+      }),
+    );
+
+    for (const { iconFile, svgName, componentName } of scannedIcons) {
       this.iconFiles.push(iconFile);
       this.iconMapFiles.get(familyName)?.addIcon(svgName, componentName);
 
@@ -98,18 +103,22 @@ export class Converter {
   }
 
   private async saveFiles(): Promise<void> {
+    const tasks: Promise<void>[] = [];
+
     for (const familyName of this.families) {
-      await this.indexFiles.get(familyName)!.save(familyName);
+      tasks.push(this.indexFiles.get(familyName)!.save(familyName));
 
       if (this.facadeFiles.has(familyName)) {
-        await this.facadeFiles.get(familyName)!.save();
+        tasks.push(this.facadeFiles.get(familyName)!.save());
       }
 
       if (this.iconMapFiles.has(familyName)) {
-        await this.iconMapFiles.get(familyName)!.save();
+        tasks.push(this.iconMapFiles.get(familyName)!.save());
       }
     }
 
-    await Promise.all(this.iconFiles.map((iconFile) => iconFile.save()));
+    tasks.push(...this.iconFiles.map((iconFile) => iconFile.save()));
+
+    await Promise.all(tasks);
   }
 }
