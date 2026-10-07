@@ -1,14 +1,14 @@
 import { Converter } from "@/converter";
 import { IconFile } from "@/files/icon";
-import { testOptions } from "@/tests/testdata/config";
 
 describe("IconFile - corner cases", () => {
-  beforeEach(() => {
-    vi.spyOn(Converter.config, "getConfig").mockReturnValue({
-      ...testOptions,
-      srcDir: "testsrc",
-      outDir: "testout",
-    });
+  vi.spyOn(Converter.config, "getConfig").mockReturnValue({
+    mode: "barrel",
+    suffix: "",
+    facadeSuffix: "Icon",
+    srcDir: "testsrc",
+    outDir: "testout",
+    svgrOptions: {},
   });
 
   it("throws an error if save() is called before scan()", async () => {
