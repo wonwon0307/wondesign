@@ -21,7 +21,7 @@ const item = recipe({
     gap: tokens.spacing.md,
     borderRadius: tokens.radius.sm,
     position: "relative",
-    fontSize: tokens.typography.fontSize.bodyMedium,
+    fontSize: tokens.typography.fontSize.bodySmall,
     lineHeight: tokens.typography.lineHeight.body,
     backgroundColor: "transparent",
     userSelect: "none",
@@ -95,7 +95,7 @@ const subitems = recipe({
     display: "flex",
     flexDirection: "column",
     paddingLeft: tokens.spacing.xl,
-    gap: tokens.spacing.xs,
+    gap: tokens.spacing.sm,
     selectors: {
       "&[data-state='closed']:not([data-force-visible])": {
         display: "none",

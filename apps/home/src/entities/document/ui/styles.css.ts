@@ -11,6 +11,7 @@ const toggle = style({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  padding: `${tokens.spacing.xs} 0`,
   height: "100%",
   borderRadius: tokens.radius.sm,
   transition: "background-color 0.15s ease",
