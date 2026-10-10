@@ -53,6 +53,9 @@ const icon = recipe({
         fontSize: tokens.typography.fontSize.bodyExtraLarge,
       },
     },
+    hasTitle: {
+      false: { maxHeight: "2.4rem" },
+    },
   },
 });
 

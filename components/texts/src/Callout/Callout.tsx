@@ -50,7 +50,7 @@ export function Callout({
 
   return (
     <div className={clsx(styles.callout({ variant }), className)} style={style}>
-      <div className={styles.icon({ size })}>
+      <div className={styles.icon({ size, hasTitle: !!title })}>
         {typeof icon === "string" ? <AppIcon icon={icon as IconName} /> : icon}
       </div>
       {title && typeof title === "string" ? (

@@ -5,7 +5,7 @@ const badge = style({
   display: "inline-block",
   alignItems: "center",
   justifyContent: "center",
-  padding: `${tokens.spacing.sm} ${tokens.spacing.md}`,
+  padding: `${tokens.spacing.xs} ${tokens.spacing.md}`,
   gap: tokens.spacing.sm,
   fontSize: tokens.typography.fontSize.bodyExtraSmall,
   fontWeight: tokens.typography.fontWeight.regular,
