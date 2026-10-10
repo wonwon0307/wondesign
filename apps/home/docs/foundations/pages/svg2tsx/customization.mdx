@@ -1,0 +1,72 @@
+---
+metaTitle: Customization | SVG2TSX
+title: Customizing the @wondesign/svg2tsx conversion
+description: How to customize the @wondesign/svg2tsx workflow
+---
+
+# Customizing the SVGR configuration
+
+Every icon goes through the same pipeline: validate, then run through
+[`@svgr/core`](https://react-svgr.com/) under a `svgrOptions` object that
+`@wondesign/svg2tsx` mostly pre-fills for you. These pre-filled values are
+starting points you're meant to tune per project. Here are the `svgrOptions`
+you can and cannot customize to match your purpose and usage of the icons.
+
+---
+
+## What you cannot customize
+
+While the `svgrOptions` field of the configuration is based on SVGR's `Config` type,
+`@wondesign/svg2tsx` specifically does not allow the following 6 fields:
+
+- ❌ **typescript** - fixed to `true`
+- ❌ **configFile** - there's no on-disk SVGR config to load; `svg2tsx.config.ts` already is one
+- ❌ **index** - svg2tsx writes its own `index.ts`, so SVGR doesn't need to
+- ❌ **plugins** - svgo and jsx are already wired up; there's nothing else safe to add here
+- ❌ **prettier / prettierConfig** - broken in SVGR itself as of v8; setting either does nothing
+
+---
+
+## What you can customize
+
+Every other field can be overridden through `svg2tsx.config.ts`. For example:
+
+```ts
+import { defineConfig } from "@wondesign/svg2tsx";
+
+export default defineConfig({
+  svgrOptions: {
+    native: true,
+    exportType: "default",
+    expandProps: "end",
+  },
+});
+```
+
+### Field notes
+
+Each field behaves exactly as SVGR documents it — see
+[SVGR's options reference](https://react-svgr.com/docs/options/) for the
+full list, types, and defaults.
+
+✅ A few fields worth reaching for:
+
+- ⚙️ **`native`** — emit `react-native-svg` elements instead of DOM SVG.
+- ⚙️ **`svgo` / `svgoConfig`** — turn SVG optimization off entirely, or
+  change which passes run (e.g. drop the `currentColor` conversion to keep
+  a multi-color icon set's original fills).
+- ⚙️ **`expandProps`** — whether a caller-supplied `width`/`height` can
+  override the icon's size, or `size` stays the only way in.
+- ⚙️ **`exportType`** — `"named"` (default) or `"default"` exports.
+
+⚠️ A few fields worth thinking twice about:
+
+- ⚙️ **`template`** - the fixed `{ size = "1em", ...props }` shape, and the
+  `import type { IconProps } from "@wondesign/svg2tsx"` import, come from here.
+- ⚙️ **`svgProps` / `icon`** — these are what bind the rendered `width`/
+  `height` to the `size` prop in the first place.
+
+> Want to go further and actually own `template` or the JSX transform step?
+> See SVGR's own [Custom Templates](https://react-svgr.com/docs/custom-templates/)
+> and [Custom Transformations](https://react-svgr.com/docs/custom-transformations/)
+> docs — `svg2tsx` just forwards whatever you put there.

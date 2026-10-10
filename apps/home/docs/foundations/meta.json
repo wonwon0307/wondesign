@@ -5,6 +5,34 @@
       "type": "group",
       "label": "Primitives",
       "items": ["[Reset CSS](/reset-css)"]
+    },
+    {
+      "type": "group",
+      "label": "Utilities",
+      "items": [
+        {
+          "type": "link",
+          "label": "SVG2TSX",
+          "url": "/svg2tsx",
+          "items": [
+            {
+              "type": "group",
+              "label": "Guides",
+              "items": [
+                "[Quick Start](/svg2tsx/quick-start)",
+                "[Customization](/svg2tsx/customization)",
+                "[The Facade Component](/svg2tsx/facade)",
+                "[Multiple Families](/svg2tsx/family)"
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Reference",
+              "items": ["[CLI](/svg2tsx/cli)", "[Config](/svg2tsx/config)"]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

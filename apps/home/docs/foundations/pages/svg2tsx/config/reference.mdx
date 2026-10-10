@@ -1,0 +1,211 @@
+# Config Reference
+
+Every field `svg2tsx.config.ts` accepts, its type, and its default. See
+[Overview](/foundations/svg2tsx/config/overview) for how to actually set up
+the config file and a few worked examples.
+
+---
+
+## mode
+
+Type: `"barrel" | "facade" | "both"`
+
+Default: `"barrel"`
+
+The one option that changes the shape of everything else `svg2tsx` writes:
+
+- **`"barrel"`** — `index.ts` exports each icon component by name, nothing
+  else:
+
+  ```tsx
+  import { ChevronDown } from "@wondesign/icons";
+  ```
+
+  Best when every call site knows which icon it wants at build time — each
+  import is its own named export, so bundlers only ship the icons actually
+  imported.
+
+- **`"facade"`** — adds `iconMap.ts` and a name-keyed facade component; see
+  [The Facade Component](/foundations/svg2tsx/facade) for the full picture. This
+  **replaces** the barrel: `index.ts` no longer exports individual icons,
+  only the facade, `IconName`, and `IconProps`.
+
+- **`"both"`** — writes everything from both: `index.ts` exports the
+  individual icons **and** the facade. Best when usage is mixed — static
+  call sites import icons directly, anything data-driven goes through the
+  facade.
+
+Default to `"barrel"` until something needs a name-keyed lookup — see
+[`@wondesign/icons`](/components/icons), which uses `"facade"`.
+
+---
+
+## entry
+
+Type: `FamilyEntry | FamilyEntry[]`
+
+Default: `{ name: "app", srcDir: "assets", outDir: "src" }`
+
+```ts
+type FamilyEntry = {
+  name?: string;
+  srcDir: string;
+  outDir: string;
+};
+```
+
+One entry = one family, scanned and written independently — there's no
+automatic nesting by folder depth. If you want per-family output
+directories, each entry's `outDir` says so explicitly:
+
+```ts
+export default defineConfig({
+  entry: [
+    { srcDir: "assets/brand", outDir: "src/brand" },
+    { srcDir: "assets/ui", outDir: "src/ui" },
+  ],
+});
+```
+
+- **`name`** — the family's name. Defaults to `basename(srcDir)` if
+  omitted. Must be strictly kebab-case (same rule as icon filenames) —
+  enforced even in `"barrel"` mode, since it's always PascalCased
+  internally to build a facade-style name.
+- **`srcDir`** — scanned non-recursively for that directory's own `*.svg`
+  files.
+- **`outDir`** — where that family's `components/`, `index.ts`, and
+  (depending on `mode`) `iconMap.ts` / facade component are written.
+
+Both `srcDir` and `outDir` are resolved relative to `cwd` and must stay
+**inside** it — an absolute path, `..`, or `cwd` itself all throw. `outDir`
+is deleted and recreated on every non-dry-run — don't point two entries at
+the same `outDir`, and don't hand-edit its contents (the one exception is a
+pre-existing facade file, which is read and preserved instead of
+overwritten).
+
+Family names must be unique across the **entire** resolved config — across
+every entry, and across every element if the config file exports an array
+— or the run throws, even if two entries' `srcDir`s differ but resolve to
+the same name.
+
+---
+
+## suffix
+
+Type: `string`
+
+Default: `""`
+
+Appended to every generated icon component's name — not the facade's.
+
+```ts
+export default defineConfig({ suffix: "Icon" });
+// close.svg -> CloseIcon, not Close
+```
+
+Useful when an icon's plain name would collide with something else in
+scope (`Close` shadowing a DOM `close`, say).
+
+---
+
+## facadeSuffix
+
+Type: `string`
+
+Default: `"Icon"`
+
+Appended to each family's PascalCase name to build that family's facade
+component's name (e.g. family `"brand"` → `BrandIcon`). Only relevant when
+`mode` writes a facade — see [Naming](/foundations/svg2tsx/facade#naming).
+
+---
+
+## svgrOptions
+
+Type: SVGR's `Config`, minus `typescript`, `configFile`, `index`,
+`plugins`, `prettier`, and `prettierConfig`.
+
+Default: see each field below.
+
+Forwarded to [`@svgr/core`](https://react-svgr.com/docs/options/). See
+[Customization](/foundations/svg2tsx/customization) for what's actually worth reaching
+for among what's left, versus what to think twice about.
+
+- **`icon`** — Default `true`.
+- **`native`** — Default `false`. Emits `react-native-svg` elements
+  instead of DOM SVG. The package's exported `IconProps` type is fixed to
+  `React.SVGProps<SVGSVGElement>` regardless of this flag, so it won't
+  match React Native's prop types — bring your own `IconProps`-compatible
+  type for generated components in that mode.
+- **`jsxRuntime`** — Default `"automatic"`.
+- **`expandProps`** — Default `"start"`. Where `{...props}` is placed
+  relative to the fixed `width`/`height` — see
+  [prop precedence](#expandprops-and-prop-precedence) below.
+- **`svgProps`** — Default `{ width: "{size}", height: "{size}" }`. Binds
+  the rendered `width`/`height` to the component's `size` prop.
+- **`svgo`** — Default `true`. Toggles [SVGO](https://svgo.dev/)
+  optimization.
+- **`svgoConfig`** — Default `preset-default` + `convertColors`
+  (`currentColor`) + `prefixIds` + `removeDimensions`. Merged one level
+  deep with the default — see
+  [svgoConfig merges shallowly](#svgoconfig-merges-shallowly) below.
+- **`exportType`** — Default `"named"`. How each generated icon component
+  is exported from its file.
+- **`template`** — WonDesign's `{ size = "1em", ...props }` template.
+  Produces the component shape documented in
+  [Quick Start](/foundations/svg2tsx/quick-start).
+
+`typescript`, `configFile`, `index`, `plugins`, `prettier`, and
+`prettierConfig` can't be set at all — see
+[Customization](/foundations/svg2tsx/customization#what-you-cannot-customize) for why
+each one is locked.
+
+### svgoConfig merges shallowly
+
+`svgrOptions.svgo` (default `true`) toggles [SVGO](https://svgo.dev/)
+optimization; `svgrOptions.svgoConfig` is the SVGO config used when it's
+on. Your `svgoConfig` is merged one level deep with the built-in one — but
+its `plugins` array is a single key at that level, so setting it
+**replaces** the whole default list rather than adding to it:
+
+```ts
+// This REPLACES removeDimensions, prefixIds, and the currentColor
+// conversion — not just adds "removeXMLNS" alongside them.
+export default defineConfig({
+  svgrOptions: {
+    svgoConfig: {
+      plugins: ["removeXMLNS"],
+    },
+  },
+});
+```
+
+The default list isn't exported from the package, so to extend rather than
+replace it, reproduce it in your own config:
+
+```ts
+export default defineConfig({
+  svgrOptions: {
+    svgoConfig: {
+      plugins: [
+        { name: "preset-default", params: { overrides: { removeViewBox: false } } },
+        { name: "convertColors", params: { currentColor: true } },
+        "prefixIds",
+        "removeDimensions",
+        "removeXMLNS",
+      ],
+    },
+  },
+});
+```
+
+### expandProps and prop precedence
+
+Default `"start"`. It controls where SVGR places `{...props}` among the
+root `<svg>`'s attributes — and since later JSX attributes win, `"start"`
+means the fixed `width={size}` / `height={size}` attributes (added via
+SVGR's `svgProps`, unconditionally) come *after* the spread and therefore
+override anything the caller passed for `width` or `height`. That's
+deliberate: `size` is meant to be the one way to control an icon's
+dimensions. Setting `svgrOptions.expandProps: "end"` flips that — a
+caller-supplied `width`/`height` prop would then win instead.

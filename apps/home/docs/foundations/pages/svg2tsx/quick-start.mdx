@@ -1,0 +1,119 @@
+---
+metaTitle: Quick Start | SVG2TSX
+title: Quick Start
+description: Getting Started with @wondesign/svg2tsx
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+
+# Basic Usage
+
+`@wondesign/svg2tsx` provides you a default configuration that generates icons that fit
+the general purpose of icon components in React based apps. Here is what gets generated
+by `@wondesign/svg2tsx`, when using its default configuration.
+
+---
+
+## Steps
+
+**1. Setup** - Create a directory named `assets/` in the root of your project
+and place SVG files inside like the example below.
+
+```
+assets/
+  arrow-right.svg
+  chevron-right.svg
+  cloud.svg
+```
+
+**2. Generate** - Use the command to generate the React components.
+
+```bash
+pnpm exec svg2tsx
+```
+
+**3. Results** - The generated filetree would look like the simple diagram below, where
+the `index.ts` file re-exports the `ArrowRight`, `ChevronRight` and `Cloud` components.
+
+```
+src/
+  components/
+    ArrowRight.tsx
+    ChevronRight.tsx
+    Cloud.tsx
+  index.ts
+```
+
+The `ChevronRight` component, as an example, would look like the code below.
+
+```tsx
+// src/components/ChevronRight.tsx
+import type { IconProps } from "@wondesign/svg2tsx";
+
+export function ChevronRight({ size = "1em", ...props }: Readonly<IconProps>) {
+  return (
+    <svg {...props} width={size} height={size}>
+      {/* ...converted SVG markup... */}
+    </svg>
+  );
+}
+```
+
+---
+
+## The Conversion
+
+The default configuration by `@wondesign/svg2tsx` provides the following features
+through the conversion process:
+
+- 📌 **Opens the `size` prop** - to set the size (width and height) of the icon.
+  More details in [the size property section](#the-size-property).
+- 📌 **Preserves the `viewBox`** — The SVGO option `removeViewBox` is switched off
+  so the icon scales cleanly at any `size` instead of clipping.
+- 📌 **Normalizes colors** - Any color in the icon is normalized to `currentColor`,
+  so icons pick up color from CSS (`color: red` → red icon) instead of shipping
+  hardcoded fills.
+- 📌 **Prefixes IDs** — to avoid collisions (e.g. a `<clipPath>` id) when
+  several generated icons end up inlined on the same page.
+- 📌 **Strips hardcoded dimensions** - The SVGO option `removeDimensions` is switched on
+  so the `size` prop is the only thing controlling an icon's rendered size, not a
+  leftover `width`/`height` from the source SVG file.
+- 📌 **Named exports** - matching its PascalCase filename, not a default export.
+- 📌 **No React import needed** - in scope for the generated JSX by using
+  `jsxRuntime: "automatic"`.
+
+If you do not like any of the above defaults, refer to the customization page for details on how to customize the outputs.
+
+### The size property
+
+- ✨ The `size` prop is typed against the package's [`IconProps`](#extending-the-iconprops-type) type,
+and it bounds to both `width` and `height`.
+- ✨ The default value is `"1em"`, so icons behave like a text-relative glyph,
+instead of a fixed-pixel image.
+- ✨ It accepts either a `number` or a `string`.
+  Any **number** values are treated as pixels (`size={24}` → a 24px icon),
+  while **string** values are any CSS length strings (`size="2rem"`, `size="1.5em"`, `size="100%"`).
+
+<Callout title="CSS still has the final say">
+  `className`/`style` can resize an icon, **including `width` and `height` independently**,
+  regardless of `size`. `width`/`height` attributes are just presentational hints,
+  so any author CSS overrides them.
+</Callout>
+
+### Extending the IconProps type
+
+As previously explained, generated components are typed against the `IconProps` type,
+which is defined as below.
+
+```ts
+export type IconProps = { size?: number | string } & React.SVGProps<SVGSVGElement>;
+```
+
+Since it's public, a hand-written, non-generated icon-like component can
+reuse or extend it instead of redefining the same shape. For example:
+
+```ts
+import type { IconProps } from "@wondesign/svg2tsx";
+
+type MyIconProps = IconProps & { variant?: "filled" | "outline" };
+```
