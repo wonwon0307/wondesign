@@ -110,7 +110,10 @@ export default defineConfig({
   svgrOptions: {
     svgoConfig: {
       plugins: [
-        { name: "preset-default", params: { overrides: { removeViewBox: false } } },
+        {
+          name: "preset-default",
+          params: { overrides: { removeViewBox: false } },
+        },
         "prefixIds",
         "removeDimensions",
         // no convertColors -> original fill/stroke colors are kept

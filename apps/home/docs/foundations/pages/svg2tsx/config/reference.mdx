@@ -188,7 +188,10 @@ export default defineConfig({
   svgrOptions: {
     svgoConfig: {
       plugins: [
-        { name: "preset-default", params: { overrides: { removeViewBox: false } } },
+        {
+          name: "preset-default",
+          params: { overrides: { removeViewBox: false } },
+        },
         { name: "convertColors", params: { currentColor: true } },
         "prefixIds",
         "removeDimensions",
@@ -204,7 +207,7 @@ export default defineConfig({
 Default `"start"`. It controls where SVGR places `{...props}` among the
 root `<svg>`'s attributes — and since later JSX attributes win, `"start"`
 means the fixed `width={size}` / `height={size}` attributes (added via
-SVGR's `svgProps`, unconditionally) come *after* the spread and therefore
+SVGR's `svgProps`, unconditionally) come _after_ the spread and therefore
 override anything the caller passed for `width` or `height`. That's
 deliberate: `size` is meant to be the one way to control an icon's
 dimensions. Setting `svgrOptions.expandProps: "end"` flips that — a

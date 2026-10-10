@@ -36,16 +36,16 @@ Consumers render it by name:
 ## Key features
 
 - ✅ **type-safety** - the `icon` prop only accepts real icon names - passing one
-that doesn't exist is a compile-time type error, not just a runtime warning. If an
-unknown name does slip through at runtime (e.g. from untyped data), the facade warns
-to the console and renders nothing, instead of throwing.
+  that doesn't exist is a compile-time type error, not just a runtime warning. If an
+  unknown name does slip through at runtime (e.g. from untyped data), the facade warns
+  to the console and renders nothing, instead of throwing.
 - ✅ **preserves manual edits** - the converter fully wipes and re-writes `outDir`
-on every run, but with one exception: the facade component. If a facade-file pre-exists,
-the converter preserves its contents instead of overwriting it.
+  on every run, but with one exception: the facade component. If a facade-file pre-exists,
+  the converter preserves its contents instead of overwriting it.
 - ✅ **exports `IconName`** - the union of every valid icon name in a family is
-exported automatically alongside the facade, right from the family's own `index.ts`.
-No extra export or setup step; it's already there to import wherever you need it,
-not just as the facade's `icon` prop. For example:
+  exported automatically alongside the facade, right from the family's own `index.ts`.
+  No extra export or setup step; it's already there to import wherever you need it,
+  not just as the facade's `icon` prop. For example:
 
   ```ts
   import type { IconName } from "@wondesign/icons";
@@ -78,11 +78,11 @@ not just as the facade's `icon` prop. For example:
 The naming of the facade component is: `{familyName}{facadeSuffix}` where,
 
 - ✨ The family name is decided via [`entry.name`](/foundations/svg2tsx/config/reference#entry)
-or falls back to its `srcDir`'s folder name, and it is converted to PascalCase.
+  or falls back to its `srcDir`'s folder name, and it is converted to PascalCase.
 - ✨ `facadeSuffix` is a config field you set directly — see
-[Config](/foundations/svg2tsx/config/reference#facadesuffix) for details.
+  [Config](/foundations/svg2tsx/config/reference#facadesuffix) for details.
 - ✨ The default family name is `app` and the default `facadeSuffix` value is `Icon`,
-resulting in the default facade component name being `AppIcon`.
+  resulting in the default facade component name being `AppIcon`.
 
 For example, setting a custom family name and `facadeSuffix`:
 

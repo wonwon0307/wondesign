@@ -87,17 +87,17 @@ If you do not like any of the above defaults, refer to the customization page fo
 ### The size property
 
 - ✨ The `size` prop is typed against the package's [`IconProps`](#extending-the-iconprops-type) type,
-and it bounds to both `width` and `height`.
+  and it bounds to both `width` and `height`.
 - ✨ The default value is `"1em"`, so icons behave like a text-relative glyph,
-instead of a fixed-pixel image.
+  instead of a fixed-pixel image.
 - ✨ It accepts either a `number` or a `string`.
   Any **number** values are treated as pixels (`size={24}` → a 24px icon),
   while **string** values are any CSS length strings (`size="2rem"`, `size="1.5em"`, `size="100%"`).
 
 <Callout title="CSS still has the final say">
-  `className`/`style` can resize an icon, **including `width` and `height` independently**,
-  regardless of `size`. `width`/`height` attributes are just presentational hints,
-  so any author CSS overrides them.
+  `className`/`style` can resize an icon, **including `width` and `height`
+  independently**, regardless of `size`. `width`/`height` attributes are just
+  presentational hints, so any author CSS overrides them.
 </Callout>
 
 ### Extending the IconProps type
@@ -106,7 +106,9 @@ As previously explained, generated components are typed against the `IconProps` 
 which is defined as below.
 
 ```ts
-export type IconProps = { size?: number | string } & React.SVGProps<SVGSVGElement>;
+export type IconProps = {
+  size?: number | string;
+} & React.SVGProps<SVGSVGElement>;
 ```
 
 Since it's public, a hand-written, non-generated icon-like component can

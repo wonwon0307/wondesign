@@ -7,10 +7,10 @@ import { Callout } from "@wondesign/ui/Texts";
 import { PackageInfo } from "@/entities/package";
 
 <PackageInfo name="@wondesign/svg2tsx" relPath="foundations/svg2tsx">
-  `@wondesign/svg2tsx` scans one or more directories of SVG files
-  and generates a matching tree of type-safe React components - one component per icon,
-  plus the boilerplate (barrel exports, a name-keyed map, a facade component)
-  to consume them.
+  `@wondesign/svg2tsx` scans one or more directories of SVG files and generates
+  a matching tree of type-safe React components - one component per icon, plus
+  the boilerplate (barrel exports, a name-keyed map, a facade component) to
+  consume them.
 </PackageInfo>
 
 ---
@@ -44,10 +44,10 @@ The svg2tsx CLI converts SVG files into React components based on [SVGR](https:/
 
 - ❗️ **kebab-case SVG files** - SVG filenames must be strictly kebab-case (`^[a-z][a-z0-9]*(-[a-z0-9]+)*$`)
 - ❗️ **Unique family names** - Family names (set through `entry.name` or `srcDir`'s basename)
-must be unique across the whole config. Reusing one throws, even across different array entries.
+  must be unique across the whole config. Reusing one throws, even across different array entries.
 - ❗️ **Unique icon names** - Icon names must be unique across the whole run as well (not just within a family).
 - ❗️ **Unique icon content** - The content within each SVG file must be unique too —
-byte-identical SVGs (even under different names) are rejected as duplicates.
+  byte-identical SVGs (even under different names) are rejected as duplicates.
 - ❗️ **Non-empty family** - Each family must contain at least one `*.svg` file in its `srcDir`.
 - ❗️ **Non-empty content** - Icon content cannot be empty.
 
