@@ -3,6 +3,8 @@ import { tokens } from "@wondesign/tokens";
 
 const inlineCode = recipe({
   base: {
+    display: "inline-block",
+    margin: `${tokens.spacing.sm} 0`,
     fontWeight: tokens.typography.fontWeight.medium,
     fontFamily: tokens.typography.fontFamily.code,
     lineHeight: tokens.typography.lineHeight.single,
