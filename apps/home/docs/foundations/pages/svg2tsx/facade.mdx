@@ -1,0 +1,106 @@
+---
+metaTitle: Facade | SVG2TSX
+title: The Facade Component
+description: How and when to use the generated facade component
+---
+
+# The Facade Component
+
+A facade component is a single, name-keyed entry point for a family's
+icons — instead of importing each icon directly, consumers pass an icon
+name as a prop and the facade resolves it at runtime.
+
+---
+
+## Usage
+
+`svg2tsx` generates one whenever `mode` is set to `"facade"` or `"both"`.
+
+Using the default configuration with facade mode.
+
+```ts
+// svg2tsx.config.ts
+export default defineConfig({
+  mode: "facade",
+});
+```
+
+Consumers render it by name:
+
+```tsx
+<AppIcon icon="chevron-down" />
+```
+
+---
+
+## Key features
+
+- ✅ **type-safety** - the `icon` prop only accepts real icon names - passing one
+  that doesn't exist is a compile-time type error, not just a runtime warning. If an
+  unknown name does slip through at runtime (e.g. from untyped data), the facade warns
+  to the console and renders nothing, instead of throwing.
+- ✅ **preserves manual edits** - the converter fully wipes and re-writes `outDir`
+  on every run, but with one exception: the facade component. If a facade-file pre-exists,
+  the converter preserves its contents instead of overwriting it.
+- ✅ **exports `IconName`** - the union of every valid icon name in a family is
+  exported automatically alongside the facade, right from the family's own `index.ts`.
+  No extra export or setup step; it's already there to import wherever you need it,
+  not just as the facade's `icon` prop. For example:
+
+  ```ts
+  import type { IconName } from "@wondesign/icons";
+
+  // Narrow your own component's prop to only real icon names
+  type NavItemProps = {
+    icon: IconName;
+    label: string;
+  };
+  ```
+
+  ```ts
+  import type { IconName } from "@wondesign/icons";
+
+  // Keep a lookup table in sync with the icon set - removing or renaming
+  // an icon without updating this object becomes a type error
+  const navIcons: Record<IconName, string> = {
+    "chevron-down": "Expand",
+    "chevron-right": "Next",
+  };
+  ```
+
+> It is recommended to use the facade component when icons are picked dynamically
+> (e.g. by a string prop, from data).
+
+---
+
+## Naming
+
+The naming of the facade component is: `{familyName}{facadeSuffix}` where,
+
+- ✨ The family name is decided via [`entry.name`](/foundations/svg2tsx/config/reference#entry)
+  or falls back to its `srcDir`'s folder name, and it is converted to PascalCase.
+- ✨ `facadeSuffix` is a config field you set directly — see
+  [Config](/foundations/svg2tsx/config/reference#facadesuffix) for details.
+- ✨ The default family name is `app` and the default `facadeSuffix` value is `Icon`,
+  resulting in the default facade component name being `AppIcon`.
+
+For example, setting a custom family name and `facadeSuffix`:
+
+```ts
+// svg2tsx.config.ts
+export default defineConfig({
+  mode: "facade",
+  entry: {
+    name: "won-design",
+    srcDir: "assets",
+    outDir: "src",
+  },
+  facadeSuffix: "Logo",
+});
+```
+
+Results in a facade named `WonDesignLogo`:
+
+```tsx
+<WonDesignLogo icon={iconName} />
+```

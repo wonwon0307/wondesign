@@ -1,0 +1,124 @@
+# Configuring @wondesign/svg2tsx
+
+`svg2tsx.config.ts` groups five fields — `mode`, `entry` (family
+source/output + name), the naming options (`suffix`, `facadeSuffix`), and
+`svgrOptions` (the nested object forwarded to
+[SVGR](https://react-svgr.com/docs/options/)) — and every one of them is
+optional. This page covers how to actually set up and modify the config,
+plus a few complete, common configurations to start from. For what each
+individual field does, its type, and its default, see
+[Reference](/foundations/svg2tsx/config/reference).
+
+---
+
+## Modifying the config
+
+`svg2tsx` only reads configuration from a `svg2tsx.config.ts` file — there's
+no other way to pass it. By default it looks for one with exactly
+that name in the current working directory; pass `-c <path>` to point
+elsewhere (see [CLI](/foundations/svg2tsx/cli)). With no config file at all, it runs
+entirely on the defaults documented below.
+
+```ts
+import { defineConfig } from "@wondesign/svg2tsx";
+
+export default defineConfig({
+  mode: "facade",
+  entry: { name: "app", srcDir: "assets", outDir: "src" },
+});
+```
+
+`defineConfig` exists purely for type-checking and autocomplete — at
+runtime it just returns whatever you pass it, unchanged. The file is
+loaded with [jiti](https://github.com/unjs/jiti), so a plain `.ts` file
+works with no separate build step.
+
+The default export can be a single config object, as above, or an
+**array** of them — see [Different config per family](/foundations/svg2tsx/family#different-config-per-family)
+for when and how to use that.
+
+---
+
+## Common configurations
+
+A few complete configs for setups that come up often, combining the
+options above.
+
+### A design-system icon set, looked up by name
+
+The config `@wondesign/icons` itself uses:
+
+```ts
+import { defineConfig } from "@wondesign/svg2tsx";
+
+export default defineConfig({
+  mode: "facade",
+  facadeSuffix: "Icon",
+  entry: { name: "app", srcDir: "assets", outDir: "src" },
+});
+```
+
+Consumers render `<AppIcon icon="chevron-down" />`. Passing a string that
+isn't a real icon name is a type error against `IconName`, not just a
+console warning at runtime.
+
+### Multiple icon families, static and dynamic call sites both
+
+```ts
+export default defineConfig({
+  mode: "both",
+  facadeSuffix: "Icon",
+  entry: [
+    { srcDir: "assets/brand", outDir: "src/brand" }, // -> BrandIcon
+    { srcDir: "assets/ui", outDir: "src/ui" }, // -> UiIcon
+  ],
+});
+```
+
+Each entry gets its own facade and `iconMap`; `"both"` still lets static
+call sites import an individual icon directly.
+
+### Avoiding a name collision
+
+```ts
+export default defineConfig({ suffix: "Icon" });
+// close.svg -> CloseIcon, not Close
+```
+
+### React Native output
+
+```ts
+export default defineConfig({
+  mode: "facade",
+  svgrOptions: { native: true },
+});
+```
+
+Pair this with your own `IconProps`-compatible type for the
+`react-native-svg` consumers.
+
+### Preserving a multi-color icon set
+
+`svg2tsx` forces every icon to `currentColor` by default (the
+`convertColors` SVGO plugin), so icons pick up `color` from CSS. If the
+source SVGs are intentionally multi-color and should keep their own fills,
+drop that plugin — and reproduce the rest of the default list alongside
+it, since [`svgoConfig` replaces rather than merges](/foundations/svg2tsx/config/reference#svgoconfig-merges-shallowly):
+
+```ts
+export default defineConfig({
+  svgrOptions: {
+    svgoConfig: {
+      plugins: [
+        {
+          name: "preset-default",
+          params: { overrides: { removeViewBox: false } },
+        },
+        "prefixIds",
+        "removeDimensions",
+        // no convertColors -> original fill/stroke colors are kept
+      ],
+    },
+  },
+});
+```

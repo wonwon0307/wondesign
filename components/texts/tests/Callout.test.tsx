@@ -76,13 +76,13 @@ describe("Callout", () => {
 
     const container = getByTestId("container");
 
-    expect(container.getElementsByTagName("H3")[0].textContent).toBe(
+    expect(container.getElementsByTagName("H4")[0].textContent).toBe(
       "Large Title",
     );
-    expect(container.getElementsByTagName("H4")[0].textContent).toBe(
+    expect(container.getElementsByTagName("H5")[0].textContent).toBe(
       "Medium Title",
     );
-    expect(container.getElementsByTagName("H5")[0].textContent).toBe(
+    expect(container.getElementsByTagName("H6")[0].textContent).toBe(
       "Small Title",
     );
   });

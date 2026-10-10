@@ -31,7 +31,7 @@ const list = style({
   flexDirection: "column",
   marginBottom: tokens.spacing.lg,
   padding: `0 ${tokens.spacing.lg}`,
-  gap: tokens.spacing.md,
+  gap: tokens.spacing.lg,
 });
 
 const link = recipe({

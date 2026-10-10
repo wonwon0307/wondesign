@@ -1,0 +1,51 @@
+---
+metaTitle: CLI | SVG2TSX
+title: CLI
+description: A CLI tool that converts SVG icons into React components.
+---
+
+# CLI
+
+```bash
+pnpm exec svg2tsx [options]
+```
+
+---
+
+## Options
+
+### `-c, --config <path>`
+
+Path to a config file. Defaults to `svg2tsx.config.ts` in `cwd`.
+
+### `--dry-run`
+
+Run the full pipeline — scan, validate, convert — without writing or
+cleaning any files. Useful in CI to catch validation errors.
+
+### `-V, --version`
+
+Print the installed CLI version.
+
+---
+
+## Formatting output
+
+It is strongly recommended to pair the CLI with a formatter in your
+`package.json` script, since SVGR output isn't pre-formatted:
+
+```json
+{
+  "scripts": {
+    "generate": "svg2tsx && prettier --write ./src/"
+  }
+}
+```
+
+- This step is strongly recommended, not optional — `svgrOptions.prettier`/
+  `prettierConfig` don't actually work (see
+  [Customization](/foundations/svg2tsx/customization#what-you-cannot-customize)), so a
+  separate formatting pass is the only way generated files end up formatted
+  at all.
+- Skip the formatter on `--dry-run` runs — nothing gets written to disk, so
+  there's nothing to format.

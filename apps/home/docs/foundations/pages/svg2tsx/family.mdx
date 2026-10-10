@@ -1,0 +1,101 @@
+---
+metaTitle: Family | SVG2TSX
+title: Multiple Families
+description: Converting more than one independent set of icons in a single run
+---
+
+# Multiple Families
+
+A "family" is one independent icon set — its own `srcDir`, its own
+`outDir`, scanned and written on its own. Need more than one? There are
+two ways to get there, depending on whether they should behave the same
+way or not.
+
+---
+
+## Same config, different directories
+
+If every family should behave the same way — same `mode`, same `suffix`,
+same `svgrOptions` — give `entry` an array instead of a single object.
+Each array item is one family:
+
+```ts
+export default defineConfig({
+  mode: "both",
+  entry: [
+    { srcDir: "assets/brand", outDir: "src/brand" },
+    { srcDir: "assets/ui", outDir: "src/ui" },
+  ],
+});
+```
+
+```
+src/
+  brand/
+    components/Logo.tsx
+    iconMap.ts
+    BrandIcon.tsx
+    index.ts
+  ui/
+    components/Close.tsx
+    iconMap.ts
+    UiIcon.tsx
+    index.ts
+```
+
+Each entry is scanned non-recursively (that `srcDir`'s own `*.svg` files
+only) and writes straight into its own `outDir` — there's no automatic
+nesting by folder depth, so per-family output folders (as above) are
+something you spell out yourself, not something `svg2tsx` infers from your
+source structure.
+
+---
+
+## Different config per family
+
+`entry` is the only field you can repeat within a single config object —
+`mode`, `suffix`, `facadeSuffix`, and `svgrOptions` are shared by every
+entry in it. If one family needs `"facade"` while another should stay
+`"barrel"`, or they need different `svgrOptions`, a shared `entry` array
+can't express that. Export an **array of config objects** instead — each
+one is resolved independently, with its own `entry` (single or array) and
+its own `mode`/`suffix`/`svgrOptions`:
+
+```ts
+export default defineConfig([
+  {
+    mode: "facade",
+    entry: { srcDir: "assets/brand", outDir: "src/brand" },
+  },
+  {
+    mode: "barrel",
+    suffix: "Icon",
+    entry: { srcDir: "assets/ui", outDir: "src/ui" },
+  },
+]);
+```
+
+Every entry across every group still merges into one global family
+registry — [names still have to be unique across the whole thing](#naming).
+
+Reach for a shared `entry` array first; it's less to maintain, and most
+icon sets split by family don't actually need different `mode`/
+`svgrOptions` per family. Only reach for multiple config groups once two
+families genuinely need to behave differently.
+
+---
+
+## Naming
+
+A family's name is `entry.name` if you set one, otherwise
+`basename(srcDir)`. That name must be strictly kebab-case — the same rule
+as icon filenames — since it gets PascalCased to build a facade-style name
+internally. This applies even in `"barrel"` mode, where no facade is
+actually written.
+
+Family names must be unique across the **entire** resolved config, not
+just within one `entry` array — two entries, even across different config
+groups, that resolve to the same name throw. Icon names must be unique
+across every family too, since they key one logical icon set.
+
+See [Config](/foundations/svg2tsx/config/reference#entry) for the exact field-level rules.

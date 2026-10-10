@@ -107,4 +107,36 @@ describe("MDX Components", () => {
     expect(separator.tagName).toBe("DIV");
     expect(separator.getAttribute("aria-hidden")).toBe("true");
   });
+
+  it("renders blockquote into Callout correctly", () => {
+    const { getByText } = render(
+      <mdxComponents.blockquote>Blockquote text</mdxComponents.blockquote>,
+    );
+
+    expect(getByText("Blockquote text").parentElement?.className).toContain(
+      "callout",
+    );
+  });
+
+  it("renders list components correctly", () => {
+    const { getByText } = render(
+      <>
+        <mdxComponents.ul>
+          <mdxComponents.li>List item 1</mdxComponents.li>
+          <mdxComponents.li>List item 2</mdxComponents.li>
+        </mdxComponents.ul>
+        <mdxComponents.ol>
+          <mdxComponents.li>Ordered item 1</mdxComponents.li>
+          <mdxComponents.li>Ordered item 2</mdxComponents.li>
+        </mdxComponents.ol>
+      </>,
+    );
+
+    expect(getByText("List item 1").tagName).toBe("LI");
+    expect(getByText("List item 2").tagName).toBe("LI");
+    expect(getByText("List item 1").parentElement?.tagName).toBe("UL");
+    expect(getByText("Ordered item 1").tagName).toBe("LI");
+    expect(getByText("Ordered item 2").tagName).toBe("LI");
+    expect(getByText("Ordered item 1").parentElement?.tagName).toBe("OL");
+  });
 });

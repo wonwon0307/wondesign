@@ -3,16 +3,15 @@ import { tokens } from "@wondesign/ui/tokens";
 
 const callout = style({
   marginTop: tokens.spacing.layoutSmall,
+  padding: `${tokens.spacing.md} ${tokens.spacing.layoutSmall}`,
+  gap: `${tokens.spacing.lg} ${tokens.spacing.xl}`,
 });
 
 const header = style({
+  flex: 1,
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-});
-
-const left = style({
-  flex: 1,
 });
 
 const right = style({
@@ -25,4 +24,4 @@ const report = style({
   color: tokens.colors.warning,
 });
 
-export const styles = { callout, header, left, right, report };
+export const styles = { callout, header, right, report };

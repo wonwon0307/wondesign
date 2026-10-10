@@ -25,7 +25,15 @@ type GroupConfig = {
   /**
    * SVGR options for customizing the generated React components
    */
-  svgrOptions: Omit<SvgrConfig, "typescript" | "configFile" | "index">;
+  svgrOptions: Omit<
+    SvgrConfig,
+    | "typescript"
+    | "configFile"
+    | "index"
+    | "plugins"
+    | "prettier"
+    | "prettierConfig"
+  >;
 };
 
 export type Config = Partial<GroupConfig> & {

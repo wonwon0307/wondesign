@@ -8,7 +8,9 @@ const pre = style({
 });
 
 const code = recipe({
-  base: {},
+  base: {
+    fontFamily: tokens.typography.fontFamily.code,
+  },
   variants: {
     showLineNumbers: {
       true: {

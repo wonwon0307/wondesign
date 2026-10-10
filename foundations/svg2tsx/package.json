@@ -1,11 +1,12 @@
 {
   "name": "@wondesign/svg2tsx",
-  "description": "Wondesign - svg2tsx (icon transformer)",
+  "description": "Wondesign - SVG2TSX (Icon Converter)",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
+  "type": "module",
   "keywords": [
     "svg",
-    "tsx",
+    "convert",
     "icons",
     "react",
     "typescript"
@@ -13,10 +14,14 @@
   "author": "WonWon",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wonwon0307/design.git",
-    "directory": "packages/svg2tsx"
+    "url": "git+https://github.com/wonwon0307/wondesign.git",
+    "directory": "foundations/svg2tsx"
   },
-  "license": "UNLICENSED",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "license": "MIT",
   "files": [
     "dist"
   ],
@@ -24,7 +29,10 @@
     "svg2tsx": "./dist/cli.mjs"
   },
   "exports": {
-    ".": "./dist/index.mjs"
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
   },
   "scripts": {
     "prebuild": "rm -rf dist",
@@ -41,8 +49,7 @@
     "@svgr/plugin-svgo": "^8.1.0",
     "chalk": "^6.0.1",
     "commander": "^15.0.0",
-    "fast-glob": "^3.3.3",
-    "p-limit": "^7.3.3"
+    "fast-glob": "^3.3.3"
   },
   "lint-staged": {
     "*.{yml,yaml}": "prettier --check",
