@@ -38,11 +38,7 @@ function resolveConfig(config: Config = {}): ResolvedConfig {
       ? {
           ...defaultOptions.svgrOptions,
           ...config.svgrOptions,
-          plugins: [
-            svgoPlugin,
-            jsxPlugin,
-            ...(config.svgrOptions?.plugins ?? []),
-          ],
+          plugins: [svgoPlugin, jsxPlugin],
           typescript: true,
         }
       : defaultOptions.svgrOptions,
