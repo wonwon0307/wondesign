@@ -16,6 +16,7 @@ const googleSans = Google_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   display: "swap",
+  fallback: ["system-ui"],
   preload: true,
 });
 
