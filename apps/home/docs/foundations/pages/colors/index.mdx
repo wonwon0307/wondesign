@@ -1,0 +1,85 @@
+---
+title: Colors
+description: A semantic color contract with light and dark presets, plus light-dark() and color-mix() utilities — a foundation for any design system's palette.
+---
+
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/colors" relPath="foundations/colors">
+  `@wondesign/colors` is a color foundation for design systems — WonDesign's
+  own, or yours. It defines a role-based color contract (`SemanticColors`),
+  ships a light and a dark preset that implement it, and provides small helpers
+  that turn any palette into CSS `light-dark()` and `color-mix()` values. No
+  dependencies, no React, no CSS variables — just typed objects and plain
+  strings.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/colors
+```
+
+---
+
+## Key Features
+
+- ✅ **Semantic Contract**: Colors are named by role (`primary`, `surface`, `textMuted`, …) rather than by hue, through a single `SemanticColors` interface
+- ✅ **Light & Dark Presets**: `wondesignLight` and `wondesignDark` implement the contract out of the box
+- ✅ **Bring Your Own Palette**: Any object that satisfies `SemanticColors` works anywhere a preset does
+- ✅ **`light-dark()` Merging**: `mergeLightDark` merges a light and a dark palette into one, so switching schemes is a pure CSS `color-scheme` flip
+- ✅ **`color-mix()` Helpers**: `colorWithFade` and `colorWithOpacity` derive tints and translucent variants from any color
+- ✅ **Design-System Agnostic**: Nothing ties it to WonDesign — use it as the color primitive of your own design system
+- ✅ **Framework Agnostic**: Every value is a plain CSS color string — use it in CSS-in-JS, inline styles, or CSS variables
+
+```ts
+import {
+  mergeLightDark,
+  colorWithOpacity,
+  wondesignLight,
+  wondesignDark,
+} from "@wondesign/colors";
+
+const colors = mergeLightDark(wondesignLight, wondesignDark);
+
+colors.primary; // "light-dark(#1647E8, #3B82F6)"
+colorWithOpacity(colors.primary, 0.2);
+// "color-mix(in srgb, light-dark(#1647E8, #3B82F6) 20%, transparent)"
+```
+
+---
+
+## Upcoming Features
+
+- 🔜 **Palette Generator**: Pick a primary color — and optionally a background
+  and a text color — and get a complete `SemanticColors` palette with every
+  other role filled in.
+- 🔜 **Light/Dark Pairing**: Pick a primary color, and find out whether it reads
+  better in light or dark mode — along with a suggested counterpart for the
+  other scheme.
+- 🔜 **Contrast Checks**: Check the WCAG contrast ratio of each foreground /
+  background pair in a palette (`text` on `background`, `onPrimary` on
+  `primary`, …).
+- 🔜 **High-Contrast Presets**: Light and dark presets tuned for
+  `prefers-contrast: more`.
+- 🔜 **Color Space Option**: Choose the color space `colorWithFade` and
+  `colorWithOpacity` mix in — e.g. `oklch` for more even tints than the
+  default `srgb`.
+
+---
+
+## Next Steps
+
+- **[Semantics](/foundations/colors/semantics)** — the 18 color roles and what
+  each one is for.
+- **[Palette](/foundations/colors/palette)** — using the WonDesign presets,
+  adjusting them, or bringing your own.
+- **[Usage](/foundations/colors/usage)** — getting colors into your app, from
+  `light-dark()` merging to extending `SemanticColors`.
+- **[Utilities](/foundations/colors/utilities)** — `colorWithFade` and
+  `colorWithOpacity` in detail.
+- **[Token Reference](/foundations/tokens/reference#color)** — the CSS variable each key
+  maps to and its default fallback.
+- **[Theme](/foundations/theme)** — switching `color-scheme` on the client.
