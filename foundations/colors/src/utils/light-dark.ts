@@ -1,6 +1,6 @@
 import type { SemanticColors } from "../types";
 
-export function convertToLightDark(
+export function mergeLightDark(
   lightColors: SemanticColors,
   darkColors: SemanticColors,
 ): SemanticColors {

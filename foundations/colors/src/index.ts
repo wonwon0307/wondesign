@@ -2,6 +2,6 @@ export { wondesignLight } from "./presets/wondesign-light";
 export { wondesignDark } from "./presets/wondesign-dark";
 
 export { colorWithFade, colorWithOpacity } from "./utils/color-mix";
-export { convertToLightDark } from "./utils/light-dark";
+export { mergeLightDark } from "./utils/light-dark";
 
 export type { SemanticColors } from "./types";
