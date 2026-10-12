@@ -1,5 +1,5 @@
 import {
-  convertToLightDark,
+  mergeLightDark,
   wondesignDark,
   wondesignLight,
 } from "@wondesign/colors";
@@ -10,7 +10,7 @@ import {
 } from "@/models/typography";
 import { buildCssVariables } from "@/utils/css-variables";
 
-const colors = convertToLightDark(wondesignLight, wondesignDark);
+const colors = mergeLightDark(wondesignLight, wondesignDark);
 
 // WonDesign에서는 typography와 text는 별도의 토큰을 사용한다.
 const typography: TypographyTokens = {

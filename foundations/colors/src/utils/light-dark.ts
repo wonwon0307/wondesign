@@ -1,17 +1,15 @@
 import type { SemanticColors } from "../types";
 
-export function convertToLightDark(
-  lightColors: SemanticColors,
-  darkColors: SemanticColors,
-): SemanticColors {
-  const lightDarkColors: Record<string, string> = {};
+export function mergeLightDark<T extends SemanticColors>(
+  lightColors: T,
+  darkColors: T,
+): { [K in keyof T]: string } {
+  const lightDarkColors = {} as { [K in keyof T]: string };
 
   for (const key in lightColors) {
-    const lightValue = lightColors[key as keyof SemanticColors];
-    const darkValue = darkColors[key as keyof SemanticColors];
-
-    lightDarkColors[key] = `light-dark(${lightValue}, ${darkValue})`;
+    lightDarkColors[key] =
+      `light-dark(${lightColors[key]}, ${darkColors[key]})`;
   }
 
-  return lightDarkColors as unknown as SemanticColors;
+  return lightDarkColors;
 }

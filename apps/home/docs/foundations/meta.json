@@ -4,7 +4,20 @@
     {
       "type": "group",
       "label": "Primitives",
-      "items": ["[Reset CSS](/reset-css)"]
+      "items": [
+        "[Reset CSS](/reset-css)",
+        {
+          "type": "link",
+          "label": "Colors",
+          "url": "/colors",
+          "items": [
+            "[Semantics](/colors/semantics)",
+            "[Palette](/colors/palette)",
+            "[Usage](/colors/usage)",
+            "[Utilities](/colors/utilities)"
+          ]
+        }
+      ]
     },
     {
       "type": "group",

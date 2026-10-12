@@ -1,0 +1,99 @@
+---
+metaTitle: Utilities | Colors
+title: Utilities
+description: Derive tints and translucent variants of any color with colorWithFade and colorWithOpacity, built on CSS color-mix().
+---
+
+# Utilities
+
+`@wondesign/colors` ships two small functions for deriving variants of a
+single color. Neither computes colors in JavaScript — each one returns a CSS
+expression string, and the browser does the actual color math at render time.
+
+---
+
+## colorWithFade
+
+```ts
+function colorWithFade(
+  color: string,
+  ratio: number,
+  base?: string, // default: "light-dark(#ffffff, #000000)"
+): string;
+```
+
+Blends `color` toward `base` using CSS
+[`color-mix()`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix)
+in the sRGB space. `ratio` is how much of `color` to keep: `1` is the
+original color, `0` is entirely `base`.
+
+```ts
+import { colorWithFade } from "@wondesign/colors";
+
+colorWithFade("#1647E8", 0.2);
+// "color-mix(in srgb, #1647E8 20%, light-dark(#ffffff, #000000))"
+```
+
+By default, `base` fades toward white in light mode and toward black in dark
+mode — giving a soft, opaque tint of the color that blends into the page in
+either scheme. Useful for subtle backgrounds such as a selected row or an
+alert banner. The default `base` is itself a `light-dark()` value, so it
+needs `color-scheme` set — see [Setup](/foundations/colors/usage#setup).
+
+Pass a different `base` to blend toward something else:
+
+```ts
+const colors = mergeLightDark(wondesignLight, wondesignDark);
+
+colorWithFade(colors.error, 0.15, colors.surface);
+```
+
+`ratio` is clamped to `0`–`1`, so out-of-range values never produce invalid
+CSS:
+
+```ts
+colorWithFade("#1647E8", 1.5); // "color-mix(in srgb, #1647E8 100%, …)"
+colorWithFade("#1647E8", -1); // "color-mix(in srgb, #1647E8 0%, …)"
+```
+
+---
+
+## colorWithOpacity
+
+```ts
+function colorWithOpacity(color: string, opacity: number): string;
+```
+
+Makes `color` translucent by mixing it with `transparent`. `opacity` works
+like CSS `opacity` — `1` is fully opaque, `0` is fully transparent — and is
+clamped to `0`–`1` the same way.
+
+```ts
+import { colorWithOpacity } from "@wondesign/colors";
+
+colorWithOpacity("#1647E8", 0.4);
+// "color-mix(in srgb, #1647E8 40%, transparent)"
+```
+
+Unlike an 8-digit hex alpha (`#1647E866`), this works on **any** color value,
+including the `light-dark()` output of
+[`mergeLightDark`](/foundations/colors/usage#mergelightdark) and
+CSS variables:
+
+```ts
+colorWithOpacity(colors.primary, 0.4);
+// "color-mix(in srgb, light-dark(#1647E8, #3B82F6) 40%, transparent)"
+```
+
+### Fade vs. Opacity
+
+Both lighten a color visually, but they behave differently on top of other
+content:
+
+- **`colorWithFade`** produces an **opaque** color. Whatever is behind it is
+  hidden.
+- **`colorWithOpacity`** produces a **translucent** color. Whatever is behind
+  it shows through.
+
+Use fade for solid fills (badges, banners), and opacity for layers that
+should adapt to what's underneath (hover states, focus rings, shadows).
