@@ -1,29 +1,69 @@
-import { type SemanticColors, wondesignLight } from "@wondesign/colors";
+import type { ColorTokens } from "./types";
 
-export type { SemanticColors as ColorTokens } from "@wondesign/colors";
-
-export const colorCssVariables: SemanticColors = {
+export const colorCssVariables: ColorTokens = {
   primary: "--color-primary",
-  onPrimary: "--color-primary-foreground",
-  error: "--color-alert-danger",
-  warning: "--color-alert-warning",
-  success: "--color-alert-success",
-  background: "--color-background-default",
+  onPrimary: "--color-on-primary",
+  error: "--color-error",
+  warning: "--color-warning",
+  success: "--color-success",
+  background: "--color-background",
   backgroundHighlight: "--color-background-highlight",
   backgroundMuted: "--color-background-muted",
   backgroundInverted: "--color-background-inverted",
-  surface: "--color-background-surface",
-  overlay: "--color-background-overlay",
-  text: "--color-text-default",
+  surface: "--color-surface",
+  overlay: "--color-overlay",
+  text: "--color-text",
   textMuted: "--color-text-muted",
   textInverted: "--color-text-inverted",
-  border: "--color-border-default",
+  border: "--color-border",
   borderHighlight: "--color-border-highlight",
   borderMuted: "--color-border-muted",
   borderInverted: "--color-border-inverted",
 };
 
-export const colorTokens: SemanticColors = {
+export const wondesignLight: ColorTokens = {
+  primary: "#1647E8",
+  onPrimary: "#F9FAFB",
+  error: "#B91C1C",
+  warning: "#D27700",
+  success: "#007200",
+  background: "#F5F5F9",
+  backgroundHighlight: "#88889025",
+  backgroundMuted: "#EAEAEC",
+  backgroundInverted: "#1A1A20",
+  surface: "#FFFFFF",
+  overlay: "#00000060",
+  text: "#1A1A20",
+  textMuted: "#5A5A62",
+  textInverted: "#F5F5F9",
+  border: "#1A1A2026",
+  borderHighlight: "#1A1A2040",
+  borderMuted: "#1A1A2014",
+  borderInverted: "#F5F5F926",
+};
+
+export const wondesignDark: ColorTokens = {
+  primary: "#3B82F6",
+  onPrimary: "#F9FAFB",
+  error: "#B91C1C",
+  warning: "#EBB30B",
+  success: "#007200",
+  background: "#141418",
+  backgroundHighlight: "#88889025",
+  backgroundMuted: "#1E1E23",
+  backgroundInverted: "#D6D6DC",
+  surface: "#26262C",
+  overlay: "#000000A0",
+  text: "#D6D6DC",
+  textMuted: "#8E8E96",
+  textInverted: "#141418",
+  border: "#D6D6DC26",
+  borderHighlight: "#D6D6DC40",
+  borderMuted: "#D6D6DC14",
+  borderInverted: "#14141826",
+};
+
+export const colorTokens: ColorTokens = {
   primary: `var(${colorCssVariables.primary}, ${wondesignLight.primary})`,
   onPrimary: `var(${colorCssVariables.onPrimary}, ${wondesignLight.onPrimary})`,
   error: `var(${colorCssVariables.error}, ${wondesignLight.error})`,
