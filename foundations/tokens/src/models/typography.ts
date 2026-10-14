@@ -87,7 +87,7 @@ export const defaultTypography: TypographyTokens = {
     bold: "700",
   },
   fontFamily: {
-    brand: "Brush Script, cursive",
+    brand: "'Brush Script MT', cursive",
     normal: "Arial, sans-serif",
     code: "'Courier New', monospace",
     quote: "'Georgia', serif",
