@@ -62,7 +62,7 @@ export const typographyCssVariables: TypographyTokens = {
   },
 };
 
-export const defaultTypographyTokens: TypographyTokens = {
+export const defaultTypography: TypographyTokens = {
   fontSize: {
     bodyExtraSmall: "0.75rem",
     bodySmall: "0.875rem",
@@ -96,32 +96,32 @@ export const defaultTypographyTokens: TypographyTokens = {
 
 export const typographyTokens: TypographyTokens = {
   fontSize: {
-    bodyExtraSmall: `var(${typographyCssVariables.fontSize.bodyExtraSmall}, ${defaultTypographyTokens.fontSize.bodyExtraSmall})`,
-    bodySmall: `var(${typographyCssVariables.fontSize.bodySmall}, ${defaultTypographyTokens.fontSize.bodySmall})`,
-    bodyMedium: `var(${typographyCssVariables.fontSize.bodyMedium}, ${defaultTypographyTokens.fontSize.bodyMedium})`,
-    bodyLarge: `var(${typographyCssVariables.fontSize.bodyLarge}, ${defaultTypographyTokens.fontSize.bodyLarge})`,
-    bodyExtraLarge: `var(${typographyCssVariables.fontSize.bodyExtraLarge}, ${defaultTypographyTokens.fontSize.bodyExtraLarge})`,
-    headingSmall: `var(${typographyCssVariables.fontSize.headingSmall}, ${defaultTypographyTokens.fontSize.headingSmall})`,
-    headingMedium: `var(${typographyCssVariables.fontSize.headingMedium}, ${defaultTypographyTokens.fontSize.headingMedium})`,
-    headingLarge: `var(${typographyCssVariables.fontSize.headingLarge}, ${defaultTypographyTokens.fontSize.headingLarge})`,
+    bodyExtraSmall: `var(${typographyCssVariables.fontSize.bodyExtraSmall}, ${defaultTypography.fontSize.bodyExtraSmall})`,
+    bodySmall: `var(${typographyCssVariables.fontSize.bodySmall}, ${defaultTypography.fontSize.bodySmall})`,
+    bodyMedium: `var(${typographyCssVariables.fontSize.bodyMedium}, ${defaultTypography.fontSize.bodyMedium})`,
+    bodyLarge: `var(${typographyCssVariables.fontSize.bodyLarge}, ${defaultTypography.fontSize.bodyLarge})`,
+    bodyExtraLarge: `var(${typographyCssVariables.fontSize.bodyExtraLarge}, ${defaultTypography.fontSize.bodyExtraLarge})`,
+    headingSmall: `var(${typographyCssVariables.fontSize.headingSmall}, ${defaultTypography.fontSize.headingSmall})`,
+    headingMedium: `var(${typographyCssVariables.fontSize.headingMedium}, ${defaultTypography.fontSize.headingMedium})`,
+    headingLarge: `var(${typographyCssVariables.fontSize.headingLarge}, ${defaultTypography.fontSize.headingLarge})`,
   },
   lineHeight: {
-    single: `var(${typographyCssVariables.lineHeight.single}, ${defaultTypographyTokens.lineHeight.single})`,
-    heading: `var(${typographyCssVariables.lineHeight.heading}, ${defaultTypographyTokens.lineHeight.heading})`,
-    title: `var(${typographyCssVariables.lineHeight.title}, ${defaultTypographyTokens.lineHeight.title})`,
-    body: `var(${typographyCssVariables.lineHeight.body}, ${defaultTypographyTokens.lineHeight.body})`,
-    paragraph: `var(${typographyCssVariables.lineHeight.paragraph}, ${defaultTypographyTokens.lineHeight.paragraph})`,
+    single: `var(${typographyCssVariables.lineHeight.single}, ${defaultTypography.lineHeight.single})`,
+    heading: `var(${typographyCssVariables.lineHeight.heading}, ${defaultTypography.lineHeight.heading})`,
+    title: `var(${typographyCssVariables.lineHeight.title}, ${defaultTypography.lineHeight.title})`,
+    body: `var(${typographyCssVariables.lineHeight.body}, ${defaultTypography.lineHeight.body})`,
+    paragraph: `var(${typographyCssVariables.lineHeight.paragraph}, ${defaultTypography.lineHeight.paragraph})`,
   },
   fontWeight: {
-    regular: `var(${typographyCssVariables.fontWeight.regular}, ${defaultTypographyTokens.fontWeight.regular})`,
-    medium: `var(${typographyCssVariables.fontWeight.medium}, ${defaultTypographyTokens.fontWeight.medium})`,
-    semibold: `var(${typographyCssVariables.fontWeight.semibold}, ${defaultTypographyTokens.fontWeight.semibold})`,
-    bold: `var(${typographyCssVariables.fontWeight.bold}, ${defaultTypographyTokens.fontWeight.bold})`,
+    regular: `var(${typographyCssVariables.fontWeight.regular}, ${defaultTypography.fontWeight.regular})`,
+    medium: `var(${typographyCssVariables.fontWeight.medium}, ${defaultTypography.fontWeight.medium})`,
+    semibold: `var(${typographyCssVariables.fontWeight.semibold}, ${defaultTypography.fontWeight.semibold})`,
+    bold: `var(${typographyCssVariables.fontWeight.bold}, ${defaultTypography.fontWeight.bold})`,
   },
   fontFamily: {
-    brand: `var(${typographyCssVariables.fontFamily.brand}, ${defaultTypographyTokens.fontFamily.brand})`,
-    normal: `var(${typographyCssVariables.fontFamily.normal}, ${defaultTypographyTokens.fontFamily.normal})`,
-    code: `var(${typographyCssVariables.fontFamily.code}, ${defaultTypographyTokens.fontFamily.code})`,
-    quote: `var(${typographyCssVariables.fontFamily.quote}, ${defaultTypographyTokens.fontFamily.quote})`,
+    brand: `var(${typographyCssVariables.fontFamily.brand}, ${defaultTypography.fontFamily.brand})`,
+    normal: `var(${typographyCssVariables.fontFamily.normal}, ${defaultTypography.fontFamily.normal})`,
+    code: `var(${typographyCssVariables.fontFamily.code}, ${defaultTypography.fontFamily.code})`,
+    quote: `var(${typographyCssVariables.fontFamily.quote}, ${defaultTypography.fontFamily.quote})`,
   },
 };
