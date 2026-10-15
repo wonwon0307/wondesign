@@ -16,20 +16,20 @@ export const radiusCssVariables: RadiusTokens = {
   full: "--radius-full",
 };
 
-export const defaultRadiusTokens: RadiusTokens = {
+export const defaultRadius: RadiusTokens = {
   xs: "2px",
   sm: "4px",
   md: "8px",
   lg: "12px",
   xl: "16px",
-  full: "50%",
+  full: "9999px",
 };
 
 export const radiusTokens: RadiusTokens = {
-  xs: `var(${radiusCssVariables.xs}, ${defaultRadiusTokens.xs})`,
-  sm: `var(${radiusCssVariables.sm}, ${defaultRadiusTokens.sm})`,
-  md: `var(${radiusCssVariables.md}, ${defaultRadiusTokens.md})`,
-  lg: `var(${radiusCssVariables.lg}, ${defaultRadiusTokens.lg})`,
-  xl: `var(${radiusCssVariables.xl}, ${defaultRadiusTokens.xl})`,
-  full: `var(${radiusCssVariables.full}, ${defaultRadiusTokens.full})`,
+  xs: `var(${radiusCssVariables.xs}, ${defaultRadius.xs})`,
+  sm: `var(${radiusCssVariables.sm}, ${defaultRadius.sm})`,
+  md: `var(${radiusCssVariables.md}, ${defaultRadius.md})`,
+  lg: `var(${radiusCssVariables.lg}, ${defaultRadius.lg})`,
+  xl: `var(${radiusCssVariables.xl}, ${defaultRadius.xl})`,
+  full: `var(${radiusCssVariables.full}, ${defaultRadius.full})`,
 };

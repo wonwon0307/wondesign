@@ -1,4 +1,4 @@
-export type SpacingTokens = {
+export interface SpacingTokens {
   xs: string;
   sm: string;
   md: string;
@@ -7,7 +7,7 @@ export type SpacingTokens = {
   layoutSmall: string;
   layoutMedium: string;
   layoutLarge: string;
-};
+}
 
 export const spacingCssVariables: SpacingTokens = {
   xs: "--spacing-xs",
@@ -15,12 +15,12 @@ export const spacingCssVariables: SpacingTokens = {
   md: "--spacing-md",
   lg: "--spacing-lg",
   xl: "--spacing-xl",
-  layoutSmall: "--spacing-layouts-sm",
-  layoutMedium: "--spacing-layouts-md",
-  layoutLarge: "--spacing-layouts-lg",
+  layoutSmall: "--spacing-layout-sm",
+  layoutMedium: "--spacing-layout-md",
+  layoutLarge: "--spacing-layout-lg",
 };
 
-export const defaultSpacingTokens: SpacingTokens = {
+export const defaultSpacing: SpacingTokens = {
   xs: "2px",
   sm: "4px",
   md: "8px",
@@ -32,12 +32,12 @@ export const defaultSpacingTokens: SpacingTokens = {
 };
 
 export const spacingTokens: SpacingTokens = {
-  xs: `var(${spacingCssVariables.xs}, ${defaultSpacingTokens.xs})`,
-  sm: `var(${spacingCssVariables.sm}, ${defaultSpacingTokens.sm})`,
-  md: `var(${spacingCssVariables.md}, ${defaultSpacingTokens.md})`,
-  lg: `var(${spacingCssVariables.lg}, ${defaultSpacingTokens.lg})`,
-  xl: `var(${spacingCssVariables.xl}, ${defaultSpacingTokens.xl})`,
-  layoutSmall: `var(${spacingCssVariables.layoutSmall}, ${defaultSpacingTokens.layoutSmall})`,
-  layoutMedium: `var(${spacingCssVariables.layoutMedium}, ${defaultSpacingTokens.layoutMedium})`,
-  layoutLarge: `var(${spacingCssVariables.layoutLarge}, ${defaultSpacingTokens.layoutLarge})`,
+  xs: `var(${spacingCssVariables.xs}, ${defaultSpacing.xs})`,
+  sm: `var(${spacingCssVariables.sm}, ${defaultSpacing.sm})`,
+  md: `var(${spacingCssVariables.md}, ${defaultSpacing.md})`,
+  lg: `var(${spacingCssVariables.lg}, ${defaultSpacing.lg})`,
+  xl: `var(${spacingCssVariables.xl}, ${defaultSpacing.xl})`,
+  layoutSmall: `var(${spacingCssVariables.layoutSmall}, ${defaultSpacing.layoutSmall})`,
+  layoutMedium: `var(${spacingCssVariables.layoutMedium}, ${defaultSpacing.layoutMedium})`,
+  layoutLarge: `var(${spacingCssVariables.layoutLarge}, ${defaultSpacing.layoutLarge})`,
 };

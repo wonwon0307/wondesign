@@ -1,4 +1,4 @@
-export type ZIndexTokens = {
+export interface ZIndexTokens {
   hidden: string;
   sticky: string;
   menu: string;
@@ -9,7 +9,7 @@ export type ZIndexTokens = {
   modal: string;
   toast: string;
   alert: string;
-};
+}
 
 export const zIndexCssVariables: ZIndexTokens = {
   hidden: "--z-index-hidden",
@@ -24,7 +24,7 @@ export const zIndexCssVariables: ZIndexTokens = {
   alert: "--z-index-alert",
 };
 
-export const defaultZIndexTokens: ZIndexTokens = {
+export const defaultZIndex: ZIndexTokens = {
   hidden: "-1",
   sticky: "100",
   menu: "200",
@@ -38,14 +38,14 @@ export const defaultZIndexTokens: ZIndexTokens = {
 };
 
 export const zIndexTokens: ZIndexTokens = {
-  hidden: `var(${zIndexCssVariables.hidden}, ${defaultZIndexTokens.hidden})`,
-  sticky: `var(${zIndexCssVariables.sticky}, ${defaultZIndexTokens.sticky})`,
-  menu: `var(${zIndexCssVariables.menu}, ${defaultZIndexTokens.menu})`,
-  dropdown: `var(${zIndexCssVariables.dropdown}, ${defaultZIndexTokens.dropdown})`,
-  popover: `var(${zIndexCssVariables.popover}, ${defaultZIndexTokens.popover})`,
-  tooltip: `var(${zIndexCssVariables.tooltip}, ${defaultZIndexTokens.tooltip})`,
-  overlay: `var(${zIndexCssVariables.overlay}, ${defaultZIndexTokens.overlay})`,
-  modal: `var(${zIndexCssVariables.modal}, ${defaultZIndexTokens.modal})`,
-  toast: `var(${zIndexCssVariables.toast}, ${defaultZIndexTokens.toast})`,
-  alert: `var(${zIndexCssVariables.alert}, ${defaultZIndexTokens.alert})`,
+  hidden: `var(${zIndexCssVariables.hidden}, ${defaultZIndex.hidden})`,
+  sticky: `var(${zIndexCssVariables.sticky}, ${defaultZIndex.sticky})`,
+  menu: `var(${zIndexCssVariables.menu}, ${defaultZIndex.menu})`,
+  dropdown: `var(${zIndexCssVariables.dropdown}, ${defaultZIndex.dropdown})`,
+  popover: `var(${zIndexCssVariables.popover}, ${defaultZIndex.popover})`,
+  tooltip: `var(${zIndexCssVariables.tooltip}, ${defaultZIndex.tooltip})`,
+  overlay: `var(${zIndexCssVariables.overlay}, ${defaultZIndex.overlay})`,
+  modal: `var(${zIndexCssVariables.modal}, ${defaultZIndex.modal})`,
+  toast: `var(${zIndexCssVariables.toast}, ${defaultZIndex.toast})`,
+  alert: `var(${zIndexCssVariables.alert}, ${defaultZIndex.alert})`,
 };

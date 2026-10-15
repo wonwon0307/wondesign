@@ -5,7 +5,7 @@ import {
   Roboto_Slab,
 } from "next/font/google";
 import { ThemeProvider } from "@wondesign/ui/theme";
-import { wondesignDefault } from "@wondesign/ui/tokens";
+import { wondesignTokenVariables } from "@wondesign/ui/tokens";
 import { clsx } from "clsx";
 
 import { RootHeader } from "@/widgets/header";
@@ -49,7 +49,7 @@ export function RootLayout({ children }: Readonly<Props>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <style dangerouslySetInnerHTML={{ __html: wondesignDefault }} />
+        <style dangerouslySetInnerHTML={{ __html: wondesignTokenVariables }} />
       </head>
       <ThemeProvider withSystem defaultMode="system">
         <body

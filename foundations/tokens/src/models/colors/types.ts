@@ -1,4 +1,4 @@
-export interface SemanticColors {
+export interface ColorTokens {
   // Accent 1: Primary
   primary: string;
   onPrimary: string;
