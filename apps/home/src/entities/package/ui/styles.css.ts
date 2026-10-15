@@ -2,8 +2,8 @@ import { style } from "@vanilla-extract/css";
 import { tokens } from "@wondesign/ui/tokens";
 
 const callout = style({
-  marginTop: tokens.spacing.layoutSmall,
-  padding: `${tokens.spacing.md} ${tokens.spacing.layoutSmall}`,
+  marginTop: tokens.spacing.layoutMedium,
+  padding: `${tokens.spacing.md} ${tokens.spacing.xl}`,
   gap: `${tokens.spacing.lg} ${tokens.spacing.xl}`,
 });
 
