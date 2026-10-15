@@ -1,0 +1,94 @@
+---
+title: Tokens
+description: A semantic set of design tokens — colors, typography, spacing and more — delivered as CSS custom properties and a typed JavaScript object, with the tools to build your own.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/tokens" relPath="foundations/tokens">
+  `@wondesign/tokens` is a token foundation for design systems. It defines
+  a fixed, semantic vocabulary (`primary`, `spacing.md`, `radius.lg`, …),
+  exposes every token as a CSS variable with a built-in fallback, and ships
+  the defaults and a single function to turn your own values into a stylesheet.
+  Just typed objects and plain strings — no dependencies, no React.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/tokens
+```
+
+---
+
+## Key Features
+
+- ✅ **Semantic Vocabulary**: Tokens are named by role (`primary`, `surface`, `bodyMedium`, `modal`, …) rather than by value, across seven categories — colors, elevation, opacity, radius, spacing, typography and z-index
+- ✅ **CSS Variables with Fallbacks**: Every token resolves to `var(--name, default)`, so styles render correctly even before any values are installed
+- ✅ **Typed JavaScript Object**: `tokens` mirrors every variable for CSS-in-JS, vanilla-extract, or inline styles
+- ✅ **Build Your Own**: `buildCssVariables` turns any set of token values into a stylesheet string, scoped to any selector
+- ✅ **Light & Dark**: `wondesignLight` and `wondesignDark` palettes, merged into CSS `light-dark()` values by `mergeLightDark`
+- ✅ **Extendable**: Add your own keys to any category — they become CSS variables named after the key
+- ✅ **Color Helpers**: `colorWithFade` and `colorWithOpacity` derive tints and translucent variants with `color-mix()`
+- ✅ **Media Queries**: Ready-made breakpoint and hover queries, or build your own with `createBreakpointQueries`
+- ✅ **Framework Agnostic**: Every value is a plain string — install the stylesheet in the `<head>` of any framework
+
+```ts
+import { tokens, mediaQueries } from "@wondesign/tokens";
+
+tokens.spacing.md; // "var(--spacing-md, 8px)"
+tokens.colors.primary; // "var(--color-primary, #1647E8)"
+
+mediaQueries.breakpoints.large; // "screen and (width >= 1280px)"
+mediaQueries.hoverable; // "(hover: hover) and (pointer: fine)"
+```
+
+Build your own values from the defaults:
+
+```ts
+import { buildCssVariables, defaultSpacing } from "@wondesign/tokens";
+
+const css = buildCssVariables({
+  spacing: { ...defaultSpacing, md: "10px" },
+});
+```
+
+---
+
+## Compatibility
+
+<Callout title="Modern browsers only" variant="warning">
+  This package relies on modern CSS: `light-dark()` (Baseline 2024) for the
+  light / dark colors, `color-mix()` (Baseline 2023) for `colorWithFade` and
+  `colorWithOpacity`, and range syntax (`width >= 768px`) for the breakpoint
+  queries. Together they need **Chrome / Edge 123+, Firefox 120+, or Safari
+  17.5+**. Older browsers will ignore these values, so colors, tints, and
+  responsive styles may not apply at all.
+</Callout>
+
+---
+
+## Upcoming Features
+
+- 🔜 **Lint**: Flag hard-coded values, such as `padding: 8px` or `color: #1647E8`, where a token should be used instead
+
+---
+
+## Next Steps
+
+- **[Setup](/foundations/tokens/setup)** — installing the token stylesheet in
+  NextJS, Vite, and other frameworks, plus the color scheme and fonts.
+- **[Design Tokens](/foundations/tokens/design-tokens)** — using tokens in
+  your styles, and every token's CSS variable and default value.
+- **[Media Queries](/foundations/tokens/media-queries)** — ready-made
+  breakpoint and hover queries, and using them in your styles.
+- **[Customization](/foundations/tokens/customization)** — building your own
+  values, light and dark colors, scoped themes, extending categories, and your
+  own media queries.
+- **[Utilities](/foundations/tokens/utilities)** — `buildCssVariables`, the
+  color helpers, and the breakpoint builders.
+- **[Theme](/foundations/theme)** — switching `color-scheme` on the client, so
+  `light-dark()` colors follow it.

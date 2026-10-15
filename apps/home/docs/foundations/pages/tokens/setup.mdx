@@ -1,0 +1,177 @@
+---
+metaTitle: Setup | Tokens
+title: Setup
+description: Install the token stylesheet in NextJS, Vite, and other frameworks, then set up the color scheme and load the fonts your tokens name.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+
+# Getting Your App Ready
+
+Setting up the tokens takes up to three steps:
+
+- **CSS Variables** — install the token stylesheet, so your values apply.
+- **Colors** — set the page's `color-scheme`, so light and dark colors follow
+  it.
+- **Fonts** — load the fonts your font family tokens name, since the tokens
+  don't load them.
+
+Only the stylesheet is always needed. The other two depend on the values you
+install.
+
+---
+
+## CSS Variables
+
+Every token in `@wondesign/tokens` is a CSS variable with a built-in fallback.
+To apply your values, render them as one `<style>` tag in the `<head>`, so the
+variables are in place before the first paint.
+
+Without the stylesheet nothing breaks, but no variable is ever defined. **Every
+token falls back to its default value, and your own values never apply.**
+
+The examples below install `wondesignTokenVariables`, the WonDesign preset. To
+install your own values, swap in the string from `buildCssVariables` — see
+[Customization](/foundations/tokens/customization).
+
+### NextJS (App Router)
+
+Render the stylesheet in the root layout's `<head>`:
+
+```tsx
+// app/layout.tsx
+import { wondesignTokenVariables } from "@wondesign/tokens";
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en">
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: wondesignTokenVariables }} />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+### Vite
+
+Add a small plugin that writes the stylesheet into `index.html`:
+
+```ts
+// vite.config.ts
+import { defineConfig, type Plugin } from "vite";
+import react from "@vitejs/plugin-react";
+import { wondesignTokenVariables } from "@wondesign/tokens";
+
+function tokens(): Plugin {
+  return {
+    name: "tokens",
+    transformIndexHtml: () => [
+      {
+        tag: "style",
+        children: wondesignTokenVariables,
+        injectTo: "head-prepend",
+      },
+    ],
+  };
+}
+
+export default defineConfig({
+  plugins: [react(), tokens()],
+});
+```
+
+The `<style>` tag is written into `index.html` in both `vite dev` and `vite build`,
+so the variables are in place before your app's JavaScript runs.
+
+<Callout title="The config runs in Node" variant="warning">
+  If you build your own values in a separate module, `vite.config.ts` imports
+  it in Node, not in the browser. Keep that module free of browser-only code
+  and imports of CSS or assets.
+</Callout>
+
+### Other frameworks
+
+Every setup comes down to the same thing: one `<style>` tag in the `<head>`, in place
+before the first paint. Render it on the server where you can (React Router, TanStack
+Start, Astro), or write it to a file at build time (Rsbuild, Parcel, webpack).
+
+---
+
+## Colors
+
+`wondesignTokenVariables` installs colors as `light-dark()` pairs, which follow
+the page's `color-scheme`. Use [`@wondesign/theme`](/foundations/theme) to
+manage it, or set `color-scheme: light dark;` on `:root` to follow the system
+setting. **Without it, the page always shows the light colors.**
+
+You can skip this step if you're happy with light colors only, or if your own
+colors don't use `light-dark()` or `mergeLightDark`.
+
+---
+
+## Fonts
+
+`tokens.typography.fontFamily` **only names fonts — it doesn't load them.** Load
+each font yourself, under the same name as the token value: for example, with
+a Google Fonts `<link>`, or a self-hosted package such as `@fontsource`. If the
+names differ, override `typography.fontFamily` — see
+[Customization](/foundations/tokens/customization).
+
+### WonDesign Preset
+
+`wondesignTokenVariables` sets the font families to four web fonts: Kalam
+(`brand`), Google Sans (`normal`), JetBrains Mono (`code`), and Roboto Slab
+(`quote`). **They aren't bundled, so load them yourself.**
+
+#### NextJS
+
+`next/font` self-hosts each font under its own name, which matches the preset's
+values. Load the four fonts and apply their classes:
+
+```tsx
+// app/layout.tsx
+import { Google_Sans, JetBrains_Mono, Kalam, Roboto_Slab } from "next/font/google";
+
+const brand = Kalam({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+const normal = Google_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const code = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const quote = Roboto_Slab({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en">
+      {/* <head> with the token stylesheet */}
+      <body
+        className={`${brand.className} ${normal.className} ${code.className} ${quote.className}`}
+      >
+        {children}
+      </body>
+    </html>
+  );
+}
+```
+
+Each class also sets `font-family` on `<body>`, and the one that wins isn't
+up to you. **Set the body's font in your own styles**, e.g. to
+`tokens.typography.fontFamily.normal`.

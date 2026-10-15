@@ -1,0 +1,126 @@
+# Design Tokens
+
+Design tokens are the named values your styles are built from. `@wondesign/tokens`
+groups them into seven categories: colors, elevation, opacity, radius, spacing,
+typography, and z-index. The [Reference](/foundations/tokens/design-tokens/reference)
+tab lists every token in each one.
+
+---
+
+## Customizing
+
+Every category's default values are exported, so you can build your own
+values from them — see [Customization](/foundations/tokens/customization)
+for changing values, light and dark colors, scoped themes, and adding tokens
+of your own.
+
+---
+
+## Usage
+
+Every token can be used in two ways: as a key on the `tokens` object, or as a
+CSS variable. Both resolve to the same value. Use the `tokens` object wherever
+you write styles in JavaScript, and the CSS variables wherever you write CSS.
+
+**In JavaScript**, each key on `tokens` holds a `var()` string that points to
+the CSS variable, with the default value as its fallback:
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.spacing.md; // "var(--spacing-md, 8px)"
+```
+
+**In CSS**, use the variable directly:
+
+```css
+.card {
+  padding: var(--spacing-md);
+}
+```
+
+Here's how that looks in common ways of writing styles.
+
+### Inline Styles
+
+Every token is a plain string, so it works as a value in React's `style` prop:
+
+```tsx
+import { colorWithOpacity, tokens } from "@wondesign/tokens";
+
+<div
+  style={{
+    padding: tokens.spacing.md,
+    borderRadius: tokens.radius.md,
+    backgroundColor: colorWithOpacity(tokens.colors.primary, 0.1),
+    color: tokens.colors.primary,
+  }}
+/>;
+```
+
+**Inline styles can't hold media queries or states like `:hover`** — use one of
+the approaches below for those.
+
+### CSS-in-JS
+
+With template-literal libraries like styled-components and Emotion,
+interpolate tokens straight into the CSS:
+
+```tsx
+import styled from "styled-components"; // or "@emotion/styled"
+import { tokens } from "@wondesign/tokens";
+
+const Card = styled.div`
+  padding: ${tokens.spacing.lg};
+  border-radius: ${tokens.radius.md};
+  background-color: ${tokens.colors.surface};
+  box-shadow: ${tokens.elevation.lv1};
+`;
+```
+
+Object-style APIs, such as Emotion's `css` prop, take tokens the same way as
+inline styles.
+
+### Vanilla Extract
+
+`vanilla-extract` takes tokens as style values:
+
+```ts
+// card.css.ts
+import { style } from "@vanilla-extract/css";
+import { tokens } from "@wondesign/tokens";
+
+export const card = style({
+  padding: tokens.spacing.lg,
+  borderRadius: tokens.radius.md,
+  backgroundColor: tokens.colors.surface,
+  boxShadow: tokens.elevation.lv1,
+});
+```
+
+The same works with any zero-runtime library that takes style objects at build time.
+
+### Tailwind CSS
+
+Tailwind v4 reads CSS variables in any utility with the `(--variable)` syntax:
+
+```tsx
+<div className="rounded-(--radius-md) bg-(--color-surface) p-(--spacing-lg)" />
+```
+
+**No Tailwind configuration is needed** — the variables come from the token
+stylesheet you installed in [Setup](/foundations/tokens/setup).
+
+### Plain CSS
+
+In CSS files — including CSS Modules and Sass — use the CSS variables
+directly:
+
+```css
+.card {
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--elevation-lv1);
+}
+```

@@ -1,0 +1,260 @@
+# Reference
+
+Every token in `@wondesign/tokens`, by category. Each entry lists the token's
+key on the `tokens` object, its CSS variable, and its default value:
+
+- **`spacing.md`** → `--spacing-md` — `8px`
+
+The default is the fallback built into `tokens`, and the value
+`wondesignTokenVariables` installs, with two exceptions. Colors list a light
+and a dark value, installed as a `light-dark()` pair. Font families list a
+second value: the WonDesign web font that is installed instead.
+
+---
+
+## Colors
+
+`tokens.colors` — 18 semantic color roles. Each one falls back to the
+`wondesignLight` value; `wondesignTokenVariables` installs both palettes as
+`light-dark()` pairs, so the dark value applies whenever the page is in dark
+mode.
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.colors.primary; // "var(--color-primary, #1647E8)"
+```
+
+Each entry below lists the key, its CSS variable, and its light / dark
+values.
+
+### Brand
+
+- **`primary`** → `--color-primary` — `#1647E8` / `#3B82F6`
+- **`onPrimary`** → `--color-on-primary` — `#F9FAFB` / `#F9FAFB`
+
+### Alerts
+
+- **`error`** → `--color-error` — `#B91C1C` / `#B91C1C`
+- **`warning`** → `--color-warning` — `#D27700` / `#EBB30B`
+- **`success`** → `--color-success` — `#007200` / `#007200`
+
+### Neutral
+
+**Background**
+
+- **`background`** → `--color-background` — `#F5F5F9` / `#141418`
+- **`backgroundHighlight`** → `--color-background-highlight` — `#88889025` / `#88889025`
+- **`backgroundMuted`** → `--color-background-muted` — `#EAEAEC` / `#1E1E23`
+- **`backgroundInverted`** → `--color-background-inverted` — `#1A1A20` / `#D6D6DC`
+- **`surface`** → `--color-surface` — `#FFFFFF` / `#26262C`
+- **`overlay`** → `--color-overlay` — `#00000060` / `#000000A0`
+
+**Text**
+
+- **`text`** → `--color-text` — `#1A1A20` / `#D6D6DC`
+- **`textMuted`** → `--color-text-muted` — `#5A5A62` / `#8E8E96`
+- **`textInverted`** → `--color-text-inverted` — `#F5F5F9` / `#141418`
+
+**Border**
+
+- **`border`** → `--color-border` — `#1A1A2026` / `#D6D6DC26`
+- **`borderHighlight`** → `--color-border-highlight` — `#1A1A2040` / `#D6D6DC40`
+- **`borderMuted`** → `--color-border-muted` — `#1A1A2014` / `#D6D6DC14`
+- **`borderInverted`** → `--color-border-inverted` — `#F5F5F926` / `#14141826`
+
+---
+
+## Elevation
+
+`tokens.elevation` — three `box-shadow` levels, from a subtle lift to a
+clearly floating layer. Works on both light and dark modes.
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.elevation.lv1; // "var(--elevation-lv1, 0px 1px 3px rgba(127, 127, 127, 0.2))"
+```
+
+- **`lv1`** → `--elevation-lv1`
+  The lowest level — cards and other surfaces just above the page.
+- **`lv2`** → `--elevation-lv2`
+  Raised elements that stand apart from their surroundings, e.g. dropdowns
+  and popovers.
+- **`lv3`** → `--elevation-lv3`
+  The highest level — dialogs, drawers and other layers floating over
+  everything else.
+
+The shadows are too long to list inline, so here are all three:
+
+```css
+--elevation-lv1: 0px 1px 3px rgba(127, 127, 127, 0.2);
+
+--elevation-lv2:
+  0px 1px 3px rgba(127, 127, 127, 0.2),
+  0px 1px 1px rgba(127, 127, 127, 0.14),
+  0px 2px 1px rgba(127, 127, 127, 0.12);
+
+--elevation-lv3:
+  0px 3px 5px rgba(127, 127, 127, 0.2),
+  0px 6px 10px rgba(127, 127, 127, 0.14),
+  0px 1px 18px rgba(127, 127, 127, 0.12);
+```
+
+---
+
+## Opacity
+
+`tokens.opacity` — `opacity` values for common element states. Values are
+strings, so your own can be numbers (`"0.5"`) or percentages (`"50%"`).
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.opacity.disabled; // "var(--opacity-disabled, 0.4)"
+```
+
+- **`hide`** → `--opacity-hide` — `0`
+  Fully transparent, while still taking up space.
+- **`disabled`** → `--opacity-disabled` — `0.4`
+  Disabled controls and content.
+- **`pending`** → `--opacity-pending` — `0.6`
+  Content waiting on something, e.g. a submitting form or a loading list.
+- **`normal`** → `--opacity-normal` — `1`
+  Fully opaque — the default state.
+
+---
+
+## Radius
+
+`tokens.radius` — `border-radius` values, from barely rounded to a full pill.
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.radius.md; // "var(--radius-md, 8px)"
+```
+
+- **`xs`** → `--radius-xs` — `2px`
+- **`sm`** → `--radius-sm` — `4px`
+- **`md`** → `--radius-md` — `8px`
+- **`lg`** → `--radius-lg` — `12px`
+- **`xl`** → `--radius-xl` — `16px`
+- **`full`** → `--radius-full` — `9999px`
+  Fully rounded ends, whatever the element's size — pills, avatars, and round
+  icon buttons.
+
+---
+
+## Spacing
+
+`tokens.spacing` — `padding`, `margin` and `gap` values. A five-step scale
+for spacing inside and between components, and three larger steps for page
+layout.
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.spacing.md; // "var(--spacing-md, 8px)"
+```
+
+- **`xs`** → `--spacing-xs` — `2px`
+- **`sm`** → `--spacing-sm` — `4px`
+- **`md`** → `--spacing-md` — `8px`
+- **`lg`** → `--spacing-lg` — `12px`
+- **`xl`** → `--spacing-xl` — `16px`
+- **`layoutSmall`** → `--spacing-layout-sm` — `1%`
+- **`layoutMedium`** → `--spacing-layout-md` — `4%`
+- **`layoutLarge`** → `--spacing-layout-lg` — `15%`
+  A percentage — as `padding` or `margin`, it is relative to the width of the
+  containing block, so it grows with the viewport.
+
+---
+
+## Typography
+
+`tokens.typography` — the individual axes of type, in four groups: font
+size, line height, font weight and font family. Combine them to build your
+own text styles.
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.typography.fontSize.bodyMedium; // "var(--font-size-body-md, 1rem)"
+```
+
+### Font Size
+
+`tokens.typography.fontSize`
+
+- **`bodyExtraSmall`** → `--font-size-body-xs` — `0.75rem`
+- **`bodySmall`** → `--font-size-body-sm` — `0.875rem`
+- **`bodyMedium`** → `--font-size-body-md` — `1rem`
+- **`bodyLarge`** → `--font-size-body-lg` — `1.125rem`
+- **`bodyExtraLarge`** → `--font-size-body-xl` — `1.25rem`
+- **`headingSmall`** → `--font-size-heading-sm` — `1.5rem`
+- **`headingMedium`** → `--font-size-heading-md` — `1.75rem`
+- **`headingLarge`** → `--font-size-heading-lg` — `2rem`
+
+### Line Height
+
+`tokens.typography.lineHeight` — unitless, so they scale with the font size.
+
+- **`single`** → `--line-height-single` — `1`
+  Exactly one line, e.g. buttons, badges, and icons next to text.
+- **`heading`** → `--line-height-heading` — `1.2`
+- **`title`** → `--line-height-title` — `1.35`
+- **`body`** → `--line-height-body` — `1.5`
+- **`paragraph`** → `--line-height-paragraph` — `1.7`
+  Long-form reading, where extra room between lines helps.
+
+### Font Weight
+
+`tokens.typography.fontWeight`
+
+- **`regular`** → `--font-weight-regular` — `400`
+- **`medium`** → `--font-weight-medium` — `500`
+- **`semibold`** → `--font-weight-semibold` — `600`
+- **`bold`** → `--font-weight-bold` — `700`
+
+### Font Family
+
+`tokens.typography.fontFamily` — the fallbacks are fonts available on most
+systems; `wondesignTokenVariables` replaces them with the WonDesign web fonts,
+listed second.
+
+- **`brand`** → `--font-family-brand` — `'Brush Script MT', cursive` /
+  `"Kalam", "Kalam Fallback"`
+- **`normal`** → `--font-family-normal` — `Arial, sans-serif` /
+  `"Google Sans", system-ui`
+- **`code`** → `--font-family-code` — `'Courier New', monospace` /
+  `"JetBrains Mono", monospace`
+- **`quote`** → `--font-family-quote` — `'Georgia', serif` /
+  `"Roboto Slab", serif`
+
+**The WonDesign fonts aren't bundled** — load them yourself, e.g. with
+`next/font` or a `<link>` to Google Fonts.
+
+---
+
+## Z-Index
+
+`tokens.zIndex` — stacking layers, listed from bottom to top. Layers that
+never appear at the same time share a value.
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.zIndex.modal; // "var(--z-index-modal, 800)"
+```
+
+- **`hidden`** → `--z-index-hidden` — `-1`
+- **`sticky`** → `--z-index-sticky` — `100`
+- **`menu`** → `--z-index-menu` — `200`
+- **`dropdown`** → `--z-index-dropdown` — `200`
+- **`popover`** → `--z-index-popover` — `200`
+- **`tooltip`** → `--z-index-tooltip` — `300`
+- **`overlay`** → `--z-index-overlay` — `700`
+- **`modal`** → `--z-index-modal` — `800`
+- **`toast`** → `--z-index-toast` — `900`
+- **`alert`** → `--z-index-alert` — `1000`

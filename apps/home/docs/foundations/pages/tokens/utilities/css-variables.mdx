@@ -1,0 +1,97 @@
+# CSS Variables
+
+Two functions for turning your values into CSS: `buildCssVariables` writes the
+stylesheet, and `mergeLightDark` prepares light and dark colors for it. Both
+return plain strings.
+
+---
+
+## buildCssVariables
+
+Turns a set of token values into a stylesheet string.
+
+```ts
+function buildCssVariables<T extends ThemeInput>(
+  theme?: T,
+  selector?: string,
+): string;
+```
+
+**Parameters**
+
+- `theme` — the token values, by category: `colors`, `elevation`, `opacity`,
+  `radius`, `spacing`, `typography`, and `zIndex`. Each category is optional,
+  and falls back to its defaults when left out. Defaults to `{}`.
+- `selector` — the selector the variables are defined on. Defaults to
+  `":root"`.
+
+**Returns** a CSS rule that defines a variable for every token.
+
+```ts
+import { buildCssVariables, defaultSpacing } from "@wondesign/tokens";
+
+buildCssVariables({ spacing: { ...defaultSpacing, md: "10px" } });
+// ":root {
+//   --color-primary: #1647E8;
+//   …
+//   --spacing-md: 10px;
+//   …
+// }"
+```
+
+- **Every category is always written**, so a category you leave out is written
+  at its defaults — not skipped.
+- **Colors default to `wondesignLight` alone.** For light and dark values, pass
+  colors merged with [`mergeLightDark`](#mergelightdark).
+- Keys you add to a category are written as variables named after the
+  category and the key — see
+  [Extending Categories](/foundations/tokens/customization#extending-categories).
+
+---
+
+## mergeLightDark
+
+Merges a light and a dark palette into one, where every role is a CSS
+`light-dark()` pair.
+
+```ts
+function mergeLightDark<T extends ColorTokens>(
+  lightColors: T,
+  darkColors: T,
+): { [K in keyof T]: string };
+```
+
+**Parameters**
+
+- `lightColors` — the palette for light mode.
+- `darkColors` — the palette for dark mode, with the same roles.
+
+**Returns** a palette with the same roles, each set to
+`light-dark(<light>, <dark>)`.
+
+```ts
+import { mergeLightDark, wondesignDark, wondesignLight } from "@wondesign/tokens";
+
+const colors = mergeLightDark(wondesignLight, wondesignDark);
+
+colors.primary; // "light-dark(#1647E8, #3B82F6)"
+```
+
+**`mergeLightDark` accepts extended palettes.** Roles you add on top of
+`ColorTokens` are merged too, and the result is typed with them — no type
+argument or declared type needed:
+
+```ts
+const colors = mergeLightDark(
+  { ...wondesignLight, secondary: "#7C3AED" },
+  { ...wondesignDark, secondary: "#A78BFA" },
+);
+
+colors.secondary; // "light-dark(#7C3AED, #A78BFA)"
+```
+
+**Both palettes must have the same roles** — adding `secondary` to only one
+of them is a type error.
+
+`light-dark()` follows the page's `color-scheme` — see
+[Theme](/foundations/theme).

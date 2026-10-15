@@ -1,0 +1,134 @@
+---
+metaTitle: Media Queries | Tokens
+title: Media Queries
+description: Ready-made breakpoint and hover queries, and how to use them in CSS-in-JS, vanilla-extract, and JavaScript.
+---
+
+# Media Queries
+
+**CSS variables can't be used inside media queries**, so breakpoints can't be
+tokens. Instead, `@wondesign/tokens` provides them as plain query strings: a
+ready-made `mediaQueries` object, and functions to build breakpoints from your
+own widths. **They're JavaScript strings, so they only work where you write
+styles in JavaScript.**
+
+---
+
+## Default Queries
+
+The `mediaQueries` object holds ready-made query strings: three breakpoints
+with their combinations, and a query for devices that can hover:
+
+```ts
+{
+  breakpoints: {
+    small: "screen and (width < 768px)",
+    medium: "screen and (768px <= width < 1280px)",
+    large: "screen and (width >= 1280px)",
+    notSmall: "screen and (width >= 768px)", // medium + large
+    notLarge: "screen and (width < 1280px)", // small + medium
+  },
+  hoverable: "(hover: hover) and (pointer: fine)",
+}
+```
+
+---
+
+## Breakpoints
+
+`mediaQueries.breakpoints` splits the screen at `768px` and `1280px`. Each
+range includes its lower bound and excludes its upper bound, so every width
+matches exactly one of `small`, `medium`, and `large`.
+
+For other widths, or more ranges, build your own with
+`createSimpleBreakpointQueries` or `createBreakpointQueries` — see
+[Breakpoints](/foundations/tokens/utilities/breakpoints) in Utilities.
+
+---
+
+## Usage
+
+Every query is a plain string, so it goes wherever your styling approach
+takes a media query. The examples use `mediaQueries`, but the breakpoints you
+build work the same way.
+
+### CSS-in-JS
+
+Interpolate a query after `@media`:
+
+```tsx
+import styled from "styled-components"; // or "@emotion/styled"
+import { mediaQueries, tokens } from "@wondesign/tokens";
+
+const Card = styled.div`
+  padding: ${tokens.spacing.lg};
+
+  @media ${mediaQueries.breakpoints.small} {
+    padding: ${tokens.spacing.md};
+  }
+`;
+```
+
+### Vanilla Extract
+
+Use queries as keys under `@media`:
+
+```ts
+// card.css.ts
+import { style } from "@vanilla-extract/css";
+import { mediaQueries, tokens } from "@wondesign/tokens";
+
+export const card = style({
+  padding: tokens.spacing.lg,
+  "@media": {
+    [mediaQueries.breakpoints.small]: {
+      padding: tokens.spacing.md,
+    },
+  },
+});
+```
+
+`hoverable` keeps hover styles off touch screens, where a tap would otherwise
+leave them stuck on:
+
+```ts
+export const link = style({
+  "@media": {
+    [mediaQueries.hoverable]: {
+      selectors: {
+        "&:hover": { textDecoration: "underline" },
+      },
+    },
+  },
+});
+```
+
+### JavaScript
+
+To react to a query in code, pass it to `matchMedia`:
+
+```ts
+import { mediaQueries } from "@wondesign/tokens";
+
+const small = window.matchMedia(mediaQueries.breakpoints.small);
+
+small.matches; // true while the viewport is narrower than 768px
+small.addEventListener("change", (event) => {
+  console.log(event.matches);
+});
+```
+
+### Plain CSS and Inline Styles
+
+**`mediaQueries` is only available from JavaScript**, and CSS variables can't
+be used inside media queries — so in CSS files, write the query out:
+
+```css
+@media screen and (width < 768px) {
+  .card {
+    padding: var(--spacing-md);
+  }
+}
+```
+
+**Inline styles can't hold media queries at all.**
