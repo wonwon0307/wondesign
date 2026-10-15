@@ -25,12 +25,30 @@ describe("color-with-fade", () => {
       "color-mix(in srgb, #ff0000 100%, light-dark(#ffffff, #000000))",
     );
   });
+
+  it("should mix toward a custom base", () => {
+    const result = colorWithFade("#ff0000", 0.5, { base: "#000000" });
+    expect(result).toBe("color-mix(in srgb, #ff0000 50%, #000000)");
+  });
+
+  it("should mix in a custom color space", () => {
+    const result = colorWithFade("#ff0000", 0.5, {
+      base: "#000000",
+      colorSpace: "oklch",
+    });
+    expect(result).toBe("color-mix(in oklch, #ff0000 50%, #000000)");
+  });
 });
 
 describe("color-with-opacity", () => {
   it("colorWithOpacity should return color with opacity", () => {
     const result = colorWithOpacity("#ff0000", 0.5);
     expect(result).toBe("color-mix(in srgb, #ff0000 50%, transparent)");
+  });
+
+  it("should mix in a custom color space", () => {
+    const result = colorWithOpacity("#ff0000", 0.5, { colorSpace: "oklab" });
+    expect(result).toBe("color-mix(in oklab, #ff0000 50%, transparent)");
   });
 });
 
