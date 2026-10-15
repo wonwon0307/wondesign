@@ -16,7 +16,7 @@ interface PreProps {
 
 export const mdxComponents = {
   h1: ({ children, id }: Props) => (
-    <Heading level={1} className={styles.heading} id={id}>
+    <Heading level={1} className={styles.h1} id={id}>
       {children}
     </Heading>
   ),

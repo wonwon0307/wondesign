@@ -1,0 +1,95 @@
+# Colors
+
+Two functions for deriving new colors from a token with CSS `color-mix()`:
+`colorWithFade` for opaque tints, and `colorWithOpacity` for translucent
+colors. Both take any CSS color, including tokens like `tokens.colors.primary`.
+
+---
+
+## colorWithFade
+
+Mixes a color toward a base color, using CSS `color-mix()`.
+
+```ts
+function colorWithFade(
+  color: string,
+  ratio: number,
+  options?: { base?: string; colorSpace?: string },
+): string;
+```
+
+**Parameters**
+
+- `color` — any CSS color, including a token such as `tokens.colors.primary`.
+- `ratio` — how much of `color` to keep, from `0` (all `base`) to `1` (all
+  `color`). Values outside that range are clamped.
+- `options.base` — the color to mix toward. Defaults to
+  `"light-dark(#ffffff, #000000)"` — white in light mode, black in dark mode.
+- `options.colorSpace` — the color space to mix in. Defaults to `"srgb"` —
+  see [Color Spaces](#color-spaces).
+
+**Returns** a `color-mix(in <colorSpace>, …)` string.
+
+```ts
+import { colorWithFade } from "@wondesign/tokens";
+
+colorWithFade("#1647E8", 0.2);
+// "color-mix(in srgb, #1647E8 20%, light-dark(#ffffff, #000000))"
+
+colorWithFade("#1647E8", 0.2, { base: "#000000", colorSpace: "oklch" });
+// "color-mix(in oklch, #1647E8 20%, #000000)"
+```
+
+**The result is opaque** — use it for soft tints that should hide what's behind
+them, such as alert banners on a busy background.
+
+---
+
+## colorWithOpacity
+
+Makes a color translucent, by mixing it toward `transparent`.
+
+```ts
+function colorWithOpacity(
+  color: string,
+  opacity: number,
+  options?: { colorSpace?: string },
+): string;
+```
+
+**Parameters**
+
+- `color` — any CSS color, including a token such as `tokens.colors.primary`.
+- `opacity` — from `0` (fully transparent) to `1` (fully opaque). Values
+  outside that range are clamped.
+- `options.colorSpace` — the color space to mix in. Defaults to `"srgb"` —
+  see [Color Spaces](#color-spaces).
+
+**Returns** a `color-mix(in <colorSpace>, …)` string.
+
+```ts
+import { colorWithOpacity, tokens } from "@wondesign/tokens";
+
+colorWithOpacity(tokens.colors.primary, 0.1);
+// "color-mix(in srgb, var(--color-primary, #1647E8) 10%, transparent)"
+
+colorWithOpacity(tokens.colors.primary, 0.1, { colorSpace: "oklab" });
+// "color-mix(in oklab, var(--color-primary, #1647E8) 10%, transparent)"
+```
+
+**The result lets what's behind it show through** — use it for hover and
+selection highlights that should blend with any background.
+
+---
+
+## Color Spaces
+
+Both functions mix in `srgb` by default, the way most design tools blend
+colors. Pass `colorSpace` to mix in any color space `color-mix()` accepts,
+such as `oklab` or `oklch`, which mix more evenly to the eye — tints keep
+their brightness and saturation better, instead of turning dull or grayish
+partway through.
+
+**The value is written into the CSS as it is, and isn't checked.** A color
+space the browser doesn't recognize makes the whole `color-mix()` invalid, so
+the property it's used in is ignored.

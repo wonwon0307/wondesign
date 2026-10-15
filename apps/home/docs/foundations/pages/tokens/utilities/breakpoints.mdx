@@ -1,0 +1,204 @@
+# Breakpoints
+
+Set your widths once, and get back every media query you need, named for what
+it means: `small`, `tabletPortrait.andSmaller`, `laptop.andLarger`. Your
+styles say which screens they're for instead of repeating pixel values, and the
+ranges never overlap or leave gaps.
+
+Both helpers return plain query strings, used the same way as `mediaQueries` —
+see [Media Queries](/foundations/tokens/media-queries#usage).
+
+---
+
+## Simple Breakpoints
+
+If you want quick, simple queries, use `createSimpleBreakpointQueries`. It
+splits the screen into three ranges — `small`, `medium`, and `large` — at two
+widths, `sm` and `lg`.
+
+WonDesign's own breakpoints, `mediaQueries.breakpoints`, are built with this
+function's default widths. To change where they fall, call it with your own
+widths and use the result in place of `mediaQueries.breakpoints`.
+
+```ts
+function createSimpleBreakpointQueries(widths?: {
+  sm?: string; // defaults to "768px"
+  lg?: string; // defaults to "1280px"
+}): SimpleBreakpointQueries;
+```
+
+**Returns** five queries — the three ranges, and the two ways of combining
+neighboring ones. With the default widths:
+
+```ts
+{
+  small: "screen and (width < 768px)",
+  medium: "screen and (768px <= width < 1280px)",
+  large: "screen and (width >= 1280px)",
+  notSmall: "screen and (width >= 768px)", // medium + large
+  notLarge: "screen and (width < 1280px)", // small + medium
+}
+```
+
+**Every width matches exactly one of `small`, `medium`, and `large`**, since each
+range includes its lower bound and excludes its upper bound. A screen exactly
+`768px` wide is `medium` — not both, and not neither.
+
+---
+
+## Device Breakpoints
+
+If you need fine-grained breakpoints for devices and their orientation, use
+`createBreakpointQueries`. It splits the screen into six ranges —
+`mobilePortrait`, `mobileLandscape`, `tabletPortrait`, `tabletLandscape`,
+`laptop`, and `desktop` — at five widths, `xs` to `xl`.
+
+```ts
+function createBreakpointQueries(widths?: {
+  xs?: string; // defaults to "480px"
+  sm?: string; // defaults to "768px"
+  md?: string; // defaults to "1024px"
+  lg?: string; // defaults to "1280px"
+  xl?: string; // defaults to "1440px"
+}): BreakpointQueries;
+```
+
+**Returns** an object with one entry per range, each with up to three
+queries:
+
+- `only` — just this range.
+- `andSmaller` — this range and everything below it.
+- `andLarger` — this range and everything above it.
+
+With the default widths:
+
+```ts
+{
+  mobilePortrait: {
+    only: "screen and (width < 480px)",
+  },
+  mobileLandscape: {
+    only: "screen and (480px <= width < 768px)",
+    andSmaller: "screen and (width < 768px)",
+    andLarger: "screen and (width >= 480px)",
+  },
+  tabletPortrait: {
+    only: "screen and (768px <= width < 1024px)",
+    andSmaller: "screen and (width < 1024px)",
+    andLarger: "screen and (width >= 768px)",
+  },
+  tabletLandscape: {
+    only: "screen and (1024px <= width < 1280px)",
+    andSmaller: "screen and (width < 1280px)",
+    andLarger: "screen and (width >= 1024px)",
+  },
+  laptop: {
+    only: "screen and (1280px <= width < 1440px)",
+    andSmaller: "screen and (width < 1440px)",
+    andLarger: "screen and (width >= 1280px)",
+  },
+  desktop: {
+    only: "screen and (width >= 1440px)",
+  },
+}
+```
+
+`mobilePortrait` and `desktop` only have `only`. They're the two ends of the
+screen, so their other queries would be either the same as `only` or match
+every width.
+
+---
+
+## Usage
+
+### Declaring Queries
+
+**Call a helper once, in a shared module, and import the result wherever you
+write styles.** Every style then uses the same breakpoints, and changing a width
+is a one-line change. There are two ways to declare them.
+
+As a constant of their own, next to `mediaQueries`:
+
+```ts
+// breakpoints.ts
+import { createBreakpointQueries } from "@wondesign/tokens";
+
+export const breakpoints = createBreakpointQueries();
+```
+
+Or in place of `mediaQueries.breakpoints`, by building your own `mediaQueries`
+in the same shape — see
+[Media Queries](/foundations/tokens/customization#media-queries) in
+Customization.
+
+### CSS-in-JS
+
+With your own `mediaQueries`, built as in
+[Customization](/foundations/tokens/customization#media-queries), in
+styled-components:
+
+```tsx
+// Gallery.tsx
+import styled from "styled-components";
+import { tokens } from "@wondesign/tokens";
+import { mediaQueries } from "./media-queries";
+
+const Gallery = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+
+  @media ${mediaQueries.breakpoints.medium} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media ${mediaQueries.breakpoints.large} {
+    grid-template-columns: repeat(4, 1fr);
+  }
+`;
+
+const Item = styled.a`
+  transition: box-shadow 0.2s;
+
+  @media ${mediaQueries.hoverable} {
+    &:hover {
+      box-shadow: ${tokens.elevation.lv2};
+    }
+  }
+
+  @media ${mediaQueries.reducedMotion} {
+    transition: none;
+  }
+`;
+```
+
+It reads the way you'd describe it: one column, two on medium screens, four
+on large ones. Change `sm` or `lg` later, and every style follows.
+
+### Vanilla Extract
+
+With the `breakpoints` above, in vanilla-extract:
+
+```ts
+// layout.css.ts
+import { style } from "@vanilla-extract/css";
+import { tokens } from "@wondesign/tokens";
+import { breakpoints } from "./breakpoints";
+
+// hidden on phones and portrait tablets
+export const sidebar = style({
+  "@media": {
+    [breakpoints.tabletPortrait.andSmaller]: { display: "none" },
+  },
+});
+
+// roomier padding on laptops and up
+export const content = style({
+  padding: tokens.spacing.md,
+  "@media": {
+    [breakpoints.laptop.andLarger]: { padding: tokens.spacing.xl },
+  },
+});
+```
+
+Name the screens a style applies to, and the query follows — no widths to
+remember or repeat.

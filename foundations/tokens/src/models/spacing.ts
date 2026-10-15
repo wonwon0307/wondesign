@@ -26,8 +26,8 @@ export const defaultSpacing: SpacingTokens = {
   md: "8px",
   lg: "12px",
   xl: "16px",
-  layoutSmall: "24px",
-  layoutMedium: "48px",
+  layoutSmall: "1%",
+  layoutMedium: "4%",
   layoutLarge: "15%",
 };
 

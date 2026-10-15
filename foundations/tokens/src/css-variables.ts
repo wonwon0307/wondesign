@@ -30,7 +30,7 @@ function flatEntries(
 
 export type ThemeInput = Partial<DesignTokens>;
 
-export function buildCssVariables(
+export function buildCssVariables<T extends ThemeInput>(
   {
     colors = wondesignLight,
     elevation = defaultElevation,
@@ -39,7 +39,7 @@ export function buildCssVariables(
     spacing = defaultSpacing,
     typography = defaultTypography,
     zIndex = defaultZIndex,
-  }: ThemeInput = {},
+  }: T = {} as T,
   selector = ":root",
 ): string {
   const entries: [string, string][] = [

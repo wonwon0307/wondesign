@@ -7,7 +7,7 @@ const toc = style({
   display: "flex",
   flexDirection: "column",
   alignSelf: "flex-start",
-  marginTop: tokens.spacing.layoutSmall,
+  marginTop: tokens.spacing.layoutMedium,
   gap: tokens.spacing.md,
   position: "sticky",
   top: "128px",

@@ -8,13 +8,14 @@
         "[Reset CSS](/reset-css)",
         {
           "type": "link",
-          "label": "Colors",
-          "url": "/colors",
+          "label": "Tokens",
+          "url": "/tokens",
           "items": [
-            "[Semantics](/colors/semantics)",
-            "[Palette](/colors/palette)",
-            "[Usage](/colors/usage)",
-            "[Utilities](/colors/utilities)"
+            "[Setup](/tokens/setup)",
+            "[Design Tokens](/tokens/design-tokens)",
+            "[Media Queries](/tokens/media-queries)",
+            "[Customization](/tokens/customization)",
+            "[Utilities](/tokens/utilities)"
           ]
         }
       ]

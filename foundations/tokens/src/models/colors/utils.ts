@@ -1,5 +1,13 @@
 import type { ColorTokens } from "./types";
 
+interface ColorWithOpacityOptions {
+  colorSpace?: string;
+}
+
+interface ColorWithFadeOptions extends ColorWithOpacityOptions {
+  base?: string;
+}
+
 function clamp(value: number) {
   return Math.min(Math.max(value, 0), 1);
 }
@@ -7,15 +15,22 @@ function clamp(value: number) {
 export function colorWithFade(
   color: string,
   ratio: number,
-  base: string = "light-dark(#ffffff, #000000)",
+  {
+    base = "light-dark(#ffffff, #000000)",
+    colorSpace = "srgb",
+  }: ColorWithFadeOptions = {},
 ) {
   const percent = clamp(ratio) * 100;
 
-  return `color-mix(in srgb, ${color} ${percent}%, ${base})`;
+  return `color-mix(in ${colorSpace}, ${color} ${percent}%, ${base})`;
 }
 
-export function colorWithOpacity(color: string, opacity: number) {
-  return colorWithFade(color, opacity, "transparent");
+export function colorWithOpacity(
+  color: string,
+  opacity: number,
+  { colorSpace }: ColorWithOpacityOptions = {},
+) {
+  return colorWithFade(color, opacity, { base: "transparent", colorSpace });
 }
 
 export function mergeLightDark<T extends ColorTokens>(

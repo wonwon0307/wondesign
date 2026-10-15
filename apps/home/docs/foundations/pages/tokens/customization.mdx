@@ -1,0 +1,215 @@
+---
+metaTitle: Customization | Tokens
+title: Customization
+description: Build your own token values from the defaults — extending categories with keys of your own, light and dark colors, scoped themes, and your own media queries.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+
+# Making the Tokens Your Own
+
+`buildCssVariables` turns a set of token values into a stylesheet string. Pass
+it the categories you want to change, and install the result the same way as
+`wondesignTokenVariables` — see [Setup](/foundations/tokens/setup#css-variables).
+
+---
+
+## Building Your Values
+
+**Every category takes the full set of its keys**, so start from the default
+object and override what you need. Any category you leave out falls back to
+its defaults.
+
+### Flat Categories
+
+Elevation, opacity, radius, spacing, and z-index are flat — spread the default
+object and override keys:
+
+```ts
+// src/tokens.ts
+import { buildCssVariables, defaultSpacing } from "@wondesign/tokens";
+
+export const tokenVariables = buildCssVariables({
+  spacing: { ...defaultSpacing, md: "10px" },
+});
+```
+
+```css
+--spacing-md: 10px;
+```
+
+Each category's default is exported as `default` and the category's name —
+`defaultSpacing`, `defaultZIndex`, and so on. Colors are flat too, but start
+from `wondesignLight` — see [Light and Dark Colors](#light-and-dark-colors).
+See the [Reference](/foundations/tokens/design-tokens/reference) for every key.
+
+### Typography
+
+Typography is nested into groups, so **spread the group you're changing as
+well as the whole object** — otherwise the rest of that group is lost:
+
+```ts
+buildCssVariables({
+  typography: {
+    ...defaultTypography,
+    fontFamily: {
+      ...defaultTypography.fontFamily,
+      normal: "Inter, sans-serif",
+    },
+  },
+});
+```
+
+```css
+--font-family-normal: Inter, sans-serif;
+```
+
+---
+
+## Extending Categories
+
+Use this when you need tokens the package doesn't have. Every category can
+take keys of its own, and **built-in keys are still type-checked** — leaving
+one out, or giving one a value that isn't a string, is a type error.
+
+### Inline
+
+Write the extra keys straight into the call:
+
+```ts
+buildCssVariables({
+  spacing: { ...defaultSpacing, layoutExtraLarge: "96px" },
+});
+```
+
+```css
+--spacing-layout-extra-large: 96px;
+```
+
+New keys become CSS variables named after the category and the key, in
+kebab-case. A new typography group is named after the group itself —
+`letterSpacing: { tight: "-0.02em" }` becomes `--letter-spacing-tight`.
+
+### Declaring a Type
+
+When you reuse the extended object, declare its type:
+
+```ts
+import type { SpacingTokens } from "@wondesign/tokens";
+
+interface BrandSpacing extends SpacingTokens {
+  layoutExtraLarge: string;
+}
+
+export const spacing: BrandSpacing = {
+  ...defaultSpacing,
+  layoutExtraLarge: "96px",
+};
+
+export const tokenVariables = buildCssVariables({ spacing });
+```
+
+### Using New Keys
+
+**The `tokens` object only covers the built-in keys**, so reference new ones by
+their variable — `var(--spacing-layout-extra-large)` — or keep them next to
+`tokens` in an object of your own:
+
+```ts
+export const brandTokens = {
+  ...tokens,
+  spacing: {
+    ...tokens.spacing,
+    layoutExtraLarge: "var(--spacing-layout-extra-large, 96px)",
+  },
+};
+```
+
+---
+
+## Light and Dark Colors
+
+Use this when your colors should switch between light and dark mode. Merge a
+light and a dark palette with `mergeLightDark`, which turns each role into a
+CSS `light-dark()` pair:
+
+```ts
+buildCssVariables({
+  colors: mergeLightDark(
+    { ...wondesignLight, primary: "#7C3AED" },
+    { ...wondesignDark, primary: "#A78BFA" },
+  ),
+});
+```
+
+```css
+--color-primary: light-dark(#7c3aed, #a78bfa);
+```
+
+`light-dark()` follows the page's `color-scheme` — see
+[Colors](/foundations/tokens/setup#colors) in Setup.
+
+---
+
+## Scoped Themes
+
+Use this when part of your page needs a different look, like a marketing
+section. `buildCssVariables` takes a selector as its second argument — `:root`
+by default. Pass a narrower one, and **install the result after the `:root`
+stylesheet**:
+
+```ts
+export const marketingVariables = buildCssVariables(
+  { colors: { ...wondesignLight, primary: "#E11D48" } },
+  '[data-theme-scope="marketing"]',
+);
+```
+
+```css
+[data-theme-scope="marketing"] {
+  --color-primary: #e11d48;
+  /* … */
+}
+```
+
+```tsx
+<section data-theme-scope="marketing">
+  {/* components in here use the marketing primary color */}
+</section>
+```
+
+<Callout title="Every category is written" variant="warning">
+  `buildCssVariables` always writes every category, filling in the defaults for
+  the ones you leave out. Inside the scope, those defaults replace your `:root`
+  values — so if your `:root` stylesheet uses custom spacing, pass the same
+  spacing to the scoped one too.
+</Callout>
+
+---
+
+## Media Queries
+
+Use this when you need different breakpoints, or queries of your own.
+**Media queries aren't part of the stylesheet**, so they're customized in
+JavaScript instead. Build your own `mediaQueries` in the same shape as the
+package's: spread the default one to keep `hoverable`, swap in breakpoints
+with your own widths, and add any queries of your own:
+
+```ts
+// media-queries.ts
+import {
+  createSimpleBreakpointQueries,
+  mediaQueries as defaultMediaQueries,
+} from "@wondesign/tokens";
+
+export const mediaQueries = {
+  ...defaultMediaQueries,
+  breakpoints: createSimpleBreakpointQueries({ sm: "640px", lg: "1024px" }),
+  reducedMotion: "(prefers-reduced-motion: reduce)",
+};
+```
+
+Your styles then import `mediaQueries` from your own module instead of the
+package, and read exactly the same. See
+[Breakpoints](/foundations/tokens/utilities/breakpoints) for the breakpoint
+helpers and what they return.

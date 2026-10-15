@@ -88,4 +88,17 @@ describe("css variables", () => {
     expect(result).toContain("--letter-spacing-wide: 0.04em;");
     expect(result).not.toContain("undefined");
   });
+
+  it("buildCssVariables should accept extended tokens inline", () => {
+    const result = buildCssVariables({
+      spacing: { ...defaultSpacing, layoutExtraLarge: "96px" },
+      typography: {
+        ...defaultTypography,
+        letterSpacing: { tight: "-0.02em" },
+      },
+    });
+
+    expect(result).toContain("--spacing-layout-extra-large: 96px;");
+    expect(result).toContain("--letter-spacing-tight: -0.02em;");
+  });
 });
