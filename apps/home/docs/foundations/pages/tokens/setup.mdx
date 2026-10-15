@@ -88,9 +88,9 @@ The `<style>` tag is written into `index.html` in both `vite dev` and `vite buil
 so the variables are in place before your app's JavaScript runs.
 
 <Callout title="The config runs in Node" variant="warning">
-  If you build your own values in a separate module, `vite.config.ts` imports
-  it in Node, not in the browser. Keep that module free of browser-only code
-  and imports of CSS or assets.
+  If you build your own values in a separate module, `vite.config.ts` imports it
+  in Node, not in the browser. Keep that module free of browser-only code and
+  imports of CSS or assets.
 </Callout>
 
 ### Other frameworks
@@ -134,7 +134,12 @@ values. Load the four fonts and apply their classes:
 
 ```tsx
 // app/layout.tsx
-import { Google_Sans, JetBrains_Mono, Kalam, Roboto_Slab } from "next/font/google";
+import {
+  Google_Sans,
+  JetBrains_Mono,
+  Kalam,
+  Roboto_Slab,
+} from "next/font/google";
 
 const brand = Kalam({
   subsets: ["latin"],

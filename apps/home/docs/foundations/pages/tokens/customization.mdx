@@ -52,7 +52,10 @@ well as the whole object** — otherwise the rest of that group is lost:
 buildCssVariables({
   typography: {
     ...defaultTypography,
-    fontFamily: { ...defaultTypography.fontFamily, normal: "Inter, sans-serif" },
+    fontFamily: {
+      ...defaultTypography.fontFamily,
+      normal: "Inter, sans-serif",
+    },
   },
 });
 ```
@@ -140,7 +143,7 @@ buildCssVariables({
 ```
 
 ```css
---color-primary: light-dark(#7C3AED, #A78BFA);
+--color-primary: light-dark(#7c3aed, #a78bfa);
 ```
 
 `light-dark()` follows the page's `color-scheme` — see
@@ -164,7 +167,7 @@ export const marketingVariables = buildCssVariables(
 
 ```css
 [data-theme-scope="marketing"] {
-  --color-primary: #E11D48;
+  --color-primary: #e11d48;
   /* … */
 }
 ```
@@ -176,10 +179,10 @@ export const marketingVariables = buildCssVariables(
 ```
 
 <Callout title="Every category is written" variant="warning">
-  `buildCssVariables` always writes every category, filling in the defaults
-  for the ones you leave out. Inside the scope, those defaults replace your
-  `:root` values — so if your `:root` stylesheet uses custom spacing, pass the
-  same spacing to the scoped one too.
+  `buildCssVariables` always writes every category, filling in the defaults for
+  the ones you leave out. Inside the scope, those defaults replace your `:root`
+  values — so if your `:root` stylesheet uses custom spacing, pass the same
+  spacing to the scoped one too.
 </Callout>
 
 ---
