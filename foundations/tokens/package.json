@@ -33,8 +33,5 @@
     "dev": "tsdown --watch",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "@wondesign/colors": "workspace:*"
   }
 }
