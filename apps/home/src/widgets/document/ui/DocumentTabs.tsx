@@ -17,6 +17,7 @@ export function DocumentTabs({ tabs }: Readonly<Props>) {
 
   const toLabel = (tabName: string) => {
     if (tabName === "api") return "API";
+    if (tabName === "css-variables") return "CSS Variables";
 
     return capitalize(tabName);
   };
