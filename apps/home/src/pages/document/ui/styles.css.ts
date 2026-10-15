@@ -30,7 +30,7 @@ const description = style({
 const body = style({
   display: "flex",
   flexDirection: "row",
-  gap: tokens.spacing.layoutMedium,
+  gap: tokens.spacing.layoutLarge,
   "@media": {
     [mediaQueries.breakpoints.large]: {
       padding: `0 ${tokens.spacing.layoutLarge}`,
@@ -49,14 +49,20 @@ const contents = style({
   gap: tokens.spacing.md,
 });
 
+const h1 = style({
+  marginTop: tokens.spacing.layoutMedium,
+  // root header is sticky at 48px; offset anchor-scroll target so it isn't hidden underneath
+  scrollMarginTop: "64px",
+});
+
 const heading = style({
-  marginTop: tokens.spacing.layoutSmall,
+  marginTop: tokens.spacing.xl,
   // root header is sticky at 48px; offset anchor-scroll target so it isn't hidden underneath
   scrollMarginTop: "64px",
 });
 
 const separator = style({
-  marginTop: tokens.spacing.layoutSmall,
+  marginTop: tokens.spacing.xl,
 });
 
 const codeBlock = style({
@@ -83,6 +89,7 @@ export const styles = {
   description,
   body,
   contents,
+  h1,
   heading,
   separator,
   codeBlock,
