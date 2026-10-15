@@ -1,8 +1,8 @@
 export { tokens } from "./tokens";
 export { mediaQueries } from "./queries";
-export { buildCssVariables } from "./css-variables";
 export { wondesignTokenVariables } from "./preset";
 
+export { buildCssVariables } from "./css-variables";
 export {
   createSimpleBreakpointQueries,
   createBreakpointQueries,
