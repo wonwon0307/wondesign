@@ -14,31 +14,23 @@ import "@wondesign/ui/styles.css";
 
 const googleSans = Google_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  display: "swap",
+  weight: ["400", "500", "600", "700"],
   fallback: ["system-ui"],
-  preload: true,
 });
 
 const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  display: "swap",
-  preload: true,
+  weight: ["400", "500", "600", "700"],
 });
 
 const kalam = Kalam({
   subsets: ["latin"],
   weight: ["400", "700"],
-  display: "swap",
-  preload: true,
 });
 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  display: "swap",
-  preload: true,
+  weight: ["400", "500", "600", "700"],
 });
 
 interface Props {
