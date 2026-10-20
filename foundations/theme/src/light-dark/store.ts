@@ -2,28 +2,12 @@ import { readStorage, writeStorage } from "@/core/storage";
 import { resolvePreference } from "./resolve";
 import type { LightDarkOptions, Preference } from "./types";
 
-const IS_DEV = process.env.NODE_ENV !== "production";
-
 export function createStore({ storageKey, ...config }: LightDarkOptions) {
   let preference: Preference = resolvePreference(
     readStorage(storageKey),
     config,
   );
   const listeners = new Set<() => void>();
-
-  if (IS_DEV) {
-    if (new Set(config.themes.light).size !== config.themes.light.length) {
-      console.warn("[WonDesign Theme] light themes contain duplicate values.");
-    }
-    if (new Set(config.themes.dark).size !== config.themes.dark.length) {
-      console.warn("[WonDesign Theme] dark themes contain duplicate values.");
-    }
-    if (config.disableSystem && config.defaultMode === "system") {
-      console.warn(
-        '[WonDesign Theme] defaultMode "system" is not allowed with disableSystem. Using "light" as the default.',
-      );
-    }
-  }
 
   function update(next: Preference) {
     if (

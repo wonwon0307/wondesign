@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useSyncExternalStore } from "react";
 import { useIsHydrated } from "@/core/hydration";
 import { useSystemPreference } from "@/core/system";
 import { ThemeContext } from "./context";
-import { resolvePreference } from "./resolve";
+import { resolveConfig, resolvePreference } from "./resolve";
 import { createStore } from "./store";
 import type { LightDarkOptions, Mode, Themes } from "./types";
 
@@ -12,7 +12,6 @@ export interface LightDarkProps extends Partial<LightDarkOptions> {
 }
 
 const DEFAULT_THEMES: Themes = { light: ["light"], dark: ["dark"] };
-const IS_DEV = process.env.NODE_ENV !== "production";
 
 export function LightDarkProvider({
   children,
@@ -23,15 +22,23 @@ export function LightDarkProvider({
 }: Readonly<LightDarkProps>) {
   // themes가 리렌더링마다 새로생성되지 않도록 안정적인 참조 유지
   const themesKey = JSON.stringify(themesProp);
-  const themes = useMemo<Themes>(() => JSON.parse(themesKey), [themesKey]);
+  const config = useMemo(
+    () =>
+      resolveConfig({
+        themes: JSON.parse(themesKey) as Themes,
+        defaultMode,
+        disableSystem,
+      }),
+    [themesKey, defaultMode, disableSystem],
+  );
   const serverSnapshot = useMemo(
-    () => resolvePreference(null, { themes, defaultMode, disableSystem }),
-    [themes, defaultMode, disableSystem],
+    () => resolvePreference(null, config),
+    [config],
   );
 
   const store = useMemo(
-    () => createStore({ themes, defaultMode, disableSystem, storageKey }),
-    [themes, defaultMode, disableSystem, storageKey],
+    () => createStore({ ...config, storageKey }),
+    [config, storageKey],
   );
   const hydrated = useIsHydrated();
   const preference = useSyncExternalStore(
@@ -60,7 +67,9 @@ export function LightDarkProvider({
   const selectMode = useCallback(
     (newMode: Mode) => {
       if (disableSystem && newMode === "system") {
-        if (IS_DEV) console.warn("[WonDesign Theme] System mode is disabled.");
+        if (process.env.NODE_ENV !== "production") {
+          console.warn("[WonDesign Theme] System mode is disabled.");
+        }
         return;
       }
       store.savePreference({ ...preference, mode: newMode });
@@ -70,8 +79,8 @@ export function LightDarkProvider({
 
   const selectLightTheme = useCallback(
     (lightTheme: string) => {
-      if (!themes.light.includes(lightTheme)) {
-        if (IS_DEV) {
+      if (!config.themes.light.includes(lightTheme)) {
+        if (process.env.NODE_ENV !== "production") {
           console.warn(
             `[WonDesign Theme] Unknown light theme: "${lightTheme}".`,
           );
@@ -81,13 +90,13 @@ export function LightDarkProvider({
 
       store.savePreference({ ...preference, lightTheme });
     },
-    [themes, preference, store],
+    [config, preference, store],
   );
 
   const selectDarkTheme = useCallback(
     (darkTheme: string) => {
-      if (!themes.dark.includes(darkTheme)) {
-        if (IS_DEV) {
+      if (!config.themes.dark.includes(darkTheme)) {
+        if (process.env.NODE_ENV !== "production") {
           console.warn(`[WonDesign Theme] Unknown dark theme: "${darkTheme}".`);
         }
         return;
@@ -95,13 +104,13 @@ export function LightDarkProvider({
 
       store.savePreference({ ...preference, darkTheme });
     },
-    [themes, preference, store],
+    [config, preference, store],
   );
 
   const ctxValue = useMemo(
     () => ({
-      themes,
-      disableSystem,
+      themes: config.themes,
+      disableSystem: config.disableSystem,
       mode: preference.mode,
       colorScheme,
       theme,
@@ -112,8 +121,7 @@ export function LightDarkProvider({
       selectDarkTheme,
     }),
     [
-      themes,
-      disableSystem,
+      config,
       preference,
       colorScheme,
       theme,
