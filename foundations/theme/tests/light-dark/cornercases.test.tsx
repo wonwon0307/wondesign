@@ -1,75 +1,128 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 
-import { ThemeScript } from "@/light-dark/Script";
-import { loadUserPreference, saveUserPreference } from "@/light-dark/storage";
-import { TestComponent } from "../_setup";
+import { LightDarkProvider } from "@/light-dark/Provider";
+import { createStore } from "@/light-dark/store";
+import { TestComponent } from "./test-component";
 
-describe("light-dark - corner cases", () => {
-  it("server - should handle ThemeScript correctly (default)", () => {
-    vi.spyOn(console, "error").mockImplementation(() => {});
+describe("Light-Dark Module - corner case tests", () => {
+  vi.spyOn(console, "warn").mockImplementation(() => {});
 
-    const { container } = render(<ThemeScript />);
-    expect(container).toBeTruthy();
+  it("gracefully handles invalid selects in production environment", () => {
+    vi.stubEnv("NODE_ENV", "production");
 
-    vi.restoreAllMocks();
-  });
-
-  it("should return defaultMode in SSR environment", () => {
-    // mock SSR environment by making localStorage undefined
-    const originalLocalStorage = global.localStorage;
-    // @ts-expect-error Testing SSR environment by deleting localStorage
-    delete global.localStorage;
-
-    const result = loadUserPreference("light", true);
-    expect(result).toBe("light");
-
-    global.localStorage = originalLocalStorage;
-  });
-
-  it("should handle local storage access errors gracefully", () => {
-    const originalGetItem = Storage.prototype.getItem;
-    Storage.prototype.getItem = () => {
-      throw new Error("Local storage access error");
-    };
-    vi.spyOn(console, "warn").mockImplementation(() => {});
-
-    const result = loadUserPreference("light", true);
-    expect(result).toBe("light");
-    expect(console.warn).toHaveBeenCalledWith(
-      expect.stringContaining(
-        "[WonDesign Theme] Failed to load user preference:",
-      ),
+    const { getByText } = render(
+      <LightDarkProvider disableSystem>
+        <TestComponent />
+      </LightDarkProvider>,
     );
 
-    Storage.prototype.getItem = originalGetItem;
+    expect(getByText("Current Mode: light")).toBeTruthy();
+    expect(getByText("Selected Light Theme: light")).toBeTruthy();
+    expect(getByText("Selected Dark Theme: dark")).toBeTruthy();
+
+    fireEvent.click(getByText("Select System Mode"));
+    fireEvent.click(getByText("Select Invalid Light Theme"));
+    fireEvent.click(getByText("Select Invalid Dark Theme"));
+
+    expect(console.warn).not.toHaveBeenCalled();
   });
 
-  it("should handle local storage save errors gracefully", () => {
-    const originalSetItem = Storage.prototype.setItem;
-    Storage.prototype.setItem = () => {
-      throw new Error("Local storage access error");
-    };
-    vi.spyOn(console, "warn").mockImplementation(() => {});
+  it("warns invalid selects on console in non-production environment", () => {
+    vi.stubEnv("NODE_ENV", "development");
 
-    expect(() => saveUserPreference("dark")).not.toThrow();
-    expect(console.warn).toHaveBeenCalledWith(
-      expect.stringContaining(
-        "[WonDesign Theme] Failed to save user preference:",
-      ),
+    const { getByText } = render(
+      <LightDarkProvider disableSystem>
+        <TestComponent />
+      </LightDarkProvider>,
     );
 
-    Storage.prototype.setItem = originalSetItem;
+    fireEvent.click(getByText("Select System Mode"));
+    fireEvent.click(getByText("Select Invalid Light Theme"));
+    fireEvent.click(getByText("Select Invalid Dark Theme"));
+
+    expect(console.warn).toHaveBeenCalledTimes(3);
   });
 
-  it("useTheme should throw an error when used outside ThemeProvider", () => {
-    const consoleErrorSpy = vi
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
+  it("keeps listening to storage events until the last subscriber is removed", () => {
+    const store = createStore({
+      themes: { light: ["light"], dark: ["dark"] },
+      defaultMode: "system",
+      disableSystem: false,
+      storageKey: "store-key",
+    });
+    const first = vi.fn();
+    const second = vi.fn();
 
+    const dispatch = (mode: string) =>
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          key: "store-key",
+          newValue: JSON.stringify({ mode }),
+          storageArea: localStorage,
+        }),
+      );
+
+    const unsubscribeFirst = store.subscribe(first);
+    const unsubscribeSecond = store.subscribe(second);
+
+    dispatch("dark");
+    expect(first).toHaveBeenCalledTimes(1);
+    expect(second).toHaveBeenCalledTimes(1);
+
+    unsubscribeFirst();
+    dispatch("light");
+    expect(first).toHaveBeenCalledTimes(1);
+    expect(second).toHaveBeenCalledTimes(2);
+
+    unsubscribeSecond();
+    dispatch("dark");
+    expect(second).toHaveBeenCalledTimes(2);
+    expect(store.getPreference().mode).toBe("light");
+  });
+
+  it("overrides a stale stored theme on first subscribe", () => {
+    localStorage.setItem("wondesign-light-dark", "invalid-value");
+
+    const { getByText } = render(
+      <LightDarkProvider>
+        <TestComponent />
+      </LightDarkProvider>,
+    );
+
+    expect(getByText("Current Mode: system")).toBeTruthy();
+    expect(localStorage.getItem("wondesign-light-dark")).toBe(
+      JSON.stringify({
+        mode: "system",
+        lightTheme: "light",
+        darkTheme: "dark",
+      }),
+    );
+  });
+
+  it("gracefully handles storage read failure", () => {
+    vi.stubGlobal("localStorage", {
+      getItem: vi.fn(() => {
+        throw new Error("Failed to read from localStorage");
+      }),
+      setItem: vi.fn(),
+      removeItem: vi.fn(),
+      clear: vi.fn(),
+    });
+
+    const { getByText } = render(
+      <LightDarkProvider>
+        <TestComponent />
+      </LightDarkProvider>,
+    );
+
+    expect(getByText("Current Mode: system")).toBeTruthy();
+    expect(getByText("Current Color Scheme: light")).toBeTruthy();
+    expect(getByText("Resolved Theme: light")).toBeTruthy();
+  });
+
+  it("throws when useLightDark is used outside of a provider", () => {
     expect(() => render(<TestComponent />)).toThrow(
-      "[WonDesign Theme] useTheme() must be used within a ThemeProvider",
+      "[WonDesign Theme] useLightDark() must be used within a LightDarkProvider",
     );
-
-    consoleErrorSpy.mockRestore();
   });
 });
