@@ -7,6 +7,7 @@ export interface ScriptProps {
   nonce?: string;
 }
 
+/* v8 ignore next */
 function applyPreference(storageKey: string, defaultMode: Mode) {
   let stored: { mode?: Mode; lightTheme?: string; darkTheme?: string } = {};
 

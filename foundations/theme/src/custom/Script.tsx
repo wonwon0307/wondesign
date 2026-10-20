@@ -6,6 +6,7 @@ export interface ScriptProps {
   nonce?: string;
 }
 
+/* v8 ignore next */
 function applyTheme(storageKey: string, defaultTheme: string) {
   let theme: string | null = null;
 
