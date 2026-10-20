@@ -11,5 +11,12 @@ describe("Custom Theme Module - script tests", () => {
 
     const script = template.content.querySelector("script")!;
     expect(script).toBeTruthy();
+
+    expect(document.documentElement.dataset.theme).not.toBeDefined();
+
+    const fn = new Function(script.textContent);
+    fn();
+
+    expect(document.documentElement.dataset.theme).toBe("test");
   });
 });
