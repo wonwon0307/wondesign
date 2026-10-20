@@ -12,6 +12,10 @@
     "typescript"
   ],
   "exports": {
+    "./server": {
+      "types": "./dist/server.d.mts",
+      "default": "./dist/server.mjs"
+    },
     "./theme": {
       "types": "./dist/theme.d.mts",
       "default": "./dist/theme.mjs"
