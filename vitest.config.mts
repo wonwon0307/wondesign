@@ -7,6 +7,7 @@ export default defineConfig({
       exclude: [
         "**/index.ts",
         "**/cli.ts",
+        "**/server.ts",
         "**/*.css.ts",
         "**/*/tests/*",
         "**/dist/*",
