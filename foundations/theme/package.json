@@ -11,27 +11,35 @@
     "react",
     "typescript"
   ],
-  "exports": {
-    "./light-dark": {
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.mts"
-    },
-    "./light-dark/server": {
-      "import": "./dist/server.mjs",
-      "types": "./dist/server.d.mts"
-    },
-    "./color-scheme.css": "./dist/color-scheme.css"
-  },
   "author": "WonWon",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wonwon0307/design.git",
-    "directory": "packages/theme"
+    "url": "git+https://github.com/wonwon0307/wondesign.git",
+    "directory": "foundations/theme"
   },
   "license": "UNLICENSED",
   "files": [
     "dist"
   ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/custom/index.d.mts",
+      "default": "./dist/custom/index.mjs"
+    },
+    "./server": {
+      "types": "./dist/custom/server.d.mts",
+      "default": "./dist/custom/server.mjs"
+    },
+    "./light-dark": {
+      "types": "./dist/light-dark/index.d.mts",
+      "default": "./dist/light-dark/index.mjs"
+    },
+    "./light-dark/server": {
+      "types": "./dist/light-dark/server.d.mts",
+      "default": "./dist/light-dark/server.mjs"
+    }
+  },
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "tsdown",
@@ -41,5 +49,8 @@
   },
   "peerDependencies": {
     "react": "^19"
+  },
+  "devDependencies": {
+    "react-dom": "^19.3.0"
   }
 }
