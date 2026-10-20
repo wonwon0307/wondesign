@@ -1,5 +1,11 @@
-export { ThemeProvider } from "./Provider";
-export { useTheme } from "./context";
+export { LightDarkProvider } from "./Provider";
+export { useLightDark } from "./context";
 
-export type { ThemeProps } from "./Provider";
-export type { Mode, Theme } from "./types";
+export type { LightDarkProps } from "./Provider";
+export type {
+  ColorScheme,
+  LightDarkOptions,
+  Mode,
+  Preference,
+  Themes,
+} from "./types";

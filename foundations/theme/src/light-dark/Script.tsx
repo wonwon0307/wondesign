@@ -1,25 +1,49 @@
-import { STORAGE_KEY } from "./storage";
+import { serialize } from "@/core/script";
+import type { Mode } from "./types";
 
-const ssrScript = `(function () {
+export interface ScriptProps {
+  defaultMode?: Mode;
+  storageKey?: string;
+  nonce?: string;
+}
+
+/* v8 ignore next */
+function applyPreference(storageKey: string, defaultMode: Mode) {
+  let stored: { mode?: Mode; lightTheme?: string; darkTheme?: string } = {};
+
   try {
-    var savedTheme = localStorage.getItem("${STORAGE_KEY}");
+    stored = JSON.parse(localStorage.getItem(storageKey) ?? "{}") ?? {};
+  } catch {
+    // localStorage is unavailable or the value is malformed
+  }
 
-    if (!savedTheme || savedTheme === "system") {
-      var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      var resolvedTheme = prefersDark ? "dark" : "light";
+  let colorScheme = stored.mode ?? defaultMode;
 
-      document.documentElement.dataset.colorScheme = resolvedTheme;
-      document.documentElement.style.colorScheme = resolvedTheme;
-      return;
-    }
+  if (colorScheme === "system") {
+    const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+    colorScheme = prefersDark ? "dark" : "light";
+  }
 
-    if (savedTheme === "dark" || savedTheme === "light") {
-      document.documentElement.dataset.colorScheme = savedTheme;
-      document.documentElement.style.colorScheme = savedTheme;
-    }
-  } catch (e) {}
-})()`;
+  const theme = colorScheme === "dark" ? stored.darkTheme : stored.lightTheme;
+  const root = document.documentElement;
 
-export function ThemeScript() {
-  return <script dangerouslySetInnerHTML={{ __html: ssrScript }} />;
+  if (theme) root.dataset.theme = theme;
+  root.dataset.colorScheme = colorScheme;
+  root.style.colorScheme = colorScheme;
+}
+
+export function LightDarkScript({
+  defaultMode = "system",
+  storageKey = "wondesign-light-dark",
+  nonce,
+}: Readonly<ScriptProps>) {
+  // first-paint flash를 방지하게 해주는 head에 추가할 스크립트
+  return (
+    <script
+      nonce={nonce}
+      dangerouslySetInnerHTML={{
+        __html: `(${applyPreference.toString()})(${serialize(storageKey)},${serialize(defaultMode)})`,
+      }}
+    />
+  );
 }

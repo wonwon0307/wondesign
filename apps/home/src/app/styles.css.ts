@@ -9,6 +9,12 @@ const body = style({
   backgroundColor: tokens.colors.background,
   color: tokens.colors.text,
   fontFamily: tokens.typography.fontFamily.normal,
+
+  "@media": {
+    "(prefers-reduced-motion: no-preference)": {
+      transition: "background-color 0.3s ease, color 0.3s ease",
+    },
+  },
 });
 
 const main = style({

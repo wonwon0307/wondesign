@@ -1,22 +1,33 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
-export function useSystemPreference() {
-  const [systemPrefersDark, setSystemPrefersDark] = useState<boolean>(
-    () =>
-      globalThis.matchMedia?.("(prefers-color-scheme: dark)")?.matches ?? false,
-  );
+const QUERY = "(prefers-color-scheme: dark)";
 
-  useEffect(() => {
-    const query = globalThis.matchMedia?.("(prefers-color-scheme: dark)");
-    if (!query) return;
+function getMQL() {
+  if (
+    globalThis.window === undefined ||
+    typeof globalThis.matchMedia !== "function"
+  ) {
+    return null;
+  }
 
-    const listener = (e: MediaQueryListEvent) =>
-      setSystemPrefersDark(e.matches);
+  return globalThis.matchMedia(QUERY);
+}
 
-    query.addEventListener("change", listener);
+function subscribe(onChange: () => void) {
+  const mql = getMQL();
+  if (!mql) return () => {};
 
-    return () => query.removeEventListener("change", listener);
-  }, []);
+  mql.addEventListener("change", onChange);
 
-  return systemPrefersDark ? "dark" : "light";
+  return () => {
+    mql.removeEventListener("change", onChange);
+  };
+}
+
+function getSnapshot(): "dark" | "light" {
+  return getMQL()?.matches ? "dark" : "light";
+}
+
+export function useSystemPreference(): "dark" | "light" {
+  return useSyncExternalStore(subscribe, getSnapshot, () => "light");
 }

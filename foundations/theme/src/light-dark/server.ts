@@ -1,1 +1,3 @@
-export { ThemeScript } from "./Script";
+export { LightDarkScript } from "./Script";
+
+export type { ScriptProps } from "./Script";

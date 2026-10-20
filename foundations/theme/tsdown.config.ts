@@ -16,13 +16,4 @@ export default defineConfig([
     dts: true,
     clean: false,
   },
-  {
-    entry: ["src/color-scheme.css"],
-    format: ["esm"],
-    dts: true,
-    clean: false,
-    css: {
-      splitting: true,
-    },
-  },
 ]);
