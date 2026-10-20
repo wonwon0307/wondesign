@@ -43,7 +43,6 @@ export function createStore(
     if (next === theme) return;
 
     theme = next;
-    document.documentElement.dataset.theme = theme;
     notify();
   }
 
@@ -54,7 +53,6 @@ export function createStore(
       const saved = readStorage(storageKey);
       if (saved !== null && !themeSet.has(saved)) removeStorage(storageKey);
 
-      document.documentElement.dataset.theme = theme;
       window.addEventListener("storage", onStorage);
     }
 
@@ -86,7 +84,6 @@ export function createStore(
     }
 
     theme = newTheme;
-    document.documentElement.dataset.theme = theme;
     writeStorage(storageKey, newTheme);
     notify();
   }

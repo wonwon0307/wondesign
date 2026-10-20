@@ -1,5 +1,6 @@
-import { useMemo, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useSyncExternalStore } from "react";
 
+import { useIsHydrated } from "@/core/hydration";
 import { ThemeContext } from "./context";
 import { createStore } from "./store";
 import type { Themes } from "./types";
@@ -23,11 +24,18 @@ export function ThemeProvider({
     () => createStore(themes, defaultTheme, storageKey),
     [themes, defaultTheme, storageKey],
   );
+  const hydrated = useIsHydrated();
   const theme = useSyncExternalStore(
     store.subscribe,
     store.getTheme,
     store.getServerTheme,
   );
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    document.documentElement.dataset.theme = theme;
+  }, [hydrated, theme]);
 
   const ctxValue = useMemo(
     () => ({ theme, selectTheme: store.save, themes }),
