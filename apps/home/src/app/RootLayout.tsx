@@ -4,7 +4,8 @@ import {
   Kalam,
   Roboto_Slab,
 } from "next/font/google";
-import { ThemeProvider } from "@wondesign/ui/theme";
+import { LightDarkProvider } from "@wondesign/ui/theme";
+import { LightDarkScript } from "@wondesign/ui/server";
 import { wondesignTokenVariables } from "@wondesign/ui/tokens";
 import { clsx } from "clsx";
 
@@ -42,8 +43,9 @@ export function RootLayout({ children }: Readonly<Props>) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <style dangerouslySetInnerHTML={{ __html: wondesignTokenVariables }} />
+        <LightDarkScript nonce="wondesign-home" />
       </head>
-      <ThemeProvider withSystem defaultMode="system">
+      <LightDarkProvider defaultMode="system">
         <body
           className={clsx(
             googleSans.className,
@@ -59,7 +61,7 @@ export function RootLayout({ children }: Readonly<Props>) {
           </main>
           <footer role="contentinfo">Footer</footer>
         </body>
-      </ThemeProvider>
+      </LightDarkProvider>
     </html>
   );
 }
