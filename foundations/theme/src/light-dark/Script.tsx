@@ -1,14 +1,21 @@
 import { serialize } from "@/core/script";
-import type { Mode } from "./types";
+import type { Mode, Themes } from "./types";
 
 export interface ScriptProps {
+  themes?: Themes;
   defaultMode?: Mode;
   storageKey?: string;
   nonce?: string;
 }
 
+const DEFAULT_THEMES: Themes = { light: ["light"], dark: ["dark"] };
+
 /* v8 ignore next */
-function applyPreference(storageKey: string, defaultMode: Mode) {
+function applyPreference(
+  storageKey: string,
+  defaultMode: Mode,
+  themes: Themes,
+) {
   let stored: { mode?: Mode; lightTheme?: string; darkTheme?: string } = {};
 
   try {
@@ -24,15 +31,19 @@ function applyPreference(storageKey: string, defaultMode: Mode) {
     colorScheme = prefersDark ? "dark" : "light";
   }
 
-  const theme = colorScheme === "dark" ? stored.darkTheme : stored.lightTheme;
+  // The first theme of each side is the default, same as the provider
+  const options = colorScheme === "dark" ? themes.dark : themes.light;
+  const saved = colorScheme === "dark" ? stored.darkTheme : stored.lightTheme;
+  const theme = saved && options.includes(saved) ? saved : options[0];
   const root = document.documentElement;
 
-  if (theme) root.dataset.theme = theme;
+  root.dataset.theme = theme;
   root.dataset.colorScheme = colorScheme;
   root.style.colorScheme = colorScheme;
 }
 
 export function LightDarkScript({
+  themes = DEFAULT_THEMES,
   defaultMode = "system",
   storageKey = "wondesign-light-dark",
   nonce,
@@ -42,7 +53,7 @@ export function LightDarkScript({
     <script
       nonce={nonce}
       dangerouslySetInnerHTML={{
-        __html: `(${applyPreference.toString()})(${serialize(storageKey)},${serialize(defaultMode)})`,
+        __html: `(${applyPreference.toString()})(${serialize(storageKey)},${serialize(defaultMode)},${serialize(themes)})`,
       }}
     />
   );
