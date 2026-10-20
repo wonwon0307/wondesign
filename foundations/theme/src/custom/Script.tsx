@@ -23,13 +23,11 @@ export function ThemeScript({
   storageKey = "wondesign-theme",
   nonce,
 }: Readonly<ScriptProps>) {
-  const args = [serialize(storageKey), serialize(defaultTheme)].join(",");
-
   return (
     <script
       nonce={nonce}
       dangerouslySetInnerHTML={{
-        __html: `(${applyTheme.toString()})(${args})`,
+        __html: `(${applyTheme.toString()})(${serialize(storageKey)},${serialize(defaultTheme)})`,
       }}
     />
   );
