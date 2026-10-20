@@ -1,61 +1,129 @@
-import { useEffect, useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useSyncExternalStore } from "react";
 
+import { useIsHydrated } from "@/core/hydration";
 import { useSystemPreference } from "@/core/system";
 import { ThemeContext } from "./context";
-import { loadUserPreference, saveUserPreference } from "./storage";
-import type { Theme, Mode } from "./types";
+import { resolvePreference } from "./resolve";
+import { createStore } from "./store";
+import type { LightDarkOptions, Mode, Themes } from "./types";
 
-export type ThemeProps = {
+export interface LightDarkProps extends Partial<LightDarkOptions> {
   children: React.ReactNode;
-} & (
-  | { withSystem: true; defaultMode?: Mode }
-  | { withSystem?: false; defaultMode?: Theme }
-);
+}
 
-export function ThemeProvider({
+const DEFAULT_THEMES: Themes = { light: ["light"], dark: ["dark"] };
+const IS_DEV = process.env.NODE_ENV !== "production";
+
+export function LightDarkProvider({
   children,
-  withSystem = false,
-  defaultMode = withSystem ? "system" : "light",
-}: Readonly<ThemeProps>) {
-  const [mode, setMode] = useState<Mode>(
-    loadUserPreference(defaultMode, withSystem),
+  themes: themesProp = DEFAULT_THEMES,
+  disableSystem = false,
+  defaultMode = disableSystem ? "light" : "system",
+  storageKey = "wondesign-light-dark",
+}: Readonly<LightDarkProps>) {
+  // themes가 리렌더링마다 새로생성되지 않도록 안정적인 참조 유지
+  const themesKey = JSON.stringify(themesProp);
+  const themes = useMemo<Themes>(() => JSON.parse(themesKey), [themesKey]);
+  const serverSnapshot = useMemo(
+    () => resolvePreference(null, { themes, defaultMode, disableSystem }),
+    [themes, defaultMode, disableSystem],
   );
-  const systemPreference = useSystemPreference();
 
-  let resolvedTheme: Theme;
-  if (mode === "system") {
-    resolvedTheme = systemPreference;
-  } else {
-    resolvedTheme = mode;
-  }
+  const store = useMemo(
+    () => createStore({ themes, defaultMode, disableSystem, storageKey }),
+    [themes, defaultMode, disableSystem, storageKey],
+  );
+  const hydrated = useIsHydrated();
+  const preference = useSyncExternalStore(
+    store.subscribe,
+    store.getPreference,
+    () => serverSnapshot,
+  );
+  const systemMode = useSystemPreference();
+  const colorScheme = useMemo(
+    () => (preference.mode === "system" ? systemMode : preference.mode),
+    [preference, systemMode],
+  );
+  const theme =
+    colorScheme === "light" ? preference.lightTheme : preference.darkTheme;
 
   useEffect(() => {
-    document.documentElement.dataset.colorScheme = resolvedTheme;
-    document.documentElement.style.colorScheme = resolvedTheme;
-  }, [resolvedTheme]);
+    if (!hydrated) return;
+
+    const root = document.documentElement;
+
+    root.dataset.theme = theme;
+    root.dataset.colorScheme = colorScheme;
+    root.style.colorScheme = colorScheme;
+  }, [hydrated, theme, colorScheme]);
 
   const selectMode = useCallback(
     (newMode: Mode) => {
-      if (newMode === "system" && !withSystem) {
-        console.warn(
-          "[WonDesign Theme] System mode is not enabled. Please set withSystem to true to use system mode.",
-        );
+      if (disableSystem && newMode === "system") {
+        if (IS_DEV) console.warn("[WonDesign Theme] System mode is disabled.");
         return;
       }
-      setMode(newMode);
-      saveUserPreference(newMode);
+      store.savePreference({ ...preference, mode: newMode });
     },
-    [withSystem],
+    [disableSystem, preference, store],
   );
 
-  const contextValue = useMemo(
-    () => ({ mode, selectMode, resolvedTheme }),
-    [mode, selectMode, resolvedTheme],
+  const selectLightTheme = useCallback(
+    (lightTheme: string) => {
+      if (!themes.light.includes(lightTheme)) {
+        if (IS_DEV) {
+          console.warn(
+            `[WonDesign Theme] Unknown light theme: "${lightTheme}".`,
+          );
+        }
+        return;
+      }
+
+      store.savePreference({ ...preference, lightTheme });
+    },
+    [themes, preference, store],
+  );
+
+  const selectDarkTheme = useCallback(
+    (darkTheme: string) => {
+      if (!themes.dark.includes(darkTheme)) {
+        if (IS_DEV) {
+          console.warn(`[WonDesign Theme] Unknown dark theme: "${darkTheme}".`);
+        }
+        return;
+      }
+
+      store.savePreference({ ...preference, darkTheme });
+    },
+    [themes, preference, store],
+  );
+
+  const ctxValue = useMemo(
+    () => ({
+      themes,
+      disableSystem,
+      mode: preference.mode,
+      colorScheme,
+      theme,
+      lightTheme: preference.lightTheme,
+      darkTheme: preference.darkTheme,
+      selectMode,
+      selectLightTheme,
+      selectDarkTheme,
+    }),
+    [
+      themes,
+      disableSystem,
+      preference,
+      colorScheme,
+      theme,
+      selectMode,
+      selectLightTheme,
+      selectDarkTheme,
+    ],
   );
 
   return (
-    <ThemeContext.Provider value={contextValue}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={ctxValue}>{children}</ThemeContext.Provider>
   );
 }
