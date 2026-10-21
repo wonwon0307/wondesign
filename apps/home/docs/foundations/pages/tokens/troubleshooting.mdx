@@ -1,0 +1,140 @@
+---
+metaTitle: Troubleshooting | Tokens
+title: Troubleshooting
+description: Fixes for common problems with @wondesign/tokens.
+---
+
+# Troubleshooting
+
+This page covers common problems you may run into with `@wondesign/tokens`, and
+how to fix them. Each section starts with the symptom, so you can find yours
+quickly.
+
+---
+
+## Dark Mode
+
+🔍 **Symptom:** the page always shows the light colors, even with a dark OS
+setting.
+
+💡 **Cause:** the token colors pick their light or dark value from the page's
+`color-scheme`, and nothing has set it.
+
+🔧 **Fix:** use [`@wondesign/theme`](/foundations/theme) to manage it, or follow
+the OS setting by declaring it on the root:
+
+```css
+:root {
+  color-scheme: light dark;
+}
+```
+
+See [Setup → Colors](/foundations/tokens/setup#colors).
+
+---
+
+## Default Values
+
+🔍 **Symptom:** your own values never apply — every token shows its default.
+
+💡 **Cause:** the token stylesheet isn't installed, or a stylesheet installed
+after it overrides the same variables.
+
+🔧 **Fix:**
+
+- **Not installed?** Render it in the `<head>` — see
+  [Setup](/foundations/tokens/setup#css-variables).
+- **Overridden?** Install yours last, or remove the other one.
+
+---
+
+## Scoped Themes
+
+🔍 **Symptom:** inside a scoped theme, spacing, radius, or other values you
+didn't change jump back to the defaults.
+
+💡 **Cause:** `buildCssVariables` fills in the defaults for any category you
+leave out, and inside the scope they replace your `:root` values.
+
+🔧 **Fix:** pass the scoped stylesheet the same values as your `:root` one, and
+change only what the scope needs:
+
+```ts
+export const marketingVariables = buildCssVariables(
+  { ...myValues, colors: { ...myValues.colors, primary: "#E11D48" } },
+  '[data-theme-scope="marketing"]',
+);
+```
+
+See [Scoped Themes](/foundations/tokens/customization#scoped-themes).
+
+---
+
+## Older Browsers
+
+🔍 **Symptom:** colors, tints, or responsive styles don't apply at all in some
+browsers.
+
+💡 **Cause:** the tokens use `light-dark()`, `color-mix()`, and range media
+queries, which need **Chrome / Edge 123+, Firefox 120+, or Safari 17.5+**.
+
+🔧 **Fix:** there's no fix within the package — these browsers aren't
+supported. See [Known Issues](/foundations/tokens#known-issues).
+
+---
+
+## colorWithFade
+
+🔍 **Symptom:** colors made with `colorWithFade` don't switch between light and
+dark, don't show at all, or fall back to an unexpected color.
+
+💡 **Cause:** `colorWithFade` uses `light-dark()`, which Next.js and some other
+build tools rewrite for older browsers. The rewritten colors only work where
+your CSS declares a `color-scheme`.
+
+🔧 **Fix:** either declare the color scheme in your global CSS, or tell your build
+tool to leave `light-dark()` as is.
+
+**Global CSS**
+
+Declare the color scheme on the root:
+
+```css
+:root {
+  color-scheme: light dark;
+}
+```
+
+The colors then follow the OS setting.
+
+**Using `@wondesign/theme`?** That rule alone ignores a theme the user picks by
+hand. See [Theme Troubleshooting](/foundations/theme/troubleshooting) for the
+full fix.
+
+**Browserslist**
+
+If your app only supports browsers with `light-dark()` (Chrome / Edge 123+,
+Firefox 120+, Safari 17.5+), tell your build tool to target them, so it leaves
+`light-dark()` as is. With Next.js, set `browserslist` in your `package.json`:
+
+```json
+{
+  "browserslist": [
+    "chrome >= 123",
+    "edge >= 123",
+    "firefox >= 120",
+    "safari >= 17.5"
+  ]
+}
+```
+
+**Alternative** — A Different Base
+
+For `colorWithFade` alone, pass it a `base` that doesn't use `light-dark()`
+directly — a token color, for example:
+
+```ts
+colorWithFade(tokens.colors.primary, 0.15, { base: tokens.colors.background });
+```
+
+This doesn't help other `light-dark()` colors in your stylesheets.

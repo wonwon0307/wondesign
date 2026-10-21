@@ -1,0 +1,175 @@
+---
+metaTitle: Usage | Theme
+title: Usage
+description: Update the theme with useLightDark or useTheme, and read it from the HTML element or the hooks.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+
+# Usage
+
+Once the provider is set up, its hook — `useLightDark` or `useTheme` — lets
+you change the theme and read it, and `<html>` carries the applied theme for
+your CSS.
+
+---
+
+## Updating the Theme
+
+Each hook comes with functions to change the theme. Call them from your own
+UI — a toggle, a select, a settings page.
+
+- ✨ A theme name that isn't in `themes` does nothing, and warns in the
+  console.
+- ✨ Every change is saved, and other open tabs follow it right away.
+
+### Light-Dark
+
+`selectMode` changes the mode, and `selectLightTheme` / `selectDarkTheme`
+change the theme used for each side.
+
+- ✨ If system mode is disabled, leave out the system option — selecting it
+  does nothing, and warns in the console.
+- ✨ Changing a side's theme doesn't change the mode: picking a dark theme while
+  the page is light only shows once the page is dark.
+
+```tsx
+import { useLightDark, type Mode } from "@wondesign/theme/light-dark";
+
+export function ThemeSettings() {
+  const { themes, mode, darkTheme, selectMode, selectDarkTheme } =
+    useLightDark();
+
+  return (
+    <>
+      <select value={mode} onChange={(e) => selectMode(e.target.value as Mode)}>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="system">System</option>
+      </select>
+
+      <select
+        value={darkTheme}
+        onChange={(e) => selectDarkTheme(e.target.value)}
+      >
+        {themes.dark.map((name) => (
+          <option key={name} value={name}>
+            {name}
+          </option>
+        ))}
+      </select>
+    </>
+  );
+}
+```
+
+### Named Themes
+
+`selectTheme` changes the theme:
+
+```tsx
+import { useTheme } from "@wondesign/theme";
+
+export function ThemePicker() {
+  const { themes, theme, selectTheme } = useTheme();
+
+  return (
+    <select value={theme} onChange={(e) => selectTheme(e.target.value)}>
+      {themes.map((name) => (
+        <option key={name} value={name}>
+          {name}
+        </option>
+      ))}
+    </select>
+  );
+}
+```
+
+---
+
+## Reading the Theme
+
+There are two places to read the theme from: the HTML element, for your CSS
+and code outside React, and the hooks, for your components.
+
+### From the HTML Element
+
+The applied theme is written to `<html>` as `data-theme` — and, with
+Light-Dark, `data-color-scheme`. Select on them in CSS, for images, icons, or
+anything else your colors can't express:
+
+```css
+.logo-dark {
+  display: none;
+}
+
+html[data-color-scheme="dark"] .logo-light {
+  display: none;
+}
+
+html[data-color-scheme="dark"] .logo-dark {
+  display: inline;
+}
+```
+
+Outside React, read them from the dataset:
+
+```ts
+document.documentElement.dataset.theme; // e.g. "midnight" or "ocean"
+document.documentElement.dataset.colorScheme; // "light" | "dark" (Light-Dark only)
+```
+
+### From useLightDark
+
+The dataset only holds what's applied right now. `useLightDark` also tells
+you what the user picked, and the theme chosen for the side that isn't
+showing:
+
+```tsx
+const {
+  mode,
+  colorScheme,
+  theme,
+  lightTheme,
+  darkTheme,
+  themes,
+  disableSystem,
+} = useLightDark();
+```
+
+- 🟢 `mode` — what the user picked: `"light"`, `"dark"`, or `"system"`.
+- 🟢 `colorScheme` — what's applied: `mode`, with `"system"` resolved against
+  the OS setting.
+- 🟢 `theme` — the applied theme: `lightTheme` or `darkTheme`, depending on
+  `colorScheme`.
+- 🟢 `lightTheme` — the theme used when the color scheme is light.
+- 🟢 `darkTheme` — the theme used when the color scheme is dark.
+- 🟢 `themes` — the provider's `themes`, without duplicates.
+- 🟢 `disableSystem` — the provider's `disableSystem`, to decide whether to
+  offer a `"system"` option.
+
+### From useTheme
+
+`useTheme` also gives you the list of themes to pick from:
+
+```tsx
+const { theme, themes } = useTheme();
+```
+
+- 🟣 `theme` — the applied theme.
+- 🟣 `themes` — the provider's `themes`.
+
+### Before Hydration
+
+The server doesn't know the user's choice or the OS setting, so until hydration
+finishes, both hooks return the **defaults** — `defaultMode` (with
+`"system"` resolved to `"light"`) and the first theme of each side for
+Light-Dark, `defaultTheme` for Named Themes. Right after hydration, they
+switch to the saved values, so **anything you render from a hook can change
+right after the first paint** — a sun icon that becomes a moon, for example.
+
+<Callout title="Style by theme in CSS, not in render" variant="warning">
+  For anything visible on first paint, switch on the theme in CSS. The page's
+  attributes are already correct before the first paint, thanks to the script;
+  the hooks only catch up after hydration.
+</Callout>

@@ -3,7 +3,6 @@ title: Tokens
 description: A semantic set of design tokens — colors, typography, spacing and more — delivered as CSS custom properties and a typed JavaScript object, with the tools to build your own.
 ---
 
-import { Callout } from "@wondesign/ui/Texts";
 import { PackageInfo } from "@/entities/package";
 
 <PackageInfo name="@wondesign/tokens" relPath="foundations/tokens">
@@ -58,16 +57,10 @@ const css = buildCssVariables({
 
 ---
 
-## Compatibility
+## Known Issues
 
-<Callout title="Modern browsers only" variant="warning">
-  This package relies on modern CSS: `light-dark()` (Baseline 2024) for the
-  light / dark colors, `color-mix()` (Baseline 2023) for `colorWithFade` and
-  `colorWithOpacity`, and range syntax (`width >= 768px`) for the breakpoint
-  queries. Together they need **Chrome / Edge 123+, Firefox 120+, or Safari
-  17.5+**. Older browsers will ignore these values, so colors, tints, and
-  responsive styles may not apply at all.
-</Callout>
+- 🐞 **Modern browsers only**: The tokens rely on `light-dark()`, `color-mix()`, and range media queries (`width >= 768px`), which need **Chrome / Edge 123+, Firefox 120+, or Safari 17.5+**. Older browsers ignore these values, so colors, tints, and responsive styles may not apply at all
+- 🐞 **colorWithFade in Next.js**: Colors made with `colorWithFade` may not show, or fall back to an unexpected color, when your build tool rewrites `light-dark()` for older browsers. See [Troubleshooting](/foundations/tokens/troubleshooting) for the fix
 
 ---
 
@@ -90,5 +83,8 @@ const css = buildCssVariables({
   own media queries.
 - **[Utilities](/foundations/tokens/utilities)** — `buildCssVariables`, the
   color helpers, and the breakpoint builders.
+- **[Troubleshooting](/foundations/tokens/troubleshooting)** — fixes for
+  colors that don't switch, values stuck on the defaults, and other common
+  problems.
 - **[Theme](/foundations/theme)** — switching `color-scheme` on the client, so
   `light-dark()` colors follow it.

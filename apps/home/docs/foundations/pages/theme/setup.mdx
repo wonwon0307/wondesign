@@ -1,0 +1,350 @@
+---
+metaTitle: Setup | Theme
+title: Setup
+description: Add the provider and script to your app, configure Light-Dark or Named Themes, and set it up in NextJS or a client-only app.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+
+# Setup
+
+Setting up the theme takes three pieces, all at the root of your app:
+
+- 🔵 **Provider** — `LightDarkProvider` or `ThemeProvider`. The React context
+  that the hook reads, and that keeps `<html>` in sync when the theme changes.
+- 🔵 **Script** — `LightDarkScript` or `ThemeScript`. An inline script in the
+  `<head>` that applies the saved theme before the first paint.
+- 🔵 **CSS** — your colors, built with `light-dark()` or keyed on `data-theme` /
+  `data-color-scheme`.
+
+---
+
+## Configuration
+
+Follow the configuration for the way you picked in
+[Ways to Theme](/foundations/theme#ways-to-theme).
+
+### Light-Dark
+
+The simplest setup: colors built with CSS `light-dark()`. For this method,
+**do not pass anything to the `themes` property**.
+
+```tsx
+import { LightDarkProvider } from "@wondesign/theme/light-dark";
+import { LightDarkScript } from "@wondesign/theme/light-dark/server";
+
+<LightDarkScript />
+<LightDarkProvider>{children}</LightDarkProvider>
+```
+
+```css
+/* light-dark(<light value>, <dark value>) */
+body {
+  background: light-dark(#ffffff, #1c1c1e);
+  color: light-dark(#1c1c1e, #f5f5f7);
+}
+```
+
+### Advanced Light-Dark
+
+For more than one theme per side, pass `themes` to both. The first theme of
+each side is its default:
+
+```tsx
+const themes = {
+  light: ["light", "paper"], // first item "light" is the default
+  dark: ["dark", "midnight"], // first item "dark" is the default
+} as const;
+
+<LightDarkScript themes={themes} />
+<LightDarkProvider themes={themes}>{children}</LightDarkProvider>
+```
+
+See the [NextJS example](#nextjs-app-router) for the CSS.
+
+### Named Themes
+
+Pass your theme names to `ThemeProvider`, and the default to both. If you
+leave `defaultTheme` out of the provider, the first theme is the default:
+
+```tsx
+import { ThemeProvider } from "@wondesign/theme";
+import { ThemeScript } from "@wondesign/theme/server";
+
+const themes = ["ocean", "forest", "sunset"] as const;
+
+<ThemeScript defaultTheme="ocean" />
+<ThemeProvider themes={themes} defaultTheme="ocean">{children}</ThemeProvider>
+```
+
+See the [client-only example](#client-only-apps) for the CSS.
+
+---
+
+## Notes
+
+A few things to keep in mind, whichever configuration you choose.
+
+### Matching options
+
+<Callout title="Mismatched options cause a flash" variant="warning">
+  Both resolve the theme on their own, and if their options differ, the page
+  might flash from one theme to the other on load.
+</Callout>
+
+Any option you leave out falls back to the same default on both.
+
+**Light-Dark**
+
+Pass the same themes, default mode, and storage key to both. The script doesn't
+know about `disableSystem`, and it defaults to system mode. **If you disable
+system mode, give the script your default mode as well.**
+
+```tsx
+<LightDarkScript themes={themes} defaultMode="dark" />
+<LightDarkProvider themes={themes} defaultMode="dark">{children}</LightDarkProvider>
+```
+
+**Named Themes**
+
+Pass the same default theme and storage key to both. The script doesn't get
+the list of themes. If you remove a theme that a user had picked, they may
+see it briefly on their next visit, before your default takes over.
+
+```tsx
+<ThemeScript defaultTheme="ocean" />
+<ThemeProvider themes={themes} defaultTheme="ocean">{children}</ThemeProvider>
+```
+
+### Unique theme names
+
+Every theme name should be unique — a duplicate warns in the console. With
+Light-Dark, that's across both sides. Each of the following triggers a
+warning:
+
+```ts
+// for Light-Dark
+const duplicateWithin = { light: ["light", "light"], dark: ["dark"] };
+const duplicateAcross = {
+  light: ["light", "colorful"],
+  dark: ["dark", "colorful"],
+};
+
+// for Named
+const duplicateNamed = ["ocean", "forest", "ocean"];
+```
+
+### Content Security Policy
+
+Both scripts are inline. If your Content-Security-Policy only allows inline
+scripts that carry a nonce, the browser blocks them, and the page falls back
+to the flash. **Pass the nonce your server generated for the request:**
+
+```tsx
+<LightDarkScript nonce={nonce} />
+<ThemeScript defaultTheme="ocean" nonce={nonce} />
+```
+
+The nonce has to be generated per request, so the page can't be statically
+rendered.
+
+---
+
+## Examples
+
+Where the provider and the script go depends on your framework, and on
+whether your app is server-rendered. Below are a few common setups.
+
+### NextJS (App Router)
+
+An Advanced Light-Dark setup, with two themes per side:
+
+```tsx
+// app/layout.tsx
+import { LightDarkProvider } from "@wondesign/theme/light-dark";
+import { LightDarkScript } from "@wondesign/theme/light-dark/server";
+import "./globals.css";
+
+const themes = {
+  light: ["light", "paper"],
+  dark: ["dark", "midnight"],
+} as const;
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* With a nonce-based CSP, also pass nonce={nonce} — see Content Security Policy */}
+        <LightDarkScript themes={themes} />
+      </head>
+      <body>
+        <LightDarkProvider themes={themes}>{children}</LightDarkProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+`"light"` and `"dark"` use the `light-dark()` colors, and `"paper"` and
+`"midnight"` override them with `data-theme`:
+
+```css
+/* app/globals.css */
+:root {
+  --background: light-dark(#ffffff, #1c1c1e);
+  --text: light-dark(#1c1c1e, #f5f5f7);
+}
+
+[data-theme="paper"] {
+  --background: #f7f1e3;
+  --text: #3b3024;
+}
+
+[data-theme="midnight"] {
+  --background: #0a0f1f;
+  --text: #dbe4ff;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+}
+```
+
+The script sets attributes on `<html>` before React hydrates, so the server's
+HTML and the page no longer match on that one element.
+**`suppressHydrationWarning` on `<html>` is required** — without it, React
+logs a hydration mismatch.
+
+Both providers are already client components, so they can be rendered
+straight from a server layout.
+
+### React Router (Framework Mode)
+
+A simple Light-Dark setup. Render the script in the root `Layout`, before
+`<Meta />` and `<Links />`:
+
+```tsx
+// app/root.tsx
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { LightDarkProvider } from "@wondesign/theme/light-dark";
+import { LightDarkScript } from "@wondesign/theme/light-dark/server";
+import "./app.css";
+
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <LightDarkScript />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <LightDarkProvider>{children}</LightDarkProvider>
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+export default function App() {
+  return <Outlet />;
+}
+```
+
+```css
+/* app/app.css */
+body {
+  background: light-dark(#ffffff, #1c1c1e);
+  color: light-dark(#1c1c1e, #f5f5f7);
+}
+```
+
+As with NextJS, **`suppressHydrationWarning` on `<html>` is required.**
+
+### Client-only Apps
+
+Client-only apps (Vite, Rsbuild, Parcel, etc.) have no server to render the script on each request.
+Instead, render it once at build time, and put it in the `<head>`
+of your `index.html`.
+
+Below is an example using Vite for a Named Themes setup:
+
+```ts
+// vite.config.ts
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { ThemeScript } from "@wondesign/theme/server";
+
+const themeScript = renderToStaticMarkup(
+  createElement(ThemeScript, { defaultTheme: "ocean" }),
+);
+
+export default defineConfig({
+  plugins: [
+    react(),
+    {
+      name: "theme-script",
+      transformIndexHtml: (html) =>
+        html.replace("<head>", `<head>${themeScript}`),
+    },
+  ],
+});
+```
+
+Then render the provider at the root, as usual:
+
+```tsx
+// main.tsx
+import { createRoot } from "react-dom/client";
+import { ThemeProvider } from "@wondesign/theme";
+import "./index.css";
+
+createRoot(document.getElementById("root")!).render(
+  <ThemeProvider themes={["ocean", "forest", "sunset"]} defaultTheme="ocean">
+    <App />
+  </ThemeProvider>,
+);
+```
+
+```css
+/* index.css */
+[data-theme="ocean"] {
+  --background: #f0f7ff;
+  --text: #0b2545;
+}
+
+[data-theme="forest"] {
+  --background: #f1f7ee;
+  --text: #1b3a1a;
+}
+
+[data-theme="sunset"] {
+  --background: #fff4ec;
+  --text: #4a1c0c;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+}
+```
+
+Since the script is baked into a static file, it can't carry a per-request
+nonce. With a nonce-based CSP, allow it by its hash instead.
+
+---
+
+## Next Steps
+
+- **[Usage](/foundations/theme/usage)** — updating the theme, and reading it
+  from the HTML element or the hooks.
+- **[Token Setup](/foundations/tokens/setup)** — installing
+  `wondesignTokenVariables`, which supplies `light-dark()` colors.

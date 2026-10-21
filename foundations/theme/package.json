@@ -2,12 +2,14 @@
   "name": "@wondesign/theme",
   "description": "WonDesign - Theme",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "type": "module",
   "keywords": [
     "design",
     "theme",
-    "colors",
+    "color-scheme",
+    "css",
+    "light-dark",
     "react",
     "typescript"
   ],
@@ -17,7 +19,11 @@
     "url": "git+https://github.com/wonwon0307/wondesign.git",
     "directory": "foundations/theme"
   },
-  "license": "UNLICENSED",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "license": "MIT",
   "files": [
     "dist"
   ],
@@ -51,6 +57,6 @@
     "react": "^19"
   },
   "devDependencies": {
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.1"
   }
 }

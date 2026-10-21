@@ -1,0 +1,87 @@
+---
+metaTitle: How It Works | Theme
+title: How It Works
+description: How @wondesign/theme picks the theme, what it writes to the page, and how the user's choice is saved.
+---
+
+# How It Works
+
+Both providers work the same way: they decide which theme is active, write it
+to `<html>`, and save the user's choice. Light-Dark adds a **mode** on top —
+`"light"`, `"dark"`, or `"system"` — that decides which side's theme is used.
+
+---
+
+## How the Theme Is Picked
+
+**The user's choice always comes first:**
+
+- 1️⃣ **The user's choice is saved.** Whenever the user picks a mode or a theme,
+  it's saved in the browser, and used again on every later visit.
+- 2️⃣ **The user's choice beats developer defaults.** Your defaults only apply
+  until the user picks something — to a first-time visitor, for example.
+- 3️⃣ **`"system"` follows the OS.** With Light-Dark, when the mode is
+  `"system"` — picked by the user, or your default — the color scheme follows
+  the OS setting, and switches with it, even mid-session.
+
+---
+
+## What's Written to the Page
+
+Named Themes writes the active theme to `<html>`:
+
+```html
+<html data-theme="ocean"></html>
+```
+
+Light-Dark also writes the color scheme, as an attribute and as the
+`color-scheme` property:
+
+```html
+<html
+  data-theme="dark"
+  data-color-scheme="dark"
+  style="color-scheme: dark"
+></html>
+```
+
+`color-scheme` is what CSS `light-dark()` colors follow, so a palette built
+with them — like the `@wondesign/tokens` preset — switches on its own.
+
+---
+
+## System Mode
+
+With Light-Dark, the user can pick `"light"`, `"dark"`, or `"system"` by
+default. `disableSystem` removes `"system"`, so the OS setting is never
+consulted. If you don't set a default mode, first-time visitors follow their
+OS — or get light mode, with system mode disabled.
+
+```tsx
+<LightDarkProvider /> // available modes: "light" / "dark" / "system"
+<LightDarkProvider disableSystem /> // available modes: "light" / "dark"
+```
+
+---
+
+## Persistence
+
+The user's choice is saved in the browser, so it's still there on the next
+visit.
+
+- If a saved choice is no longer valid — a theme you've since removed, for
+  example — your default is used instead.
+- If the browser can't save it (some private browsing modes), the theme still
+  works until the page is closed, but isn't remembered.
+- Other open tabs of the same app (same origin) follow a change right away.
+- Apps on the same origin share the saved choice. Give each app its own
+  `storageKey` if they shouldn't.
+
+---
+
+## Next Steps
+
+- **[Setup](/foundations/theme/setup)** — adding the provider and script to
+  your app, configuring your themes, and framework examples.
+- **[Usage](/foundations/theme/usage)** — updating the theme, and reading it
+  from the HTML element or the hooks.
