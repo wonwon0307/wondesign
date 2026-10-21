@@ -24,3 +24,6 @@ minimumReleaseAgeExclude:
 audit:
   ignore:
      - GHSA-vfj7-8cjw-p6xm
+
+overrides:
+  "katex": "0.18.2"
