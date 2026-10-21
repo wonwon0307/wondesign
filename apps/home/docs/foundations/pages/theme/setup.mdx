@@ -116,7 +116,6 @@ see it briefly on their next visit, before your default takes over.
 <ThemeProvider themes={themes} defaultTheme="ocean">{children}</ThemeProvider>
 ```
 
-
 ### Unique theme names
 
 Every theme name should be unique — a duplicate warns in the console. With
@@ -126,7 +125,10 @@ warning:
 ```ts
 // for Light-Dark
 const duplicateWithin = { light: ["light", "light"], dark: ["dark"] };
-const duplicateAcross = { light: ["light", "colorful"], dark: ["dark", "colorful"] };
+const duplicateAcross = {
+  light: ["light", "colorful"],
+  dark: ["dark", "colorful"],
+};
 
 // for Named
 const duplicateNamed = ["ocean", "forest", "ocean"];

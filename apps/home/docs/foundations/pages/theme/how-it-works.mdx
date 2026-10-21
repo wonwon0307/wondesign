@@ -17,12 +17,12 @@ to `<html>`, and save the user's choice. Light-Dark adds a **mode** on top —
 **The user's choice always comes first:**
 
 - 1️⃣ **The user's choice is saved.** Whenever the user picks a mode or a theme,
-   it's saved in the browser, and used again on every later visit.
+  it's saved in the browser, and used again on every later visit.
 - 2️⃣ **The user's choice beats developer defaults.** Your defaults only apply
-   until the user picks something — to a first-time visitor, for example.
+  until the user picks something — to a first-time visitor, for example.
 - 3️⃣ **`"system"` follows the OS.** With Light-Dark, when the mode is
-   `"system"` — picked by the user, or your default — the color scheme follows
-   the OS setting, and switches with it, even mid-session.
+  `"system"` — picked by the user, or your default — the color scheme follows
+  the OS setting, and switches with it, even mid-session.
 
 ---
 
@@ -31,14 +31,18 @@ to `<html>`, and save the user's choice. Light-Dark adds a **mode** on top —
 Named Themes writes the active theme to `<html>`:
 
 ```html
-<html data-theme="ocean">
+<html data-theme="ocean"></html>
 ```
 
 Light-Dark also writes the color scheme, as an attribute and as the
 `color-scheme` property:
 
 ```html
-<html data-theme="dark" data-color-scheme="dark" style="color-scheme: dark">
+<html
+  data-theme="dark"
+  data-color-scheme="dark"
+  style="color-scheme: dark"
+></html>
 ```
 
 `color-scheme` is what CSS `light-dark()` colors follow, so a palette built

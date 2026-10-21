@@ -48,7 +48,10 @@ export function ThemeSettings() {
         <option value="system">System</option>
       </select>
 
-      <select value={darkTheme} onChange={(e) => selectDarkTheme(e.target.value)}>
+      <select
+        value={darkTheme}
+        onChange={(e) => selectDarkTheme(e.target.value)}
+      >
         {themes.dark.map((name) => (
           <option key={name} value={name}>
             {name}
@@ -167,6 +170,6 @@ right after the first paint** — a sun icon that becomes a moon, for example.
 
 <Callout title="Style by theme in CSS, not in render" variant="warning">
   For anything visible on first paint, switch on the theme in CSS. The page's
-  attributes are already correct before the first paint, thanks to the
-  script; the hooks only catch up after hydration.
+  attributes are already correct before the first paint, thanks to the script;
+  the hooks only catch up after hydration.
 </Callout>
