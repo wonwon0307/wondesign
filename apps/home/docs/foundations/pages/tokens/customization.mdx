@@ -182,7 +182,9 @@ export const marketingVariables = buildCssVariables(
   `buildCssVariables` always writes every category, filling in the defaults for
   the ones you leave out. Inside the scope, those defaults replace your `:root`
   values — so if your `:root` stylesheet uses custom spacing, pass the same
-  spacing to the scoped one too.
+  spacing to the scoped one too. Colors default to `wondesignLight`, a
+  light-only palette, so a scope without its own colors stays light in dark
+  mode.
 </Callout>
 
 ---
