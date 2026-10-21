@@ -1,0 +1,73 @@
+---
+metaTitle: Troubleshooting | Theme
+title: Troubleshooting
+description: Fixes for common problems with @wondesign/theme.
+---
+
+# Troubleshooting
+
+This page covers common problems you may run into with `@wondesign/theme`, and
+how to fix them. Each section starts with the symptom, so you can find yours
+quickly.
+
+---
+
+## light-dark() Colors
+
+🔍 **Symptom:** colors built with `light-dark()` don't follow the theme, or fall
+back to an unexpected color.
+
+💡 **Cause:** Next.js and some other build tools rewrite `light-dark()` for
+older browsers. The rewritten colors only follow a `color-scheme` declared in
+your CSS, not the one the provider sets.
+
+🔧 **Fix:** either declare the color scheme in your global CSS, or tell your build
+tool to leave `light-dark()` as is.
+
+**Global CSS**
+
+Declare the color scheme on the root:
+
+```css
+:root {
+  color-scheme: light dark;
+}
+
+:root[data-color-scheme="light"] {
+  color-scheme: light;
+}
+
+:root[data-color-scheme="dark"] {
+  color-scheme: dark;
+}
+```
+
+The first rule follows the OS until a theme is applied. The other two follow
+the user's choice — **without them, the colors ignore a theme the user picks
+by hand.**
+
+**Browserslist**
+
+If your app only supports browsers with `light-dark()` (Chrome / Edge 123+,
+Firefox 120+, Safari 17.5+), tell your build tool to target them, so it leaves
+`light-dark()` as is. With Next.js, set `browserslist` in your `package.json`:
+
+```json
+{
+  "browserslist": ["chrome >= 123", "edge >= 123", "firefox >= 120", "safari >= 17.5"]
+}
+```
+
+---
+
+## Partial Theming
+
+🔍 **Symptom:** some of the page follows the OS light / dark setting instead of
+the theme the user picked.
+
+💡 **Cause:** the provider sets `color-scheme` on `<html>`, and every element
+inherits it. **An element below it (often `body`) that declares its own
+overrides the theme** for everything inside.
+
+🔧 **Fix:** remove `color-scheme` from that element, and declare it only on the
+root, as in the Global CSS fix above.

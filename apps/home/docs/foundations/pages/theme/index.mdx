@@ -89,11 +89,10 @@ See [Named Themes Setup](/foundations/theme/setup#named-themes) to get started.
 
 ---
 
-## Compatibility
+## Known Issues
 
-⚛️ **React 19.** `@wondesign/theme` needs React 19 or later. The theme itself
-is a plain attribute (and, for light-dark, the `color-scheme` property), which
-every modern browser supports.
+- 🐞 **React 19 only**: `@wondesign/theme` needs React 19 or later
+- 🐞 **light-dark() colors in Next.js**: Colors built with `light-dark()` may not follow the theme, or fall back to an unexpected color, when your build tool rewrites `light-dark()` for older browsers. See [Troubleshooting](/foundations/theme/troubleshooting) for the fix
 
 ---
 
@@ -105,6 +104,8 @@ every modern browser supports.
   your app, configuring your themes, and framework examples.
 - **[Usage](/foundations/theme/usage)** — updating the theme, and reading it
   from the HTML element or the hooks.
+- **[Troubleshooting](/foundations/theme/troubleshooting)** — fixes for
+  colors that don't follow the theme.
 - **[Token Setup](/foundations/tokens/setup)** — installing
   `wondesignTokenVariables`, which supplies the `light-dark()` colors the
   light-dark entry switches between.
