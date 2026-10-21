@@ -17,6 +17,16 @@
             "[Customization](/tokens/customization)",
             "[Utilities](/tokens/utilities)"
           ]
+        },
+        {
+          "type": "link",
+          "label": "Theme",
+          "url": "/theme",
+          "items": [
+            "[How It Works](/theme/how-it-works)",
+            "[Setup](/theme/setup)",
+            "[Usage](/theme/usage)"
+          ]
         }
       ]
     },
