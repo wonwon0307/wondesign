@@ -15,6 +15,9 @@ vi.mock("next/font/google", () => ({
     className: "--font-roboto-slab",
   }),
 }));
+vi.mock("next/headers", () => ({
+  headers: vi.fn().mockResolvedValue(new Headers({ "x-nonce": "test-nonce" })),
+}));
 vi.mock("next/navigation", () => ({
   notFound: vi.fn().mockThrow(new Error("notFound called")),
   redirect: vi.fn(),
