@@ -15,7 +15,8 @@
             "[Design Tokens](/tokens/design-tokens)",
             "[Media Queries](/tokens/media-queries)",
             "[Customization](/tokens/customization)",
-            "[Utilities](/tokens/utilities)"
+            "[Utilities](/tokens/utilities)",
+            "[Troubleshooting](/tokens/troubleshooting)"
           ]
         },
         {
@@ -25,7 +26,8 @@
           "items": [
             "[How It Works](/theme/how-it-works)",
             "[Setup](/theme/setup)",
-            "[Usage](/theme/usage)"
+            "[Usage](/theme/usage)",
+            "[Troubleshooting](/theme/troubleshooting)"
           ]
         }
       ]
