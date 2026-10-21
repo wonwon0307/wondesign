@@ -4,6 +4,7 @@ import {
   Kalam,
   Roboto_Slab,
 } from "next/font/google";
+import { headers } from "next/headers";
 import { LightDarkProvider } from "@wondesign/ui/theme";
 import { LightDarkScript } from "@wondesign/ui/server";
 import { wondesignTokenVariables } from "@wondesign/ui/tokens";
@@ -38,12 +39,18 @@ interface Props {
   children: React.ReactNode;
 }
 
-export function RootLayout({ children }: Readonly<Props>) {
+export async function RootLayout({ children }: Readonly<Props>) {
+  // Set by proxy.ts for every request
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <style dangerouslySetInnerHTML={{ __html: wondesignTokenVariables }} />
-        <LightDarkScript nonce="wondesign-home" />
+        <style
+          nonce={nonce}
+          dangerouslySetInnerHTML={{ __html: wondesignTokenVariables }}
+        />
+        <LightDarkScript nonce={nonce} />
       </head>
       <LightDarkProvider defaultMode="system">
         <body
