@@ -24,7 +24,9 @@ function applyPreference(
     // localStorage is unavailable or the value is malformed
   }
 
-  let colorScheme = stored.mode ?? defaultMode;
+  // Ignore a stored mode that isn't valid (e.g. edited by hand)
+  const modes: unknown[] = ["light", "dark", "system"];
+  let colorScheme = modes.includes(stored.mode) ? stored.mode! : defaultMode;
 
   if (colorScheme === "system") {
     const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
