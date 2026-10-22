@@ -1,0 +1,94 @@
+# Usage
+
+There are two ways to use it. Pass the `asChild` prop to a headless component
+to change what it renders, or use the `AsChild` component to give your own
+reusable components the same prop.
+
+---
+
+## With the asChild Prop
+
+Headless components that render an element take an `asChild` prop. Pass it, and
+wrap the element you want rendered instead.
+
+### Changing the Element
+
+Use `asChild` when the default element isn't the right one for the job, for example a
+`<section>` instead of a `<div>`, an `<ol>` instead of a `<ul>`:
+
+```tsx
+<Navbar aria-label="Steps">
+  <Navbar.List asChild>
+    <ol>…</ol>
+  </Navbar.List>
+</Navbar>
+```
+
+### Adding Behaviour to Your Components
+
+Wrap a component you've already styled, and it takes on the headless
+component's behaviour — here, the tooltip's hover, focus and ARIA wiring:
+
+```tsx
+import { Tooltip } from "@wondesign/headless/Tooltip";
+import { IconButton } from "@/components/IconButton";
+
+<Tooltip>
+  <Tooltip.Trigger asChild>
+    <IconButton icon="settings" aria-label="Settings" />
+  </Tooltip.Trigger>
+  <Tooltip.Content>Settings</Tooltip.Content>
+</Tooltip>;
+```
+
+### Rendering a Link
+
+To make the component a link, pass an `Anchor` (or a component built on it) as
+the child. The link keeps its own behaviour, and gains the component's on top:
+
+```tsx
+import { Anchor } from "@wondesign/headless/Anchor";
+import { Tooltip } from "@wondesign/headless/Tooltip";
+
+<Tooltip>
+  <Tooltip.Trigger asChild>
+    <Anchor href="https://github.com/wonwon0307" aria-label="GitHub">
+      <GithubLogo />
+    </Anchor>
+  </Tooltip.Trigger>
+  <Tooltip.Content>Visit my GitHub</Tooltip.Content>
+</Tooltip>;
+```
+
+---
+
+## Building Your Own Reusable Components
+
+`AsChild` is what powers the `asChild` prop. Use it to give your own reusable
+components the same prop: render `AsChild` in place of your default element
+when `asChild` is set, and pass your props to it as usual.
+
+```tsx
+import { AsChild } from "@wondesign/headless/AsChild";
+
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  asChild?: boolean;
+}
+
+export function Card({ asChild, ...props }: Readonly<CardProps>) {
+  const Component = asChild ? AsChild : "div";
+
+  return <Component {...props} data-card />;
+}
+```
+
+Whoever renders `Card` can now swap the `<div>` for their own element:
+
+```tsx
+<Card asChild>
+  <article>…</article>
+</Card>
+```
+
+Everything you pass to `AsChild` — here, `data-card` and the caller's props —
+ends up on that element.

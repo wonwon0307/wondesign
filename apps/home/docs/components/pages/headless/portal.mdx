@@ -1,0 +1,76 @@
+---
+metaTitle: Portal | Headless
+title: Portal
+description: Render content at the top of the page, outside the parent that would clip or cover it.
+---
+
+# Portal
+
+`Portal` lifts content out to the end of `<body>`, so components like Tooltips,
+Popovers, Dialogs and Toasts can float above the page without being clipped or
+covered by their parents.
+
+```tsx
+import { Portal } from "@wondesign/headless/Portal";
+
+<Portal>
+  <div className="toast">Saved!</div>
+</Portal>;
+```
+
+---
+
+## Key Features
+
+- ✅ **Escapes Clipping**: Content isn't cut off by `overflow` or hidden behind other layers
+- ✅ **Still in Your Tree**: Context, state and events work as if the content never moved
+- ✅ **Server Rendering Safe**: Works with SSR without hydration mismatches
+- ✅ **Can Be Turned Off**: Render in place instead with a single prop
+
+---
+
+## Usage
+
+Wrap the content you want lifted out:
+
+```tsx
+<div style={{ overflow: "hidden" }}>
+  <button>Open menu</button>
+  <Portal>
+    <div className="menu">…</div>
+  </Portal>
+</div>
+```
+
+The menu shows up at the end of `<body>`, so it isn't clipped by the `<div>`
+around it.
+
+### Rendering in Place
+
+Pass `disable` to render the children where they are instead. This is handy
+when the same component is sometimes floating and sometimes inline:
+
+```tsx
+<Portal disable={isInline}>
+  <div className="menu">…</div>
+</Portal>
+```
+
+---
+
+## Good to Know
+
+- 💡 **CSS follows the DOM**: Portaled content no longer sits inside its
+  parent's elements, so styles like `.parent .menu` won't reach it. Style it
+  directly.
+- 💡 **Events follow React**: Clicks inside portaled content still bubble up to
+  the React parents, even though it lives elsewhere on the page.
+- 💡 **First render is in place**: On the server and the very first render on
+  the client, children render where they are, then move to `<body>`.
+
+---
+
+## Used By
+
+- 🧩 **[Tooltip](/components/headless/tooltip)**: `Tooltip.Content`, which can
+  render in place with `disablePortal`
