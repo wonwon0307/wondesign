@@ -28,5 +28,6 @@ export const sharedReactConfig = defineConfig({
     globals: true,
     environment: "jsdom",
     include: ["tests/**/*.test.{ts,tsx}"],
+    fsModuleCache: false,
   },
 });
