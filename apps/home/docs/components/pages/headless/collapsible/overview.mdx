@@ -1,13 +1,16 @@
 # Collapsible
 
-`Collapsible` pairs a toggle with a section of content it shows and hides. It
-wires the two together for assistive technology, so you only bring the look.
+`Collapsible` pairs a toggle with a section of content it shows and hides,
+following the
+[WAI-ARIA Disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
+It wires the two together for assistive technology, so you only bring the look.
 
 ---
 
 ## Key Features
 
 - ✅ **Accessible by Default**: The toggle and content are linked for assistive technology
+- ✅ **Keyboard Support**: Toggle the content with Enter or Space, like any button
 - ✅ **Controlled & Uncontrolled**: Let it manage its own state, or drive it yourself
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
 - ✅ **Composable**: Render your own elements with `asChild`
@@ -17,7 +20,9 @@ wires the two together for assistive technology, so you only bring the look.
 
 ## Structure
 
-- 🧩 **Collapsible**: holds the open state. **Renders no element of its own.**
+- 🧩 **Collapsible**: coordinates every part. It holds the open state, links
+  the toggle to its content, and shares settings like `keepMounted`. **Renders
+  no element of its own.**
 - 🧩 **Collapsible.Toggle**: the button that opens and closes the content.
 - 🧩 **Collapsible.Content**: the section that's shown and hidden.
 
@@ -69,6 +74,15 @@ hide it instead, so anything inside, like form inputs, keeps its state:
 </Collapsible>
 ```
 
+### Content as a Region
+
+The content is a `group` by default. When it's a major section of the page,
+pass `role="region"`, and it's labelled by its toggle:
+
+```tsx
+<Collapsible.Content role="region">…</Collapsible.Content>
+```
+
 ### Building Your Own Parts
 
 `useCollapsible` gives any component inside a `Collapsible` its open state and
@@ -84,6 +98,9 @@ function Chevron() {
 }
 ```
 
+For everything the hook returns, refer to the
+[API tab](/components/headless/collapsible/api#usecollapsible).
+
 ### Styling with Data Attributes
 
 The toggle and content expose their state as
@@ -94,20 +111,6 @@ state with plain CSS:
 .toggle[data-state="open"] { … }
 .content[data-state="open"] { … }
 ```
-
----
-
-## Accessibility
-
-Follows the
-[WAI-ARIA Disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
-
-- ⌨️ **Enter** or **Space** on the toggle opens and closes the content.
-- ⌨️ **Tab** moves to the toggle, even while it's disabled.
-
-The toggle tells assistive technology whether the content is open, and which
-content it controls. When the content is a major section of the page, pass
-`role="region"` to it, and it's labelled by its toggle.
 
 ---
 
