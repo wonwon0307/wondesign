@@ -3,7 +3,7 @@ import { useCollapsibleInternal } from "./contexts";
 
 export type CollapsibleToggleProps = Omit<
   ButtonProps,
-  "onClick" | "aria-controls" | "aria-expanded"
+  "id" | "onClick" | "aria-controls" | "aria-expanded"
 >;
 
 export function CollapsibleToggle({
