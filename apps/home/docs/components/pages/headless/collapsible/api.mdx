@@ -22,12 +22,19 @@ import {
 
 ---
 
-## Provider
+## Components
 
-`Collapsible` or `CollapsibleProvider`. Holds the open state for its parts.
-Renders no element of its own.
+The parts that make up a `Collapsible`. Each one, apart from the provider,
+renders a single element and accepts that element's props. Every part must be
+inside the provider.
 
-### Props
+### Provider
+
+`Collapsible` or `CollapsibleProvider`. Coordinates every part: it holds the
+open state, gives the toggle and content the ids that link them, and passes
+shared settings like `keepMounted` down to them. Renders no element of its own.
+
+**Props**
 
 ```ts
 interface CollapsibleProps {
@@ -39,14 +46,12 @@ interface CollapsibleProps {
 }
 ```
 
----
-
-## Toggle
+### Toggle
 
 `Collapsible.Toggle` or `CollapsibleToggle`. Renders a `<button>` that opens
 and closes the content.
 
-### Props
+**Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
 `id`, `onClick`, `aria-expanded` and `aria-controls`, which the toggle manages.
@@ -64,26 +69,28 @@ interface CollapsibleToggleProps {
 > When using `asChild` on the toggle, render a `<button>` (or a component that renders one).
 > Otherwise, keyboard and screen reader support could be lost silently.
 
-### Data Attributes
+**Data Attributes**
 
 ```ts
 "data-state": "open" | "closed";
-"data-disabled"; // present when disabled
-"data-loading"; // present when loading
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
 ```
 
----
-
-## Content
+### Content
 
 `Collapsible.Content` or `CollapsibleContent`. Renders a `<div>` that's shown
 and hidden.
 
-### Props
+**Props**
 
 Accepts all `<div>` props, except `id`, `hidden`, `aria-hidden` and
 `aria-labelledby`, which the content manages. You can also pass a `ref`; the
-content sets none of its own. Key props:
+content sets none of its own.
+
+It also narrows `role` to `"group"` or `"region"`. It's a `group` by default;
+pass `"region"` when the content is a major section of the page, and it's
+labelled by its toggle. Key props:
 
 ```ts
 interface CollapsibleContentProps {
@@ -94,7 +101,7 @@ interface CollapsibleContentProps {
 }
 ```
 
-### Data Attributes
+**Data Attributes**
 
 ```ts
 "data-state": "open" | "closed";
@@ -102,12 +109,16 @@ interface CollapsibleContentProps {
 
 ---
 
-## useCollapsible
+## Hooks
 
-Reads the state of the nearest `Collapsible`. Throws an error when used
-outside one.
+Hooks read the state of the nearest provider, for building your own parts.
+They throw an error when used outside one.
 
-### Returns
+### useCollapsible
+
+Reads the open state of the nearest `Collapsible`.
+
+**Returns**
 
 ```ts
 function useCollapsible(): {
