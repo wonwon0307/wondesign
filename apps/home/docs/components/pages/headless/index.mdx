@@ -21,6 +21,10 @@ import { PackageInfo } from "@/entities/package";
 pnpm add @wondesign/headless
 ```
 
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/headless` needs React 19 or later.
+</Callout>
+
 ---
 
 ## Key Features
@@ -65,7 +69,7 @@ Multi-part components following the
   hides a section of content.
 - 🧩 **[Tabs](/components/headless/tabs)** — a set of tabs, each showing its own
   panel, with arrow-key navigation.
-- 🧩 **[Tooltip](/components/headless/tooltip)** — a floating label shown on
+- 🧩 **[Tooltip](/components/headless/tooltip)** — floating content shown on
   hover, focus or long press, positioned to stay on screen.
 - 🧩 **Navbar** — a labelled navigation landmark with a list of links that marks
   the current page.
@@ -119,23 +123,6 @@ props:
 .tab[data-state="active"] { … }
 .button[data-loading] { … }
 ```
-
----
-
-## Good to Know
-
-- 💡 **Label your landmarks**: `Tabs.List` and `Navbar` warn in development
-  when they have neither `aria-label` nor `aria-labelledby`.
-- 💡 **`asChild` takes one element**: Passing text or several children renders
-  nothing.
-- 💡 **Closed content unmounts**: Collapsible content, tab panels and tooltips
-  leave the page when hidden, unless you ask to keep them mounted.
-
----
-
-## Known Issues
-
-- 🐞 **React 19 only**: `@wondesign/headless` needs React 19 or later
 
 ---
 
