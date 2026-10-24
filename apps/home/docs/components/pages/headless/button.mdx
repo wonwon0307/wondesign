@@ -77,6 +77,18 @@ attributes:
 
 ---
 
+## Known Issues
+
+- 🐞 **Only presses are blocked**: While disabled or loading, `onClick` and
+  Enter or Space in `onKeyDown` are blocked. Other handlers, like
+  `onMouseEnter` or `onTouchStart`, still run.
+- 🐞 **Handlers on the child aren't blocked**: With `asChild`, handlers written
+  on the child still run while disabled or loading. Pass them to `Button`
+  instead, as described in
+  [Pass Props to the Component](/components/headless/as-child/guides#pass-props-to-the-component).
+
+---
+
 ## Used By
 
 - 🧩 **[Collapsible](/components/headless/collapsible)**: `Collapsible.Toggle`

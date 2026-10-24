@@ -74,6 +74,16 @@ component's work together.
 
 ---
 
+## Known Issues
+
+- 🐞 **Handlers on the child aren't blocked**: When a component blocks
+  interactions, like a disabled [Button](/components/headless/button#known-issues),
+  it only blocks the handlers passed to it. Handlers written on the child still
+  run. Pass them to the component instead, as described in
+  [Pass Props to the Component](/components/headless/as-child/guides#pass-props-to-the-component).
+
+---
+
 ## Supported Components
 
 - 🔘 **[Button](/components/headless/button)**
