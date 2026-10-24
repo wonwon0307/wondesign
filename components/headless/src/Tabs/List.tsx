@@ -87,7 +87,8 @@ export function TabsList({
         ref={ref}
         role="tablist"
         aria-orientation={orientation}
-        aria-label={ariaLabel}
+        aria-label={ariaLabelledBy ? undefined : ariaLabel}
+        aria-labelledby={ariaLabelledBy}
         data-orientation={orientation}
         data-disabled={isDisabled || undefined}
       >

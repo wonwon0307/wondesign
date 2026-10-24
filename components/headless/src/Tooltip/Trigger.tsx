@@ -21,7 +21,6 @@ export interface TooltipTriggerProps extends Omit<
 export function TooltipTrigger({
   children,
   asChild = false,
-  isDisabled = false,
   ...rest
 }: Readonly<TooltipTriggerProps>) {
   const context = useTooltipInternal();
@@ -40,12 +39,11 @@ export function TooltipTrigger({
       {...rest}
       ref={triggerRef}
       asChild={asChild}
-      isDisabled={isDisabled}
-      aria-describedby={isDisabled ? undefined : tooltipId}
-      onMouseEnter={isDisabled ? undefined : showWithDelay}
-      onMouseLeave={isDisabled ? undefined : hideWithDelay}
-      onFocus={isDisabled ? undefined : showImmediate}
-      onBlur={isDisabled ? undefined : hideImmediate}
+      aria-describedby={tooltipId}
+      onMouseEnter={showWithDelay}
+      onMouseLeave={hideWithDelay}
+      onFocus={showImmediate}
+      onBlur={hideImmediate}
     >
       {children}
     </Button>

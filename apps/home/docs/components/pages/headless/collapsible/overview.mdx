@@ -1,0 +1,133 @@
+# Collapsible
+
+`Collapsible` pairs a toggle with a section of content it shows and hides,
+following the
+[WAI-ARIA Disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
+It wires the two together for assistive technology, so you only bring the look.
+
+---
+
+## Key Features
+
+- ✅ **Accessible by Default**: The toggle and content are linked for assistive technology
+- ✅ **Keyboard Support**: Toggle the content with Enter or Space, like any button
+- ✅ **Controlled & Uncontrolled**: Let it manage its own state, or drive it yourself
+- ✅ **Disabled Toggle**: Turn off the toggle without removing it
+- ✅ **Keep Content Mounted**: Hide closed content instead of removing it
+- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
+
+---
+
+## Structure
+
+- 🧩 **Collapsible**: coordinates every part. It holds the open state, links
+  the toggle to its content, and shares settings like `keepMounted`. **Renders
+  no element of its own.**
+- 🧩 **Collapsible.Toggle**: the button that opens and closes the content.
+- 🧩 **Collapsible.Content**: the section that's shown and hidden.
+
+```tsx
+<Collapsible>
+  <Collapsible.Toggle>Show details</Collapsible.Toggle>
+  <Collapsible.Content>…</Collapsible.Content>
+</Collapsible>;
+
+// or, with named exports
+<CollapsibleProvider>
+  <CollapsibleToggle>Show details</CollapsibleToggle>
+  <CollapsibleContent>…</CollapsibleContent>
+</CollapsibleProvider>;
+```
+
+---
+
+## Usage
+
+### Open State
+
+`Collapsible` keeps its own state and starts closed. Pass `defaultOpen` to
+start it open, or `isOpen` and `onOpenChange` to control it yourself. Both
+modes are powered by [Disclosure](/foundations/disclosure#usage), so they
+behave exactly as described there.
+
+```tsx
+// uncontrolled, starts open
+<Collapsible defaultOpen>…</Collapsible>;
+
+// controlled
+const [open, setOpen] = useState(false);
+
+<Collapsible isOpen={open} onOpenChange={setOpen}>
+  …
+</Collapsible>;
+```
+
+### Disabling the Toggle
+
+Pass `isDisabled` to the toggle, and it can't open or close the content. It
+stays focusable, like a [Headless Button](/components/headless/button#disabled),
+and the content **stays in whatever state it was in**:
+
+```tsx
+<Collapsible.Toggle isDisabled>Show details</Collapsible.Toggle>
+```
+
+### Keeping Content Mounted
+
+Closed content is **removed from the page** by default. Pass `keepMounted` to
+hide it instead, so anything inside, like form inputs, keeps its state:
+
+```tsx
+<Collapsible keepMounted>
+  <Collapsible.Toggle>Advanced options</Collapsible.Toggle>
+  <Collapsible.Content>
+    <input name="timeout" />
+  </Collapsible.Content>
+</Collapsible>
+```
+
+### Content as a Region
+
+The content is a `group` by default. When it's a major section of the page,
+pass `role="region"`, and it's labelled by its toggle:
+
+```tsx
+<Collapsible.Content role="region">…</Collapsible.Content>
+```
+
+With `asChild`, the content **has no role** unless you pass one.
+
+### Building Your Own Parts
+
+`useCollapsible` gives any component inside a `Collapsible` its open state and
+a `toggle` function:
+
+```tsx
+import { useCollapsible } from "@wondesign/headless/Collapsible";
+
+function Chevron() {
+  const { isOpen } = useCollapsible();
+
+  return <ChevronIcon className={isOpen ? "rotated" : undefined} />;
+}
+```
+
+For everything the hook returns, refer to the
+[API tab](/components/headless/collapsible/api#usecollapsible).
+
+### Styling with Data Attributes
+
+The toggle and content expose their state as
+[data attributes](/components/headless/collapsible/api), so you can style each
+state with plain CSS:
+
+```css
+.toggle[data-state="open"] { … }
+.content[data-state="open"] { … }
+```
+
+---
+
+## Used By
+
+- 📦 **Sidebar** in `@wondesign/sidebar`

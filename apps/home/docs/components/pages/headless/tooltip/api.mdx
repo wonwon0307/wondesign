@@ -1,0 +1,159 @@
+# API
+
+This page covers every part of `Tooltip`, its hook and its types. Import them
+from `@wondesign/headless/Tooltip`:
+
+```ts
+import {
+  // compound component, with its parts attached
+  Tooltip,
+  // hook
+  useTooltip,
+  // named exports
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipArrow,
+  // types
+  type TooltipProps,
+  type TooltipTriggerProps,
+  type TooltipContentProps,
+  type TooltipArrowProps,
+} from "@wondesign/headless/Tooltip";
+```
+
+---
+
+## Components
+
+The parts that make up a `Tooltip`. Each one, apart from the provider, renders
+a single element and accepts that element's props. Every part must be inside
+the provider.
+
+### Provider
+
+`Tooltip` or `TooltipProvider`. Coordinates every part: it holds the open
+state, handles the delays and dismissal, gives the trigger and content the id
+that links them, and works out where the content and arrow go. Renders no
+element of its own.
+
+**Props**
+
+```ts
+interface TooltipProps {
+  children: React.ReactNode;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  keepMounted?: boolean; // defaults to `false`
+  showDelay?: number; // in ms, defaults to `300`
+  hideDelay?: number; // in ms, defaults to `0`
+  placement?: "top" | "bottom" | "left" | "right"; // defaults to `"bottom"`
+  forcePlacement?: boolean; // defaults to `false`
+  align?: "start" | "center" | "end"; // defaults to `"center"`
+  offset?: number; // in px, defaults to `4`
+  padding?: number; // in px, defaults to `8`
+}
+```
+
+### Trigger
+
+`Tooltip.Trigger` or `TooltipTrigger`. Renders a `<button>` that the tooltip
+describes.
+
+**Props**
+
+Accepts all props of [Headless Button](/components/headless/button), except
+`aria-describedby`, the mouse, focus and touch handlers (`onMouseEnter`,
+`onMouseLeave`, `onFocus`, `onBlur` and `onTouch*`), which the trigger manages.
+It sets its own `ref`, so it doesn't take one. Key props:
+
+```ts
+interface TooltipTriggerProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  isDisabled?: boolean; // defaults to `false`, the tooltip still shows
+  // ...
+}
+```
+
+> When using `asChild` on the trigger, render a `<button>` (or a component that renders one).
+> Otherwise, keyboard and screen reader support could be lost silently.
+
+**Data Attributes**
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```
+
+### Content
+
+`Tooltip.Content` or `TooltipContent`. Renders a `<div>` that holds the tooltip's
+content.
+
+**Props**
+
+Accepts all `<div>` props, except `id`, `role`, `aria-hidden`, `onMouseEnter`
+and `onMouseLeave`, which the content manages. It sets its own `ref`, so it
+doesn't take one.
+
+It also adds a prop of its own. `disablePortal` renders the content where it
+is, instead of in a [Portal](/components/headless/portal) at the end of
+`<body>`. Key props:
+
+```ts
+interface TooltipContentProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  disablePortal?: boolean; // defaults to `false`
+  // ...
+}
+```
+
+**Data Attributes**
+
+```ts
+"data-state": "open" | "closed";
+```
+
+### Arrow
+
+`Tooltip.Arrow` or `TooltipArrow`. Renders a `<div>` for an arrow pointing at
+the trigger. Must be used inside `Tooltip.Content`.
+
+**Props**
+
+Accepts all `<div>` props, except `aria-hidden`, which the arrow manages. It
+sets its own `ref`, so it doesn't take one. Key props:
+
+```ts
+interface TooltipArrowProps {
+  children: React.ReactNode; // the arrow's shape, like an SVG
+  // ...
+}
+```
+
+---
+
+## Hooks
+
+Hooks read the state of the nearest provider, for building your own parts.
+They throw an error when used outside one.
+
+### useTooltip
+
+Reads the state and position of the nearest `Tooltip`.
+
+**Returns**
+
+```ts
+function useTooltip(): {
+  isOpen: boolean; // whether the tooltip is open
+  showImmediate: () => void; // shows it, without the delay
+  showWithDelay: () => void; // shows it after `showDelay`
+  hideImmediate: () => void; // hides it, without the delay
+  hideWithDelay: () => void; // hides it after `hideDelay`
+  content: { x: number; y: number }; // from the top left of the viewport
+  arrow: { x: number; y: number }; // from the top left of the content
+};
+```

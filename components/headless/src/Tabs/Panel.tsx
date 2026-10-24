@@ -5,7 +5,7 @@ export interface TabPanelProps
   extends
     Omit<
       React.HTMLAttributes<HTMLDivElement>,
-      "role" | "id" | "hidden" | "aria-labelledby" | "tabIndex"
+      "role" | "id" | "hidden" | "aria-hidden" | "aria-labelledby" | "tabIndex"
     >,
     React.RefAttributes<HTMLDivElement> {
   children: React.ReactNode;

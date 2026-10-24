@@ -1,0 +1,98 @@
+---
+metaTitle: Button | Headless
+title: Headless Button
+description: An unstyled button that stays focusable while disabled or loading, following the WAI-ARIA Button pattern.
+---
+
+# Button
+
+`Button` renders a plain `<button>` and accepts all of its props, with disabled
+and loading states built in. It stays focusable while it can't be pressed, so
+keyboard and screen reader users can still find it.
+
+```tsx
+import { Button } from "@wondesign/headless/Button";
+
+<Button onClick={save} isLoading={isSaving}>
+  Save
+</Button>;
+```
+
+---
+
+## Key Features
+
+- ✅ **Stays Focusable When Disabled**: Users can still reach it, but can't press it
+- ✅ **Loading State**: Blocks presses and tells assistive technology it's busy
+- ✅ **Safe in Forms**: Doesn't submit a form unless you ask it to
+- ✅ **Composable**: Render your own element with `asChild`
+- ✅ **Ref Forwarding**: Your `ref` reaches the rendered element, even with `asChild`
+
+---
+
+## Usage
+
+### Disabled
+
+Pass `isDisabled` to stop clicks and key presses. Unlike the native `disabled`
+attribute, the button keeps its place in the tab order. The native `disabled`
+prop **isn't accepted**, so `isDisabled` is the only way to disable it:
+
+```tsx
+<Button isDisabled>Delete</Button>
+```
+
+### Loading
+
+Pass `isLoading` while an action is in progress. Presses are blocked, just like
+when disabled, and the button is marked as busy for assistive technology:
+
+```tsx
+<Button isLoading={isSaving} onClick={save}>
+  Save
+</Button>
+```
+
+### Submitting Forms
+
+`Button` defaults to `type="button"`, so it never submits a form by accident.
+Set the type yourself when it should:
+
+```tsx
+<form onSubmit={handleSubmit}>
+  {…}
+  <Button type="submit">Send</Button>
+</form>
+```
+
+### Styling
+
+Style it with `className` and `style`. Its states show up as `data-*`
+attributes:
+
+```css
+.button[data-disabled] { … }
+.button[data-loading] { … }
+```
+
+---
+
+## Known Issues
+
+- 🐞 **Only presses are blocked**: While disabled or loading, `onClick` and
+  Enter or Space in `onKeyDown` are blocked. Other handlers, like
+  `onMouseEnter` or `onTouchStart`, still run.
+- 🐞 **Handlers on the child aren't blocked**: With `asChild`, handlers written
+  on the child still run while disabled or loading. Pass them to `Button`
+  instead, as described in
+  [Pass Props to the Component](/components/headless/as-child/guides#pass-props-to-the-component).
+
+---
+
+## Used By
+
+- 🧩 **[Collapsible](/components/headless/collapsible)**: `Collapsible.Toggle`
+- 🧩 **[Tabs](/components/headless/tabs)**: `Tabs.Tab`
+- 🧩 **[Tooltip](/components/headless/tooltip)**: `Tooltip.Trigger`
+- 📦 **Buttons** in `@wondesign/buttons`
+- 📦 **Sidebar** in `@wondesign/sidebar`

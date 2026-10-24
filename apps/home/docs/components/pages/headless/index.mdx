@@ -1,0 +1,138 @@
+---
+title: Headless
+description: Unstyled React components that handle behaviour and accessibility, so you only bring the look.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/headless" relPath="components/headless">
+  `@wondesign/headless` is the behaviour layer under every styled WonDesign
+  component. It handles state, keyboard support, focus and ARIA wiring, and
+  renders plain elements with no styles at all — so you can build your own
+  components on top of it, in your own look.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/headless
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/headless` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Zero Styles**: Every component renders plain elements you style however you like
+- ✅ **Accessible by Default**: Roles, ARIA attributes and keyboard support come built in
+- ✅ **Controlled & Uncontrolled**: Stateful components work either way
+- ✅ **Composable**: Swap the rendered element for your own with `asChild`
+- ✅ **Styleable State**: Open, active, disabled and loading states are exposed as `data-*` attributes
+
+---
+
+## Components
+
+The components come in three tiers. Each one builds on the tier before it.
+
+### Utilities
+
+Helpers that control how and where things render. They don't render any UI of
+their own.
+
+- 🧰 **[AsChild](/components/headless/as-child)** — renders your own element in
+  place of a component's default one, merging props, handlers and refs.
+- 🧰 **[Portal](/components/headless/portal)** — renders its children at the end
+  of `<body>`, safely with server rendering.
+
+### Elements
+
+Accessible wrappers around single native elements.
+
+- 🔘 **[Button](/components/headless/button)** — a `<button>` with disabled and
+  loading states that stays focusable while blocking clicks.
+- 🔘 **[Anchor](/components/headless/anchor)** — an `<a>` that can be disabled,
+  opens external links in a new tab, and works with router link components.
+
+### Patterns
+
+Multi-part components following the
+[WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/patterns/).
+
+- 🧩 **[Collapsible](/components/headless/collapsible)** — a toggle that shows and
+  hides a section of content.
+- 🧩 **[Tabs](/components/headless/tabs)** — a set of tabs, each showing its own
+  panel, with arrow-key navigation.
+- 🧩 **[Tooltip](/components/headless/tooltip)** — floating content shown on
+  hover, focus or long press, positioned to stay on screen.
+- 🧩 **Navbar** — a labelled navigation landmark with a list of links that marks
+  the current page.
+
+---
+
+## Usage
+
+Each component has its own entry point, so you only import what you use:
+
+```ts
+import { AsChild } from "@wondesign/headless/AsChild";
+import { Button } from "@wondesign/headless/Button";
+import { Tabs } from "@wondesign/headless/Tabs";
+```
+
+### Compound Components
+
+Patterns are made of parts. Use them through the dot syntax, or import each
+part on its own — both are the same components:
+
+```tsx
+import { Tabs } from "@wondesign/headless/Tabs";
+
+<Tabs defaultTab="account">
+  <Tabs.List aria-label="Settings">
+    <Tabs.Tab tabName="account">Account</Tabs.Tab>
+    <Tabs.Tab tabName="billing">Billing</Tabs.Tab>
+  </Tabs.List>
+  <Tabs.Panel tabName="account">…</Tabs.Panel>
+  <Tabs.Panel tabName="billing">…</Tabs.Panel>
+</Tabs>;
+```
+
+```tsx
+import {
+  TabsProvider,
+  TabsList,
+  Tab,
+  TabPanel,
+} from "@wondesign/headless/Tabs";
+```
+
+Dot notation keeps the parts together and reads well. **In React Server
+Components, use the named exports**: the parts are client components, and a
+Server Component can't reach `Tabs.List` through `Tabs`.
+
+### Styling
+
+Style the components with `className` and `style`, like any other element.
+Their state shows up as `data-*` attributes, so you can style it without extra
+props:
+
+```css
+.toggle[data-state="open"] { … }
+.tab[data-state="active"] { … }
+.button[data-loading] { … }
+```
+
+---
+
+## Used By
+
+- 📦 **Buttons**, **Links**, **Tabs**, **Tooltip** and **Navbar** — the styled
+  WonDesign components
+- 📦 **Sidebar** in `@wondesign/sidebar`

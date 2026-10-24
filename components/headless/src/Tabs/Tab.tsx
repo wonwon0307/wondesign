@@ -10,6 +10,7 @@ export interface TabProps extends Omit<
   | "aria-controls"
   | "id"
   | "isLoading"
+  | "tabIndex"
 > {
   children: React.ReactNode;
   tabName: string;

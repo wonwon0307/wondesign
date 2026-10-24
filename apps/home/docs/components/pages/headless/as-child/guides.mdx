@@ -1,0 +1,96 @@
+# Guides
+
+With `asChild`, the component and your child both hand props to the same
+element. These guides cover how to make that work: how the two sets of props
+combine, what your child needs, and where to put the props you pass.
+
+---
+
+## How Props Combine
+
+When the component and your element both set the same prop:
+
+- 🔗 **`className`**: both are kept
+- 🔗 **`style`**: both are merged, and yours wins on conflicts
+- 🔗 **`ref`**: the component's wins, if it sets one
+- 🔗 **Event handlers**: both run — yours first, then the component's
+- 🔗 **Anything else**: yours wins
+
+```tsx
+<Tooltip.Trigger
+  asChild
+  className="trigger"
+  style={{ color: "gray", padding: 4 }}
+  onClick={trackTrigger}
+>
+  <button
+    ref={ref}
+    type="submit"
+    className="icon-button"
+    style={{ color: "blue" }}
+    onClick={trackButton}
+  >
+    Help
+  </button>
+</Tooltip.Trigger>
+
+// className → "trigger icon-button"
+// style     → { color: "blue", padding: 4 }
+// ref       → the trigger's own, so `ref` is never attached
+// onClick   → trackButton, then trackTrigger
+// type      → "submit", replacing the trigger's "button"
+```
+
+---
+
+## Components as the Child
+
+The child doesn't have to be a DOM element. It can be any component, as long as
+it spreads the props it receives (`{...props}`) onto the element it renders.
+Otherwise the parent's behaviour and accessibility are **silently lost**:
+
+```tsx
+// ✅ good
+function MyLink(props: Readonly<React.ComponentProps<"a">>) {
+  // spread every prop, so the Button's behaviour reaches the <a>
+  return <a {...props} />;
+}
+
+// ❌ bad - only href and children reach the <a>, the rest is dropped
+function BrokenLink({ href, children }: Readonly<React.ComponentProps<"a">>) {
+  return <a href={href}>{children}</a>;
+}
+
+<Button asChild>
+  <MyLink href="/pricing">See pricing</MyLink>
+</Button>;
+```
+
+---
+
+## Pass Props to the Component
+
+It's the best practice to **pass props to the headless component
+rather than to your child**. The props a component controls itself
+— like `role`, ARIA attributes and the handlers it relies on —
+are left out of its types, so TypeScript catches a clash before it
+happens. The child has no such guard, and its props win.
+
+Only pass one to the child if you really do want to override it:
+
+```tsx
+// ✅ good
+<Button asChild className="cta" onClick={track}>
+  <a href="/pricing">See pricing</a>
+</Button>
+
+// ❌ type error - Tooltip.Trigger sets aria-describedby itself
+<Tooltip.Trigger asChild aria-describedby="custom-hint">
+  <button>Help</button>
+</Tooltip.Trigger>
+
+// ⚠️ overrides - replaces the tooltip's aria-describedby
+<Tooltip.Trigger asChild>
+  <button aria-describedby="custom-hint">Help</button>
+</Tooltip.Trigger>
+```

@@ -1,0 +1,107 @@
+---
+metaTitle: Anchor | Headless
+title: Headless Anchor
+description: An unstyled link that opens external links in a new tab, can be disabled, and works with your router's link component.
+---
+
+# Anchor
+
+`Anchor` renders a plain `<a>` and accepts all of its props. It knows when to
+open a new tab, can be disabled, and works with your router's link component.
+
+```tsx
+import { Anchor } from "@wondesign/headless/Anchor";
+
+<Anchor href="/pricing">Pricing</Anchor>;
+```
+
+---
+
+## Key Features
+
+- ✅ **External Links Handled**: Links to other sites open in a new tab, safely
+- ✅ **Disabled State**: A link that can't be followed or focused
+- ✅ **Router Friendly**: Render your router's link component with `as`
+- ✅ **Styleable State**: Disabled, external and new-tab links are exposed as `data-*` attributes
+- ✅ **Ref Forwarding**: Your `ref` reaches the rendered element
+
+---
+
+## Usage
+
+### External Links
+
+By default, `Anchor` treats any `href` starting with `http://`, `https://` or
+`//` as external. External links open in a new tab. This
+**includes full URLs to your own site**.
+
+Every other `href`, like `/docs`, `#faq` or `mailto:`, opens in the current tab.
+
+Override either default with `openInNewTab`. `target` and `rel` **aren't
+accepted**, so `openInNewTab` is the only way to control it:
+
+```tsx
+// external, opens in a new tab
+<Anchor href="https://github.com/wonwon0307">GitHub</Anchor>
+
+// internal, opens in the current tab
+<Anchor href="/docs">Docs</Anchor>
+
+// external, but stays in the current tab
+<Anchor href="https://github.com/wonwon0307" openInNewTab={false}>
+  GitHub
+</Anchor>
+
+// internal, but opens in a new tab
+<Anchor href="/docs" openInNewTab>
+  Docs
+</Anchor>
+```
+
+### Router Links
+
+Pass your router's link component to `as`, and it renders that instead of a
+plain `<a>`, with all of `Anchor`'s behaviour:
+
+```tsx
+import Link from "next/link";
+
+<Anchor as={Link} href="/pricing">
+  Pricing
+</Anchor>;
+```
+
+`Anchor` swaps its element with `as`, not `asChild`. It can still be the child
+of another component's `asChild`, like a
+[Tooltip.Trigger](/components/headless/as-child/usage#rendering-a-link).
+
+### Disabled
+
+Pass `isDisabled` to turn the link off. It loses its `href`, can't be clicked,
+and **leaves the tab order**. It also renders a plain `<a>` even if you passed
+`as`, so your router can't navigate:
+
+```tsx
+<Anchor href="/billing" isDisabled>
+  Billing
+</Anchor>
+```
+
+### Styling
+
+Style it with `className` and `style`. Its states show up as `data-*`
+attributes:
+
+```css
+.link[data-disabled] { … }
+.link[data-external] { … }
+.link[data-new-tab] { … }
+```
+
+---
+
+## Used By
+
+- 🧩 **[Navbar](/components/headless/navbar)**: `Navbar.Link`
+- 📦 **Links** in `@wondesign/links`
+- 📦 **Sidebar** in `@wondesign/sidebar`

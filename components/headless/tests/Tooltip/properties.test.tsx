@@ -46,13 +46,27 @@ describe("Tooltip - properties", () => {
 
     const trigger = getByTestId("tooltip-trigger");
 
+    // 트리거는 비활성화 상태로 표시된다.
+    expect(trigger.getAttribute("aria-disabled")).toBe("true");
+    expect(trigger.dataset.disabled).toBe("true");
+
     // 초기에는 보이지 않는다.
     expect(queryByTestId("tooltip-content")).toBeNull();
 
-    // 트리거에 마우스를 올려도 툴팁이 열리지 않아야 한다.
+    // 비활성화 상태에서도 마우스를 올리면 툴팁이 열려야 한다.
     fireEvent.mouseEnter(trigger);
     act(() => vi.advanceTimersByTime(1000));
+    expect(queryByTestId("tooltip-content")).not.toBeNull();
+
+    // 마우스가 벗어나면 닫혀야 한다.
+    fireEvent.mouseLeave(trigger);
+    act(() => vi.advanceTimersByTime(1000));
     expect(queryByTestId("tooltip-content")).toBeNull();
+
+    // 비활성화 상태에서도 포커스하면 툴팁이 열리고, 트리거와 연결되어야 한다.
+    fireEvent.focus(trigger);
+    const content = getByTestId("tooltip-content");
+    expect(trigger.getAttribute("aria-describedby")).toBe(content.id);
   });
 
   it("respects custom show and hide delays", () => {
