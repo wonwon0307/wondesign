@@ -21,6 +21,10 @@ import { PackageInfo } from "@/entities/package";
 pnpm add @wondesign/theme
 ```
 
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/theme` needs React 19 or later.
+</Callout>
+
 <Callout title="Using @wondesign/ui?">
   `@wondesign/ui/theme` re-exports both providers and hooks, and
   `@wondesign/ui/server` re-exports both scripts.
@@ -91,7 +95,6 @@ See [Named Themes Setup](/foundations/theme/setup#named-themes) to get started.
 
 ## Known Issues
 
-- 🐞 **React 19 only**: `@wondesign/theme` needs React 19 or later
 - 🐞 **light-dark() colors in Next.js**: Colors built with `light-dark()` may not follow the theme, or fall back to an unexpected color, when your build tool rewrites `light-dark()` for older browsers. See [Troubleshooting](/foundations/theme/troubleshooting) for the fix
 
 ---
