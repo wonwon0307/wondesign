@@ -1,3 +1,34 @@
 {
-  "sidebar": ["[Getting Started](/getting-started)"]
+  "sidebar": [
+    "[Getting Started](/getting-started)",
+    {
+      "type": "link",
+      "label": "Headless",
+      "url": "/headless",
+      "items": [
+        {
+          "type": "group",
+          "label": "Elements",
+          "items": ["[Button](/headless/button)", "[Anchor](/headless/anchor)"]
+        },
+        {
+          "type": "group",
+          "label": "Patterns",
+          "items": [
+            "[Collapsible](/headless/collapsible)",
+            "[Tabs](/headless/tabs)",
+            "[Tooltip](/headless/tooltip)"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Utilities",
+          "items": [
+            "[AsChild](/headless/as-child)",
+            "[Portal](/headless/portal)"
+          ]
+        }
+      ]
+    }
+  ]
 }
