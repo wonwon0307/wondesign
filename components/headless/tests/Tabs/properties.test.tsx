@@ -87,6 +87,30 @@ describe("Tabs - properties", () => {
     expect(list.getAttribute("data-orientation")).toBe("vertical");
   });
 
+  it("handles list aria-labelledby correctly", () => {
+    const labelId = "test-label";
+
+    const { getByTestId } = render(
+      <TabsProvider defaultTab="tab">
+        <label id={labelId}>Tabs Label</label>
+        <TabsList asChild aria-labelledby={labelId} data-testid="list">
+          <span>
+            <Tab asChild tabName="tab" data-testid="tab">
+              <a>Tab</a>
+            </Tab>
+          </span>
+        </TabsList>
+        <TabPanel asChild tabName="tab" data-testid="panel">
+          <span>Panel</span>
+        </TabPanel>
+      </TabsProvider>,
+    );
+
+    const list = getByTestId("list");
+
+    expect(list.getAttribute("aria-labelledby")).toBe(labelId);
+  });
+
   it("handles asChild props correctly for all components", () => {
     const { getByTestId } = render(
       <TabsProvider defaultTab="tab">
