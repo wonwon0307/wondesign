@@ -101,7 +101,9 @@ By default, the arrow keys only move focus, and Enter or Space selects
 the focused tab. Pass `switchOnFocus` to select a tab as soon as it's focused:
 
 ```tsx
-<Tabs defaultTab="account" switchOnFocus>…</Tabs>
+<Tabs defaultTab="account" switchOnFocus>
+  …
+</Tabs>
 ```
 
 This suits panels that render instantly. Keep the default when switching panels
@@ -158,7 +160,9 @@ Inactive panels are **removed from the page** by default. Pass
 `keepPanelsMounted` to hide them instead, so anything inside keeps its state:
 
 ```tsx
-<Tabs defaultTab="account" keepPanelsMounted>…</Tabs>
+<Tabs defaultTab="account" keepPanelsMounted>
+  …
+</Tabs>
 ```
 
 ### Building Your Own Parts

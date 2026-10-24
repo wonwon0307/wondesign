@@ -52,12 +52,14 @@ behave exactly as described there.
 
 ```tsx
 // uncontrolled, starts open
-<Collapsible defaultOpen>…</Collapsible>
+<Collapsible defaultOpen>…</Collapsible>;
 
 // controlled
 const [open, setOpen] = useState(false);
 
-<Collapsible isOpen={open} onOpenChange={setOpen}>…</Collapsible>;
+<Collapsible isOpen={open} onOpenChange={setOpen}>
+  …
+</Collapsible>;
 ```
 
 ### Disabling the Toggle

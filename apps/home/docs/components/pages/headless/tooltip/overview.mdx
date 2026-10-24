@@ -9,9 +9,8 @@ links it to the trigger for assistive technology, so you only bring the look.
 
 <Callout variant="warning" title="Position isn't applied">
   The headless `Tooltip` works out the position, but **doesn't apply it**. See
-  [Positioning the Content](#positioning-the-content), or use
-  [the styled `@wondesign/tooltip`](/components/tooltip), which does it for
-  you.
+  [Positioning the Content](#positioning-the-content), or use [the styled
+  `@wondesign/tooltip`](/components/tooltip), which does it for you.
 </Callout>
 
 ---
@@ -100,7 +99,9 @@ The default alignment is `"center"`; pass `align` to line it up with the start
 or end of the trigger instead:
 
 ```tsx
-<Tooltip placement="right" align="start">…</Tooltip>
+<Tooltip placement="right" align="start">
+  …
+</Tooltip>
 ```
 
 If the preferred side doesn't have room, the tooltip flips to the opposite
@@ -115,7 +116,9 @@ On hover, the tooltip waits `showDelay` before showing, and `hideDelay` before
 hiding. Focus and long press show it straight away:
 
 ```tsx
-<Tooltip showDelay={500} hideDelay={100}>…</Tooltip>
+<Tooltip showDelay={500} hideDelay={100}>
+  …
+</Tooltip>
 ```
 
 A click or tap on the trigger **doesn't open the tooltip**, following the
@@ -132,12 +135,14 @@ by [Key Events](/foundations/key-events).
 
 ```tsx
 // uncontrolled, starts closed
-<Tooltip>…</Tooltip>
+<Tooltip>…</Tooltip>;
 
 // controlled
 const [open, setOpen] = useState(false);
 
-<Tooltip isOpen={open} onOpenChange={setOpen}>…</Tooltip>;
+<Tooltip isOpen={open} onOpenChange={setOpen}>
+  …
+</Tooltip>;
 ```
 
 ### Disabling the Trigger
@@ -168,8 +173,8 @@ where it is in the document instead:
 
 <Callout variant="warning" title="Compute the position yourself">
   The position from `useTooltip` is measured from the viewport, which suits
-  content rendered in the Portal. When you render the content in place, work
-  out its position yourself, relative to the element it ends up in.
+  content rendered in the Portal. When you render the content in place, work out
+  its position yourself, relative to the element it ends up in.
 </Callout>
 
 ### Keeping Content Mounted
