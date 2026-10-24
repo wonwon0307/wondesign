@@ -1,0 +1,224 @@
+import { Callout } from "@wondesign/ui/Texts";
+
+# Tooltip
+
+`Tooltip` shows short floating content for its trigger, following the
+[WAI-ARIA Tooltip pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/).
+It handles when to show and hide it, works out where it fits on screen, and
+links it to the trigger for assistive technology, so you only bring the look.
+
+<Callout variant="warning" title="Position isn't applied">
+  The headless `Tooltip` works out the position, but **doesn't apply it**. See
+  [Positioning the Content](#positioning-the-content), or use
+  [the styled `@wondesign/tooltip`](/components/tooltip), which does it for
+  you.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Accessible by Default**: The tooltip describes its trigger for assistive technology
+- ✅ **Shows On**: Hover, focus or long press
+- ✅ **Hides On**: Pointer leave, blur, Escape or a click outside
+- ✅ **Auto Flip & Shift**: Flips to the opposite side when space runs short, and shifts to stay inside the viewport
+- ✅ **Show & Hide Delays**: Tune how quickly it reacts to the pointer
+- ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
+- ✅ **Disabled Triggers**: A disabled trigger can still explain itself with a tooltip
+- ✅ **Keep Content Mounted**: Hide closed content instead of removing it
+- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
+
+---
+
+## Structure
+
+- 🧩 **Tooltip**: coordinates every part. It holds the open state, handles the
+  delays and dismissal, and works out the position. **Renders no element of its
+  own.**
+- 🧩 **Tooltip.Trigger**: the button the tooltip describes.
+- 🧩 **Tooltip.Content**: the floating body of the tooltip.
+- 🧩 **Tooltip.Arrow**: an optional arrow pointing at the trigger.
+
+```tsx
+<Tooltip>
+  <Tooltip.Trigger>Save</Tooltip.Trigger>
+  <Tooltip.Content>
+    Save your changes
+    <Tooltip.Arrow>…</Tooltip.Arrow>
+  </Tooltip.Content>
+</Tooltip>;
+
+// or, with named exports
+<TooltipProvider>
+  <TooltipTrigger>Save</TooltipTrigger>
+  <TooltipContent>
+    Save your changes
+    <TooltipArrow>…</TooltipArrow>
+  </TooltipContent>
+</TooltipProvider>;
+```
+
+The arrow must go inside the content.
+
+---
+
+## Usage
+
+### Positioning the Content
+
+`useTooltip` gives you the position of the content and the arrow. Apply them
+yourself, usually in a small wrapper of your own. The position is worked out by
+[Position](/foundations/position), so it behaves exactly as described there.
+
+```tsx
+import { Tooltip, useTooltip } from "@wondesign/headless/Tooltip";
+
+function MyTooltipContent({ children }: { children: React.ReactNode }) {
+  const { content } = useTooltip();
+
+  return (
+    <Tooltip.Content
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        transform: `translate3d(${content.x}px, ${content.y}px, 0)`,
+      }}
+    >
+      {children}
+    </Tooltip.Content>
+  );
+}
+```
+
+The content's position is measured from the top left of the viewport. The
+arrow's position is measured from the top left of the content, so position the
+arrow `absolute` inside it the same way.
+
+The default placement is `"bottom"`; pass `placement` to prefer another side.
+The default alignment is `"center"`; pass `align` to line it up with the start
+or end of the trigger instead:
+
+```tsx
+<Tooltip placement="right" align="start">…</Tooltip>
+```
+
+If the preferred side doesn't have room, the tooltip flips to the opposite
+side, as long as that side has more room. Pass `forcePlacement` to keep it on
+the side you chose. `offset` sets the gap
+from the trigger, and `padding` the space it keeps from the edges of the
+viewport.
+
+### Delays
+
+On hover, the tooltip waits `showDelay` before showing, and `hideDelay` before
+hiding. Focus and long press show it straight away:
+
+```tsx
+<Tooltip showDelay={500} hideDelay={100}>…</Tooltip>
+```
+
+A click or tap on the trigger **doesn't open the tooltip**, following the
+WAI-ARIA pattern. On touch screens, long press the trigger instead.
+
+Moving the pointer from the trigger onto the content keeps it open. Long press
+and clicks outside are handled by [Pointer](/foundations/pointer), and Escape
+by [Key Events](/foundations/key-events).
+
+### Open State
+
+`Tooltip` keeps its own state and starts closed. Pass `isOpen` and
+`onOpenChange` to control it yourself:
+
+```tsx
+// uncontrolled, starts closed
+<Tooltip>…</Tooltip>
+
+// controlled
+const [open, setOpen] = useState(false);
+
+<Tooltip isOpen={open} onOpenChange={setOpen}>…</Tooltip>;
+```
+
+### Disabling the Trigger
+
+A trigger with `isDisabled` can't be pressed, but it **still shows its
+tooltip** on hover, focus or long press. Use this to explain why it's
+disabled:
+
+```tsx
+<Tooltip>
+  <Tooltip.Trigger isDisabled>Save</Tooltip.Trigger>
+  <Tooltip.Content>You have no changes to save</Tooltip.Content>
+</Tooltip>
+```
+
+To show no tooltip at all, render a plain
+[Headless Button](/components/headless/button) instead of the `Tooltip`.
+
+### Rendering in Place
+
+The content renders in a [Portal](/components/headless/portal) at the end of
+`<body>`, so it isn't clipped by its parents. Pass `disablePortal` to render it
+where it is in the document instead:
+
+```tsx
+<Tooltip.Content disablePortal>…</Tooltip.Content>
+```
+
+<Callout variant="warning" title="Compute the position yourself">
+  The position from `useTooltip` is measured from the viewport, which suits
+  content rendered in the Portal. When you render the content in place, work
+  out its position yourself, relative to the element it ends up in.
+</Callout>
+
+### Keeping Content Mounted
+
+Closed content is **removed from the page** by default. Pass `keepMounted` to
+keep it in the page instead:
+
+```tsx
+<Tooltip keepMounted>…</Tooltip>
+```
+
+### Building Your Own Parts
+
+`useTooltip` gives any component inside `Tooltip` the open state, the
+position, and ways to show or hide it, with or without the delays. For example,
+a help icon next to the trigger that opens the same tooltip on hover:
+
+```tsx
+import { useTooltip } from "@wondesign/headless/Tooltip";
+
+function HelpIcon() {
+  const { showWithDelay, hideWithDelay } = useTooltip();
+
+  return (
+    <span aria-hidden onMouseEnter={showWithDelay} onMouseLeave={hideWithDelay}>
+      ?
+    </span>
+  );
+}
+```
+
+The content is **still positioned against `Tooltip.Trigger`**, wherever it's
+opened from.
+
+For everything the hook returns, refer to the
+[API tab](/components/headless/tooltip/api#usetooltip).
+
+### Styling with Data Attributes
+
+The content exposes its state as
+[data attributes](/components/headless/tooltip/api), so you can style each
+state with plain CSS:
+
+```css
+.content[data-state="open"] { … }
+```
+
+---
+
+## Used By
+
+- 📦 **Tooltip** in [`@wondesign/tooltip`](/components/tooltip)
