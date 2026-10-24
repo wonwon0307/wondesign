@@ -1,13 +1,13 @@
 ---
 metaTitle: Anchor | Headless
 title: Headless Anchor
-description: An unstyled link that handles external links, disabled states and router links.
+description: An unstyled link that opens external links in a new tab, can be disabled, and works with your router's link component.
 ---
 
 # Anchor
 
-`Anchor` renders a plain `<a>` that knows when to open a new tab, can be
-disabled, and works with your router's link component.
+`Anchor` renders a plain `<a>` and accepts all of its props. It knows when to
+open a new tab, can be disabled, and works with your router's link component.
 
 ```tsx
 import { Anchor } from "@wondesign/headless/Anchor";
@@ -37,7 +37,8 @@ By default, `Anchor` treats any `href` starting with `http://`, `https://` or
 
 Every other `href`, like `/docs`, `#faq` or `mailto:`, opens in the current tab.
 
-Override either default with `openInNewTab`:
+Override either default with `openInNewTab`. `target` and `rel` **aren't
+accepted**, so `openInNewTab` is the only way to control it:
 
 ```tsx
 // external, opens in a new tab

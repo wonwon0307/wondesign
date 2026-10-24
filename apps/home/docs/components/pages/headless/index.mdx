@@ -104,6 +104,10 @@ import { Tabs } from "@wondesign/headless/Tabs";
 import { TabsProvider, TabsList, Tab, TabPanel } from "@wondesign/headless/Tabs";
 ```
 
+Dot notation keeps the parts together and reads well. **In React Server
+Components, use the named exports**: the parts are client components, and a
+Server Component can't reach `Tabs.List` through `Tabs`.
+
 ### Styling
 
 Style the components with `className` and `style`, like any other element.
