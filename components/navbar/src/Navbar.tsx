@@ -77,7 +77,6 @@ export function Navbar({
       >
         <ul
           {...rest}
-          role="list"
           data-orientation={orientation}
           className={clsx(
             styles.list({ orientation: vertical ? "vertical" : "horizontal" }),
