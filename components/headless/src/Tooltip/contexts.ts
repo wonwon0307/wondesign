@@ -39,10 +39,25 @@ export function useTooltipInternal() {
 }
 
 export function useTooltip() {
-  const { isOpen, showImmediate, hideImmediate, content, arrow } =
-    useTooltipInternal();
+  const {
+    isOpen,
+    showImmediate,
+    showWithDelay,
+    hideImmediate,
+    hideWithDelay,
+    content,
+    arrow,
+  } = useTooltipInternal();
 
-  return { isOpen, showImmediate, hideImmediate, content, arrow };
+  return {
+    isOpen,
+    showImmediate,
+    showWithDelay,
+    hideImmediate,
+    hideWithDelay,
+    content,
+    arrow,
+  };
 }
 
 export const ContentContext = createContext(false);
