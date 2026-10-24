@@ -1,34 +1,92 @@
-import { NavbarWrapper, NavbarList } from "@wondesign/headless/Navbar";
+import { useMemo } from "react";
+import { AsChild } from "@wondesign/headless/AsChild";
 import { clsx } from "clsx";
 
+import { NavbarContext } from "./contexts";
 import { styles } from "./styles.css";
 
-export interface NavbarProps extends React.AriaAttributes {
+type ListProps = Omit<
+  React.HTMLAttributes<HTMLUListElement>,
+  "children" | "role"
+> & {
+  asChild?: false;
+  ref?: React.Ref<HTMLUListElement>;
+};
+
+type AsChildProps = Omit<
+  Omit<React.HTMLAttributes<HTMLElement>, "children" | "role">,
+  "children" | "role"
+> & {
+  asChild: true;
+};
+
+export type NavbarProps = React.AriaAttributes & {
   children: React.ReactNode;
   vertical?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
+} & (ListProps | AsChildProps);
 
 export function Navbar({
   children,
+  asChild = false,
   vertical = false,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
   className,
-  style,
   ...rest
 }: Readonly<NavbarProps>) {
+  if (process.env.NODE_ENV !== "production" && !ariaLabel && !ariaLabelledBy) {
+    console.warn(
+      "[WonDesign Navbar] It is strongly recommended to provide either an aria-label or aria-labelledby for the navigation element.",
+    );
+  }
+
+  const orientation: "vertical" | "horizontal" = vertical
+    ? "vertical"
+    : "horizontal";
+
+  const contextValue = useMemo(
+    () => ({ asChild, orientation }),
+    [asChild, orientation],
+  );
+
+  if (asChild) {
+    return (
+      <NavbarContext.Provider value={contextValue}>
+        <AsChild
+          {...rest}
+          role="navigation"
+          aria-label={ariaLabelledBy ? undefined : ariaLabel}
+          aria-labelledby={ariaLabelledBy}
+          data-orientation={orientation}
+          className={clsx(
+            styles.list({ orientation: vertical ? "vertical" : "horizontal" }),
+            className,
+          )}
+        >
+          {children}
+        </AsChild>
+      </NavbarContext.Provider>
+    );
+  }
+
   return (
-    <NavbarWrapper {...rest}>
-      <NavbarList
-        vertical={vertical}
-        className={clsx(
-          styles.list({ orientation: vertical ? "vertical" : "horizontal" }),
-          className,
-        )}
-        style={style}
+    <NavbarContext.Provider value={contextValue}>
+      <nav
+        aria-label={ariaLabelledBy ? undefined : ariaLabel}
+        aria-labelledby={ariaLabelledBy}
       >
-        {children}
-      </NavbarList>
-    </NavbarWrapper>
+        <ul
+          {...rest}
+          role="list"
+          data-orientation={orientation}
+          className={clsx(
+            styles.list({ orientation: vertical ? "vertical" : "horizontal" }),
+            className,
+          )}
+        >
+          {children}
+        </ul>
+      </nav>
+    </NavbarContext.Provider>
   );
 }
