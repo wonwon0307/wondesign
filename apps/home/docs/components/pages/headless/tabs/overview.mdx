@@ -17,8 +17,9 @@ panel, so you only bring the look.
 - ✅ **Keyboard Navigation**: Move between tabs with the arrow keys, Home and End, then Tab into the panel
 - ✅ **Controlled & Uncontrolled**: Let it manage the selected tab, or drive it yourself
 - ✅ **Horizontal & Vertical**: Arrow keys follow the direction of the list
+- ✅ **Disabled Tabs**: Turn off a single tab, or all of them
 - ✅ **Keep Panels Mounted**: Hide inactive panels instead of removing them
-- ✅ **Composable**: Render your own elements with `asChild`
+- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
 
 ---
 
@@ -52,13 +53,25 @@ panel, so you only bring the look.
 </TabsProvider>;
 ```
 
-Each tab and its panel share the same `tabName`. Label the list with an
-`aria-label`, or `aria-labelledby` pointing to a visible heading; `Tabs.List`
-warns in development when it has neither.
+Each tab and its panel **share the same `tabName`**.
 
 ---
 
 ## Usage
+
+### Labelling the List
+
+Label the list with an `aria-label`, or `aria-labelledby` pointing to a visible
+heading. `Tabs.List` warns in development when it has neither:
+
+```tsx
+<Tabs.List aria-label="Settings">…</Tabs.List>
+
+<h2 id="settings-heading">Settings</h2>
+<Tabs.List aria-labelledby="settings-heading">…</Tabs.List>
+```
+
+If you pass both, `aria-labelledby` is used and **`aria-label` is dropped**.
 
 ### Selected Tab
 
@@ -84,7 +97,7 @@ If no enabled tab matches, **the first enabled tab is selected**, and
 
 ### Selecting on Focus
 
-By default, the arrow keys only move focus, and **Enter** or **Space** selects
+By default, the arrow keys only move focus, and Enter or Space selects
 the focused tab. Pass `switchOnFocus` to select a tab as soon as it's focused:
 
 ```tsx

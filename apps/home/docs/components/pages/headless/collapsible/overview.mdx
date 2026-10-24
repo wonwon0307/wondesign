@@ -12,8 +12,9 @@ It wires the two together for assistive technology, so you only bring the look.
 - ✅ **Accessible by Default**: The toggle and content are linked for assistive technology
 - ✅ **Keyboard Support**: Toggle the content with Enter or Space, like any button
 - ✅ **Controlled & Uncontrolled**: Let it manage its own state, or drive it yourself
+- ✅ **Disabled Toggle**: Turn off the toggle without removing it
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
-- ✅ **Composable**: Render your own elements with `asChild`
+- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
 
 ---
 
@@ -59,6 +60,16 @@ const [open, setOpen] = useState(false);
 <Collapsible isOpen={open} onOpenChange={setOpen}>…</Collapsible>;
 ```
 
+### Disabling the Toggle
+
+Pass `isDisabled` to the toggle, and it can't open or close the content. It
+stays focusable, like a [Headless Button](/components/headless/button#disabled),
+and the content **stays in whatever state it was in**:
+
+```tsx
+<Collapsible.Toggle isDisabled>Show details</Collapsible.Toggle>
+```
+
 ### Keeping Content Mounted
 
 Closed content is **removed from the page** by default. Pass `keepMounted` to
@@ -82,10 +93,12 @@ pass `role="region"`, and it's labelled by its toggle:
 <Collapsible.Content role="region">…</Collapsible.Content>
 ```
 
+With `asChild`, the content **has no role** unless you pass one.
+
 ### Building Your Own Parts
 
 `useCollapsible` gives any component inside a `Collapsible` its open state and
-a `toggle` function. It throws an error when used outside a `Collapsible`:
+a `toggle` function:
 
 ```tsx
 import { useCollapsible } from "@wondesign/headless/Collapsible";
