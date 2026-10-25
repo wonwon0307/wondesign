@@ -221,7 +221,7 @@ function useOpenState(options?: UseOpenStateOptions): UseOpenStateReturn;
 
 - ⚠️ **Avoid switching modes while mounted**: It works, but the state can jump.
   Going back to uncontrolled picks up the hook's own state from before it was
-  controlled, not the last `controlledOpen`. This usually happens by accident,
+  controlled, **not the last `controlledOpen`**. This usually happens by accident,
   with a value that's sometimes `undefined`:
 
   ```tsx
