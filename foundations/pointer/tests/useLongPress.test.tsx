@@ -8,7 +8,7 @@ const callback = vi.fn();
 function TestComponent({ disabled = false }: { disabled?: boolean }) {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  useLongPress(ref, callback, !disabled, 1000);
+  useLongPress(ref, callback, { enabled: !disabled, threshold: 1000 });
 
   return (
     <div ref={ref} data-testid="inner">

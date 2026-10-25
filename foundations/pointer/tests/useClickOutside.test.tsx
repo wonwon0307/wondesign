@@ -9,7 +9,10 @@ function TestComponent({ disabled = false }: { disabled?: boolean }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const exceptionRef = useRef<HTMLDivElement | null>(null);
 
-  useClickOutside(ref, callback, !disabled, exceptionRef);
+  useClickOutside(ref, callback, {
+    enabled: !disabled,
+    excludeRef: exceptionRef,
+  });
 
   return (
     <div>
