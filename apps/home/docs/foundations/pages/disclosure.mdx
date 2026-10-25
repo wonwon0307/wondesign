@@ -1,0 +1,252 @@
+---
+title: Disclosure
+description: React hooks for the open / closed state of anything that shows and hides — controlled or uncontrolled, behind the same show / hide API.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/disclosure" relPath="foundations/disclosure">
+  `@wondesign/disclosure` handles the open / closed state of anything that shows
+  and hides — menus, panels, tooltips, sidebars. Use it straight in your app, or
+  to build components of your own.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/disclosure
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/disclosure` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Uncontrolled Mode**: The default, easy-to-use mode — the state is kept for you, starting open or closed
+- ✅ **Controlled Mode**: Full control — pass the state in, and decide what happens on every change
+- ✅ **Same API Either Way**: `isOpen`, `show`, `hide` and `toggle` work the same in both modes
+- ✅ **Built-in Toggle**: Open or close with a single call
+- ✅ **Stable Callbacks**: `show` and `hide` are safe to pass down or use in effects
+
+---
+
+## Usage
+
+There are two ways to use `useOpenState`: straight in your app, for one piece
+of UI, or inside a reusable component, so whoever renders it picks the mode.
+
+### In Your App
+
+Call the hook where the open state is needed, for example in a filter panel, a
+menu or a details section. With no options, it keeps the state for you, and
+starts closed.
+
+`show`, `hide` and `toggle` are ready to pass to buttons and child components,
+with no wrappers:
+
+```tsx
+import { useOpenState } from "@wondesign/disclosure";
+
+export function FilterPanel() {
+  const { isOpen, show, hide } = useOpenState();
+
+  return (
+    <>
+      <button onClick={show}>Filters</button>
+      {isOpen && (
+        <div>
+          {/* filters */}
+          <button onClick={hide}>Done</button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+When the state lives somewhere else, for example in a parent, a store or the
+URL, pass it in as `controlledOpen`, with `setControlledOpen` to update it:
+
+```tsx
+import { useOpenState } from "@wondesign/disclosure";
+
+export function FilterPanel() {
+  const { filtersOpen, setFiltersOpen } = useFilterStore();
+  const { isOpen, show, hide } = useOpenState({
+    controlledOpen: filtersOpen,
+    setControlledOpen: setFiltersOpen,
+  });
+
+  // …same as above
+}
+```
+
+The rest of the component stays the same — `isOpen`, `show` and `hide` now
+read from and write to the store.
+
+### Building Reusable Components
+
+For a component used in many places, in your app or in a library, wire the
+hook to the component's own props. The usual trio is `isOpen`, `onOpenChange`
+and `defaultOpen`, the same props
+[WonDesign's Headless components](/components/headless) take, so whoever
+renders the component picks the mode. Read the "How it works" section below for how each mode
+behaves:
+
+```tsx
+import { useOpenState } from "@wondesign/disclosure";
+
+interface DialogProps {
+  children: React.ReactNode;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  defaultOpen?: boolean;
+}
+
+export function Dialog({
+  children,
+  isOpen: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+}: Readonly<DialogProps>) {
+  const { isOpen, show, hide } = useOpenState({
+    controlledOpen,
+    setControlledOpen: onOpenChange,
+    initialState: defaultOpen,
+  });
+
+  return (
+    <>
+      <button onClick={show}>Open</button>
+      {isOpen && (
+        <div role="dialog">
+          {children}
+          <button onClick={hide}>Close</button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+---
+
+## How It Works
+
+`useOpenState` runs in one of two modes, depending on whether `controlledOpen`
+is passed. In a reusable component, that's whether its `isOpen` prop is
+passed.
+
+### Uncontrolled
+
+Uncontrolled is the default mode. To use it, don't pass `controlledOpen`. The
+hook keeps the state itself, and starts closed unless `initialState` is
+`true`:
+
+```tsx
+// starts closed
+const { isOpen, show, hide } = useOpenState();
+
+// starts open
+const { isOpen, show, hide } = useOpenState({ initialState: true });
+```
+
+`setControlledOpen` is **only called in controlled mode**. Passing it without
+`controlledOpen` doesn't report anything — pass both if you need to hear
+about changes.
+
+### Controlled
+
+Pass `controlledOpen`, and the state lives outside the hook. `show`, `hide`
+and `toggle` don't change anything themselves — they call `setControlledOpen`
+with `true` or `false`, and whoever owns the state decides what to do with it.
+A few things to keep in mind:
+
+- 📌 `isOpen` always matches `controlledOpen`.
+- 📌 Passing `controlledOpen` without `setControlledOpen` makes it read-only:
+  **`show`, `hide` and `toggle` do nothing**.
+
+```tsx
+const [open, setOpen] = useState(false);
+
+// the usual setup: the hook asks, the state setter answers
+useOpenState({ controlledOpen: open, setControlledOpen: setOpen });
+
+// read-only: always open, and show / hide / toggle do nothing
+useOpenState({ controlledOpen: true });
+```
+
+---
+
+## API
+
+Every option is optional. Both types are exported from
+`@wondesign/disclosure`, for typing your own wrappers:
+
+```ts
+interface UseOpenStateOptions {
+  // the open state from outside.
+  // anything but `undefined` puts the hook in controlled mode.
+  controlledOpen?: boolean;
+
+  // called with the new state in controlled mode, never in uncontrolled mode.
+  // keep it stable (a state setter or a memoized callback): `show` and `hide`
+  // change whenever it does.
+  setControlledOpen?: (open: boolean) => void;
+
+  // whether to start open in uncontrolled mode. defaults to `false`.
+  // only read on the first render, like `useState`.
+  initialState?: boolean;
+}
+
+interface UseOpenStateReturn {
+  isOpen: boolean;
+  show: () => void;
+  hide: () => void;
+  toggle: () => void;
+}
+
+function useOpenState(options?: UseOpenStateOptions): UseOpenStateReturn;
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Avoid switching modes while mounted**: It works, but the state can jump.
+  Going back to uncontrolled picks up the hook's own state from before it was
+  controlled, not the last `controlledOpen`. This usually happens by accident,
+  with a value that's sometimes `undefined`:
+
+  ```tsx
+  // uncontrolled while `data` loads, then controlled once it arrives
+  useOpenState({ controlledOpen: data?.isOpen, setControlledOpen });
+
+  // controlled from the first render
+  useOpenState({ controlledOpen: data?.isOpen ?? false, setControlledOpen });
+  ```
+
+---
+
+## Upcoming Features
+
+- 🔜 **No Repeat Calls**: `onOpenChange` is only called when the state actually changes
+- 🔜 **Mode-Switch Warning**: A warning in development when a component switches between controlled and uncontrolled
+- 🔜 **onShow / onHide**: Callbacks for when the component opens or closes
+- 🔜 **Delayed Open State**: Open and close after a delay, like a tooltip on hover
+- 🔜 **Exit Animations**: Keep closed content on the page until its closing animation ends
+
+---
+
+## Used By
+
+- 🧩 **Headless components** in `@wondesign/headless` — the open state of
+  components like Collapsible and Tooltip
+- 🧩 **Sidebar** in `@wondesign/sidebar` — its open state, and the toggle's
+  click and shortcut
