@@ -33,7 +33,7 @@ export function TooltipProvider({
     isOpen,
     show: showImmediate,
     hide: hideImmediate,
-  } = useOpenState(controlledOpen, onOpenChange);
+  } = useOpenState({ controlledOpen, setOpenState: onOpenChange });
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const floatingRef = useRef<HTMLDivElement | null>(null);
   const arrowRef = useRef<HTMLDivElement | null>(null);

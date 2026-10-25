@@ -1,4 +1,4 @@
-import { useCallback, useId, useMemo } from "react";
+import { useId, useMemo } from "react";
 import { useOpenState } from "@wondesign/disclosure";
 
 import { CollapsibleContext } from "./contexts";
@@ -18,21 +18,13 @@ export function CollapsibleProvider({
   defaultOpen = false,
   keepMounted = false,
 }: Readonly<CollapsibleProps>) {
-  const { isOpen, show, hide } = useOpenState(
+  const { isOpen, toggle } = useOpenState({
     controlledOpen,
-    onOpenChange,
-    defaultOpen,
-  );
+    setOpenState: onOpenChange,
+    initialState: defaultOpen,
+  });
   const contentId = useId();
   const toggleId = useId();
-
-  const toggle = useCallback(() => {
-    if (isOpen) {
-      hide();
-    } else {
-      show();
-    }
-  }, [isOpen, show, hide]);
 
   const contextValue = useMemo(
     () => ({
