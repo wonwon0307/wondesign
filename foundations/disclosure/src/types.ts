@@ -1,12 +1,12 @@
-export type UseOpenStateOptions = {
+export interface UseOpenStateOptions {
   controlledOpen?: boolean;
   setControlledOpen?: (open: boolean) => void;
   initialState?: boolean;
-};
+}
 
-export type UseOpenStateReturn = {
+export interface UseOpenStateReturn {
   isOpen: boolean;
   show: () => void;
   hide: () => void;
   toggle: () => void;
-};
+}
