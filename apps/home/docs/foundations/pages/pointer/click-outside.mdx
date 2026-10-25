@@ -1,0 +1,121 @@
+# Click Outside
+
+`useClickOutside` calls `callback` when the user clicks or taps outside
+`ref`'s element. It's the usual way to close something, for example a popover,
+menu or tooltip.
+
+---
+
+## Usage
+
+```tsx
+import { useRef, useState } from "react";
+import { useClickOutside } from "@wondesign/pointer/click-outside";
+
+export function Popover() {
+  const [isOpen, setIsOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useClickOutside(contentRef, () => setIsOpen(false), {
+    enabled: isOpen,
+    excludeRef: triggerRef,
+  });
+
+  return (
+    <>
+      <button ref={triggerRef} onClick={() => setIsOpen((open) => !open)}>
+        Menu
+      </button>
+      {isOpen && <div ref={contentRef}>…</div>}
+    </>
+  );
+}
+```
+
+- 📌 Works the same for mouse, touch and pen.
+- 📌 Only a press that both **starts and ends outside counts**. Pressing inside
+  and releasing outside — or the other way around — does nothing.
+- 📌 Presses on `excludeRef`'s element are treated as inside. Pass the trigger
+  here, so clicking it doesn't cause unexpected behaviour, like closing the
+  popup and opening it again right away.
+- 📌 Any mouse button counts, **including a right click** (choosing which
+  buttons count is one of the
+  [upcoming features](/foundations/pointer/overview#upcoming-features)).
+
+---
+
+## API
+
+Import `useClickOutside` and `ClickOutsideOptions` from
+`@wondesign/pointer/click-outside`. `ref` and `callback` are required, while
+`options` and everything in it can be left out. The hook returns nothing — it
+only calls `callback`:
+
+```ts
+interface ClickOutsideOptions {
+  // whether the hook is listening. defaults to `true`.
+  // for example, pass the open state,
+  // so it only listens while there's something to close.
+  enabled?: boolean;
+
+  // another element whose presses are ignored,
+  // like the trigger that opens a popup.
+  excludeRef?: React.RefObject<HTMLElement | null>;
+}
+
+function useClickOutside(
+  // the element to watch.
+  // presses inside it, or inside its children, are ignored.
+  ref: React.RefObject<HTMLElement | null>,
+  // called on a click outside.
+  callback: () => void,
+  options?: ClickOutsideOptions,
+): void;
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Nested portals count as outside**: `useClickOutside` only knows
+  about the page's elements, not React's tree. A dropdown or nested popover
+  rendered through a portal sits outside `ref`'s element, so **pressing it
+  calls `callback`**. For example, a filter popover with a sort dropdown that
+  renders its list through a portal:
+
+  ```tsx
+  import { useRef, useState } from "react";
+  import { createPortal } from "react-dom";
+  import { useClickOutside } from "@wondesign/pointer/click-outside";
+
+  export function FilterPopover({ onClose }: { onClose: () => void }) {
+    const [isSortOpen, setIsSortOpen] = useState(false);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const sortListRef = useRef<HTMLUListElement>(null);
+
+    useClickOutside(contentRef, onClose);
+
+    return (
+      <div ref={contentRef}>
+        <button onClick={() => setIsSortOpen(true)}>Sort by</button>
+        {isSortOpen &&
+          createPortal(
+            <ul ref={sortListRef}>
+              <li onClick={() => setIsSortOpen(false)}>Newest</li>
+            </ul>,
+            document.body,
+          )}
+      </div>
+    );
+  }
+  ```
+
+  In React, the list is inside the popover. On the page, it's rendered at the
+  end of `<body>`, outside `contentRef`'s element. So picking "Newest" is a
+  click outside, and the whole popover closes. Pass the list as `excludeRef`
+  to ignore presses on it:
+
+  ```tsx
+  useClickOutside(contentRef, onClose, { excludeRef: sortListRef });
+  ```

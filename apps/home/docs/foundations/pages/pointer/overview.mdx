@@ -1,0 +1,47 @@
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/pointer" relPath="foundations/pointer">
+  `@wondesign/pointer` handles the pointer interactions that menus, popovers and
+  tooltips rely on, on mouse, touch and pen alike. It takes care of the details
+  that are easy to get wrong, and grows with new interactions over time.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/pointer
+```
+
+<Callout variant="warning" title="Requires React 19.2">
+  `@wondesign/pointer` needs React 19.2 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Clicks Outside**: Run a callback when the user clicks or taps outside an element
+- ✅ **Long Presses**: Run a callback when the user holds a finger on an element
+- ✅ **Forgiving**: Inline callbacks work as they are, dragging out of an element isn't a click outside, and a shaky finger doesn't cancel a long press
+- ✅ **Customizable**: Leave out a trigger, switch either hook off, and set how long and how still a long press must be
+
+---
+
+## Upcoming Features
+
+- 🔜 **Multiple Excluded Elements**: Leave more than one element out of a click outside
+- 🔜 **Portal-Aware Click Outside**: Content rendered through a portal from inside the element counts as inside
+- 🔜 **Choose Which Mouse Buttons Count**: Ignore right or middle clicks for a click outside
+- 🔜 **Long Press for Mouse and Pen**: Let a long press work beyond touch screens
+- 🔜 **Swipe**: Run a callback when the user swipes across an element, such as to close a drawer
+- 🔜 **Hover Without Touch**: Run callbacks on hover, ignoring the fake hover a tap triggers on touch screens (tooltips, hover cards, link previews, hover menus)
+
+---
+
+## Used By
+
+- 🧩 **Headless components** in `@wondesign/headless` — closing on a click
+  outside and opening on a long press, in components like Tooltip
