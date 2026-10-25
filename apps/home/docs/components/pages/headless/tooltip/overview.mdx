@@ -131,7 +131,10 @@ by [Key Events](/foundations/key-events).
 ### Open State
 
 `Tooltip` keeps its own state and starts closed. Pass `isOpen` and
-`onOpenChange` to control it yourself:
+`onOpenChange` to control it yourself. Both modes are powered by
+[Disclosure](/foundations/disclosure#how-it-works), so they behave exactly as
+described there — including that `onOpenChange` is **only called when
+`isOpen` is passed**:
 
 ```tsx
 // uncontrolled, starts closed

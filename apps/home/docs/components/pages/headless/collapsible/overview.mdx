@@ -47,8 +47,9 @@ It wires the two together for assistive technology, so you only bring the look.
 
 `Collapsible` keeps its own state and starts closed. Pass `defaultOpen` to
 start it open, or `isOpen` and `onOpenChange` to control it yourself. Both
-modes are powered by [Disclosure](/foundations/disclosure#usage), so they
-behave exactly as described there.
+modes are powered by [Disclosure](/foundations/disclosure#how-it-works), so they
+behave exactly as described there — including that `onOpenChange` is **only
+called when `isOpen` is passed**.
 
 ```tsx
 // uncontrolled, starts open
