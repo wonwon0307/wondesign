@@ -1,27 +1,17 @@
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, renderHook } from "@testing-library/react";
 
 import { useOpenState } from "@/useOpenState";
+import type { UseOpenStateOptions } from "@/types";
 
-function TestComponent({
-  controlledOpen,
-  setOpenState,
-  initialState,
-}: {
-  controlledOpen?: boolean;
-  setOpenState?: (open: boolean) => void;
-  initialState?: boolean;
-}) {
-  const { isOpen, show, hide } = useOpenState(
-    controlledOpen,
-    setOpenState,
-    initialState,
-  );
+function TestComponent(options: UseOpenStateOptions) {
+  const { isOpen, show, hide, toggle } = useOpenState(options);
 
   return (
     <div>
       <p data-testid="status">{isOpen ? "Open" : "Closed"}</p>
       <button onClick={show}>Show</button>
       <button onClick={hide}>Hide</button>
+      <button onClick={toggle}>Toggle</button>
     </div>
   );
 }
@@ -39,6 +29,12 @@ describe("useOpenState", () => {
 
     fireEvent.click(getByText("Hide"));
     expect(getByTestId("status").textContent).toBe("Closed");
+
+    fireEvent.click(getByText("Toggle"));
+    expect(getByTestId("status").textContent).toBe("Open");
+
+    fireEvent.click(getByText("Toggle"));
+    expect(getByTestId("status").textContent).toBe("Closed");
   });
 
   it("should manage open state in controlled mode", () => {
@@ -54,6 +50,12 @@ describe("useOpenState", () => {
 
     fireEvent.click(getByText("Hide"));
     expect(setOpenState).toHaveBeenCalledWith(false);
+
+    fireEvent.click(getByText("Toggle"));
+    expect(setOpenState).toHaveBeenCalledWith(true);
+
+    fireEvent.click(getByText("Toggle"));
+    expect(setOpenState).toHaveBeenCalledWith(false);
   });
 
   it("should not change state in controlled mode without setOpenState", () => {
@@ -68,6 +70,24 @@ describe("useOpenState", () => {
 
     fireEvent.click(getByText("Hide"));
     expect(getByTestId("status").textContent).toBe("Closed");
+
+    fireEvent.click(getByText("Toggle"));
+    expect(getByTestId("status").textContent).toBe("Closed");
+  });
+
+  it("should not call setOpenState in uncontrolled mode", () => {
+    const setOpenState = vi.fn();
+    const { getByTestId, getByText } = render(
+      <TestComponent setOpenState={setOpenState} />,
+    );
+
+    fireEvent.click(getByText("Show"));
+    expect(getByTestId("status").textContent).toBe("Open");
+
+    fireEvent.click(getByText("Hide"));
+    expect(getByTestId("status").textContent).toBe("Closed");
+
+    expect(setOpenState).not.toHaveBeenCalled();
   });
 
   it("should initialize with the correct initial state", () => {
@@ -84,5 +104,34 @@ describe("useOpenState", () => {
 
     fireEvent.click(getByText("Hide"));
     expect(getByTestId("status").textContent).toBe("Open");
+  });
+
+  describe("callback stability", () => {
+    it("should keep show and hide stable across renders", () => {
+      const setOpenState = vi.fn();
+      const { result, rerender } = renderHook(
+        (props: UseOpenStateOptions) => useOpenState(props),
+        { initialProps: { controlledOpen: false, setOpenState } },
+      );
+      const { show, hide } = result.current;
+
+      rerender({ controlledOpen: true, setOpenState });
+
+      expect(result.current.show).toBe(show);
+      expect(result.current.hide).toBe(hide);
+    });
+
+    it("should change show and hide when setOpenState changes", () => {
+      const { result, rerender } = renderHook(
+        (props: UseOpenStateOptions) => useOpenState(props),
+        { initialProps: { controlledOpen: false, setOpenState: vi.fn() } },
+      );
+      const { show, hide } = result.current;
+
+      rerender({ controlledOpen: false, setOpenState: vi.fn() });
+
+      expect(result.current.show).not.toBe(show);
+      expect(result.current.hide).not.toBe(hide);
+    });
   });
 });
