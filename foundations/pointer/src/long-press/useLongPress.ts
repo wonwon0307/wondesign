@@ -1,20 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useEffectEvent, useRef } from "react";
 
-/**
- * 주어진 ref 요소를 길게 터치하면 callback이 호출되는 훅.
- *  - enabled가 false인 경우, 길게 터치해도 callback이 호출되지 않음.
- * @param ref 길게 터치할 요소의 ref
- * @param callback 길게 터치했을 때 호출되는 콜백 함수
- * @param enabled 길게 터치 기능 활성화 여부 (기본값: true)
- * @param threshold 길게 터치로 간주되는 시간 (기본값: 500ms)
- */
+export interface LongPressOptions {
+  enabled?: boolean;
+  threshold?: number;
+}
+
 export function useLongPress(
   ref: React.RefObject<HTMLElement | null>,
   callback: () => void,
-  enabled = true,
-  threshold = 500,
+  { enabled = true, threshold = 500 }: LongPressOptions = {},
 ) {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const onLongPress = useEffectEvent(callback);
 
   useEffect(() => {
     const element = ref.current;
@@ -28,9 +25,7 @@ export function useLongPress(
     };
 
     const onTouchStart = () => {
-      timerRef.current = setTimeout(() => {
-        callback();
-      }, threshold);
+      timerRef.current = setTimeout(onLongPress, threshold);
     };
 
     element.addEventListener("touchstart", onTouchStart);
@@ -45,5 +40,5 @@ export function useLongPress(
       element.removeEventListener("touchmove", clear);
       element.removeEventListener("touchcancel", clear);
     };
-  }, [ref, callback, enabled, threshold]);
+  }, [ref, enabled, threshold]);
 }
