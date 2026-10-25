@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useMemo, useRef } from "react";
+import { useEffect, useId, useMemo, useRef } from "react";
 import { useOpenState } from "@wondesign/disclosure";
 import {
   useShortkey,
@@ -32,22 +32,14 @@ export function SidebarProvider({
   shortkey = null,
 }: Readonly<SidebarProps>) {
   const isMobile = useIsMobile(isMobileOverride, mobileBreakpoint);
-  const { isOpen, show, hide } = useOpenState(
+  const { isOpen, show, hide, toggle } = useOpenState({
     controlledOpen,
-    onOpenChange,
-    defaultOpen,
-  );
+    setControlledOpen: onOpenChange,
+    initialState: defaultOpen,
+  });
   const contentId = useId();
 
-  const toggleSidebar = useCallback(() => {
-    if (isOpen) {
-      hide();
-    } else {
-      show();
-    }
-  }, [isOpen, show, hide]);
-
-  const result = useShortkey(shortkey, toggleSidebar, collapse !== "disable");
+  const result = useShortkey(shortkey, toggle, collapse !== "disable");
 
   const finalState: "closed" | "collapsed" | "expanded" = useMemo(() => {
     if (isMobile) {
@@ -77,23 +69,14 @@ export function SidebarProvider({
     () => ({
       collapse,
       state: finalState,
-      toggleSidebar,
+      toggle,
       isMobile,
       side,
       shortkey,
       ariaKeyshortcuts: result?.ariaKeyshortcuts ?? undefined,
       contentId,
     }),
-    [
-      collapse,
-      finalState,
-      toggleSidebar,
-      isMobile,
-      side,
-      shortkey,
-      result,
-      contentId,
-    ],
+    [collapse, finalState, toggle, isMobile, side, shortkey, result, contentId],
   );
 
   return (

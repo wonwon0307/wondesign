@@ -11,7 +11,7 @@ export function HeadlessToggle({
   const {
     collapse,
     state,
-    toggleSidebar,
+    toggle,
     side,
     isMobile,
     contentId,
@@ -21,7 +21,7 @@ export function HeadlessToggle({
   return (
     <Button
       {...rest}
-      onClick={toggleSidebar}
+      onClick={toggle}
       isDisabled={collapse === "disable" && !isMobile}
       aria-controls={contentId}
       aria-expanded={state !== "closed"}

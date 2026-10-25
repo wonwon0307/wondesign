@@ -5,7 +5,7 @@ type SidebarContextValue = {
   // states
   collapse: "hide" | "icons" | "disable";
   state: "closed" | "collapsed" | "expanded";
-  toggleSidebar: () => void;
+  toggle: () => void;
   isMobile: boolean;
   // implementation details
   side: "left" | "right";
@@ -29,8 +29,8 @@ export function useSidebarInternal() {
 }
 
 export function useSidebar() {
-  const { collapse, state, toggleSidebar, isMobile, side, shortkey } =
+  const { collapse, state, toggle, isMobile, side, shortkey } =
     useSidebarInternal();
 
-  return { collapse, state, toggleSidebar, isMobile, side, shortkey };
+  return { collapse, state, toggle, isMobile, side, shortkey };
 }

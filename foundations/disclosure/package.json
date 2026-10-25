@@ -2,7 +2,7 @@
   "name": "@wondesign/disclosure",
   "description": "WonDesign - Disclosure Utilities",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "type": "module",
   "keywords": [
     "design",
@@ -14,6 +14,21 @@
     "react",
     "typescript"
   ],
+  "author": "WonWon",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wonwon0307/wondesign.git",
+    "directory": "foundations/disclosure"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
@@ -27,7 +42,6 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "react": "^19",
-    "react-dom": "^19"
+    "react": "^19"
   }
 }
