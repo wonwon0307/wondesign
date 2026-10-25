@@ -5,11 +5,20 @@ import { useClickOutside } from "@/click-outside/useClickOutside";
 
 const callback = vi.fn();
 
-function TestComponent({ disabled = false }: { disabled?: boolean }) {
+function TestComponent({
+  disabled = false,
+  onClickOutside = callback,
+}: {
+  disabled?: boolean;
+  onClickOutside?: () => void;
+}) {
   const ref = useRef<HTMLDivElement | null>(null);
   const exceptionRef = useRef<HTMLDivElement | null>(null);
 
-  useClickOutside(ref, callback, !disabled, exceptionRef);
+  useClickOutside(ref, onClickOutside, {
+    enabled: !disabled,
+    excludeRef: exceptionRef,
+  });
 
   return (
     <div>
@@ -59,5 +68,47 @@ describe("useClickOutside", () => {
     fireEvent.pointerDown(outsideElement);
     fireEvent.pointerUp(outsideElement);
     expect(callback).not.toHaveBeenCalled();
+  });
+
+  it("should handle pressing and releasing on different elements", () => {
+    const { getByTestId } = render(<TestComponent />);
+
+    // none should trigger the callback
+    fireEvent.pointerDown(getByTestId("inner"));
+    fireEvent.pointerUp(getByTestId("outside"));
+    expect(callback).not.toHaveBeenCalled();
+
+    fireEvent.pointerDown(getByTestId("outside"));
+    fireEvent.pointerUp(getByTestId("inner"));
+    expect(callback).not.toHaveBeenCalled();
+
+    fireEvent.pointerDown(getByTestId("outside"));
+    fireEvent.pointerUp(getByTestId("exception"));
+    expect(callback).not.toHaveBeenCalled();
+  });
+
+  it("should stop listening after unmount", () => {
+    const { unmount } = render(<TestComponent />);
+
+    unmount();
+
+    fireEvent.pointerDown(document.body);
+    fireEvent.pointerUp(document.body);
+    expect(callback).not.toHaveBeenCalled();
+  });
+
+  it("should call the latest callback", () => {
+    const first = vi.fn();
+    const second = vi.fn();
+    const { getByTestId, rerender } = render(
+      <TestComponent onClickOutside={first} />,
+    );
+
+    rerender(<TestComponent onClickOutside={second} />);
+
+    fireEvent.pointerDown(getByTestId("outside"));
+    fireEvent.pointerUp(getByTestId("outside"));
+    expect(first).not.toHaveBeenCalled();
+    expect(second).toHaveBeenCalledTimes(1);
   });
 });

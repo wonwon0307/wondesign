@@ -19,7 +19,7 @@ export function DocumentTabs({ tabs }: Readonly<Props>) {
     if (tabName === "api") return "API";
     if (tabName === "css-variables") return "CSS Variables";
 
-    return capitalize(tabName);
+    return capitalize(tabName.replaceAll("-", " "));
   };
 
   return (

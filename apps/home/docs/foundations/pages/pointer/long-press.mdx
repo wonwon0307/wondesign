@@ -1,0 +1,111 @@
+# Long Press
+
+`useLongPress` calls `callback` when the user holds a finger on `ref`'s
+element. It's a touch stand-in for hover, for example to show a tooltip.
+
+---
+
+## Usage
+
+```tsx
+import { useRef, useState } from "react";
+import { useLongPress } from "@wondesign/pointer/long-press";
+
+export function HintButton() {
+  const [showHint, setShowHint] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useLongPress(buttonRef, () => setShowHint(true), { enabled: !showHint });
+
+  return <button ref={buttonRef}>?</button>;
+}
+```
+
+- 📌 **Touch only** — holding down a mouse button or pen does nothing.
+- 📌 `callback` fires once the finger has been down for `threshold`, while
+  it's still down — not when it's lifted.
+- 📌 Lifting the finger before `threshold`, or moving it further than
+  `moveTolerance`, cancels the press. A slightly shaky finger stays within
+  `moveTolerance`, so it doesn't.
+- 📌 The press is also cancelled when the browser interrupts the touch, for
+  example when it starts scrolling the page.
+- 📌 A second finger cancels the press, so pinch-zooming on the element never
+  fires it.
+
+---
+
+## API
+
+Import `useLongPress` and `LongPressOptions` from
+`@wondesign/pointer/long-press`. `ref` and `callback` are required, while
+`options` and everything in it can be left out. The hook returns nothing — it
+only calls `callback`:
+
+```ts
+interface LongPressOptions {
+  // whether the hook is listening. defaults to `true`.
+  // for example, pass `!isOpen`,
+  // so it only listens while there's something to open.
+  enabled?: boolean;
+
+  // how long, in milliseconds, the finger must stay down.
+  // defaults to `500`.
+  threshold?: number;
+
+  // how far, in pixels, the finger can move
+  // before the press is cancelled. defaults to `10`.
+  moveTolerance?: number;
+}
+
+function useLongPress(
+  // the element to press.
+  ref: React.RefObject<HTMLElement | null>,
+  // called on a long press.
+  callback: () => void,
+  options?: LongPressOptions,
+): void;
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Render the element before enabling the hook**: The element must be on
+  the page when the hook turns on. One that appears later, while `enabled`
+  stays the same, **isn't picked up**:
+
+  ```tsx
+  // the button only renders once `isReady` is true.
+  // the hook turned on before that, so it never sees the button
+  useLongPress(buttonRef, showHint);
+
+  return isReady ? <button ref={buttonRef}>?</button> : null;
+  ```
+
+  Turn the hook on together with the element, so it starts listening once the
+  element is there:
+
+  ```tsx
+  useLongPress(buttonRef, showHint, { enabled: isReady });
+  ```
+
+- ⚠️ **The browser's own long press still happens**: `useLongPress` doesn't
+  block text selection, or the menu some devices open on a long press. Turn
+  them off on the element if they get in the way:
+
+  ```tsx
+  <button
+    ref={buttonRef}
+    style={{
+      // stops a long press from selecting text
+      userSelect: "none",
+      WebkitUserSelect: "none",
+      // stops iOS from showing its callout menu
+      WebkitTouchCallout: "none",
+    }}
+    // stops the context menu some Android devices open
+    onContextMenu={(event) => event.preventDefault()}
+  >
+    ?
+  </button>
+  ```

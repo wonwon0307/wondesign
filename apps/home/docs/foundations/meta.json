@@ -35,7 +35,7 @@
     {
       "type": "group",
       "label": "Interactions",
-      "items": ["[Disclosure](/disclosure)"]
+      "items": ["[Disclosure](/disclosure)", "[Pointer](/pointer)"]
     },
     {
       "type": "group",

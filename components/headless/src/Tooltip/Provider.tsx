@@ -40,9 +40,12 @@ export function TooltipProvider({
   const timer = useRef<NodeJS.Timeout | null>(null);
   const tooltipId = useId();
 
-  useClickOutside(floatingRef, hideImmediate, isOpen, triggerRef);
+  useClickOutside(floatingRef, hideImmediate, {
+    enabled: isOpen,
+    excludeRef: triggerRef,
+  });
   // 롱터치는 터치 자체에 delay가 있기 때문에, show에 delay를 주지 않는다.
-  useLongPress(triggerRef, showImmediate, !isOpen);
+  useLongPress(triggerRef, showImmediate, { enabled: !isOpen });
   useEscapeKey(hideImmediate, isOpen);
   const { content, arrow } = useFloatingPosition(
     triggerRef,
