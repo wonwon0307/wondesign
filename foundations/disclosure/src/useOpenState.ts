@@ -4,9 +4,9 @@ import type { UseOpenStateOptions, UseOpenStateReturn } from "./types";
 
 export function useOpenState({
   controlledOpen,
-  setOpenState,
+  setControlledOpen,
   initialState = false,
-}: UseOpenStateOptions): UseOpenStateReturn {
+}: UseOpenStateOptions = {}): UseOpenStateReturn {
   const [internalOpen, setInternalOpen] = useState<boolean>(initialState);
 
   const isControlled = controlledOpen !== undefined;
@@ -14,19 +14,19 @@ export function useOpenState({
 
   const show = useCallback(() => {
     if (isControlled) {
-      setOpenState?.(true);
+      setControlledOpen?.(true);
     } else {
       setInternalOpen(true);
     }
-  }, [isControlled, setOpenState]);
+  }, [isControlled, setControlledOpen]);
 
   const hide = useCallback(() => {
     if (isControlled) {
-      setOpenState?.(false);
+      setControlledOpen?.(false);
     } else {
       setInternalOpen(false);
     }
-  }, [isControlled, setOpenState]);
+  }, [isControlled, setControlledOpen]);
 
   const toggle = useCallback(() => {
     if (isOpen) {

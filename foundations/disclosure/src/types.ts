@@ -1,6 +1,6 @@
 export type UseOpenStateOptions = {
   controlledOpen?: boolean;
-  setOpenState?: (open: boolean) => void;
+  setControlledOpen?: (open: boolean) => void;
   initialState?: boolean;
 };
 

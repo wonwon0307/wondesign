@@ -34,7 +34,7 @@ export function SidebarProvider({
   const isMobile = useIsMobile(isMobileOverride, mobileBreakpoint);
   const { isOpen, show, hide, toggle } = useOpenState({
     controlledOpen,
-    setOpenState: onOpenChange,
+    setControlledOpen: onOpenChange,
     initialState: defaultOpen,
   });
   const contentId = useId();

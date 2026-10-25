@@ -20,7 +20,7 @@ export function CollapsibleProvider({
 }: Readonly<CollapsibleProps>) {
   const { isOpen, toggle } = useOpenState({
     controlledOpen,
-    setOpenState: onOpenChange,
+    setControlledOpen: onOpenChange,
     initialState: defaultOpen,
   });
   const contentId = useId();
