@@ -14,14 +14,12 @@ wrap the element you want rendered instead.
 ### Changing the Element
 
 Use `asChild` when the default element isn't the right one for the job, for example a
-`<section>` instead of a `<div>`, an `<ol>` instead of a `<ul>`:
+`<section>` instead of a `<div>`:
 
 ```tsx
-<Navbar aria-label="Steps">
-  <Navbar.List asChild>
-    <ol>…</ol>
-  </Navbar.List>
-</Navbar>
+<Tabs.Panel tabName="account" asChild>
+  <section>…</section>
+</Tabs.Panel>
 ```
 
 ### Adding Behaviour to Your Components
