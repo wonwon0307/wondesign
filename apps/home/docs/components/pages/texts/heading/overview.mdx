@@ -41,8 +41,9 @@ import { Heading, type HeadingProps } from "@wondesign/texts/Heading";
 
 ### Props
 
-Accepts all props of `<h1>`–`<h6>`. Your `ref` reaches the rendered heading
-element. Key props:
+Accepts all props of `<h1>`–`<h6>`, plus its own `level`, `as` and
+`maxNumLines`. Your `ref` reaches the rendered heading element. Together, the
+key props are:
 
 ```ts
 interface HeadingProps {
