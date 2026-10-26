@@ -1,4 +1,5 @@
 import { render } from "@testing-library/react";
+import { headers } from "next/headers";
 
 import { RootLayout } from "@/app/RootLayout";
 import { NotFound } from "@/pages/not-found";
@@ -29,6 +30,18 @@ describe("RootLayout", () => {
 
     expect(style?.getAttribute("nonce")).toBe("test-nonce");
     expect(script?.getAttribute("nonce")).toBe("test-nonce");
+  });
+
+  it("omits the nonce when the request has no x-nonce header", async () => {
+    vi.mocked(headers).mockResolvedValueOnce(new Headers());
+
+    render(await RootLayout({ children: <div>Main Content</div> }));
+
+    const style = document.head.querySelector("style");
+    const script = document.head.querySelector("script");
+
+    expect(style?.hasAttribute("nonce")).toBe(false);
+    expect(script?.hasAttribute("nonce")).toBe(false);
   });
 });
 
