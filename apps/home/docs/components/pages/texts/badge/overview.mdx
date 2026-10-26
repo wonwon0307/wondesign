@@ -1,0 +1,70 @@
+import { Badge } from "@wondesign/ui/Texts";
+import { Preview } from "@/widgets/preview";
+
+# Badge
+
+`Badge` renders a short label in a colored pill, like a status, a category or
+a count. Pick a `color`, and the background follows it.
+
+---
+
+## Key Features
+
+- ✅ **Any Color**: Pass any CSS color or token, and the background is tinted to match
+- ✅ **Three Sizes**: Small, medium and large, to match the text next to it
+- ✅ **Inline**: Sits in a line of text, a table cell or next to a title
+- ✅ **Left and Right Slots**: Add an icon, a dot or a count on either side of the label
+
+<Preview>
+  <Badge label="Active" color="var(--color-success)" />
+</Preview>
+
+```tsx
+import { Badge } from "@wondesign/texts/Badge";
+
+<Badge label="Active" color="var(--color-success)" />;
+```
+
+See [Examples](/components/texts/badge/examples) for colors, sizes, left and
+right content, and styling.
+
+---
+
+## API
+
+Import `Badge` and its props type from `@wondesign/texts/Badge`:
+
+```ts
+import { Badge, type BadgeProps } from "@wondesign/texts/Badge";
+```
+
+### Props
+
+Accepts all props of `<span>`, except `children`. **Pass the text as
+`label`; `children` are ignored.** Key props:
+
+```ts
+interface BadgeProps {
+  // the text inside the badge.
+  label: string;
+
+  // the text color. any CSS color, or a token like `tokens.colors.success`.
+  // defaults to `"gray"`.
+  color?: string;
+
+  // the background color.
+  // defaults to the `color` at 25% opacity.
+  backgroundColor?: string;
+
+  // the font size and padding. defaults to `"medium"`.
+  size?: "small" | "medium" | "large";
+
+  // content before the label, like an icon or a dot.
+  left?: React.ReactNode;
+
+  // content after the label, like a count.
+  right?: React.ReactNode;
+
+  // ...
+}
+```

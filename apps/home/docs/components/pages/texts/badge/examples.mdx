@@ -1,0 +1,222 @@
+import { Pressable } from "@wondesign/ui/Buttons";
+import { Badge } from "@wondesign/ui/Texts";
+import { colorWithFade } from "@wondesign/ui/tokens";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `Badge`, from picking a color to fitting it into your own
+design. Each example shows the rendered result, followed by its code.
+
+---
+
+## Colors
+
+The `color` property sets the text color, and the background is the same
+color at 25% opacity, using the
+[`colorWithOpacity`](/foundations/tokens/utilities/colors#colorwithopacity)
+utility from `@wondesign/tokens`. It takes any CSS color, including a token,
+and it's `"gray"` by default:
+
+<Preview orientation="horizontal">
+  <Badge label="Draft" />
+  <Badge label="Active" color="var(--color-success)" />
+  <Badge label="Pending" color="var(--color-warning)" />
+  <Badge label="Failed" color="var(--color-error)" />
+  <Badge label="Design" color="purple" />
+</Preview>
+
+```tsx
+import { tokens } from "@wondesign/tokens";
+
+// gray, the default
+<Badge label="Draft" />
+
+<Badge label="Active" color={tokens.colors.success} />
+<Badge label="Pending" color={tokens.colors.warning} />
+<Badge label="Failed" color={tokens.colors.error} />
+<Badge label="Design" color="purple" />
+```
+
+Pass `backgroundColor` to set the background yourself, like a solid color, or
+a solid tint of the text color made with the
+[`colorWithFade`](/foundations/tokens/utilities/colors#colorwithfade)
+utility. Unlike the default, a tint doesn't let the surface behind show
+through:
+
+<Preview orientation="horizontal">
+  <Badge label="New" color="white" backgroundColor="var(--color-primary)" />
+  <Badge
+    label="Active"
+    color="var(--color-success)"
+    backgroundColor={colorWithFade("var(--color-success)", 0.15)}
+  />
+</Preview>
+
+```tsx
+import { colorWithFade, tokens } from "@wondesign/tokens";
+
+// a solid color
+<Badge label="New" color="white" backgroundColor={tokens.colors.primary} />
+
+// a solid tint of the text color
+<Badge
+  label="Active"
+  color={tokens.colors.success}
+  backgroundColor={colorWithFade(tokens.colors.success, 0.15)}
+/>
+```
+
+- 📌 The default background is translucent, so **the surface behind a badge
+  shows through it**. Pass a solid `backgroundColor` for badges on colored
+  surfaces.
+
+---
+
+## Sizes
+
+The `size` property sets the font size and the padding together. It's
+`"medium"` by default:
+
+<Preview orientation="horizontal">
+  <Badge label="Large" size="large" />
+  <Badge label="Medium" size="medium" />
+  <Badge label="Small" size="small" />
+</Preview>
+
+```tsx
+<Badge label="Large" size="large" />
+<Badge label="Medium" size="medium" />
+<Badge label="Small" size="small" />
+```
+
+- 📌 Match the badge to the text next to it, like a small badge next to small
+  text in a table cell, or a large badge next to a heading.
+
+---
+
+## Left and Right
+
+Pass `left` or `right` to add content on either side of the label, like an
+icon, a dot or a count:
+
+<Preview orientation="horizontal">
+  <Badge label="Online" color="var(--color-success)" left={<span>●</span>} />
+  <Badge label="Inbox" right={<span>12</span>} />
+</Preview>
+
+```tsx
+<Badge
+  label="Online"
+  color={tokens.colors.success}
+  left={<span>●</span>}
+/>
+
+<Badge label="Inbox" right={<span>12</span>} />
+```
+
+---
+
+## Advanced Usage
+
+### With Button
+
+**A badge isn't interactive on its own.** Wrap it in a button to make it
+clickable, like a filter that's gray by default and takes a color while it's
+active:
+
+<Preview orientation="horizontal">
+  <Pressable aria-pressed={false}>
+    <Badge label="Design" />
+  </Pressable>
+  <Pressable aria-pressed={true}>
+    <Badge label="Engineering" color="var(--color-primary)" />
+  </Pressable>
+</Preview>
+
+```tsx
+import { Pressable } from "@wondesign/buttons/Pressable";
+
+function FilterBadge({ label }: { label: string }) {
+  const [active, setActive] = useState(false);
+
+  return (
+    <Pressable aria-pressed={active} onClick={() => setActive(!active)}>
+      <Badge label={label} color={active ? tokens.colors.primary : undefined} />
+    </Pressable>
+  );
+}
+```
+
+- 📌 Put the state on the button with `aria-pressed`, so screen readers know
+  whether the filter is on, not only the color.
+
+### Removable Tag
+
+Put a button in `right` to make a tag that can be removed, like a selected
+filter:
+
+<Preview orientation="horizontal">
+  <Badge
+    label="Design"
+    color="var(--color-primary)"
+    right={<Pressable aria-label="Remove Design">×</Pressable>}
+  />
+  <Badge
+    label="Engineering"
+    color="var(--color-primary)"
+    right={<Pressable aria-label="Remove Engineering">×</Pressable>}
+  />
+</Preview>
+
+```tsx
+import { Pressable } from "@wondesign/buttons/Pressable";
+
+function Tag({ label, onRemove }: { label: string; onRemove: () => void }) {
+  return (
+    <Badge
+      label={label}
+      color={tokens.colors.primary}
+      right={
+        <Pressable aria-label={`Remove ${label}`} onClick={onRemove}>
+          ×
+        </Pressable>
+      }
+    />
+  );
+}
+```
+
+- 📌 **Give the button its own label**, like "Remove Design". Without one,
+  screen readers only read "×", with no hint of what it removes.
+
+---
+
+## Styling
+
+When a badge needs to look different, change it with `className` or `style`,
+like a fully rounded pill:
+
+<Preview>
+  <Badge
+    label="Beta"
+    color="var(--color-primary)"
+    style={{ borderRadius: "999px" }}
+  />
+</Preview>
+
+```tsx
+<Badge label="Beta" color={tokens.colors.primary} style={{ borderRadius: "999px" }} />
+
+<Badge label="Beta" color={tokens.colors.primary} className="pill" />
+```
+
+```css
+.pill {
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+```
+
+- 📌 **`color` and `backgroundColor` in `style` are ignored.** The `color` and
+  `backgroundColor` props always win, so set the colors with them.
