@@ -9,7 +9,7 @@ export function Description({
   ref,
   size = "medium",
   tone = "default",
-  wrap,
+  wrap = "pretty",
   maxNumLines = 0,
   fullWidth = false,
   className,

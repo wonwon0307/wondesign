@@ -1,0 +1,94 @@
+import { Description, Heading } from "@wondesign/ui/Texts";
+import { Preview } from "@/widgets/preview";
+
+# Description
+
+`Description` renders supporting text, like a summary of the whole page right
+below its `Heading`, a field hint, a caption or a metadata value. Pick a
+`size` and a `tone` to fit where it's used.
+
+---
+
+## Key Features
+
+- ✅ **Three Sizes**: Small, medium and large, on the type scale
+- ✅ **Tones**: Muted, danger and success colors, besides the default
+- ✅ **Readable Line Length**: Lines stop at a comfortable width by default, or fill their container
+- ✅ **Fitting Element**: Renders a `<p>`, `<span>`, `<div>`, `<figcaption>` or `<dd>`
+- ✅ **Line Clamping**: Cut long text off after as many lines as you like
+- ✅ **Ref Forwarding**: Your `ref` reaches the rendered element
+
+<Preview>
+  <Heading level={2}>Billing</Heading>
+  <Description tone="muted">
+    {"Manage your plan, payment methods and invoices."}
+  </Description>
+</Preview>
+
+```tsx
+import { Description } from "@wondesign/texts/Description";
+import { Heading } from "@wondesign/texts/Heading";
+
+<Heading level={2}>Billing</Heading>
+<Description tone="muted">
+  Manage your plan, payment methods and invoices.
+</Description>
+```
+
+See [Examples](/components/texts/description/examples) for sizes, tones,
+elements, line length, wrapping, line clamping and styling.
+
+---
+
+## API
+
+Import `Description` and its props type from `@wondesign/texts/Description`:
+
+```ts
+import {
+  Description,
+  type DescriptionProps,
+} from "@wondesign/texts/Description";
+```
+
+### Props
+
+Accepts all props of the rendered element. Your `ref` reaches it. Key props:
+
+```ts
+interface DescriptionProps {
+  children: React.ReactNode;
+
+  // the element to render. defaults to `"p"`.
+  as?: "p" | "span" | "div" | "figcaption" | "dd";
+
+  // the font size. defaults to `"medium"`.
+  size?: "small" | "medium" | "large";
+
+  // the text color. defaults to `"default"`.
+  tone?: "default" | "muted" | "danger" | "success";
+
+  // how the lines wrap. defaults to `"pretty"`.
+  wrap?: "balance" | "pretty";
+
+  // how many lines to show before cutting the text off with an ellipsis.
+  // `0` shows every line. defaults to `0`.
+  maxNumLines?: number;
+
+  // lets the lines fill the container, instead of stopping at a readable width.
+  // defaults to `false`.
+  fullWidth?: boolean;
+
+  ref?: React.Ref<HTMLElement>;
+
+  // ...
+}
+```
+
+---
+
+## Upcoming Features
+
+- 🔜 **Field Hints**: Link a description to a form field, so screen readers read it with the field
+- 🔜 **Tone Announcements**: Let screen readers tell a danger or success description apart from the default
+- 🔜 **Line Length Presets**: Cap a description at a narrow, default or wide line length, for easier reading

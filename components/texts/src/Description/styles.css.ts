@@ -10,7 +10,7 @@ const description = recipe({
   },
   variants: {
     size: {
-      small: { fontSize: tokens.typography.fontSize.bodyLarge },
+      small: { fontSize: tokens.typography.fontSize.bodySmall },
       medium: { fontSize: tokens.typography.fontSize.bodyMedium },
       large: { fontSize: tokens.typography.fontSize.bodyLarge },
     },

@@ -10,6 +10,8 @@ export interface BadgeProps extends Omit<
   label: string;
   color?: string;
   backgroundColor?: string;
+  size?: "small" | "medium" | "large";
+  bold?: boolean;
   left?: React.ReactNode;
   right?: React.ReactNode;
 }
@@ -17,7 +19,9 @@ export interface BadgeProps extends Omit<
 export function Badge({
   label,
   color = "gray",
-  backgroundColor = colorWithOpacity(color, 0.25),
+  backgroundColor = colorWithOpacity(color, 0.18),
+  size = "medium",
+  bold = false,
   left,
   right,
   className,
@@ -27,7 +31,7 @@ export function Badge({
   return (
     <span
       {...rest}
-      className={clsx(styles.badge, className)}
+      className={clsx(styles.badge({ size, bold }), className)}
       style={{ ...style, backgroundColor, color }}
     >
       {left}

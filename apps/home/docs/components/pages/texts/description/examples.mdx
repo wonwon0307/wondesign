@@ -1,0 +1,298 @@
+import { Description, Heading } from "@wondesign/ui/Texts";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `Description`, from picking a size and a tone to fitting it
+into your own design. Each example shows the rendered result, followed by its
+code.
+
+---
+
+## Sizes
+
+The `size` property sets the font size. It's `"medium"` by default:
+
+<Preview>
+  <Description size="large">
+    {"Large, for a summary right below a page title."}
+  </Description>
+  <Description size="medium">
+    {"Medium, for field hints and summaries."}
+  </Description>
+  <Description size="small">{"Small, for captions and metadata."}</Description>
+</Preview>
+
+```tsx
+<Description size="large">
+  Large, for a summary right below a page title.
+</Description>
+<Description size="medium">Medium, for field hints and summaries.</Description>
+<Description size="small">Small, for captions and metadata.</Description>
+```
+
+---
+
+## Tones
+
+The `tone` property sets the color. It's `"default"` by default.
+
+### Default
+
+The same color as body text, for a description that's read like any other
+text, like a page summary:
+
+<Preview>
+  <Heading level={2}>Billing</Heading>
+  <Description>{"Manage your plan, payment methods and invoices."}</Description>
+</Preview>
+
+```tsx
+<Heading level={2}>Billing</Heading>
+<Description>Manage your plan, payment methods and invoices.</Description>
+```
+
+### Muted
+
+A lighter color, for text that should step back, like metadata:
+
+<Preview>
+  <Heading level={3}>Quarterly Report</Heading>
+  <Description size="small" tone="muted">
+    {"Last edited 3 days ago by Alex"}
+  </Description>
+</Preview>
+
+```tsx
+<Heading level={3}>Quarterly Report</Heading>
+<Description size="small" tone="muted">
+  Last edited 3 days ago by Alex
+</Description>
+```
+
+### Danger
+
+The error color, for something that went wrong, like an invalid password:
+
+<Preview>
+  <input type="password" defaultValue="hunter2" />
+  <Description size="small" tone="danger">
+    {"Password must be at least 12 characters."}
+  </Description>
+</Preview>
+
+```tsx
+<input type="password" />
+<Description size="small" tone="danger">
+  Password must be at least 12 characters.
+</Description>
+```
+
+### Success
+
+The success color, for something that went right, like an available username:
+
+<Preview>
+  <input type="text" defaultValue="wondesign" />
+  <Description size="small" tone="success">
+    {"Username is available."}
+  </Description>
+</Preview>
+
+```tsx
+<input type="text" />
+<Description size="small" tone="success">
+  Username is available.
+</Description>
+```
+
+---
+
+## Elements
+
+Pass `as` to render the element that fits where it's used. Options are:
+
+- **`"p"`**: a block of text on its own, like a page summary
+- **`"span"`**: text inside another element, like a line of a button or a
+  list item
+- **`"div"`**: text that holds other block elements
+- **`"figcaption"`**: a caption inside a `<figure>`
+- **`"dd"`**: a value inside a `<dl>`, after its `<dt>`
+
+```tsx
+<figure>
+  <img src="/chart.png" alt="Monthly revenue" />
+  <Description as="figcaption" size="small" tone="muted">
+    Revenue for the last 12 months.
+  </Description>
+</figure>
+
+<dl>
+  <dt>Status</dt>
+  <Description as="dd">Active</Description>
+</dl>
+```
+
+---
+
+## Line Length
+
+A description starts a new line once a line reaches `60ch`, about 60
+characters, **even when its container is wider**. Pass `fullWidth` to turn this
+off, so lines run the full width of the container:
+
+<Preview>
+  <Description>
+    {
+      "A description that starts a new line at about 60 characters, so each line stays easy to follow, even when its container is much wider than that."
+    }
+  </Description>
+  <Description fullWidth>
+    {
+      "A description with fullWidth, so each line runs the full width of its container, however wide that is, before it starts a new one."
+    }
+  </Description>
+</Preview>
+
+```tsx
+// starts a new line at 60ch, the default
+<Description>A long description…</Description>
+
+// runs the full width of the container
+<Description fullWidth>A long description…</Description>
+```
+
+For another line length, set `max-width` with `className` or `style`:
+
+```tsx
+<Description style={{ maxWidth: "40ch" }}>A long description…</Description>
+<Description style={{ maxWidth: "50%" }}>A long description…</Description>
+```
+
+---
+
+## Wrapping
+
+The `wrap` property sets
+[the CSS `text-wrap` property](https://developer.mozilla.org/en-US/docs/Web/CSS/text-wrap)
+. It supports the two values that suit descriptions best, and it's
+`"pretty"` by default:
+
+- **`"pretty"`**: breaks the lines so the last line isn't left with a single
+  word. Use it for longer text.
+- **`"balance"`**: breaks the lines so they're all about the same length. Use
+  it for short text of a few lines, like a page summary.
+
+Each description below has the same text and width:
+
+<Preview>
+  <Description style={{ maxWidth: "36ch" }}>
+    {"Manage your plan, payment methods and invoices in one place."}
+  </Description>
+  <Description wrap="balance" style={{ maxWidth: "36ch" }}>
+    {"Manage your plan, payment methods and invoices in one place."}
+  </Description>
+</Preview>
+
+```tsx
+// no single word on the last line, the default
+<Description>Manage your plan…</Description>
+
+// lines of about the same length
+<Description wrap="balance">Manage your plan…</Description>
+```
+
+---
+
+## Line Clamping
+
+A description shows every line by default. Pass `maxNumLines` to cut it off
+after that many lines, with an ellipsis:
+
+<Preview>
+  <Description maxNumLines={1}>
+    {
+      "A long description that's cut off after one line, even if there's more text left to show after it, like the rest of this sentence and everything that comes after it."
+    }
+  </Description>
+</Preview>
+
+```tsx
+// cut off after one line
+<Description maxNumLines={1}>A long description…</Description>
+```
+
+- 📌 A long word or URL is broken onto the next line, instead of running past
+  the edge.
+- 📌 The cut-off text is still on the page, so screen readers read the whole
+  description. It just isn't shown on screen.
+
+---
+
+## Styling
+
+Start from the default styles. When they don't fit your design everywhere,
+change the tokens. When they don't fit in one place, override that
+description's styles.
+
+### Default Styles
+
+Every description shares the following:
+
+- 🎨 **Line height**: `tokens.typography.lineHeight.body`
+- 🎨 **Font family**: `tokens.typography.fontFamily.normal`
+- 🎨 **Font weight**: `tokens.typography.fontWeight.regular`
+- 🎨 **Max width**: `60ch`, or `100%` with `fullWidth`
+- 🎨 **Text wrap**: `pretty`, or `balance` with `wrap="balance"`
+- 🎨 **Margin**: none, so **it keeps the rendered element's own margins**
+
+Each `size` sets the font size:
+
+- 🎨 **`"large"`**: `tokens.typography.fontSize.bodyLarge`
+- 🎨 **`"medium"`**: `tokens.typography.fontSize.bodyMedium`
+- 🎨 **`"small"`**: `tokens.typography.fontSize.bodySmall`
+
+Each `tone` sets the color:
+
+- 🎨 **`"default"`**: `tokens.colors.text`
+- 🎨 **`"muted"`**: `tokens.colors.textMuted`
+- 🎨 **`"danger"`**: `tokens.colors.error`
+- 🎨 **`"success"`**: `tokens.colors.success`
+
+### Customizing Tokens
+
+When the default styles don't fit most or all of your app, change the token
+values instead of overriding every description. See
+[Customization](/foundations/tokens/customization) in the tokens docs.
+
+### One-Off Styles
+
+When a single description needs to look different, change them with
+`className` or `style`:
+
+<Preview>
+  <Description size="large" style={{ fontStyle: "italic", color: "purple" }}>
+    {"Manage your plan, payment methods and invoices."}
+  </Description>
+</Preview>
+
+```tsx
+<Description size="large" style={{ fontStyle: "italic", color: "purple" }}>
+  Manage your plan, payment methods and invoices.
+</Description>
+
+<Description size="large" className="page-summary">
+  Manage your plan, payment methods and invoices.
+</Description>
+```
+
+```css
+.page-summary {
+  margin-block: var(--spacing-sm) var(--spacing-lg);
+  text-align: center;
+}
+```
+
+- 📌 When a description is clamped, don't set `display`, `overflow`,
+  `text-overflow` or `-webkit-box-orient` yourself. **Changing any of them
+  breaks the clamping without an error.**

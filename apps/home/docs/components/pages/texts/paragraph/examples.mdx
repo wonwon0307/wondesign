@@ -1,0 +1,193 @@
+import { Heading, Paragraph } from "@wondesign/ui/Texts";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `Paragraph`, from picking a size and a tone to fitting it
+into your own design. Each example shows the rendered result, followed by its
+code.
+
+---
+
+## Sizes
+
+The `size` property sets the font size. It's `"medium"` by default:
+
+<Preview>
+  <Paragraph size="large">
+    {"Large, for an introduction or long-form reading."}
+  </Paragraph>
+  <Paragraph size="medium">
+    {"Medium, for the body text of most pages."}
+  </Paragraph>
+  <Paragraph size="small">
+    {"Small, for dense layouts, like a card or a sidebar."}
+  </Paragraph>
+</Preview>
+
+```tsx
+<Paragraph size="large">Large, for an introduction or long-form reading.</Paragraph>
+<Paragraph size="medium">Medium, for the body text of most pages.</Paragraph>
+<Paragraph size="small">
+  Small, for dense layouts, like a card or a sidebar.
+</Paragraph>
+```
+
+---
+
+## Tones
+
+The `tone` property sets the color. It's `"default"` by default.
+
+### Default
+
+The same color as the rest of the body text, for text that's read in full,
+like an article:
+
+<Preview>
+  <Heading level={3}>Release Notes</Heading>
+  <Paragraph>
+    {
+      "This release adds dark mode to every page, and makes search up to twice as fast on large projects."
+    }
+  </Paragraph>
+</Preview>
+
+```tsx
+<Heading level={3}>Release Notes</Heading>
+<Paragraph>
+  This release adds dark mode to every page, and makes search up to twice as
+  fast on large projects.
+</Paragraph>
+```
+
+### Muted
+
+A lighter color, for text that should step back, like the body of an empty
+state:
+
+<Preview>
+  <Heading level={3}>No Projects Yet</Heading>
+  <Paragraph tone="muted">
+    {"Projects you create or are invited to will show up here."}
+  </Paragraph>
+</Preview>
+
+```tsx
+<Heading level={3}>No Projects Yet</Heading>
+<Paragraph tone="muted">
+  Projects you create or are invited to will show up here.
+</Paragraph>
+```
+
+---
+
+## Elements
+
+Pass `as` to render the element that fits where it's used. Options are:
+
+- **`"p"`**: a paragraph on its own, the default
+- **`"div"`**: text that holds other block elements
+- **`"span"`**: text inside another element, like a list item
+
+```tsx
+<Paragraph as="div">
+  <strong>Note:</strong>
+  <ul>
+    <li>Invoices are sent on the 1st of each month.</li>
+  </ul>
+</Paragraph>
+```
+
+---
+
+## Line Clamping
+
+A paragraph's number of lines is unlimited by default, so it shows every line.
+Pass `maxNumLines` to cut it off after that many lines, with an ellipsis:
+
+<Preview>
+  <Paragraph maxNumLines={1}>
+    {
+      "A long paragraph that's cut off after one line, even if there's more text left to show after it, like the rest of this sentence and everything that comes after it."
+    }
+  </Paragraph>
+</Preview>
+
+```tsx
+// cut off after one line
+<Paragraph maxNumLines={1}>A long paragraph…</Paragraph>
+```
+
+- 📌 A long word or URL is broken onto the next line, instead of running past
+  the edge.
+- 📌 The cut-off text is still on the page, so screen readers read the whole
+  paragraph. It just isn't shown on screen.
+
+---
+
+## Styling
+
+Start from the default styles. When they don't fit your design everywhere,
+change the tokens. When they don't fit in one place, override that
+paragraph's styles.
+
+### Default Styles
+
+Every paragraph shares the following:
+
+- 🎨 **Line height**: `tokens.typography.lineHeight.paragraph`
+- 🎨 **Font family**: `tokens.typography.fontFamily.normal`
+- 🎨 **Font weight**: `tokens.typography.fontWeight.regular`
+- 🎨 **Max width**: `100%`
+- 🎨 **Text wrap**: `pretty`, so the last line isn't left with a single word
+- 🎨 **Margin**: `tokens.spacing.sm` vertical and `0` horizontal
+
+Each `size` sets the font size:
+
+- 🎨 **`"large"`**: `tokens.typography.fontSize.bodyLarge`
+- 🎨 **`"medium"`**: `tokens.typography.fontSize.bodyMedium`
+- 🎨 **`"small"`**: `tokens.typography.fontSize.bodySmall`
+
+Each `tone` sets the color:
+
+- 🎨 **`"default"`**: `tokens.colors.text`
+- 🎨 **`"muted"`**: `tokens.colors.textMuted`
+
+### Customizing Tokens
+
+When the default styles don't fit most or all of your app, change the token
+values instead of overriding every paragraph. See
+[Customization](/foundations/tokens/customization) in the tokens docs.
+
+### One-Off Styles
+
+When a single paragraph needs to look different, change it with `className`
+or `style`:
+
+<Preview>
+  <Paragraph style={{ fontStyle: "italic", color: "purple" }}>
+    {"Create a project, invite your team and connect your first data source."}
+  </Paragraph>
+</Preview>
+
+```tsx
+<Paragraph style={{ fontStyle: "italic", color: "purple" }}>
+  Create a project, invite your team and connect your first data source.
+</Paragraph>
+
+<Paragraph className="intro">
+  Create a project, invite your team and connect your first data source.
+</Paragraph>
+```
+
+```css
+.intro {
+  margin-block: 0 var(--spacing-lg);
+  text-align: center;
+}
+```
+
+- 📌 When a paragraph is clamped, don't set `display`, `overflow`,
+  `text-overflow` or `-webkit-box-orient` yourself. **Changing any of them
+  breaks the clamping without an error.**

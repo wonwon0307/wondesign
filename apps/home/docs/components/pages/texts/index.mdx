@@ -1,0 +1,77 @@
+---
+title: Texts
+description: Styled React components for text, from simple elements like headings and paragraphs to composed blocks like callouts, built on the WonDesign type scale.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/texts" relPath="components/texts">
+  `@wondesign/texts` is the typography layer of WonDesign Components. It comes
+  with simple text elements, like headings and paragraphs, and composed blocks
+  built from them, like callouts. Each component renders the right native
+  element with the type scale, colors and spacing already applied.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/texts
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/texts` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Elements**: Each renders a fitting native element, can render another with `as`, and passes your `ref` to it
+- ✅ **Blocks**: Ready-made components for common text patterns, like callouts and badges
+- ✅ **Consistent Text**: The same kind of text looks and behaves the same across your app, instead of a mix of `<h1>`–`<h6>`,
+  `<div>`s and `<span>`s, each styled its own way
+- ✅ **On the Type Scale**: Sizes, weights and line heights come from the design tokens
+- ✅ **Styleable**: Your `className` and `style` are applied on top of the defaults
+
+---
+
+## Components
+
+The components come in two kinds: elements, and blocks. Both read their
+values from `@wondesign/tokens`, and fall back to the default values without
+the token stylesheet.
+
+### Elements
+
+Single pieces of text, each rendering one native element. Use them for every
+title and body of text, so the same kind of text always renders the same way.
+
+- ⭐ **[Heading](/components/texts/heading)** — a page or section title, from
+  `<h1>` to `<h6>`, kept to a single line by default.
+- ⭐ **[Description](/components/texts/description)** — supporting text, like
+  a summary of the whole page right below its `Heading`, a field hint, a
+  caption or a metadata value.
+- ⭐ **[Paragraph](/components/texts/paragraph)** — the main body text of a
+  page, a section or a card, from a single sentence to several paragraphs.
+
+### Blocks
+
+Text styled for a specific job, with its own layout and colors. Use them for
+patterns that show up across many pages.
+
+- ⭐ **[Callout](/components/texts/callout)** — a highlighted note with an
+  icon and an optional title, for information, warnings, errors or successes.
+- ⭐ **[Badge](/components/texts/badge)** — a short label in a colored pill,
+  like a status, a category or a count.
+
+---
+
+## Upcoming Features
+
+- 🔜 **Overflow Styles**: Choose how clamped text ends, with an ellipsis, a fade or a clean cut
+- 🔜 **Quote**: A quotation, with an optional source
+- 🔜 **Description List**: Pairs of terms and values, like "Status: Active" or "Created: Oct 26"
+- 🔜 **Stat**: A large number with a label, and its change shown in a Badge, like "1,204 active users, +12%"

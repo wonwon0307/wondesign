@@ -18,6 +18,7 @@ describe("DocumentPage - Tabs", () => {
     const tabs = [
       { slug: "test", url: "/test" },
       { slug: "api", url: "/api" },
+      { slug: "css-variables", url: "/css-variables" },
       { slug: "random", url: "/random" },
       { slug: "examples", url: "/examples" },
       { slug: "overview", url: "/overview" },
@@ -27,7 +28,14 @@ describe("DocumentPage - Tabs", () => {
 
     const links = getAllByRole("link").map((link) => link.textContent);
 
-    expect(links).toEqual(["Overview", "Examples", "API", "Random", "Test"]);
+    expect(links).toEqual([
+      "Overview",
+      "Examples",
+      "API",
+      "CSS Variables",
+      "Random",
+      "Test",
+    ]);
   });
 
   it("sorts non-priority tabs alphabetically", () => {
