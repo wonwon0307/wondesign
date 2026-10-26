@@ -1,0 +1,82 @@
+import { Callout } from "@wondesign/ui/Texts";
+import { Preview } from "@/widgets/preview";
+
+# Callout
+
+`Callout` renders a highlighted note that stands out from the text around it,
+with an icon and an optional title. Pick a `variant` for what the note is
+about, like a warning or an error.
+
+---
+
+## Key Features
+
+- ✅ **Four Variants**: Info, warning, error and success, each with its own color and icon
+- ✅ **Three Sizes**: Small, medium and large, for the icon, the title and the content together
+- ✅ **Optional Title**: Add a title above the content, or leave it out for a short note
+- ✅ **Custom Icons**: Use any icon from `@wondesign/icons`, or your own
+- ✅ **Consistent Text**: A text title and content render as a `Heading` and a `Paragraph`
+
+<Preview>
+  <Callout variant="success" title="Domain verified">
+    {"Emails from your workspace are now sent from @acme.com."}
+  </Callout>
+</Preview>
+
+```tsx
+import { Callout } from "@wondesign/texts/Callout";
+
+<Callout variant="success" title="Domain verified">
+  Emails from your workspace are now sent from @acme.com.
+</Callout>;
+```
+
+See [Examples](/components/texts/callout/examples) for variants, basic usage
+and customizing.
+
+---
+
+## API
+
+Import `Callout` and its props type from `@wondesign/texts/Callout`:
+
+```ts
+import { Callout, type CalloutProps } from "@wondesign/texts/Callout";
+```
+
+### Props
+
+**Only the props below are accepted.** Others, like `id` or `aria-*`
+attributes, are ignored. Key props:
+
+```ts
+interface CalloutProps {
+  children: React.ReactNode;
+
+  // what the note is about. sets the color and the default icon.
+  // defaults to `"info"`.
+  variant?: "info" | "warning" | "error" | "success";
+
+  // the title above the content. text renders as a `Heading`.
+  title?: React.ReactNode;
+
+  // an icon name from `@wondesign/icons`, or your own element.
+  // defaults to the variant's icon.
+  icon?: React.ReactNode;
+
+  // the size of the icon, the title and the content.
+  // defaults to `"medium"`.
+  size?: "small" | "medium" | "large";
+
+  className?: string;
+  style?: React.CSSProperties;
+}
+```
+
+---
+
+## Known Issues
+
+- 🐞 **A hidden icon still takes space**: With `icon={null}`, **the gap
+  where the icon would be stays**, so the text doesn't line up with the
+  callout's edge.
