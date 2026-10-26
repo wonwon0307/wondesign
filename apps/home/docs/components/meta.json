@@ -29,6 +29,24 @@
           ]
         }
       ]
+    },
+    {
+      "type": "group",
+      "label": "Styled",
+      "items": [
+        {
+          "type": "link",
+          "label": "Texts",
+          "url": "/texts",
+          "items": [
+            "[Heading](/texts/heading)",
+            "[Description](/texts/description)",
+            "[Paragraph](/texts/paragraph)",
+            "[Callout](/texts/callout)",
+            "[Badge](/texts/badge)"
+          ]
+        }
+      ]
     }
   ]
 }
