@@ -1,0 +1,153 @@
+---
+title: Icons
+description: The WonDesign icon set as React components, rendered by name with one type-safe component.
+---
+
+import { AppIcon } from "@wondesign/ui/Icons";
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+import { Preview } from "@/widgets/preview";
+
+<PackageInfo name="@wondesign/icons" relPath="components/icons">
+  `@wondesign/icons` is the icon set of WonDesign Components. Every icon is
+  rendered through a single `AppIcon` component, by its name, at the size and
+  color of the text around it.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/icons
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/icons` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Built with svg2tsx**: Generated from SVG files by [`@wondesign/svg2tsx`](/foundations/svg2tsx), as a [facade component](/foundations/svg2tsx/facade)
+- ✅ **One Component**: Render any icon by its name, with `AppIcon`
+- ✅ **Type-Safe Names**: Only real icon names are accepted, and the `IconName` type is exported for your own props
+- ✅ **Fits the Text**: Icons take the size and color of the text around them by default
+
+<Preview orientation="horizontal">
+  <AppIcon icon="check-circle" />
+  <AppIcon icon="warning" size={24} />
+  <AppIcon icon="palette" size={32} color="purple" />
+</Preview>
+
+```tsx
+import { AppIcon } from "@wondesign/icons";
+
+// the size and color of the text around it
+<AppIcon icon="check-circle" />
+
+// a size in pixels
+<AppIcon icon="warning" size={24} />
+
+// a size and a color of your own
+<AppIcon icon="palette" size={32} color="purple" />
+```
+
+---
+
+## API
+
+Import `AppIcon` and its types from `@wondesign/icons`:
+
+```ts
+import { AppIcon, type IconName, type IconProps } from "@wondesign/icons";
+```
+
+### Props
+
+Accepts all props of `<svg>`, plus its own `icon` and `size`. Together, the
+key props are:
+
+```ts
+interface AppIconProps extends IconProps {
+  // the icon's name, from the list below.
+  icon: IconName;
+
+  // the width and height. a number is in pixels.
+  // defaults to `"1em"`, the font size of the text around it.
+  size?: number | string;
+
+  // the icon's color. defaults to the color of the text around it.
+  color?: string;
+
+  // ...
+}
+```
+
+- 📌 **An unknown name renders nothing**, with a warning in the console. The
+  types catch it, unless the name comes from untyped data.
+
+---
+
+## Icon List
+
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+    gap: "var(--spacing-md)",
+  }}
+>
+  {[
+    "alert",
+    "check",
+    "check-circle",
+    "check-fill",
+    "chevron-down",
+    "chevron-right",
+    "color-theme",
+    "copy",
+    "copy-code",
+    "download",
+    "download-code",
+    "external-link",
+    "info",
+    "loading",
+    "loading-bubble",
+    "loading-line",
+    "loading-tail",
+    "package",
+    "palette",
+    "sidebar",
+    "sidebar-arrow",
+    "upload",
+    "warning",
+  ].map((name) => (
+    <div
+      key={name}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "var(--spacing-sm)",
+        padding: "var(--spacing-md)",
+        borderRadius: "var(--radius-md)",
+        background: "var(--color-background-muted)",
+      }}
+    >
+      <AppIcon icon={name} size={24} />
+      <code>{name}</code>
+    </div>
+  ))}
+</div>
+
+---
+
+## Used By
+
+- 📦 **IconButton** in [`@wondesign/buttons`](/components/buttons)
+- 📦 **IconLink** in [`@wondesign/links`](/components/links)
+- 📦 **Tabs** in [`@wondesign/tabs`](/components/tabs)
+- 📦 **Callout** in [`@wondesign/texts`](/components/texts/callout)
+- 📦 **Sidebar** in `@wondesign/sidebar`

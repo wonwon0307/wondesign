@@ -53,7 +53,9 @@ import {
 
 ### Props
 
-Accepts all props of the rendered element. Your `ref` reaches it. Key props:
+Accepts all props of the rendered element, plus its own `as`, `size`, `tone`,
+`wrap`, `maxNumLines` and `fullWidth`. Your `ref` reaches the rendered
+element. Together, the key props are:
 
 ```ts
 interface DescriptionProps {

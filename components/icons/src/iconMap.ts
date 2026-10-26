@@ -19,6 +19,7 @@ import { LoadingLine } from "./components/LoadingLine";
 import { LoadingTail } from "./components/LoadingTail";
 import { Loading } from "./components/Loading";
 import { Package } from "./components/Package";
+import { Palette } from "./components/Palette";
 import { SidebarArrow } from "./components/SidebarArrow";
 import { Sidebar } from "./components/Sidebar";
 import { Upload } from "./components/Upload";
@@ -43,6 +44,7 @@ export type IconName =
   | "loading-tail"
   | "loading"
   | "package"
+  | "palette"
   | "sidebar-arrow"
   | "sidebar"
   | "upload"
@@ -67,6 +69,7 @@ export const iconMap: Record<IconName, ComponentType<IconProps>> = {
   "loading-tail": LoadingTail,
   loading: Loading,
   package: Package,
+  palette: Palette,
   "sidebar-arrow": SidebarArrow,
   sidebar: Sidebar,
   upload: Upload,
