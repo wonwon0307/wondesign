@@ -4,7 +4,9 @@ import { tokens } from "@wondesign/ui/tokens";
 const preview = recipe({
   base: {
     display: "flex",
+    justifyContent: "center",
     padding: tokens.spacing.lg,
+    gap: tokens.spacing.lg,
     borderRadius: tokens.radius.sm,
     backgroundColor: tokens.colors.backgroundMuted,
   },
@@ -13,12 +15,10 @@ const preview = recipe({
       horizontal: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
       },
       vertical: {
         flexDirection: "column",
         alignItems: "flex-start",
-        justifyContent: "center",
       },
     },
   },
