@@ -40,8 +40,9 @@ import { Badge, type BadgeProps } from "@wondesign/texts/Badge";
 
 ### Props
 
-Accepts all props of `<span>`, except `children`. **Pass the text as
-`label`; `children` are ignored.** Key props:
+Accepts all props of `<span>` except `children`, plus its own `label`,
+`color`, `backgroundColor`, `size`, `left` and `right`. **Pass the text as
+`label`; `children` are ignored.** Together, the key props are:
 
 ```ts
 interface BadgeProps {
