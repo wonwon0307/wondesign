@@ -76,6 +76,7 @@ const callout = style({
 const list = style({
   display: "flex",
   flexDirection: "column",
+  marginBottom: tokens.spacing.lg,
   gap: tokens.spacing.md,
 });
 
