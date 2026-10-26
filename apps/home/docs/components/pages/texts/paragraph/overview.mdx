@@ -1,0 +1,79 @@
+import { Heading, Paragraph } from "@wondesign/ui/Texts";
+import { Preview } from "@/widgets/preview";
+
+# Paragraph
+
+`Paragraph` renders the main body text of a page, a section or a card, from a
+single sentence to several paragraphs. Pick a `size` and a `tone` to fit where
+it's used.
+
+---
+
+## Key Features
+
+- ✅ **Three Sizes**: Small, medium and large, on the type scale
+- ✅ **Tones**: A muted color, besides the default
+- ✅ **Even Spacing**: Paragraphs in a row are spaced evenly apart
+- ✅ **Fitting Element**: Renders a `<p>`, `<div>` or `<span>`
+- ✅ **Line Clamping**: Cut long text off after as many lines as you like
+- ✅ **Ref Forwarding**: Your `ref` reaches the rendered element
+
+<Preview>
+  <Heading level={2}>Getting Started</Heading>
+  <Paragraph>
+    {
+      "Create a project, invite your team and connect your first data source. Each step takes only a few minutes."
+    }
+  </Paragraph>
+</Preview>
+
+```tsx
+import { Heading } from "@wondesign/texts/Heading";
+import { Paragraph } from "@wondesign/texts/Paragraph";
+
+<Heading level={2}>Getting Started</Heading>
+<Paragraph>
+  Create a project, invite your team and connect your first data source. Each
+  step takes only a few minutes.
+</Paragraph>
+```
+
+See [Examples](/components/texts/paragraph/examples) for sizes, tones,
+elements, line clamping and styling.
+
+---
+
+## API
+
+Import `Paragraph` and its props type from `@wondesign/texts/Paragraph`:
+
+```ts
+import { Paragraph, type ParagraphProps } from "@wondesign/texts/Paragraph";
+```
+
+### Props
+
+Accepts all props of the rendered element. Your `ref` reaches it. Key props:
+
+```ts
+interface ParagraphProps {
+  children: React.ReactNode;
+
+  // the element to render. defaults to `"p"`.
+  as?: "p" | "div" | "span";
+
+  // the font size. defaults to `"medium"`.
+  size?: "small" | "medium" | "large";
+
+  // the text color. defaults to `"default"`.
+  tone?: "default" | "muted";
+
+  // how many lines to show before cutting the text off with an ellipsis.
+  // `0` shows every line. defaults to `0`.
+  maxNumLines?: number;
+
+  ref?: React.Ref<HTMLElement>;
+
+  // ...
+}
+```
