@@ -1,0 +1,72 @@
+import { Heading } from "@wondesign/ui/Texts";
+import { Preview } from "@/widgets/preview";
+
+# Heading
+
+`Heading` renders a page or section title, from `<h1>` to `<h6>`. Pick a
+`level`, and it renders the matching element at that level's size on the type
+scale.
+
+---
+
+## Key Features
+
+- ✅ **Six Levels**: Each level renders its own heading element, at its own size
+- ✅ **Custom Styles**: Apply your own styles to any level
+- ✅ **Single Line by Default**: Long titles are cut off with an ellipsis, or after as many lines as you like
+- ✅ **Ref Forwarding**: Your `ref` reaches the rendered element
+
+<Preview>
+  <Heading level={2}>Billing</Heading>
+</Preview>
+
+```tsx
+import { Heading } from "@wondesign/texts/Heading";
+
+<Heading level={2}>Billing</Heading>;
+```
+
+See [Examples](/components/texts/heading/examples) for levels, line clamping
+and styling.
+
+---
+
+## API
+
+Import `Heading` and its props type from `@wondesign/texts/Heading`:
+
+```ts
+import { Heading, type HeadingProps } from "@wondesign/texts/Heading";
+```
+
+### Props
+
+Accepts all props of `<h1>`–`<h6>`. Your `ref` reaches the rendered heading
+element. Key props:
+
+```ts
+interface HeadingProps {
+  children: React.ReactNode;
+
+  // the heading's level. sets both the element and the size.
+  level: 1 | 2 | 3 | 4 | 5 | 6;
+
+  // the element to render, without changing the size.
+  // defaults to the level's element, like `"h2"` for `level={2}`.
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+
+  // how many lines to show before cutting the text off with an ellipsis.
+  // `0` shows every line. defaults to `1`.
+  maxNumLines?: number;
+
+  ref?: React.Ref<HTMLHeadingElement>;
+
+  // ...
+}
+```
+
+---
+
+## Used By
+
+- 🧩 **[Callout](/components/texts/callout)**: its `title`, when it's a string

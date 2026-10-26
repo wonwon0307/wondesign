@@ -1,0 +1,175 @@
+import { Heading } from "@wondesign/ui/Texts";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `Heading`, from picking a level to fitting a heading into
+your own design. Each example shows the rendered result, followed by its code.
+
+---
+
+## Levels
+
+The `level` property sets both the element and the size. `level={1}`
+renders an `<h1>` at the largest size, and each level after it is smaller,
+down to `level={6}`:
+
+<Preview>
+  <Heading level={1}>Settings</Heading>
+  <Heading level={2}>Billing</Heading>
+  <Heading level={3}>Payment Methods</Heading>
+  <Heading level={4}>Saved Cards</Heading>
+  <Heading level={5}>Visa ending in 4242</Heading>
+  <Heading level={6}>Billing Address</Heading>
+</Preview>
+
+```tsx
+<Heading level={1}>Settings</Heading>
+<Heading level={2}>Billing</Heading>
+<Heading level={3}>Payment Methods</Heading>
+<Heading level={4}>Saved Cards</Heading>
+<Heading level={5}>Visa ending in 4242</Heading>
+<Heading level={6}>Billing Address</Heading>
+```
+
+---
+
+## Line Clamping
+
+A heading is **cut off after one line by default**, with an ellipsis. Pass
+`maxNumLines` to allow more lines, or `0` to show every line:
+
+<Preview>
+  <Heading level={2}>
+    {
+      "A long title that's cut off after one line, because that's the default for every heading, whatever its level"
+    }
+  </Heading>
+  <Heading level={2} maxNumLines={2}>
+    {
+      "A long title that's allowed to wrap onto a second line, but is cut off there, even if there's more text left to show after it"
+    }
+  </Heading>
+  <Heading level={2} maxNumLines={0}>
+    {
+      "A long title that's never cut off, so it wraps onto as many lines as it needs to show every word"
+    }
+  </Heading>
+</Preview>
+
+```tsx
+// cut off after one line, the default
+<Heading level={2}>A long title…</Heading>
+
+// cut off after two lines
+<Heading level={2} maxNumLines={2}>
+  A long title…
+</Heading>
+
+// never cut off
+<Heading level={2} maxNumLines={0}>
+  A long title…
+</Heading>
+```
+
+- 📌 A long word or URL is broken onto the next line, instead of running past
+  the edge.
+- 📌 The cut-off text is still on the page, so screen readers read the whole
+  title. It just isn't shown on screen.
+- 📌 There's no way to see the cut-off text on hover. Pass a `title` if it
+  should be reachable.
+
+---
+
+## Styling
+
+Start from the default styles. When they don't fit your design everywhere,
+change the tokens. When they don't fit in one place, override that heading's
+styles.
+
+### Default Styles
+
+Every level shares the following:
+
+- 🎨 **Color**: none, so a heading takes the color of the text around it
+- 🎨 **Line height**: `tokens.typography.lineHeight.heading`
+- 🎨 **Font family**: `tokens.typography.fontFamily.normal`
+- 🎨 **Margin**: `tokens.spacing.lg` vertical and `0` horizontal
+
+Each level's font size and weight are as follows:
+
+- 🎨 **Font size**: from `tokens.typography.fontSize.headingLarge` at level 1,
+  down to `tokens.typography.fontSize.bodyMedium` at level 6
+- 🎨 **Font weight**: `tokens.typography.fontWeight.bold` for levels 1–3, and
+  `tokens.typography.fontWeight.semibold` for levels 4–6
+
+### Customizing Tokens
+
+When the default styles don't fit most or all of your app, change the token
+values instead of overriding every heading. See
+[Customization](/foundations/tokens/customization) in the tokens docs.
+
+### One-Off Styles
+
+When a single heading needs to look different, there are two ways to do it.
+
+**Override the styles**
+
+The recommended way. Let the `level` choose the element, by picking the one
+that fits the page's outline, like `level={2}` for a section title. Then
+change its look with `className` or `style`:
+
+<Preview>
+  <Heading level={2} style={{ margin: 0, color: "purple" }}>
+    {"Billing"}
+  </Heading>
+</Preview>
+
+```tsx
+<Heading level={2} style={{ margin: 0, color: "purple" }}>
+  Billing
+</Heading>
+
+<Heading level={2} className="page-title">
+  Billing
+</Heading>
+```
+
+```css
+.page-title {
+  margin-block: 0 var(--spacing-sm);
+  font-size: var(--font-size-heading-sm);
+  text-align: center;
+}
+```
+
+- 📌 When a heading is clamped, which it is by default, don't set `display`,
+  `overflow`, `text-overflow` or `-webkit-box-orient` yourself. **Changing any
+  of them breaks the clamping without an error.** To style these, pass
+  `maxNumLines={0}` first.
+
+**Borrow another level's styles**
+
+Pick the `level` for its look, and pass `as` to render the element the outline
+needs. This works when another level's styles fit as they are, like an `<h2>`
+that should look like level 3:
+
+<Preview>
+  <Heading level={3} as="h2">
+    Billing Details
+  </Heading>
+</Preview>
+
+```tsx
+// an <h2>, with the styles of level 3
+<Heading level={3} as="h2">
+  Billing Details
+</Heading>
+```
+
+- 📌 Avoid combining `as` with `className` or `style` overrides. Once you
+  override the styles anyway, let the `level` choose the element instead, as
+  shown above.
+- 📌 `as` only takes `"h1"` to `"h6"`. Text that only needs to look big isn't
+  a heading — use another component, so it doesn't end up in the page's
+  outline.
