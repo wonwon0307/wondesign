@@ -38,7 +38,7 @@ const icon = recipe({
     gridColumn: "1 / 2",
     gridRow: "1 / 2",
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
   },
   variants: {
@@ -54,7 +54,12 @@ const icon = recipe({
       },
     },
     hasTitle: {
-      false: { maxHeight: "2.4rem" },
+      true: {
+        marginTop: tokens.spacing.lg,
+      },
+      false: {
+        marginTop: tokens.spacing.md,
+      },
     },
   },
 });
