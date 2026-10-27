@@ -1,0 +1,67 @@
+---
+title: Code
+description: Styled React components for code and keys, from highlighted code blocks with a copy button to inline code and keyboard shortcuts.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/code" relPath="components/code">
+  `@wondesign/code` is the code layer of WonDesign Components. It comes with
+  syntax-highlighted code blocks, a code window with a copy button, inline
+  code, and keyboard keys and shortcuts. Each component renders the right
+  native element, like `<pre>`, `<code>` or `<kbd>`, with its styles already
+  applied.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/code
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/code` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Syntax Highlighting**: Code is highlighted for the language you pass, in both light and dark themes
+- ✅ **Copy to Clipboard**: Code windows come with a copy button, or one of your own
+- ✅ **Platform-Aware Shortcuts**: Keyboard shortcuts show the right keys for Mac or Windows
+- ✅ **Accessible Shortcuts**: Screen readers read a shortcut's key names, instead of its symbols
+- ✅ **Styleable**: Your `className` and `style` are applied on top of the defaults
+
+---
+
+## Components
+
+The components come in two kinds: elements and blocks. Both read their
+values from `@wondesign/tokens` and fall back to the default values without
+the token stylesheet.
+
+### Elements
+
+Single pieces of code or keys, each rendering one native element. Use them on
+their own, or as the building blocks of your own components.
+
+- ⭐ **[CodeBlock](/components/code/code-block)** — a block of
+  syntax-highlighted code, with optional line numbers.
+- ⭐ **[InlineCode](/components/code/inline-code)** — a short piece of code
+  within a sentence, like a prop name or a command.
+- ⭐ **[Keyboard](/components/code/keyboard)** — a single key, like `Enter`.
+
+### Blocks
+
+Elements put together for a specific job. Use them for patterns that show up
+across many pages.
+
+- ⭐ **[CodeWindow](/components/code/code-window)** — a code block in a
+  window, with a copy button and an optional header, like a file name. Its
+  parts are exported too, to build a code window of your own.
+- ⭐ **[KeyboardGroup](/components/code/keyboard-group)** — a keyboard
+  shortcut like `Mod+K`, shown the way the user's platform writes it.
