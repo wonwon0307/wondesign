@@ -1,0 +1,100 @@
+import { CodeBlock } from "@wondesign/ui/Code";
+import { Preview } from "@/widgets/preview";
+
+# CodeBlock
+
+`CodeBlock` renders a block of syntax-highlighted code. Pass the `code` and
+its `lang`, and it renders a `<pre>` element with every line highlighted for
+that language.
+
+---
+
+## Key Features
+
+- ✅ **Syntax Highlighting**: Powered by [Shiki](https://shiki.style), and even respects the page's light or dark color scheme
+- ✅ **Line Numbers**: Number each line, without the numbers ending up in copied code
+- ✅ **Ref Forwarding**: Your `ref` reaches the rendered element
+
+<Preview>
+  <CodeBlock
+    lang="ts"
+    code={`function add(a: number, b: number) {
+    return a + b;
+}`}
+  />
+</Preview>
+
+```tsx
+import { CodeBlock } from "@wondesign/code/CodeBlock";
+
+const code = `function add(a: number, b: number) {
+  return a + b;
+}`;
+
+<CodeBlock code={code} lang="ts" />;
+```
+
+See [Examples](/components/code/code-block/examples) for languages, line
+numbers and styling.
+
+---
+
+## API
+
+Import `CodeBlock` and its props type from `@wondesign/code/CodeBlock`:
+
+```ts
+import { CodeBlock, type CodeBlockProps } from "@wondesign/code/CodeBlock";
+```
+
+### Props
+
+Accepts all props of `<pre>` except `children`, plus its own `code`, `lang`
+and `showLineNumbers`. **Pass the code as `code`; `children` are not supported.**
+Your `ref` reaches the rendered `<pre>` element. Together, the key props are:
+
+```ts
+interface CodeBlockProps {
+  // the code to show. a trailing newline is removed.
+  code: string;
+
+  // the language to highlight the code as, like `"ts"` or `"css"`.
+  // defaults to `"plaintext"`, with no highlighting.
+  lang?: string;
+
+  // whether to number each line. defaults to `false`.
+  showLineNumbers?: boolean;
+
+  ref?: React.Ref<HTMLPreElement>;
+
+  // ...
+}
+```
+
+---
+
+## Known Issues
+
+- 🐞 **Shows nothing until highlighted**: The code is highlighted in the
+  browser, so **the block renders nothing at first**, not even in the
+  server-rendered HTML, and appears once highlighting finishes. Content below
+  it can shift down when it does. In the future, the code will show as plain
+  text first, and take its colors once highlighted.
+- 🐞 **Only web languages**: Only the languages in Shiki's
+  [web bundle](https://shiki.style/guide/bundles#shiki-bundle-web) are
+  highlighted, so code in others, like Rust or Go, shows as plain text. There
+  are no plans to add more for now.
+
+---
+
+## Upcoming Features
+
+- 🔜 **Line Highlighting**: Pick lines to highlight, to draw attention to part of the code
+- 🔜 **Starting Line Number**: Start numbering from any line, for a snippet taken from the middle of a file
+- 🔜 **Diff Lines**: Mark lines as added or removed, with a matching color
+
+---
+
+## Used By
+
+- 🧩 **[CodeWindow](/components/code/code-window)**: the code inside the window

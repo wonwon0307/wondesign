@@ -232,38 +232,22 @@ after that many lines, with an ellipsis:
 ## Styling
 
 Start from the default styles. When they don't fit your design everywhere,
-change the tokens. When they don't fit in one place, override that
-description's styles.
+[change the tokens](/components/texts#customizing-tokens). When they don't fit
+in one place, override that description's styles.
 
 ### Default Styles
 
-Every description shares the following:
+The key values are:
 
-- 🎨 **Line height**: `tokens.typography.lineHeight.body`
-- 🎨 **Font family**: `tokens.typography.fontFamily.normal`
-- 🎨 **Font weight**: `tokens.typography.fontWeight.regular`
-- 🎨 **Max width**: `60ch`, or `100%` with `fullWidth`
-- 🎨 **Text wrap**: `pretty`, or `balance` with `wrap="balance"`
+- 🎨 **Color**: `tokens.colors.text` by default, and `tokens.colors.textMuted`,
+  `tokens.colors.error` or `tokens.colors.success` for the `"muted"`,
+  `"danger"` and `"success"` tones
+- 🎨 **Font size**: from `tokens.typography.fontSize.bodySmall` at
+  `"small"`, up to `tokens.typography.fontSize.bodyLarge` at `"large"`
 - 🎨 **Margin**: none, so **it keeps the rendered element's own margins**
 
-Each `size` sets the font size:
-
-- 🎨 **`"large"`**: `tokens.typography.fontSize.bodyLarge`
-- 🎨 **`"medium"`**: `tokens.typography.fontSize.bodyMedium`
-- 🎨 **`"small"`**: `tokens.typography.fontSize.bodySmall`
-
-Each `tone` sets the color:
-
-- 🎨 **`"default"`**: `tokens.colors.text`
-- 🎨 **`"muted"`**: `tokens.colors.textMuted`
-- 🎨 **`"danger"`**: `tokens.colors.error`
-- 🎨 **`"success"`**: `tokens.colors.success`
-
-### Customizing Tokens
-
-When the default styles don't fit most or all of your app, change the token
-values instead of overriding every description. See
-[Customization](/foundations/tokens/customization) in the tokens docs.
+The rest, like the line height and the max width, have default values too.
+Override any of them with `className` or `style`.
 
 ### One-Off Styles
 

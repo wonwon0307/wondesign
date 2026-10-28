@@ -3,6 +3,9 @@ import { createContext, useContext } from "react";
 interface CodeWindowContextValue {
   code: string;
   lang: string;
+  size: "small" | "medium" | "large";
+  maxNumLines: number;
+  showLineNumbers: boolean;
 }
 
 export const CodeWindowContext = createContext<
@@ -14,7 +17,7 @@ export function useCodeWindow() {
 
   if (!context) {
     throw new Error(
-      "[WonDesign Code] useCodeWindow() must be used within a CodeWindowWrapper.",
+      "[WonDesign Code] useCodeWindow() must be used within CodeWindow.",
     );
   }
 

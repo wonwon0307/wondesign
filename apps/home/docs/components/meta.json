@@ -34,6 +34,16 @@
       "type": "group",
       "label": "Styled",
       "items": [
+        {
+          "type": "link",
+          "label": "Code",
+          "url": "/code",
+          "items": [
+            "[InlineCode](/code/inline-code)",
+            "[CodeBlock](/code/code-block)",
+            "[CodeWindow](/code/code-window)"
+          ]
+        },
         "[Icons](/icons)",
         {
           "type": "link",

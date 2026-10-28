@@ -1,0 +1,87 @@
+import { InlineCode } from "@wondesign/ui/Code";
+import { Preview } from "@/widgets/preview";
+
+# InlineCode
+
+`InlineCode` renders a short piece of code within a sentence, like a prop
+name, a file path or a command. It renders a `<code>` element in the code
+font, with a muted background that sets it apart from the text around it.
+
+---
+
+## Key Features
+
+- ✅ **Three Sizes**: Small, medium and large, to match the text around it
+- ✅ **Fits the Text**: Takes the color of the text around it
+- ✅ **Wraps Long Code**: Long paths and URLs wrap, instead of running past the edge
+- ✅ **Ref Forwarding**: Your `ref` reaches the rendered element
+
+<Preview>
+  Run <InlineCode>pnpm add @wondesign/code</InlineCode> to install the package.
+</Preview>
+
+```tsx
+import { InlineCode } from "@wondesign/code/InlineCode";
+
+<p>
+  Run <InlineCode>pnpm add @wondesign/code</InlineCode> to install the package.
+</p>;
+```
+
+See [Examples](/components/code/inline-code/examples) for sizes and styling.
+
+---
+
+## API
+
+Import `InlineCode` and its props type from `@wondesign/code/InlineCode`:
+
+```ts
+import { InlineCode, type InlineCodeProps } from "@wondesign/code/InlineCode";
+```
+
+### Props
+
+Accepts all props of `<code>`, plus its own `size`. Your `ref` reaches the
+rendered `<code>` element. Together, the key props are:
+
+```ts
+interface InlineCodeProps {
+  children: React.ReactNode;
+
+  // the font size and padding. defaults to `"medium"`.
+  size?: "small" | "medium" | "large";
+
+  ref?: React.Ref<HTMLElement>;
+
+  // ...
+}
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Keep inline code short**: Long code, like a file path or a URL, wraps
+  as one block inside its own background, **instead of flowing with the
+  sentence**.
+
+<Preview>
+  <div style={{ maxWidth: "320px" }}>
+    The settings live in
+    <InlineCode>
+      src/features/settings/components/NotificationSettings.tsx
+    </InlineCode>
+    for now.
+  </div>
+</Preview>
+
+```tsx
+<p>
+  The settings live in{" "}
+  <InlineCode>
+    src/features/settings/components/NotificationSettings.tsx
+  </InlineCode>{" "}
+  for now.
+</p>
+```

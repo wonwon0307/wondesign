@@ -3,13 +3,11 @@ export type { CodeBlockProps } from "@wondesign/code/CodeBlock";
 
 export {
   CodeWindow,
-  CodeWindowWrapper,
   CodeWindowBody,
   CodeWindowCopyButton,
 } from "@wondesign/code/CodeWindow";
 export type {
   CodeWindowProps,
-  CodeWindowWrapperProps,
   CodeWindowBodyProps,
   CodeWindowCopyButtonProps,
 } from "@wondesign/code/CodeWindow";

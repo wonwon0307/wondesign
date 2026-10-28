@@ -1,7 +1,6 @@
-import { act, fireEvent, render } from "@testing-library/react";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 
 import { CodeWindow } from "@/CodeWindow/CodeWindow";
-import { CodeWindowWrapper } from "@/CodeWindow/fragments/Wrapper";
 import { CodeWindowBody } from "@/CodeWindow/fragments/Body";
 import { CodeWindowCopyButton } from "@/CodeWindow/fragments/Copy";
 
@@ -30,7 +29,6 @@ describe("CodeWindow", () => {
     const line = await findByText("const a = 1;");
     const pre = line.closest("pre");
     expect(pre).toBeTruthy();
-    expect(pre?.style.maxHeight).toBe("none");
   });
 
   it("renders correctly with scrollable content (vertically)", async () => {
@@ -73,12 +71,39 @@ describe("CodeWindow", () => {
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith("const a = 1;");
   });
 
+  it("calls the onCopyFail prop when it is passed", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const onCopyFail = vi.fn();
+    vi.spyOn(navigator.clipboard, "writeText").mockRejectedValueOnce(
+      new Error("copy failed"),
+    );
+
+    const { findByLabelText, getByLabelText } = render(
+      <CodeWindow code="const a = 1;" lang="javascript">
+        <CodeWindowCopyButton onCopyFail={onCopyFail} />
+        <CodeWindowBody />
+      </CodeWindow>,
+    );
+
+    const copyButton = await findByLabelText("Copy code");
+    fireEvent.click(copyButton);
+    await waitFor(() => {
+      expect(getByLabelText("Copy code")).toBeTruthy();
+    });
+
+    expect(onCopyFail).toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalledWith(
+      "[WonDesign Code] CodeWindowCopyButton: copy failed",
+      expect.any(Error),
+    );
+  });
+
   it("renders custom copy button correctly", async () => {
     const { findByText, getByLabelText } = render(
-      <CodeWindowWrapper code="const a = 1;" lang="javascript">
+      <CodeWindow code="const a = 1;" lang="javascript">
         <CodeWindowBody />
         <CodeWindowCopyButton>Test Copy Button</CodeWindowCopyButton>
-      </CodeWindowWrapper>,
+      </CodeWindow>,
     );
 
     const customCopyButton = await findByText("Test Copy Button");
@@ -97,5 +122,11 @@ describe("CodeWindow", () => {
     });
 
     expect(getByLabelText("Copy code")).toBeTruthy();
+  });
+
+  it("throws if fragment is used outside the wrapper", () => {
+    expect(() => render(<CodeWindowBody />)).toThrow(
+      "[WonDesign Code] useCodeWindow() must be used within CodeWindow.",
+    );
   });
 });

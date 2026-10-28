@@ -8,7 +8,7 @@ const preview = recipe({
     padding: tokens.spacing.lg,
     gap: tokens.spacing.lg,
     borderRadius: tokens.radius.sm,
-    backgroundColor: tokens.colors.backgroundMuted,
+    border: `1px solid ${tokens.colors.border}`,
   },
   variants: {
     orientation: {
