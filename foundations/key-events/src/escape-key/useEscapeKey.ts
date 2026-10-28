@@ -1,24 +1,23 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useEffectEvent } from "react";
 
-/**
- * Calls `callback` when the Escape key is pressed.
- *
- * @param callback - Called when Escape is pressed. Stable across renders — no need to wrap in `useCallback`.
- * @param enabled - Whether the listener is active. Defaults to `true`.
- */
-export function useEscapeKey(callback: () => void, enabled = true) {
-  const callbackRef = useRef(callback);
+export interface EscapeKeyOptions {
+  enabled?: boolean;
+}
 
-  useLayoutEffect(() => {
-    callbackRef.current = callback;
-  });
+export function useEscapeKey(
+  callback: () => void,
+  { enabled = true }: EscapeKeyOptions = {},
+) {
+  const onEscape = useEffectEvent(callback);
 
   useEffect(() => {
     if (!enabled) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.isComposing) return;
+
       if (event.code === "Escape") {
-        callbackRef.current();
+        onEscape();
       }
     };
 
