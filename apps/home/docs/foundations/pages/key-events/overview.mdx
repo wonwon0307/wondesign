@@ -1,0 +1,49 @@
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/key-events" relPath="foundations/key-events">
+  `@wondesign/key-events` handles the keyboard interactions that dialogs, menus
+  and command palettes rely on. It takes care of the details that are easy to
+  get wrong, like platform differences and typing in inputs.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/key-events
+```
+
+<Callout variant="warning" title="Requires React 19.2">
+  `@wondesign/key-events` needs React 19.2 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Escape to Close**: `useEscapeKey` runs a callback when the user presses Escape
+- ✅ **Shortkeys**: `useShortkey` binds shortkeys like `Mod+K` as plain strings, checked by TypeScript
+- ✅ **Cross-Platform**: `Mod` means ⌘ on Apple devices and Ctrl everywhere else
+- ✅ **Safe While Typing**: Shortkeys without Ctrl or ⌘ pause while the user types in an input
+- ✅ **Accessible**: Get the `aria-keyshortcuts` value for the control a shortkey triggers
+- ✅ **Forgiving**: Inline callbacks work as they are, and holding a shortkey down fires it once
+
+---
+
+## Upcoming Features
+
+- 🔜 **Special Keys**: Bind Enter, Space, Tab, the arrow keys and F1–F12
+- 🔜 **Layered Escape**: Only the topmost layer closes when several listen for Escape
+- 🔜 **Layout-Aware Shortkeys**: Match the key the user sees, not its position on a QWERTY keyboard
+
+---
+
+## Used By
+
+- 🧩 **Headless components** in `@wondesign/headless` — closing on Escape, in
+  components like Tooltip
+- 🧩 **Sidebar** in `@wondesign/sidebar` — opening and closing with a shortkey
+- 🧩 **Keyboard Group** in `@wondesign/code` — showing a shortkey with the
+  right symbols for the platform
