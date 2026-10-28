@@ -1,0 +1,252 @@
+import {
+  CodeWindow,
+  CodeWindowBody,
+  CodeWindowCopyButton,
+} from "@wondesign/ui/Code";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `CodeWindow`, from picking a size to building your own
+window from its parts. Each example shows the rendered result, followed by its
+code.
+
+---
+
+## Sizes
+
+The `size` property sets the font size of the code. It's `"medium"` by
+default:
+
+<Preview>
+  <CodeWindow size="large" lang="ts" code={`const size = "large";`} />
+  <CodeWindow size="medium" lang="ts" code={`const size = "medium";`} />
+  <CodeWindow size="small" lang="ts" code={`const size = "small";`} />
+</Preview>
+
+```tsx
+<CodeWindow code={code} lang="ts" size="large" />
+<CodeWindow code={code} lang="ts" size="medium" />
+<CodeWindow code={code} lang="ts" size="small" />
+```
+
+---
+
+## Max Lines
+
+Pass `maxNumLines` to show a set number of lines, and scroll for the rest.
+Without it, the window grows to fit every line:
+
+<Preview>
+  <CodeWindow
+    lang="ts"
+    maxNumLines={4}
+    code={`const colors = {
+    primary: "blue",
+    secondary: "purple",
+    success: "green",
+    warning: "orange",
+    error: "red",
+    text: "black",
+    background: "white",
+  };`}
+  />
+</Preview>
+
+```tsx
+<CodeWindow code={code} lang="ts" maxNumLines={4} />
+```
+
+---
+
+## Line Numbers
+
+Pass `showLineNumbers` to number each line:
+
+<Preview>
+  <CodeWindow
+    lang="ts"
+    showLineNumbers
+    code={`const a = 1;
+const b = 2;
+const sum = a + b;`}
+  />
+</Preview>
+
+```tsx
+<CodeWindow code={code} lang="ts" showLineNumbers />
+```
+
+---
+
+## Disabling Copy
+
+Pass `disableCopy` to leave out the copy button, like for output that isn't
+meant to be copied:
+
+<Preview>
+  <CodeWindow disableCopy code={`✓ 42 tests passed`} />
+</Preview>
+
+```tsx
+<CodeWindow code={output} disableCopy />
+```
+
+---
+
+## Building Your Own Window
+
+When the ready-made window doesn't fit, pass your own layout to `CodeWindow`
+as `children`. **Passing `children` switches `CodeWindow` to your own
+window**: it keeps the window's frame, with its border, rounded corners and
+shadow, and places your layout inside it. Place `CodeWindowBody` and
+`CodeWindowCopyButton` wherever you need them, along with your own
+components.
+
+### What You Handle Yourself
+
+**Your own window keeps only the frame.** Everything else is up to you:
+
+- ✋ **Add the code area yourself**: unlike the ready-made window, **your own
+  window doesn't show the code unless you place a `CodeWindowBody` inside
+  it**. It has no background or padding of its own, so style it too. See the
+  `.body` styles in the [header](#header) example below.
+- ✋ **Add the copy button yourself**: `disableCopy` doesn't apply with
+  `children`, so include or leave out `CodeWindowCopyButton` yourself.
+- ✋ **Render popups through a portal**: the frame clips its content to its
+  rounded corners, so **anything that reaches outside the window is cut
+  off**, like a dropdown or a tooltip.
+
+### Header
+
+The most common reason to build your own window is a header,
+with some of the following items:
+
+- 🏷️ **File name**: the file the code comes from, often with a file-type
+  icon, like `src/theme.ts`
+- 🏷️ **Language label**: a small tag, like "TypeScript" or "bash"
+- 🏷️ **Tabs**: versions of the same code, like TypeScript and JavaScript, or
+  pnpm and npm
+- 🏷️ **Title**: a short caption, like "Basic usage" or "Before"
+- 🏷️ **Window controls**: the three dots of a desktop window, often for
+  terminal output
+- 🏷️ **Actions**: buttons next to the copy button, like "Open in StackBlitz"
+  or download
+
+<Preview>
+  <CodeWindow lang="ts" code={`export const theme = "dark";`}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "var(--spacing-sm) var(--spacing-lg)" }}>
+      <span>src/theme.ts</span>
+      <CodeWindowCopyButton />
+    </div>
+    <CodeWindowBody style={{ margin: 0, padding: "var(--spacing-md) var(--spacing-lg)", background: "var(--color-background-muted)" }} />
+  </CodeWindow>
+</Preview>
+
+```tsx
+import {
+  CodeWindow,
+  CodeWindowBody,
+  CodeWindowCopyButton,
+} from "@wondesign/code/CodeWindow";
+
+<CodeWindow code={code} lang="ts">
+  <div className="header">
+    <span>src/theme.ts</span>
+    <CodeWindowCopyButton />
+  </div>
+  <CodeWindowBody className="body" />
+</CodeWindow>;
+```
+
+```css
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-lg);
+}
+
+.body {
+  margin: 0;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-background-muted);
+}
+```
+
+### Custom Copy Button
+
+Pass `children` to `CodeWindowCopyButton` to replace its icon with your own
+content, like a text label:
+
+<Preview>
+  <CodeWindow lang="bash" code="pnpm add @wondesign/code">
+    <CodeWindowCopyButton>Copy</CodeWindowCopyButton>
+    <CodeWindowBody style={{ margin: 0, padding: "var(--spacing-md) var(--spacing-lg)", background: "var(--color-background-muted)" }} />
+  </CodeWindow>
+</Preview>
+
+```tsx
+<CodeWindow code={code} lang="bash">
+  <CodeWindowCopyButton
+    onCopy={() => toast("Copied!")}
+    onCopyFail={() => toast("Couldn't copy the code")}
+    timeout={3000}
+  >
+    Copy
+  </CodeWindowCopyButton>
+  <CodeWindowBody className="body" />
+</CodeWindow>
+```
+
+- 📌 `onCopy` runs after the code is copied, and `onCopyFail` runs when
+  copying fails, like when the browser blocks the clipboard. **Without
+  `onCopyFail`, a failed copy shows nothing to the user**, and is only logged
+  in the console.
+- 📌 After copying, the button is disabled for `2000` milliseconds by default.
+  Pass a value in milliseconds to `timeout` to override this.
+  Style the copied state with `[data-disabled]`.
+- 📌 Screen readers read the button as "Copy code", or "Copied" after
+  copying, **instead of your content**.
+
+---
+
+## Styling
+
+Start from the default styles. When they don't fit your design everywhere,
+[change the tokens](/components/code#customizing-tokens). When they don't fit
+in one place, override that window's styles.
+
+### Default Styles
+
+The key values are:
+
+- 🎨 **Background color**: `tokens.colors.backgroundMuted`
+- 🎨 **Border**: `1px solid`, in `tokens.colors.borderMuted`
+- 🎨 **Box shadow**: `tokens.elevation.lv1`
+- 🎨 **Font size**: from `tokens.typography.fontSize.bodyExtraSmall` at
+  `"small"`, up to `tokens.typography.fontSize.bodyMedium` at `"large"`
+- 🎨 **Copy button color**: `tokens.colors.textMuted`, and
+  `tokens.colors.success` once copied
+
+The rest, like the padding and the border radius, have default values too.
+Override any of them with `className` or `style`.
+
+- 📌 The background color and the padding belong to the code area, and the
+  border, shadow and rounded corners to the frame. **In your own window, only
+  the frame's styles apply**, so style the code area yourself.
+
+### One-Off Styles
+
+When a single window needs to look different, change it with `className` or
+`style`, like a wider window with space around it:
+
+```tsx
+<CodeWindow code={code} lang="ts" style={{ maxWidth: "640px", margin: "0 auto" }} />
+
+<CodeWindow code={code} lang="ts" className="docs-code" />
+```
+
+- 📌 **`className` and `style` apply to the outer window, not the code
+  area.** Setting a `background` on them doesn't change the code area. To
+  restyle it, build your own window and style `CodeWindowBody`.

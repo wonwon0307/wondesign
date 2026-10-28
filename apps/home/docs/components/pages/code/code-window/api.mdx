@@ -1,0 +1,113 @@
+# API
+
+This page covers every part of `CodeWindow` and its types. Import them from
+`@wondesign/code/CodeWindow`:
+
+```ts
+import {
+  // the ready-made window
+  CodeWindow,
+  // parts
+  CodeWindowBody,
+  CodeWindowCopyButton,
+  // types
+  type CodeWindowProps,
+  type CodeWindowBodyProps,
+  type CodeWindowCopyButtonProps,
+} from "@wondesign/code/CodeWindow";
+```
+
+---
+
+## Components
+
+### CodeWindow
+
+Without `children`, renders the ready-made window: a `<div>` with the frame,
+the code and a copy button. **With `children`, renders only the frame**, with
+your `children` inside, and shares the code and its settings with the parts.
+
+**Props**
+
+Takes the code, its settings, `className` and `style`, plus either
+`children` or `disableCopy`. Passing both is a type error. It doesn't accept
+other `<div>` props, like `id` or `aria-*`, and doesn't take a `ref`.
+
+```ts
+type CodeWindowProps = {
+  // the code to show and copy. a trailing newline is removed.
+  code: string;
+
+  // the language to highlight the code as, like `"ts"` or `"css"`.
+  // defaults to `"plaintext"`, with no highlighting.
+  lang?: string;
+
+  // the font size. defaults to `"medium"`.
+  size?: "small" | "medium" | "large";
+
+  // how many lines to show before scrolling.
+  // defaults to `0`, which shows every line.
+  maxNumLines?: number;
+
+  // whether to number each line. defaults to `false`.
+  showLineNumbers?: boolean;
+
+  // applied to the frame, not the code area.
+  className?: string;
+  style?: React.CSSProperties;
+} & (
+  | {
+      // your own window, built from the parts.
+      children: React.ReactNode;
+    }
+  | {
+      // whether to leave out the copy button. defaults to `false`.
+      disableCopy?: boolean;
+    }
+);
+```
+
+### CodeWindowBody
+
+The highlighted code. Renders a [CodeBlock](/components/code/code-block),
+with the code and its settings from its `CodeWindow`: `code`, `lang`,
+`size`, `maxNumLines` and `showLineNumbers`. Must be inside a `CodeWindow`.
+
+**Props**
+
+Accepts all `<pre>` props except `children`. Your `ref` reaches the rendered
+`<pre>` element. **It has no props of its own, so set the code and its
+settings on `CodeWindow`.**
+
+- 📌 When `maxNumLines` is set, **a `maxHeight` in `style` is replaced** by
+  the height of that many lines. Set one or the other, not both.
+
+### CodeWindowCopyButton
+
+A button that copies the code of its `CodeWindow`. Renders an icon button, or
+a button with your own content when you pass `children`. Must be inside a
+`CodeWindow`.
+
+**Props**
+
+Accepts all props of [`Pressable`](/components/buttons), except `onClick`,
+`aria-label` and `isDisabled`, which the button sets itself. It adds
+`onCopy`, `onCopyFail` and `timeout` of its own. Together, the key props are:
+
+```ts
+interface CodeWindowCopyButtonProps {
+  // your own content, in place of the copy icon.
+  children?: React.ReactNode;
+
+  // called after the code is copied.
+  onCopy?: () => void;
+
+  // called when copying fails, like when the browser blocks the clipboard.
+  onCopyFail?: () => void;
+
+  // how long the copied state lasts, in milliseconds. defaults to `2000`.
+  timeout?: number;
+
+  // ...
+}
+```

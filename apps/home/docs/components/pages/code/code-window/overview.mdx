@@ -1,0 +1,96 @@
+import { CodeWindow } from "@wondesign/ui/Code";
+import { Preview } from "@/widgets/preview";
+
+# CodeWindow
+
+`CodeWindow` builds on [CodeBlock](/components/code/code-block) to render
+syntax-highlighted code in a framed window, with a button that copies the
+code. There are two ways to use it:
+
+- 🎁 **Use the ready-made window.** Pass the `code` and its `lang` to
+  `CodeWindow`, and it's ready to use.
+- 🧩 **Build your own window.** **Passing `children` switches `CodeWindow` to
+  your own window**, made from its parts, like a window with a header, when
+  the ready-made one doesn't fit.
+
+---
+
+## Key Features
+
+- ✅ **Ready to Use**: Highlighted code, a frame and a copy button, in a single component
+- ✅ **Composable**: Or build your own window from its parts, like one with a header or your own copy button
+- ✅ **Copy Button**: Copies the code in one click, and shows a check once it's copied
+- ✅ **Max Lines**: Show a set number of lines, and scroll for the rest
+- ✅ **Line Numbers**: Number each line, without the numbers ending up in copied code
+
+<Preview>
+  <CodeWindow
+    lang="ts"
+    code={`function add(a: number, b: number) {
+    return a + b;
+}`}
+  />
+</Preview>
+
+```tsx
+import { CodeWindow } from "@wondesign/code/CodeWindow";
+
+const code = `function add(a: number, b: number) {
+  return a + b;
+}`;
+
+<CodeWindow code={code} lang="ts" />;
+```
+
+See [Examples](/components/code/code-window/examples) for sizes, max lines and
+building your own window.
+
+---
+
+## Structure
+
+**The ready-made window**
+
+- 🎁 **CodeWindow**: without `children`, renders the whole window: the frame,
+  the code and a copy button. It's all you need in most cases.
+
+**Its parts**, for building your own window
+
+- 🧩 **CodeWindowBody**: the highlighted code, rendered by
+  [CodeBlock](/components/code/code-block).
+- 🧩 **CodeWindowCopyButton**: a button that copies the code.
+
+```tsx
+// the ready-made window
+<CodeWindow code={code} lang="ts" />
+
+// your own window, from its parts
+<CodeWindow code={code} lang="ts">
+  <CodeWindowCopyButton />
+  <CodeWindowBody />
+</CodeWindow>
+```
+
+With `children`, **`CodeWindow` keeps only the window's frame**, places your
+`children` inside it, and shares the code and its settings, like `lang` and
+`size`, with the parts. Every part must be inside a `CodeWindow`, and throws
+an error otherwise. See the
+[API tab](/components/code/code-window/api) for the props of every part.
+
+---
+
+## Known Issues
+
+- 🐞 **Inherited from CodeBlock**: The code is rendered by `CodeBlock`, so it
+  shares its [known issues](/components/code/code-block#known-issues), like
+  showing nothing until it's highlighted.
+
+---
+
+## Upcoming Features
+
+- 🔜 **File Name**: Show a file name above the code, without building your own window
+- 🔜 **Language Selector**: Switch between versions of the same code, like TypeScript and JavaScript, or pnpm and npm
+- 🔜 **Collapsible Code**: Collapse long code behind a button that shows the rest, as an alternative to scrolling
+- 🔜 **Line Highlighting**: Pick lines to highlight, to draw attention to part of the code
+- 🔜 **Diff Lines**: Mark lines as added or removed, with a matching color
