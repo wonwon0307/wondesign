@@ -2,6 +2,11 @@ import { parseShortkey } from "@/shortkey/parse";
 import type { Shortkey } from "@/shortkey/types/shortkey";
 
 describe("parseShortkey", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
   it("parses a simple shortkey correctly", () => {
     const shortkey: Shortkey = "A";
     const result = parseShortkey(shortkey);
@@ -42,10 +47,7 @@ describe("parseShortkey", () => {
   });
 
   it("parses a shortkey with 'Mod' modifier correctly for an apple platform", () => {
-    Object.defineProperty(navigator, "platform", {
-      value: "MacIntel",
-      configurable: true,
-    });
+    vi.spyOn(navigator, "platform", "get").mockReturnValue("MacIntel");
     const shortkey: Shortkey = "Mod+K";
     const result = parseShortkey(shortkey);
 
@@ -59,8 +61,6 @@ describe("parseShortkey", () => {
   });
 
   it("gracefully handles SSR environment", () => {
-    const originalNavigator = globalThis.navigator;
-
     vi.stubGlobal("navigator", undefined);
 
     const shortkey: Shortkey = "Mod+K";
@@ -73,7 +73,5 @@ describe("parseShortkey", () => {
       shiftKey: false,
       metaKey: false,
     });
-
-    globalThis.navigator = originalNavigator;
   });
 });

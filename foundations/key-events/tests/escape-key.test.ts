@@ -15,9 +15,17 @@ describe("useEscapeKey", () => {
     expect(callback).toHaveBeenCalledTimes(1);
   });
 
+  it("does not call callback while an IME composition is in progress", () => {
+    const callback = vi.fn();
+    renderHook(() => useEscapeKey(callback));
+
+    fireEvent.keyDown(document, { code: "Escape", isComposing: true });
+    expect(callback).not.toHaveBeenCalled();
+  });
+
   it("does not call callback when disabled", () => {
     const callback = vi.fn();
-    renderHook(() => useEscapeKey(callback, false));
+    renderHook(() => useEscapeKey(callback, { enabled: false }));
 
     fireEvent.keyDown(document, { code: "Escape" });
     expect(callback).not.toHaveBeenCalled();
