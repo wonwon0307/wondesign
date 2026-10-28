@@ -46,7 +46,7 @@ export function TooltipProvider({
   });
   // 롱터치는 터치 자체에 delay가 있기 때문에, show에 delay를 주지 않는다.
   useLongPress(triggerRef, showImmediate, { enabled: !isOpen });
-  useEscapeKey(hideImmediate, isOpen);
+  useEscapeKey(hideImmediate, { enabled: isOpen });
   const { content, arrow } = useFloatingPosition(
     triggerRef,
     floatingRef,
