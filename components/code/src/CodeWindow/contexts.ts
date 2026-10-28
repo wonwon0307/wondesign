@@ -14,7 +14,7 @@ export function useCodeWindow() {
 
   if (!context) {
     throw new Error(
-      "[WonDesign Code] useCodeWindow() must be used within a CodeWindowWrapper.",
+      "[WonDesign Code] useCodeWindow() must be used within CodeWindow.",
     );
   }
 

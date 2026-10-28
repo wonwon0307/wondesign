@@ -1,21 +1,34 @@
+import { useMemo } from "react";
 import { clsx } from "clsx";
 
-import { CodeWindowWrapper } from "./fragments/Wrapper";
+import { CodeWindowContext } from "./contexts";
 import { CodeWindowBody } from "./fragments/Body";
 import { CodeWindowCopyButton } from "./fragments/Copy";
 import { styles } from "./styles.css";
 
-export interface CodeWindowProps {
-  children?: React.ReactNode; // header
+export type CodeWindowProps = (
+  | {
+      children: React.ReactNode;
+      size?: never;
+      maxNumLines?: never;
+      showLineNumbers?: never;
+      disableCopy?: never;
+      className?: never;
+      style?: never;
+    }
+  | {
+      children?: never;
+      size?: "small" | "medium" | "large";
+      maxNumLines?: number;
+      showLineNumbers?: boolean;
+      disableCopy?: boolean;
+      className?: string;
+      style?: React.CSSProperties;
+    }
+) & {
   code: string;
   lang?: string;
-  size?: "small" | "medium" | "large";
-  maxNumLines?: number;
-  showLineNumbers?: boolean;
-  disableCopy?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
+};
 
 export function CodeWindow({
   children,
@@ -28,23 +41,24 @@ export function CodeWindow({
   className,
   style,
 }: Readonly<CodeWindowProps>) {
-  const hasChildren = Boolean(children);
+  const contextValue = useMemo(
+    () => ({ code: code.replace(/\n$/, ""), lang }),
+    [code, lang],
+  );
 
   return (
-    <CodeWindowWrapper
-      code={code}
-      lang={lang}
-      className={clsx(styles.wrapper, className)}
-      style={style}
-    >
-      {children}
-      {!disableCopy && <CodeWindowCopyButton className={styles.codeCopy} />}
-      <CodeWindowBody
-        size={size}
-        maxNumLines={maxNumLines}
-        showLineNumbers={showLineNumbers}
-        className={styles.pre({ hasChildren })}
-      />
-    </CodeWindowWrapper>
+    <CodeWindowContext.Provider value={contextValue}>
+      {children || (
+        <div className={clsx(styles.wrapper, className)} style={style}>
+          {!disableCopy && <CodeWindowCopyButton className={styles.codeCopy} />}
+          <CodeWindowBody
+            size={size}
+            maxNumLines={maxNumLines}
+            showLineNumbers={showLineNumbers}
+            className={styles.pre({ hasHeader: false })}
+          />
+        </div>
+      )}
+    </CodeWindowContext.Provider>
   );
 }

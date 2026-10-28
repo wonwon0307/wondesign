@@ -6,6 +6,9 @@ const wrapper = style({
   display: "flex",
   flexDirection: "column",
   position: "relative",
+  borderRadius: tokens.radius.sm,
+  border: `1px solid ${tokens.colors.borderMuted}`,
+  boxShadow: tokens.elevation.lv1,
 });
 
 const pre = recipe({
@@ -13,12 +16,10 @@ const pre = recipe({
     margin: 0,
     padding: `${tokens.spacing.md} ${tokens.spacing.lg}`,
     backgroundColor: tokens.colors.backgroundMuted,
-    border: `1px solid ${tokens.colors.borderMuted}`,
-    boxShadow: tokens.elevation.lv1,
     scrollbarWidth: "thin",
   },
   variants: {
-    hasChildren: {
+    hasHeader: {
       true: {
         borderRadius: `0 0 ${tokens.radius.sm} ${tokens.radius.sm}`,
       },
