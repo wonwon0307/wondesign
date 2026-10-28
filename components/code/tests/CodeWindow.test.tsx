@@ -1,7 +1,6 @@
 import { act, fireEvent, render } from "@testing-library/react";
 
 import { CodeWindow } from "@/CodeWindow/CodeWindow";
-import { CodeWindowWrapper } from "@/CodeWindow/fragments/Wrapper";
 import { CodeWindowBody } from "@/CodeWindow/fragments/Body";
 import { CodeWindowCopyButton } from "@/CodeWindow/fragments/Copy";
 
@@ -75,10 +74,10 @@ describe("CodeWindow", () => {
 
   it("renders custom copy button correctly", async () => {
     const { findByText, getByLabelText } = render(
-      <CodeWindowWrapper code="const a = 1;" lang="javascript">
+      <CodeWindow code="const a = 1;" lang="javascript">
         <CodeWindowBody />
         <CodeWindowCopyButton>Test Copy Button</CodeWindowCopyButton>
-      </CodeWindowWrapper>,
+      </CodeWindow>,
     );
 
     const customCopyButton = await findByText("Test Copy Button");

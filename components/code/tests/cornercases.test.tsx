@@ -37,7 +37,7 @@ describe("CodeWindow - corner cases", () => {
 
   it("throws if fragment is used outside the wrapper", () => {
     expect(() => render(<CodeWindowBody />)).toThrow(
-      "[WonDesign Code] useCodeWindow() must be used within a CodeWindowWrapper.",
+      "[WonDesign Code] useCodeWindow() must be used within CodeWindow.",
     );
   });
 });
