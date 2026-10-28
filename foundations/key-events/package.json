@@ -44,5 +44,8 @@
   },
   "peerDependencies": {
     "react": "^19.2"
+  },
+  "devDependencies": {
+    "react-dom": "^19.3.1"
   }
 }
