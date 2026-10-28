@@ -1,0 +1,76 @@
+# Escape Key
+
+`useEscapeKey` calls `callback` when the user presses Escape. It's the usual
+way to close something from the keyboard, for example a dialog, menu or
+tooltip.
+
+---
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import { useEscapeKey } from "@wondesign/key-events/escape-key";
+
+export function Dialog() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEscapeKey(() => setIsOpen(false), { enabled: isOpen });
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Open</button>
+      {isOpen && <div role="dialog">…</div>}
+    </>
+  );
+}
+```
+
+- 📌 Listens on the whole page, wherever focus is — including inside inputs,
+  so the user can close a dialog while typing in it.
+- 📌 Escape pressed while typing with an input method (IME), such as for
+  Japanese or Chinese, only cancels the text being composed. It doesn't call
+  `callback`, except in Safari (see [Known Issues](#known-issues)).
+
+---
+
+## API
+
+Import `useEscapeKey` and `EscapeKeyOptions` from
+`@wondesign/key-events/escape-key`. `callback` is required, while `options`
+and everything in it can be left out. The hook returns nothing — it only calls
+`callback`:
+
+```ts
+interface EscapeKeyOptions {
+  // whether the hook is listening. defaults to `true`.
+  // for example, pass the open state,
+  // so it only listens while there's something to close.
+  enabled?: boolean;
+}
+
+function useEscapeKey(
+  // called when Escape is pressed.
+  callback: () => void,
+  options?: EscapeKeyOptions,
+): void;
+```
+
+---
+
+## Known Issues
+
+- 🐞 **Every layer closes at once**: Each enabled `useEscapeKey` is called on
+  the same Escape press. With a menu open inside a dialog, **one press closes
+  both**. Until [layered Escape](/foundations/key-events/overview#upcoming-features)
+  lands, turn the outer hook off while the inner layer is open:
+
+  ```tsx
+  // the dialog only listens while its menu is closed
+  useEscapeKey(closeDialog, { enabled: isDialogOpen && !isMenuOpen });
+  ```
+
+- 🐞 **Safari calls `callback` while composing**: Safari doesn't report the
+  Escape press that cancels an input method (IME) composition as part of it.
+  There, cancelling half-typed Japanese or Chinese text **also calls
+  `callback`**, closing the dialog along with it.

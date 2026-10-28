@@ -72,9 +72,18 @@ describe("useShortkey", () => {
     expect(callback).not.toHaveBeenCalled();
   });
 
+  it("doesn't call callback again while the shortkey is held down", () => {
+    const callback = vi.fn();
+    renderHook(() => useShortkey("Ctrl+K", callback));
+
+    fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
+    fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true, repeat: true });
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
+
   it("doesn't call callback if the enabled flag is false", () => {
     const callback = vi.fn();
-    renderHook(() => useShortkey("Ctrl+K", callback, false));
+    renderHook(() => useShortkey("Ctrl+K", callback, { enabled: false }));
 
     fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
     expect(callback).not.toHaveBeenCalled();
@@ -82,7 +91,7 @@ describe("useShortkey", () => {
 
   it("should handle null key gracefully", () => {
     const callback = vi.fn();
-    renderHook(() => useShortkey(null, callback, false));
+    renderHook(() => useShortkey(null, callback, { enabled: false }));
 
     fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
     expect(callback).not.toHaveBeenCalled();

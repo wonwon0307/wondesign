@@ -1,8 +1,7 @@
 import {
   useEffect,
-  useLayoutEffect,
+  useEffectEvent,
   useMemo,
-  useRef,
   useSyncExternalStore,
 } from "react";
 
@@ -19,40 +18,21 @@ function useHydrated() {
   );
 }
 
-/**
- * Registers a global keyboard shortkey and calls `callback` when it is pressed.
- *
- * Shortkey format: `"Mod+K"`, `"Shift+Alt+S"`, `"/"`.
- * `Mod` resolves to `Cmd` on Mac and `Ctrl` on Windows/Linux.
- *
- * The listener is automatically skipped when focus is inside an `<input>`,
- * `<textarea>`, or `contenteditable` element — unless the shortkey includes
- * `Mod` or `Ctrl`, in which case it is safe to fire regardless.
- *
- * @param key - The shortkey string, e.g. `"Mod+K"` or `"Shift+/"`. Pass `null` to disable entirely.
- * @param callback - Called when the shortkey is matched. Stable across renders — no need to wrap in `useCallback`.
- * @param options - Optional configuration.
- * @returns An object `{ ariaKeyshortcuts }` holding the formatted string for the
- *          `aria-keyshortcuts` attribute, or `undefined` when `key` is `null`.
- *          For `Mod`-based shortkeys the value resolves per platform (`Meta` on
- *          Apple, `Control` elsewhere), so it is `undefined` on the server and
- *          during hydration and only becomes available once mounted on the client.
- */
+export interface ShortkeyOptions {
+  enabled?: boolean;
+}
+
 export function useShortkey(
   key: BindableShortkey | null,
   callback: () => void,
-  enabled: boolean = true,
+  { enabled = true }: ShortkeyOptions = {},
 ) {
-  const callbackRef = useRef(callback);
+  const onShortkey = useEffectEvent(callback);
   const parsedKeys = useMemo(
     () => (key ? parseBindableShortkey(key) : null),
     [key],
   );
   const hydrated = useHydrated();
-
-  useLayoutEffect(() => {
-    callbackRef.current = callback;
-  });
 
   useEffect(() => {
     if (!enabled || !parsedKeys) return;
@@ -66,6 +46,8 @@ export function useShortkey(
       if (ctrlKey !== e.ctrlKey) return;
       if (altKey !== e.altKey) return;
       if (shiftKey !== e.shiftKey) return;
+
+      if (e.repeat) return;
 
       if (!hasCommandModifier) {
         const active = document.activeElement;
@@ -81,7 +63,7 @@ export function useShortkey(
       }
 
       e.preventDefault();
-      callbackRef.current();
+      onShortkey();
     };
 
     document.addEventListener("keydown", handler);

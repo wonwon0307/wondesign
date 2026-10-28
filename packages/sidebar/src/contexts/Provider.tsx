@@ -39,7 +39,9 @@ export function SidebarProvider({
   });
   const contentId = useId();
 
-  const result = useShortkey(shortkey, toggle, collapse !== "disable");
+  const result = useShortkey(shortkey, toggle, {
+    enabled: collapse !== "disable",
+  });
 
   const finalState: "closed" | "collapsed" | "expanded" = useMemo(() => {
     if (isMobile) {
