@@ -48,7 +48,7 @@ export function CodeWindow({
 
   return (
     <CodeWindowContext.Provider value={contextValue}>
-      {children || (
+      {children ?? (
         <div className={clsx(styles.wrapper, className)} style={style}>
           {!disableCopy && <CodeWindowCopyButton className={styles.codeCopy} />}
           <CodeWindowBody
