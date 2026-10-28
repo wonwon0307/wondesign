@@ -1,0 +1,124 @@
+import { CodeBlock } from "@wondesign/ui/Code";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `CodeBlock`, from picking a language to fitting it into
+your own design. Each example shows the rendered result, followed by its code.
+
+---
+
+## Languages
+
+The `lang` property sets the language to highlight the code as. It takes a
+language's name, like `"typescript"`, or a common alias, like `"ts"`:
+
+<Preview>
+  <CodeBlock
+    lang="css"
+    code={`.card {
+    padding: 16px;
+    border-radius: 8px;
+}`}
+  />
+  <CodeBlock lang="bash" code="pnpm add @wondesign/code" />
+</Preview>
+
+```tsx
+<CodeBlock code={css} lang="css" />
+<CodeBlock code="pnpm add @wondesign/code" lang="bash" />
+```
+
+Without `lang`, the code is shown as plain text. Not every language is
+supported; see [Known Issues](/components/code/code-block#known-issues) for
+which ones are.
+
+- 📌 **An unsupported language shows plain text without a warning**. Check
+  the spelling when a block isn't highlighted.
+- 📌 If highlighting fails, the code is still shown as plain text, with an
+  error in the console.
+- 📌 Long lines aren't wrapped. They stay on one line, and the block scrolls
+  sideways.
+
+---
+
+## Line Numbers
+
+Pass `showLineNumbers` to number each line:
+
+<Preview>
+  <CodeBlock
+    lang="ts"
+    showLineNumbers
+    code={`const a = 1;
+const b = 2;
+const sum = a + b;`}
+  />
+</Preview>
+
+```tsx
+<CodeBlock code={code} lang="ts" showLineNumbers />
+```
+
+- 📌 The numbers can't be selected, so **copying the code leaves them out**.
+
+---
+
+## Styling
+
+Start from the default styles. When they don't fit your design everywhere,
+[change the tokens](/components/code#customizing-tokens). When they don't fit
+in one place, override that code block's styles.
+
+### Default Styles
+
+A code block only sets what the code needs, and **has no background, padding
+or border of its own**. Use a [CodeWindow](/components/code/code-window) for
+code in a framed window.
+
+The key values are:
+
+- 🎨 **Font family**: `tokens.typography.fontFamily.code`
+- 🎨 **Colors**: the GitHub light and dark themes, following the page's color
+  scheme
+
+The rest, like the space between the line numbers and the code, have default
+values too. Override any of them with `className` or `style`.
+
+### One-Off Styles
+
+When a single code block needs to look different, change it with `className`
+or `style`, like a framed block with a background and padding:
+
+<Preview>
+  <CodeBlock
+    lang="ts"
+    code={`const theme = "dark";`}
+    style={{
+      padding: "var(--spacing-md)",
+      borderRadius: "var(--radius-md)",
+      background: "var(--color-background-muted)",
+    }}
+  />
+</Preview>
+
+```tsx
+<CodeBlock
+  code={code}
+  lang="ts"
+  style={{
+    padding: tokens.spacing.md,
+    borderRadius: tokens.radius.md,
+    background: tokens.colors.backgroundMuted,
+  }}
+/>
+
+<CodeBlock code={code} lang="ts" className="snippet" />
+```
+
+```css
+.snippet {
+  padding: var(--spacing-md);
+  font-size: var(--font-size-body-sm);
+}
+```

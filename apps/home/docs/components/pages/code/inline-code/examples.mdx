@@ -1,0 +1,77 @@
+import { InlineCode } from "@wondesign/ui/Code";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `InlineCode`, from picking a size to fitting it into your
+own design. Each example shows the rendered result, followed by its code.
+
+---
+
+## Sizes
+
+The `size` property sets the font size and the padding together. It's
+`"medium"` by default:
+
+<Preview>
+  Pass <InlineCode size="large">size</InlineCode> to change the size.
+
+Pass <InlineCode size="medium">size</InlineCode> to change the size.
+
+Pass <InlineCode size="small">size</InlineCode> to change the size.
+
+</Preview>
+
+```tsx
+<InlineCode size="large">size</InlineCode>
+<InlineCode size="medium">size</InlineCode>
+<InlineCode size="small">size</InlineCode>
+```
+
+- 📌 Match the size to the text around it, like `"small"` in a table cell or
+  a caption, and `"large"` in larger body text.
+
+---
+
+## Styling
+
+Start from the default styles. When they don't fit your design everywhere,
+[change the tokens](/components/code#customizing-tokens). When they don't fit
+in one place, override that inline code's styles.
+
+### Default Styles
+
+The key values are:
+
+- 🎨 **Color**: `inherit`, so **inline code takes the color of the text
+  around it**
+- 🎨 **Background color**: `tokens.colors.backgroundMuted`
+- 🎨 **Box shadow**: `tokens.elevation.lv1`
+- 🎨 **Font family**: `tokens.typography.fontFamily.code`
+- 🎨 **Line height**: `tokens.typography.lineHeight.single`
+
+The rest, like each size's font size and padding, have default values too.
+Override any of them with `className` or `style`.
+
+### One-Off Styles
+
+When a single inline code needs to look different, change it with
+`className` or `style`, like a flat one without the shadow:
+
+<Preview>
+  Pass <InlineCode style={{ boxShadow: "none" }}>className</InlineCode> to add
+  your own styles.
+</Preview>
+
+```tsx
+<InlineCode style={{ boxShadow: "none" }}>className</InlineCode>
+
+<InlineCode className="prop-name">className</InlineCode>
+```
+
+```css
+.prop-name {
+  box-shadow: none;
+  color: var(--color-primary);
+}
+```
