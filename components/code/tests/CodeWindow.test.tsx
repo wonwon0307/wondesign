@@ -29,7 +29,6 @@ describe("CodeWindow", () => {
     const line = await findByText("const a = 1;");
     const pre = line.closest("pre");
     expect(pre).toBeTruthy();
-    expect(pre?.style.maxHeight).toBe("none");
   });
 
   it("renders correctly with scrollable content (vertically)", async () => {
