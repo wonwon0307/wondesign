@@ -129,36 +129,21 @@ Pass `maxNumLines` to cut it off after that many lines, with an ellipsis:
 ## Styling
 
 Start from the default styles. When they don't fit your design everywhere,
-change the tokens. When they don't fit in one place, override that
-paragraph's styles.
+[change the tokens](/components/texts#customizing-tokens). When they don't fit
+in one place, override that paragraph's styles.
 
 ### Default Styles
 
-Every paragraph shares the following:
+The key values are:
 
+- 🎨 **Font size**: from `tokens.typography.fontSize.bodySmall` at
+  `"small"`, up to `tokens.typography.fontSize.bodyLarge` at `"large"`
+- 🎨 **Color**: `tokens.colors.text`, or `tokens.colors.textMuted` with
+  `tone="muted"`
 - 🎨 **Line height**: `tokens.typography.lineHeight.paragraph`
-- 🎨 **Font family**: `tokens.typography.fontFamily.normal`
-- 🎨 **Font weight**: `tokens.typography.fontWeight.regular`
-- 🎨 **Max width**: `100%`
-- 🎨 **Text wrap**: `pretty`, so the last line isn't left with a single word
-- 🎨 **Margin**: `tokens.spacing.sm` vertical and `0` horizontal
 
-Each `size` sets the font size:
-
-- 🎨 **`"large"`**: `tokens.typography.fontSize.bodyLarge`
-- 🎨 **`"medium"`**: `tokens.typography.fontSize.bodyMedium`
-- 🎨 **`"small"`**: `tokens.typography.fontSize.bodySmall`
-
-Each `tone` sets the color:
-
-- 🎨 **`"default"`**: `tokens.colors.text`
-- 🎨 **`"muted"`**: `tokens.colors.textMuted`
-
-### Customizing Tokens
-
-When the default styles don't fit most or all of your app, change the token
-values instead of overriding every paragraph. See
-[Customization](/foundations/tokens/customization) in the tokens docs.
+The rest, like the margins and the text wrapping, have default values too.
+Override any of them with `className` or `style`.
 
 ### One-Off Styles
 

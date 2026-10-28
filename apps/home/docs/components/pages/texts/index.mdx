@@ -69,6 +69,31 @@ patterns that show up across many pages.
 
 ---
 
+## Customizing Tokens
+
+Every value the components read from `@wondesign/tokens` can be replaced with
+your own, from colors to spacing. For this package, the main ones are the
+typography tokens, like the font family, font sizes and line heights. To use
+your app's font everywhere, override `tokens.typography.fontFamily.normal`
+once instead of styling each component:
+
+```ts
+buildCssVariables({
+  typography: {
+    ...defaultTypography,
+    fontFamily: {
+      ...defaultTypography.fontFamily,
+      normal: "Inter, sans-serif",
+    },
+  },
+});
+```
+
+See [Customization](/foundations/tokens/customization#typography) in the
+tokens docs for how to build and install your token values.
+
+---
+
 ## Upcoming Features
 
 - 🔜 **Overflow Styles**: Choose how clamped text ends, with an ellipsis, a fade or a clean cut

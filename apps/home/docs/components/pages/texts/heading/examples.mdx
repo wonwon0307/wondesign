@@ -84,30 +84,21 @@ A heading is **cut off after one line by default**, with an ellipsis. Pass
 ## Styling
 
 Start from the default styles. When they don't fit your design everywhere,
-change the tokens. When they don't fit in one place, override that heading's
-styles.
+[change the tokens](/components/texts#customizing-tokens). When they don't fit
+in one place, override that heading's styles.
 
 ### Default Styles
 
-Every level shares the following:
-
-- 🎨 **Color**: none, so **a heading takes the color of the text around it**
-- 🎨 **Line height**: `tokens.typography.lineHeight.heading`
-- 🎨 **Font family**: `tokens.typography.fontFamily.normal`
-- 🎨 **Margin**: `tokens.spacing.lg` vertical and `0` horizontal
-
-Each level's font size and weight are as follows:
+The key values are:
 
 - 🎨 **Font size**: from `tokens.typography.fontSize.headingLarge` at level 1,
   down to `tokens.typography.fontSize.bodyMedium` at level 6
 - 🎨 **Font weight**: `tokens.typography.fontWeight.bold` for levels 1–3, and
   `tokens.typography.fontWeight.semibold` for levels 4–6
+- 🎨 **Color**: none, so **a heading takes the color of the text around it**
 
-### Customizing Tokens
-
-When the default styles don't fit most or all of your app, change the token
-values instead of overriding every heading. See
-[Customization](/foundations/tokens/customization) in the tokens docs.
+The rest, like the line height and the margins, have default values too.
+Override any of them with `className` or `style`.
 
 ### One-Off Styles
 
