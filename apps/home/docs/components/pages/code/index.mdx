@@ -65,3 +65,28 @@ across many pages.
   parts are exported too, to build a code window of your own.
 - ⭐ **[KeyboardGroup](/components/code/keyboard-group)** — a keyboard
   shortcut like `Mod+K`, shown the way the user's platform writes it.
+
+---
+
+## Customizing Tokens
+
+Every value the components read from `@wondesign/tokens` can be replaced with
+your own, from colors to spacing. For this package, the main one is the code
+font family, `tokens.typography.fontFamily.code`, which every component uses.
+To use a font of your own, like your app's monospace font, override that token
+once instead of styling each component:
+
+```ts
+buildCssVariables({
+  typography: {
+    ...defaultTypography,
+    fontFamily: {
+      ...defaultTypography.fontFamily,
+      code: '"Fira Code", monospace',
+    },
+  },
+});
+```
+
+See [Customization](/foundations/tokens/customization#typography) in the
+tokens docs for how to build and install your token values.
