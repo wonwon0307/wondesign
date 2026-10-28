@@ -9,25 +9,20 @@ import { styles } from "./styles.css";
 export type CodeWindowProps = (
   | {
       children: React.ReactNode;
-      size?: never;
-      maxNumLines?: never;
-      showLineNumbers?: never;
       disableCopy?: never;
-      className?: never;
-      style?: never;
     }
   | {
       children?: never;
-      size?: "small" | "medium" | "large";
-      maxNumLines?: number;
-      showLineNumbers?: boolean;
       disableCopy?: boolean;
-      className?: string;
-      style?: React.CSSProperties;
     }
 ) & {
   code: string;
   lang?: string;
+  size?: "small" | "medium" | "large";
+  maxNumLines?: number;
+  showLineNumbers?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
 };
 
 export function CodeWindow({
@@ -35,30 +30,35 @@ export function CodeWindow({
   code,
   lang = "plaintext",
   size = "medium",
-  maxNumLines,
-  showLineNumbers,
+  maxNumLines = 0,
+  showLineNumbers = false,
   disableCopy = false,
   className,
   style,
 }: Readonly<CodeWindowProps>) {
   const contextValue = useMemo(
-    () => ({ code: code.replace(/\n$/, ""), lang }),
-    [code, lang],
+    () => ({
+      code: code.replace(/\n$/, ""),
+      lang,
+      size,
+      maxNumLines,
+      showLineNumbers,
+    }),
+    [code, lang, size, maxNumLines, showLineNumbers],
   );
 
   return (
     <CodeWindowContext.Provider value={contextValue}>
-      {children ?? (
-        <div className={clsx(styles.wrapper, className)} style={style}>
-          {!disableCopy && <CodeWindowCopyButton className={styles.codeCopy} />}
-          <CodeWindowBody
-            size={size}
-            maxNumLines={maxNumLines}
-            showLineNumbers={showLineNumbers}
-            className={styles.pre({ hasHeader: false })}
-          />
-        </div>
-      )}
+      <div className={clsx(styles.wrapper, className)} style={style}>
+        {children ?? (
+          <>
+            <CodeWindowBody className={styles.pre} />
+            {!disableCopy && (
+              <CodeWindowCopyButton className={styles.codeCopy} />
+            )}
+          </>
+        )}
+      </div>
     </CodeWindowContext.Provider>
   );
 }

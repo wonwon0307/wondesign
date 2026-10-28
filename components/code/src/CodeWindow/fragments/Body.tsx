@@ -4,26 +4,22 @@ import { CodeBlock } from "@/CodeBlock/CodeBlock";
 import { useCodeWindow } from "../contexts";
 import { styles } from "./styles.css";
 
-export interface CodeWindowBodyProps
-  extends
-    Omit<React.HTMLAttributes<HTMLPreElement>, "children">,
-    React.RefAttributes<HTMLPreElement> {
-  size?: "small" | "medium" | "large";
-  maxNumLines?: number;
-  showLineNumbers?: boolean;
-}
+export type CodeWindowBodyProps = Omit<
+  React.HTMLAttributes<HTMLPreElement>,
+  "children"
+> &
+  React.RefAttributes<HTMLPreElement>;
 
 export function CodeWindowBody({
-  size = "medium",
-  maxNumLines = 0,
-  showLineNumbers = false,
   className,
   style,
   ...rest
 }: Readonly<CodeWindowBodyProps>) {
-  const { code, lang } = useCodeWindow();
+  const { code, lang, size, maxNumLines, showLineNumbers } = useCodeWindow();
 
   const vertical = maxNumLines ? "scroll" : "auto";
+  const finalStyle =
+    vertical === "scroll" ? { ...style, maxHeight: `${maxNumLines}lh` } : style;
 
   return (
     <CodeBlock
@@ -32,10 +28,7 @@ export function CodeWindowBody({
       lang={lang}
       showLineNumbers={showLineNumbers}
       className={clsx(styles.pre({ size, vertical }), className)}
-      style={{
-        ...style,
-        maxHeight: vertical === "scroll" ? `${maxNumLines}lh` : "none",
-      }}
+      style={finalStyle}
     />
   );
 }

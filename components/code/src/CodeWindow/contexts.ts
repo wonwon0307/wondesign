@@ -3,6 +3,9 @@ import { createContext, useContext } from "react";
 interface CodeWindowContextValue {
   code: string;
   lang: string;
+  size: "small" | "medium" | "large";
+  maxNumLines: number;
+  showLineNumbers: boolean;
 }
 
 export const CodeWindowContext = createContext<
