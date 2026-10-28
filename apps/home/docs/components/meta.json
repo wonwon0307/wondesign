@@ -34,7 +34,6 @@
       "type": "group",
       "label": "Styled",
       "items": [
-        "[Buttons](/buttons)",
         {
           "type": "link",
           "label": "Code",
