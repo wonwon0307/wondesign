@@ -14,9 +14,9 @@ export function useEscapeKey(
     if (!enabled) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.isComposing) return;
+      if (event.isComposing || event.repeat) return;
 
-      if (event.code === "Escape") {
+      if (event.key === "Escape") {
         onEscape();
       }
     };
