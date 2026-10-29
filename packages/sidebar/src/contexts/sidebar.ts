@@ -10,7 +10,6 @@ type SidebarContextValue = {
   // implementation details
   side: "left" | "right";
   shortkey: BindableShortkey | null;
-  ariaKeyshortcuts: string | undefined;
   contentId: string;
 };
 
