@@ -1,22 +1,8 @@
-import {
-  useEffect,
-  useEffectEvent,
-  useMemo,
-  useSyncExternalStore,
-} from "react";
+import { useEffect, useEffectEvent, useMemo } from "react";
 
+import { useIsApple } from "./isApple";
 import { parseBindableShortkey } from "./parse";
 import type { BindableShortkey } from "./types/shortkey";
-
-const noopSubscribe = () => () => {};
-
-function useHydrated() {
-  return useSyncExternalStore(
-    noopSubscribe,
-    () => true,
-    () => false,
-  );
-}
 
 export interface ShortkeyOptions {
   enabled?: boolean;
@@ -28,11 +14,11 @@ export function useShortkey(
   { enabled = true }: ShortkeyOptions = {},
 ) {
   const onShortkey = useEffectEvent(callback);
+  const isApple = useIsApple();
   const parsedKeys = useMemo(
-    () => (key ? parseBindableShortkey(key) : null),
-    [key],
+    () => (key ? parseBindableShortkey(key, isApple ?? false) : null),
+    [key, isApple],
   );
-  const hydrated = useHydrated();
 
   useEffect(() => {
     if (!enabled || !parsedKeys) return;
@@ -46,8 +32,6 @@ export function useShortkey(
       if (ctrlKey !== e.ctrlKey) return;
       if (altKey !== e.altKey) return;
       if (shiftKey !== e.shiftKey) return;
-
-      if (e.repeat) return;
 
       if (!hasCommandModifier) {
         const active = document.activeElement;
@@ -63,15 +47,11 @@ export function useShortkey(
       }
 
       e.preventDefault();
+      if (e.repeat) return;
       onShortkey();
     };
 
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [enabled, parsedKeys]);
-
-  if (!parsedKeys) return undefined;
-  if (parsedKeys.usesMod && !hydrated) return undefined;
-
-  return { ariaKeyshortcuts: parsedKeys.ariaKeyshortcuts };
 }
