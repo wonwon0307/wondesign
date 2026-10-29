@@ -15,8 +15,8 @@ export type {
 export { InlineCode } from "@wondesign/code/InlineCode";
 export type { InlineCodeProps } from "@wondesign/code/InlineCode";
 
-export { KeyboardGroup, Keyboard } from "@wondesign/code/Keyboard";
-export type {
-  KeyboardGroupProps,
-  KeyboardProps,
-} from "@wondesign/code/Keyboard";
+export { Keyboard } from "@wondesign/code/Keyboard";
+export type { KeyboardProps } from "@wondesign/code/Keyboard";
+
+export { KeyboardGroup } from "@wondesign/code/KeyboardGroup";
+export type { KeyboardGroupProps } from "@wondesign/code/KeyboardGroup";

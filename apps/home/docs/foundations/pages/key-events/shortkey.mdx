@@ -1,8 +1,9 @@
 # Shortkey
 
 `useShortkey` calls `callback` when the user presses a shortkey, like `Mod+K`.
-It also gives you the `aria-keyshortcuts` value for the control the shortkey
-triggers.
+`useShortkeyDisplay` gives you what you need to show that shortkey: its keys
+for the user's platform, a label for screen readers, and the
+`aria-keyshortcuts` value.
 
 ---
 
@@ -10,22 +11,36 @@ triggers.
 
 ```tsx
 import { useState } from "react";
-import { useShortkey } from "@wondesign/key-events/shortkey";
+import {
+  useShortkey,
+  useShortkeyDisplay,
+} from "@wondesign/key-events/shortkey";
+
+const SEARCH_SHORTKEY = "Mod+K";
 
 export function SearchButton() {
   const [isOpen, setIsOpen] = useState(false);
-  const shortkey = useShortkey("Mod+K", () => setIsOpen((open) => !open));
+  useShortkey(SEARCH_SHORTKEY, () => setIsOpen((open) => !open));
+  const display = useShortkeyDisplay(SEARCH_SHORTKEY);
 
   return (
     <button
-      aria-keyshortcuts={shortkey?.ariaKeyshortcuts}
+      aria-keyshortcuts={display?.keyShortcuts}
       onClick={() => setIsOpen(true)}
     >
-      Search
+      Search {display?.keys.join(" ")}
     </button>
   );
 }
 ```
+
+- 📌 Pass the same constant, like `SEARCH_SHORTKEY`, to both hooks. Then the
+  keys you show always match the keys that work, even after you change the
+  shortkey.
+- 📌 `useShortkeyDisplay` doesn't listen for key presses, so you can call it
+  as often as you like, for example once in a button and again in its tooltip.
+
+**Listening**:
 
 - 📌 Listens on the whole page, wherever focus is.
 - 📌 Shortkeys without Ctrl or ⌘ — like `/` or `Shift+S` — **don't fire while
@@ -57,19 +72,21 @@ match exactly — `Mod+K` doesn't fire when Shift is also held.
 - 🟣 Digits `0` to `9`
 - 🟣 Symbols `` ` `` `-` `=` `[` `]` `\` `;` `'` `,` `.` `/`
 
+`useShortkeyDisplay` also accepts `Enter`, `Return`, `Escape`, `Tab`, `Space`,
+`CapsLock`, `Backspace`, `Delete`, the arrows `↑` `↓` `←` `→` and `F1` to
+`F12` as the key, so you can show them. `useShortkey` doesn't bind them.
+
 ---
 
 ## API
 
-`@wondesign/key-events/shortkey` has two parts: the `useShortkey` hook, which
-listens for a shortkey, and helpers for displaying one, which don't listen for
-anything.
+Import the hooks, their types and the shortkey types from
+`@wondesign/key-events/shortkey`.
 
-### Hook
+### useShortkey
 
-Import `useShortkey`, `ShortkeyOptions` and the shortkey types from
-`@wondesign/key-events/shortkey`. `key` and `callback` are required, while
-`options` and everything in it can be left out:
+Listens for a shortkey. `key` and `callback` are required, while `options`
+and everything in it can be left out:
 
 ```ts
 interface ShortkeyOptions {
@@ -85,38 +102,40 @@ function useShortkey(
   // called when the shortkey is pressed.
   callback: () => void,
   options?: ShortkeyOptions,
-): { ariaKeyshortcuts: string } | undefined;
+): void;
 ```
 
-The hook returns `ariaKeyshortcuts`, ready for the `aria-keyshortcuts`
-attribute, or `undefined` when `key` is `null` or invalid. For `Mod`
-shortkeys, the value depends on the platform, so it's `undefined` on the
-server and during hydration, and filled in once the page is running in the
-browser.
+### useShortkeyDisplay
 
-### Helpers
-
-Two helpers for displaying shortkeys, like in a menu or a tooltip. Import them
-and `ParsedShortkey` from `@wondesign/key-events/shortkey`:
+Shows a shortkey, like in a button, a menu or a tooltip:
 
 ```ts
-interface ParsedShortkey {
-  targetKey: BaseKey;
-  ctrlKey: boolean;
-  altKey: boolean;
-  shiftKey: boolean;
-  metaKey: boolean;
+interface ShortkeyDisplay {
+  // the keys as the user's platform writes them,
+  // like `["⌘", "K"]` on a Mac and `["Ctrl", "K"]` elsewhere.
+  keys: string[];
+  // the key names for screen readers, like `"Command K"`.
+  label: string;
+  // the value for the `aria-keyshortcuts` attribute, like `"Meta+K"`.
+  keyShortcuts: string;
 }
 
-// the modifiers and key a shortkey stands for, with `Mod`
-// resolved for the current platform. it also accepts keys
-// `useShortkey` can't bind yet, like `Enter` or `F1`.
-function parseShortkey(shortkey: Shortkey): ParsedShortkey;
-
-// whether the user is on a Mac, iPhone or iPad.
-// always `false` on the server.
-function isApple(): boolean;
+function useShortkeyDisplay(
+  // the shortkey to show, like `"Mod+K"`.
+  // pass `null` to show nothing.
+  shortkey: Shortkey | null,
+): ShortkeyDisplay | undefined;
 ```
+
+It returns `undefined` when `shortkey` is `null`. Modifiers are listed in the
+order each platform's users expect, whatever order you write them in — see
+[KeyboardGroup](/components/code/keyboard-group#writing-shortkeys) for the
+symbols and names on each platform.
+
+Modifiers look different on each platform, so for a shortkey with modifiers,
+**it returns `undefined` on the server and during hydration**, and fills in
+once the page is running in the browser. A single key, like `K`, is returned
+right away.
 
 ---
 
@@ -126,19 +145,30 @@ function isApple(): boolean;
   Control key, on a Mac too, where users expect ⌘. Write `Mod+K`, not
   `Ctrl+K`, unless you really mean Control.
 - ⚠️ **Write the unshifted symbol**: To bind `?`, write `Shift+/` — the key
-  it's on. `?` itself isn't a valid key.
+  it's on. `?` itself is an invalid key.
 - ⚠️ **Browser shortcuts are replaced**: Binding `Mod+S`, `Mod+F` or `Mod+P`
   **stops the browser from saving, finding or printing**. It's not
   recommended to turn a browser shortcut into a different feature — only do
   so if you really know what you're doing.
 - ⚠️ **Shortkeys from outside your code**: TypeScript checks shortkeys you
-  write, but not ones read at runtime, like from user settings. An invalid one
-  **does nothing**, apart from a warning in the console.
+  write, but not ones read at runtime, like from user settings. In
+  `useShortkey`, an invalid one **does nothing**, apart from a warning in the
+  console. `useShortkeyDisplay` **shows what it can, with no warning**: unknown
+  modifiers are left out, and an unknown key is shown as written.
+- ⚠️ **Avoid `Ctrl+Alt` shortkeys**: On Windows, the AltGr key counts as
+  Ctrl+Alt, and many keyboards type characters with it — like `ą` on Polish
+  or `@` on German keyboards. Binding `Ctrl+Alt+A` **stops Polish users from
+  typing `ą`**, even inside inputs.
 
 ---
 
 ## Known Issues
 
+- 🐞 **Every matching hook fires**: When more than one enabled `useShortkey`
+  listens for the same shortkey, **one press calls every `callback`**. Make
+  sure only one is enabled at a time, using `enabled` or `null`.
+- 🐞 **Typing in web components**: Shortkeys without Ctrl or ⌘ **still fire
+  while the user types** in an input inside a web component.
 - 🐞 **Keys are matched by position**: Shortkeys follow where a key sits on a
   US QWERTY keyboard, not what's printed on it. On a French AZERTY keyboard,
   `Mod+Z` fires from the key labelled W. Support for

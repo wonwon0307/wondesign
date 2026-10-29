@@ -1,4 +1,3 @@
-import { isApple } from "./isApple";
 import { BASE_KEY_MAP } from "./map";
 import type { BaseKey, BindableBaseKey } from "./types/basekey";
 import type {
@@ -7,7 +6,10 @@ import type {
   Shortkey,
 } from "./types/shortkey";
 
-export function parseShortkey(shortkey: Shortkey): ParsedShortkey {
+export function parseShortkey(
+  shortkey: Shortkey,
+  isApple: boolean,
+): ParsedShortkey {
   const parts = shortkey.split("+");
   const targetKey = parts.pop() as BaseKey;
 
@@ -24,7 +26,7 @@ export function parseShortkey(shortkey: Shortkey): ParsedShortkey {
     parts.includes("Windows");
 
   if (parts.includes("Mod")) {
-    if (isApple()) {
+    if (isApple) {
       metaKey = true;
     } else {
       ctrlKey = true;
@@ -57,6 +59,7 @@ const VALID_MODIFIERS = new Set([
 
 export function parseBindableShortkey(
   shortkey: Shortkey,
+  isApple: boolean,
 ): ParsedBindableShortkey | null {
   const modifierParts = shortkey.split("+");
   modifierParts.pop();
@@ -64,34 +67,27 @@ export function parseBindableShortkey(
   const invalidModifier = modifierParts.find(
     (part: string) => !VALID_MODIFIERS.has(part),
   );
-  if (invalidModifier) {
+  if (invalidModifier !== undefined) {
     console.warn(
-      `[WonDesign Key-Events] Invalid shortkey: "${invalidModifier}" is not a supported modifier.`,
+      `[WonDesign Key-Events] Invalid shortkey "${shortkey}": "${invalidModifier}" is not a supported modifier.`,
     );
 
     return null;
   }
 
-  const { targetKey, ctrlKey, altKey, shiftKey, metaKey } =
-    parseShortkey(shortkey);
+  const { targetKey, ctrlKey, altKey, shiftKey, metaKey } = parseShortkey(
+    shortkey,
+    isApple,
+  );
 
   const targetKeyCode = BASE_KEY_MAP[targetKey as BindableBaseKey];
   if (!targetKeyCode) {
     console.warn(
-      `[WonDesign Key-Events] Invalid shortkey: "${targetKey}" is not a supported key.`,
+      `[WonDesign Key-Events] Invalid shortkey "${shortkey}": "${targetKey}" is not a supported key.`,
     );
 
     return null;
   }
-
-  const parts: string[] = [];
-  if (ctrlKey) parts.push("Control");
-  if (altKey) parts.push("Alt");
-  if (shiftKey) parts.push("Shift");
-  if (metaKey) parts.push("Meta");
-  parts.push(targetKey);
-
-  const usesMod = modifierParts.includes("Mod");
 
   return {
     targetKey: targetKey as BindableBaseKey,
@@ -100,7 +96,5 @@ export function parseBindableShortkey(
     altKey,
     shiftKey,
     metaKey,
-    ariaKeyshortcuts: parts.join("+"),
-    usesMod,
   };
 }

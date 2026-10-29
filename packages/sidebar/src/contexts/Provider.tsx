@@ -39,7 +39,7 @@ export function SidebarProvider({
   });
   const contentId = useId();
 
-  const result = useShortkey(shortkey, toggle, {
+  useShortkey(shortkey, toggle, {
     enabled: collapse !== "disable",
   });
 
@@ -75,10 +75,9 @@ export function SidebarProvider({
       isMobile,
       side,
       shortkey,
-      ariaKeyshortcuts: result?.ariaKeyshortcuts ?? undefined,
       contentId,
     }),
-    [collapse, finalState, toggle, isMobile, side, shortkey, result, contentId],
+    [collapse, finalState, toggle, isMobile, side, shortkey, contentId],
   );
 
   return (

@@ -1,4 +1,4 @@
-import { KeyboardGroup } from "@wondesign/code/Keyboard";
+import { KeyboardGroup } from "@wondesign/code/KeyboardGroup";
 import { Tooltip } from "@wondesign/tooltip";
 import { clsx } from "clsx";
 

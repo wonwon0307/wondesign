@@ -11,16 +11,14 @@ function TestComponent({
   shortkey: BindableShortkey;
   callback: () => void;
 }) {
-  const result = useShortkey(shortkey, callback);
+  useShortkey(shortkey, callback);
 
   return (
     <div>
       <input type="text" data-testid="input" />
       <textarea data-testid="textarea" />
       <div contentEditable tabIndex={0} data-testid="contenteditable" />
-      <button type="button" aria-keyshortcuts={result?.ariaKeyshortcuts}>
-        Action
-      </button>
+      <button type="button">Action</button>
     </div>
   );
 }
@@ -85,7 +83,19 @@ describe("useShortkey - corner cases", () => {
     fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
     expect(callback).not.toHaveBeenCalled();
     expect(console.warn).toHaveBeenCalledWith(
-      '[WonDesign Key-Events] Invalid shortkey: "Invalid" is not a supported modifier.',
+      '[WonDesign Key-Events] Invalid shortkey "Invalid+K": "Invalid" is not a supported modifier.',
+    );
+  });
+
+  it("should handle an empty modifier gracefully", () => {
+    const callback = vi.fn();
+    // @ts-expect-error Testing Invalid shortkey
+    renderHook(() => useShortkey("+K", callback));
+
+    fireEvent.keyDown(document, { code: "KeyK" });
+    expect(callback).not.toHaveBeenCalled();
+    expect(console.warn).toHaveBeenCalledWith(
+      '[WonDesign Key-Events] Invalid shortkey "+K": "" is not a supported modifier.',
     );
   });
 
@@ -97,7 +107,7 @@ describe("useShortkey - corner cases", () => {
     fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
     expect(callback).not.toHaveBeenCalled();
     expect(console.warn).toHaveBeenCalledWith(
-      '[WonDesign Key-Events] Invalid shortkey: "Enter" is not a supported key.',
+      '[WonDesign Key-Events] Invalid shortkey "Ctrl+Enter": "Enter" is not a supported key.',
     );
   });
 });

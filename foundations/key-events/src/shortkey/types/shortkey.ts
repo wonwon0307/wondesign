@@ -24,6 +24,4 @@ export type ParsedBindableShortkey = {
   altKey: boolean;
   shiftKey: boolean;
   metaKey: boolean;
-  ariaKeyshortcuts: string;
-  usesMod: boolean;
 };

@@ -2,14 +2,9 @@ import { parseShortkey } from "@/shortkey/parse";
 import type { Shortkey } from "@/shortkey/types/shortkey";
 
 describe("parseShortkey", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-    vi.unstubAllGlobals();
-  });
-
   it("parses a simple shortkey correctly", () => {
     const shortkey: Shortkey = "A";
-    const result = parseShortkey(shortkey);
+    const result = parseShortkey(shortkey, false);
 
     expect(result).toEqual({
       targetKey: "A",
@@ -22,7 +17,7 @@ describe("parseShortkey", () => {
 
   it("parses a shortkey with modifiers correctly", () => {
     const shortkey: Shortkey = "Ctrl+Shift+A";
-    const result = parseShortkey(shortkey);
+    const result = parseShortkey(shortkey, false);
 
     expect(result).toEqual({
       targetKey: "A",
@@ -35,7 +30,7 @@ describe("parseShortkey", () => {
 
   it("parses a shortkey with 'Mod' modifier correctly for non-apple platforms", () => {
     const shortkey: Shortkey = "Mod+K";
-    const result = parseShortkey(shortkey);
+    const result = parseShortkey(shortkey, false);
 
     expect(result).toEqual({
       targetKey: "K",
@@ -47,9 +42,8 @@ describe("parseShortkey", () => {
   });
 
   it("parses a shortkey with 'Mod' modifier correctly for an apple platform", () => {
-    vi.spyOn(navigator, "platform", "get").mockReturnValue("MacIntel");
     const shortkey: Shortkey = "Mod+K";
-    const result = parseShortkey(shortkey);
+    const result = parseShortkey(shortkey, true);
 
     expect(result).toEqual({
       targetKey: "K",
@@ -57,21 +51,6 @@ describe("parseShortkey", () => {
       altKey: false,
       shiftKey: false,
       metaKey: true,
-    });
-  });
-
-  it("gracefully handles SSR environment", () => {
-    vi.stubGlobal("navigator", undefined);
-
-    const shortkey: Shortkey = "Mod+K";
-    const result = parseShortkey(shortkey);
-
-    expect(result).toEqual({
-      targetKey: "K",
-      ctrlKey: true,
-      altKey: false,
-      shiftKey: false,
-      metaKey: false,
     });
   });
 });

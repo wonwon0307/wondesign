@@ -73,7 +73,7 @@ describe("Tooltip - other interactions", () => {
     expect(onOpenChangeMock).not.toHaveBeenCalled();
 
     // Escape 키를 누르면 onOpenChange가 호출되어야 한다.
-    fireEvent.keyDown(document, { code: "Escape" });
+    fireEvent.keyDown(document, { key: "Escape" });
     expect(onOpenChangeMock).toHaveBeenCalledWith(false);
   });
 });

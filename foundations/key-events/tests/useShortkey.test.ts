@@ -81,6 +81,43 @@ describe("useShortkey", () => {
     expect(callback).toHaveBeenCalledTimes(1);
   });
 
+  it("prevents the browser's default while the shortkey is held down", () => {
+    renderHook(() => useShortkey("Ctrl+K", vi.fn()));
+
+    // fireEvent returns false when the default was prevented
+    const notPrevented = fireEvent.keyDown(document, {
+      code: "KeyK",
+      ctrlKey: true,
+      repeat: true,
+    });
+    expect(notPrevented).toBe(false);
+  });
+
+  it("resolves Mod to Meta on an apple platform", () => {
+    vi.spyOn(navigator, "platform", "get").mockReturnValue("MacIntel");
+    const callback = vi.fn();
+    renderHook(() => useShortkey("Mod+K", callback));
+
+    fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
+    expect(callback).not.toHaveBeenCalled();
+
+    fireEvent.keyDown(document, { code: "KeyK", metaKey: true });
+    expect(callback).toHaveBeenCalledTimes(1);
+
+    vi.restoreAllMocks();
+  });
+
+  it("resolves Mod to Ctrl on non-apple platforms", () => {
+    const callback = vi.fn();
+    renderHook(() => useShortkey("Mod+K", callback));
+
+    fireEvent.keyDown(document, { code: "KeyK", metaKey: true });
+    expect(callback).not.toHaveBeenCalled();
+
+    fireEvent.keyDown(document, { code: "KeyK", ctrlKey: true });
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
+
   it("doesn't call callback if the enabled flag is false", () => {
     const callback = vi.fn();
     renderHook(() => useShortkey("Ctrl+K", callback, { enabled: false }));

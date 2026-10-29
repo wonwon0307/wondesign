@@ -10,7 +10,11 @@ export default defineConfig([
     clean: false,
   },
   {
-    entry: ["src/CodeBlock/index.ts", "src/CodeWindow/index.ts"],
+    entry: [
+      "src/CodeBlock/index.ts",
+      "src/CodeWindow/index.ts",
+      "src/KeyboardGroup/index.ts",
+    ],
     plugins: [vanillaExtractPlugin()],
     format: ["esm"],
     dts: true,
