@@ -28,6 +28,7 @@ export function Dialog() {
 
 - 📌 Listens on the whole page, wherever focus is — including inside inputs,
   so the user can close a dialog while typing in it.
+- 📌 Holding Escape down calls `callback` once, not on every repeat.
 - 📌 Escape pressed while typing with an input method (IME), such as for
   Japanese or Chinese, only cancels the text being composed. It doesn't call
   `callback`, except in Safari (see [Known Issues](#known-issues)).
