@@ -36,6 +36,27 @@ describe("useShortkeyDisplay", () => {
     });
   });
 
+  it("shows Control on an apple platform", () => {
+    vi.spyOn(navigator, "platform", "get").mockReturnValue("MacIntel");
+    const { result } = renderHook(() => useShortkeyDisplay("Ctrl+K"));
+
+    expect(result.current).toEqual({
+      keys: ["⌃", "K"],
+      label: "Control K",
+      keyShortcuts: "Control+K",
+    });
+  });
+
+  it("shows Windows and Alt on non-apple platforms", () => {
+    const { result } = renderHook(() => useShortkeyDisplay("Win+Alt+K"));
+
+    expect(result.current).toEqual({
+      keys: ["Win", "Alt", "K"],
+      label: "Windows Alt K",
+      keyShortcuts: "Alt+Meta+K",
+    });
+  });
+
   it("returns keys and label for a key it can't bind", () => {
     const { result } = renderHook(() => useShortkeyDisplay("Enter"));
 
