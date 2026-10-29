@@ -7,11 +7,28 @@ describe("useEscapeKey", () => {
     const callback = vi.fn();
     renderHook(() => useEscapeKey(callback));
 
-    fireEvent.keyDown(document, { code: "Escape" });
+    fireEvent.keyDown(document, { key: "Escape" });
     expect(callback).toHaveBeenCalledTimes(1);
 
     // should not trigger on other keys
-    fireEvent.keyDown(document, { code: "Enter" });
+    fireEvent.keyDown(document, { key: "Enter" });
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
+
+  it("calls callback when the key reports no code, like from a virtual keyboard", () => {
+    const callback = vi.fn();
+    renderHook(() => useEscapeKey(callback));
+
+    fireEvent.keyDown(document, { key: "Escape", code: "" });
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
+
+  it("doesn't call callback again while Escape is held down", () => {
+    const callback = vi.fn();
+    renderHook(() => useEscapeKey(callback));
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    fireEvent.keyDown(document, { key: "Escape", repeat: true });
     expect(callback).toHaveBeenCalledTimes(1);
   });
 
@@ -19,7 +36,7 @@ describe("useEscapeKey", () => {
     const callback = vi.fn();
     renderHook(() => useEscapeKey(callback));
 
-    fireEvent.keyDown(document, { code: "Escape", isComposing: true });
+    fireEvent.keyDown(document, { key: "Escape", isComposing: true });
     expect(callback).not.toHaveBeenCalled();
   });
 
@@ -27,7 +44,7 @@ describe("useEscapeKey", () => {
     const callback = vi.fn();
     renderHook(() => useEscapeKey(callback, { enabled: false }));
 
-    fireEvent.keyDown(document, { code: "Escape" });
+    fireEvent.keyDown(document, { key: "Escape" });
     expect(callback).not.toHaveBeenCalled();
   });
 });
