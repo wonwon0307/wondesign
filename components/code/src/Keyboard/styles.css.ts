@@ -1,4 +1,3 @@
-import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 import { tokens } from "@wondesign/tokens";
 
@@ -33,10 +32,4 @@ const keyboard = recipe({
   },
 });
 
-const keyboardGroup = style({
-  display: "inline-flex",
-  alignItems: "center",
-  gap: tokens.spacing.xs,
-});
-
-export const styles = { keyboard, keyboardGroup };
+export const styles = { keyboard };
