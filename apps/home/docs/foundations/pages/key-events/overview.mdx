@@ -29,7 +29,7 @@ pnpm add @wondesign/key-events
 - ✅ **Safe While Typing**: Shortkeys without Ctrl or ⌘ pause while the user types in an input
 - ✅ **Ready to Show**: `useShortkeyDisplay` gives a shortkey's keys for the user's platform, without listening for it
 - ✅ **Accessible**: Get the `aria-keyshortcuts` value for the control a shortkey triggers
-- ✅ **Forgiving**: Inline callbacks work as they are, and holding a shortkey down fires it once
+- ✅ **Forgiving**: Inline callbacks work as they are, and holding a key down fires it once
 
 ---
 
@@ -42,8 +42,9 @@ pnpm add @wondesign/key-events
 
 ## Used By
 
-- 🧩 **Headless components** in `@wondesign/headless` — closing on Escape, in
-  components like Tooltip
-- 🧩 **Sidebar** in `@wondesign/sidebar` — opening and closing with a shortkey
-- 🧩 **Keyboard Group** in `@wondesign/code` — showing a shortkey with the
-  right symbols for the platform
+- 📦 **[Tooltip](/components/headless/tooltip)** in
+  [`@wondesign/headless`](/components/headless): closing on Escape
+- 📦 **Sidebar** in `@wondesign/sidebar`: opening and closing with a shortkey
+- 📦 **[KeyboardGroup](/components/code/keyboard-group)** in
+  [`@wondesign/code`](/components/code): showing a shortkey with the keys of
+  the user's platform

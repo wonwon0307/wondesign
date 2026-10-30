@@ -2,7 +2,7 @@
 
 `useShortkey` calls `callback` when the user presses a shortkey, like `Mod+K`.
 `useShortkeyDisplay` gives you what you need to show that shortkey: its keys
-for the user's platform, a label for screen readers, and the
+for the user's platform, the `aria-label` value for screen readers, and the
 `aria-keyshortcuts` value.
 
 ---
@@ -28,7 +28,8 @@ export function SearchButton() {
       aria-keyshortcuts={display?.keyShortcuts}
       onClick={() => setIsOpen(true)}
     >
-      Search {display?.keys.join(" ")}
+      Search{" "}
+      <kbd aria-label={display?.label}>{display?.keys.join(" ")}</kbd>
     </button>
   );
 }
@@ -39,6 +40,10 @@ export function SearchButton() {
   shortkey.
 - 📌 `useShortkeyDisplay` doesn't listen for key presses, so you can call it
   as often as you like, for example once in a button and again in its tooltip.
+- 📌 With `label` as the keys' `aria-label`, screen readers read them by
+  name, like "Command K", instead of reading out the symbols.
+- 📌 To show the keys ready-styled, pass the same shortkey to
+  [KeyboardGroup](/components/code/keyboard-group).
 
 **Listening**:
 
@@ -114,6 +119,7 @@ interface ShortkeyDisplay {
   // the keys as the user's platform writes them,
   // like `["⌘", "K"]` on a Mac and `["Ctrl", "K"]` elsewhere.
   keys: string[];
+  // the value for the `aria-label` attribute,
   // the key names for screen readers, like `"Command K"`.
   label: string;
   // the value for the `aria-keyshortcuts` attribute, like `"Meta+K"`.
