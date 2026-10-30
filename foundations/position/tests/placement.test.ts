@@ -1,25 +1,45 @@
 import { finalizePlacement } from "@/placement";
-import type { FloatingOptions } from "@/types";
+import type {
+  FloatingAlign,
+  FloatingOptions,
+  FloatingPlacement,
+} from "@/types";
 
 describe("finalizePlacement", () => {
-  const triggerRect = new DOMRect(0, 0, 100, 50);
   const contentRect = new DOMRect(0, 0, 100, 50);
   const baseOptions = {
     forcePlacement: false,
     offset: 0,
     padding: 0,
-    align: "center",
+    align: "center" as FloatingAlign,
   };
   const bottomOptions = {
     ...baseOptions,
-    placement: "bottom",
-  } as Required<FloatingOptions>;
+    placement: "bottom" as FloatingPlacement,
+  };
   const leftOptions = {
     ...baseOptions,
-    placement: "left",
-  } as Required<FloatingOptions>;
+    placement: "left" as FloatingPlacement,
+  };
+
+  // jsdom은 layout을 하지 않아 clientWidth/clientHeight가 항상 0이므로,
+  // 1024x768 뷰포트로 mock
+  beforeEach(() => {
+    vi.spyOn(document.documentElement, "clientWidth", "get").mockReturnValue(
+      1024,
+    );
+    vi.spyOn(document.documentElement, "clientHeight", "get").mockReturnValue(
+      768,
+    );
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it("should correctly return bottom when there is enough space", () => {
+    const triggerRect = new DOMRect(0, 0, 100, 50);
+
     const result = finalizePlacement(triggerRect, contentRect, bottomOptions);
     expect(result).toBe("bottom");
   });
@@ -41,6 +61,8 @@ describe("finalizePlacement", () => {
   });
 
   it("should correctly flip to right when there is not enough space at the left", () => {
+    const triggerRect = new DOMRect(0, 0, 100, 50);
+
     const result = finalizePlacement(triggerRect, contentRect, leftOptions);
     expect(result).toBe("right");
   });
