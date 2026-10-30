@@ -1,0 +1,77 @@
+import { Keyboard } from "@wondesign/ui/Code";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `Keyboard`, from picking a size to fitting it into your own
+design. Each example shows the rendered result, followed by its code.
+
+For a shortcut, [KeyboardGroup](/components/code/keyboard-group) is usually
+what you want. `Keyboard` is for when you'd rather not use it, or want to
+build your own version of it from single keys.
+
+---
+
+## Sizes
+
+The `size` property sets the font size and the padding together:
+
+<Preview>
+  Press <Keyboard size="large">Enter</Keyboard> to send.
+
+Press <Keyboard size="medium">Enter</Keyboard> to send.
+
+Press <Keyboard size="small">Enter</Keyboard> to send.
+
+</Preview>
+
+```tsx
+<Keyboard size="large">Enter</Keyboard>
+<Keyboard size="medium">Enter</Keyboard>
+<Keyboard size="small">Enter</Keyboard>
+```
+
+- 📌 **The default is `"small"`**, so a key doesn't stand out more than the
+  sentence it's in.
+
+---
+
+## Styling
+
+Start from the default styles. When they don't fit your design everywhere,
+[change the tokens](/components/code#customizing-tokens). When they don't fit
+in one place, override that key's styles.
+
+### Default Styles
+
+The key values are:
+
+- 🎨 **Font family**: `tokens.typography.fontFamily.code`
+- 🎨 **Font weight**: `tokens.typography.fontWeight.medium`
+- 🎨 **Line height**: `tokens.typography.lineHeight.single`
+
+The rest, like its colors, border, border radius and each size's font size
+and padding, have default values too. Override any of them with `className`
+or `style`.
+
+### One-Off Styles
+
+When a single key needs to look different, change it with `className` or
+`style`, like a key with a thicker bottom edge:
+
+<Preview>
+  Press <Keyboard style={{ borderBottomWidth: "3px" }}>Esc</Keyboard> to
+  close.
+</Preview>
+
+```tsx
+<Keyboard style={{ borderBottomWidth: "3px" }}>Esc</Keyboard>
+
+<Keyboard className="raised-key">Esc</Keyboard>
+```
+
+```css
+.raised-key {
+  border-bottom-width: 3px;
+}
+```
