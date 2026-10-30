@@ -21,30 +21,22 @@ vi.stubGlobal(
 function TestComponent({
   options = {},
   noArrow = false,
+  noFloating = false,
 }: {
   options?: UseFloatingPositionOptions;
   noArrow?: boolean;
+  noFloating?: boolean;
 }) {
-  const { triggerRef, floatingRef, arrowRef, placement, content, arrow } =
-    useFloatingPosition(options);
-
-  return (
-    <div>
-      <button ref={triggerRef}>Trigger</button>
-      <div ref={floatingRef}>
-        placement: {placement}, x: {content.x}, y: {content.y}
-        {!noArrow && (
-          <div ref={arrowRef}>
-            Arrow (x: {arrow.x}, y: {arrow.y})
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function NoFloatingRefComponent() {
-  const { triggerRef, isPositioned, update } = useFloatingPosition();
+  const {
+    triggerRef,
+    floatingRef,
+    arrowRef,
+    placement,
+    content,
+    arrow,
+    isPositioned,
+    update,
+  } = useFloatingPosition(options);
 
   return (
     <div>
@@ -52,6 +44,14 @@ function NoFloatingRefComponent() {
         Trigger
       </button>
       <div>isPositioned: {String(isPositioned)}</div>
+      <div ref={noFloating ? undefined : floatingRef}>
+        placement: {placement}, x: {content.x}, y: {content.y}
+        {!noArrow && (
+          <div ref={arrowRef}>
+            Arrow (x: {arrow.x}, y: {arrow.y})
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -83,7 +83,7 @@ describe("useFloatingPosition", () => {
   });
 
   it("should not update position if trigger or floating ref is null", () => {
-    const { getByText } = render(<NoFloatingRefComponent />);
+    const { getByText } = render(<TestComponent noFloating />);
 
     // effect의 early return뿐만 아니라, update()를 직접 호출해도 계산하지 않아야 한다
     fireEvent.click(getByText("Trigger"));
