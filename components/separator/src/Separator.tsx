@@ -2,7 +2,13 @@ import { clsx } from "clsx";
 
 import { styles } from "./styles.css";
 
-export interface SeparatorProps extends React.HTMLAttributes<HTMLElement> {
+export interface SeparatorProps
+  extends
+    Omit<
+      React.HTMLAttributes<HTMLDivElement>,
+      "children" | "role" | "aria-hidden" | "aria-orientation"
+    >,
+    React.RefAttributes<HTMLDivElement> {
   // appearance?: "line" | "dashed" | "dotted";
   variant?: "decorative" | "theme-break";
   vertical?: boolean;
