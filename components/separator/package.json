@@ -2,7 +2,7 @@
   "name": "@wondesign/separator",
   "description": "WonDesign - Separator",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "type": "module",
   "keywords": [
     "design",
@@ -13,6 +13,23 @@
     "line",
     "react",
     "typescript"
+  ],
+  "author": "WonWon",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wonwon0307/wondesign.git",
+    "directory": "components/separator"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
   ],
   "exports": {
     ".": {
@@ -36,7 +53,6 @@
     "@wondesign/tokens": "workspace:*"
   },
   "peerDependencies": {
-    "react": "^19",
-    "react-dom": "^19"
+    "react": "^19"
   }
 }

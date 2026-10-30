@@ -165,16 +165,16 @@ settings:
 catalogs:
   default:
     '@vanilla-extract/css':
-      specifier: 1.21.3
+      specifier: ^1.21.3
       version: 1.21.3
     '@vanilla-extract/recipes':
-      specifier: 0.5.7
+      specifier: ^0.5.7
       version: 0.5.7
     '@vanilla-extract/rollup-plugin':
-      specifier: 1.5.4
+      specifier: ^1.5.4
       version: 1.5.4
     clsx:
-      specifier: 2.1.1
+      specifier: ^2.1.1
       version: 2.1.1
 
 overrides:
@@ -454,9 +454,6 @@ importers:
       react:
         specifier: ^19
         version: 19.3.1
-      react-dom:
-        specifier: ^19
-        version: 19.3.1(react@19.3.1)
     devDependencies:
       '@vanilla-extract/css':
         specifier: 'catalog:'
@@ -707,6 +704,9 @@ importers:
       '@wondesign/key-events':
         specifier: workspace:*
         version: link:../../foundations/key-events
+      '@wondesign/separator':
+        specifier: workspace:*
+        version: link:../../components/separator
       '@wondesign/tooltip':
         specifier: workspace:*
         version: link:../../components/tooltip

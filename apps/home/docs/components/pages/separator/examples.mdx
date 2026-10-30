@@ -1,0 +1,129 @@
+import { Separator } from "@wondesign/ui/Separator";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `Separator`, from picking a variant to fitting it into your
+own design. Each example shows the rendered result, followed by its code.
+
+---
+
+## Variants
+
+The `variant` property sets whether screen readers announce the separator:
+
+- 🔹 **`"decorative"`** — only drawn on the screen. Screen readers skip it.
+- 🔹 **`"theme-break"`** — announced as a separator, for a real change of
+  topic, like the break between two scenes in a story.
+
+<Preview>
+  The first scene ends here.
+  <Separator variant="theme-break" />
+  The second scene starts here.
+</Preview>
+
+```tsx
+<Separator variant="decorative" />
+<Separator variant="theme-break" />
+```
+
+- 📌 **The default is `"decorative"`**, since most lines, like the ones
+  between the items of a menu, are only there for the layout.
+
+---
+
+## Orientations
+
+By default, the line is horizontal and divides content stacked on top of each
+other. Add `vertical` to divide content placed side by side:
+
+<Preview orientation="horizontal">
+  Home
+  <Separator vertical />
+  Docs
+  <Separator vertical />
+  Blog
+</Preview>
+
+```tsx
+<nav style={{ display: "flex", gap: "12px" }}>
+  <a href="/">Home</a>
+  <Separator vertical />
+  <a href="/docs">Docs</a>
+  <Separator vertical />
+  <a href="/blog">Blog</a>
+</nav>
+```
+
+- ⚠️ **When a separator doesn't show, check its container.** A vertical one
+  takes its height from the container, so put it in a flex row with content
+  beside it. A horizontal one has no width directly inside a flex row, so put
+  it in a flex column or a regular block instead.
+
+---
+
+## Weights
+
+The `bold` property draws a 2px line instead of a 1px one, for breaks that
+should stand out more:
+
+<Preview>
+  Regular
+  <Separator />
+  Bold
+  <Separator bold />
+</Preview>
+
+```tsx
+<Separator />
+<Separator bold />
+```
+
+---
+
+## Styling
+
+Start from the default styles. When they don't fit your design everywhere,
+[change the tokens](/foundations/tokens/customization). When they don't fit
+in one place, override that separator's styles.
+
+### Default Styles
+
+The key values are:
+
+- 🎨 **Background color**: `tokens.colors.borderMuted`
+- 🎨 **Thickness**: `1px`, or `2px` with `bold`
+- 🎨 **Length**: the full width or height of its container
+
+The separator has no margin of its own, so the space around it comes from
+its container, like a `gap`. Override any of them with `className` or
+`style`.
+
+### One-Off Styles
+
+When a single separator needs to look different, change it with `className`
+or `style`, like a line with space around it in a stronger color:
+
+<Preview>
+  Above the line.
+  <Separator style={{ margin: "16px 0", backgroundColor: "currentColor" }} />
+  Below the line.
+</Preview>
+
+```tsx
+<Separator style={{ margin: "16px 0", backgroundColor: "currentColor" }} />
+
+<Separator className="strong-separator" />
+```
+
+```css
+.strong-separator {
+  margin: 16px 0;
+  background-color: currentColor;
+}
+```
+
+- ⚠️ **The line is drawn by its background color.** Change it with
+  `background-color`. Setting `color` or `border-color` doesn't change the line.
+- ⚠️ **It renders a `<div>`, not an `<hr>`.** Styles or selectors written for
+  `hr` won't reach it.

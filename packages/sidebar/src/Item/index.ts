@@ -3,6 +3,8 @@ export { SidebarItem } from "./Item/Item";
 export type { SidebarItemProps } from "./Item/Item";
 export { SidebarGroup } from "./Group/Group";
 export type { SidebarGroupProps } from "./Group/Group";
+export { SidebarSeparator } from "./Separator/Separator";
+export type { SidebarSeparatorProps } from "./Separator/Separator";
 
 export { SidebarItemWrapper } from "./fragments/Wrapper";
 

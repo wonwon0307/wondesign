@@ -41,10 +41,13 @@
           "items": [
             "[InlineCode](/code/inline-code)",
             "[CodeBlock](/code/code-block)",
-            "[CodeWindow](/code/code-window)"
+            "[CodeWindow](/code/code-window)",
+            "[Keyboard](/code/keyboard)",
+            "[KeyboardGroup](/code/keyboard-group)"
           ]
         },
         "[Icons](/icons)",
+        "[Separator](/separator)",
         {
           "type": "link",
           "label": "Texts",
