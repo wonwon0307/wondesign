@@ -24,7 +24,7 @@ export interface UseFloatingPositionReturn<
   floatingRef: React.RefObject<TFloating | null>;
   arrowRef: React.RefObject<TArrow | null>;
   placement: FloatingPlacement;
-  position: Position;
+  content: Position;
   arrow: Position;
   isPositioned: boolean;
   update: () => void;

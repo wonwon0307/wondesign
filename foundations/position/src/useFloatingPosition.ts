@@ -32,7 +32,7 @@ export function useFloatingPosition<
   const arrowRef = useRef<TArrow>(null);
   const [placement, setPlacement] =
     useState<FloatingPlacement>(preferredPlacement);
-  const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
+  const [content, setContent] = useState<Position>({ x: 0, y: 0 });
   const [arrow, setArrow] = useState<Position>({ x: 0, y: 0 });
   const [isPositioned, setIsPositioned] = useState<boolean>(false);
 
@@ -69,10 +69,9 @@ export function useFloatingPosition<
       arrowRef.current,
     );
 
-    // 스크롤마다 호출되므로, 값이 그대로면 이전 객체를 유지해서 리렌더를 막는다
     setPlacement(finalPlacement);
-    setPosition((prev) => keepIfEqual(prev, contentPosition));
-    setArrow((prev) => keepIfEqual(prev, arrowPosition));
+    setContent(contentPosition);
+    setArrow(arrowPosition);
     setIsPositioned(true);
   }, [preferredPlacement, forcePlacement, align, offset, padding]);
 
@@ -111,13 +110,9 @@ export function useFloatingPosition<
     floatingRef,
     arrowRef,
     placement,
-    position,
+    content,
     arrow,
     isPositioned: enabled && isPositioned,
     update: updatePosition,
   };
-}
-
-function keepIfEqual(prev: Position, next: Position): Position {
-  return prev.x === next.x && prev.y === next.y ? prev : next;
 }
