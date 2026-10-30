@@ -53,14 +53,18 @@ function computeSurplus(
     offset +
     padding;
 
+  // scrollbar 크기를 제외한 viewport를 계산하기 위해
+  // window.innerWidth/innerHeight 대신 clientHeight/clientWidth를 사용
   switch (side) {
     case "top":
       return triggerRect.top - needed;
     case "bottom":
-      return window.innerHeight - triggerRect.bottom - needed;
+      return (
+        document.documentElement.clientHeight - triggerRect.bottom - needed
+      );
     case "left":
       return triggerRect.left - needed;
     case "right":
-      return window.innerWidth - triggerRect.right - needed;
+      return document.documentElement.clientWidth - triggerRect.right - needed;
   }
 }
