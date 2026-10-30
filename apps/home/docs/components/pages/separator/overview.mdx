@@ -1,0 +1,95 @@
+import { Separator } from "@wondesign/ui/Separator";
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+import { Preview } from "@/widgets/preview";
+
+<PackageInfo name="@wondesign/separator" relPath="components/separator">
+  `@wondesign/separator` is the separator of WonDesign Components. Its
+  `Separator` component draws a thin line between pieces of content,
+  horizontal or vertical, and tells screen readers whether the line is just
+  for looks or a real break in the page.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/separator
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/separator` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Two Orientations**: Divide content stacked on top of each other, or placed side by side
+- ✅ **Two Weights**: A regular line, or a bold one for stronger breaks
+- ✅ **Decorative or Semantic**: Hidden from screen readers when it's only for looks, announced when it's a real break
+- ✅ **Fills Its Container**: Stretches to the full width or height of the space it's in
+
+<Preview>
+  First section of the page.
+  <Separator />
+  Second section of the page.
+</Preview>
+
+```tsx
+import { Separator } from "@wondesign/separator";
+
+<p>First section of the page.</p>
+<Separator />
+<p>Second section of the page.</p>
+```
+
+See [Examples](/components/separator/examples) for variants, orientations,
+weights and styling.
+
+---
+
+## API
+
+Import `Separator` and its props type from `@wondesign/separator`:
+
+```ts
+import { Separator, type SeparatorProps } from "@wondesign/separator";
+```
+
+### Props
+
+Accepts the props of `<div>`, except `children`. It also leaves out `role`,
+`aria-hidden` and `aria-orientation`, which it sets from `variant` and
+`vertical`. Together, the separator props are:
+
+```ts
+interface SeparatorProps {
+  // whether the line is for looks only, or a real break. defaults to `"decorative"`.
+  variant?: "decorative" | "theme-break";
+
+  // draws a vertical line instead of a horizontal one. defaults to `false`.
+  vertical?: boolean;
+
+  // draws a 2px line instead of a 1px one. defaults to `false`.
+  bold?: boolean;
+
+  // ...
+}
+```
+
+---
+
+## Upcoming Features
+
+- 🔜 **Appearance**: Dashed and dotted lines, on top of the solid one
+- 🔜 **Label**: Text in the middle of the line, like the "or" between login options
+- 🔜 **Spacing**: Space around the line from the token values, set on the separator itself
+- 🔜 **Support for the `<hr>` Element**: Render the separator as a native `<hr>`
+
+---
+
+## Used By
+
+- 📦 **SidebarSeparator** in `@wondesign/sidebar`
