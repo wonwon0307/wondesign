@@ -4,7 +4,7 @@ import { tokens } from "@wondesign/tokens";
 const horizontal = recipe({
   base: {
     alignSelf: "stretch",
-    width: "100%",
+    flexShrink: 0,
     backgroundColor: tokens.colors.borderMuted,
   },
   variants: {
@@ -22,6 +22,7 @@ const horizontal = recipe({
 const vertical = recipe({
   base: {
     alignSelf: "stretch",
+    flexShrink: 0,
     backgroundColor: tokens.colors.borderMuted,
   },
   variants: {
