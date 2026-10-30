@@ -1,0 +1,68 @@
+import { Keyboard } from "@wondesign/ui/Code";
+import { Preview } from "@/widgets/preview";
+
+# Keyboard
+
+`Keyboard` renders a single key, like `Enter` or `⌘`. It renders a `<kbd>`
+element in the code font, with a muted background and a border that set it
+apart from the text around it.
+
+`Keyboard` **shows exactly what you pass**: no platform detection, no
+shortkey parsing and no validation. `⌘` stays `⌘` on Windows too. For a
+shortcut like `Mod+K`, use [KeyboardGroup](/components/code/keyboard-group),
+which shows the keys of the user's platform and reads their names to screen
+readers.
+
+---
+
+## Key Features
+
+- ✅ **Three Sizes**: Small, medium and large, to match the text around it
+- ✅ **Any Key**: Shows the key exactly as you write it, from a word like `Enter` to a symbol like `⌘`
+
+<Preview>
+  Press <Keyboard>Enter</Keyboard> to send the message.
+</Preview>
+
+```tsx
+import { Keyboard } from "@wondesign/code/Keyboard";
+
+<p>
+  Press <Keyboard>Enter</Keyboard> to send the message.
+</p>;
+```
+
+See [Examples](/components/code/keyboard/examples) for sizes and styling.
+
+---
+
+## API
+
+Import `Keyboard` and its props type from `@wondesign/code/Keyboard`:
+
+```ts
+import { Keyboard, type KeyboardProps } from "@wondesign/code/Keyboard";
+```
+
+### Props
+
+Accepts all props of `<kbd>`, plus its own `size`. **The key must be a
+string**, not other elements. Together, the key props are:
+
+```ts
+interface KeyboardProps {
+  // the key to show, like `"Enter"` or `"⌘"`.
+  children: string;
+
+  // the font size and padding. defaults to `"small"`.
+  size?: "small" | "medium" | "large";
+
+  // ...
+}
+```
+
+---
+
+## Used By
+
+- 🧩 **[KeyboardGroup](/components/code/keyboard-group)**: each key of the shortcut

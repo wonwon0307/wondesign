@@ -1,0 +1,129 @@
+import { KeyboardGroup } from "@wondesign/ui/Code";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `KeyboardGroup`, from showing a bound shortkey to fitting
+it into your own design. Each example shows the rendered result, followed by
+its code.
+
+---
+
+## Showing a Bound Shortkey
+
+Pass the same shortkey to
+[useShortkey](/foundations/key-events/shortkey) and `KeyboardGroup`, so the
+shortcut you show is always the one that works. Keep it in one constant, and
+get the `aria-keyshortcuts` value from
+[useShortkeyDisplay](/foundations/key-events/shortkey#useshortkeydisplay):
+
+```tsx
+import { useState } from "react";
+import { KeyboardGroup } from "@wondesign/code/KeyboardGroup";
+import {
+  useShortkey,
+  useShortkeyDisplay,
+} from "@wondesign/key-events/shortkey";
+
+const SEARCH_SHORTKEY = "Mod+K";
+
+export function SearchButton() {
+  const [isOpen, setIsOpen] = useState(false);
+  useShortkey(SEARCH_SHORTKEY, () => setIsOpen((open) => !open));
+  const display = useShortkeyDisplay(SEARCH_SHORTKEY);
+
+  return (
+    <button
+      aria-keyshortcuts={display?.keyShortcuts}
+      onClick={() => setIsOpen(true)}
+    >
+      Search <KeyboardGroup shortkey={SEARCH_SHORTKEY} aria-hidden />
+    </button>
+  );
+}
+```
+
+- 📌 `aria-keyshortcuts` already tells screen readers about the shortcut, so
+  the keys are hidden from them here, instead of being read twice.
+
+---
+
+## Sizes
+
+The `size` property is passed to every
+[Keyboard](/components/code/keyboard/examples#sizes) key, setting their font
+size and padding. It's `"small"` by default:
+
+<Preview>
+  Press <KeyboardGroup shortkey="Mod+Shift+P" size="large" /> to open the
+  command palette.
+
+Press <KeyboardGroup shortkey="Mod+Shift+P" size="medium" /> to open the
+command palette.
+
+Press <KeyboardGroup shortkey="Mod+Shift+P" size="small" /> to open the
+command palette.
+
+</Preview>
+
+```tsx
+<KeyboardGroup shortkey="Mod+Shift+P" size="large" />
+<KeyboardGroup shortkey="Mod+Shift+P" size="medium" />
+<KeyboardGroup shortkey="Mod+Shift+P" size="small" />
+```
+
+---
+
+## Custom Label
+
+By default, screen readers read the key names, like "Command Shift P", from
+the `label` of
+[useShortkeyDisplay](/foundations/key-events/shortkey#useshortkeydisplay).
+To read something else, like what the shortcut does, pass `aria-label`:
+
+<Preview>
+  <KeyboardGroup shortkey="Mod+Shift+P" aria-label="Open the command palette" />
+</Preview>
+
+```tsx
+<KeyboardGroup shortkey="Mod+Shift+P" aria-label="Open the command palette" />
+```
+
+---
+
+## Styling
+
+Start from the default styles. When they don't fit your design everywhere,
+[change the tokens](/components/code#customizing-tokens). When they don't fit
+in one place, override that shortcut's styles.
+
+### Default Styles
+
+Each key has the
+[default styles of Keyboard](/components/code/keyboard/examples#default-styles).
+The keys are spaced apart by `tokens.spacing.xs`.
+
+### One-Off Styles
+
+When a single shortcut needs to look different, change it with `className`
+or `style`, like keys spaced further apart:
+
+<Preview>
+  Press <KeyboardGroup shortkey="Mod+K" style={{ gap: "8px" }} /> to search.
+</Preview>
+
+```tsx
+<KeyboardGroup shortkey="Mod+K" style={{ gap: "8px" }} />
+
+<KeyboardGroup shortkey="Mod+K" className="wide-shortcut" />
+```
+
+```css
+.wide-shortcut {
+  gap: 8px;
+}
+```
+
+- 📌 **A shortcut of a single key, like `Enter`, renders only that key**,
+  with no group around it. Your `className` and `style` go on the key itself,
+  so styles meant for the group, like `gap`, do nothing.

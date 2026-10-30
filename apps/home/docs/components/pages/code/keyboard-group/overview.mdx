@@ -1,0 +1,132 @@
+import { KeyboardGroup } from "@wondesign/ui/Code";
+import { Preview } from "@/widgets/preview";
+
+# KeyboardGroup
+
+`KeyboardGroup` renders a keyboard shortcut, like `Mod+K`, as a row of
+[Keyboard](/components/code/keyboard) keys. Pass the `shortkey`, and it shows
+the keys the way the user's platform writes them: `⌘ K` on a Mac, and
+`Ctrl K` on Windows.
+
+It uses
+[useShortkeyDisplay](/foundations/key-events/shortkey#useshortkeydisplay)
+from `@wondesign/key-events` internally, so it shows a shortkey exactly as
+the hook does.
+
+---
+
+## Key Features
+
+- ✅ **Platform-Aware**: Shows ⌃ ⌥ ⇧ ⌘ on Apple devices, and Ctrl, Alt, Shift and Win everywhere else
+- ✅ **Named for Screen Readers**: Gives screen readers the key names, like "Command K"
+- ✅ **Familiar Order**: Modifiers are shown in the order each platform's users expect, whatever order you write them in
+- ✅ **Same Shortkeys as useShortkey**: Show the shortkey you bind, written the same way
+- ✅ **Three Sizes**: Small, medium and large, to match the text around it
+
+<Preview>
+  Press <KeyboardGroup shortkey="Mod+K" /> to search.
+</Preview>
+
+```tsx
+import { KeyboardGroup } from "@wondesign/code/KeyboardGroup";
+
+<p>
+  Press <KeyboardGroup shortkey="Mod+K" /> to search.
+</p>;
+```
+
+See [Examples](/components/code/keyboard-group/examples) for showing a bound
+shortkey, sizes and styling.
+
+---
+
+## Writing Shortkeys
+
+Shortkeys are written the same way as for
+[useShortkey](/foundations/key-events/shortkey#writing-shortkeys): up to two
+modifiers and a key, joined with `+`, like `"K"`, `"Mod+K"` or
+`"Mod+Shift+K"`.
+
+On top of the keys `useShortkey` can bind, `KeyboardGroup` also shows
+`Enter`, `Return`, `Escape`, `Tab`, `Space`, `CapsLock`, `Backspace`,
+`Delete`, the arrows `↑` `↓` `←` `→` and `F1` to `F12`. The key is shown as
+you write it.
+
+**On Apple devices**, modifiers are shown in this order:
+
+- 🍎 `Ctrl`, `Control` — ⌃, read as "Control"
+- 🍎 `Alt`, `Opt`, `Option` — ⌥, read as "Option"
+- 🍎 `Shift` — ⇧, read as "Shift"
+- 🍎 `Meta`, `Cmd`, `Command`, `Win`, `Windows`, `Mod` — ⌘, read as "Command"
+
+**Everywhere else**, in this order:
+
+- 🪟 `Meta`, `Cmd`, `Command`, `Win`, `Windows` — Win, read as "Windows"
+- 🪟 `Ctrl`, `Control`, `Mod` — Ctrl, read as "Control"
+- 🪟 `Alt`, `Opt`, `Option` — Alt, read as "Alt"
+- 🪟 `Shift` — Shift, read as "Shift"
+
+---
+
+## API
+
+Import `KeyboardGroup` and its props type from `@wondesign/code/KeyboardGroup`:
+
+```ts
+import {
+  KeyboardGroup,
+  type KeyboardGroupProps,
+} from "@wondesign/code/KeyboardGroup";
+```
+
+### Props
+
+Accepts all props of `<kbd>`, plus its own `shortkey` and `size`. Together,
+the key props are:
+
+```ts
+interface KeyboardGroupProps {
+  // the shortcut to show, like `"Mod+K"`.
+  shortkey: Shortkey;
+
+  // the font size and padding of every key. defaults to `"small"`.
+  size?: "small" | "medium" | "large";
+
+  // what screen readers read. defaults to the key names,
+  // like `"Command K"`.
+  "aria-label"?: string;
+
+  // ...
+}
+```
+
+`Shortkey` is exported from
+[`@wondesign/key-events/shortkey`](/foundations/key-events/shortkey#api).
+
+---
+
+## Watch Out
+
+- ⚠️ **Use `Mod` for cross-platform shortcuts**: `Ctrl` always means the
+  Control key, so `Ctrl+K` shows `⌃ K` on a Mac, where users expect `⌘ K`.
+  Write `Mod+K`, unless you really mean Control.
+
+---
+
+## Known Issues
+
+- 🐞 **Shortcuts with modifiers appear after hydration**: The keys depend on
+  the user's platform, which the server can't know. So for a shortcut like
+  `Mod+K`, **nothing is rendered on the server and during hydration**, and the
+  keys appear once the page is running in the browser. The text around it
+  may shift when they do. A single key, like `Enter`, renders right away.
+- 🐞 **Some screen readers read the symbols**: Not every screen reader reads
+  a key group's label, so some read the symbols, like "⌘ K", **instead of
+  "Command K"**.
+
+---
+
+## Used By
+
+- 📦 **SidebarToggle** in `@wondesign/sidebar`: the sidebar's shortkey, in
+  the toggle's tooltip
