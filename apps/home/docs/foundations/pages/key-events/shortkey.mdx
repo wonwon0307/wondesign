@@ -28,8 +28,7 @@ export function SearchButton() {
       aria-keyshortcuts={display?.keyShortcuts}
       onClick={() => setIsOpen(true)}
     >
-      Search{" "}
-      <kbd aria-label={display?.label}>{display?.keys.join(" ")}</kbd>
+      Search <kbd aria-label={display?.label}>{display?.keys.join(" ")}</kbd>
     </button>
   );
 }
