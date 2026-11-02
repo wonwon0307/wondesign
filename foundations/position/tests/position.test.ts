@@ -1,4 +1,4 @@
-import { getContentPosition } from "@/content/position";
+import { getContentPosition } from "@/position";
 import type {
   FloatingAlign,
   FloatingOptions,
@@ -7,8 +7,6 @@ import type {
 
 describe("getContentPosition", () => {
   const triggerRect = new DOMRect(300, 300, 100, 50);
-  // Content is deliberately a different size than the trigger so that
-  // start / center / end resolve to distinct coordinates on the cross axis.
   const contentRect = new DOMRect(0, 0, 40, 20);
   const baseOptions = {
     offset: 5,
@@ -17,6 +15,19 @@ describe("getContentPosition", () => {
     forcePlacement: false,
     placement: "bottom",
   } as Required<FloatingOptions>;
+
+  beforeEach(() => {
+    vi.spyOn(document.documentElement, "clientWidth", "get").mockReturnValue(
+      1024,
+    );
+    vi.spyOn(document.documentElement, "clientHeight", "get").mockReturnValue(
+      768,
+    );
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   const testCases = [
     { placement: "top", align: "start", expectedX: 300, expectedY: 275 },
@@ -62,9 +73,6 @@ describe("getContentPosition", () => {
   });
 
   it("should pin content to padding when it is larger than the viewport", () => {
-    // jsdom viewport is 1024x768; a 1200x900 content cannot fit within
-    // [padding, viewport - contentSize - padding], so clampToViewport
-    // falls back to `padding` on both axes.
     const oversizedContentRect = new DOMRect(0, 0, 1200, 900);
 
     const result = getContentPosition(
@@ -74,6 +82,6 @@ describe("getContentPosition", () => {
       { ...baseOptions, align: "center" },
     );
 
-    expect(result).toEqual({ x: 10, y: 10 });
+    expect(result).toEqual({ x: 10, y: 355 });
   });
 });

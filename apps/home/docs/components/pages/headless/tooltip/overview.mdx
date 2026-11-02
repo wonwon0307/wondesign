@@ -67,7 +67,7 @@ The arrow must go inside the content.
 
 `useTooltip` gives you the position of the content and the arrow. Apply them
 yourself, usually in a small wrapper of your own. The position is worked out by
-[Position](/foundations/position), so it behaves exactly as described there.
+[Position](/foundations/position/floating-position), so it behaves exactly as described there.
 
 ```tsx
 import { Tooltip, useTooltip } from "@wondesign/headless/Tooltip";
@@ -132,7 +132,7 @@ by [Key Events](/foundations/key-events).
 
 `Tooltip` keeps its own state and starts closed. Pass `isOpen` and
 `onOpenChange` to control it yourself. Both modes are powered by
-[Disclosure](/foundations/disclosure#how-it-works), so they behave exactly as
+[Disclosure](/foundations/disclosure/open-state#how-it-works), so they behave exactly as
 described there — including that `onOpenChange` is **only called when
 `isOpen` is passed**:
 

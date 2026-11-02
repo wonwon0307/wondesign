@@ -34,9 +34,15 @@ export function TooltipProvider({
     show: showImmediate,
     hide: hideImmediate,
   } = useOpenState({ controlledOpen, setControlledOpen: onOpenChange });
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
-  const floatingRef = useRef<HTMLDivElement | null>(null);
-  const arrowRef = useRef<HTMLDivElement | null>(null);
+  const { triggerRef, floatingRef, arrowRef, content, arrow } =
+    useFloatingPosition({
+      enabled: isOpen,
+      placement: userPlacement,
+      forcePlacement,
+      align,
+      offset,
+      padding,
+    });
   const timer = useRef<NodeJS.Timeout | null>(null);
   const tooltipId = useId();
 
@@ -47,19 +53,6 @@ export function TooltipProvider({
   // 롱터치는 터치 자체에 delay가 있기 때문에, show에 delay를 주지 않는다.
   useLongPress(triggerRef, showImmediate, { enabled: !isOpen });
   useEscapeKey(hideImmediate, { enabled: isOpen });
-  const { content, arrow } = useFloatingPosition(
-    triggerRef,
-    floatingRef,
-    arrowRef,
-    {
-      placement: userPlacement,
-      forcePlacement,
-      align,
-      offset,
-      padding,
-    },
-    isOpen,
-  );
 
   const showWithDelay = useCallback(() => {
     if (timer.current) clearTimeout(timer.current);
@@ -100,6 +93,9 @@ export function TooltipProvider({
       arrow,
     }),
     [
+      triggerRef,
+      floatingRef,
+      arrowRef,
       isOpen,
       keepMounted,
       showImmediate,

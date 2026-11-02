@@ -1,4 +1,4 @@
-import { getArrowPosition } from "@/arrow/position";
+import { getArrowPosition } from "@/arrow";
 
 describe("getArrowPosition", () => {
   const triggerRect = new DOMRect(0, 0, 100, 50);

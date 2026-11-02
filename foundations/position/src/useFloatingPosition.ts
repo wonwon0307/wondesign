@@ -1,41 +1,40 @@
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 
-import { getArrowPosition } from "./arrow/position";
-import { getContentPosition } from "./content/position";
+import { getArrowPosition } from "./arrow";
 import { finalizePlacement } from "./placement";
+import { getContentPosition } from "./position";
 import type {
   FloatingOptions,
   FloatingPlacement,
-  FloatingPositions,
   Position,
+  UseFloatingPositionOptions,
+  UseFloatingPositionReturn,
 } from "./types";
 
-export function useFloatingPosition(
-  triggerRef: React.RefObject<HTMLElement | null>,
-  floatingRef: React.RefObject<HTMLElement | null>,
-  arrowRef: React.RefObject<HTMLElement | null>,
-  options: FloatingOptions,
-  isOpen: boolean = false,
-): FloatingPositions {
-  // options는 호출부에서 인라인 객체로 넘어오는 경우가 많다. 참조 안정성에
-  // 의존하지 않도록 원시값으로 분해해서 아래 deps에 사용한다.
-  const {
-    placement: preferredPlacement = "bottom",
-    forcePlacement = false,
-    align = "center",
-    offset = 0,
-    padding = 0,
-  } = options;
-
-  const [placement, setPlacement] = useState<FloatingPlacement>("bottom");
-  const [content, setContent] = useState<Position>({
-    x: 0,
-    y: 0,
-  });
-  const [arrow, setArrow] = useState<Position>({
-    x: 0,
-    y: 0,
-  });
+export function useFloatingPosition<
+  TTrigger extends HTMLElement = HTMLButtonElement,
+  TFloating extends HTMLElement = HTMLDivElement,
+  TArrow extends HTMLElement = HTMLDivElement,
+>({
+  enabled = true,
+  placement: preferredPlacement = "bottom",
+  forcePlacement = false,
+  align = "center",
+  offset = 0,
+  padding = 0,
+}: UseFloatingPositionOptions = {}): UseFloatingPositionReturn<
+  TTrigger,
+  TFloating,
+  TArrow
+> {
+  const triggerRef = useRef<TTrigger>(null);
+  const floatingRef = useRef<TFloating>(null);
+  const arrowRef = useRef<TArrow>(null);
+  const [placement, setPlacement] =
+    useState<FloatingPlacement>(preferredPlacement);
+  const [content, setContent] = useState<Position>({ x: 0, y: 0 });
+  const [arrow, setArrow] = useState<Position>({ x: 0, y: 0 });
+  const [isPositioned, setIsPositioned] = useState<boolean>(false);
 
   const updatePosition = useCallback(() => {
     if (!triggerRef.current || !floatingRef.current) return;
@@ -51,7 +50,6 @@ export function useFloatingPosition(
       padding,
     };
 
-    // forcePlacement가 true이면 preferredPlacement를 그대로 사용, 아니면 계산
     const finalPlacement = finalizePlacement(
       triggerRect,
       contentRect,
@@ -63,30 +61,22 @@ export function useFloatingPosition(
       contentRect,
       resolvedOptions,
     );
-
-    const { x: arrowX, y: arrowY } = getArrowPosition(
+    const arrowPosition = getArrowPosition(
       finalPlacement,
       triggerRect,
       contentRect,
       contentPosition,
       arrowRef.current,
     );
+
     setPlacement(finalPlacement);
     setContent(contentPosition);
-    setArrow({ x: arrowX, y: arrowY });
-  }, [
-    triggerRef,
-    floatingRef,
-    arrowRef,
-    preferredPlacement,
-    forcePlacement,
-    align,
-    offset,
-    padding,
-  ]);
+    setArrow(arrowPosition);
+    setIsPositioned(true);
+  }, [preferredPlacement, forcePlacement, align, offset, padding]);
 
   useLayoutEffect(() => {
-    if (!isOpen || !triggerRef.current || !floatingRef.current) {
+    if (!enabled || !triggerRef.current || !floatingRef.current) {
       // arrow는 없더라도 floating의 위치를 계산해야 한다
       return;
     }
@@ -112,8 +102,18 @@ export function useFloatingPosition(
       window.removeEventListener("resize", updatePosition);
       window.removeEventListener("scroll", updatePosition, { capture: true });
       observer.disconnect();
+      setIsPositioned(false);
     };
-  }, [isOpen, triggerRef, floatingRef, arrowRef, updatePosition]);
+  }, [enabled, updatePosition]);
 
-  return { placement, content, arrow };
+  return {
+    triggerRef,
+    floatingRef,
+    arrowRef,
+    placement,
+    content,
+    arrow,
+    isPositioned: enabled && isPositioned,
+    update: updatePosition,
+  };
 }

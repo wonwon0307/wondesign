@@ -1,0 +1,264 @@
+# Floating Position
+
+`useFloatingPosition` places floating content next to the element that opens
+it, and keeps it there. It's the usual way to position a tooltip, popover or
+menu.
+
+---
+
+## Usage
+
+Call `useFloatingPosition` with the open state, and attach the three refs it
+returns. `content` and `arrow` hold where to move the content and the arrow:
+
+```tsx
+import { useState } from "react";
+import { useFloatingPosition } from "@wondesign/position";
+
+export function SaveHint() {
+  const [isOpen, setIsOpen] = useState(false);
+  const { triggerRef, floatingRef, arrowRef, content, arrow, isPositioned } =
+    useFloatingPosition({
+      enabled: isOpen,
+      placement: "top",
+      offset: 8,
+      padding: 8,
+    });
+
+  return (
+    <>
+      <button
+        ref={triggerRef}
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
+      >
+        Save
+      </button>
+      {isOpen && (
+        <div
+          ref={floatingRef}
+          role="tooltip"
+          style={{
+            position: "fixed",
+            left: 0,
+            top: 0,
+            transform: `translate(${content.x}px, ${content.y}px)`,
+            visibility: isPositioned ? "visible" : "hidden",
+          }}
+        >
+          Saved automatically every minute
+          <div
+            ref={arrowRef}
+            style={{
+              position: "absolute",
+              left: 0,
+              top: 0,
+              width: 8,
+              height: 8,
+              background: "inherit",
+              transform: `translate(${arrow.x}px, ${arrow.y}px) rotate(45deg)`,
+            }}
+          />
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+- 📌 `triggerRef` and `floatingRef` must both be attached. **Without either
+  one, the content isn't positioned.**
+- 📌 `content` is measured from the top-left corner of the viewport, so the
+  floating element must be `position: fixed`, starting at `left: 0` and
+  `top: 0`.
+- 📌 `arrow` is measured from the top-left corner of the floating element, so
+  the arrow goes inside it, with `position: absolute`.
+- 📌 If you don't need an arrow, leave `arrowRef` unattached.
+- 📌 `isPositioned` is `false` until the position has been worked out. Hide
+  the content until then, so it's never shown before it's in place.
+
+### Other Elements
+
+The refs are typed for a `<button>` trigger, and a `<div>` for the content and
+the arrow. For other elements, pass their types, in the same order:
+
+```tsx
+// a link as the trigger, a list as the content
+const { triggerRef, floatingRef } = useFloatingPosition<
+  HTMLAnchorElement,
+  HTMLUListElement
+>({ enabled: isOpen });
+```
+
+---
+
+## How It Works
+
+`useFloatingPosition` works out two things: which side of the trigger the
+content goes on, and where along that side it sits. Both are worked out again
+when the page scrolls or resizes, or when the elements change size, so the
+content stays next to its trigger while it's shown.
+
+### Choosing a Side
+
+The content goes on the side set by `placement`, as long as it fits there,
+with `offset` and `padding` included. When it doesn't:
+
+- 📌 It moves to the opposite side, if that side has more room.
+- 📌 If neither side has room, it stays on whichever side has more.
+- 📌 With `forcePlacement`, it always stays on `placement`, even when there
+  isn't enough room.
+
+The returned `placement` is the side actually used. Use it to style the
+content per side, for example to animate it in from the right direction.
+
+### Fitting on Screen
+
+Three options decide where the content sits on its side:
+
+- 📌 `align` lines the content up with the trigger's start, center or end.
+- 📌 `offset` is the gap between the trigger and the content.
+- 📌 `padding` is the space kept from the edges of the viewport. Content that
+  would come closer is moved back in, along the trigger.
+
+The browser's scrollbars don't count as room, so content is never hidden
+behind one.
+
+The arrow always points at the center of the trigger, and stays within the
+content's edges, even after the content has been moved to fit.
+
+### Updating
+
+The position is first worked out when `enabled` turns `true`, for example
+when the content opens. That way, the content is already in place the first
+time it's shown.
+
+After that, while `enabled` stays `true`, the position updates by itself when:
+
+- 📌 The page, or anything else on it, is scrolled.
+- 📌 The window is resized.
+- 📌 The trigger, the content or the arrow changes size.
+
+Anything else that moves the trigger **does NOT update the position**, for
+example an animation, a transition, or other content appearing above it. Call
+`update` once the trigger has moved. For example, with a trigger in a sidebar
+that slides open and closed:
+
+```tsx
+const { triggerRef, floatingRef, content, update } = useFloatingPosition({
+  enabled: isOpen,
+});
+
+return (
+  // the sidebar slides, so the trigger moves without scrolling or resizing
+  <aside
+    className={isCollapsed ? "collapsed" : undefined}
+    onTransitionEnd={update}
+  >
+    <button ref={triggerRef}>Settings</button>
+  </aside>
+);
+```
+
+---
+
+## API
+
+Import `useFloatingPosition` and its types from `@wondesign/position`.
+`options` and every field in it are optional:
+
+```ts
+type FloatingPlacement = "top" | "bottom" | "left" | "right";
+type FloatingAlign = "start" | "center" | "end";
+type Position = { x: number; y: number };
+
+// the options for where the content goes.
+// for components that take them as props.
+interface FloatingOptions {
+  // the side to place the content on. defaults to `"bottom"`.
+  placement?: FloatingPlacement;
+
+  // stay on `placement`, even without room. defaults to `false`.
+  forcePlacement?: boolean;
+
+  // how to line the content up with the trigger. defaults to `"center"`.
+  align?: FloatingAlign;
+
+  // the gap between the trigger and the content, in pixels. defaults to `0`.
+  offset?: number;
+
+  // the space to keep from the viewport's edges, in pixels. defaults to `0`.
+  padding?: number;
+}
+
+interface UseFloatingPositionOptions extends FloatingOptions {
+  // whether the position is kept up to date. defaults to `true`.
+  // pass the open state, so it only updates while the content is shown.
+  enabled?: boolean;
+}
+
+interface UseFloatingPositionReturn<
+  TTrigger extends HTMLElement = HTMLButtonElement,
+  TFloating extends HTMLElement = HTMLDivElement,
+  TArrow extends HTMLElement = HTMLDivElement,
+> {
+  // attach to the trigger, the content and the arrow.
+  triggerRef: React.RefObject<TTrigger | null>;
+  floatingRef: React.RefObject<TFloating | null>;
+  arrowRef: React.RefObject<TArrow | null>;
+
+  // the side the content is on. may differ from the `placement` option.
+  placement: FloatingPlacement;
+
+  // where the content goes, from the top-left corner of the viewport.
+  content: Position;
+
+  // where the arrow goes, from the top-left corner of the content.
+  arrow: Position;
+
+  // whether the position has been worked out at least once since
+  // `enabled` turned on. use it to hide the content until then.
+  isPositioned: boolean;
+
+  // works out the position again, right away.
+  update: () => void;
+}
+
+function useFloatingPosition<
+  TTrigger extends HTMLElement = HTMLButtonElement,
+  TFloating extends HTMLElement = HTMLDivElement,
+  TArrow extends HTMLElement = HTMLDivElement,
+>(
+  options?: UseFloatingPositionOptions,
+): UseFloatingPositionReturn<TTrigger, TFloating, TArrow>;
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Passing `enabled` is strongly recommended**: The position is first
+  worked out when `enabled` turns `true` (see [Updating](#updating)). If
+  `enabled` stays `true`, for example because it's left out, **the first
+  position may never be worked out** for content that's rendered later. Tie
+  `enabled` to whatever renders the content:
+
+  ```tsx
+  const { floatingRef, content } = useFloatingPosition({ enabled: isOpen });
+  ```
+
+  If you really want to leave `enabled` out, call `update` yourself once the
+  content is on the page, to work out its first position.
+
+- ⚠️ **Rendering the content in a portal is strongly recommended**: A
+  `transform`, `filter` or `contain` on any element around the content changes
+  what `position: fixed` is measured from, and **the content ends up in the
+  wrong place**. A [Portal](/components/headless/portal) renders the content
+  at the end of `<body>`, away from those parents. Every floating component in
+  `@wondesign/headless`, like Tooltip, already renders its content in a portal
+  by default.
+
+- ⚠️ **Shape the arrow to sit half inside the content**: The arrow is placed
+  half inside the content and half outside, which suits a square turned 45°,
+  like the one in the Usage example. A triangle drawn to sit fully outside the
+  content **ends up half covered**.
