@@ -49,11 +49,11 @@ function getMainAxisOffset(
   arrowWidth: number,
   arrowHeight: number,
 ) {
-  // arrow의 main axis offset는 trigger와 content 사이의 간격을 고려하여 계산한다
+  // arrow의 main axis offset는 trigger 쪽 content의 가장자리를 기준으로 계산한다.
   switch (finalPlacement) {
     case "top":
       // arrow가 content의 아래쪽에 위치한다.
-      // 따라서, arrow의 main axis offset는 content의 높이에서 arrow의 높이를 뺀 값이다.
+      // 따라서, arrow의 main axis offset는 content의 높이에서 arrow의 높이의 절반을 뺀 값이다.
       return contentRect.height - arrowHeight / 2;
     case "bottom":
       return 0 - arrowHeight / 2;
