@@ -151,7 +151,10 @@ const { triggerRef, floatingRef, content, update } = useFloatingPosition({
 
 return (
   // the sidebar slides, so the trigger moves without scrolling or resizing
-  <aside className={isCollapsed ? "collapsed" : undefined} onTransitionEnd={update}>
+  <aside
+    className={isCollapsed ? "collapsed" : undefined}
+    onTransitionEnd={update}
+  >
     <button ref={triggerRef}>Settings</button>
   </aside>
 );
