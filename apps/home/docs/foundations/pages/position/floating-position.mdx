@@ -96,8 +96,8 @@ const { triggerRef, floatingRef } = useFloatingPosition<
 
 `useFloatingPosition` works out two things: which side of the trigger the
 content goes on, and where along that side it sits. Both are worked out again
-whenever something moves, so the content stays next to its trigger while it's
-shown.
+when the page scrolls or resizes, or when the elements change size, so the
+content stays next to its trigger while it's shown.
 
 ### Choosing a Side
 
