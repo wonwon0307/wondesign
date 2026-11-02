@@ -1,38 +1,8 @@
----
-title: Disclosure
-description: React hooks for the open / closed state of anything that shows and hides — controlled or uncontrolled, behind the same show / hide API.
----
+# Open State
 
-import { Callout } from "@wondesign/ui/Texts";
-import { PackageInfo } from "@/entities/package";
-
-<PackageInfo name="@wondesign/disclosure" relPath="foundations/disclosure">
-  `@wondesign/disclosure` handles the open / closed state of anything that shows
-  and hides — menus, panels, tooltips, sidebars. Use it straight in your app, or
-  to build components of your own.
-</PackageInfo>
-
----
-
-## Installation
-
-```bash
-pnpm add @wondesign/disclosure
-```
-
-<Callout variant="warning" title="Requires React 19">
-  `@wondesign/disclosure` needs React 19 or later.
-</Callout>
-
----
-
-## Key Features
-
-- ✅ **Uncontrolled Mode**: The default, easy-to-use mode — the state is kept for you, starting open or closed
-- ✅ **Controlled Mode**: Full control — pass the state in, and decide what happens on every change
-- ✅ **Same API Either Way**: `isOpen`, `show`, `hide` and `toggle` work the same in both modes
-- ✅ **Built-in Toggle**: Open or close with a single call
-- ✅ **Stable Callbacks**: `show` and `hide` are safe to pass down or use in effects
+`useOpenState` keeps track of whether something is open or closed, and gives
+you `show`, `hide` and `toggle` to change it. It's the usual way to open and
+close a menu, panel or dialog.
 
 ---
 
@@ -96,8 +66,8 @@ For a component used in many places, in your app or in a library, wire the
 hook to the component's own props. The usual trio is `isOpen`, `onOpenChange`
 and `defaultOpen`, the same props
 [WonDesign's Headless components](/components/headless) take, so whoever
-renders the component picks the mode. Read the "How it works" section below for how each mode
-behaves:
+renders the component picks the mode. Read [How It Works](#how-it-works) below
+for how each mode behaves:
 
 ```tsx
 import { useOpenState } from "@wondesign/disclosure";
@@ -186,8 +156,8 @@ useOpenState({ controlledOpen: true });
 
 ## API
 
-Every option is optional. Both types are exported from
-`@wondesign/disclosure`, for typing your own wrappers:
+Import `useOpenState` and its types from `@wondesign/disclosure`, for typing
+your own wrappers. `options` and every field in it are optional:
 
 ```ts
 interface UseOpenStateOptions {
@@ -231,22 +201,3 @@ function useOpenState(options?: UseOpenStateOptions): UseOpenStateReturn;
   // controlled from the first render
   useOpenState({ controlledOpen: data?.isOpen ?? false, setControlledOpen });
   ```
-
----
-
-## Upcoming Features
-
-- 🔜 **No Repeat Calls**: `onOpenChange` is only called when the state actually changes
-- 🔜 **Mode-Switch Warning**: A warning in development when a component switches between controlled and uncontrolled
-- 🔜 **onShow / onHide**: Callbacks for when the component opens or closes
-- 🔜 **Delayed Open State**: Open and close after a delay, like a tooltip on hover
-- 🔜 **Exit Animations**: Keep closed content on the page until its closing animation ends
-
----
-
-## Used By
-
-- 🧩 **Headless components** in `@wondesign/headless` — the open state of
-  components like Collapsible and Tooltip
-- 🧩 **Sidebar** in `@wondesign/sidebar` — its open state, and the toggle's
-  click and shortcut
