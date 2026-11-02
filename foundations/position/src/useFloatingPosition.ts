@@ -102,6 +102,7 @@ export function useFloatingPosition<
       window.removeEventListener("resize", updatePosition);
       window.removeEventListener("scroll", updatePosition, { capture: true });
       observer.disconnect();
+      setIsPositioned(false);
     };
   }, [enabled, updatePosition]);
 
