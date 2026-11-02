@@ -73,9 +73,6 @@ describe("getContentPosition", () => {
   });
 
   it("should pin content to padding when it is larger than the viewport", () => {
-    // jsdom viewport is 1024x768; a 1200x900 content cannot fit within
-    // [padding, viewport - contentSize - padding], so clampToViewport
-    // falls back to `padding` on both axes.
     const oversizedContentRect = new DOMRect(0, 0, 1200, 900);
 
     const result = getContentPosition(
