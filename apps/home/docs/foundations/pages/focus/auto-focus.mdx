@@ -1,0 +1,110 @@
+# Auto Focus
+
+`useAutoFocus` moves focus into an element when it opens, and back to where it
+was when it closes. It's what keyboard and screen reader users expect from
+dialogs, popovers and menus.
+
+---
+
+## Usage
+
+```tsx
+import { useRef, useState } from "react";
+import { useAutoFocus } from "@wondesign/focus/auto-focus";
+
+export function FilterPopover() {
+  const [isOpen, setIsOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useAutoFocus(contentRef, { enabled: isOpen });
+
+  return (
+    <>
+      <button onClick={() => setIsOpen((open) => !open)}>Filters</button>
+      {isOpen && (
+        <div ref={contentRef} tabIndex={-1}>
+          <label>
+            <input type="checkbox" /> In stock
+          </label>
+          <button onClick={() => setIsOpen(false)}>Done</button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+- 📌 When `enabled` turns `true`, focus moves to the first element inside that
+  Tab can reach, skipping disabled, hidden and inert ones. With nothing to
+  focus inside, it moves to the element itself.
+- 📌 When `enabled` turns `false`, or the component unmounts, focus goes back
+  to the element that had it before. Pass `returnRef` to send it somewhere
+  else, like the trigger of content opened with a shortkey.
+- 📌 Only elements with the native `disabled` attribute are skipped. Elements
+  disabled another way, like with `aria-disabled` or a headless
+  [Button](/components/headless/button) with `isDisabled`, stay focusable, so
+  **focus can land on them**.
+
+---
+
+## API
+
+Import `useAutoFocus` and `UseAutoFocusOptions` from
+`@wondesign/focus/auto-focus`. `targetRef` is required, while `options` and
+everything in it can be left out. The hook returns nothing — it only moves
+focus:
+
+```ts
+interface UseAutoFocusOptions {
+  // whether focus is moved in. defaults to `false`.
+  // pass the open state,
+  // so focus moves in on open and back on close.
+  enabled?: boolean;
+
+  // where focus goes back to on close.
+  // defaults to the element that had focus before it opened.
+  returnRef?: React.RefObject<HTMLElement | null>;
+}
+
+function useAutoFocus(
+  // the element to move focus into.
+  targetRef: React.RefObject<HTMLElement | null>,
+  options?: UseAutoFocusOptions,
+): void;
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Give the element `tabIndex={-1}`**: With nothing focusable inside,
+  focus moves to the element itself, but only elements with a `tabIndex` can
+  take focus. Without it, **focus stays where it was**, usually on the
+  trigger:
+
+  ```tsx
+  // a message with no buttons, so focus moves to the element itself
+  <div ref={contentRef} tabIndex={-1}>
+    Saved!
+  </div>
+  ```
+
+- ⚠️ **Pass the open state to `enabled`**: If the element isn't on the page
+  all the time, pass its open state to `enabled`. Rendering it conditionally
+  is fine, as long as `enabled` turns on together with it. With `enabled`
+  always `true`, the hook turns on before the element appears, and **never
+  moves focus in**:
+
+  ```tsx
+  // ❌ the hook is already on when the popover appears, so it never sees it
+  useAutoFocus(contentRef, { enabled: true });
+
+  return isOpen ? <div ref={contentRef}>…</div> : null;
+  ```
+
+  ```tsx
+  // ✅ the hook turns on together with the popover
+  useAutoFocus(contentRef, { enabled: isOpen });
+
+  return isOpen ? <div ref={contentRef}>…</div> : null;
+  ```
