@@ -93,17 +93,21 @@ describe("getFocusableElements", () => {
     });
     HTMLElement.prototype.checkVisibility = checkVisibility;
 
-    const { getByTestId } = render(
-      <div data-testid="container">
-        <button data-testid="invisible" />
-        <button data-testid="button" />
-      </div>,
-    );
+    try {
+      const { getByTestId } = render(
+        <div data-testid="container">
+          <button data-testid="invisible" />
+          <button data-testid="button" />
+        </div>,
+      );
 
-    expect(getTestIds(getByTestId("container"))).toEqual(["button"]);
-    expect(checkVisibility).toHaveBeenCalledWith({ visibilityProperty: true });
-
-    // @ts-expect-error -- jsdom doesn't implement checkVisibility
-    delete HTMLElement.prototype.checkVisibility;
+      expect(getTestIds(getByTestId("container"))).toEqual(["button"]);
+      expect(checkVisibility).toHaveBeenCalledWith({
+        visibilityProperty: true,
+      });
+    } finally {
+      // @ts-expect-error -- jsdom doesn't implement checkVisibility
+      delete HTMLElement.prototype.checkVisibility;
+    }
   });
 });
