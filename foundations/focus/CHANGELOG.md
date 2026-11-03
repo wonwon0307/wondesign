@@ -1,5 +1,15 @@
 # @wondesign/focus
 
+## 0.2.0
+
+### Minor Changes
+
+- [#111](https://github.com/wonwon0307/wondesign/pull/111) [`c71b311`](https://github.com/wonwon0307/wondesign/commit/c71b3110ee519a05c6fd61d5970d8d0d8904e1ff) Thanks [@wonwon0307](https://github.com/wonwon0307)! - Add `useBackgroundInert` (`@wondesign/focus/background-inert`), a React hook that makes everything on the page outside an element inert while it's open, so users can't click, focus or read the page behind modal content.
+
+  - **Stacks safely**: several can be on at once, like an alert opened over a dialog. The page behind stays inert until the last one closes, whichever order they close in.
+  - **Leaves existing inert alone**: elements that were inert before it turned on stay inert.
+  - **Typed**: `UseBackgroundInertOptions` is exported.
+
 ## 0.1.0
 
 ### Minor Changes
