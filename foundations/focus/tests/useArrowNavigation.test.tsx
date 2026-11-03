@@ -131,6 +131,20 @@ describe("useArrowNavigation", () => {
     expect(document.activeElement).toBe(item1);
   });
 
+  it("ignores keys pressed with Alt, Ctrl or Meta", () => {
+    const { getByTestId } = render(<TestComponent enabled />);
+
+    const item1 = getByTestId("item1");
+
+    item1.focus();
+    fireEvent.keyDown(item1, { key: "ArrowRight", altKey: true });
+    expect(document.activeElement).toBe(item1);
+    fireEvent.keyDown(item1, { key: "ArrowRight", ctrlKey: true });
+    expect(document.activeElement).toBe(item1);
+    fireEvent.keyDown(item1, { key: "End", metaKey: true });
+    expect(document.activeElement).toBe(item1);
+  });
+
   it("ignores silently when no items are present", () => {
     const { getByTestId } = render(
       <TestComponent enabled>No Items</TestComponent>,

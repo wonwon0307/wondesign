@@ -16,6 +16,9 @@ export function useArrowNavigation(
     if (!enabled || !target) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
+      // Alt+Left (뒤로 가기) 등 브라우저 단축키는 그대로 둔다
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+
       const direction = resolveDirection(event.key, orientation);
       // 유효한 키가 아니면 무시
       if (!direction) return;
