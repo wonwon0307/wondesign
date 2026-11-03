@@ -68,9 +68,11 @@ function useFocusTrap(
 
 ## Watch Out
 
-- ⚠️ **Clicking outside moves focus out**: The trap only handles Tab.
+- ⚠️ **Clicking outside moves focus out**: The trap only handles the Tab key.
   Clicking the page behind the content moves focus there, and **the trap
-  doesn't bring it back**. Close the content on a click outside with
+  doesn't bring it back**. For modal content, make the page behind inert with
+  [`useBackgroundInert`](/foundations/focus/background-inert), so it can't be
+  clicked at all. Otherwise, close the content on a click outside with
   [`useClickOutside`](/foundations/pointer/click-outside), so focus never ends
   up behind it:
 
