@@ -41,7 +41,7 @@ function TestComponent({
   );
 }
 
-describe("useAutoFocus - corner cases", () => {
+describe("useAutoFocus", () => {
   it("handles with no returnRef", () => {
     const { getByTestId } = render(<TestComponent />);
 
