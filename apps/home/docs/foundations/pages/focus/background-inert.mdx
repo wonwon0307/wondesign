@@ -1,0 +1,138 @@
+# Background Inert
+
+`useBackgroundInert` makes everything on the page outside an element inert
+while it's open. Users can't click, focus or select anything behind it, and
+screen readers skip it. Modal content, like dialogs and alerts, needs it to
+really be modal.
+
+---
+
+## Usage
+
+This hook works best when used together with
+[`useAutoFocus`](/foundations/focus/auto-focus) and
+[`useFocusTrap`](/foundations/focus/focus-trap). **On its own, it doesn't move
+focus in or keep Tab inside**. Focus on something that becomes inert, like the
+trigger, is lost, and Tab moves out to the browser's address bar after the
+last element. `useAutoFocus` moves focus into the content, and `useFocusTrap`
+keeps Tab cycling inside it:
+
+```tsx
+import { useRef, useState } from "react";
+import { useAutoFocus } from "@wondesign/focus/auto-focus";
+import { useBackgroundInert } from "@wondesign/focus/background-inert";
+import { useFocusTrap } from "@wondesign/focus/trap";
+
+export function DeleteDialog() {
+  const [isOpen, setIsOpen] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useAutoFocus(dialogRef, { enabled: isOpen });
+  useFocusTrap(dialogRef, { enabled: isOpen });
+  useBackgroundInert(dialogRef, { enabled: isOpen });
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Delete</button>
+      {isOpen && (
+        <div ref={dialogRef} role="dialog" aria-modal="true" tabIndex={-1}>
+          <p>Delete this file?</p>
+          <button onClick={() => setIsOpen(false)}>Cancel</button>
+          <button>Delete</button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+- 📌 Everything outside the element becomes inert, all the way up to the
+  whole page. The element and everything inside it stay usable.
+- 📌 The page goes back to normal when `enabled` turns `false`, or the
+  component unmounts.
+- 📌 Several can be on at once, like an alert opened over a dialog. The page
+  behind stays inert until the last one closes, whichever order they close in.
+- 📌 Elements that were inert before stay inert.
+
+---
+
+## API
+
+Import `useBackgroundInert` and `UseBackgroundInertOptions` from
+`@wondesign/focus/background-inert`. `containerRef` is required, while `options` and
+everything in it can be left out. The hook returns nothing — it only makes
+the page behind inert:
+
+```ts
+interface UseBackgroundInertOptions {
+  // whether the page behind is inert. defaults to `false`.
+  // pass the open state, so it's only inert while open.
+  enabled?: boolean;
+}
+
+function useBackgroundInert(
+  // the element to keep usable. everything outside it becomes inert.
+  containerRef: React.RefObject<HTMLElement | null>,
+  options?: UseBackgroundInertOptions,
+): void;
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Pass the open state to `enabled`**: If the element isn't on the page
+  all the time, pass its open state to `enabled`. Rendering it conditionally
+  is fine, as long as `enabled` turns on together with it. With `enabled`
+  always `true`, the hook turns on before the element appears, and **the page
+  behind never becomes inert**:
+
+  ```tsx
+  // ❌ the hook is already on when the dialog appears, so it never sees it
+  useBackgroundInert(dialogRef, { enabled: true });
+
+  return isOpen ? <div ref={dialogRef}>…</div> : null;
+  ```
+
+  ```tsx
+  // ✅ the hook turns on together with the dialog
+  useBackgroundInert(dialogRef, { enabled: isOpen });
+
+  return isOpen ? <div ref={dialogRef}>…</div> : null;
+  ```
+
+- ⚠️ **Keep what should stay usable inside the element**: Everything outside
+  it becomes inert, including content rendered through its own portal. A
+  backdrop rendered next to the element **can't be clicked**, so closing on a
+  backdrop click won't work. Put the backdrop and the content in one wrapper,
+  and pass the wrapper's ref instead:
+
+  ```tsx
+  // ❌ the backdrop is outside the element, so it's inert and can't be clicked
+  <>
+    <div className="backdrop" onClick={closeDialog} />
+    <div ref={dialogRef} role="dialog">…</div>
+  </>
+
+  // ✅ the backdrop is inside the element, so it stays clickable
+  <div ref={wrapperRef}>
+    <div className="backdrop" onClick={closeDialog} />
+    <div role="dialog">…</div>
+  </div>
+  ```
+
+  📍 Closing with [`useClickOutside`](/foundations/pointer/click-outside) doesn't
+  have this problem. It listens for clicks on the whole page, not on the
+  backdrop, so clicks outside still close the content while the page behind is
+  inert.
+
+---
+
+## Known Issues
+
+- 🐞 **Content added while open stays usable**: Only what's on the page when
+  the hook turns on becomes inert. Something that appears behind it later,
+  like a toast or a chat widget, can still be clicked and focused.
+- 🐞 **Toasts aren't announced**: A toast area that's on the page when the
+  hook turns on becomes inert too, so screen readers don't read new toasts
+  until the hook turns off.
