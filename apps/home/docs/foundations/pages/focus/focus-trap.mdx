@@ -1,0 +1,98 @@
+# Focus Trap
+
+`useFocusTrap` keeps Tab and Shift+Tab inside an element while it's open. Modal
+content, like dialogs and alerts, needs it so keyboard users don't wander off
+to the page behind.
+
+---
+
+## Usage
+
+```tsx
+import { useRef, useState } from "react";
+import { useAutoFocus } from "@wondesign/focus/auto-focus";
+import { useFocusTrap } from "@wondesign/focus/trap";
+
+export function DeleteDialog() {
+  const [isOpen, setIsOpen] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useAutoFocus(dialogRef, { enabled: isOpen });
+  useFocusTrap(dialogRef, { enabled: isOpen });
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Delete</button>
+      {isOpen && (
+        <div ref={dialogRef} role="dialog" aria-modal="true" tabIndex={-1}>
+          <p>Delete this file?</p>
+          <button onClick={() => setIsOpen(false)}>Cancel</button>
+          <button>Delete</button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+- 📌 Tab on the last element moves to the first, and Shift+Tab on the first
+  moves to the last. Disabled, hidden and inert elements are skipped.
+- 📌 With nothing focusable inside, focus stays on the element itself.
+- 📌 **The trap doesn't move focus in**. It only holds focus that's already
+  inside, so pair it with [`useAutoFocus`](/foundations/focus/auto-focus) to
+  move focus in on open.
+
+---
+
+## API
+
+Import `useFocusTrap` and `UseFocusTrapOptions` from `@wondesign/focus/trap`.
+`targetRef` is required, while `options` and everything in it can be left
+out. The hook returns nothing — it only holds focus:
+
+```ts
+interface UseFocusTrapOptions {
+  // whether the trap is on. defaults to `false`.
+  // pass the open state, so it only holds focus while open.
+  enabled?: boolean;
+}
+
+function useFocusTrap(
+  // the element to keep focus inside.
+  targetRef: React.RefObject<HTMLElement | null>,
+  options?: UseFocusTrapOptions,
+): void;
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Clicking outside moves focus out**: The trap only handles Tab.
+  Clicking the page behind the content moves focus there, and **the trap
+  doesn't bring it back**. Close the content on a click outside with
+  [`useClickOutside`](/foundations/pointer/click-outside), so focus never ends
+  up behind it:
+
+  ```tsx
+  import { useClickOutside } from "@wondesign/pointer/click-outside";
+
+  useFocusTrap(dialogRef, { enabled: isOpen });
+  useClickOutside(dialogRef, () => setIsOpen(false), { enabled: isOpen });
+  ```
+
+---
+
+## Known Issues
+
+- 🐞 **Positive `tabIndex` values**: Elements with `tabIndex={1}` or higher
+  inside the trap can be skipped or reached out of order.
+- 🐞 **Nested traps**: With a trap on inside another, like a menu inside a
+  dialog, focus can slip out of the inner one. Until
+  [nested traps](/foundations/focus/overview#upcoming-features) land, turn the
+  outer trap off while the inner one is on:
+
+  ```tsx
+  // the dialog only traps focus while its menu is closed
+  useFocusTrap(dialogRef, { enabled: isDialogOpen && !isMenuOpen });
+  ```

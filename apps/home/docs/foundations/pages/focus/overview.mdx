@@ -1,0 +1,47 @@
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/focus" relPath="foundations/focus">
+  `@wondesign/focus` handles keyboard focus for tabs, menus, dialogs and
+  anything else that opens or groups controls. It puts focus where keyboard
+  and screen reader users expect it, and keeps it from getting lost.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/focus
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/focus` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Arrow Key Navigation**: Move between items in a group, like tabs or a toolbar, with the arrow keys, Home and End
+- ✅ **Focus on Open**: Move focus into content when it opens, and back to where it was when it closes
+- ✅ **Focus Trap**: Keep Tab and Shift+Tab inside content, like a dialog, while it's open
+- ✅ **Skips What Can't Be Focused**: Disabled, hidden and inert elements are left out
+- ✅ **Horizontal & Vertical**: Arrow keys follow the direction of the group, and can wrap around at the ends
+
+---
+
+## Upcoming Features
+
+- 🔜 **Typeahead**: Jump to an item by typing the first letters of its name
+- 🔜 **Grid Navigation**: Move in both directions, for grids and calendars
+- 🔜 **Choose the First Focus**: Open on an element other than the first one
+- 🔜 **Nested Traps**: Only the innermost trap holds focus when several are on
+
+---
+
+## Used By
+
+- 🧩 **[Headless components](/components/headless)** in `@wondesign/headless` — keyboard focus in
+  components like Tabs (arrow navigation) and Alert (auto focus and focus
+  trap)

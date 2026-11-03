@@ -1,0 +1,153 @@
+# Arrow Navigation
+
+`useArrowNavigation` moves focus between items in a group with the arrow
+keys. It's the usual keyboard pattern for tabs, toolbars, menus and lists.
+
+---
+
+## Usage
+
+```tsx
+import { useRef, useState } from "react";
+import { useArrowNavigation } from "@wondesign/focus/arrow-navigation";
+
+const tools = ["Bold", "Italic", "Underline"];
+
+export function Toolbar() {
+  const [current, setCurrent] = useState("Bold");
+  const toolbarRef = useRef<HTMLDivElement>(null);
+
+  useArrowNavigation(toolbarRef, { itemSelector: "button", enabled: true });
+
+  return (
+    <div ref={toolbarRef} role="toolbar" aria-label="Text formatting">
+      {tools.map((tool) => (
+        <button
+          key={tool}
+          tabIndex={tool === current ? 0 : -1}
+          onFocus={() => setCurrent(tool)}
+        >
+          {tool}
+        </button>
+      ))}
+    </div>
+  );
+}
+```
+
+- 📌 **Does nothing until `enabled` is `true`**. Pass `true` for a group
+  that's always there, or the open state for one inside a menu or popover.
+- 📌 Left and right move to the previous and next item. Home and End jump to
+  the first and last item.
+- 📌 It only moves focus, and doesn't select anything. To select on focus,
+  do it in the item's `onFocus`.
+
+### Choosing the Items
+
+`itemSelector` is a CSS selector for the items, matched inside the container.
+The arrow keys only work while focus is on one of them, and move only between
+them. Leave disabled items out of the selector to skip them:
+
+```tsx
+useArrowNavigation(tabListRef, {
+  itemSelector: '[role="tab"]:not([aria-disabled="true"])',
+  enabled: true,
+});
+```
+
+- 📌 Items are looked up on every key press, so items added, removed or
+  disabled while the hook is on are picked up.
+- 📌 Make the selector match only the items. One that also matches something
+  inside an item, like a button within a list item, makes that a stop too.
+
+### Orientation
+
+Pass `orientation: "vertical"` for a group laid out top to bottom, so up and
+down move between items instead:
+
+```tsx
+useArrowNavigation(menuRef, {
+  itemSelector: '[role="menuitem"]',
+  enabled: isOpen,
+  orientation: "vertical",
+});
+```
+
+### Looping
+
+Focus stops at the first and last item. Pass `loop` to wrap around instead:
+
+```tsx
+useArrowNavigation(toolbarRef, {
+  itemSelector: "button",
+  enabled: true,
+  loop: true,
+});
+```
+
+---
+
+## API
+
+Import `useArrowNavigation` and `UseArrowNavigationOptions` from
+`@wondesign/focus/arrow-navigation`. `targetRef` and `itemSelector` are
+required, while everything else can be left out. The hook returns nothing —
+it only moves focus:
+
+```ts
+interface UseArrowNavigationOptions {
+  // finds the items inside the container, like `'[role="tab"]'`.
+  itemSelector: string;
+
+  // whether the hook is listening. defaults to `false`.
+  enabled?: boolean;
+
+  // which arrow keys move focus. defaults to `"horizontal"`.
+  // `"horizontal"` uses left and right, `"vertical"` uses up and down.
+  orientation?: "horizontal" | "vertical";
+
+  // wrap around at the ends,
+  // instead of stopping at the first and last item. defaults to `false`.
+  loop?: boolean;
+}
+
+function useArrowNavigation(
+  // the container holding the items, like the tab list.
+  targetRef: React.RefObject<HTMLElement | null>,
+  options: UseArrowNavigationOptions,
+): void;
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Make the group a single Tab stop**: Users expect a group to work like
+  one control. Tab moves into the group, the arrow keys move inside it, and
+  the next Tab moves out. `useArrowNavigation` only handles the arrow keys, so
+  **Tab still visits every item** unless you set this up:
+
+  - 🔹 Give one item `tabIndex={0}`, so Tab lands on it.
+  - 🔹 Give every other item `tabIndex={-1}`, so Tab skips them.
+  - 🔹 Move the `0` to whichever item gets focus, so Tab brings the user back
+    to where they left off. The [example](#usage) does this in `onFocus`.
+
+- ⚠️ **Pass the open state to `enabled`**: If the container isn't on the page
+  all the time, pass its open state to `enabled`. Rendering it conditionally
+  is fine, as long as `enabled` turns on together with it. With `enabled`
+  always `true`, the hook turns on before the container appears, and **never
+  picks it up**:
+
+  ```tsx
+  // ❌ the hook is already on when the menu appears, so it never sees it
+  useArrowNavigation(menuRef, { itemSelector: '[role="menuitem"]', enabled: true });
+
+  return isOpen ? <div ref={menuRef} role="menu">…</div> : null;
+  ```
+
+  ```tsx
+  // ✅ the hook turns on together with the menu
+  useArrowNavigation(menuRef, { itemSelector: '[role="menuitem"]', enabled: isOpen });
+
+  return isOpen ? <div ref={menuRef} role="menu">…</div> : null;
+  ```
