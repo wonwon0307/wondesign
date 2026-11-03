@@ -2,26 +2,11 @@ import { useEffect } from "react";
 
 import type { UseArrowNavigationOptions, Direction } from "./types";
 
-/**
- * Wires up arrow key focus navigation (WAI-ARIA APG "roving tabindex"
- * pattern) for a group of items sharing a container, self-managing its own
- * `keydown` listener — nothing needs to be spread onto the items themselves.
- *
- * On a handled key it moves DOM focus to the target item via `.focus()` —
- * it does not change any selection state, so pair it with the consuming
- * component's own `onFocus`/`onClick` handling if focus should also select.
- *
- * @param targetRef - Ref to the container that receives the (bubbled) `keydown` events, e.g. the tablist element.
- * @param options.itemSelector - Selector used to collect navigable items within the container.
- * @param options.enabled - Whether the listener is active. Defaults to `true`.
- * @param options.orientation - Arrow key axis. `"horizontal"` uses Left/Right, `"vertical"` uses Up/Down. Home/End always jump to the first/last item. Defaults to `"horizontal"`.
- * @param options.loop - Wrap around at the ends instead of stopping at the first/last item. Defaults to `false`.
- */
 export function useArrowNavigation(
   targetRef: React.RefObject<HTMLElement | null>,
   {
     itemSelector,
-    enabled = true,
+    enabled = false,
     orientation = "horizontal",
     loop = false,
   }: UseArrowNavigationOptions,
