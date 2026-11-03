@@ -1,5 +1,5 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
-import { useArrowNavigation } from "@wondesign/focus/nav";
+import { useArrowNavigation } from "@wondesign/focus/arrow-navigation";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { TabsListContext, useTabsInternal } from "./contexts";
@@ -35,6 +35,7 @@ export function TabsList({
     itemSelector: TAB_ITEM_SELECTOR,
     orientation,
     loop,
+    enabled: !isDisabled,
   });
 
   useLayoutEffect(() => {
