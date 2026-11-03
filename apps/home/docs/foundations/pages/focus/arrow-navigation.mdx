@@ -140,14 +140,28 @@ function useArrowNavigation(
 
   ```tsx
   // ❌ the hook is already on when the menu appears, so it never sees it
-  useArrowNavigation(menuRef, { itemSelector: '[role="menuitem"]', enabled: true });
+  useArrowNavigation(menuRef, {
+    itemSelector: '[role="menuitem"]',
+    enabled: true,
+  });
 
-  return isOpen ? <div ref={menuRef} role="menu">…</div> : null;
+  return isOpen ? (
+    <div ref={menuRef} role="menu">
+      …
+    </div>
+  ) : null;
   ```
 
   ```tsx
   // ✅ the hook turns on together with the menu
-  useArrowNavigation(menuRef, { itemSelector: '[role="menuitem"]', enabled: isOpen });
+  useArrowNavigation(menuRef, {
+    itemSelector: '[role="menuitem"]',
+    enabled: isOpen,
+  });
 
-  return isOpen ? <div ref={menuRef} role="menu">…</div> : null;
+  return isOpen ? (
+    <div ref={menuRef} role="menu">
+      …
+    </div>
+  ) : null;
   ```
