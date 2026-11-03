@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { fireEvent, render } from "@testing-library/react";
 
-import { useArrowNavigation } from "@/nav/useArrowNavigation";
-import type { UseArrowNavigationOptions } from "@/nav/types";
+import { useArrowNavigation } from "@/arrow-navigation/useArrowNavigation";
+import type { UseArrowNavigationOptions } from "@/arrow-navigation/types";
 
 function TestComponent({
   children,
@@ -40,7 +40,7 @@ function TestComponent({
 
 describe("useArrowNavigation", () => {
   it("handles key navigation in horizontal orientation correctly", () => {
-    const { getByTestId } = render(<TestComponent />);
+    const { getByTestId } = render(<TestComponent enabled />);
 
     const item1 = getByTestId("item1");
     const item3 = getByTestId("item3");
@@ -74,7 +74,9 @@ describe("useArrowNavigation", () => {
   });
 
   it("handles key navigation in vertical orientation correctly", () => {
-    const { getByTestId } = render(<TestComponent orientation="vertical" />);
+    const { getByTestId } = render(
+      <TestComponent orientation="vertical" enabled />,
+    );
 
     const item1 = getByTestId("item1");
     const item3 = getByTestId("item3");
@@ -106,7 +108,7 @@ describe("useArrowNavigation", () => {
   });
 
   it("wraps around at the ends when loop is true", () => {
-    const { getByTestId } = render(<TestComponent loop />);
+    const { getByTestId } = render(<TestComponent loop enabled />);
 
     const item1 = getByTestId("item1");
     const item3 = getByTestId("item3");
@@ -120,7 +122,7 @@ describe("useArrowNavigation", () => {
   });
 
   it("does nothing when disabled", () => {
-    const { getByTestId } = render(<TestComponent enabled={false} />);
+    const { getByTestId } = render(<TestComponent />);
 
     const item1 = getByTestId("item1");
 
@@ -130,7 +132,9 @@ describe("useArrowNavigation", () => {
   });
 
   it("ignores silently when no items are present", () => {
-    const { getByTestId } = render(<TestComponent>No Items</TestComponent>);
+    const { getByTestId } = render(
+      <TestComponent enabled>No Items</TestComponent>,
+    );
 
     const list = getByTestId("list");
 
@@ -139,7 +143,7 @@ describe("useArrowNavigation", () => {
 
   it("ignores silently if current item is not focusable", () => {
     const { getByTestId } = render(
-      <TestComponent>
+      <TestComponent enabled>
         <button role="item" aria-disabled="true" data-testid="item1">
           Item 1
         </button>
