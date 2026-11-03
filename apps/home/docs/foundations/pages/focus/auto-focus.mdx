@@ -88,3 +88,23 @@ function useAutoFocus(
     Saved!
   </div>
   ```
+
+- ⚠️ **Pass the open state to `enabled`**: If the element isn't on the page
+  all the time, pass its open state to `enabled`. Rendering it conditionally
+  is fine, as long as `enabled` turns on together with it. With `enabled`
+  always `true`, the hook turns on before the element appears, and **never
+  moves focus in**:
+
+  ```tsx
+  // ❌ the hook is already on when the popover appears, so it never sees it
+  useAutoFocus(contentRef, { enabled: true });
+
+  return isOpen ? <div ref={contentRef}>…</div> : null;
+  ```
+
+  ```tsx
+  // ✅ the hook turns on together with the popover
+  useAutoFocus(contentRef, { enabled: isOpen });
+
+  return isOpen ? <div ref={contentRef}>…</div> : null;
+  ```

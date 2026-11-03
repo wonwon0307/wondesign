@@ -81,6 +81,26 @@ function useFocusTrap(
   useClickOutside(dialogRef, () => setIsOpen(false), { enabled: isOpen });
   ```
 
+- ⚠️ **Pass the open state to `enabled`**: If the element isn't on the page
+  all the time, pass its open state to `enabled`. Rendering it conditionally
+  is fine, as long as `enabled` turns on together with it. With `enabled`
+  always `true`, the hook turns on before the element appears, and **never
+  traps focus**:
+
+  ```tsx
+  // ❌ the hook is already on when the dialog appears, so it never sees it
+  useFocusTrap(dialogRef, { enabled: true });
+
+  return isOpen ? <div ref={dialogRef}>…</div> : null;
+  ```
+
+  ```tsx
+  // ✅ the hook turns on together with the dialog
+  useFocusTrap(dialogRef, { enabled: isOpen });
+
+  return isOpen ? <div ref={dialogRef}>…</div> : null;
+  ```
+
 ---
 
 ## Known Issues
