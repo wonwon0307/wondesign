@@ -1,5 +1,5 @@
 import { useId, useMemo } from "react";
-import { useOpenState } from "@wondesign/disclosure";
+import { useOpenState } from "@wondesign/disclosure/open-state";
 
 import { CollapsibleContext } from "./contexts";
 

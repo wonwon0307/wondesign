@@ -1,5 +1,5 @@
 import { useEffect, useId, useMemo, useRef } from "react";
-import { useOpenState } from "@wondesign/disclosure";
+import { useOpenState } from "@wondesign/disclosure/open-state";
 import {
   useShortkey,
   type BindableShortkey,

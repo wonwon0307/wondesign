@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useId, useMemo, useRef } from "react";
-import { useOpenState } from "@wondesign/disclosure";
+import { useOpenState } from "@wondesign/disclosure/open-state";
 import { useEscapeKey } from "@wondesign/key-events/escape-key";
 import { useClickOutside } from "@wondesign/pointer/click-outside";
 import { useLongPress } from "@wondesign/pointer/long-press";
