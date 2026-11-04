@@ -1,7 +1,7 @@
 import { fireEvent, render, renderHook } from "@testing-library/react";
 
-import { useOpenState } from "@/useOpenState";
-import type { UseOpenStateOptions } from "@/types";
+import { useOpenState } from "@/open-state/useOpenState";
+import type { UseOpenStateOptions } from "@/open-state/types";
 
 function TestComponent(options: UseOpenStateOptions) {
   const { isOpen, show, hide, toggle } = useOpenState(options);
