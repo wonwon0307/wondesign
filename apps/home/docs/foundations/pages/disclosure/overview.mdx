@@ -2,9 +2,10 @@ import { Callout } from "@wondesign/ui/Texts";
 import { PackageInfo } from "@/entities/package";
 
 <PackageInfo name="@wondesign/disclosure" relPath="foundations/disclosure">
-  `@wondesign/disclosure` handles the open / closed state of anything that shows
-  and hides — menus, panels, tooltips, sidebars. Use it straight in your app, or
-  to build components of your own.
+  `@wondesign/disclosure` handles anything that shows and hides — menus, panels,
+  tooltips, sidebars, dialogs. It keeps track of whether it's open, and what
+  happens while it is, like locking the page's scroll. Use it straight in your
+  app, or to build components of your own.
 </PackageInfo>
 
 ---
@@ -28,6 +29,7 @@ pnpm add @wondesign/disclosure
 - ✅ **Same API Either Way**: `isOpen`, `show`, `hide` and `toggle` work the same in both modes
 - ✅ **Built-in Toggle**: Open or close with a single call
 - ✅ **Stable Callbacks**: `show` and `hide` are safe to pass down or use in effects
+- ✅ **Scroll Lock**: Stop the page behind open content from scrolling, even with several layers open
 
 ---
 

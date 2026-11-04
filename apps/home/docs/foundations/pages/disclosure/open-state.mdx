@@ -21,7 +21,7 @@ starts closed.
 with no wrappers:
 
 ```tsx
-import { useOpenState } from "@wondesign/disclosure";
+import { useOpenState } from "@wondesign/disclosure/open-state";
 
 export function FilterPanel() {
   const { isOpen, show, hide } = useOpenState();
@@ -44,7 +44,7 @@ When the state lives somewhere else, for example in a parent, a store or the
 URL, pass it in as `controlledOpen`, with `setControlledOpen` to update it:
 
 ```tsx
-import { useOpenState } from "@wondesign/disclosure";
+import { useOpenState } from "@wondesign/disclosure/open-state";
 
 export function FilterPanel() {
   const { filtersOpen, setFiltersOpen } = useFilterStore();
@@ -70,7 +70,7 @@ renders the component picks the mode. Read [How It Works](#how-it-works) below
 for how each mode behaves:
 
 ```tsx
-import { useOpenState } from "@wondesign/disclosure";
+import { useOpenState } from "@wondesign/disclosure/open-state";
 
 interface DialogProps {
   children: React.ReactNode;
@@ -156,7 +156,7 @@ useOpenState({ controlledOpen: true });
 
 ## API
 
-Import `useOpenState` and its types from `@wondesign/disclosure`, for typing
+Import `useOpenState` and its types from `@wondesign/disclosure/open-state`, for typing
 your own wrappers. `options` and every field in it are optional:
 
 ```ts

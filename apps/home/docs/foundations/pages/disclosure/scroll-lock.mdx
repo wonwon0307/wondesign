@@ -1,0 +1,94 @@
+# Scroll Lock
+
+`useScrollLock` stops the page from scrolling while something is open. Modal
+content, like dialogs, alerts and drawers, needs it so the page behind stays
+where it was.
+
+---
+
+## Usage
+
+```tsx
+import { useOpenState } from "@wondesign/disclosure/open-state";
+import { useScrollLock } from "@wondesign/disclosure/scroll-lock";
+
+export function MenuDrawer() {
+  const { isOpen, show, hide } = useOpenState();
+
+  useScrollLock({ enabled: isOpen });
+
+  return (
+    <>
+      <button onClick={show}>Menu</button>
+      {isOpen && (
+        <div role="dialog" aria-modal="true">
+          {/* menu */}
+          <button onClick={hide}>Close</button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+- 📌 The whole page is locked by default. Content that scrolls on its own,
+  like a long list inside the drawer, still scrolls. To lock only one part of
+  the page instead, see
+  [Locking a Specific Element](#locking-a-specific-element) below.
+- 📌 When `enabled` turns `false`, or the component unmounts, the page scrolls
+  again, the way it did before.
+- 📌 Several can be on at once, like an alert opened over a dialog. The page
+  stays locked until the last one turns off, whichever order they turn off in.
+
+### Locking a Specific Element
+
+Pass `targetRef` to lock one element instead of the whole page, like an app
+whose `<main>` scrolls on its own:
+
+```tsx
+const mainRef = useRef<HTMLElement>(null);
+
+useScrollLock({ enabled: isOpen, targetRef: mainRef });
+
+return <main ref={mainRef}>…</main>;
+```
+
+- 📌 The element must be on the page when the lock turns on. If `targetRef`
+  is still empty then, **nothing is locked**, and the page isn't locked
+  either.
+
+---
+
+## API
+
+Import `useScrollLock` and `UseScrollLockOptions` from
+`@wondesign/disclosure/scroll-lock`. `options` and everything in it can be
+left out. The hook returns nothing — it only locks scrolling:
+
+```ts
+interface UseScrollLockOptions {
+  // whether scrolling is locked. defaults to `false`.
+  // pass the open state, so it's only locked while open.
+  enabled?: boolean;
+
+  // the element to lock. defaults to the whole page.
+  targetRef?: React.RefObject<HTMLElement | null>;
+}
+
+function useScrollLock(options?: UseScrollLockOptions): void;
+```
+
+---
+
+## Known Issues
+
+- 🐞 **The page shifts sideways**: Where scrollbars take up space, like on
+  Windows, locking hides the scrollbar. The page gets wider, and its content
+  shifts by the scrollbar's width until it unlocks. Keep the space reserved
+  in your own styles to stop it:
+
+  ```css
+  html {
+    scrollbar-gutter: stable;
+  }
+  ```
