@@ -1,6 +1,9 @@
+import { Keyboard, KeyboardGroup } from "@wondesign/ui/Code";
+
 # Focus Trap
 
-`useFocusTrap` keeps Tab and Shift+Tab inside an element while it's open. Modal
+`useFocusTrap` keeps <Keyboard>Tab</Keyboard> and
+<KeyboardGroup shortkey="Shift+Tab" /> inside an element while it's open. Modal
 content, like dialogs and alerts, needs it so keyboard users don't wander off
 to the page behind.
 
@@ -35,8 +38,8 @@ export function DeleteDialog() {
 }
 ```
 
-- 📌 Tab on the last element moves to the first, and Shift+Tab on the first
-  moves to the last. Disabled, hidden and inert elements are skipped.
+- 📌 <Keyboard>Tab</Keyboard> on the last element moves to the first, and
+  <KeyboardGroup shortkey="Shift+Tab" /> on the first moves to the last. Disabled, hidden and inert elements are skipped.
 - 📌 With nothing focusable inside, focus stays on the element itself.
 - 📌 **The trap doesn't move focus in**. It only holds focus that's already
   inside, so pair it with [`useAutoFocus`](/foundations/focus/auto-focus) to
@@ -68,7 +71,7 @@ function useFocusTrap(
 
 ## Watch Out
 
-- ⚠️ **Clicking outside moves focus out**: The trap only handles the Tab key.
+- ⚠️ **Clicking outside moves focus out**: The trap only handles the <Keyboard>Tab</Keyboard> key.
   Clicking the page behind the content moves focus there, and **the trap
   doesn't bring it back**. For modal content, make the page behind inert with
   [`useBackgroundInert`](/foundations/focus/background-inert), so it can't be

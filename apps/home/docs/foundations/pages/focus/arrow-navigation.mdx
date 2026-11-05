@@ -1,3 +1,5 @@
+import { Keyboard } from "@wondesign/ui/Code";
+
 # Arrow Navigation
 
 `useArrowNavigation` moves focus between items in a group with the arrow
@@ -37,8 +39,9 @@ export function Toolbar() {
 
 - 📌 **Does nothing until `enabled` is `true`**. Pass `true` for a group
   that's always there, or the open state for one inside a menu or popover.
-- 📌 Left and right move to the previous and next item. Home and End jump to
-  the first and last item.
+- 📌 <Keyboard>←</Keyboard> and <Keyboard>→</Keyboard> move to the previous
+  and next item. <Keyboard>Home</Keyboard> and <Keyboard>End</Keyboard> jump
+  to the first and last item.
 - 📌 It only moves focus, and doesn't select anything. To select on focus,
   do it in the item's `onFocus`.
 
@@ -123,13 +126,15 @@ function useArrowNavigation(
 ## Watch Out
 
 - ⚠️ **Make the group a single Tab stop**: Users expect a group to work like
-  one control. Tab moves into the group, the arrow keys move inside it, and
-  the next Tab moves out. `useArrowNavigation` only handles the arrow keys, so
-  **Tab still visits every item** unless you set this up:
+  one control. <Keyboard>Tab</Keyboard> moves into the group, the arrow keys
+  move inside it, and the next <Keyboard>Tab</Keyboard> moves out.
+  `useArrowNavigation` only handles the arrow keys, so
+  **<Keyboard>Tab</Keyboard> still visits every item** unless you set this up:
 
-  - 🔹 Give one item `tabIndex={0}`, so Tab lands on it.
-  - 🔹 Give every other item `tabIndex={-1}`, so Tab skips them.
-  - 🔹 Move the `0` to whichever item gets focus, so Tab brings the user back
+  - 🔹 Give one item `tabIndex={0}`, so <Keyboard>Tab</Keyboard> lands on it.
+  - 🔹 Give every other item `tabIndex={-1}`, so <Keyboard>Tab</Keyboard>
+    skips them.
+  - 🔹 Move the `0` to whichever item gets focus, so <Keyboard>Tab</Keyboard> brings the user back
     to where they left off. The [example](#usage) does this in `onFocus`.
 
 - ⚠️ **Pass the open state to `enabled`**: If the container isn't on the page
