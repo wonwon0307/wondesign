@@ -1,6 +1,8 @@
+import { Keyboard } from "@wondesign/ui/Code";
+
 # Escape Key
 
-`useEscapeKey` calls `callback` when the user presses Escape. It's the usual
+`useEscapeKey` calls `callback` when the user presses <Keyboard>Esc</Keyboard>. It's the usual
 way to close something from the keyboard, for example a dialog, menu or
 tooltip.
 
@@ -28,8 +30,9 @@ export function Dialog() {
 
 - 📌 Listens on the whole page, wherever focus is — including inside inputs,
   so the user can close a dialog while typing in it.
-- 📌 Holding Escape down calls `callback` once, not on every repeat.
-- 📌 Escape pressed while typing with an input method (IME), such as for
+- 📌 Holding <Keyboard>Esc</Keyboard> down calls `callback` once, not on
+  every repeat.
+- 📌 <Keyboard>Esc</Keyboard> pressed while typing with an input method (IME), such as for
   Japanese or Chinese, only cancels the text being composed. It doesn't call
   `callback`, except in Safari (see [Known Issues](#known-issues)).
 
@@ -62,7 +65,7 @@ function useEscapeKey(
 ## Known Issues
 
 - 🐞 **Every layer closes at once**: Each enabled `useEscapeKey` is called on
-  the same Escape press. With a menu open inside a dialog, **one press closes
+  the same <Keyboard>Esc</Keyboard> press. With a menu open inside a dialog, **one press closes
   both**. Until [layered Escape](/foundations/key-events/overview#upcoming-features)
   lands, turn the outer hook off while the inner layer is open:
 
@@ -72,6 +75,6 @@ function useEscapeKey(
   ```
 
 - 🐞 **Safari calls `callback` while composing**: Safari doesn't report the
-  Escape press that cancels an input method (IME) composition as part of it.
-  There, cancelling half-typed Japanese or Chinese text **also calls
-  `callback`**, closing the dialog along with it.
+  <Keyboard>Esc</Keyboard> press that cancels an input method (IME) composition
+  as part of it. There, cancelling half-typed Japanese or Chinese text **also
+  calls `callback`**, closing the dialog along with it.

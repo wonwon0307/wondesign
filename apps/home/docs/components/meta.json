@@ -15,6 +15,7 @@
           "type": "group",
           "label": "Patterns",
           "items": [
+            "[Alert](/headless/alert)",
             "[Collapsible](/headless/collapsible)",
             "[Tabs](/headless/tabs)",
             "[Tooltip](/headless/tooltip)"

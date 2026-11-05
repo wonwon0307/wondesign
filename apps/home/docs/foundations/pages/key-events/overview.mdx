@@ -1,3 +1,4 @@
+import { Keyboard, KeyboardGroup } from "@wondesign/ui/Code";
 import { Callout } from "@wondesign/ui/Texts";
 import { PackageInfo } from "@/entities/package";
 
@@ -23,10 +24,10 @@ pnpm add @wondesign/key-events
 
 ## Key Features
 
-- ✅ **Escape to Close**: `useEscapeKey` runs a callback when the user presses Escape
-- ✅ **Shortkeys**: `useShortkey` binds shortkeys like `Mod+K` as plain strings, checked by TypeScript
-- ✅ **Cross-Platform**: `Mod` means ⌘ on Apple devices and Ctrl everywhere else
-- ✅ **Safe While Typing**: Shortkeys without Ctrl or ⌘ pause while the user types in an input
+- ✅ **Escape to Close**: `useEscapeKey` runs a callback when the user presses <Keyboard>Esc</Keyboard>
+- ✅ **Shortkeys**: `useShortkey` binds shortkeys like <KeyboardGroup shortkey="Mod+K" /> as plain strings, checked by TypeScript
+- ✅ **Cross-Platform**: <Keyboard>Mod</Keyboard> means <Keyboard>⌘</Keyboard> on Apple devices and <Keyboard>Ctrl</Keyboard> everywhere else
+- ✅ **Safe While Typing**: Shortkeys without <Keyboard>Ctrl</Keyboard> or <Keyboard>⌘</Keyboard> pause while the user types in an input
 - ✅ **Ready to Show**: `useShortkeyDisplay` gives a shortkey's keys for the user's platform, without listening for it
 - ✅ **Accessible**: Get the `aria-keyshortcuts` value for the control a shortkey triggers
 - ✅ **Forgiving**: Inline callbacks work as they are, and holding a key down fires it once
@@ -35,15 +36,18 @@ pnpm add @wondesign/key-events
 
 ## Upcoming Features
 
-- 🔜 **Layered Escape**: Only the topmost layer closes when several listen for Escape
+- 🔜 **Layered Escape**: Only the topmost layer closes when several listen for <Keyboard>Esc</Keyboard>
 - 🔜 **Layout-Aware Shortkeys**: Match the key the user sees, not its position on a QWERTY keyboard
 
 ---
 
 ## Used By
 
-- 🧩 **[Headless components](/components/headless)** in `@wondesign/headless`
-  — keyboard interactions in components like Tooltip (closing on Escape)
-- 🧩 **Sidebar** in `@wondesign/sidebar` — opening and closing with a shortkey
-- 🧩 **[KeyboardGroup](/components/code/keyboard-group)** in
-  `@wondesign/code` — showing a shortkey with the keys of the user's platform
+**Escape Key**
+
+- 🧩 **Tooltip** in [`@wondesign/headless`](/components/headless)
+
+**Shortkey**
+
+- 🧩 **SidebarProvider**, **SidebarToggle** in `@wondesign/sidebar`
+- 🧩 **KeyboardGroup** in [`@wondesign/code`](/components/code)

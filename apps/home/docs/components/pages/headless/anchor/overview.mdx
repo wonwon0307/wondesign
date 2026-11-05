@@ -1,0 +1,41 @@
+# Anchor
+
+`Anchor` renders a plain `<a>` and accepts all of its props. It knows when to
+open a new tab, can be disabled, and works with your router's link component.
+
+Any `href` starting with `http://`, `https://` or `//` counts as external, and
+opens in a new tab, safely, so the new page can't reach back into yours. This
+**includes full URLs to your own site**. Every other `href`, like `/docs`,
+`#faq` or `mailto:`, opens in the current tab.
+
+A disabled link loses its `href`, can't be clicked, and **leaves the tab
+order**. It also renders a plain `<a>` even if you passed `as`, so your router
+can't navigate.
+
+```tsx
+import { Anchor } from "@wondesign/headless/Anchor";
+
+<Anchor href="/pricing">Pricing</Anchor>;
+```
+
+---
+
+## Key Features
+
+- ✅ **External Links Handled**: Links to other sites open in a new tab, safely
+- ✅ **Disabled State**: A link that can't be followed or focused
+- ✅ **Router Friendly**: Render your router's link component with `as`
+- ✅ **Styleable State**: Disabled, external and new-tab links are exposed as `data-*` attributes
+- ✅ **Ref Forwarding**: Your `ref` reaches the rendered element
+
+For what you can configure, refer to the
+[Usage tab](/components/headless/anchor/usage). For every prop, refer to the
+[API tab](/components/headless/anchor/api).
+
+---
+
+## Used By
+
+- 📦 **Links** in `@wondesign/links`
+- 📦 **[Navbar](/components/navbar)** in `@wondesign/navbar`
+- 📦 **Sidebar** in `@wondesign/sidebar`

@@ -1,0 +1,38 @@
+# API
+
+This page covers `Button` and its types. Import them from
+`@wondesign/headless/Button`:
+
+```ts
+import { Button, type ButtonProps } from "@wondesign/headless/Button";
+```
+
+---
+
+## Props
+
+Renders a `<button>`. Accepts all `<button>` props, except `disabled`,
+`aria-disabled` and `aria-busy`, which the button manages. You can also pass a
+`ref`, which **reaches the rendered element, even with `asChild`**. Key props:
+
+```ts
+interface ButtonProps {
+  isDisabled?: boolean; // defaults to `false`
+  isLoading?: boolean; // defaults to `false`
+  asChild?: boolean; // defaults to `false`
+  type?: "button" | "submit" | "reset"; // defaults to `"button"`
+  // ...
+}
+```
+
+> When using `asChild`, render a `<button>` (or a component that renders one).
+> Otherwise, keyboard and screen reader support could be **lost silently**.
+
+---
+
+## Data Attributes
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```

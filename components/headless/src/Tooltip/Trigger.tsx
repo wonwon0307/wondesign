@@ -26,6 +26,8 @@ export function TooltipTrigger({
   const context = useTooltipInternal();
 
   const {
+    isOpen,
+    keepMounted,
     showWithDelay,
     hideWithDelay,
     showImmediate,
@@ -34,12 +36,14 @@ export function TooltipTrigger({
     triggerRef,
   } = context;
 
+  const ariaDescribedBy = !keepMounted && !isOpen ? undefined : tooltipId;
+
   return (
     <Button
       {...rest}
       ref={triggerRef}
       asChild={asChild}
-      aria-describedby={tooltipId}
+      aria-describedby={ariaDescribedBy}
       onMouseEnter={showWithDelay}
       onMouseLeave={hideWithDelay}
       onFocus={showImmediate}

@@ -1,9 +1,12 @@
+import { Keyboard, KeyboardGroup } from "@wondesign/ui/Code";
+
 # Shortkey
 
-`useShortkey` calls `callback` when the user presses a shortkey, like `Mod+K`.
-`useShortkeyDisplay` gives you what you need to show that shortkey: its keys
-for the user's platform, the `aria-label` value for screen readers, and the
-`aria-keyshortcuts` value.
+`useShortkey` calls `callback` when the user presses a shortkey, like
+
+<KeyboardGroup shortkey="Mod+K" />. `useShortkeyDisplay` gives you what you need
+to show that shortkey: its keys for the user's platform, the `aria-label` value
+for screen readers, and the `aria-keyshortcuts` value.
 
 ---
 
@@ -47,7 +50,8 @@ export function SearchButton() {
 **Listening**:
 
 - 📌 Listens on the whole page, wherever focus is.
-- 📌 Shortkeys without Ctrl or ⌘ — like `/` or `Shift+S` — **don't fire while
+- 📌 Shortkeys without <Keyboard>Ctrl</Keyboard> or <Keyboard>⌘</Keyboard> —
+  like <Keyboard>/</Keyboard> or <KeyboardGroup shortkey="Shift+S" /> — **don't fire while
   the user is typing** in an input, textarea, select or editable element.
 - 📌 Holding a shortkey down calls `callback` once, not on every repeat.
 - 📌 A matched shortkey replaces whatever the browser would do for it.
@@ -58,11 +62,13 @@ export function SearchButton() {
 
 A shortkey is up to two modifiers and a key, joined with `+`: `"K"`, `"Mod+K"`
 or `"Mod+Shift+K"`. The order of the modifiers doesn't matter, but they must
-match exactly — `Mod+K` doesn't fire when Shift is also held.
+match exactly — `Mod+K` doesn't fire when <Keyboard>Shift</Keyboard> is also
+held.
 
 **Modifiers** — names on the same line mean the same thing:
 
-- 🔵 `Mod` — ⌘ on Apple devices, Ctrl everywhere else
+- 🔵 `Mod` — <Keyboard>⌘</Keyboard> on Apple devices, <Keyboard>Ctrl</Keyboard>
+  everywhere else
 - 🔵 `Ctrl`, `Control`
 - 🔵 `Alt`, `Opt`, `Option`
 - 🔵 `Shift`
@@ -71,8 +77,10 @@ match exactly — `Mod+K` doesn't fire when Shift is also held.
 **Keys**:
 
 - 🟣 Letters `A` to `Z`, always written in uppercase. The case only matters
-  when writing the shortkey: `Mod+K` fires when the user presses Mod and the K
-  key, with no Shift needed, and whether Caps Lock is on doesn't matter.
+  when writing the shortkey: `Mod+K` fires when the user presses
+  <Keyboard>Mod</Keyboard> and the <Keyboard>K</Keyboard> key, with no
+  <Keyboard>Shift</Keyboard> needed, and whether <Keyboard>Caps Lock</Keyboard>
+  is on doesn't matter.
 - 🟣 Digits `0` to `9`
 - 🟣 Symbols `` ` `` `-` `=` `[` `]` `\` `;` `'` `,` `.` `/`
 
@@ -147,22 +155,24 @@ right away.
 ## Watch Out
 
 - ⚠️ **Use `Mod` for cross-platform shortkeys**: `Ctrl` always means the
-  Control key, on a Mac too, where users expect ⌘. Write `Mod+K`, not
+  Control key, on a Mac too, where users expect <Keyboard>⌘</Keyboard>. Write `Mod+K`, not
   `Ctrl+K`, unless you really mean Control.
 - ⚠️ **Write the unshifted symbol**: To bind `?`, write `Shift+/` — the key
   it's on. `?` itself is an invalid key.
-- ⚠️ **Browser shortcuts are replaced**: Binding `Mod+S`, `Mod+F` or `Mod+P`
-  **stops the browser from saving, finding or printing**. It's not
-  recommended to turn a browser shortcut into a different feature — only do
-  so if you really know what you're doing.
+- ⚠️ **Browser shortcuts are replaced**: Binding <KeyboardGroup shortkey="Mod+S" />,
+  <KeyboardGroup shortkey="Mod+F" /> or <KeyboardGroup shortkey="Mod+P" />
+  **stops the browser from saving, finding or printing**. It's not recommended
+  to turn a browser shortcut into a different feature — only do so if you really
+  know what you're doing.
 - ⚠️ **Shortkeys from outside your code**: TypeScript checks shortkeys you
   write, but not ones read at runtime, like from user settings. In
   `useShortkey`, an invalid one **does nothing**, apart from a warning in the
   console. `useShortkeyDisplay` **shows what it can, with no warning**: unknown
   modifiers are left out, and an unknown key is shown as written.
-- ⚠️ **Avoid `Ctrl+Alt` shortkeys**: On Windows, the AltGr key counts as
-  Ctrl+Alt, and many keyboards type characters with it — like `ą` on Polish
-  or `@` on German keyboards. Binding `Ctrl+Alt+A` **stops Polish users from
+- ⚠️ **Avoid `Ctrl+Alt` shortkeys**: On Windows, the <Keyboard>AltGr</Keyboard> key
+  counts as <Keyboard>Ctrl</Keyboard> + <Keyboard>Alt</Keyboard>, and many
+  keyboards type characters with it — like `ą` on Polish or `@` on German
+  keyboards. Binding <KeyboardGroup shortkey="Ctrl+Alt+A" /> **stops Polish users from
   typing `ą`**, even inside inputs.
 
 ---
@@ -172,10 +182,11 @@ right away.
 - 🐞 **Every matching hook fires**: When more than one enabled `useShortkey`
   listens for the same shortkey, **one press calls every `callback`**. Make
   sure only one is enabled at a time, using `enabled` or `null`.
-- 🐞 **Typing in web components**: Shortkeys without Ctrl or ⌘ **still fire
-  while the user types** in an input inside a web component.
+- 🐞 **Typing in web components**: Shortkeys without <Keyboard>Ctrl</Keyboard> or
+  <Keyboard>⌘</Keyboard> **still fire while the user types** in an input inside
+  a web component.
 - 🐞 **Keys are matched by position**: Shortkeys follow where a key sits on a
   US QWERTY keyboard, not what's printed on it. On a French AZERTY keyboard,
-  `Mod+Z` fires from the key labelled W. Support for
-  [layout-aware shortkeys](/foundations/key-events/overview#upcoming-features)
-  is planned.
+  <KeyboardGroup shortkey="Mod+Z" /> fires from the key labelled
+  <Keyboard>W</Keyboard>. Support for [layout-aware
+  shortkeys](/foundations/key-events/overview#upcoming-features) is planned.

@@ -13,6 +13,7 @@ const keyboard = recipe({
     backgroundColor: tokens.colors.backgroundMuted,
     border: `1px solid ${tokens.colors.borderMuted}`,
     borderRadius: tokens.radius.sm,
+    boxShadow: tokens.elevation.lv2,
   },
   variants: {
     size: {
