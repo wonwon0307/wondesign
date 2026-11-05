@@ -1,3 +1,5 @@
+import { Keyboard } from "@wondesign/ui/Code";
+
 # Tooltip
 
 `Tooltip` shows short floating content for its trigger, following the
@@ -17,7 +19,7 @@ text: **links and buttons inside a tooltip can't be reached**.
 
 - ✅ **Accessible by Default**: The tooltip describes its trigger for assistive technology
 - ✅ **Shows On**: Hover, focus or long press
-- ✅ **Hides On**: Pointer leave, blur, Escape or a click outside
+- ✅ **Hides On**: Pointer leave, blur, <Keyboard>Esc</Keyboard> or a click outside
 - ✅ **Auto Flip & Shift**: Flips to the opposite side when space runs short, and shifts to stay inside the viewport
 - ✅ **Show & Hide Delays**: Tune how quickly it reacts to the pointer
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
@@ -76,14 +78,14 @@ readers announce. You don't need to wire up any of it.
 
 The tooltip shows on hover, after the show delay, and straight away on focus
 or a long press. It hides when the pointer leaves, the trigger loses focus,
-the user presses Escape, or clicks outside.
+the user presses <Keyboard>Esc</Keyboard>, or clicks outside.
 
 A click or tap on the trigger **doesn't open the tooltip**. On touch screens,
 long press the trigger instead. Moving the pointer from the trigger onto the
 content keeps it open.
 
 Long press and clicks outside are handled by
-[Pointer](/foundations/pointer), and Escape by
+[Pointer](/foundations/pointer), and <Keyboard>Esc</Keyboard> by
 [Key Events](/foundations/key-events).
 
 ### Placement

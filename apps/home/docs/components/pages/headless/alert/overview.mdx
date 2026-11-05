@@ -1,3 +1,4 @@
+import { Keyboard, KeyboardGroup } from "@wondesign/ui/Code";
 import { Callout } from "@wondesign/ui/Texts";
 
 # Alert
@@ -93,7 +94,7 @@ behind, and what screen readers announce. You don't need to wire up any of it.
 
 ### Closing
 
-The alert **only closes through `Alert.Close`**. Escape and clicks outside
+The alert **only closes through `Alert.Close`**. <Keyboard>Esc</Keyboard> and clicks outside
 don't close it, so the user has to choose a response.
 
 ### Focus
@@ -102,7 +103,8 @@ When the alert opens, focus moves to the **first focusable element inside the
 content**, usually the first close button. With nothing focusable inside, the
 content itself takes focus.
 
-While it's open, Tab and Shift + Tab stay inside the content. When it closes,
+While it's open, <Keyboard>Tab</Keyboard> and
+<KeyboardGroup shortkey="Shift+Tab" /> stay inside the content. When it closes,
 focus returns to `Alert.Trigger`. If the trigger doesn't exist, focus returns
 to whatever had it before the alert opened.
 

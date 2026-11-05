@@ -4,6 +4,8 @@ title: Headless Button
 description: An unstyled button that stays focusable while disabled or loading, following the WAI-ARIA Button pattern.
 ---
 
+import { Keyboard } from "@wondesign/ui/Code";
+
 # Button
 
 `Button` renders a plain `<button>` and accepts all of its props, with disabled
@@ -80,7 +82,8 @@ attributes:
 ## Known Issues
 
 - 🐞 **Only presses are blocked**: While disabled or loading, `onClick` and
-  Enter or Space in `onKeyDown` are blocked. Other handlers, like
+  <Keyboard>Enter</Keyboard> or <Keyboard>Space</Keyboard> in `onKeyDown` are
+  blocked. Other handlers, like
   `onMouseEnter` or `onTouchStart`, still run.
 - 🐞 **Handlers on the child aren't blocked**: With `asChild`, handlers written
   on the child still run while disabled or loading. Pass them to `Button`
