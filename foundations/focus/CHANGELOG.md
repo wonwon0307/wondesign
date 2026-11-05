@@ -1,5 +1,11 @@
 # @wondesign/focus
 
+## 0.2.1
+
+### Patch Changes
+
+- [#116](https://github.com/wonwon0307/wondesign/pull/116) [`a94eadb`](https://github.com/wonwon0307/wondesign/commit/a94eadbc7c828981d33246882f1c7087b12931d4) Thanks [@wonwon0307](https://github.com/wonwon0307)! - `useAutoFocus` returns focus to the element that had it before opening when `returnRef` is passed but empty, like a trigger that isn't rendered. Previously, focus was lost to `<body>`.
+
 ## 0.2.0
 
 ### Minor Changes
