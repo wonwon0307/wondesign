@@ -34,7 +34,7 @@ export function DocumentTabs({ tabs }: Readonly<Props>) {
 }
 
 function compareTabs(a: TabEntry, b: TabEntry) {
-  const order = ["overview", "examples", "api"];
+  const order = ["overview", "usage", "examples", "api"];
   const indexA = order.indexOf(a.slug);
   const indexB = order.indexOf(b.slug);
 
