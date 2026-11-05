@@ -1,0 +1,210 @@
+import { Callout } from "@wondesign/ui/Texts";
+
+# Usage
+
+This page covers what you can configure on `Alert`. For every prop, refer to
+the [API tab](/components/headless/alert/api).
+
+---
+
+## Closing the Alert
+
+Every close button closes the alert, **including the one that confirms**. Run the
+action itself in `onClose`:
+
+```tsx
+<Alert.Close>Cancel</Alert.Close>
+<Alert.Close onClose={deleteFile}>Delete</Alert.Close>
+```
+
+### Async onClose
+
+When `onClose` returns a promise, the alert waits for it before closing. While
+it waits, **every close button is disabled**, not just the one that was
+pressed, and the content is marked as busy:
+
+```tsx
+const handleDelete = async () => {
+  await deleteFile();
+};
+
+// "Cancel" is disabled as well, while "Delete" is waiting
+<Alert.Close>Cancel</Alert.Close>
+<Alert.Close onClose={handleDelete}>Delete</Alert.Close>
+```
+
+If the promise rejects, the alert stays open, and the error is **silently
+swallowed**: it isn't rethrown or logged. **Return without throwing to close
+the alert even when the action fails.** Catch the error inside `onClose` to
+show feedback or report it:
+
+```tsx
+const handleDelete = async () => {
+  try {
+    await deleteFile();
+  } catch (error) {
+    showError("Couldn't delete the file");
+    throw error; // keeps the alert open
+  }
+};
+
+<Alert.Close onClose={handleDelete}>Delete</Alert.Close>
+```
+
+---
+
+## Initial Focus
+
+When the alert opens, focus moves to the first focusable element inside the
+content. **Start on the least destructive response**: put "Cancel" before
+"Delete" in the markup, and change the visual order with CSS if you need to:
+
+```tsx
+<Alert.Content>
+  {/* focused when the alert opens */}
+  <Alert.Close>Cancel</Alert.Close>
+  <Alert.Close onClose={deleteFile}>Delete</Alert.Close>
+</Alert.Content>
+```
+
+---
+
+## Heading Level
+
+`Alert.Title` renders an `<h2>`. Use `asChild` to render another heading
+level:
+
+```tsx
+<Alert.Title asChild>
+  <h3>Delete this file?</h3>
+</Alert.Title>
+```
+
+---
+
+## Open State
+
+`Alert` keeps its own state and starts closed. Pass `defaultOpen` to start it
+open, or `isOpen` and `onOpenChange` to control it yourself. Both modes are
+powered by [Disclosure](/foundations/disclosure/open-state#how-it-works), so
+they behave exactly as described there:
+
+```tsx
+// uncontrolled, starts closed
+<Alert>…</Alert>;
+
+// uncontrolled, starts open
+<Alert defaultOpen>…</Alert>;
+
+// controlled
+const [open, setOpen] = useState(false);
+
+<Alert isOpen={open} onOpenChange={setOpen}>
+  …
+</Alert>;
+```
+
+---
+
+## Adding a Backdrop
+
+`Alert.Backdrop` renders an empty layer for you to style, like a dimmed
+overlay. It's optional, and it **doesn't close the alert when clicked**: like
+the rest of the page, it can't be clicked at all while the alert is open.
+
+The backdrop **doesn't accept children**, so it shouldn't be used to position
+the content. Position the content yourself, and make sure it stays on top of
+the backdrop, by its order in the document or with `z-index`:
+
+```tsx
+<Alert.Backdrop className="backdrop" />
+<Alert.Content className="content">…</Alert.Content>
+```
+
+```css
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgb(0 0 0 / 50%);
+}
+
+.content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 101;
+  transform: translate(-50%, -50%);
+}
+```
+
+---
+
+## Rendering in Place
+
+The backdrop and content render at the end of `<body>`, so they aren't
+clipped by their parents. Pass `disablePortal` to `Alert` to render both where
+they are in the document instead:
+
+```tsx
+<Alert disablePortal>…</Alert>
+```
+
+**Make sure you know what you're doing**: rendered in place, they can be clipped
+by their parents or covered by other elements, and handling that is up to you.
+
+---
+
+## Keeping Content Mounted
+
+Closed content is **removed from the page** by default. Pass `keepMounted` to
+keep it in the page, hidden with the `hidden` attribute, so what's inside
+keeps its state, like text typed into a field:
+
+```tsx
+<Alert keepMounted>…</Alert>
+```
+
+<Callout variant="warning" title="Your display wins over hidden">
+  A `display` value in your styles overrides the `hidden` attribute, so
+  **closed content stays visible** with no error. Set the `display` only while
+  it's open, with `[data-state="open"]`.
+</Callout>
+
+---
+
+## Building Your Own Parts
+
+`useAlert` gives any component inside `Alert` the open state and ways to open
+or close it. For example, a menu item that opens the alert:
+
+```tsx
+import { useAlert } from "@wondesign/headless/Alert";
+
+function DeleteMenuItem() {
+  const { showAlert } = useAlert();
+
+  return (
+    <div role="menuitem" onClick={showAlert}>
+      Delete
+    </div>
+  );
+}
+```
+
+For everything the hook returns, refer to the
+[API tab](/components/headless/alert/api#usealert).
+
+---
+
+## Styling with Data Attributes
+
+The parts expose their state as
+[data attributes](/components/headless/alert/api), so you can style each state
+with plain CSS:
+
+```css
+.content[data-state="open"] { … }
+.content[data-pending] { … }
+.close[data-disabled] { … }
+```

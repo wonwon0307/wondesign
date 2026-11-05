@@ -1,0 +1,134 @@
+import { Callout } from "@wondesign/ui/Texts";
+
+# Alert
+
+`Alert` interrupts the user with an urgent message and waits for a response,
+following the
+[WAI-ARIA Alert Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/).
+It handles opening and closing, moves and keeps focus inside, blocks the page
+behind, and links its title and message for assistive technology, so you only
+bring the look.
+
+<Callout variant="warning" title="Not the WAI-ARIA Alert pattern">
+  Despite its name, `Alert` **doesn't follow the [WAI-ARIA Alert
+  pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)**, which announces
+  a message without interrupting the user. It's a modal dialog that takes
+  focus and waits for a response.
+</Callout>
+
+Use it when the user has to answer before they carry on, like confirming a
+logout ("Log out of all devices?"), confirming a destructive action, or
+acknowledging an error that blocks their work. For messages that don't need an
+answer, like "Saved", **use something that doesn't interrupt**, like a toast.
+
+---
+
+## Key Features
+
+- ✅ **Accessible by Default**: Announced as an alert dialog, with its title and message
+- ✅ **Focus Management**: Moves focus in when it opens, keeps it inside, and returns it when it closes
+- ✅ **Blocks the Page Behind**: The page behind can't be clicked, focused or scrolled while the alert is open
+- ✅ **Async Actions**: Close buttons can wait for your action to finish before closing
+- ✅ **Optional Backdrop**: Add a layer behind the alert, or leave it out
+- ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
+- ✅ **Keep Content Mounted**: Hide closed content instead of removing it
+- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
+
+---
+
+## Structure
+
+For what you can configure, refer to the
+[Usage tab](/components/headless/alert/usage). For every prop, refer to the
+[API tab](/components/headless/alert/api).
+
+- 🧩 **Alert**: coordinates every part. It holds the open state, manages focus,
+  and blocks the page behind while it's open. **Renders no element of its
+  own.**
+- 🧩 **Alert.Trigger**: the button that opens the alert.
+- 🧩 **Alert.Backdrop**: an optional layer behind the alert.
+- 🧩 **Alert.Content**: the alert dialog itself.
+- 🧩 **Alert.Title**: the heading that names the alert.
+- 🧩 **Alert.Message**: the text that describes the alert.
+- 🧩 **Alert.Close**: a button that closes the alert, optionally after running
+  an action.
+
+```tsx
+<Alert>
+  <Alert.Trigger>Delete</Alert.Trigger>
+  <Alert.Backdrop />
+  <Alert.Content>
+    <Alert.Title>Delete this file?</Alert.Title>
+    <Alert.Message>This can't be undone.</Alert.Message>
+    <Alert.Close>Cancel</Alert.Close>
+    <Alert.Close onClose={deleteFile}>Delete</Alert.Close>
+  </Alert.Content>
+</Alert>;
+
+// or, with named exports
+<AlertProvider>
+  <AlertTrigger>Delete</AlertTrigger>
+  <AlertBackdrop />
+  <AlertContent>
+    <AlertTitle>Delete this file?</AlertTitle>
+    <AlertMessage>This can't be undone.</AlertMessage>
+    <AlertClose>Cancel</AlertClose>
+    <AlertClose onClose={deleteFile}>Delete</AlertClose>
+  </AlertContent>
+</AlertProvider>;
+```
+
+**The title, message and close buttons must go inside the content.** The trigger
+and backdrop go outside it.
+
+---
+
+## How It Works
+
+An alert dialog has to make sure the user sees it and answers it before
+anything else. `Alert` builds this in, following the
+[WAI-ARIA Alert Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/):
+it decides how the alert closes, where focus goes, what happens to the page
+behind, and what screen readers announce. You don't need to wire up any of it.
+
+### Closing
+
+The alert **only closes through `Alert.Close`**. Escape and clicks outside
+don't close it, so the user has to choose a response.
+
+### Focus
+
+When the alert opens, focus moves to the **first focusable element inside the
+content**, usually the first close button. With nothing focusable inside, the
+content itself takes focus.
+
+While it's open, Tab and Shift + Tab stay inside the content. When it closes,
+focus returns to `Alert.Trigger`. If the trigger doesn't exist, focus returns
+to whatever had it before the alert opened.
+
+Focus is handled by [Auto Focus](/foundations/focus/auto-focus) and
+[Focus Trap](/foundations/focus/focus-trap).
+
+### The Page Behind
+
+While the alert is open, everything outside the content can't be clicked or
+focused, and the page stops scrolling. These are handled by
+[Background Inert](/foundations/focus/background-inert) and
+[Scroll Lock](/foundations/disclosure/scroll-lock) respectively, so **their
+known issues carry over to `Alert`**.
+
+### Screen Readers
+
+The content is announced as an alert dialog. `Alert.Title` names it and
+`Alert.Message` describes it, so screen readers read both when it opens.
+Without a title, they only announce it as "Alert", so **a title is strongly
+recommended**.
+
+---
+
+## Known Issues
+
+- 🐞 **Content added in the background while the alert is open**: It can
+  still be clicked and focused.
+- 🐞 **The page shifts sideways**: Where scrollbars take up space, the page
+  shifts by the scrollbar's width while the alert is open.

@@ -1,0 +1,221 @@
+# API
+
+This page covers every part of `Alert`, its hook and its types. Import them
+from `@wondesign/headless/Alert`:
+
+```ts
+import {
+  // compound component, with its parts attached
+  Alert,
+  // hook
+  useAlert,
+  // named exports
+  AlertProvider,
+  AlertTrigger,
+  AlertBackdrop,
+  AlertContent,
+  AlertTitle,
+  AlertMessage,
+  AlertClose,
+  // types
+  type AlertProps,
+  type AlertTriggerProps,
+  type AlertBackdropProps,
+  type AlertContentProps,
+  type AlertTitleProps,
+  type AlertMessageProps,
+  type AlertCloseProps,
+} from "@wondesign/headless/Alert";
+```
+
+---
+
+## Components
+
+The parts that make up an `Alert`. Each one, apart from the provider, renders
+a single element and accepts that element's props. Every part must be inside
+the provider.
+
+### Provider
+
+`Alert` or `AlertProvider`. Coordinates every part: it holds the open state,
+moves and traps focus, blocks the page behind while it's open, and gives the
+parts the ids that link them. **Renders no element of its own.**
+
+**Props**
+
+```ts
+interface AlertProps {
+  children: React.ReactNode;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  defaultOpen?: boolean; // defaults to `false`
+  keepMounted?: boolean; // defaults to `false`
+  disablePortal?: boolean; // defaults to `false`, applies to the backdrop and content
+}
+```
+
+### Trigger
+
+`Alert.Trigger` or `AlertTrigger`. Renders a `<button>` that opens the alert.
+Use it outside `Alert.Content`. Inside it, **it only logs a warning** in
+development.
+
+**Props**
+
+Accepts all props of [Headless Button](/components/headless/button), except
+`type`, `onClick`, `aria-haspopup` and `aria-controls`, which the trigger
+manages. It sets its own `ref`, so it doesn't take one. Key props:
+
+```ts
+interface AlertTriggerProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  isDisabled?: boolean; // defaults to `false`
+  // ...
+}
+```
+
+> When using `asChild` on the trigger, render a `<button>` (or a component that renders one).
+> Otherwise, keyboard and screen reader support could be **lost silently**.
+
+**Data Attributes**
+
+```ts
+"data-state": "open" | "closed";
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```
+
+### Backdrop
+
+`Alert.Backdrop` or `AlertBackdrop`. Renders an empty `<div>` behind the
+alert, in its own [Portal](/components/headless/portal) unless `disablePortal`
+is `true`. It **doesn't close the alert when clicked**. Use it outside
+`Alert.Content`. Inside it, **it only logs a warning** in development.
+
+**Props**
+
+Accepts all `<div>` props, except `children` and `hidden`, which the backdrop
+manages.
+
+**Data Attributes**
+
+```ts
+"data-state": "open" | "closed";
+```
+
+### Content
+
+`Alert.Content` or `AlertContent`. Renders a `<div>` with the `alertdialog`
+role, in its own [Portal](/components/headless/portal) unless `disablePortal`
+is `true`.
+
+**Props**
+
+Accepts all `<div>` props, except `id`, `role`, `tabIndex`, `hidden`,
+`aria-modal`, `aria-labelledby`, `aria-describedby` and `aria-busy`, which the
+content manages. It sets its own `ref`, so it doesn't take one. Key props:
+
+```ts
+interface AlertContentProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  // ...
+}
+```
+
+**Data Attributes**
+
+```ts
+"data-state": "open" | "closed";
+"data-pending": "true" | undefined; // present while a close is waiting for `onClose`
+```
+
+### Title
+
+`Alert.Title` or `AlertTitle`. Renders an `<h2>` that names the alert. Must be
+used inside `Alert.Content`.
+
+**Props**
+
+Accepts all `<h2>` props, except `id`, which the title manages. Key props:
+
+```ts
+interface AlertTitleProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  // ...
+}
+```
+
+### Message
+
+`Alert.Message` or `AlertMessage`. Renders a `<p>` that describes the alert.
+Must be used inside `Alert.Content`.
+
+**Props**
+
+Accepts all `<p>` props, except `id`, which the message manages. Key props:
+
+```ts
+interface AlertMessageProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  // ...
+}
+```
+
+### Close
+
+`Alert.Close` or `AlertClose`. Renders a `<button>` that closes the alert. Must
+be used inside `Alert.Content`. While any close button waits for an async
+`onClose`, **every close button is disabled**, and a rejected promise is
+**silently swallowed**.
+
+**Props**
+
+Accepts all props of [Headless Button](/components/headless/button), except
+`type` and `onClick`, which the close button manages. Key props:
+
+```ts
+interface AlertCloseProps {
+  children: React.ReactNode;
+  onClose?: () => void | Promise<void>; // the alert waits for a returned promise
+  asChild?: boolean;
+  isDisabled?: boolean; // defaults to `false`
+  // ...
+}
+```
+
+**Data Attributes**
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled, or while any close is waiting
+"data-loading": "true" | undefined; // present when loading
+```
+
+---
+
+## Hooks
+
+Hooks read the state of the nearest provider, for building your own parts.
+They throw an error when used outside one.
+
+### useAlert
+
+Reads the state of the nearest `Alert`.
+
+**Returns**
+
+```ts
+function useAlert(): {
+  isOpen: boolean; // whether the alert is open
+  showAlert: () => void; // opens it
+  closeAlert: () => void; // closes it
+  keepMounted: boolean; // the `keepMounted` prop
+  disablePortal: boolean; // the `disablePortal` prop
+  isPending: boolean; // whether a close is waiting for `onClose`
+  setPending: (isPending: boolean) => void; // marks the alert as waiting, or not
+};
+```
