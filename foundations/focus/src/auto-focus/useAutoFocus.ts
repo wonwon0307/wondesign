@@ -19,11 +19,9 @@ export function useAutoFocus<
   useEffect(() => {
     if (!enabled || !targetRef.current) return;
 
-    if (returnRef) {
-      returnFocusRef.current = returnRef.current;
-    } else {
-      returnFocusRef.current = document.activeElement as TReturn;
-    }
+    // returnRef가 비어있다면, 이전에 focus가 있던 요소로 복귀한다
+    returnFocusRef.current =
+      returnRef?.current ?? (document.activeElement as TReturn);
 
     const focusables = getFocusableElements(targetRef.current);
 
