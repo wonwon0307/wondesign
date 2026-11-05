@@ -114,6 +114,7 @@ describe("Navbar", () => {
     expect(disabledLink.getAttribute("aria-disabled")).toBe("true");
     expect(disabledLink.dataset.disabled).toBe("true");
   });
+
   it("should respects vertical and handle label correctly in asChild mode", () => {
     const { getByRole } = render(
       <Navbar
