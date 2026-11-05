@@ -1,0 +1,169 @@
+import { Keyboard } from "@wondesign/ui/Code";
+import { Callout } from "@wondesign/ui/Texts";
+
+# Usage
+
+This page covers what you can configure on `Tabs`. For every prop, refer to
+the [API tab](/components/headless/tabs/api).
+
+---
+
+## Labelling the List
+
+Label the list with an `aria-label`, or `aria-labelledby` pointing to a visible
+heading. `Tabs.List` warns in development when it has neither:
+
+```tsx
+<Tabs.List aria-label="Settings">…</Tabs.List>
+
+<h2 id="settings-heading">Settings</h2>
+<Tabs.List aria-labelledby="settings-heading">…</Tabs.List>
+```
+
+If you pass both, `aria-labelledby` is used and **`aria-label` is dropped**.
+
+---
+
+## Selected Tab
+
+`Tabs` keeps its own selected tab, and starts on the first enabled tab. Pass
+`defaultTab` to choose which one it starts on, or `selectedTab` and
+`onTabChange` to control it yourself:
+
+```tsx
+// uncontrolled, starts on the first enabled tab
+<Tabs>…</Tabs>
+
+// uncontrolled, starts on "billing"
+<Tabs defaultTab="billing">…</Tabs>
+
+// controlled
+const [tab, setTab] = useState("account");
+
+<Tabs selectedTab={tab} onTabChange={setTab}>…</Tabs>;
+```
+
+If no enabled tab matches, **the first enabled tab is selected**, and
+`onTabChange` is called with it, even when controlled.
+
+---
+
+## Selecting on Focus
+
+By default, the arrow keys only move focus, and <Keyboard>Enter</Keyboard> or
+<Keyboard>Space</Keyboard> selects the focused tab. Pass `switchOnFocus` to
+select a tab as soon as it's focused:
+
+```tsx
+<Tabs defaultTab="account" switchOnFocus>
+  …
+</Tabs>
+```
+
+This suits panels that render instantly. **Keep the default when switching
+panels is slow**, like when each one fetches data.
+
+---
+
+## Vertical Tabs
+
+Pass `vertical` to the list, and <Keyboard>↑</Keyboard> and
+<Keyboard>↓</Keyboard> move between tabs instead. Arrow key navigation is
+powered by [Focus](/foundations/focus), so it behaves exactly as described
+there.
+
+```tsx
+// horizontal by default: left and right arrow keys
+<Tabs.List aria-label="Settings">
+  …
+</Tabs.List>
+
+// vertical: up and down arrow keys
+<Tabs.List aria-label="Settings" vertical>
+  …
+</Tabs.List>
+```
+
+---
+
+## Looping
+
+By default, the arrow keys stop at the first and last tab. Pass `loop` to the
+list to wrap around instead, so moving past the last tab goes back to the
+first:
+
+```tsx
+<Tabs.List aria-label="Settings" loop>
+  …
+</Tabs.List>
+```
+
+---
+
+## Disabling Tabs
+
+Pass `isDisabled` to a tab to disable just that one, or to `Tabs` to disable
+them all. Disabled tabs are **skipped by the arrow keys**:
+
+```tsx
+// disable a single tab
+<Tabs.Tab tabName="billing" isDisabled>
+  Billing
+</Tabs.Tab>
+
+// disable all tabs
+<Tabs defaultTab="account" isDisabled>…</Tabs>
+```
+
+---
+
+## Keeping Panels Mounted
+
+Inactive panels are **removed from the page** by default. Pass
+`keepPanelsMounted` to keep them in the page, hidden with the `hidden`
+attribute, so anything inside keeps its state:
+
+```tsx
+<Tabs defaultTab="account" keepPanelsMounted>
+  …
+</Tabs>
+```
+
+<Callout variant="warning" title="Inactive panels can stay visible">
+  A `display` value in your styles overrides the `hidden` attribute, so **they
+  stay visible** with no error. Set the `display` only while active, with
+  `[data-state="active"]`.
+</Callout>
+
+---
+
+## Building Your Own Parts
+
+`useTabs` gives any component inside `Tabs` the selected tab, a way to change
+it, and whether the tabs are disabled:
+
+```tsx
+import { useTabs } from "@wondesign/headless/Tabs";
+
+function NextButton() {
+  const { updateActiveTab } = useTabs();
+
+  return <button onClick={() => updateActiveTab("billing")}>Next</button>;
+}
+```
+
+For everything the hooks return, refer to the
+[API tab](/components/headless/tabs/api#usetabs).
+
+---
+
+## Styling with Data Attributes
+
+Each part exposes its state as
+[data attributes](/components/headless/tabs/api), so you can style each state
+with plain CSS:
+
+```css
+.tab[data-state="active"] { … }
+.list[data-orientation="vertical"] { … }
+```

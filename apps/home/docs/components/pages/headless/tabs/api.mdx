@@ -1,3 +1,5 @@
+import { Keyboard } from "@wondesign/ui/Code";
+
 # API
 
 This page covers every part of `Tabs`, its hooks and its types. Import them
@@ -35,8 +37,8 @@ provider.
 
 `Tabs` or `TabsProvider`. Coordinates every part: it holds the selected tab,
 gives each tab and panel the ids that link them, and passes shared settings like
-`isDisabled`, `switchOnFocus` and `keepPanelsMounted` down to them. Renders no
-element of its own.
+`isDisabled`, `switchOnFocus` and `keepPanelsMounted` down to them. **Renders
+no element of its own.**
 
 **Props**
 
@@ -62,8 +64,9 @@ Accepts all `<div>` props, except `role` and `aria-orientation`, which the list
 manages. It sets its own `ref`, so it doesn't take one.
 
 It also adds two props of its own. `vertical` marks the list as vertical, so
-the up and down arrow keys move between tabs instead of left and right. It
-doesn't change the layout; style that yourself with `data-orientation`, or the
+<Keyboard>↑</Keyboard> and <Keyboard>↓</Keyboard> move between tabs instead of
+<Keyboard>←</Keyboard> and <Keyboard>→</Keyboard>. It **doesn't change the
+layout**; style that yourself with `data-orientation`, or the
 `orientation` from the [`useTabsList`](#usetabslist) hook. `loop`
 lets the arrow keys wrap around from the last tab to the first, instead of
 stopping at the ends. Key props:
@@ -112,7 +115,7 @@ interface TabProps {
 ```
 
 > When using `asChild` on a tab, render a `<button>` (or a component that renders one).
-> Otherwise, keyboard and screen reader support could be lost silently.
+> Otherwise, keyboard and screen reader support could be **lost silently**.
 
 **Data Attributes**
 

@@ -1,3 +1,5 @@
+import { Keyboard } from "@wondesign/ui/Code";
+
 # Tabs
 
 `Tabs` shows one panel at a time, chosen from a list of tabs, following the
@@ -5,16 +7,17 @@
 handles selection, keyboard navigation and the wiring between each tab and its
 panel, so you only bring the look.
 
-> `Tabs` switches panels within a page. For tabs that navigate between pages,
-> like a row of links styled as tabs, use [Navbar](/components/navbar)
-> instead.
+Use it to split related content into views the user switches between on the
+same page, like the sections of a settings page, or a product's description,
+specs and reviews. For tabs that navigate between pages, like a row of links
+styled as tabs, **use [Navbar](/components/navbar) instead**.
 
 ---
 
 ## Key Features
 
 - ✅ **Accessible by Default**: Each tab is linked to its panel for assistive technology
-- ✅ **Keyboard Navigation**: Move between tabs with the arrow keys, Home and End, then Tab into the panel
+- ✅ **Keyboard Navigation**: Move between tabs with the arrow keys, <Keyboard>Home</Keyboard> and <Keyboard>End</Keyboard>, then <Keyboard>Tab</Keyboard> into the panel
 - ✅ **Controlled & Uncontrolled**: Let it manage the selected tab, or drive it yourself
 - ✅ **Horizontal & Vertical**: Arrow keys follow the direction of the list
 - ✅ **Disabled Tabs**: Turn off a single tab, or all of them
@@ -24,6 +27,10 @@ panel, so you only bring the look.
 ---
 
 ## Structure
+
+For what you can configure, refer to the
+[Usage tab](/components/headless/tabs/usage). For every prop, refer to the
+[API tab](/components/headless/tabs/api).
 
 - 🧩 **Tabs**: coordinates every part. It holds the selected tab, links each
   tab to its panel, and shares settings like `isDisabled`. **Renders no element
@@ -57,142 +64,34 @@ Each tab and its panel **share the same `tabName`**.
 
 ---
 
-## Usage
+## How It Works
 
-### Labelling the List
+A set of tabs has to work like a single control from the keyboard, and tell
+the user which tab is selected and which panel belongs to it. `Tabs` builds
+this in, following the
+[WAI-ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/): it
+decides how focus moves between the tabs, how a tab is selected, and what
+screen readers announce. You don't need to wire up any of it.
 
-Label the list with an `aria-label`, or `aria-labelledby` pointing to a visible
-heading. `Tabs.List` warns in development when it has neither:
+### Keyboard
 
-```tsx
-<Tabs.List aria-label="Settings">…</Tabs.List>
+The tab list is **a single <Keyboard>Tab</Keyboard> stop**:
+<Keyboard>Tab</Keyboard> lands on the selected tab, and the next
+<Keyboard>Tab</Keyboard> moves into its panel. Inside the list,
+<Keyboard>←</Keyboard> and <Keyboard>→</Keyboard> move between the tabs, or
+<Keyboard>↑</Keyboard> and <Keyboard>↓</Keyboard> in a vertical list, and
+<Keyboard>Home</Keyboard> and <Keyboard>End</Keyboard> jump to the first and
+last one.
 
-<h2 id="settings-heading">Settings</h2>
-<Tabs.List aria-labelledby="settings-heading">…</Tabs.List>
-```
+A click, <Keyboard>Enter</Keyboard> or <Keyboard>Space</Keyboard> selects the
+focused tab. Moving between the tabs is handled by
+[Arrow Navigation](/foundations/focus/arrow-navigation).
 
-If you pass both, `aria-labelledby` is used and **`aria-label` is dropped**.
+### Screen Readers
 
-### Selected Tab
-
-`Tabs` keeps its own selected tab, and starts on the first enabled tab. Pass
-`defaultTab` to choose which one it starts on, or `selectedTab` and
-`onTabChange` to control it yourself:
-
-```tsx
-// uncontrolled, starts on the first enabled tab
-<Tabs>…</Tabs>
-
-// uncontrolled, starts on "billing"
-<Tabs defaultTab="billing">…</Tabs>
-
-// controlled
-const [tab, setTab] = useState("account");
-
-<Tabs selectedTab={tab} onTabChange={setTab}>…</Tabs>;
-```
-
-If no enabled tab matches, **the first enabled tab is selected**, and
-`onTabChange` is called with it, even when controlled.
-
-### Selecting on Focus
-
-By default, the arrow keys only move focus, and Enter or Space selects
-the focused tab. Pass `switchOnFocus` to select a tab as soon as it's focused:
-
-```tsx
-<Tabs defaultTab="account" switchOnFocus>
-  …
-</Tabs>
-```
-
-This suits panels that render instantly. Keep the default when switching panels
-is slow, like when each one fetches data.
-
-### Vertical Tabs
-
-Pass `vertical` to the list, and the up and down arrow keys move between tabs
-instead. Arrow key navigation is powered by [Focus](/foundations/focus), so it
-behaves exactly as described there.
-
-```tsx
-// horizontal by default: left and right arrow keys
-<Tabs.List aria-label="Settings">
-  …
-</Tabs.List>
-
-// vertical: up and down arrow keys
-<Tabs.List aria-label="Settings" vertical>
-  …
-</Tabs.List>
-```
-
-### Looping
-
-By default, the arrow keys stop at the first and last tab. Pass `loop` to the
-list to wrap around instead, so moving past the last tab goes back to the
-first:
-
-```tsx
-<Tabs.List aria-label="Settings" loop>
-  …
-</Tabs.List>
-```
-
-### Disabling Tabs
-
-Pass `isDisabled` to a tab to disable just that one, or to `Tabs` to disable
-them all. Disabled tabs are **skipped by the arrow keys**:
-
-```tsx
-// disable a single tab
-<Tabs.Tab tabName="billing" isDisabled>
-  Billing
-</Tabs.Tab>
-
-// disable all tabs
-<Tabs defaultTab="account" isDisabled>…</Tabs>
-```
-
-### Keeping Panels Mounted
-
-Inactive panels are **removed from the page** by default. Pass
-`keepPanelsMounted` to hide them instead, so anything inside keeps its state:
-
-```tsx
-<Tabs defaultTab="account" keepPanelsMounted>
-  …
-</Tabs>
-```
-
-### Building Your Own Parts
-
-`useTabs` gives any component inside `Tabs` the selected tab, a way to change
-it, and whether the tabs are disabled:
-
-```tsx
-import { useTabs } from "@wondesign/headless/Tabs";
-
-function NextButton() {
-  const { updateActiveTab } = useTabs();
-
-  return <button onClick={() => updateActiveTab("billing")}>Next</button>;
-}
-```
-
-For everything the hooks return, refer to the
-[API tab](/components/headless/tabs/api#usetabs).
-
-### Styling with Data Attributes
-
-Each part exposes its state as
-[data attributes](/components/headless/tabs/api), so you can style each state
-with plain CSS:
-
-```css
-.tab[data-state="active"] { … }
-.list[data-orientation="vertical"] { … }
-```
+The list is announced as a set of tabs, with its label. Each tab is announced
+as selected or not, and points screen readers to its panel. Each panel is
+labelled by its tab.
 
 ---
 
