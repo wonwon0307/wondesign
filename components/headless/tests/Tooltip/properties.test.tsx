@@ -39,6 +39,16 @@ describe("Tooltip - properties", () => {
     );
   });
 
+  it("should not point aria-describedby at content that isn't on the page", () => {
+    const { getByTestId } = render(
+      <TestComponent isOpen={false}>Tooltip Message</TestComponent>,
+    );
+
+    expect(
+      getByTestId("tooltip-trigger").hasAttribute("aria-describedby"),
+    ).toBe(false);
+  });
+
   it("should handle the disabled state correctly", () => {
     const { getByTestId, queryByTestId } = render(
       <TestComponent isDisabled>Tooltip Message</TestComponent>,
