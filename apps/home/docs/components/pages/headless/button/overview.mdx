@@ -8,6 +8,7 @@ and loading states built in, following the
 keyboard and screen reader users can still find it.
 
 While disabled or loading, clicks and <Keyboard>Enter</Keyboard> or
+
 <Keyboard>Space</Keyboard> do nothing, but the button **stays focusable and
 keeps its place in the tab order**. Screen readers announce it as disabled or
 busy. It defaults to `type="button"`, so it **doesn't submit a form by
@@ -41,8 +42,7 @@ For what you can configure, refer to the
 
 - 🐞 **Only presses are blocked**: While disabled or loading, `onClick` and
   <Keyboard>Enter</Keyboard> or <Keyboard>Space</Keyboard> in `onKeyDown` are
-  blocked. Other handlers, like
-  `onMouseEnter` or `onTouchStart`, still run.
+  blocked. Other handlers, like `onMouseEnter` or `onTouchStart`, still run.
 - 🐞 **Handlers on the child aren't blocked**: With `asChild`, handlers written
   on the child still run while disabled or loading. Pass them to `Button`
   instead, as described in

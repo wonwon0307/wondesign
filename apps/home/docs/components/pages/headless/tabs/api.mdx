@@ -64,12 +64,12 @@ Accepts all `<div>` props, except `role` and `aria-orientation`, which the list
 manages. It sets its own `ref`, so it doesn't take one.
 
 It also adds two props of its own. `vertical` marks the list as vertical, so
+
 <Keyboard>↑</Keyboard> and <Keyboard>↓</Keyboard> move between tabs instead of
 <Keyboard>←</Keyboard> and <Keyboard>→</Keyboard>. It **doesn't change the
-layout**; style that yourself with `data-orientation`, or the
-`orientation` from the [`useTabsList`](#usetabslist) hook. `loop`
-lets the arrow keys wrap around from the last tab to the first, instead of
-stopping at the ends. Key props:
+layout**; style that yourself with `data-orientation`, or the `orientation` from
+the [`useTabsList`](#usetabslist) hook. `loop` lets the arrow keys wrap around
+from the last tab to the first, instead of stopping at the ends. Key props:
 
 ```ts
 interface TabsListProps {
