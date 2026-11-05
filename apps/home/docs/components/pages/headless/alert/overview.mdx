@@ -1,5 +1,4 @@
 import { Keyboard, KeyboardGroup } from "@wondesign/ui/Code";
-import { Callout } from "@wondesign/ui/Texts";
 
 # Alert
 
@@ -10,17 +9,13 @@ It handles opening and closing, moves and keeps focus inside, blocks the page
 behind, and links its title and message for assistive technology, so you only
 bring the look.
 
-<Callout variant="warning" title="Not the WAI-ARIA Alert pattern">
-  Despite its name, `Alert` **doesn't follow the [WAI-ARIA Alert
-  pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)**, which announces
-  a message without interrupting the user. It's a modal dialog that takes
-  focus and waits for a response.
-</Callout>
-
 Use it when the user has to answer before they carry on, like confirming a
 logout ("Log out of all devices?"), confirming a destructive action, or
-acknowledging an error that blocks their work. For messages that don't need an
-answer, like "Saved", **use something that doesn't interrupt**, like a toast.
+acknowledging an error that blocks their work. Despite its name, it **doesn't
+follow the [WAI-ARIA Alert pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)**,
+which announces a message without interrupting the user. For messages that
+don't need an answer, like "Saved", **use something that doesn't interrupt,
+like a toast, instead**.
 
 ---
 
