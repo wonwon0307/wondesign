@@ -1,0 +1,54 @@
+# Usage
+
+This page covers what you can configure on `Button`. For every prop, refer to
+the [API tab](/components/headless/button/api).
+
+---
+
+## Disabled
+
+Pass `isDisabled` to stop clicks and key presses. Unlike the native `disabled`
+attribute, the button keeps its place in the tab order. The native `disabled`
+prop **isn't accepted**, so `isDisabled` is the only way to disable it:
+
+```tsx
+<Button isDisabled>Delete</Button>
+```
+
+---
+
+## Loading
+
+Pass `isLoading` while an action is in progress. Presses are blocked, just like
+when disabled, and the button is marked as busy for assistive technology:
+
+```tsx
+<Button isLoading={isSaving} onClick={save}>
+  Save
+</Button>
+```
+
+---
+
+## Submitting Forms
+
+Set the `type` yourself when the button should submit a form:
+
+```tsx
+<form onSubmit={handleSubmit}>
+  {…}
+  <Button type="submit">Send</Button>
+</form>
+```
+
+---
+
+## Styling with Data Attributes
+
+Style it with `className` and `style`. Its states show up as
+[data attributes](/components/headless/button/api#data-attributes):
+
+```css
+.button[data-disabled] { … }
+.button[data-loading] { … }
+```

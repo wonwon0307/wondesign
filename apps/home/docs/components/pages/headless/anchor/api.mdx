@@ -1,0 +1,35 @@
+# API
+
+This page covers `Anchor` and its types. Import them from
+`@wondesign/headless/Anchor`:
+
+```ts
+import { Anchor, type AnchorProps } from "@wondesign/headless/Anchor";
+```
+
+---
+
+## Props
+
+Renders an `<a>`, or the component passed to `as`. Accepts all `<a>` props,
+except `target`, `rel` and `aria-disabled`, which the anchor manages. You can
+also pass a `ref`, which reaches the rendered element. Key props:
+
+```ts
+interface AnchorProps {
+  as?: React.ElementType; // defaults to `"a"`, ignored while disabled
+  isDisabled?: boolean; // defaults to `false`
+  openInNewTab?: boolean; // defaults to `true` for external links, `false` otherwise
+  // ...
+}
+```
+
+---
+
+## Data Attributes
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-external": "true" | undefined; // present when the `href` is external
+"data-new-tab": "true" | undefined; // present when it opens in a new tab
+```
