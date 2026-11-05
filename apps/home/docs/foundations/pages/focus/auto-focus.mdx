@@ -39,7 +39,9 @@ export function FilterPopover() {
   focus inside, it moves to the element itself.
 - 📌 When `enabled` turns `false`, or the component unmounts, focus goes back
   to the element that had it before. Pass `returnRef` to send it somewhere
-  else, like the trigger of content opened with a shortkey.
+  else, like the trigger of content opened with a shortkey. If `returnRef`
+  points at nothing when it opens, focus goes back to the element that had it
+  before instead.
 - 📌 Only elements with the native `disabled` attribute are skipped. Elements
   disabled another way, like with `aria-disabled` or a headless
   [Button](/components/headless/button) with `isDisabled`, stay focusable, so
