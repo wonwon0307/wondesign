@@ -91,7 +91,7 @@ describe("useAutoFocus", () => {
     expect(document.activeElement).toBe(trigger);
   });
 
-  it("gracefully handles no return ref", () => {
+  it("falls back to the previous active element if returnRef is empty", () => {
     const { getByTestId } = render(<TestComponent returnTo="empty" />);
 
     const trigger = getByTestId("trigger");
@@ -103,6 +103,6 @@ describe("useAutoFocus", () => {
     expect(document.activeElement).toBe(content);
 
     fireEvent.click(trigger);
-    expect(document.activeElement).toBe(document.body);
+    expect(document.activeElement).toBe(trigger);
   });
 });
