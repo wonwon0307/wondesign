@@ -1,0 +1,144 @@
+---
+metaTitle: Setup
+title: Setup
+description: Get your app ready for WonDesign Components — with the all-in-one package, package by package, or headless only.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+
+# Setup
+
+There are three ways to set up WonDesign Components:
+
+- 🔵 **All-in-One** — install `@wondesign/ui`, which brings **every component,
+  headless and styled, and the foundations they need**, under one name.
+- 🔵 **Styled Packages** — install **only the packages you need**, for full control
+  over what ends up in your app.
+- 🔵 **Headless** — install `@wondesign/headless` alone, and build your own
+  components in your own look.
+
+**Styled packages and Headless mix freely** — install a few styled packages
+alongside `@wondesign/headless`, and use both in the same app. All-in-One
+already includes both.
+
+<Callout variant="warning" title="Requires React 19.2">
+  WonDesign Components need React 19.2 or later.
+</Callout>
+
+---
+
+## All-in-One
+
+`@wondesign/ui` re-exports every styled component and
+[`@wondesign/headless`](/components/headless), along with
+[`@wondesign/reset-css`](/foundations/reset-css),
+[`@wondesign/tokens`](/foundations/tokens) and
+[`@wondesign/theme`](/foundations/theme).
+
+### 1. Install
+
+```bash
+pnpm add @wondesign/ui
+```
+
+### 2. Add the Stylesheet, Tokens and Theme
+
+At the root of your app, import the stylesheet, install the token stylesheet in
+the `<head>`, and add the theme's script and provider.
+
+For example, in NextJS (App Router):
+
+```tsx
+// app/layout.tsx
+import { LightDarkProvider } from "@wondesign/ui/theme";
+import { LightDarkScript } from "@wondesign/ui/server";
+import { wondesignTokenVariables } from "@wondesign/ui/tokens";
+import "@wondesign/ui/styles.css";
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: wondesignTokenVariables }} />
+        <LightDarkScript />
+      </head>
+      <LightDarkProvider>
+        <body>{children}</body>
+      </LightDarkProvider>
+    </html>
+  );
+}
+```
+
+- 📌 **`@wondesign/ui/styles.css`** is the CSS reset. **Each component brings
+  its own styles**, so there's nothing else to import
+- 📌 **The theme is optional**: Leave it out for light colors only, or see
+  [Theme Setup](/foundations/theme/setup) for other ways to theme
+- 📌 **Load the fonts yourself**: The WonDesign preset names four web fonts
+  but doesn't load them. See [Fonts](/foundations/tokens/setup#fonts)
+
+For Vite and other frameworks, see [Tokens Setup](/foundations/tokens/setup)
+and [Theme Setup](/foundations/theme/setup) — **the steps are the same**, with
+imports from `@wondesign/ui`.
+
+### 3. Use the Components
+
+Each package has its own entry, named after it:
+
+```tsx
+import { Button } from "@wondesign/ui/Buttons";
+import { Heading, Paragraph } from "@wondesign/ui/Texts";
+import { AppIcon } from "@wondesign/ui/Icons";
+import { Collapsible } from "@wondesign/ui/Headless";
+```
+
+Headless components have their own entry, so they never clash with styled
+components of the same name, like `Button` or `Tooltip`.
+
+---
+
+## Styled Packages
+
+Install only the packages you need. Each package page lists what it includes
+and how to import it.
+
+```bash
+pnpm add @wondesign/buttons @wondesign/texts
+```
+
+Styled components are built on top of [Foundations](/foundations/about), but
+**you don't need to install or set up any of them** — not even the tokens.
+Every component renders with its default values out of the box.
+
+For a better developer experience, we still recommend setting up the
+foundations — a CSS reset, your own token values, and theme switching.
+
+---
+
+## Headless
+
+`@wondesign/headless` stands on its own. It **needs none of the foundations**
+above — no reset, no tokens, no theme.
+
+```bash
+pnpm add @wondesign/headless
+```
+
+Headless components render **plain elements with no styles**. Style them with
+whatever you already use, and with the `data-*` attributes each one exposes
+for its state. See [Headless](/components/headless) to get started.
+
+Already using `@wondesign/ui`? Headless is included — import it from
+`@wondesign/ui/Headless`, with no extra install.
+
+---
+
+## Next Steps
+
+- **[Headless](/components/headless)** — the unstyled components, and how to
+  build on them.
+- **[Buttons](/components/buttons)** — the first styled components to try.
+- **[Customization](/foundations/tokens/customization)** — changing the look
+  with your own token values.

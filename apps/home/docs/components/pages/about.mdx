@@ -1,0 +1,103 @@
+---
+metaTitle: About
+title: About WonDesign Components
+description: The React components of WonDesign — unstyled, as styled parts, or ready to use.
+---
+
+# WonDesign Components
+
+**WonDesign Components** is the layer you build your UI with — **accessible
+React components**, built on top of [Foundations](/foundations/about).
+
+Foundations handle the groundwork: tokens, theming, focus, keyboard and pointer
+behaviour. Components put that groundwork to use as buttons, tabs, tooltips,
+alerts and more, so you **assemble screens instead of rebuilding the same
+controls** in every project.
+
+---
+
+## Layered Architecture
+
+Components are built in **two layers**: **headless** and **styled**. The
+headless layer is the base, and styled components with behaviour, like tabs
+and tooltips, are built on top of it.
+Styled components come in two forms — **separate parts**, or **batteries
+included** with the parts already put together. The line between the two is
+loose: many styled packages offer both.
+
+- 🛠️ **Headless Components**: State, keyboard support, focus and ARIA, with
+  **no styles at all**. Build your own components on top, in your own look
+- 🧩 **Styled Parts**: The pieces of a styled component, like a tab list, a
+  tab and a tab panel, **each with the WonDesign look**. Arrange them into a
+  component of your own
+- 🎁 **Batteries Included**: Ready-made styled components with the parts
+  already put together. **Drop them in** for simple, quick uses
+
+**Mix and match freely.** Components from any layer combine into one feature.
+For example, a "Comments" button that opens a list of comments and a text
+input can be built from a batteries-included `Tooltip`, a styled `IconButton`
+and a headless `Collapsible` — **no need to stick to a single layer**.
+
+---
+
+## Packages
+
+### Headless
+
+- 📦 **[`@wondesign/headless`](/components/headless)** — Unstyled, accessible
+  components: elements like Button and Anchor, patterns like Alert, Tabs and
+  Tooltip, and utilities like AsChild and Portal.
+
+### Styled
+
+- 📦 **[`@wondesign/buttons`](/components/buttons)** — Buttons for actions, in
+  several variants and sizes, with icon-only and link-styled versions.
+- 📦 **[`@wondesign/code`](/components/code)** — Inline code, code blocks, code
+  windows, and keyboard keys for showing shortkeys.
+- 📦 **[`@wondesign/icons`](/components/icons)** — The WonDesign icon set,
+  rendered by name with one type-safe component.
+- 📦 **[`@wondesign/links`](/components/links)** — Links for navigation, inline
+  in text or on their own, with an icon-only version.
+- 📦 **[`@wondesign/separator`](/components/separator)** — A line that divides
+  content, horizontally or vertically.
+- 📦 **[`@wondesign/tabs`](/components/tabs)** — A set of tabs, each showing its
+  own panel.
+- 📦 **[`@wondesign/texts`](/components/texts)** — Headings, paragraphs,
+  descriptions, callouts and badges.
+
+### All-in-One
+
+- 📦 **`@wondesign/ui`** — Every headless and styled package, the CSS reset,
+  tokens and theme under one name. See [Setup](/components/setup).
+
+---
+
+## Styling Components
+
+**No component depends on a CSS library.** Styled components ship as plain,
+ready-built CSS, so your app needs no styling setup to use them. Extend or
+restyle **any layer** with whatever you already use — Tailwind, CSS-in-JS,
+vanilla-extract, CSS Modules or plain CSS.
+
+Every value in the styled components comes from
+**[`@wondesign/tokens`](/foundations/tokens)**. To change the look across
+your whole app, **redeclare the tokens** — every component that uses them
+follows. See [Customization](/foundations/tokens/customization).
+
+For one-off styles, pass `className` or `style` to the component. Even then,
+**use token values over hard-coded ones** unless you truly need a value of your
+own, so your styles stay consistent with the rest of the app.
+
+WonDesign components also expose their state, like open, active or disabled,
+through **`data-*` attributes**, as one more way to style each state.
+
+---
+
+## Next Steps
+
+- **[Setup](/components/setup)** — getting your app ready, with the all-in-one
+  package or package by package.
+- **[Headless](/components/headless)** — building your own components on the
+  unstyled layer.
+- **[Foundations](/foundations/about)** — the packages Components are built
+  on.
