@@ -5,6 +5,10 @@ following the
 [WAI-ARIA Disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
 It wires the two together for assistive technology, so you only bring the look.
 
+Use it to tuck away content that not everyone needs, like the details of an
+order summary, advanced options in a form, or the answer to each question in
+an FAQ.
+
 ---
 
 ## Key Features
@@ -19,6 +23,10 @@ It wires the two together for assistive technology, so you only bring the look.
 ---
 
 ## Structure
+
+For what you can configure, refer to the
+[Usage tab](/components/headless/collapsible/usage). For every prop, refer to
+the [API tab](/components/headless/collapsible/api).
 
 - 🧩 **Collapsible**: coordinates every part. It holds the open state, links
   the toggle to its content, and shares settings like `keepMounted`. **Renders
@@ -41,91 +49,24 @@ It wires the two together for assistive technology, so you only bring the look.
 
 ---
 
-## Usage
+## How It Works
 
-### Open State
+A disclosure has to tell the user whether its content is shown, and let them
+change that from the keyboard. `Collapsible` builds this in, following the
+[WAI-ARIA Disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/):
+it decides how the content opens and closes, and what screen readers announce.
+You don't need to wire up any of it.
 
-`Collapsible` keeps its own state and starts closed. Pass `defaultOpen` to
-start it open, or `isOpen` and `onOpenChange` to control it yourself. Both
-modes are powered by [Disclosure](/foundations/disclosure/open-state#how-it-works), so they
-behave exactly as described there — including that `onOpenChange` is **only
-called when `isOpen` is passed**.
+### Toggling
 
-```tsx
-// uncontrolled, starts open
-<Collapsible defaultOpen>…</Collapsible>;
+The toggle is a button, so a click, Enter or Space **opens the content when
+it's closed, and closes it when it's open**. Nothing else opens or closes it.
 
-// controlled
-const [open, setOpen] = useState(false);
+### Screen Readers
 
-<Collapsible isOpen={open} onOpenChange={setOpen}>
-  …
-</Collapsible>;
-```
-
-### Disabling the Toggle
-
-Pass `isDisabled` to the toggle, and it can't open or close the content. It
-stays focusable, like a [Headless Button](/components/headless/button#disabled),
-and the content **stays in whatever state it was in**:
-
-```tsx
-<Collapsible.Toggle isDisabled>Show details</Collapsible.Toggle>
-```
-
-### Keeping Content Mounted
-
-Closed content is **removed from the page** by default. Pass `keepMounted` to
-hide it instead, so anything inside, like form inputs, keeps its state:
-
-```tsx
-<Collapsible keepMounted>
-  <Collapsible.Toggle>Advanced options</Collapsible.Toggle>
-  <Collapsible.Content>
-    <input name="timeout" />
-  </Collapsible.Content>
-</Collapsible>
-```
-
-### Content as a Region
-
-The content is a `group` by default. When it's a major section of the page,
-pass `role="region"`, and it's labelled by its toggle:
-
-```tsx
-<Collapsible.Content role="region">…</Collapsible.Content>
-```
-
-With `asChild`, the content **has no role** unless you pass one.
-
-### Building Your Own Parts
-
-`useCollapsible` gives any component inside a `Collapsible` its open state and
-a `toggle` function:
-
-```tsx
-import { useCollapsible } from "@wondesign/headless/Collapsible";
-
-function Chevron() {
-  const { isOpen } = useCollapsible();
-
-  return <ChevronIcon className={isOpen ? "rotated" : undefined} />;
-}
-```
-
-For everything the hook returns, refer to the
-[API tab](/components/headless/collapsible/api#usecollapsible).
-
-### Styling with Data Attributes
-
-The toggle and content expose their state as
-[data attributes](/components/headless/collapsible/api), so you can style each
-state with plain CSS:
-
-```css
-.toggle[data-state="open"] { … }
-.content[data-state="open"] { … }
-```
+The toggle is announced as expanded or collapsed, and points screen readers to
+the content it controls, **but only while the content is on the page**. The
+content is announced as a group of related items.
 
 ---
 

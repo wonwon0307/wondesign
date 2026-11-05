@@ -1,0 +1,109 @@
+import { Callout } from "@wondesign/ui/Texts";
+
+# Usage
+
+This page covers what you can configure on `Collapsible`. For every prop,
+refer to the [API tab](/components/headless/collapsible/api).
+
+---
+
+## Open State
+
+`Collapsible` keeps its own state and starts closed. Pass `defaultOpen` to
+start it open, or `isOpen` and `onOpenChange` to control it yourself. Both
+modes are powered by [Disclosure](/foundations/disclosure/open-state#how-it-works), so they
+behave exactly as described there:
+
+```tsx
+// uncontrolled, starts open
+<Collapsible defaultOpen>…</Collapsible>;
+
+// controlled
+const [open, setOpen] = useState(false);
+
+<Collapsible isOpen={open} onOpenChange={setOpen}>
+  …
+</Collapsible>;
+```
+
+---
+
+## Disabling the Toggle
+
+Pass `isDisabled` to the toggle, and it can't open or close the content. It
+**stays focusable**, like a
+[Headless Button](/components/headless/button#disabled), and the content
+**stays in whatever state it was in**:
+
+```tsx
+<Collapsible.Toggle isDisabled>Show details</Collapsible.Toggle>
+```
+
+---
+
+## Keeping Content Mounted
+
+Closed content is **removed from the page** by default. Pass `keepMounted` to
+keep it in the page, hidden with the `hidden` attribute, so anything inside,
+like form inputs, keeps its state:
+
+```tsx
+<Collapsible keepMounted>
+  <Collapsible.Toggle>Advanced options</Collapsible.Toggle>
+  <Collapsible.Content>
+    <input name="timeout" />
+  </Collapsible.Content>
+</Collapsible>
+```
+
+<Callout variant="warning" title="Your display wins over hidden">
+  A `display` value in your styles overrides the `hidden` attribute, so
+  **closed content stays visible** with no error. Set the `display` only while
+  it's open, with `[data-state="open"]`.
+</Callout>
+
+---
+
+## Content as a Region
+
+The content is a `group` by default. When it's a major section of the page,
+pass `role="region"`, and it's labelled by its toggle:
+
+```tsx
+<Collapsible.Content role="region">…</Collapsible.Content>
+```
+
+With `asChild`, the content **has no role** unless you pass one.
+
+---
+
+## Building Your Own Parts
+
+`useCollapsible` gives any component inside a `Collapsible` its open state and
+a `toggle` function:
+
+```tsx
+import { useCollapsible } from "@wondesign/headless/Collapsible";
+
+function Chevron() {
+  const { isOpen } = useCollapsible();
+
+  return <ChevronIcon className={isOpen ? "rotated" : undefined} />;
+}
+```
+
+For everything the hook returns, refer to the
+[API tab](/components/headless/collapsible/api#usecollapsible).
+
+---
+
+## Styling with Data Attributes
+
+The toggle and content expose their state as
+[data attributes](/components/headless/collapsible/api), so you can style each
+state with plain CSS:
+
+```css
+.toggle[data-state="open"] { … }
+.content[data-state="open"] { … }
+```

@@ -32,7 +32,8 @@ inside the provider.
 
 `Collapsible` or `CollapsibleProvider`. Coordinates every part: it holds the
 open state, gives the toggle and content the ids that link them, and passes
-shared settings like `keepMounted` down to them. Renders no element of its own.
+shared settings like `keepMounted` down to them. **Renders no element of its
+own.**
 
 **Props**
 
@@ -67,7 +68,7 @@ interface CollapsibleToggleProps {
 ```
 
 > When using `asChild` on the toggle, render a `<button>` (or a component that renders one).
-> Otherwise, keyboard and screen reader support could be lost silently.
+> Otherwise, keyboard and screen reader support could be **lost silently**.
 
 **Data Attributes**
 
@@ -90,7 +91,8 @@ content sets none of its own.
 
 It also narrows `role` to `"group"` or `"region"`. It's a `group` by default;
 pass `"region"` when the content is a major section of the page, and it's
-labelled by its toggle. Key props:
+labelled by its toggle. With `asChild`, it **has no role** unless you pass
+one. Key props:
 
 ```ts
 interface CollapsibleContentProps {
