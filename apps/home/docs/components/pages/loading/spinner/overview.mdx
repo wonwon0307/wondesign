@@ -44,8 +44,10 @@ import { Spinner, type SpinnerProps } from "@wondesign/loading/Spinner";
 
 ### Props
 
-Renders an `<svg>`. Accepts all `<svg>` props, plus its own `variant`,
-`size` and `speed`. Together, the key props are:
+Renders an `<svg>`. Accepts all `<svg>` props except `aria-hidden`, plus its
+own `variant`, `size` and `speed`. `aria-hidden` **isn't accepted**, since
+the spinner is always hidden from screen readers. Together, the key props
+are:
 
 ```ts
 interface SpinnerProps {

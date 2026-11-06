@@ -46,8 +46,10 @@ import { Skeleton, type SkeletonProps } from "@wondesign/loading/Skeleton";
 
 ### Props
 
-Renders a `<div>`. Accepts all `<div>` props, plus its own `width`,
-`height`, `lines`, `circle` and `animation`. Together, the key props are:
+Renders a `<div>`. Accepts all `<div>` props except `aria-hidden`, plus its
+own `width`, `height`, `lines`, `circle` and `animation`. `aria-hidden`
+**isn't accepted**, since the skeleton is always hidden from screen readers.
+Together, the key props are:
 
 ```ts
 interface SkeletonProps {
