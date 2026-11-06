@@ -5,7 +5,7 @@ import { styles } from "./styles.css";
 
 type SpinnerVariant = "default" | "tail" | "line" | "bubble";
 
-export interface SpinnerProps extends Omit<IconProps, "icon"> {
+export interface SpinnerProps extends Omit<IconProps, "icon" | "aria-hidden"> {
   variant?: SpinnerVariant;
   speed?: "slow" | "normal" | "fast";
 }

@@ -6,7 +6,7 @@ type SkeletonAnimation = "pulse" | "wave" | "none";
 
 export interface SkeletonProps
   extends
-    React.HTMLAttributes<HTMLDivElement>,
+    Omit<React.HTMLAttributes<HTMLDivElement>, "aria-hidden">,
     React.RefAttributes<HTMLDivElement> {
   circle?: boolean;
   animation?: SkeletonAnimation;
