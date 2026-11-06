@@ -1,0 +1,53 @@
+---
+title: Loading
+description: Styled React components that show content is on its way, from spinners for actions in progress to skeletons that hold the place of content.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/loading" relPath="components/loading">
+  `@wondesign/loading` comes with spinners, for actions in progress, and skeletons, which hold the place
+  of content until it arrives. Each one animates on its own, with its styles
+  already applied.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/loading
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/loading` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Ready to Animate**: Every component animates on its own, with no setup
+- ✅ **Fits Its Surroundings**: Spinners take the color of the text around them
+- ✅ **Placeholder Shapes**: Skeletons for lines of text, avatars and cards
+- ✅ **Styleable**: Your `className` and `style` are applied on top of the defaults
+
+---
+
+## Components
+
+All of the components are styled based on `@wondesign/tokens`.
+
+- ⭐ **[Spinner](/components/loading/spinner)** — a spinning icon, for an
+  action in progress, in four styles.
+- ⭐ **[Skeleton](/components/loading/skeleton)** — a placeholder in the
+  shape of the content that's loading.
+
+---
+
+## Upcoming Features
+
+- 🔜 **Progress Bar**: Show how far along an action is, for uploads and downloads
+- 🔜 **Progress Ring**: A ring that fills up to show how far along an action is, in the space of a spinner
+- 🔜 **Loading Overlay**: Cover a section with a spinner while its content is loading
