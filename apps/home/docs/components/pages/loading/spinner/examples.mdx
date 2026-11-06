@@ -1,0 +1,160 @@
+import { Spinner } from "@wondesign/ui/Loading";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `Spinner`, from picking a style to making loading clear to
+screen readers. Each example shows the rendered result, followed by its code.
+
+---
+
+## Variants
+
+The `variant` property sets the spinner's style. It's `"default"` by
+default:
+
+<Preview orientation="horizontal">
+  <Spinner variant="default" />
+  <Spinner variant="tail" />
+  <Spinner variant="line" />
+  <Spinner variant="bubble" />
+</Preview>
+
+```tsx
+<Spinner variant="default" />
+<Spinner variant="tail" />
+<Spinner variant="line" />
+<Spinner variant="bubble" />
+```
+
+---
+
+## Sizes
+
+The spinner is `1.25em` wide and tall by default, so it follows the font size
+of the text around it:
+
+<Preview orientation="horizontal">
+  <span style={{ fontSize: "var(--font-size-body-sm)" }}><Spinner /></span>
+  <span style={{ fontSize: "var(--font-size-body-md)" }}><Spinner /></span>
+  <span style={{ fontSize: "var(--font-size-body-lg)" }}><Spinner /></span>
+</Preview>
+
+```tsx
+<span style={{ fontSize: tokens.typography.fontSize.bodySmall }}>
+  <Spinner />
+</span>
+<span style={{ fontSize: tokens.typography.fontSize.bodyMedium }}>
+  <Spinner />
+</span>
+<span style={{ fontSize: tokens.typography.fontSize.bodyLarge }}>
+  <Spinner />
+</span>
+```
+
+Pass `size` to set it yourself, as any CSS length, or a number in pixels:
+
+<Preview orientation="horizontal">
+  <Spinner size={16} />
+  <Spinner size="2rem" />
+  <Spinner size={48} />
+</Preview>
+
+```tsx
+<Spinner size={16} />
+<Spinner size="2rem" />
+<Spinner size={48} />
+```
+
+---
+
+## Speeds
+
+The `speed` property sets how fast it spins. It's `"normal"` by default:
+
+<Preview orientation="horizontal">
+  <Spinner speed="slow" />
+  <Spinner speed="normal" />
+  <Spinner speed="fast" />
+</Preview>
+
+```tsx
+<Spinner speed="slow" />
+<Spinner speed="normal" />
+<Spinner speed="fast" />
+```
+
+- 📌 A full turn takes `1.5s`, `1s` or `0.5s`. When the user has asked for
+  reduced motion, **every speed is 2.5 times slower**.
+
+---
+
+## Colors
+
+The spinner takes the color of the text around it. Set `color` on the
+spinner, or on the element around it:
+
+<Preview orientation="horizontal">
+  <Spinner />
+  <Spinner style={{ color: "var(--color-primary)" }} />
+  <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-sm)", color: "var(--color-error)" }}><Spinner /><span>Retrying…</span></div>
+</Preview>
+
+```tsx
+<Spinner />
+<Spinner style={{ color: tokens.colors.primary }} />
+<div className="retrying" style={{ color: tokens.colors.error }}>
+  <Spinner />
+  {/* the spinner takes the same color as this text */}
+  <span>Retrying…</span>
+</div>
+```
+
+---
+
+## Accessibility
+
+The spinner is hidden from screen readers, so mark the content that's
+loading instead. Either set `aria-busy` on the content while it loads:
+
+```tsx
+<section aria-busy={isLoading}>
+  {isLoading ? <Spinner /> : <Results items={items} />}
+</section>
+```
+
+Or show loading text next to the spinner, which screen readers read like
+any other text:
+
+<Preview orientation="horizontal">
+  <Spinner />
+  <span>Loading results…</span>
+</Preview>
+
+```tsx
+<div className="loading">
+  <Spinner />
+  <span>Loading results…</span>
+</div>
+```
+
+- 📌 [Button](/components/buttons/button#loading) already marks itself as
+  busy while loading, so its spinner needs nothing extra.
+
+---
+
+## Styling
+
+When a single spinner needs to look different, change it with `className` or
+`style`, like a fainter spinner:
+
+<Preview>
+  <Spinner style={{ opacity: 0.5 }} />
+</Preview>
+
+```tsx
+<Spinner style={{ opacity: 0.5 }} />
+```
+
+- 📌 **An `animationDuration` in `style` ignores reduced motion**, and spins
+  at the same speed for every user. Use `speed` to change how fast it spins.

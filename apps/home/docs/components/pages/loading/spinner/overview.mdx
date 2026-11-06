@@ -1,0 +1,85 @@
+import { Spinner } from "@wondesign/ui/Loading";
+import { Preview } from "@/widgets/preview";
+
+# Spinner
+
+`Spinner` renders a spinning icon, for an action in progress, like saving a
+form or loading a list. It's sized to the text around it, so it fits next to
+a label or inside a button.
+
+---
+
+## Key Features
+
+- ✅ **Four Styles**: Pick the spinner that fits your design
+- ✅ **Matches Its Text**: Takes the size and color of the text around it
+- ✅ **Three Speeds**: Slow, normal and fast
+- ✅ **Respects Reduced Motion**: Spins slower when the user asks for less motion
+
+<Preview orientation="horizontal">
+  <Spinner variant="default" />
+  <Spinner variant="tail" />
+  <Spinner variant="line" />
+  <Spinner variant="bubble" />
+</Preview>
+
+```tsx
+import { Spinner } from "@wondesign/loading/Spinner";
+
+<Spinner />;
+```
+
+See [Examples](/components/loading/spinner/examples) for styles, sizes,
+speeds, colors and accessibility.
+
+---
+
+## API
+
+Import `Spinner` and its props type from `@wondesign/loading/Spinner`:
+
+```ts
+import { Spinner, type SpinnerProps } from "@wondesign/loading/Spinner";
+```
+
+### Props
+
+Renders an `<svg>`. Accepts all `<svg>` props, plus its own `variant`,
+`size` and `speed`. Together, the key props are:
+
+```ts
+interface SpinnerProps {
+  // the spinner's style. defaults to `"default"`.
+  variant?: "default" | "tail" | "line" | "bubble";
+
+  // the width and height. any CSS length, or a number in pixels.
+  // defaults to `"1.25em"`, which follows the font size around it.
+  size?: number | string;
+
+  // how fast it spins. defaults to `"normal"`.
+  speed?: "slow" | "normal" | "fast";
+
+  // ...
+}
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Mark what's loading yourself**: **Screen readers don't announce the
+  spinner**. Use `aria-busy` or loading text. See
+  [Accessibility](/components/loading/spinner/examples#accessibility).
+
+---
+
+## Upcoming Features
+
+- 🔜 **Easing**: Choose how the spin moves, from a steady spin to one that speeds up and slows down
+
+---
+
+## Used By
+
+- 🧩 **[Button](/components/buttons/button)**: the default `fallback` while
+  loading
