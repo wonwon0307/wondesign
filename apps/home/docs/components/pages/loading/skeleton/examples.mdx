@@ -1,0 +1,176 @@
+import { Skeleton } from "@wondesign/ui/Loading";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `Skeleton`, from sizing a placeholder to building one for
+a whole card. Each example shows the rendered result, followed by its code.
+
+---
+
+## Sizes
+
+A skeleton is as wide as its container (`100%`) and `1em` tall by default. Set
+`width` and `height` to match the content that's loading, as any CSS length,
+or a number in pixels:
+
+<Preview>
+  <Skeleton />
+  <Skeleton width="60%" />
+  <Skeleton height={40} />
+  <Skeleton width={60} height={80} />
+</Preview>
+
+```tsx
+<Skeleton />
+<Skeleton width="60%" />
+<Skeleton height={40} />
+<Skeleton width={60} height={80} />
+```
+
+- 📌 **A `width` or `height` in `style` is ignored**. Use the props instead.
+
+---
+
+## Lines
+
+The `lines` property draws a paragraph of lines. Every line is as wide as the
+paragraph (`100%`), except the last, which is `60%`:
+
+<Preview>
+  <Skeleton lines={3} />
+</Preview>
+
+```tsx
+<Skeleton lines={3} />
+```
+
+`width` sets the width of the whole paragraph, and `height` sets the height
+of each line:
+
+<Preview>
+  <Skeleton lines={3} width="50%" height={8} />
+</Preview>
+
+```tsx
+<Skeleton lines={3} width="50%" height={8} />
+```
+
+---
+
+## Circles
+
+The `circle` property makes a circle, like an avatar. It's `40px` wide by
+default, and always as tall as it is wide, so set only `width`:
+
+<Preview orientation="horizontal">
+  <Skeleton circle width={24} />
+  <Skeleton circle />
+  <Skeleton circle width={64} />
+</Preview>
+
+```tsx
+<Skeleton circle width={24} />
+<Skeleton circle />
+<Skeleton circle width={64} />
+```
+
+- 📌 **`circle` is ignored when `lines` is more than `1`**, and the lines are
+  drawn as usual.
+
+---
+
+## Animations
+
+The `animation` property sets how the skeleton moves. It's `"pulse"` by
+default.
+
+**Pulse** fades the skeleton in and out:
+
+<Preview>
+  <Skeleton animation="pulse" />
+</Preview>
+
+```tsx
+<Skeleton animation="pulse" />
+```
+
+**Wave** sweeps a highlight across the skeleton:
+
+<Preview>
+  <Skeleton animation="wave" height="80px" />
+</Preview>
+
+```tsx
+<Skeleton animation="wave" />
+```
+
+**None** keeps the skeleton still:
+
+<Preview>
+  <Skeleton animation="none" />
+</Preview>
+
+```tsx
+<Skeleton animation="none" />
+```
+
+- 📌 When the user has asked for reduced motion, the pulse is 2 times slower,
+  and the wave turns into that slower pulse.
+
+---
+
+## Accessibility
+
+Skeletons are hidden from screen readers, so mark the content that's loading
+instead, with `aria-busy`:
+
+```tsx
+<section aria-busy={isLoading}>
+  {isLoading ? <Skeleton lines={3} /> : <Article article={article} />}
+</section>
+```
+
+---
+
+## Advanced Usage
+
+### Card Placeholder
+
+Put skeletons together in the layout of the content they stand for, like a
+card with an avatar, a name and a short bio:
+
+<Preview>
+  <div style={{ display: "flex", gap: "var(--spacing-md)", width: "100%" }}>
+    <Skeleton circle />
+    <div style={{ flex: 1, display: "grid", gap: "var(--spacing-sm)" }}>
+      <Skeleton width="40%" height="1.4em" />
+      <Skeleton lines={2} />
+    </div>
+  </div>
+</Preview>
+
+```tsx
+<div aria-busy={isLoading} className="card">
+  <Skeleton circle />
+  <div className="details">
+    <Skeleton width="40%" height="1.4em" />
+    <Skeleton lines={2} />
+  </div>
+</div>
+```
+
+---
+
+## Styling
+
+When a single skeleton needs to look different, change it with `className`
+or `style`, like rounder corners:
+
+<Preview>
+  <Skeleton height={120} style={{ borderRadius: "var(--radius-lg)" }} />
+</Preview>
+
+```tsx
+<Skeleton height={120} style={{ borderRadius: tokens.radius.lg }} />
+```
