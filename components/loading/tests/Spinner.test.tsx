@@ -9,6 +9,7 @@ describe("Spinner", () => {
     const spinner = getByTestId("spinner");
     expect(spinner.getAttribute("aria-hidden")).toBe("true");
     expect(spinner.tagName).toBe("svg");
+    expect(spinner.getAttribute("width")).toBe("1.25em");
   });
 
   it("renders the Spinner with the correct custom properties", () => {
@@ -24,5 +25,7 @@ describe("Spinner", () => {
     const spinner = getByTestId("spinner");
     expect(spinner.getAttribute("aria-hidden")).toBe("true");
     expect(spinner.tagName).toBe("svg");
+    expect(spinner.getAttribute("width")).toBe("1.25em");
+    expect(spinner.classList.contains("custom-spinner")).toBe(true);
   });
 });
