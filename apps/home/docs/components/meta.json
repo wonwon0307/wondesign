@@ -49,6 +49,15 @@
           ]
         },
         "[Icons](/icons)",
+        {
+          "type": "link",
+          "label": "Loading",
+          "url": "/loading",
+          "items": [
+            "[Spinner](/loading/spinner)",
+            "[Skeleton](/loading/skeleton)"
+          ]
+        },
         "[Separator](/separator)",
         {
           "type": "link",

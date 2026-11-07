@@ -293,6 +293,9 @@ importers:
       '@wondesign/icons':
         specifier: workspace:*
         version: link:../icons
+      '@wondesign/loading':
+        specifier: workspace:*
+        version: link:../loading
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
@@ -404,6 +407,31 @@ importers:
       react-dom:
         specifier: ^19
         version: 19.3.1(react@19.3.1)
+    devDependencies:
+      '@vanilla-extract/css':
+        specifier: 'catalog:'
+        version: 1.21.3
+      '@vanilla-extract/rollup-plugin':
+        specifier: 'catalog:'
+        version: 1.5.4(rollup@4.65.0)(supports-color@8.1.1)
+      '@wondesign/tokens':
+        specifier: workspace:*
+        version: link:../../foundations/tokens
+
+  components/loading:
+    dependencies:
+      '@vanilla-extract/recipes':
+        specifier: 'catalog:'
+        version: 0.5.7(@vanilla-extract/css@1.21.3)
+      '@wondesign/icons':
+        specifier: workspace:*
+        version: link:../icons
+      clsx:
+        specifier: 'catalog:'
+        version: 2.1.1
+      react:
+        specifier: ^19
+        version: 19.3.1
     devDependencies:
       '@vanilla-extract/css':
         specifier: 'catalog:'
@@ -738,6 +766,9 @@ importers:
       '@wondesign/links':
         specifier: workspace:*
         version: link:../../components/links
+      '@wondesign/loading':
+        specifier: workspace:*
+        version: link:../../components/loading
       '@wondesign/navbar':
         specifier: workspace:*
         version: link:../../components/navbar

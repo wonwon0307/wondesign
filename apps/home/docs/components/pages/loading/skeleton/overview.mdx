@@ -1,0 +1,89 @@
+import { Skeleton } from "@wondesign/ui/Loading";
+import { Preview } from "@/widgets/preview";
+
+# Skeleton
+
+`Skeleton` renders a placeholder in the shape of the content that's loading,
+like a paragraph, an avatar or an image. Show it in place of the content,
+and swap it out once the content arrives.
+
+---
+
+## Key Features
+
+- ✅ **Any Size**: Match the width and height of the content that's loading
+- ✅ **Lines of Text**: A paragraph of lines, ending in a shorter one
+- ✅ **Circles**: For avatars and icons
+- ✅ **Two Animations**: A pulse or a wave, or no animation at all
+- ✅ **Respects Reduced Motion**: Fades gently when the user asks for less motion
+
+<Preview>
+  <div style={{ display: "flex", gap: "var(--spacing-md)", width: "100%" }}>
+    <Skeleton circle width={40} />
+    <Skeleton lines={3} style={{ flex: 1 }} />
+  </div>
+</Preview>
+
+```tsx
+import { Skeleton } from "@wondesign/loading/Skeleton";
+
+<Skeleton circle width={40} />
+<Skeleton lines={3} />
+```
+
+See [Examples](/components/loading/skeleton/examples) for sizes, lines,
+circles, animations and accessibility.
+
+---
+
+## API
+
+Import `Skeleton` and its props type from `@wondesign/loading/Skeleton`:
+
+```ts
+import { Skeleton, type SkeletonProps } from "@wondesign/loading/Skeleton";
+```
+
+### Props
+
+Renders a `<div>`. Accepts all `<div>` props except `aria-hidden`, plus its
+own `width`, `height`, `lines`, `circle` and `animation`. `aria-hidden`
+**isn't accepted**, since the skeleton is always hidden from screen readers.
+Together, the key props are:
+
+```ts
+interface SkeletonProps {
+  // the width. any CSS length, or a number in pixels.
+  // defaults to the full width of its container, or `40px` for a circle.
+  width?: number | string;
+
+  // the height. any CSS length, or a number in pixels.
+  // defaults to `1em`. with `lines`, the height of each line.
+  // ignored for a circle, where `width` is applied.
+  height?: number | string;
+
+  // the number of lines. defaults to `1`.
+  lines?: number;
+
+  // makes it a circle, as tall as it is wide. ignored when `lines` is more
+  // than `1`. defaults to `false`.
+  circle?: boolean;
+
+  // the animation. defaults to `"pulse"`.
+  animation?: "pulse" | "wave" | "none";
+
+  // ...
+}
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Mark what's loading yourself**: **Screen readers don't announce
+  skeletons**. Use `aria-busy` on the content that's loading. See
+  [Accessibility](/components/loading/skeleton/examples#accessibility).
+- ⚠️ **Size with props, not `style`**: **A `width` or `height` in `style` is
+  ignored**. Use the `width` and `height` props.
+- ⚠️ **No circles with lines**: **`circle` is ignored when `lines` is more
+  than `1`**.
