@@ -1,5 +1,14 @@
 # @wondesign/tokens
 
+## 0.1.1
+
+### Patch Changes
+
+- [#121](https://github.com/wonwon0307/wondesign/pull/121) [`3e56e61`](https://github.com/wonwon0307/wondesign/commit/3e56e61a2f2718a009d85a32e5211fadbb9405ae) Thanks [@wonwon0307](https://github.com/wonwon0307)! - Updates to the opacity tokens.
+
+  - **`hover`**: A new opacity token for elements under the pointer, as `--opacity-hover`. Defaults to `0.65`.
+  - **`disabled`**: Now defaults to `0.75`, up from `0.4`.
+
 ## 0.1.0
 
 ### Minor Changes
