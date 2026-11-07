@@ -1,0 +1,81 @@
+import { Pressable } from "@wondesign/ui/Buttons";
+import { Badge } from "@wondesign/ui/Texts";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `Pressable`, from blocking presses to styling your own
+button. Each example shows the rendered result, followed by its code.
+
+---
+
+## Disabled
+
+Pass `isDisabled` to block presses. The pointer cursor turns into a
+not-allowed cursor:
+
+<Preview orientation="horizontal">
+  <Pressable isDisabled>
+    <Badge label="Disabled" />
+  </Pressable>
+</Preview>
+
+```tsx
+<Pressable isDisabled>
+  <Badge label="Disabled" />
+</Pressable>
+```
+
+- 📌 **The content doesn't look disabled.** Style it yourself with
+  `[data-disabled]`.
+
+---
+
+## Loading
+
+Pass `isLoading` while an action is in progress. Presses are blocked, screen
+readers announce the button as busy, and the pointer cursor turns into a
+progress cursor:
+
+<Preview orientation="horizontal">
+  <Pressable isLoading>
+    <Badge label="Loading" />
+  </Pressable>
+</Preview>
+
+```tsx
+<Pressable isLoading={isSaving} onClick={save}>
+  <Badge label="Save" />
+</Pressable>
+```
+
+- 📌 **The content doesn't look like it's loading.** Style it yourself with
+  `[data-loading]`, or swap the content for a spinner.
+
+---
+
+## Styling
+
+`Pressable` has no styles of its own beyond the cursor and focus outline.
+Add your own with `className` or `style`, and style its states with data
+attributes:
+
+```tsx
+<Pressable className="card" onClick={open}>
+  {children}
+</Pressable>
+```
+
+```css
+.card {
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+}
+
+.card[data-disabled] {
+  opacity: 0.5;
+}
+```
+
+- 📌 **The focus outline has square corners**, even when your content is
+  rounded. Set a `border-radius` on the `Pressable` to match its content.
