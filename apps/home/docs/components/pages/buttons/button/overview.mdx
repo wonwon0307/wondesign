@@ -1,0 +1,89 @@
+import { Button } from "@wondesign/ui/Buttons";
+import { Preview } from "@/widgets/preview";
+
+# Button
+
+`Button` builds on [Pressable](/components/buttons/pressable) to render a
+labelled button, like "Save" or "Delete". Pick a `variant` for the kind of
+action, and a `size` for where it sits.
+
+---
+
+## Key Features
+
+- ✅ **Three Variants**: Primary, secondary and destructive, for the kind of action
+- ✅ **Filled or Outlined**: A solid background, or a border for less prominent actions
+- ✅ **Three Sizes**: Small, medium and large, or as wide as its container
+- ✅ **Left and Right Slots**: Add an icon or other content on either side of the label
+- ✅ **Loading Spinner**: Shows a spinner while loading, without changing the button's size
+- ✅ **Disabled State**: Presses are blocked, and the button stays focusable
+
+<Preview orientation="horizontal">
+  <Button variant="primary">Save</Button>
+  <Button variant="secondary">Cancel</Button>
+  <Button variant="destructive">Delete</Button>
+</Preview>
+
+```tsx
+import { Button } from "@wondesign/buttons/Button";
+
+<Button variant="primary" onClick={save}>Save</Button>
+<Button variant="secondary" onClick={cancel}>Cancel</Button>
+<Button variant="destructive" onClick={remove}>Delete</Button>
+```
+
+See [Examples](/components/buttons/button/examples) for variants, sizes,
+left and right content, loading and styling.
+
+---
+
+## API
+
+Import `Button` and its props type from `@wondesign/buttons/Button`:
+
+```ts
+import { Button, type ButtonProps } from "@wondesign/buttons/Button";
+```
+
+### Props
+
+Accepts all props of [Pressable](/components/buttons/pressable#props), plus
+its own `variant`, `size`, `outlined`, `fill`, `left`, `right`, `fallback`
+and `fallbackVariant`. Together, the key props are:
+
+```ts
+interface ButtonProps {
+  // the label.
+  children: React.ReactNode;
+
+  // the colors. defaults to `"primary"`.
+  variant?: "primary" | "secondary" | "destructive";
+
+  // the font size and padding. defaults to `"medium"`.
+  size?: "small" | "medium" | "large";
+
+  // a border instead of a solid background. defaults to `false`.
+  outlined?: boolean;
+
+  // as wide as its container. defaults to `false`.
+  fill?: boolean;
+
+  // content before the label, like an icon.
+  left?: React.ReactNode;
+
+  // content after the label, like an icon.
+  right?: React.ReactNode;
+
+  isDisabled?: boolean; // defaults to `false`
+  isLoading?: boolean; // defaults to `false`
+
+  // shown while loading. defaults to a `Spinner`.
+  fallback?: React.ReactNode;
+
+  // where the fallback goes while loading: in place of the label, or in
+  // place of the `left` content. defaults to `"replace"`.
+  fallbackVariant?: "replace" | "left";
+
+  // ...
+}
+```
