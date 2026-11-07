@@ -35,9 +35,15 @@ The spinner is `1.25em` wide and tall by default, so it follows the font size
 of the text around it:
 
 <Preview orientation="horizontal">
-  <span style={{ fontSize: "var(--font-size-body-sm)" }}><Spinner /></span>
-  <span style={{ fontSize: "var(--font-size-body-md)" }}><Spinner /></span>
-  <span style={{ fontSize: "var(--font-size-body-lg)" }}><Spinner /></span>
+  <span style={{ fontSize: "var(--font-size-body-sm)" }}>
+    <Spinner />
+  </span>
+  <span style={{ fontSize: "var(--font-size-body-md)" }}>
+    <Spinner />
+  </span>
+  <span style={{ fontSize: "var(--font-size-body-lg)" }}>
+    <Spinner />
+  </span>
 </Preview>
 
 ```tsx
@@ -97,7 +103,17 @@ spinner, or on the element around it:
 <Preview orientation="horizontal">
   <Spinner />
   <Spinner style={{ color: "var(--color-primary)" }} />
-  <div style={{ display: "flex", alignItems: "center", gap: "var(--spacing-sm)", color: "var(--color-error)" }}><Spinner /><span>Retrying…</span></div>
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "var(--spacing-sm)",
+      color: "var(--color-error)",
+    }}
+  >
+    <Spinner />
+    <span>Retrying…</span>
+  </div>
 </Preview>
 
 ```tsx
