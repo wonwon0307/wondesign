@@ -1,0 +1,81 @@
+import { IconLink } from "@wondesign/ui/Links";
+import { Preview } from "@/widgets/preview";
+
+# IconLink
+
+`IconLink` builds on [Anchor](/components/links/anchor) to render a compact
+link with a single icon, like a link to GitHub or a download. Pass an icon
+name from [`@wondesign/icons`](/components/icons#icon-list), or your own
+content. To run an action instead of going to another page, use
+[IconButton](/components/buttons/icon-button) from `@wondesign/buttons`.
+
+---
+
+## Key Features
+
+- ✅ **Built-in Icons**: Pass an icon name, and the icon is rendered for you
+- ✅ **Your Own Content**: Or pass any content, like a logo
+- ✅ **Three Appearances**: Filled, outlined or ghost, for how much the link stands out
+- ✅ **Any Size**: Follows the text around it, or takes the size you set
+- ✅ **Rounded or Spacious**: Make the link a circle, or give the icon more room
+
+<Preview orientation="horizontal">
+  <IconLink icon="download" appearance="filled" href="#" aria-label="Download" />
+  <IconLink icon="download" appearance="outlined" href="#" aria-label="Download" />
+  <IconLink icon="download" appearance="ghost" href="#" aria-label="Download" />
+</Preview>
+
+```tsx
+import { IconLink } from "@wondesign/links/IconLink";
+
+<IconLink icon="download" href="/files/guide.pdf" aria-label="Download" />;
+```
+
+See [Examples](/components/links/icon-link/examples) for icons,
+appearances, sizes, rounded and spacious links, and styling.
+
+---
+
+## API
+
+Import `IconLink` and its props type from `@wondesign/links/IconLink`:
+
+```ts
+import { IconLink, type IconLinkProps } from "@wondesign/links/IconLink";
+```
+
+### Props
+
+Accepts all props of [Anchor](/components/links/anchor#props), plus its own
+`appearance`, `size`, `rounded` and `spacious`, and either `icon` or
+`children`. **Passing both is a type error.** Together, the key props are:
+
+```ts
+type IconLinkProps = {
+  // the look. defaults to `"outlined"`.
+  appearance?: "filled" | "outlined" | "ghost";
+
+  // the size of the icon. any CSS length, or a number in pixels.
+  // defaults to `"1em"`. ignored with `children`.
+  size?: number | string;
+
+  // a circle instead of rounded corners. defaults to `false`.
+  rounded?: boolean;
+
+  // wider padding around the icon. defaults to `false`.
+  spacious?: boolean;
+
+  href?: string;
+
+  // ...
+} & (
+  | {
+      // an icon name from `@wondesign/icons`.
+      icon: IconName;
+    }
+  | {
+      // your own content, in place of an icon.
+      children: React.ReactNode;
+    }
+);
+```
