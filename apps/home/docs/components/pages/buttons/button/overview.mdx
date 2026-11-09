@@ -49,7 +49,7 @@ import { Button, type ButtonProps } from "@wondesign/buttons/Button";
 
 Accepts all props of [Pressable](/components/buttons/pressable#props), plus
 its own `variant`, `size`, `outlined`, `fill`, `left`, `right`, `fallback`
-and `fallbackVariant`. Together, the key props are:
+and `fallbackPosition`. Together, the key props are:
 
 ```ts
 interface ButtonProps {
@@ -82,7 +82,7 @@ interface ButtonProps {
 
   // where the fallback goes while loading: in place of the label, or in
   // place of the `left` content. defaults to `"replace"`.
-  fallbackVariant?: "replace" | "left";
+  fallbackPosition?: "replace" | "left";
 
   // ...
 }

@@ -151,32 +151,32 @@ button keeps its size**, so the layout around it doesn't move:
 
 ### Fallback Position
 
-The `fallbackVariant` property sets where the spinner goes. It's
+The `fallbackPosition` property sets where the spinner goes. It's
 `"replace"` by default, which hides the label. `"left"` keeps the label, and
 puts the spinner on its left:
 
 <Preview orientation="horizontal">
-  <Button isLoading fallbackVariant="replace">
+  <Button isLoading fallbackPosition="replace">
     {"Save"}
   </Button>
-  <Button isLoading fallbackVariant="left">
+  <Button isLoading fallbackPosition="left">
     {"Saving"}
   </Button>
 </Preview>
 
 ```tsx
-<Button isLoading fallbackVariant="replace">Save</Button>
-<Button isLoading fallbackVariant="left">Saving</Button>
+<Button isLoading fallbackPosition="replace">Save</Button>
+<Button isLoading fallbackPosition="left">Saving</Button>
 ```
 
 With `"left"`, the spinner takes the place of the `left` content while
 loading, like an icon that turns into a spinner:
 
 <Preview orientation="horizontal">
-  <Button fallbackVariant="left" left={<AppIcon icon="upload" />}>
+  <Button fallbackPosition="left" left={<AppIcon icon="upload" />}>
     {"Upload"}
   </Button>
-  <Button isLoading fallbackVariant="left" left={<AppIcon icon="upload" />}>
+  <Button isLoading fallbackPosition="left" left={<AppIcon icon="upload" />}>
     {"Upload"}
   </Button>
 </Preview>
@@ -184,7 +184,7 @@ loading, like an icon that turns into a spinner:
 ```tsx
 <Button
   isLoading={isUploading}
-  fallbackVariant="left"
+  fallbackPosition="left"
   left={<AppIcon icon="upload" />}
 >
   Upload
@@ -198,13 +198,13 @@ loading, like an icon that turns into a spinner:
 ### Custom Fallback
 
 Pass `fallback` to show your own content instead of the default spinner,
-like a different spinner variant:
+like a different spinner appearance:
 
 <Preview orientation="horizontal">
-  <Button isLoading fallback={<Spinner variant="tail" />}>
+  <Button isLoading fallback={<Spinner appearance="tail" />}>
     {"Save"}
   </Button>
-  <Button isLoading fallback={<Spinner variant="bubble" />}>
+  <Button isLoading fallback={<Spinner appearance="bubble" />}>
     {"Save"}
   </Button>
 </Preview>
@@ -212,8 +212,8 @@ like a different spinner variant:
 ```tsx
 import { Spinner } from "@wondesign/loading/Spinner";
 
-<Button isLoading fallback={<Spinner variant="tail" />}>Save</Button>
-<Button isLoading fallback={<Spinner variant="bubble" />}>Save</Button>
+<Button isLoading fallback={<Spinner appearance="tail" />}>Save</Button>
+<Button isLoading fallback={<Spinner appearance="bubble" />}>Save</Button>
 ```
 
 - 📌 With `"replace"`, **a fallback wider than the label spills out of the

@@ -101,7 +101,7 @@ describe("Button", () => {
 
   it("renders a left loading button correctly", () => {
     const { getByTestId, getByText } = render(
-      <Button isLoading fallbackVariant="left" data-testid="button">
+      <Button isLoading fallbackPosition="left" data-testid="button">
         Loading
       </Button>,
     );
