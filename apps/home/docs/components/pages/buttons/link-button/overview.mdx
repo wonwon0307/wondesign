@@ -1,0 +1,63 @@
+import { LinkButton } from "@wondesign/ui/Buttons";
+import { Preview } from "@/widgets/preview";
+
+# LinkButton
+
+`LinkButton` builds on [Pressable](/components/buttons/pressable) to render
+a button that looks like a link, for actions within a sentence, like "Show
+more" or "Undo". It runs an action, and doesn't go to another page. To go
+to another page, use [Hyperlink](/components/links/hyperlink) from
+`@wondesign/links` instead.
+
+---
+
+## Key Features
+
+- ✅ **Looks Like a Link**: Sits within a sentence, in the primary color, and is underlined on hover
+- ✅ **Acts Like a Button**: Screen readers announce it as a button, since it runs an action
+- ✅ **Disabled and Loading States**: Presses are blocked, and the button stays focusable
+
+<Preview>
+  <p>
+    {"Your changes were saved. "}
+    <LinkButton>{"Undo"}</LinkButton>
+  </p>
+</Preview>
+
+```tsx
+import { LinkButton } from "@wondesign/buttons/LinkButton";
+
+<p>
+  Your changes were saved. <LinkButton onClick={undo}>Undo</LinkButton>
+</p>;
+```
+
+See [Examples](/components/buttons/link-button/examples) for disabled and
+loading buttons, and styling.
+
+---
+
+## API
+
+Import `LinkButton` and its props type from `@wondesign/buttons/LinkButton`:
+
+```ts
+import { LinkButton, type LinkButtonProps } from "@wondesign/buttons/LinkButton";
+```
+
+### Props
+
+Accepts all props of [Pressable](/components/buttons/pressable#props). It
+has no props of its own. Together, the key props are:
+
+```ts
+interface LinkButtonProps {
+  // the label.
+  children: React.ReactNode;
+
+  isDisabled?: boolean; // defaults to `false`
+  isLoading?: boolean; // defaults to `false`
+
+  // ...
+}
+```
