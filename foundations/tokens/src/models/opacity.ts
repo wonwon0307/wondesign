@@ -17,7 +17,7 @@ export const opacityCssVariables: OpacityTokens = {
 export const defaultOpacity: OpacityTokens = {
   hide: "0",
   disabled: "0.5",
-  pending: "0.6",
+  pending: "0.75",
   hover: "0.85",
   normal: "1",
 };
