@@ -15,6 +15,9 @@ const iconButton = recipe({
       "&[data-disabled]": {
         opacity: tokens.opacity.disabled,
       },
+      "&[data-loading]": {
+        opacity: tokens.opacity.pending,
+      },
     },
   },
   variants: {
