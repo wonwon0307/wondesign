@@ -19,18 +19,22 @@ describe("IconButton", () => {
     expect(getByText("check-fill")).toBeTruthy(); // mocked in line 5
   });
 
-  it("renders all variants correctly", () => {
+  it("renders all appearances correctly", () => {
     const { getByTestId } = render(
       <>
-        <IconButton icon="check" variant="filled" data-testid="filled-button" />
+        <IconButton
+          icon="check"
+          appearance="filled"
+          data-testid="filled-button"
+        />
         <IconButton
           icon="check-fill"
-          variant="outlined"
+          appearance="outlined"
           data-testid="outlined-button"
         />
         <IconButton
           icon="check-circle"
-          variant="ghost"
+          appearance="ghost"
           data-testid="ghost-button"
         />
       </>,

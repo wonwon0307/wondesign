@@ -36,9 +36,9 @@ or your own content as `children`, like a logo:
 
 ---
 
-## Variants
+## Appearances
 
-The `variant` property sets how much the button stands out. `"outlined"` is
+The `appearance` property sets how much the button stands out. `"outlined"` is
 the default:
 
 - 🎨 **`"filled"`**: a solid primary background, for the main action.
@@ -47,15 +47,15 @@ the default:
   headers.
 
 <Preview orientation="horizontal">
-  <IconButton icon="copy" variant="filled" aria-label="Copy" />
-  <IconButton icon="copy" variant="outlined" aria-label="Copy" />
-  <IconButton icon="copy" variant="ghost" aria-label="Copy" />
+  <IconButton icon="copy" appearance="filled" aria-label="Copy" />
+  <IconButton icon="copy" appearance="outlined" aria-label="Copy" />
+  <IconButton icon="copy" appearance="ghost" aria-label="Copy" />
 </Preview>
 
 ```tsx
-<IconButton icon="copy" variant="filled" aria-label="Copy" />
-<IconButton icon="copy" variant="outlined" aria-label="Copy" />
-<IconButton icon="copy" variant="ghost" aria-label="Copy" />
+<IconButton icon="copy" appearance="filled" aria-label="Copy" />
+<IconButton icon="copy" appearance="outlined" aria-label="Copy" />
+<IconButton icon="copy" appearance="ghost" aria-label="Copy" />
 ```
 
 ---
@@ -165,13 +165,13 @@ readers announce the button as busy, the button fades slightly, and a
 ### Custom Fallback
 
 Pass `fallback` to show your own content instead of the default spinner,
-like a different spinner variant:
+like a different spinner appearance:
 
 <Preview orientation="horizontal">
   <IconButton
     icon="upload"
     isLoading
-    fallback={<Spinner variant="tail" size="1em" />}
+    fallback={<Spinner appearance="tail" size="1em" />}
     aria-label="Upload"
   />
 </Preview>
@@ -182,7 +182,7 @@ import { Spinner } from "@wondesign/loading/Spinner";
 <IconButton
   icon="upload"
   isLoading
-  fallback={<Spinner variant="tail" size="1em" />}
+  fallback={<Spinner appearance="tail" size="1em" />}
   aria-label="Upload"
 />;
 ```
