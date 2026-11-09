@@ -33,22 +33,25 @@ function Header({ name, relPath }: Readonly<Pick<Props, "name" | "relPath">>) {
         <Tooltip
           text="View the package on npm"
           left={<AppIcon icon="external-link" />}
-          keepMounted
           asChild
         >
-          <IconLink href={`https://www.npmjs.com/package/${name}`} openInNewTab>
+          <IconLink
+            href={`https://www.npmjs.com/package/${name}`}
+            appearance="ghost"
+            aria-label="npm"
+          >
             <NpmLogo />
           </IconLink>
         </Tooltip>
         <Tooltip
           text="View the source code on GitHub"
           left={<AppIcon icon="external-link" />}
-          keepMounted
           asChild
         >
           <IconLink
             href={`https://github.com/wonwon0307/wondesign/tree/main/${relPath}/`}
-            openInNewTab
+            appearance="ghost"
+            aria-label="GitHub"
           >
             <GithubLogo />
           </IconLink>
@@ -56,13 +59,14 @@ function Header({ name, relPath }: Readonly<Pick<Props, "name" | "relPath">>) {
         <Tooltip
           text="Report an issue"
           left={<AppIcon icon="external-link" />}
-          keepMounted
           asChild
         >
           <IconLink
             href={`https://github.com/wonwon0307/wondesign/issues`}
             icon="warning"
-            openInNewTab
+            appearance="ghost"
+            aria-label="Report an issue"
+            size={24}
             className={styles.report}
           />
         </Tooltip>
