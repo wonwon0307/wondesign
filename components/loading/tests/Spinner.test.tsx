@@ -15,7 +15,7 @@ describe("Spinner", () => {
   it("renders the Spinner with the correct custom properties", () => {
     const { getByTestId } = render(
       <Spinner
-        variant="tail"
+        appearance="tail"
         className="custom-spinner"
         style={{ animationDuration: "2s" }}
         data-testid="spinner"

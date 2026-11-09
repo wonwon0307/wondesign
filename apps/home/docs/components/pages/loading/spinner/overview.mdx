@@ -17,10 +17,10 @@ a label or inside a button.
 - ✅ **Respects Reduced Motion**: Spins slower when the user asks for less motion
 
 <Preview orientation="horizontal">
-  <Spinner variant="default" />
-  <Spinner variant="tail" />
-  <Spinner variant="line" />
-  <Spinner variant="bubble" />
+  <Spinner appearance="default" />
+  <Spinner appearance="tail" />
+  <Spinner appearance="line" />
+  <Spinner appearance="bubble" />
 </Preview>
 
 ```tsx
@@ -45,14 +45,14 @@ import { Spinner, type SpinnerProps } from "@wondesign/loading/Spinner";
 ### Props
 
 Renders an `<svg>`. Accepts all `<svg>` props except `aria-hidden`, plus its
-own `variant`, `size` and `speed`. `aria-hidden` **isn't accepted**, since
+own `appearance`, `size` and `speed`. `aria-hidden` **isn't accepted**, since
 the spinner is always hidden from screen readers. Together, the key props
 are:
 
 ```ts
 interface SpinnerProps {
   // the spinner's style. defaults to `"default"`.
-  variant?: "default" | "tail" | "line" | "bubble";
+  appearance?: "default" | "tail" | "line" | "bubble";
 
   // the width and height. any CSS length, or a number in pixels.
   // defaults to `"1.25em"`, which follows the font size around it.
