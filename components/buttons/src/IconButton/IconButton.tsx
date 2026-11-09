@@ -2,7 +2,7 @@ import { AppIcon, type IconName } from "@wondesign/icons";
 import { Spinner } from "@wondesign/loading/Spinner";
 import { clsx } from "clsx";
 
-import { Pressable, type PressableProps } from "@/Pressable";
+import { Pressable, type PressableProps } from "@/Pressable/Pressable";
 import { styles } from "./styles.css";
 
 export type IconButtonProps = Omit<PressableProps, "children"> & {
