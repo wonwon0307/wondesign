@@ -1,6 +1,9 @@
 export { Anchor } from "@wondesign/links/Anchor";
 export type { AnchorProps } from "@wondesign/links/Anchor";
 
+export { FormLink } from "@wondesign/links/FormLink";
+export type { FormLinkProps } from "@wondesign/links/FormLink";
+
 export { Hyperlink } from "@wondesign/links/Hyperlink";
 export type { HyperlinkProps } from "@wondesign/links/Hyperlink";
 
