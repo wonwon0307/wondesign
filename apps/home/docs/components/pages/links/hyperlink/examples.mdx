@@ -28,12 +28,16 @@ The `appearance` property sets the color. `"default"` is the default:
   </p>
   <p>
     {"New here? "}
-    <Hyperlink href="#" appearance="primary">{"Create an account"}</Hyperlink>
+    <Hyperlink href="#" appearance="primary">
+      {"Create an account"}
+    </Hyperlink>
     {" to get started."}
   </p>
   <p>
     {"Something wrong? "}
-    <Hyperlink href="#" appearance="muted">{"Contact support"}</Hyperlink>
+    <Hyperlink href="#" appearance="muted">
+      {"Contact support"}
+    </Hyperlink>
     {"."}
   </p>
 </Preview>
@@ -57,12 +61,16 @@ underlined, since the underline is the only thing that shows it's a link:
     }}
   >
     {"Payment failed. "}
-    <Hyperlink href="#" appearance="inherit">{"Update your card"}</Hyperlink>
+    <Hyperlink href="#" appearance="inherit">
+      {"Update your card"}
+    </Hyperlink>
   </p>
 </Preview>
 
 ```tsx
-<Hyperlink href="/billing" appearance="inherit">Update your card</Hyperlink>
+<Hyperlink href="/billing" appearance="inherit">
+  Update your card
+</Hyperlink>
 ```
 
 - 📌 **`underline` is ignored with `"inherit"`.**
@@ -87,12 +95,16 @@ default:
   </p>
   <p>
     {"The "}
-    <Hyperlink href="#" underline="always">{"release notes"}</Hyperlink>
+    <Hyperlink href="#" underline="always">
+      {"release notes"}
+    </Hyperlink>
     {" list every change in this version."}
   </p>
   <p>
     {"Follow us on "}
-    <Hyperlink href="#" underline="none">{"GitHub"}</Hyperlink>
+    <Hyperlink href="#" underline="none">
+      {"GitHub"}
+    </Hyperlink>
     {"."}
   </p>
 </Preview>
@@ -118,7 +130,9 @@ order, fades, and isn't underlined on hover:
   </p>
   <p>
     {"Your invoices are in "}
-    <Hyperlink href="#" isDisabled>{"Billing"}</Hyperlink>
+    <Hyperlink href="#" isDisabled>
+      {"Billing"}
+    </Hyperlink>
     {", once your plan is active."}
   </p>
 </Preview>
@@ -138,7 +152,9 @@ When a single link needs to look different, change it with `className` or
 <Preview>
   <p>
     {"Read the "}
-    <Hyperlink href="#" style={{ fontWeight: "normal" }}>{"full article"}</Hyperlink>
+    <Hyperlink href="#" style={{ fontWeight: "normal" }}>
+      {"full article"}
+    </Hyperlink>
     {" for more."}
   </p>
 </Preview>
