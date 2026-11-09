@@ -20,7 +20,7 @@ content in it to turn it into a link.
 
 <Preview>
   <Anchor
-    href="/components/links"
+    href="#"
     style={{
       display: "block",
       padding: "var(--spacing-lg)",
@@ -29,16 +29,18 @@ content in it to turn it into a link.
     }}
   >
     <Heading level={4}>{"Links"}</Heading>
-    <Description>{"Text links, icon links and a plain link base."}</Description>
+    <Description>{'Clicking on this card will take you to the top of the page ("#").'}</Description>
   </Anchor>
 </Preview>
 
 ```tsx
 import { Anchor } from "@wondesign/links/Anchor";
 
-<Anchor href="/components/links" className="card">
+<Anchor href="#" className="card">
   <Heading level={4}>Links</Heading>
-  <Description>Text links, icon links and a plain link base.</Description>
+  <Description>
+    Clicking on this card will take you to the top of the page ("#").
+  </Description>
 </Anchor>;
 ```
 
