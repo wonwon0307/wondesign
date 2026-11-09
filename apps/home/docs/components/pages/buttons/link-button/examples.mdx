@@ -1,0 +1,61 @@
+import { LinkButton } from "@wondesign/ui/Buttons";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `LinkButton`, from blocking presses to fitting it into
+your own design. Each example shows the rendered result, followed by its
+code.
+
+---
+
+## Disabled
+
+Pass `isDisabled` to block presses. The button fades, and isn't underlined
+on hover:
+
+<Preview orientation="horizontal">
+  <LinkButton>Show more</LinkButton>
+  <LinkButton isDisabled>Show more</LinkButton>
+</Preview>
+
+```tsx
+<LinkButton onClick={showMore}>Show more</LinkButton>
+<LinkButton isDisabled>Show more</LinkButton>
+```
+
+---
+
+## Loading
+
+Pass `isLoading` while an action is in progress. Presses are blocked, screen
+readers announce the button as busy, and the button fades slightly. There's
+no spinner, so it still fits within a sentence:
+
+<Preview orientation="horizontal">
+  <LinkButton>Show more</LinkButton>
+  <LinkButton isLoading>Show more</LinkButton>
+</Preview>
+
+```tsx
+<LinkButton isLoading={isFetching} onClick={showMore}>
+  Show more
+</LinkButton>
+```
+
+---
+
+## Styling
+
+When a single button needs to look different, change it with `className` or
+`style`, like a destructive action:
+
+<Preview>
+  <LinkButton style={{ color: "var(--color-error)" }}>Remove</LinkButton>
+</Preview>
+
+```tsx
+<LinkButton style={{ color: tokens.colors.error }} onClick={remove}>
+  Remove
+</LinkButton>
+```

@@ -1,0 +1,63 @@
+---
+title: Buttons
+description: Styled React buttons built on the headless Button, from a plain pressable base to form buttons, icon buttons and buttons that look like links.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/buttons" relPath="components/buttons">
+  `@wondesign/buttons` comes with a plain pressable base, and styled buttons built on it, like form
+  buttons and icon buttons. Each component renders a `<button>` with its
+  disabled and loading states already handled, and its styles already
+  applied.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/buttons
+```
+
+<Callout variant="warning" title="Requires React 19.2">
+  `@wondesign/buttons` needs React 19.2 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Accessible by Default**: Every button stays focusable while disabled, and tells screen readers when it's busy
+- ✅ **Loading State**: Presses are blocked while an action is in progress
+- ✅ **Safe in Forms**: Doesn't submit a form unless you ask it to
+- ✅ **Consistent Buttons**: The same kind of action looks the same across your app
+- ✅ **Styleable**: Your `className` and `style` are applied on top of the defaults
+
+---
+
+## Components
+
+All of the components are built on the
+[Headless Button](/components/headless/button), and are styled based on
+`@wondesign/tokens`.
+
+- ⭐ **[Pressable](/components/buttons/pressable)** — wraps anything you want
+  to press. It only adds the bare-minimum styles, a pointer cursor and a
+  focus outline, so your content keeps its own look.
+- ⭐ **[Button](/components/buttons/button)** — a labelled button for the main
+  actions on a page or in a form.
+- ⭐ **[IconButton](/components/buttons/icon-button)** — a compact button
+  with a single icon.
+- ⭐ **[LinkButton](/components/buttons/link-button)** — a button that looks
+  like a link, for actions within a sentence.
+
+---
+
+## Upcoming Features
+
+- 🔜 **ButtonGroup**: Join buttons side by side, like a segmented control or a toolbar
+- 🔜 **ToggleButton**: A button that stays pressed until it's pressed again, like bold in a text editor
+- 🔜 **MenuButton**: A button that opens a menu of actions, like "More" or a user menu
+- 🔜 **SplitButton**: A main action with a menu of related ones beside it, like "Save" and "Save as…"

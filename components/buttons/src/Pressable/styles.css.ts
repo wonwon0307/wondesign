@@ -7,6 +7,9 @@ const pressable = style({
     "&[data-disabled]": {
       cursor: "not-allowed",
     },
+    "&[data-loading]": {
+      cursor: "progress",
+    },
     "&:focus-visible": {
       outline: `2px solid ${tokens.colors.primary}`,
     },
@@ -14,7 +17,7 @@ const pressable = style({
   "@media": {
     [mediaQueries.hoverable]: {
       selectors: {
-        "&:not([data-disabled]):hover": {
+        "&:not([data-disabled], [data-loading]):hover": {
           cursor: "pointer",
         },
       },

@@ -38,6 +38,17 @@
       "items": [
         {
           "type": "link",
+          "label": "Buttons",
+          "url": "/buttons",
+          "items": [
+            "[Pressable](/buttons/pressable)",
+            "[Button](/buttons/button)",
+            "[IconButton](/buttons/icon-button)",
+            "[LinkButton](/buttons/link-button)"
+          ]
+        },
+        {
+          "type": "link",
           "label": "Code",
           "url": "/code",
           "items": [

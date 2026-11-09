@@ -1,11 +1,14 @@
+import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
-import { tokens } from "@wondesign/tokens";
+import { mediaQueries, tokens } from "@wondesign/tokens";
 
 const formButton = recipe({
   base: {
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
+    gap: tokens.spacing.md,
+    position: "relative",
     lineHeight: tokens.typography.lineHeight.body,
     fontWeight: tokens.typography.fontWeight.medium,
     fontFamily: tokens.typography.fontFamily.normal,
@@ -15,105 +18,85 @@ const formButton = recipe({
       "&[data-disabled]": {
         opacity: tokens.opacity.disabled,
       },
+      "&[data-loading]": {
+        opacity: tokens.opacity.pending,
+      },
+    },
+    "@media": {
+      [mediaQueries.hoverable]: {
+        selectors: {
+          "&:hover:not([data-disabled], [data-loading])": {
+            opacity: tokens.opacity.hover,
+          },
+        },
+      },
     },
   },
   variants: {
     size: {
       small: {
-        padding: `${tokens.spacing.sm} 0`,
-        gap: tokens.spacing.sm,
-        font: tokens.typography.fontSize.bodySmall,
+        padding: `${tokens.spacing.xs} ${tokens.spacing.md}`,
+        fontSize: tokens.typography.fontSize.bodySmall,
+      },
+      medium: {
+        padding: `${tokens.spacing.sm} ${tokens.spacing.lg}`,
+        fontSize: tokens.typography.fontSize.bodyMedium,
       },
       large: {
-        padding: `${tokens.spacing.lg} 0`,
-        gap: tokens.spacing.md,
-        font: tokens.typography.fontSize.bodyLarge,
-      },
-      fill: {
-        flex: 1,
-        padding: `${tokens.spacing.lg} 0`,
-        gap: tokens.spacing.md,
-        font: tokens.typography.fontSize.bodyLarge,
+        padding: `${tokens.spacing.sm} ${tokens.spacing.xl}`,
+        fontSize: tokens.typography.fontSize.bodyLarge,
       },
     },
     variant: {
-      primary: {},
-      secondary: {},
-      destructive: {},
-    },
-    outlined: {
-      true: {},
-      false: {},
-    },
-  },
-  compoundVariants: [
-    {
-      variants: {
-        variant: "primary",
-        outlined: true,
-      },
-      style: {
+      "primary-outlined": {
         color: tokens.colors.primary,
-        backgroundColor: tokens.colors.onPrimary,
+        backgroundColor: "transparent",
         border: `1px solid ${tokens.colors.primary}`,
       },
-    },
-    {
-      variants: {
-        variant: "primary",
-        outlined: false,
-      },
-      style: {
+      "primary-filled": {
         color: tokens.colors.onPrimary,
         backgroundColor: tokens.colors.primary,
         border: `1px solid ${tokens.colors.primary}`,
       },
-    },
-    {
-      variants: {
-        variant: "secondary",
-        outlined: true,
+      "secondary-outlined": {
+        color: tokens.colors.textMuted,
+        backgroundColor: "transparent",
+        border: `1px solid ${tokens.colors.textMuted}`,
       },
-      style: {
+      "secondary-filled": {
         color: tokens.colors.text,
-        backgroundColor: tokens.colors.surface,
-        border: `1px solid ${tokens.colors.border}`,
+        backgroundColor: tokens.colors.backgroundMuted,
+        border: `1px solid ${tokens.colors.backgroundMuted}`,
       },
-    },
-    {
-      variants: {
-        variant: "secondary",
-        outlined: false,
-      },
-      style: {
-        color: tokens.colors.surface,
-        backgroundColor: tokens.colors.text,
-        border: `1px solid ${tokens.colors.border}`,
-      },
-    },
-    {
-      variants: {
-        variant: "destructive",
-        outlined: true,
-      },
-      style: {
+      "destructive-outlined": {
         color: tokens.colors.error,
-        backgroundColor: tokens.colors.background,
+        backgroundColor: "transparent",
         border: `1px solid ${tokens.colors.error}`,
       },
-    },
-    {
-      variants: {
-        variant: "destructive",
-        outlined: false,
-      },
-      style: {
-        color: tokens.colors.background,
+      "destructive-filled": {
+        color: tokens.colors.textInverted,
         backgroundColor: tokens.colors.error,
         border: `1px solid ${tokens.colors.error}`,
       },
     },
-  ],
+    fill: {
+      true: {
+        width: "100%",
+      },
+    },
+  },
 });
 
-export const styles = { formButton };
+const hide = style({
+  opacity: tokens.opacity.hide,
+});
+
+const overlay = style({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  position: "absolute",
+  inset: 0,
+});
+
+export const styles = { formButton, hide, overlay };

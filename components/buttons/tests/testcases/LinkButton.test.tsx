@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { LinkButton } from "@/Link";
+import { LinkButton } from "@/LinkButton/LinkButton";
 
 describe("LinkButton", () => {
   it("renders correctly", () => {

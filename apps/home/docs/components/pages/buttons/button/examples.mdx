@@ -1,0 +1,258 @@
+import { Button } from "@wondesign/ui/Buttons";
+import { AppIcon } from "@wondesign/ui/Icons";
+import { Spinner } from "@wondesign/ui/Loading";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `Button`, from picking a variant to fitting it into your
+own design. Each example shows the rendered result, followed by its code.
+
+---
+
+## Variants
+
+The `variant` property sets the colors. It's `"primary"` by default:
+
+<Preview orientation="horizontal">
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="destructive">Destructive</Button>
+</Preview>
+
+```tsx
+<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="destructive">Destructive</Button>
+```
+
+---
+
+## Outlined
+
+Pass `outlined` to swap the solid background for a border:
+
+<Preview orientation="horizontal">
+  <Button variant="primary" outlined>
+    {"Primary"}
+  </Button>
+  <Button variant="secondary" outlined>
+    {"Secondary"}
+  </Button>
+  <Button variant="destructive" outlined>
+    {"Destructive"}
+  </Button>
+</Preview>
+
+```tsx
+<Button variant="primary" outlined>Primary</Button>
+<Button variant="secondary" outlined>Secondary</Button>
+<Button variant="destructive" outlined>Destructive</Button>
+```
+
+---
+
+## Sizes
+
+The `size` property sets the font size, the padding and the space between
+the label and the content on either side. It's `"medium"` by default:
+
+<Preview orientation="horizontal">
+  <Button size="small">Small</Button>
+  <Button size="medium">Medium</Button>
+  <Button size="large">Large</Button>
+</Preview>
+
+```tsx
+<Button size="small">Small</Button>
+<Button size="medium">Medium</Button>
+<Button size="large">Large</Button>
+```
+
+### Fill
+
+Pass `fill` to make the button as wide as its container (`100%`), like the
+buttons at the bottom of a form. Buttons in the same row share the width. It
+works with every `size`:
+
+<Preview orientation="horizontal">
+  <Button fill variant="secondary" outlined>
+    {"Cancel"}
+  </Button>
+  <Button fill>Save</Button>
+</Preview>
+
+```tsx
+<div style={{ display: "flex", gap: "var(--spacing-md)" }}>
+  <Button fill variant="secondary" outlined>
+    Cancel
+  </Button>
+  <Button fill>Save</Button>
+</div>
+```
+
+---
+
+## Left and Right
+
+Pass `left` or `right` to add content on either side of the label, like an
+icon:
+
+<Preview orientation="horizontal">
+  <Button left={<AppIcon icon="download" />}>Download</Button>
+  <Button right={<AppIcon icon="chevron-right" />}>Next</Button>
+</Preview>
+
+```tsx
+import { AppIcon } from "@wondesign/icons";
+
+<Button left={<AppIcon icon="download" />}>Download</Button>
+<Button right={<AppIcon icon="chevron-right" />}>Next</Button>
+```
+
+---
+
+## Disabled
+
+Pass `isDisabled` to block presses:
+
+<Preview orientation="horizontal">
+  <Button isDisabled>Disabled</Button>
+  <Button variant="secondary" outlined isDisabled>
+    {"Disabled"}
+  </Button>
+</Preview>
+
+```tsx
+<Button isDisabled>Disabled</Button>
+<Button variant="secondary" outlined isDisabled>Disabled</Button>
+```
+
+---
+
+## Loading
+
+Pass `isLoading` while an action is in progress, like saving a form. Presses
+are blocked, screen readers announce the button as busy, along with its
+label, the button fades slightly, and a
+[Spinner](/components/loading/spinner) takes the place of the label. **The
+button keeps its size**, so the layout around it doesn't move:
+
+<Preview orientation="horizontal">
+  <Button>Save</Button>
+  <Button isLoading>Save</Button>
+</Preview>
+
+```tsx
+<Button isLoading={isSaving} onClick={save}>
+  Save
+</Button>
+```
+
+### Fallback Position
+
+The `fallbackVariant` property sets where the spinner goes. It's
+`"replace"` by default, which hides the label. `"left"` keeps the label, and
+puts the spinner on its left:
+
+<Preview orientation="horizontal">
+  <Button isLoading fallbackVariant="replace">
+    {"Save"}
+  </Button>
+  <Button isLoading fallbackVariant="left">
+    {"Saving"}
+  </Button>
+</Preview>
+
+```tsx
+<Button isLoading fallbackVariant="replace">Save</Button>
+<Button isLoading fallbackVariant="left">Saving</Button>
+```
+
+With `"left"`, the spinner takes the place of the `left` content while
+loading, like an icon that turns into a spinner:
+
+<Preview orientation="horizontal">
+  <Button fallbackVariant="left" left={<AppIcon icon="upload" />}>
+    {"Upload"}
+  </Button>
+  <Button isLoading fallbackVariant="left" left={<AppIcon icon="upload" />}>
+    {"Upload"}
+  </Button>
+</Preview>
+
+```tsx
+<Button
+  isLoading={isUploading}
+  fallbackVariant="left"
+  left={<AppIcon icon="upload" />}
+>
+  Upload
+</Button>
+```
+
+- 📌 With `"left"` and no `left` content, **the button grows by the
+  spinner's width** while loading. Use `"replace"` when the button must keep
+  its size.
+
+### Custom Fallback
+
+Pass `fallback` to show your own content instead of the default spinner,
+like a different spinner variant:
+
+<Preview orientation="horizontal">
+  <Button isLoading fallback={<Spinner variant="tail" />}>
+    {"Save"}
+  </Button>
+  <Button isLoading fallback={<Spinner variant="bubble" />}>
+    {"Save"}
+  </Button>
+</Preview>
+
+```tsx
+import { Spinner } from "@wondesign/loading/Spinner";
+
+<Button isLoading fallback={<Spinner variant="tail" />}>Save</Button>
+<Button isLoading fallback={<Spinner variant="bubble" />}>Save</Button>
+```
+
+- 📌 With `"replace"`, **a fallback wider than the label spills out of the
+  button**, since the button keeps the label's size. Keep it short, like an
+  icon.
+
+---
+
+## Submitting Forms
+
+Set `type="submit"` when the button should submit its form. Without it, it
+doesn't:
+
+```tsx
+<form onSubmit={handleSubmit}>
+  {…}
+  <Button type="submit">Send</Button>
+</form>
+```
+
+---
+
+## Styling
+
+When a single button needs to look different, change it with `className` or
+`style`, like a fully rounded button:
+
+<Preview>
+  <Button style={{ borderRadius: "999px" }}>Subscribe</Button>
+</Preview>
+
+```tsx
+<Button style={{ borderRadius: "999px" }}>Subscribe</Button>
+
+<Button className="pill">Subscribe</Button>
+```
+
+```css
+.pill {
+  border-radius: 999px;
+}
+```

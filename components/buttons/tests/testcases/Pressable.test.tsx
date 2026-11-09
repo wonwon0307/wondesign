@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { Pressable } from "@/Pressable";
+import { Pressable } from "@/Pressable/Pressable";
 
 describe("Pressable", () => {
   it("renders children correctly", () => {

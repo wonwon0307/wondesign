@@ -1,0 +1,84 @@
+import { Pressable } from "@wondesign/ui/Buttons";
+import { Badge } from "@wondesign/ui/Texts";
+import { Preview } from "@/widgets/preview";
+
+# Pressable
+
+`Pressable` builds on the headless [Button](/components/headless/button) to
+render a `<button>` with no look of its own, only a pointer cursor and a
+focus outline. Wrap your own content in it to make it clickable.
+
+---
+
+## Key Features
+
+- ✅ **No Default Look**: Your content looks the same, with only a pointer cursor and a focus outline added
+- ✅ **Disabled and Loading States**: Presses are blocked, and the button stays focusable
+- ✅ **Safe in Forms**: Doesn't submit a form unless you ask it to
+- ✅ **Ref Forwarding**: Your `ref` reaches the rendered element
+
+<Preview orientation="horizontal">
+  <Badge label="Static" />
+  <Pressable>
+    <Badge label="Pressable" />
+  </Pressable>
+</Preview>
+
+```tsx
+import { Pressable } from "@wondesign/buttons/Pressable";
+
+// without Pressable
+<Badge label="Static" />
+
+// with Pressable
+<Pressable onClick={toggle}>
+  <Badge label="Pressable" />
+</Pressable>
+```
+
+See [Examples](/components/buttons/pressable/examples) for disabled and
+loading states, and styling.
+
+---
+
+## API
+
+Import `Pressable` and its props type from `@wondesign/buttons/Pressable`:
+
+```ts
+import { Pressable, type PressableProps } from "@wondesign/buttons/Pressable";
+```
+
+### Props
+
+Accepts all props of the headless
+[Button](/components/headless/button/api#props). Your `ref` reaches the
+rendered `<button>`. Together, the key props are:
+
+```ts
+interface PressableProps {
+  children?: React.ReactNode;
+
+  // blocks presses, and keeps the button focusable. defaults to `false`.
+  isDisabled?: boolean;
+
+  // blocks presses, and marks the button as busy. defaults to `false`.
+  isLoading?: boolean;
+
+  // defaults to `"button"`, so it doesn't submit a form.
+  type?: "button" | "submit" | "reset";
+
+  ref?: React.Ref<HTMLButtonElement>;
+
+  // ...
+}
+```
+
+---
+
+## Used By
+
+- 🧩 **[Button](/components/buttons/button)**,
+  **[IconButton](/components/buttons/icon-button)**,
+  **[LinkButton](/components/buttons/link-button)**
+- 🧩 **[CodeWindow](/components/code/code-window)**: `CodeWindowCopyButton`
