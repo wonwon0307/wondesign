@@ -1,0 +1,93 @@
+import { Anchor } from "@wondesign/ui/Links";
+import { Description, Heading } from "@wondesign/ui/Texts";
+import { Preview } from "@/widgets/preview";
+
+# Anchor
+
+`Anchor` builds on the headless [Anchor](/components/headless/anchor) to
+render an `<a>` with no look of its own, only a focus outline. Wrap your own
+content in it to turn it into a link.
+
+---
+
+## Key Features
+
+- ✅ **No Default Look**: Your content looks the same, with only a focus outline added
+- ✅ **External Links Handled**: Links to other sites open in a new tab, safely
+- ✅ **Router Friendly**: Render your router's link component, with all the same behaviour
+- ✅ **Disabled State**: A link that can't be followed or focused
+- ✅ **Ref Forwarding**: Your `ref` reaches the rendered element
+
+<Preview>
+  <Anchor
+    href="/components/links"
+    style={{
+      display: "block",
+      padding: "var(--spacing-lg)",
+      border: "1px solid var(--color-border)",
+      borderRadius: "var(--radius-md)",
+    }}
+  >
+    <Heading level={4}>{"Links"}</Heading>
+    <Description>{"Text links, icon links and a plain link base."}</Description>
+  </Anchor>
+</Preview>
+
+```tsx
+import { Anchor } from "@wondesign/links/Anchor";
+
+<Anchor href="/components/links" className="card">
+  <Heading level={4}>Links</Heading>
+  <Description>Text links, icon links and a plain link base.</Description>
+</Anchor>;
+```
+
+See [Examples](/components/links/anchor/examples) for external and router
+links, disabled links and styling.
+
+---
+
+## API
+
+Import `Anchor` and its props type from `@wondesign/links/Anchor`:
+
+```ts
+import { Anchor, type AnchorProps } from "@wondesign/links/Anchor";
+```
+
+### Props
+
+Accepts all props of the headless
+[Anchor](/components/headless/anchor/api#props). Your `ref` reaches the
+rendered element. Together, the key props are:
+
+```ts
+interface AnchorProps {
+  children?: React.ReactNode;
+
+  href?: string;
+
+  // opens the link in a new tab. defaults to `true` for links to other
+  // sites, and `false` for everything else.
+  openInNewTab?: boolean;
+
+  // turns the link off, and takes it out of the tab order.
+  // defaults to `false`.
+  isDisabled?: boolean;
+
+  // the element to render, like your router's link component.
+  // defaults to `"a"`.
+  as?: React.ElementType;
+
+  ref?: React.Ref<HTMLAnchorElement>;
+
+  // ...
+}
+```
+
+---
+
+## Used By
+
+- 🧩 **[Hyperlink](/components/links/hyperlink)**,
+  **[IconLink](/components/links/icon-link)**
