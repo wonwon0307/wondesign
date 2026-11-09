@@ -1,13 +1,16 @@
 import { AppIcon, type IconName } from "@wondesign/icons";
+import { Spinner } from "@wondesign/loading/Spinner";
 import { clsx } from "clsx";
 
 import { Pressable, type PressableProps } from "@/Pressable";
 import { styles } from "./styles.css";
 
 export type IconButtonProps = Omit<PressableProps, "children"> & {
+  fallback?: React.ReactNode;
+  variant?: "filled" | "outlined" | "ghost";
+  size?: string | number;
   rounded?: boolean;
-  ghost?: boolean;
-  size?: "small" | "medium" | "large";
+  spacious?: boolean;
 } & (
     | {
         children?: never;
@@ -22,18 +25,40 @@ export type IconButtonProps = Omit<PressableProps, "children"> & {
 export function IconButton({
   icon,
   children,
+  fallback,
+  variant = "outlined",
   rounded = false,
-  ghost = false,
-  size = "medium",
+  spacious = false,
+  size = "1em",
+  isLoading = false,
+  "aria-label": ariaLabel,
   className,
   ...rest
-}: IconButtonProps) {
+}: Readonly<IconButtonProps>) {
+  const defaultLabel = icon ? `${icon} icon button` : "icon button";
+
+  const content = icon ? <AppIcon icon={icon} size={size} /> : children;
+
   return (
     <Pressable
       {...rest}
-      className={clsx(styles.iconButton({ rounded, ghost, size }), className)}
+      isLoading={isLoading}
+      className={clsx(
+        styles.iconButton({ variant, rounded, spacious }),
+        className,
+      )}
+      aria-label={ariaLabel ?? defaultLabel}
     >
-      {icon ? <AppIcon icon={icon} /> : children}
+      {isLoading ? (
+        <>
+          <span className={styles.hide}>{content}</span>
+          <span className={styles.overlay}>
+            {fallback ?? <Spinner size={size} />}
+          </span>
+        </>
+      ) : (
+        content
+      )}
     </Pressable>
   );
 }

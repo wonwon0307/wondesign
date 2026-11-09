@@ -1,3 +1,4 @@
+import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 import { mediaQueries, tokens } from "@wondesign/tokens";
 
@@ -8,29 +9,60 @@ const iconButton = recipe({
     alignItems: "center",
     justifyContent: "center",
     padding: tokens.spacing.sm,
-
+    position: "relative",
     borderRadius: tokens.radius.sm,
-    backgroundColor: "transparent",
-    transition: "all 0.3s ease",
     selectors: {
       "&[data-disabled]": {
         opacity: tokens.opacity.disabled,
       },
     },
-    "@media": {
-      [mediaQueries.hoverable]: {
-        selectors: {
-          "&:not([data-disabled]):hover": {
-            backgroundColor: tokens.colors.background,
+  },
+  variants: {
+    variant: {
+      filled: {
+        color: tokens.colors.onPrimary,
+        backgroundColor: tokens.colors.primary,
+        border: `1px solid ${tokens.colors.primary}`,
+        transition: "opacity 0.15s ease",
+        "@media": {
+          [mediaQueries.hoverable]: {
+            selectors: {
+              "&:not([data-disabled], [data-loading]):hover": {
+                opacity: tokens.opacity.hover,
+              },
+            },
           },
         },
       },
-    },
-  },
-  variants: {
-    ghost: {
-      true: {
+      outlined: {
+        color: tokens.colors.textMuted,
         backgroundColor: "transparent",
+        border: `1px solid ${tokens.colors.border}`,
+        transition: "background-color 0.15s ease",
+        "@media": {
+          [mediaQueries.hoverable]: {
+            selectors: {
+              "&:not([data-disabled], [data-loading]):hover": {
+                backgroundColor: tokens.colors.backgroundHighlight,
+              },
+            },
+          },
+        },
+      },
+      ghost: {
+        color: tokens.colors.text,
+        backgroundColor: "transparent",
+        border: `1px solid transparent`,
+        transition: "background-color 0.15s ease, color 0.15s ease",
+        "@media": {
+          [mediaQueries.hoverable]: {
+            selectors: {
+              "&:not([data-disabled], [data-loading]):hover": {
+                backgroundColor: tokens.colors.backgroundHighlight,
+              },
+            },
+          },
+        },
       },
     },
     rounded: {
@@ -38,12 +70,24 @@ const iconButton = recipe({
         borderRadius: tokens.radius.full,
       },
     },
-    size: {
-      small: {},
-      medium: {},
-      large: {},
+    spacious: {
+      true: {
+        padding: tokens.spacing.md,
+      },
     },
   },
 });
 
-export const styles = { iconButton };
+const hide = style({
+  opacity: tokens.opacity.hide,
+});
+
+const overlay = style({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  position: "absolute",
+  inset: 0,
+});
+
+export const styles = { iconButton, hide, overlay };
