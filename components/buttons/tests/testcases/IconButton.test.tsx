@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { IconButton } from "@/Icon";
+import { IconButton } from "@/IconButton/IconButton";
 
 describe("IconButton", () => {
   it("renders children mode correctly", () => {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IconButton } from "@wondesign/buttons/Icon";
+import { IconButton } from "@wondesign/buttons/IconButton";
 import { Pressable, type PressableProps } from "@wondesign/buttons/Pressable";
 import { clsx } from "clsx";
 
@@ -60,7 +60,6 @@ export function CodeWindowCopyButton({
     <IconButton
       {...rest}
       icon={copied ? "check" : "copy-code"}
-      size="medium"
       isDisabled={copied}
       onClick={handleCopy}
       aria-label={copied ? "Copied" : "Copy code"}

@@ -7,8 +7,8 @@ export { Button } from "@wondesign/buttons/Button";
 export type { ButtonProps } from "@wondesign/buttons/Button";
 
 // Icon Button
-export { IconButton } from "@wondesign/buttons/Icon";
-export type { IconButtonProps } from "@wondesign/buttons/Icon";
+export { IconButton } from "@wondesign/buttons/IconButton";
+export type { IconButtonProps } from "@wondesign/buttons/IconButton";
 
 // Link
 export { LinkButton } from "@wondesign/buttons/Link";
