@@ -1,0 +1,80 @@
+import { Hyperlink } from "@wondesign/ui/Links";
+import { Preview } from "@/widgets/preview";
+
+# Hyperlink
+
+`Hyperlink` builds on [Anchor](/components/links/anchor) to render a text
+link, for links within a sentence or a list. It takes the font of the text
+around it, and is underlined on hover. To run an action instead of going to
+another page, use [LinkButton](/components/buttons/link-button) from
+`@wondesign/buttons`.
+
+---
+
+## Key Features
+
+- ✅ **Fits Its Sentence**: Takes the font size and family of the text around it
+- ✅ **Four Appearances**: For plain text, primary text, muted text and colored backgrounds
+- ✅ **Underline Control**: Underlined on hover, always or never
+- ✅ **External Links Handled**: Links to other sites open in a new tab, safely
+- ✅ **Router Friendly**: Render your router's link component, with all the same behaviour
+
+<Preview>
+  <p>
+    {"Read the "}
+    <Hyperlink href="#">{"links overview"}</Hyperlink>
+    {" before you start."}
+  </p>
+</Preview>
+
+```tsx
+import { Hyperlink } from "@wondesign/links/Hyperlink";
+
+<p>
+  Read the <Hyperlink href="/components/links">links overview</Hyperlink>{" "}
+  before you start.
+</p>;
+```
+
+See [Examples](/components/links/hyperlink/examples) for appearances,
+underlines, disabled links and styling.
+
+---
+
+## API
+
+Import `Hyperlink` and its props type from `@wondesign/links/Hyperlink`:
+
+```ts
+import { Hyperlink, type HyperlinkProps } from "@wondesign/links/Hyperlink";
+```
+
+### Props
+
+Accepts all props of [Anchor](/components/links/anchor#props), plus its own
+`appearance` and `underline`. Together, the key props are:
+
+```ts
+interface HyperlinkProps {
+  // the label.
+  children: React.ReactNode;
+
+  // the color. defaults to `"default"`.
+  appearance?: "default" | "primary" | "muted" | "inherit";
+
+  // when it's underlined. defaults to `"hover"`.
+  // always `"always"` when `appearance` is `"inherit"`.
+  underline?: "hover" | "always" | "none";
+
+  href?: string;
+  isDisabled?: boolean; // defaults to `false`
+
+  // ...
+}
+```
+
+---
+
+## Upcoming Features
+
+- 🔜 **New Tab Hint**: Tell screen reader users when a link opens in a new tab, in your own wording, with an optional mark of your choice for sighted users
