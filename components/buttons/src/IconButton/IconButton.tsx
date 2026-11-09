@@ -2,12 +2,12 @@ import { AppIcon, type IconName } from "@wondesign/icons";
 import { Spinner } from "@wondesign/loading/Spinner";
 import { clsx } from "clsx";
 
-import { Pressable, type PressableProps } from "@/Pressable";
+import { Pressable, type PressableProps } from "@/Pressable/Pressable";
 import { styles } from "./styles.css";
 
 export type IconButtonProps = Omit<PressableProps, "children"> & {
   fallback?: React.ReactNode;
-  variant?: "filled" | "outlined" | "ghost";
+  appearance?: "filled" | "outlined" | "ghost";
   size?: string | number;
   rounded?: boolean;
   spacious?: boolean;
@@ -26,7 +26,7 @@ export function IconButton({
   icon,
   children,
   fallback,
-  variant = "outlined",
+  appearance = "outlined",
   rounded = false,
   spacious = false,
   size = "1em",
@@ -44,7 +44,7 @@ export function IconButton({
       {...rest}
       isLoading={isLoading}
       className={clsx(
-        styles.iconButton({ variant, rounded, spacious }),
+        styles.iconButton({ appearance, rounded, spacious }),
         className,
       )}
       aria-label={ariaLabel ?? defaultLabel}

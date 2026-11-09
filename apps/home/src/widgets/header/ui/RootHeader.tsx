@@ -44,7 +44,8 @@ export function RootHeader() {
           >
             <IconLink
               href="https://github.com/wonwon0307/wondesign"
-              openInNewTab
+              appearance="ghost"
+              aria-label="GitHub"
             >
               <GithubLogo />
             </IconLink>

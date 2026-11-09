@@ -21,7 +21,7 @@ const iconButton = recipe({
     },
   },
   variants: {
-    variant: {
+    appearance: {
       filled: {
         color: tokens.colors.onPrimary,
         backgroundColor: tokens.colors.primary,

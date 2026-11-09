@@ -11,7 +11,7 @@ export interface ButtonProps extends Omit<PressableProps, "children"> {
   outlined?: boolean;
   fill?: boolean;
   fallback?: React.ReactNode;
-  fallbackVariant?: "left" | "replace";
+  fallbackPosition?: "left" | "replace";
   left?: React.ReactNode;
   right?: React.ReactNode;
 }
@@ -25,7 +25,7 @@ export function Button({
   isDisabled = false,
   isLoading = false,
   fallback = <Spinner />,
-  fallbackVariant = "replace",
+  fallbackPosition = "replace",
   left,
   right,
   className,
@@ -34,7 +34,7 @@ export function Button({
   const finalVariant =
     `${variant}-${outlined ? "outlined" : "filled"}` as const;
 
-  const isReplacing = fallbackVariant === "replace" && isLoading;
+  const isReplacing = fallbackPosition === "replace" && isLoading;
 
   return (
     <Pressable
@@ -50,7 +50,7 @@ export function Button({
         className,
       )}
     >
-      {fallbackVariant === "left" && isLoading ? (
+      {fallbackPosition === "left" && isLoading ? (
         fallback
       ) : (
         <Slot isReplacing={isReplacing}>{left}</Slot>

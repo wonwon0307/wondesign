@@ -1,0 +1,62 @@
+---
+title: Links
+description: Styled React links built on the headless Anchor, from a plain link base to text links and icon links.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/links" relPath="components/links">
+  `@wondesign/links` comes with a plain link base, and styled links built on
+  it, like text links and icon links. Each component renders an `<a>` that
+  opens other sites in a new tab and works with your router, with its styles
+  already applied.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/links
+```
+
+<Callout variant="warning" title="Requires React 19.2">
+  `@wondesign/links` needs React 19.2 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **External Links Handled**: Links to other sites open in a new tab, safely
+- ✅ **Router Friendly**: Render your router's link component, with all the same behaviour
+- ✅ **Disabled State**: A link that can't be followed or focused
+- ✅ **Consistent Focus**: The same focus outline as the buttons in `@wondesign/buttons`
+- ✅ **Styleable**: Your `className` and `style` are applied on top of the defaults
+
+---
+
+## Components
+
+All of the components are built on the
+[Headless Anchor](/components/headless/anchor), and are styled based on
+`@wondesign/tokens`.
+
+- ⭐ **[Anchor](/components/links/anchor)** — wraps anything you want to
+  link, like a card or an image. It only adds the bare-minimum styles, a
+  focus outline and a disabled cursor, so your content keeps its own look.
+- ⭐ **[Hyperlink](/components/links/hyperlink)** — a text link, for links
+  within a sentence or a list.
+- ⭐ **[IconLink](/components/links/icon-link)** — a compact link with a
+  single icon.
+- ⭐ **[FormLink](/components/links/form-link)** — a link that looks like a
+  button, for going to another page, like "Sign up" or "Back".
+
+---
+
+## Upcoming Features
+
+- 🔜 **SkipLink**: A "Skip to content" link that only appears when focused with the keyboard
+- 🔜 **Breadcrumbs**: A trail of links from the home page to the current one
+- 🔜 **LinkOverlay**: Make a whole card a link, while the links inside it still work

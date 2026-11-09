@@ -8,29 +8,59 @@ const iconlink = recipe({
     alignItems: "center",
     justifyContent: "center",
     padding: tokens.spacing.sm,
-
     borderRadius: tokens.radius.sm,
-    backgroundColor: "transparent",
-    transition: "background-color 0.15s ease, color 0.15s ease",
     selectors: {
       "&[data-disabled]": {
         opacity: tokens.opacity.disabled,
       },
     },
-    "@media": {
-      [mediaQueries.hoverable]: {
-        selectors: {
-          "&:not([data-disabled]):hover": {
-            backgroundColor: tokens.colors.backgroundHighlight,
+  },
+  variants: {
+    appearance: {
+      filled: {
+        color: tokens.colors.onPrimary,
+        backgroundColor: tokens.colors.primary,
+        border: `1px solid ${tokens.colors.primary}`,
+        transition: "opacity 0.15s ease",
+        "@media": {
+          [mediaQueries.hoverable]: {
+            selectors: {
+              "&:not([data-disabled]):hover": {
+                opacity: tokens.opacity.hover,
+              },
+            },
           },
         },
       },
-    },
-  },
-  variants: {
-    ghost: {
-      true: {
+      outlined: {
+        color: tokens.colors.textMuted,
         backgroundColor: "transparent",
+        border: `1px solid ${tokens.colors.border}`,
+        transition: "background-color 0.15s ease",
+        "@media": {
+          [mediaQueries.hoverable]: {
+            selectors: {
+              "&:not([data-disabled]):hover": {
+                backgroundColor: tokens.colors.backgroundHighlight,
+              },
+            },
+          },
+        },
+      },
+      ghost: {
+        color: tokens.colors.text,
+        backgroundColor: "transparent",
+        border: `1px solid transparent`,
+        transition: "background-color 0.15s ease, color 0.15s ease",
+        "@media": {
+          [mediaQueries.hoverable]: {
+            selectors: {
+              "&:not([data-disabled]):hover": {
+                backgroundColor: tokens.colors.backgroundHighlight,
+              },
+            },
+          },
+        },
       },
     },
     rounded: {
@@ -38,14 +68,8 @@ const iconlink = recipe({
         borderRadius: tokens.radius.full,
       },
     },
-    size: {
-      small: {
-        padding: tokens.spacing.xs,
-      },
-      medium: {
-        padding: tokens.spacing.sm,
-      },
-      large: {
+    spacious: {
+      true: {
         padding: tokens.spacing.md,
       },
     },

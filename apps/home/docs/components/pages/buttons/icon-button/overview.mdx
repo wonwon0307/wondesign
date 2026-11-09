@@ -5,7 +5,9 @@ import { Preview } from "@/widgets/preview";
 
 `IconButton` builds on [Pressable](/components/buttons/pressable) to render a
 compact button with a single icon, like a copy or close button. Pass an icon
-name from [`@wondesign/icons`](/components/icons), or your own content.
+name from [`@wondesign/icons`](/components/icons), or your own content. To go
+to another page instead, like a link to GitHub, use
+[IconLink](/components/links/icon-link) from `@wondesign/links`.
 
 ---
 
@@ -13,15 +15,15 @@ name from [`@wondesign/icons`](/components/icons), or your own content.
 
 - ✅ **Built-in Icons**: Pass an icon name, and the icon is rendered for you
 - ✅ **Your Own Content**: Or pass any content, like your own icon
-- ✅ **Three Variants**: Filled, outlined or ghost, for how much the button stands out
+- ✅ **Three Appearances**: Filled, outlined or ghost, for how much the button stands out
 - ✅ **Any Size**: Follows the text around it, or takes the size you set
 - ✅ **Rounded or Spacious**: Make the button a circle, or give the icon more room
 - ✅ **Loading Spinner**: Shows a spinner while loading, without changing the button's size
 
 <Preview orientation="horizontal">
-  <IconButton icon="copy" variant="filled" aria-label="Copy" />
-  <IconButton icon="copy" variant="outlined" aria-label="Copy" />
-  <IconButton icon="copy" variant="ghost" aria-label="Copy" />
+  <IconButton icon="copy" appearance="filled" aria-label="Copy" />
+  <IconButton icon="copy" appearance="outlined" aria-label="Copy" />
+  <IconButton icon="copy" appearance="ghost" aria-label="Copy" />
 </Preview>
 
 ```tsx
@@ -31,7 +33,7 @@ import { IconButton } from "@wondesign/buttons/IconButton";
 ```
 
 See [Examples](/components/buttons/icon-button/examples) for icons,
-variants, sizes, rounded and spacious buttons, loading and styling.
+appearances, sizes, rounded and spacious buttons, loading and styling.
 
 ---
 
@@ -49,14 +51,14 @@ import {
 ### Props
 
 Accepts all props of [Pressable](/components/buttons/pressable#props), plus
-its own `variant`, `size`, `rounded`, `spacious` and `fallback`, and either
+its own `appearance`, `size`, `rounded`, `spacious` and `fallback`, and either
 `icon` or `children`.
-Passing both is a type error. Together, the key props are:
+**Passing both is a type error.** Together, the key props are:
 
 ```ts
 type IconButtonProps = {
   // the look. defaults to `"outlined"`.
-  variant?: "filled" | "outlined" | "ghost";
+  appearance?: "filled" | "outlined" | "ghost";
 
   // the size of the icon. any CSS length, or a number in pixels.
   // defaults to `"1em"`. ignored with `children`.

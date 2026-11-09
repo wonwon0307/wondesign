@@ -5,7 +5,10 @@ import { Preview } from "@/widgets/preview";
 
 `Button` builds on [Pressable](/components/buttons/pressable) to render a
 labelled button, like "Save" or "Delete". Pick a `variant` for the kind of
-action, and a `size` for where it sits.
+action, and a `size` for where it sits. To go to another page instead, like
+"Sign up", "Back" or "Withdraw", use
+[FormLink](/components/links/form-link) from `@wondesign/links`, not
+`Button`.
 
 ---
 
@@ -49,7 +52,7 @@ import { Button, type ButtonProps } from "@wondesign/buttons/Button";
 
 Accepts all props of [Pressable](/components/buttons/pressable#props), plus
 its own `variant`, `size`, `outlined`, `fill`, `left`, `right`, `fallback`
-and `fallbackVariant`. Together, the key props are:
+and `fallbackPosition`. Together, the key props are:
 
 ```ts
 interface ButtonProps {
@@ -82,7 +85,7 @@ interface ButtonProps {
 
   // where the fallback goes while loading: in place of the label, or in
   // place of the `left` content. defaults to `"replace"`.
-  fallbackVariant?: "replace" | "left";
+  fallbackPosition?: "replace" | "left";
 
   // ...
 }

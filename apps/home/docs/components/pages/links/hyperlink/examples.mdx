@@ -1,0 +1,166 @@
+import { Hyperlink } from "@wondesign/ui/Links";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `Hyperlink`, from picking a color to fitting it into your
+own design. Each example shows the rendered result, followed by its code.
+**Every link on this page takes you to the top of the page.**
+
+---
+
+## Appearances
+
+The `appearance` property sets the color. `"default"` is the default:
+
+- 🎨 **`"default"`**: the classic link color, for links in body text.
+- 🎨 **`"primary"`**: the primary color, to match the rest of your design.
+- 🎨 **`"muted"`**: the muted text color, for less important links, like in
+  a footer.
+- 🎨 **`"inherit"`**: the color of the text around it, for colored
+  surfaces like banners and dark footers.
+
+<Preview>
+  <p>
+    {"Read our "}
+    <Hyperlink href="#">{"privacy policy"}</Hyperlink>
+    {" before you sign up."}
+  </p>
+  <p>
+    {"New here? "}
+    <Hyperlink href="#" appearance="primary">
+      {"Create an account"}
+    </Hyperlink>
+    {" to get started."}
+  </p>
+  <p>
+    {"Something wrong? "}
+    <Hyperlink href="#" appearance="muted">
+      {"Contact support"}
+    </Hyperlink>
+    {"."}
+  </p>
+</Preview>
+
+```tsx
+<Hyperlink href="/privacy">privacy policy</Hyperlink>
+<Hyperlink href="/signup" appearance="primary">Create an account</Hyperlink>
+<Hyperlink href="/support" appearance="muted">Contact support</Hyperlink>
+```
+
+Use `"inherit"` on a colored surface, like an error banner. It's always
+underlined, since the underline is the only thing that shows it's a link:
+
+<Preview>
+  <p
+    style={{
+      padding: "var(--spacing-md)",
+      borderRadius: "var(--radius-sm)",
+      color: "var(--color-text-inverted)",
+      backgroundColor: "var(--color-error)",
+    }}
+  >
+    {"Payment failed. "}
+    <Hyperlink href="#" appearance="inherit">
+      {"Update your card"}
+    </Hyperlink>
+  </p>
+</Preview>
+
+```tsx
+<Hyperlink href="/billing" appearance="inherit">
+  Update your card
+</Hyperlink>
+```
+
+- 📌 **`underline` is ignored with `"inherit"`.**
+
+---
+
+## Underline
+
+The `underline` property sets when the link is underlined. `"hover"` is the
+default:
+
+- 📏 **`"hover"`**: underlined while the pointer is over it.
+- 📏 **`"always"`**: always underlined, for links within body text.
+- 📏 **`"none"`**: never underlined, for links that are clearly links, like
+  in a navigation or a footer.
+
+<Preview>
+  <p>
+    {"See the "}
+    <Hyperlink href="#">{"installation guide"}</Hyperlink>
+    {" to set it up."}
+  </p>
+  <p>
+    {"The "}
+    <Hyperlink href="#" underline="always">
+      {"release notes"}
+    </Hyperlink>
+    {" list every change in this version."}
+  </p>
+  <p>
+    {"Follow us on "}
+    <Hyperlink href="#" underline="none">
+      {"GitHub"}
+    </Hyperlink>
+    {"."}
+  </p>
+</Preview>
+
+```tsx
+<Hyperlink href="/install">installation guide</Hyperlink>
+<Hyperlink href="/changelog" underline="always">release notes</Hyperlink>
+<Hyperlink href="https://github.com/wonwon0307" underline="none">GitHub</Hyperlink>
+```
+
+---
+
+## Disabled
+
+Pass `isDisabled` to turn the link off. It can't be followed, leaves the tab
+order, fades, and isn't underlined on hover:
+
+<Preview>
+  <p>
+    {"Your invoices are in "}
+    <Hyperlink href="#">{"Billing"}</Hyperlink>
+    {"."}
+  </p>
+  <p>
+    {"Your invoices are in "}
+    <Hyperlink href="#" isDisabled>
+      {"Billing"}
+    </Hyperlink>
+    {", once your plan is active."}
+  </p>
+</Preview>
+
+```tsx
+<Hyperlink href="/billing">Billing</Hyperlink>
+<Hyperlink href="/billing" isDisabled>Billing</Hyperlink>
+```
+
+---
+
+## Styling
+
+When a single link needs to look different, change it with `className` or
+`style`, like a lighter font weight:
+
+<Preview>
+  <p>
+    {"Read the "}
+    <Hyperlink href="#" style={{ fontWeight: "normal" }}>
+      {"full article"}
+    </Hyperlink>
+    {" for more."}
+  </p>
+</Preview>
+
+```tsx
+<Hyperlink href="/posts/42" style={{ fontWeight: "normal" }}>
+  full article
+</Hyperlink>
+```

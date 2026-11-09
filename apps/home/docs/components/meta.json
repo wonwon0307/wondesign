@@ -62,6 +62,17 @@
         "[Icons](/icons)",
         {
           "type": "link",
+          "label": "Links",
+          "url": "/links",
+          "items": [
+            "[Anchor](/links/anchor)",
+            "[Hyperlink](/links/hyperlink)",
+            "[IconLink](/links/icon-link)",
+            "[FormLink](/links/form-link)"
+          ]
+        },
+        {
+          "type": "link",
           "label": "Loading",
           "url": "/loading",
           "items": [

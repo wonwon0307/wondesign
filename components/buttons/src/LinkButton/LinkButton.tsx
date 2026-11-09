@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 
-import { Pressable, type PressableProps } from "@/Pressable";
+import { Pressable, type PressableProps } from "@/Pressable/Pressable";
 import { styles } from "./styles.css";
 
 export interface LinkButtonProps extends Omit<PressableProps, "children"> {

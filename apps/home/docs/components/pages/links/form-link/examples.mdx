@@ -1,0 +1,153 @@
+import { FormLink } from "@wondesign/ui/Links";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+Common ways to use `FormLink`, from picking a variant to fitting it into
+your own design. Each example shows the rendered result, followed by its
+code. **Every link on this page takes you to the top of the page.**
+
+---
+
+## Variants
+
+The `variant` property sets the colors. It's `"primary"` by default:
+
+<Preview orientation="horizontal">
+  <FormLink variant="primary" href="#">
+    {"Sign up"}
+  </FormLink>
+  <FormLink variant="secondary" href="#">
+    {"Back"}
+  </FormLink>
+  <FormLink variant="destructive" href="#">
+    {"Withdraw"}
+  </FormLink>
+</Preview>
+
+```tsx
+<FormLink variant="primary" href="/signup">Sign up</FormLink>
+<FormLink variant="secondary" href="/">Back</FormLink>
+<FormLink variant="destructive" href="/account/withdraw">Withdraw</FormLink>
+```
+
+---
+
+## Outlined
+
+Pass `outlined` to swap the solid background for a border:
+
+<Preview orientation="horizontal">
+  <FormLink variant="primary" outlined href="#">
+    {"Sign up"}
+  </FormLink>
+  <FormLink variant="secondary" outlined href="#">
+    {"Back"}
+  </FormLink>
+  <FormLink variant="destructive" outlined href="#">
+    {"Withdraw"}
+  </FormLink>
+</Preview>
+
+```tsx
+<FormLink variant="primary" outlined href="/signup">Sign up</FormLink>
+<FormLink variant="secondary" outlined href="/">Back</FormLink>
+<FormLink variant="destructive" outlined href="/account/withdraw">Withdraw</FormLink>
+```
+
+---
+
+## Sizes
+
+The `size` property sets the font size and the padding. It's `"medium"` by
+default:
+
+<Preview orientation="horizontal">
+  <FormLink size="small" href="#">
+    {"Sign up"}
+  </FormLink>
+  <FormLink size="medium" href="#">
+    {"Sign up"}
+  </FormLink>
+  <FormLink size="large" href="#">
+    {"Sign up"}
+  </FormLink>
+</Preview>
+
+```tsx
+<FormLink size="small" href="/signup">Sign up</FormLink>
+<FormLink size="medium" href="/signup">Sign up</FormLink>
+<FormLink size="large" href="/signup">Sign up</FormLink>
+```
+
+### Fill
+
+Pass `fill` to make the link as wide as its container (`100%`), like the
+links at the bottom of a form. Links in the same row share the width, and
+they line up with a filled [Button](/components/buttons/button):
+
+<Preview orientation="horizontal">
+  <FormLink fill variant="secondary" outlined href="#">
+    {"Back"}
+  </FormLink>
+  <FormLink fill href="#">
+    {"Sign up"}
+  </FormLink>
+</Preview>
+
+```tsx
+<div style={{ display: "flex", gap: "var(--spacing-md)" }}>
+  <FormLink fill variant="secondary" outlined href="/">
+    Back
+  </FormLink>
+  <FormLink fill href="/signup">
+    Sign up
+  </FormLink>
+</div>
+```
+
+---
+
+## Disabled
+
+Pass `isDisabled` to turn the link off. It can't be followed, leaves the tab
+order, and fades:
+
+<Preview orientation="horizontal">
+  <FormLink isDisabled href="#">
+    {"Sign up"}
+  </FormLink>
+  <FormLink variant="secondary" outlined isDisabled href="#">
+    {"Back"}
+  </FormLink>
+</Preview>
+
+```tsx
+<FormLink isDisabled href="/signup">Sign up</FormLink>
+<FormLink variant="secondary" outlined isDisabled href="/">Back</FormLink>
+```
+
+---
+
+## Styling
+
+When a single link needs to look different, change it with `className` or
+`style`, like a fully rounded link:
+
+<Preview>
+  <FormLink style={{ borderRadius: "999px" }} href="#">
+    {"Sign up"}
+  </FormLink>
+</Preview>
+
+```tsx
+<FormLink style={{ borderRadius: "999px" }} href="/signup">Sign up</FormLink>
+
+<FormLink className="pill" href="/signup">Sign up</FormLink>
+```
+
+```css
+.pill {
+  border-radius: 999px;
+}
+```
