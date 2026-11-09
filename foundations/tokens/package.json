@@ -1,7 +1,7 @@
 {
   "name": "@wondesign/tokens",
   "description": "Wondesign - Tokens",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": false,
   "type": "module",
   "keywords": [

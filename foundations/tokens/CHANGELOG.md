@@ -1,5 +1,11 @@
 # @wondesign/tokens
 
+## 0.1.3
+
+### Patch Changes
+
+- [#126](https://github.com/wonwon0307/wondesign/pull/126) [`2ec1ae0`](https://github.com/wonwon0307/wondesign/commit/2ec1ae078c7c76f119b0f1dfbbe11be95d032583) Thanks [@wonwon0307](https://github.com/wonwon0307)! - The `pending` opacity token now defaults to `0.75`, up from `0.6`.
+
 ## 0.1.2
 
 ### Patch Changes
