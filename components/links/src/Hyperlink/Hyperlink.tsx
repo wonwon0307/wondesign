@@ -14,17 +14,17 @@ export function Hyperlink({
   appearance = "default",
   underline = "hover",
   className,
-  ...props
+  ...rest
 }: Readonly<HyperlinkProps>) {
   const finalUnderline = appearance === "inherit" ? "always" : underline;
 
   return (
     <Anchor
+      {...rest}
       className={clsx(
         styles.link({ appearance, underline: finalUnderline }),
         className,
       )}
-      {...props}
     >
       {children}
     </Anchor>
