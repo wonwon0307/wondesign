@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { mediaQueries, tokens } from "@wondesign/tokens";
+import { tokens } from "@wondesign/tokens";
 
 const anchor = style({
   cursor: "pointer",
@@ -8,17 +8,7 @@ const anchor = style({
       cursor: "not-allowed",
     },
     "&:focus-visible": {
-      textDecoration: "underline",
-      textDecorationColor: tokens.colors.primary,
-    },
-  },
-  "@media": {
-    [mediaQueries.hoverable]: {
-      selectors: {
-        "&:not([data-disabled]):hover": {
-          textDecorationColor: tokens.colors.primary,
-        },
-      },
+      outline: `2px solid ${tokens.colors.primary}`,
     },
   },
 });
