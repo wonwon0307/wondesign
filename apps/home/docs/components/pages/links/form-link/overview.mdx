@@ -1,0 +1,83 @@
+import { FormLink } from "@wondesign/ui/Links";
+import { Preview } from "@/widgets/preview";
+
+# FormLink
+
+`FormLink` builds on [Anchor](/components/links/anchor) to render a link
+that looks like a [Button](/components/buttons/button), for going to another
+page, like "Sign up", "Back" or "Withdraw". Pick a `variant` for the kind of
+destination, and a `size` for where it sits. To run an action instead, like
+"Save" or "Delete", use [Button](/components/buttons/button) from
+`@wondesign/buttons`.
+
+---
+
+## Key Features
+
+- ✅ **Three Variants**: Primary, secondary and destructive, for the kind of destination
+- ✅ **Filled or Outlined**: A solid background, or a border for less prominent links
+- ✅ **Three Sizes**: Small, medium and large, or as wide as its container
+- ✅ **Matches Button**: The same look as `Button`, so links and buttons sit side by side
+- ✅ **Disabled State**: A link that can't be followed or focused
+
+<Preview orientation="horizontal">
+  <FormLink variant="primary" href="#">
+    {"Sign up"}
+  </FormLink>
+  <FormLink variant="secondary" href="#">
+    {"Back"}
+  </FormLink>
+  <FormLink variant="destructive" href="#">
+    {"Withdraw"}
+  </FormLink>
+</Preview>
+
+```tsx
+import { FormLink } from "@wondesign/links/FormLink";
+
+<FormLink variant="primary" href="/signup">Sign up</FormLink>
+<FormLink variant="secondary" href="/">Back</FormLink>
+<FormLink variant="destructive" href="/account/withdraw">Withdraw</FormLink>
+```
+
+See [Examples](/components/links/form-link/examples) for variants, sizes,
+disabled links and styling.
+
+---
+
+## API
+
+Import `FormLink` and its props type from `@wondesign/links/FormLink`:
+
+```ts
+import { FormLink, type FormLinkProps } from "@wondesign/links/FormLink";
+```
+
+### Props
+
+Accepts all props of [Anchor](/components/links/anchor#props), plus its own
+`variant`, `size`, `outlined` and `fill`. Together, the key props are:
+
+```ts
+interface FormLinkProps {
+  // the label.
+  children: React.ReactNode;
+
+  // the colors. defaults to `"primary"`.
+  variant?: "primary" | "secondary" | "destructive";
+
+  // the font size and padding. defaults to `"medium"`.
+  size?: "small" | "medium" | "large";
+
+  // a border instead of a solid background. defaults to `false`.
+  outlined?: boolean;
+
+  // as wide as its container. defaults to `false`.
+  fill?: boolean;
+
+  href?: string;
+  isDisabled?: boolean; // defaults to `false`
+
+  // ...
+}
+```
