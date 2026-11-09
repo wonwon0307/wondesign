@@ -2,10 +2,6 @@ import { render } from "@testing-library/react";
 
 import { Button } from "@/Button";
 
-vi.mock("@wondesign/loading/Spinner", () => ({
-  Spinner: () => <span data-testid="spinner">Spinner</span>,
-}));
-
 describe("Button", () => {
   it("renders all variants correctly", () => {
     const { getByText } = render(
