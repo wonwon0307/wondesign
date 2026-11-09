@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { Button } from "@/Button";
+import { Button } from "@/Button/Button";
 
 describe("Button", () => {
   it("renders all variants correctly", () => {
