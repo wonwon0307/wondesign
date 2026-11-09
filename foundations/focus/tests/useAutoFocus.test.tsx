@@ -105,4 +105,22 @@ describe("useAutoFocus", () => {
     fireEvent.click(trigger);
     expect(document.activeElement).toBe(trigger);
   });
+
+  it("does not return focus if there was no previous active element", () => {
+    const { getByTestId } = render(<TestComponent />);
+
+    const trigger = getByTestId("trigger");
+    const activeElementSpy = vi
+      .spyOn(document, "activeElement", "get")
+      .mockReturnValue(null);
+
+    fireEvent.click(trigger);
+    activeElementSpy.mockRestore();
+
+    const content = getByTestId("content");
+    expect(document.activeElement).toBe(content);
+
+    fireEvent.click(trigger);
+    expect(document.activeElement).toBe(document.body);
+  });
 });
