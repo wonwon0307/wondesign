@@ -1,5 +1,6 @@
 export interface AlertOptions {
   closeText?: string;
+  tone?: "primary" | "secondary" | "destructive";
 }
 
 export type AlertItem = {
@@ -8,6 +9,7 @@ export type AlertItem = {
   title: string;
   message: string;
   closeText: string;
+  tone: "primary" | "secondary" | "destructive";
 };
 
 export interface AlertComponentProps {

@@ -6,7 +6,7 @@ let counter = 0;
 export function showAlert(
   title: string,
   message: string,
-  { closeText }: AlertOptions = {},
+  { closeText, tone = "secondary" }: AlertOptions = {},
 ): Promise<void> {
   return new Promise((resolve) => {
     enqueue(
@@ -16,6 +16,7 @@ export function showAlert(
         title,
         message,
         closeText,
+        tone,
       },
       () => resolve(),
     );

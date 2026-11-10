@@ -25,7 +25,7 @@ export function Alert({ alert, closeAlert }: Readonly<AlertComponentProps>) {
         </HeadlessAlert.Message>
         <div className={styles.buttons}>
           <HeadlessAlert.Close asChild>
-            <Button variant="secondary">{alert.closeText}</Button>
+            <Button variant={alert.tone}>{alert.closeText}</Button>
           </HeadlessAlert.Close>
         </div>
       </HeadlessAlert.Content>
