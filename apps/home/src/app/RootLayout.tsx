@@ -6,8 +6,8 @@ import {
 } from "next/font/google";
 import { headers } from "next/headers";
 import { Alerter } from "@wondesign/ui/Alert";
-import { LightDarkProvider } from "@wondesign/ui/theme";
 import { LightDarkScript } from "@wondesign/ui/server";
+import { LightDarkProvider } from "@wondesign/ui/theme";
 import { wondesignTokenVariables } from "@wondesign/ui/tokens";
 import { clsx } from "clsx";
 
