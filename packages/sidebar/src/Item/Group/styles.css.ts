@@ -5,6 +5,7 @@ import { mediaQueries, tokens } from "@wondesign/tokens";
 const group = style({
   display: "flex",
   flexDirection: "column",
+  padding: `${tokens.spacing.sm} 0`,
   gap: tokens.spacing.xs,
 });
 
@@ -99,6 +100,7 @@ const subitems = recipe({
   base: {
     display: "flex",
     flexDirection: "column",
+    paddingLeft: tokens.spacing.md,
     gap: tokens.spacing.sm,
     selectors: {
       "&[data-state='closed']:not([data-force-visible])": {
