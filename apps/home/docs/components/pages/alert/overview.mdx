@@ -186,7 +186,6 @@ type ConfirmOptions = {
   onConfirm?: () => void | Promise<void>;
 
   // called when `onConfirm` throws or rejects. the confirm stays open.
-  // not awaited.
   onConfirmError?: (error: unknown) => void;
 
   // the cancel button's text. defaults to `Alerter`'s `cancelText`, or `"Cancel"`.
