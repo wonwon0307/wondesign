@@ -11,7 +11,8 @@ the [API tab](/components/headless/alert/api).
 ## Running an Action
 
 Every close button closes the alert, **including the one that confirms**. Run
-the action itself in `onClick`:
+the action itself in `onClick`. You don't need to close the alert yourself:
+`Alert.Close` does it after `onClick`.
 
 ```tsx
 <Alert.Close>Cancel</Alert.Close>
