@@ -6,11 +6,7 @@ import { Heading } from "@wondesign/texts/Heading";
 import { styles } from "./styles.css";
 import type { AlertComponentProps } from "./types";
 
-export function Alert({
-  alert,
-  closeAlert,
-  closeText,
-}: Readonly<AlertComponentProps>) {
+export function Alert({ alert, closeAlert }: Readonly<AlertComponentProps>) {
   const onOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
       closeAlert();
@@ -29,7 +25,7 @@ export function Alert({
         </HeadlessAlert.Message>
         <div className={styles.buttons}>
           <HeadlessAlert.Close asChild>
-            <Button variant="secondary">{alert.closeText ?? closeText}</Button>
+            <Button variant="secondary">{alert.closeText}</Button>
           </HeadlessAlert.Close>
         </div>
       </HeadlessAlert.Content>

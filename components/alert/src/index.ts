@@ -4,11 +4,11 @@ export { showAlert, showConfirm } from "./api";
 export { dismissAll as dismissAlerts } from "./store";
 
 export type {
-  AlertComponentProps,
-  AlertObject,
   AlertOptions,
-  ConfirmComponentProps,
-  ConfirmObject,
+  AlertItem,
+  AlertComponentProps,
   ConfirmOptions,
+  ConfirmItem,
+  ConfirmComponentProps,
   AlerterProps,
 } from "./types";

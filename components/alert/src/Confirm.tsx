@@ -10,8 +10,6 @@ import type { ConfirmComponentProps } from "./types";
 export function Confirm({
   confirm,
   closeConfirm,
-  confirmText,
-  cancelText,
 }: Readonly<ConfirmComponentProps>) {
   const [isPending, setIsPending] = useState<boolean>(false);
 
@@ -48,7 +46,7 @@ export function Confirm({
         <div className={styles.buttons}>
           <HeadlessAlert.Close asChild>
             <Button variant="secondary" isDisabled={isPending}>
-              {confirm.cancelText ?? cancelText}
+              {confirm.cancelText}
             </Button>
           </HeadlessAlert.Close>
           <HeadlessAlert.Close asChild onClick={onConfirm}>
@@ -56,7 +54,7 @@ export function Confirm({
               variant={confirm.isDestructive ? "destructive" : "primary"}
               isLoading={isPending}
             >
-              {confirm.confirmText ?? confirmText}
+              {confirm.confirmText}
             </Button>
           </HeadlessAlert.Close>
         </div>

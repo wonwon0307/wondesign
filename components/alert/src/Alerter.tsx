@@ -1,4 +1,4 @@
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useSyncExternalStore } from "react";
 
 import { Alert } from "./Alert";
 import { Confirm } from "./Confirm";
@@ -14,34 +14,45 @@ export function Alerter({
 }: Readonly<AlerterProps>) {
   const item = useSyncExternalStore(subscribe, getSnapshot, () => null);
 
+  const stableItem = useMemo(() => {
+    if (!item) return null;
+
+    if (item.type === "alert") {
+      return { ...item, closeText: item.closeText ?? closeText };
+    }
+
+    return {
+      ...item,
+      confirmText: item.confirmText ?? confirmText,
+      cancelText: item.cancelText ?? cancelText,
+    };
+  }, [item, closeText, confirmText, cancelText]);
+
   useEffect(() => {
     return () => {
       dismissAll();
     };
   }, []);
 
-  if (!item) {
+  if (!stableItem) {
     return null;
   }
 
-  if (item.type === "alert") {
+  if (stableItem.type === "alert") {
     return (
       <AlertComponent
-        key={item.id}
-        alert={item}
-        closeAlert={() => respond(item.id, true)}
-        closeText={closeText}
+        key={stableItem.id}
+        alert={stableItem}
+        closeAlert={() => respond(stableItem.id, true)}
       />
     );
   }
 
   return (
     <ConfirmComponent
-      key={item.id}
-      confirm={item}
-      closeConfirm={(v) => respond(item.id, v)}
-      confirmText={confirmText}
-      cancelText={cancelText}
+      key={stableItem.id}
+      confirm={stableItem}
+      closeConfirm={(v) => respond(stableItem.id, v)}
     />
   );
 }

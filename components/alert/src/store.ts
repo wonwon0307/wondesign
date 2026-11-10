@@ -1,4 +1,11 @@
-import type { AlerterObject } from "./types";
+import type { AlertItem, ConfirmItem } from "./types";
+
+type AlertObject = Omit<AlertItem, "closeText"> & { closeText?: string };
+type ConfirmObject = Omit<ConfirmItem, "confirmText" | "cancelText"> & {
+  confirmText?: string;
+  cancelText?: string;
+};
+type AlerterObject = AlertObject | ConfirmObject;
 
 let queue: AlerterObject[] = [];
 const resolvers = new Map<number, (value: boolean) => void>();

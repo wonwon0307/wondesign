@@ -2,17 +2,17 @@ export interface AlertOptions {
   closeText?: string;
 }
 
-export interface AlertObject extends AlertOptions {
+export type AlertItem = {
   type: "alert";
   id: number;
   title: string;
   message: string;
-}
+  closeText: string;
+};
 
 export interface AlertComponentProps {
-  alert: AlertObject;
+  alert: AlertItem;
   closeAlert: () => void;
-  closeText: string;
 }
 
 export interface ConfirmOptions {
@@ -23,19 +23,21 @@ export interface ConfirmOptions {
   isDestructive?: boolean;
 }
 
-export interface ConfirmObject extends Omit<ConfirmOptions, "isDestructive"> {
+export type ConfirmItem = {
   type: "confirm";
   id: number;
   title: string;
   message: string;
-  isDestructive: boolean;
-}
-
-export type ConfirmComponentProps = {
-  confirm: ConfirmObject;
-  closeConfirm: (confirmed: boolean) => void;
   confirmText: string;
   cancelText: string;
+  isDestructive: boolean;
+  onConfirm?: () => void | Promise<void>;
+  onConfirmError?: (error: unknown) => void | Promise<void>;
+};
+
+export type ConfirmComponentProps = {
+  confirm: ConfirmItem;
+  closeConfirm: (confirmed: boolean) => void;
 };
 
 export type AlerterProps = {
@@ -45,5 +47,3 @@ export type AlerterProps = {
   cancelText?: string;
   closeText?: string;
 };
-
-export type AlerterObject = AlertObject | ConfirmObject;
