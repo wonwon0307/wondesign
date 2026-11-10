@@ -5,15 +5,24 @@ import { ContentContext, useAlertInternal } from "./contexts";
 
 export interface AlertCloseProps extends Omit<
   ButtonProps,
-  "children" | "type" | "onClick"
+  "children" | "type"
 > {
   children: React.ReactNode;
 }
 
-export function AlertClose({ children, ...rest }: Readonly<AlertCloseProps>) {
+export function AlertClose({
+  children,
+  onClick,
+  ...rest
+}: Readonly<AlertCloseProps>) {
   const { closeAlert } = useAlertInternal();
 
   const isInsideContent = useContext(ContentContext);
+
+  const finalOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onClick?.(e);
+    if (!e.defaultPrevented) closeAlert();
+  };
 
   if (!isInsideContent) {
     throw new Error(
@@ -22,7 +31,7 @@ export function AlertClose({ children, ...rest }: Readonly<AlertCloseProps>) {
   }
 
   return (
-    <Button {...rest} type="button" onClick={closeAlert}>
+    <Button {...rest} type="button" onClick={finalOnClick}>
       {children}
     </Button>
   );
