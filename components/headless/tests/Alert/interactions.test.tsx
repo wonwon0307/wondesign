@@ -92,11 +92,12 @@ describe("Alert - interactions", () => {
 
     const closeButton = getByText("Close");
     fireEvent.click(closeButton);
-    expect(handleClick).toHaveBeenCalled();
+    expect(handleClick).toHaveBeenCalledTimes(1);
     // should not close if preventDefault was called
     expect(trigger.dataset.state).toBe("open");
 
     fireEvent.click(closeButton);
+    expect(handleClick).toHaveBeenCalledTimes(2);
     expect(trigger.dataset.state).toBe("closed"); // should close on second click
   });
 
