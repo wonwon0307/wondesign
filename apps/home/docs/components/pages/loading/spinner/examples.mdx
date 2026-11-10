@@ -13,7 +13,7 @@ screen readers. Each example shows the rendered result, followed by its code.
 The `appearance` property sets the spinner's style. It's `"default"` by
 default:
 
-<Preview orientation="horizontal">
+<Preview>
   <Spinner appearance="default" />
   <Spinner appearance="tail" />
   <Spinner appearance="line" />
@@ -34,7 +34,7 @@ default:
 The spinner is `1.25em` wide and tall by default, so it follows the font size
 of the text around it:
 
-<Preview orientation="horizontal">
+<Preview>
   <span style={{ fontSize: "var(--font-size-body-sm)" }}>
     <Spinner />
   </span>
@@ -60,7 +60,7 @@ of the text around it:
 
 Pass `size` to set it yourself, as any CSS length, or a number in pixels:
 
-<Preview orientation="horizontal">
+<Preview>
   <Spinner size={16} />
   <Spinner size="2rem" />
   <Spinner size={48} />
@@ -78,7 +78,7 @@ Pass `size` to set it yourself, as any CSS length, or a number in pixels:
 
 The `speed` property sets how fast it spins. It's `"normal"` by default:
 
-<Preview orientation="horizontal">
+<Preview>
   <Spinner speed="slow" />
   <Spinner speed="normal" />
   <Spinner speed="fast" />
@@ -100,7 +100,7 @@ The `speed` property sets how fast it spins. It's `"normal"` by default:
 The spinner takes the color of the text around it. Set `color` on the
 spinner, or on the element around it:
 
-<Preview orientation="horizontal">
+<Preview>
   <Spinner />
   <Spinner style={{ color: "var(--color-primary)" }} />
   <div
@@ -142,7 +142,7 @@ loading instead. Either set `aria-busy` on the content while it loads:
 Or show loading text next to the spinner, which screen readers read like
 any other text:
 
-<Preview orientation="horizontal">
+<Preview>
   <Spinner />
   <span>Loading results…</span>
 </Preview>

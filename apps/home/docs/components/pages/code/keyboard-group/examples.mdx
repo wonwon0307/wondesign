@@ -54,7 +54,7 @@ The `size` property is passed to every
 [Keyboard](/components/code/keyboard/examples#sizes) key, setting their font
 size and padding. It's `"small"` by default:
 
-<Preview>
+<Preview orientation="vertical">
   Press <KeyboardGroup shortkey="Mod+Shift+P" size="large" /> to open the
   command palette.
 
@@ -81,7 +81,7 @@ the `label` of
 [useShortkeyDisplay](/foundations/key-events/shortkey#useshortkeydisplay).
 To read something else, like what the shortcut does, pass `aria-label`:
 
-<Preview>
+<Preview orientation="vertical">
   <KeyboardGroup shortkey="Mod+Shift+P" aria-label="Open the command palette" />
 </Preview>
 
@@ -108,7 +108,7 @@ The keys are spaced apart by `tokens.spacing.xs`.
 When a single shortcut needs to look different, change it with `className`
 or `style`, like keys spaced further apart:
 
-<Preview>
+<Preview orientation="vertical">
   Press <KeyboardGroup shortkey="Mod+K" style={{ gap: "8px" }} /> to search.
 </Preview>
 

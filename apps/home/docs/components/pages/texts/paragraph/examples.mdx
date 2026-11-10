@@ -13,7 +13,7 @@ code.
 
 The `size` property sets the font size. It's `"medium"` by default:
 
-<Preview>
+<Preview orientation="vertical">
   <Paragraph size="large">
     {"Large, for an introduction or long-form reading."}
   </Paragraph>
@@ -44,7 +44,7 @@ The `tone` property sets the color. It's `"default"` by default.
 The same color as the rest of the body text, for text that's read in full,
 like an article:
 
-<Preview>
+<Preview orientation="vertical">
   <Heading level={3}>Release Notes</Heading>
   <Paragraph>
     {
@@ -66,7 +66,7 @@ like an article:
 A lighter color, for text that should step back, like the body of an empty
 state:
 
-<Preview>
+<Preview orientation="vertical">
   <Heading level={3}>No Projects Yet</Heading>
   <Paragraph tone="muted">
     {"Projects you create or are invited to will show up here."}
@@ -106,7 +106,7 @@ Pass `as` to render the element that fits where it's used. Options are:
 A paragraph's number of lines is unlimited by default, so it shows every line.
 Pass `maxNumLines` to cut it off after that many lines, with an ellipsis:
 
-<Preview>
+<Preview orientation="vertical">
   <Paragraph maxNumLines={1}>
     {
       "A long paragraph that's cut off after one line, even if there's more text left to show after it, like the rest of this sentence and everything that comes after it."
@@ -150,7 +150,7 @@ Override any of them with `className` or `style`.
 When a single paragraph needs to look different, change it with `className`
 or `style`:
 
-<Preview>
+<Preview orientation="vertical">
   <Paragraph style={{ fontStyle: "italic", color: "purple" }}>
     {"Create a project, invite your team and connect your first data source."}
   </Paragraph>

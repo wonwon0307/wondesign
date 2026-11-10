@@ -13,7 +13,7 @@ code.
 
 The `size` property sets the font size. It's `"medium"` by default:
 
-<Preview>
+<Preview orientation="vertical">
   <Description size="large">
     {"Large, for a summary right below a page title."}
   </Description>
@@ -42,7 +42,7 @@ The `tone` property sets the color. It's `"default"` by default.
 The same color as body text, for a description that's read like any other
 text, like a page summary:
 
-<Preview>
+<Preview orientation="vertical">
   <Heading level={2}>Billing</Heading>
   <Description>{"Manage your plan, payment methods and invoices."}</Description>
 </Preview>
@@ -56,7 +56,7 @@ text, like a page summary:
 
 A lighter color, for text that should step back, like metadata:
 
-<Preview>
+<Preview orientation="vertical">
   <Heading level={3}>Quarterly Report</Heading>
   <Description size="small" tone="muted">
     {"Last edited 3 days ago by Alex"}
@@ -74,7 +74,7 @@ A lighter color, for text that should step back, like metadata:
 
 The error color, for something that went wrong, like an invalid password:
 
-<Preview>
+<Preview orientation="vertical">
   <input type="password" defaultValue="hunter2" />
   <Description size="small" tone="danger">
     {"Password must be at least 12 characters."}
@@ -92,7 +92,7 @@ The error color, for something that went wrong, like an invalid password:
 
 The success color, for something that went right, like an available username:
 
-<Preview>
+<Preview orientation="vertical">
   <input type="text" defaultValue="wondesign" />
   <Description size="small" tone="success">
     {"Username is available."}
@@ -141,7 +141,7 @@ A description starts a new line once a line reaches `60ch`, about 60
 characters, **even when its container is wider**. Pass `fullWidth` to turn this
 off, so lines run the full width of the container:
 
-<Preview>
+<Preview orientation="vertical">
   <Description>
     {
       "A description that starts a new line at about 60 characters, so each line stays easy to follow, even when its container is much wider than that."
@@ -185,7 +185,7 @@ The `wrap` property sets
 
 Each description below has the same text and width:
 
-<Preview>
+<Preview orientation="vertical">
   <Description style={{ maxWidth: "36ch" }}>
     {"Manage your plan, payment methods and invoices in one place."}
   </Description>
@@ -209,7 +209,7 @@ Each description below has the same text and width:
 A description shows every line by default. Pass `maxNumLines` to cut it off
 after that many lines, with an ellipsis:
 
-<Preview>
+<Preview orientation="vertical">
   <Description maxNumLines={1}>
     {
       "A long description that's cut off after one line, even if there's more text left to show after it, like the rest of this sentence and everything that comes after it."
@@ -254,7 +254,7 @@ Override any of them with `className` or `style`.
 When a single description needs to look different, change them with
 `className` or `style`:
 
-<Preview>
+<Preview orientation="vertical">
   <Description size="large" style={{ fontStyle: "italic", color: "purple" }}>
     {"Manage your plan, payment methods and invoices."}
   </Description>

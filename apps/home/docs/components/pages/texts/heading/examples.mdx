@@ -14,7 +14,7 @@ The `level` property sets both the element and the size. `level={1}`
 renders an `<h1>` at the largest size, and each level after it is smaller,
 down to `level={6}`:
 
-<Preview>
+<Preview orientation="vertical">
   <Heading level={1}>Settings</Heading>
   <Heading level={2}>Billing</Heading>
   <Heading level={3}>Payment Methods</Heading>
@@ -39,7 +39,7 @@ down to `level={6}`:
 A heading is **cut off after one line by default**, with an ellipsis. Pass
 `maxNumLines` to allow more lines, or `0` to show every line:
 
-<Preview>
+<Preview orientation="vertical">
   <Heading level={2}>
     {
       "A long title that's cut off after one line, because that's the default for every heading, whatever its level"
@@ -110,7 +110,7 @@ The recommended way. Let the `level` choose the element, by picking the one
 that fits the page's outline, like `level={2}` for a section title. Then
 change its look with `className` or `style`:
 
-<Preview>
+<Preview orientation="vertical">
   <Heading level={2} style={{ margin: 0, color: "purple" }}>
     {"Billing"}
   </Heading>
@@ -145,7 +145,7 @@ Pick the `level` for its look, and pass `as` to render the element the outline
 needs. This works when another level's styles fit as they are, like an `<h2>`
 that should look like level 3:
 
-<Preview>
+<Preview orientation="vertical">
   <Heading level={3} as="h2">
     Billing Details
   </Heading>

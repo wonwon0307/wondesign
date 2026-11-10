@@ -18,7 +18,7 @@ code.
 The `size` property sets the font size of the code. It's `"medium"` by
 default:
 
-<Preview>
+<Preview orientation="vertical">
   <CodeWindow size="large" lang="ts" code={`const size = "large";`} />
   <CodeWindow size="medium" lang="ts" code={`const size = "medium";`} />
   <CodeWindow size="small" lang="ts" code={`const size = "small";`} />
@@ -37,7 +37,7 @@ default:
 Pass `maxNumLines` to show a set number of lines, and scroll for the rest.
 Without it, the window grows to fit every line:
 
-<Preview>
+<Preview orientation="vertical">
   <CodeWindow
     lang="ts"
     maxNumLines={4}
@@ -63,7 +63,7 @@ Without it, the window grows to fit every line:
 
 Pass `showLineNumbers` to number each line:
 
-<Preview>
+<Preview orientation="vertical">
   <CodeWindow
     lang="ts"
     showLineNumbers
@@ -84,7 +84,7 @@ const sum = a + b;`}
 Pass `disableCopy` to leave out the copy button, like for output that isn't
 meant to be copied:
 
-<Preview>
+<Preview orientation="vertical">
   <CodeWindow disableCopy code={`✓ 42 tests passed`} />
 </Preview>
 
@@ -133,7 +133,7 @@ with some of the following items:
 - 🏷️ **Actions**: buttons next to the copy button, like "Open in StackBlitz"
   or download
 
-<Preview>
+<Preview orientation="vertical">
   <CodeWindow lang="ts" code={`export const theme = "dark";`}>
     <div
       style={{
@@ -192,7 +192,7 @@ import {
 Pass `children` to `CodeWindowCopyButton` to replace its icon with your own
 content, like a text label:
 
-<Preview>
+<Preview orientation="vertical">
   <CodeWindow lang="bash" code="pnpm add @wondesign/code">
     <CodeWindowCopyButton>Copy</CodeWindowCopyButton>
     <CodeWindowBody

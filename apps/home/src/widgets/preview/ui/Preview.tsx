@@ -7,7 +7,7 @@ interface Props {
 
 export function Preview({
   children,
-  orientation = "vertical",
+  orientation = "horizontal",
 }: Readonly<Props>) {
   return <div className={styles.preview({ orientation })}>{children}</div>;
 }

@@ -15,7 +15,7 @@ own design. Each example shows the rendered result, followed by its code.
 Pass an `icon` name from [`@wondesign/icons`](/components/icons#icon-list),
 or your own content as `children`, like a logo:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconButton icon="copy" aria-label="Copy" />
   <IconButton aria-label="GitHub">
     <GithubLogo size="1em" />
@@ -46,7 +46,7 @@ the default:
 - 🎨 **`"ghost"`**: no border or background until hovered, for toolbars and
   headers.
 
-<Preview orientation="horizontal">
+<Preview>
   <IconButton icon="copy" appearance="filled" aria-label="Copy" />
   <IconButton icon="copy" appearance="outlined" aria-label="Copy" />
   <IconButton icon="copy" appearance="ghost" aria-label="Copy" />
@@ -66,7 +66,7 @@ The `size` property sets the size of the icon, as any CSS length, or a
 number in pixels. `"1em"` is the default, so the icon follows the font size
 around it:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconButton icon="copy" aria-label="Copy" />
   <IconButton icon="copy" size={24} aria-label="Copy" />
   <IconButton icon="copy" size="2rem" aria-label="Copy" />
@@ -86,7 +86,7 @@ around it:
 
 Pass `rounded` to make the button a circle:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconButton icon="copy" aria-label="Copy" />
   <IconButton icon="copy" rounded aria-label="Copy" />
 </Preview>
@@ -103,7 +103,7 @@ Pass `rounded` to make the button a circle:
 Pass `spacious` to give the icon more room, for a larger click target or a
 button that needs to stand out more:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconButton icon="copy" aria-label="Copy" />
   <IconButton icon="copy" spacious aria-label="Copy" />
 </Preview>
@@ -115,7 +115,7 @@ button that needs to stand out more:
 
 It works well with larger icons, which look cramped in the default padding:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconButton icon="copy" size="2rem" aria-label="Copy" />
   <IconButton icon="copy" size="2rem" spacious aria-label="Copy" />
 </Preview>
@@ -131,7 +131,7 @@ It works well with larger icons, which look cramped in the default padding:
 
 Pass `isDisabled` to block presses:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconButton icon="copy" isDisabled aria-label="Copy" />
 </Preview>
 
@@ -148,7 +148,7 @@ readers announce the button as busy, the button fades slightly, and a
 [Spinner](/components/loading/spinner) the size of the icon takes its place.
 **The button keeps its size**, so the layout around it doesn't move:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconButton icon="upload" aria-label="Upload" />
   <IconButton icon="upload" isLoading aria-label="Upload" />
 </Preview>
@@ -167,7 +167,7 @@ readers announce the button as busy, the button fades slightly, and a
 Pass `fallback` to show your own content instead of the default spinner,
 like a different spinner appearance:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconButton
     icon="upload"
     isLoading
@@ -197,7 +197,7 @@ import { Spinner } from "@wondesign/loading/Spinner";
 When a single button needs to look different, change it with `className` or
 `style`, like a different icon color:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconButton
     icon="copy"
     aria-label="Copy"

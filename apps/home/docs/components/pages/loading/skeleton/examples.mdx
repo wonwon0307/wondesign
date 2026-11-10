@@ -14,7 +14,7 @@ A skeleton is as wide as its container (`100%`) and `1em` tall by default. Set
 `width` and `height` to match the content that's loading, as any CSS length,
 or a number in pixels:
 
-<Preview>
+<Preview orientation="vertical">
   <Skeleton />
   <Skeleton width="60%" />
   <Skeleton height={40} />
@@ -37,7 +37,7 @@ or a number in pixels:
 The `lines` property draws a paragraph of lines. Every line is as wide as the
 paragraph (`100%`), except the last, which is `60%`:
 
-<Preview>
+<Preview orientation="vertical">
   <Skeleton lines={3} />
 </Preview>
 
@@ -48,7 +48,7 @@ paragraph (`100%`), except the last, which is `60%`:
 `width` sets the width of the whole paragraph, and `height` sets the height
 of each line:
 
-<Preview>
+<Preview orientation="vertical">
   <Skeleton lines={3} width="50%" height={8} />
 </Preview>
 
@@ -63,7 +63,7 @@ of each line:
 The `circle` property makes a circle, like an avatar. It's `40px` wide by
 default, and always as tall as it is wide, so set only `width`:
 
-<Preview orientation="horizontal">
+<Preview>
   <Skeleton circle width={24} />
   <Skeleton circle />
   <Skeleton circle width={64} />
@@ -87,7 +87,7 @@ default.
 
 **Pulse** fades the skeleton in and out:
 
-<Preview>
+<Preview orientation="vertical">
   <Skeleton animation="pulse" />
 </Preview>
 
@@ -97,7 +97,7 @@ default.
 
 **Wave** sweeps a highlight across the skeleton:
 
-<Preview>
+<Preview orientation="vertical">
   <Skeleton animation="wave" />
 </Preview>
 
@@ -107,7 +107,7 @@ default.
 
 **None** keeps the skeleton still:
 
-<Preview>
+<Preview orientation="vertical">
   <Skeleton animation="none" />
 </Preview>
 
@@ -140,7 +140,7 @@ instead, with `aria-busy`:
 Put skeletons together in the layout of the content they stand for, like a
 card with an avatar, a name and a short bio:
 
-<Preview>
+<Preview orientation="vertical">
   <div style={{ display: "flex", gap: "var(--spacing-md)", width: "100%" }}>
     <Skeleton circle />
     <div style={{ flex: 1, display: "grid", gap: "var(--spacing-sm)" }}>
@@ -167,7 +167,7 @@ card with an avatar, a name and a short bio:
 When a single skeleton needs to look different, change it with `className`
 or `style`, like rounder corners:
 
-<Preview>
+<Preview orientation="vertical">
   <Skeleton height={120} style={{ borderRadius: "var(--radius-lg)" }} />
 </Preview>
 

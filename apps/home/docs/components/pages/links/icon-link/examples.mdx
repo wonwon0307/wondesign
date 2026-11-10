@@ -15,7 +15,7 @@ own design. Each example shows the rendered result, followed by its code.
 Pass an `icon` name from [`@wondesign/icons`](/components/icons#icon-list),
 or your own content as `children`, like a logo:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconLink icon="download" href="#" aria-label="Download" />
   <IconLink href="#" aria-label="GitHub">
     <GithubLogo size="1em" />
@@ -46,7 +46,7 @@ the default:
 - 🎨 **`"ghost"`**: no border or background until hovered, for toolbars,
   headers and footers.
 
-<Preview orientation="horizontal">
+<Preview>
   <IconLink
     icon="download"
     appearance="filled"
@@ -76,7 +76,7 @@ The `size` property sets the size of the icon, as any CSS length, or a
 number in pixels. `"1em"` is the default, so the icon follows the font size
 around it:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconLink icon="download" href="#" aria-label="Download" />
   <IconLink icon="download" size={24} href="#" aria-label="Download" />
   <IconLink icon="download" size="2rem" href="#" aria-label="Download" />
@@ -96,7 +96,7 @@ around it:
 
 Pass `rounded` to make the link a circle:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconLink icon="download" href="#" aria-label="Download" />
   <IconLink icon="download" rounded href="#" aria-label="Download" />
 </Preview>
@@ -113,7 +113,7 @@ Pass `rounded` to make the link a circle:
 Pass `spacious` to give the icon more room, for a larger click target or a
 link that needs to stand out more:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconLink icon="download" href="#" aria-label="Download" />
   <IconLink icon="download" spacious href="#" aria-label="Download" />
 </Preview>
@@ -125,7 +125,7 @@ link that needs to stand out more:
 
 It works well with larger icons, which look cramped in the default padding:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconLink icon="download" size="2rem" href="#" aria-label="Download" />
   <IconLink
     icon="download"
@@ -148,7 +148,7 @@ It works well with larger icons, which look cramped in the default padding:
 Pass `isDisabled` to turn the link off. It can't be followed, leaves the tab
 order, and fades:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconLink icon="download" href="#" aria-label="Download" />
   <IconLink icon="download" isDisabled href="#" aria-label="Download" />
 </Preview>
@@ -165,7 +165,7 @@ order, and fades:
 When a single link needs to look different, change it with `className` or
 `style`, like a different icon color:
 
-<Preview orientation="horizontal">
+<Preview>
   <IconLink
     icon="download"
     href="#"

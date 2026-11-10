@@ -18,7 +18,7 @@ color at 18% opacity, using the
 utility from `@wondesign/tokens`. It takes any CSS color, including a token,
 and it's `"gray"` by default:
 
-<Preview orientation="horizontal">
+<Preview>
   <Badge label="Draft" />
   <Badge label="Active" color="var(--color-success)" />
   <Badge label="Pending" color="var(--color-warning)" />
@@ -44,7 +44,7 @@ a solid tint of the text color made with the
 utility. Unlike the default, a tint doesn't let the surface behind show
 through:
 
-<Preview orientation="horizontal">
+<Preview>
   <Badge label="New" color="white" backgroundColor="var(--color-primary)" />
   <Badge
     label="Active"
@@ -78,7 +78,7 @@ import { colorWithFade, tokens } from "@wondesign/tokens";
 The `size` property sets the font size and the padding together. It's
 `"medium"` by default:
 
-<Preview orientation="horizontal">
+<Preview>
   <Badge label="Large" size="large" />
   <Badge label="Medium" size="medium" />
   <Badge label="Small" size="small" />
@@ -100,7 +100,7 @@ The `size` property sets the font size and the padding together. It's
 Pass `left` or `right` to add content on either side of the label, like an
 icon, a dot or a count:
 
-<Preview orientation="horizontal">
+<Preview>
   <Badge label="Online" color="var(--color-success)" left={<span>●</span>} />
   <Badge label="Inbox" right={<span>12</span>} />
 </Preview>
@@ -125,7 +125,7 @@ icon, a dot or a count:
 clickable, like a filter that's gray by default and takes a color while it's
 active:
 
-<Preview orientation="horizontal">
+<Preview>
   <Pressable aria-pressed={false}>
     <Badge label="Design" />
   </Pressable>
@@ -156,7 +156,7 @@ function FilterBadge({ label }: { label: string }) {
 Put a button in `right` to make a tag that can be removed, like a selected
 filter:
 
-<Preview orientation="horizontal">
+<Preview>
   <Badge
     label="Design"
     color="var(--color-primary)"
