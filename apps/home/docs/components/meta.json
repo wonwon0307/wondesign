@@ -67,22 +67,6 @@
         },
         {
           "type": "group",
-          "label": "Feedback",
-          "items": [
-            "[Alert](/alert)",
-            {
-              "type": "link",
-              "label": "Loading",
-              "url": "/loading",
-              "items": [
-                "[Spinner](/loading/spinner)",
-                "[Skeleton](/loading/skeleton)"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "group",
           "label": "Content Display",
           "items": [
             {
@@ -110,6 +94,22 @@
               ]
             },
             "[Separator](/separator)"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Feedback",
+          "items": [
+            "[Alert](/alert)",
+            {
+              "type": "link",
+              "label": "Loading",
+              "url": "/loading",
+              "items": [
+                "[Spinner](/loading/spinner)",
+                "[Skeleton](/loading/skeleton)"
+              ]
+            }
           ]
         }
       ]
