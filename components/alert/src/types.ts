@@ -20,7 +20,7 @@ export interface AlertComponentProps {
 export interface ConfirmOptions {
   confirmText?: string;
   onConfirm?: () => void | Promise<void>;
-  onConfirmError?: (error: unknown) => void | Promise<void>;
+  onConfirmError?: (error: unknown) => void;
   cancelText?: string;
   isDestructive?: boolean;
 }
@@ -34,7 +34,7 @@ export type ConfirmItem = {
   cancelText: string;
   isDestructive: boolean;
   onConfirm?: () => void | Promise<void>;
-  onConfirmError?: (error: unknown) => void | Promise<void>;
+  onConfirmError?: (error: unknown) => void;
 };
 
 export type ConfirmComponentProps = {

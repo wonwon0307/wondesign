@@ -21,7 +21,7 @@ export function Confirm({
       await confirm.onConfirm?.();
       closeConfirm(true);
     } catch (error) {
-      await confirm.onConfirmError?.(error);
+      confirm.onConfirmError?.(error);
     } finally {
       setIsPending(false);
     }
