@@ -24,7 +24,6 @@ like a toast, instead**.
 - ✅ **Accessible by Default**: Announced as an alert dialog, with its title and message
 - ✅ **Focus Management**: Moves focus in when it opens, keeps it inside, and returns it when it closes
 - ✅ **Blocks the Page Behind**: The page behind can't be clicked, focused or scrolled while the alert is open
-- ✅ **Async Actions**: Close buttons can wait for your action to finish before closing
 - ✅ **Optional Backdrop**: Add a layer behind the alert, or leave it out
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
@@ -46,30 +45,30 @@ For what you can configure, refer to the
 - 🧩 **Alert.Content**: the alert dialog itself.
 - 🧩 **Alert.Title**: the heading that names the alert.
 - 🧩 **Alert.Message**: the text that describes the alert.
-- 🧩 **Alert.Close**: a button that closes the alert, optionally after running
-  an action.
+- 🧩 **Alert.Close**: a button that closes the alert, after running its
+  `onClick`.
 
 ```tsx
 <Alert>
-  <Alert.Trigger>Delete</Alert.Trigger>
+  <Alert.Trigger>Log out</Alert.Trigger>
   <Alert.Backdrop />
   <Alert.Content>
-    <Alert.Title>Delete this file?</Alert.Title>
-    <Alert.Message>This can't be undone.</Alert.Message>
+    <Alert.Title>Log out?</Alert.Title>
+    <Alert.Message>You'll need to sign in again.</Alert.Message>
     <Alert.Close>Cancel</Alert.Close>
-    <Alert.Close onClose={deleteFile}>Delete</Alert.Close>
+    <Alert.Close onClick={logOut}>Log out</Alert.Close>
   </Alert.Content>
 </Alert>;
 
 // or, with named exports
 <AlertProvider>
-  <AlertTrigger>Delete</AlertTrigger>
+  <AlertTrigger>Log out</AlertTrigger>
   <AlertBackdrop />
   <AlertContent>
-    <AlertTitle>Delete this file?</AlertTitle>
-    <AlertMessage>This can't be undone.</AlertMessage>
+    <AlertTitle>Log out?</AlertTitle>
+    <AlertMessage>You'll need to sign in again.</AlertMessage>
     <AlertClose>Cancel</AlertClose>
-    <AlertClose onClose={deleteFile}>Delete</AlertClose>
+    <AlertClose onClick={logOut}>Log out</AlertClose>
   </AlertContent>
 </AlertProvider>;
 ```
@@ -89,8 +88,9 @@ behind, and what screen readers announce. You don't need to wire up any of it.
 
 ### Closing
 
-The alert **only closes through `Alert.Close`**. <Keyboard>Esc</Keyboard> and clicks outside
-don't close it, so the user has to choose a response.
+The alert closes through `Alert.Close` and <Keyboard>Esc</Keyboard>. Clicks
+outside don't close it, so the user has to choose a response.
+<Keyboard>Esc</Keyboard> is handled by [Escape Key](/foundations/key-events/escape-key).
 
 ### Focus
 
@@ -119,8 +119,8 @@ known issues carry over to `Alert`**.
 
 The content is announced as an alert dialog. `Alert.Title` names it and
 `Alert.Message` describes it, so screen readers read both when it opens.
-Without a title, they only announce it as "Alert", so **a title is strongly
-recommended**.
+Without a title, they only announce its `aria-label`, "Alert" by default, so
+**a title is strongly recommended**.
 
 ---
 
@@ -130,3 +130,10 @@ recommended**.
   still be clicked and focused.
 - 🐞 **The page shifts sideways**: Where scrollbars take up space, the page
   shifts by the scrollbar's width while the alert is open.
+
+---
+
+## Upcoming Features
+
+- 🔜 **Optional Escape Key**: Choose whether <Keyboard>Esc</Keyboard> closes the alert, for alerts that need a deliberate answer
+- 🔜 **Initial Focus Target**: Choose which element takes focus when the alert opens, like the least destructive response or the title of a long message

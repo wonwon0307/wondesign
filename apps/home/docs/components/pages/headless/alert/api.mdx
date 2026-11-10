@@ -114,13 +114,14 @@ is `true`.
 **Props**
 
 Accepts all `<div>` props, except `id`, `role`, `tabIndex`, `hidden`,
-`aria-modal`, `aria-labelledby`, `aria-describedby` and `aria-busy`, which the
-content manages. It sets its own `ref`, so it doesn't take one. Key props:
+`aria-modal`, `aria-labelledby` and `aria-describedby`, which the content
+manages. It sets its own `ref`, so it doesn't take one. Key props:
 
 ```ts
 interface AlertContentProps {
   children: React.ReactNode;
   asChild?: boolean;
+  "aria-label"?: string; // defaults to `"Alert"`, used only without `Alert.Title`
   // ...
 }
 ```
@@ -129,7 +130,6 @@ interface AlertContentProps {
 
 ```ts
 "data-state": "open" | "closed";
-"data-pending": "true" | undefined; // present while a close is waiting for `onClose`
 ```
 
 ### Title
@@ -168,20 +168,19 @@ interface AlertMessageProps {
 
 ### Close
 
-`Alert.Close` or `AlertClose`. Renders a `<button>` that closes the alert. Must
-be used inside `Alert.Content`. While any close button waits for an async
-`onClose`, **every close button is disabled**, and a rejected promise is
-**silently swallowed**.
+`Alert.Close` or `AlertClose`. Renders a `<button>` that runs its `onClick`,
+then closes the alert, unless `onClick` calls `event.preventDefault()`. **It
+doesn't wait for a returned promise.** Must be used inside `Alert.Content`.
 
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`type` and `onClick`, which the close button manages. Key props:
+`type`, which the close button manages. Key props:
 
 ```ts
 interface AlertCloseProps {
   children: React.ReactNode;
-  onClose?: () => void | Promise<void>; // the alert waits for a returned promise
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the alert closes. call `event.preventDefault()` to keep it open
   asChild?: boolean;
   isDisabled?: boolean; // defaults to `false`
   // ...
@@ -191,7 +190,7 @@ interface AlertCloseProps {
 **Data Attributes**
 
 ```ts
-"data-disabled": "true" | undefined; // present when disabled, or while any close is waiting
+"data-disabled": "true" | undefined; // present when disabled
 "data-loading": "true" | undefined; // present when loading
 ```
 
@@ -215,7 +214,5 @@ function useAlert(): {
   closeAlert: () => void; // closes it
   keepMounted: boolean; // the `keepMounted` prop
   disablePortal: boolean; // the `disablePortal` prop
-  isPending: boolean; // whether a close is waiting for `onClose`
-  setPending: (isPending: boolean) => void; // marks the alert as waiting, or not
 };
 ```
