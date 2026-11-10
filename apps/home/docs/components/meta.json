@@ -34,63 +34,82 @@
     },
     {
       "type": "group",
-      "label": "Styled",
+      "label": "Styled Components",
       "items": [
         {
-          "type": "link",
-          "label": "Buttons",
-          "url": "/buttons",
+          "type": "group",
+          "label": "Atoms",
           "items": [
-            "[Pressable](/buttons/pressable)",
-            "[Button](/buttons/button)",
-            "[IconButton](/buttons/icon-button)",
-            "[LinkButton](/buttons/link-button)"
+            "[Icons](/icons)",
+            {
+              "type": "link",
+              "label": "Buttons",
+              "url": "/buttons",
+              "items": [
+                "[Pressable](/buttons/pressable)",
+                "[Button](/buttons/button)",
+                "[IconButton](/buttons/icon-button)",
+                "[LinkButton](/buttons/link-button)"
+              ]
+            },
+            {
+              "type": "link",
+              "label": "Links",
+              "url": "/links",
+              "items": [
+                "[Anchor](/links/anchor)",
+                "[Hyperlink](/links/hyperlink)",
+                "[IconLink](/links/icon-link)",
+                "[FormLink](/links/form-link)"
+              ]
+            }
           ]
         },
         {
-          "type": "link",
-          "label": "Code",
-          "url": "/code",
+          "type": "group",
+          "label": "Feedback",
           "items": [
-            "[InlineCode](/code/inline-code)",
-            "[CodeBlock](/code/code-block)",
-            "[CodeWindow](/code/code-window)",
-            "[Keyboard](/code/keyboard)",
-            "[KeyboardGroup](/code/keyboard-group)"
-          ]
-        },
-        "[Icons](/icons)",
-        {
-          "type": "link",
-          "label": "Links",
-          "url": "/links",
-          "items": [
-            "[Anchor](/links/anchor)",
-            "[Hyperlink](/links/hyperlink)",
-            "[IconLink](/links/icon-link)",
-            "[FormLink](/links/form-link)"
+            "[Alert](/alert)",
+            {
+              "type": "link",
+              "label": "Loading",
+              "url": "/loading",
+              "items": [
+                "[Spinner](/loading/spinner)",
+                "[Skeleton](/loading/skeleton)"
+              ]
+            }
           ]
         },
         {
-          "type": "link",
-          "label": "Loading",
-          "url": "/loading",
+          "type": "group",
+          "label": "Content Display",
           "items": [
-            "[Spinner](/loading/spinner)",
-            "[Skeleton](/loading/skeleton)"
-          ]
-        },
-        "[Separator](/separator)",
-        {
-          "type": "link",
-          "label": "Texts",
-          "url": "/texts",
-          "items": [
-            "[Heading](/texts/heading)",
-            "[Description](/texts/description)",
-            "[Paragraph](/texts/paragraph)",
-            "[Callout](/texts/callout)",
-            "[Badge](/texts/badge)"
+            {
+              "type": "link",
+              "label": "Texts",
+              "url": "/texts",
+              "items": [
+                "[Heading](/texts/heading)",
+                "[Description](/texts/description)",
+                "[Paragraph](/texts/paragraph)",
+                "[Callout](/texts/callout)",
+                "[Badge](/texts/badge)"
+              ]
+            },
+            {
+              "type": "link",
+              "label": "Code",
+              "url": "/code",
+              "items": [
+                "[InlineCode](/code/inline-code)",
+                "[CodeBlock](/code/code-block)",
+                "[CodeWindow](/code/code-window)",
+                "[Keyboard](/code/keyboard)",
+                "[KeyboardGroup](/code/keyboard-group)"
+              ]
+            },
+            "[Separator](/separator)"
           ]
         }
       ]
