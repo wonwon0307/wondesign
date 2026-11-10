@@ -1,0 +1,273 @@
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+import { AlertDemo, Preview } from "@/widgets/preview";
+
+<PackageInfo name="@wondesign/alert" relPath="components/alert">
+  `@wondesign/alert` shows alerts and confirmations with a single function
+  call, from anywhere in your app. Its default components build on
+  [Headless Alert](/components/headless/alert), so focus, the page behind and
+  screen readers are already handled.
+</PackageInfo>
+
+There are two ways to use it:
+
+- 🎁 **Use the ready-made alerts.** Place `Alerter` once in your app, and call
+  `showAlert` or `showConfirm` wherever you need one.
+- 🧩 **Build your own alerts.** Pass your own components to `Alerter`, built
+  from [Headless Alert](/components/headless/alert), when the ready-made look
+  doesn't fit. The functions stay the same.
+
+Use it when the user has to answer before they carry on, like confirming a
+destructive action or acknowledging an error that blocks their work. For
+messages that don't need an answer, like "Saved", **use something like a toast
+instead**.
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/alert
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/alert` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Ready to Use**: Show an alert or a confirmation with one function call, with no state to manage
+- ✅ **Awaitable**: Await the user's answer, like `window.confirm`
+- ✅ **Composable**: Or render every alert with your own components, and keep the same functions
+- ✅ **One at a Time**: Alerts shown while another is open wait their turn, in order
+- ✅ **Async Actions**: Confirmations can wait for your action to finish before closing
+- ✅ **Destructive Confirmations**: Mark a confirmation as destructive to change the look of its button
+- ✅ **Accessible by Default**: Announced as an alert dialog, with focus moved in and kept inside
+
+<Preview>
+  <AlertDemo
+    type="confirm"
+    label="Submit"
+    title="Submit your application?"
+    description="You can't edit it after submitting."
+  />
+</Preview>
+
+```tsx
+import { Alerter, showConfirm } from "@wondesign/alert";
+
+// once, near the root of your app
+<Alerter />;
+
+// anywhere, like in an event handler
+const confirmed = await showConfirm(
+  "Submit your application?",
+  "You can't edit it after submitting.",
+);
+
+if (confirmed) submit();
+```
+
+See [Usage](/components/alert/usage) to set up `Alerter` and build your own
+alerts, and [Examples](/components/alert/examples) for alerts, confirmations
+and async actions.
+
+---
+
+## API
+
+Import the functions, the component and their types from `@wondesign/alert`:
+
+```ts
+import {
+  // functions
+  showAlert,
+  showConfirm,
+  dismissAlerts,
+  // component
+  Alerter,
+  // types
+  type AlertOptions,
+  type ConfirmOptions,
+  type AlerterProps,
+  type AlertComponentProps,
+  type ConfirmComponentProps,
+  type AlertObject,
+  type ConfirmObject,
+} from "@wondesign/alert";
+```
+
+### showAlert
+
+Shows a title and a message, with a single button to close it. Returns a
+promise that resolves once the alert closes.
+
+```ts
+function showAlert(
+  title: string,
+  message: string,
+  options?: AlertOptions,
+): Promise<void>;
+
+type AlertOptions = {
+  // the button's text. defaults to `Alerter`'s `closeText`, or `"Close"`.
+  closeText?: string;
+};
+```
+
+### showConfirm
+
+Asks a question, with a button to confirm and one to cancel. Returns a promise
+that resolves to `true` when the user confirms, and `false` when they cancel.
+
+```ts
+function showConfirm(
+  title: string,
+  message: string,
+  options?: ConfirmOptions,
+): Promise<boolean>;
+
+type ConfirmOptions = {
+  // the confirm button's text. defaults to `Alerter`'s `confirmText`, or `"OK"`.
+  confirmText?: string;
+
+  // called when the user confirms. the confirmation waits for a returned promise.
+  onConfirm?: () => void | Promise<void>;
+
+  // called when `onConfirm` throws or rejects. the confirmation stays open.
+  onConfirmError?: (error: unknown) => void | Promise<void>;
+
+  // the cancel button's text. defaults to `Alerter`'s `cancelText`, or `"Cancel"`.
+  cancelText?: string;
+
+  // gives the confirm button the destructive look. defaults to `false`.
+  isDestructive?: boolean;
+};
+```
+
+### dismissAlerts
+
+Closes the open alert and every waiting one, like when the user logs out.
+`showConfirm` resolves to `false`, and `showAlert` resolves. **This includes
+a confirmation whose `onConfirm` is still running**: it resolves to `false`,
+even if the action then succeeds.
+
+```ts
+function dismissAlerts(): void;
+```
+
+### Props
+
+`Alerter` displays the alerts from `showAlert` and `showConfirm`, one at a time. Place
+it once, near the root of your app.
+
+```ts
+type AlerterProps = {
+  // renders every alert from `showAlert`. defaults to the ready-made alert.
+  AlertComponent?: React.ComponentType<AlertComponentProps>;
+
+  // renders every confirmation from `showConfirm`.
+  // defaults to the ready-made confirmation.
+  ConfirmComponent?: React.ComponentType<ConfirmComponentProps>;
+
+  // the close button's text, for alerts that don't set their own.
+  closeText?: string;
+
+  // the confirm button's text, for confirmations that don't set their own.
+  confirmText?: string;
+
+  // the cancel button's text, for confirmations that don't set their own.
+  cancelText?: string;
+};
+```
+
+The components you pass to `Alerter` receive:
+
+```ts
+type AlertComponentProps = {
+  // the alert to show.
+  alert: AlertObject;
+
+  // closes the alert, and resolves `showAlert`.
+  closeAlert: () => void;
+
+  // `Alerter`'s `closeText`, or `"Close"`.
+  closeText: string;
+};
+
+type AlertObject = {
+  type: "alert";
+
+  // unique to this alert.
+  id: number;
+
+  // the title and the message passed to `showAlert`.
+  title: string;
+  message: string;
+
+  // the option passed to `showAlert`, if set.
+  closeText?: string;
+};
+
+type ConfirmComponentProps = {
+  // the confirmation to show.
+  confirm: ConfirmObject;
+
+  // closes the confirmation, and resolves `showConfirm` with `confirmed`.
+  closeConfirm: (confirmed: boolean) => void;
+
+  // `Alerter`'s `confirmText` and `cancelText`, or `"OK"` and `"Cancel"`.
+  confirmText: string;
+  cancelText: string;
+};
+
+type ConfirmObject = {
+  type: "confirm";
+
+  // unique to this confirmation.
+  id: number;
+
+  // the title and the message passed to `showConfirm`.
+  title: string;
+  message: string;
+
+  // the options passed to `showConfirm`, if set.
+  confirmText?: string;
+  onConfirm?: () => void | Promise<void>;
+  onConfirmError?: (error: unknown) => void | Promise<void>;
+  cancelText?: string;
+
+  // the `isDestructive` passed to `showConfirm`, or `false`.
+  isDestructive: boolean;
+};
+```
+
+---
+
+## Known Issues
+
+- 🐞 **Inherited from Headless Alert**: Alerts are built on
+  [Headless Alert](/components/headless/alert), so they share its
+  [known issues](/components/headless/alert#known-issues), like the page
+  shifting sideways while an alert is open.
+
+---
+
+## Watch Out
+
+- ⚠️ **Place `Alerter` exactly once.** Every `Alerter` renders the same alert,
+  so **with two of them, every alert shows up twice**.
+- ⚠️ **Keep `Alerter` in the page at all times.** When it unmounts, **every
+  open and waiting alert is cancelled**: `showConfirm()` resolves to `false`,
+  and `showAlert()` resolves. Calls made while it's missing wait, and pop up
+  one after another once it's back. Don't put it in a page or component that
+  unmounts.
+
+---
+
+## Upcoming Features
+
+- 🔜 **Prompts**: Ask for a line of text, like `window.prompt`, and await the answer
+- 🔜 **Status Icons**: Show an icon and color for info, success, warning and error
