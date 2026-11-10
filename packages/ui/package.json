@@ -38,6 +38,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@wondesign/alert": "workspace:*",
     "@wondesign/buttons": "workspace:*",
     "@wondesign/code": "workspace:*",
     "@wondesign/icons": "workspace:*",
