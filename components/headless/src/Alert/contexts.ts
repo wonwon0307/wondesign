@@ -6,16 +6,15 @@ type AlertContextType = {
   closeAlert: () => void;
   keepMounted: boolean;
   disablePortal: boolean;
-  isPending: boolean;
-  setPending: (isPending: boolean) => void;
 
-  contentId: string;
   wrapperRef: React.RefObject<HTMLDivElement | null>;
   triggerRef: React.RefObject<HTMLButtonElement | null>;
   titleId: string | undefined;
   setTitleId: (titleId: string | undefined) => void;
   messageId: string | undefined;
   setMessageId: (messageId: string | undefined) => void;
+  contentId: string | undefined;
+  setContentId: (contentId: string | undefined) => void;
 };
 
 export const AlertContext = createContext<AlertContextType | null>(null);
@@ -34,15 +33,8 @@ export function useAlertInternal() {
 }
 
 export function useAlert() {
-  const {
-    isOpen,
-    showAlert,
-    closeAlert,
-    keepMounted,
-    disablePortal,
-    isPending,
-    setPending,
-  } = useAlertInternal();
+  const { isOpen, showAlert, closeAlert, keepMounted, disablePortal } =
+    useAlertInternal();
 
   return {
     isOpen,
@@ -50,7 +42,5 @@ export function useAlert() {
     closeAlert,
     keepMounted,
     disablePortal,
-    isPending,
-    setPending,
   };
 }

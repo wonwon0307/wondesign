@@ -1,3 +1,5 @@
+import { useId, useLayoutEffect } from "react";
+
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
 import { ContentContext, useAlertInternal } from "./contexts";
@@ -12,7 +14,6 @@ export interface AlertContentProps extends Omit<
   | "aria-modal"
   | "aria-labelledby"
   | "aria-describedby"
-  | "aria-busy"
 > {
   children: React.ReactNode;
   asChild?: boolean;
@@ -21,18 +22,25 @@ export interface AlertContentProps extends Omit<
 export function AlertContent({
   children,
   asChild = false,
+  "aria-label": ariaLabel = "Alert",
   ...rest
 }: Readonly<AlertContentProps>) {
   const {
     isOpen,
     disablePortal,
     keepMounted,
-    isPending,
     wrapperRef,
-    contentId,
     titleId,
     messageId,
+    setContentId,
   } = useAlertInternal();
+  const contentId = useId();
+
+  useLayoutEffect(() => {
+    setContentId(contentId);
+
+    return () => setContentId(undefined);
+  }, [contentId, setContentId]);
 
   if (!isOpen && !keepMounted) {
     return null;
@@ -51,12 +59,10 @@ export function AlertContent({
           tabIndex={-1}
           hidden={!isOpen}
           aria-modal="true"
-          aria-label={titleId ? undefined : "Alert"}
+          aria-label={titleId ? undefined : ariaLabel}
           aria-labelledby={titleId}
           aria-describedby={messageId}
-          aria-busy={isPending || undefined}
           data-state={isOpen ? "open" : "closed"}
-          data-pending={isPending || undefined}
         >
           {children}
         </Component>
