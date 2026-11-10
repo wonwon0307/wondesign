@@ -54,7 +54,7 @@ const handleDelete = async (event: React.MouseEvent) => {
 };
 
 <Alert isOpen={open} onOpenChange={(next) => !isDeleting && setOpen(next)}>
-  …
+  {/*...*/}
   <Alert.Close isDisabled={isDeleting}>Cancel</Alert.Close>
   <Alert.Close isLoading={isDeleting} onClick={handleDelete}>
     Delete
