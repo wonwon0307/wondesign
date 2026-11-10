@@ -52,6 +52,7 @@ pnpm add @wondesign/alert
 - ✅ **One at a Time**: Items shown while another is open wait their turn, in order
 - ✅ **Async Actions**: Confirms can wait for your action to finish before closing
 - ✅ **Destructive Confirms**: Mark a confirm as destructive to change the look of its button
+- ✅ **App-Wide Texts**: Set the default button texts once, like for another language
 - ✅ **Accessible by Default**: Announced as an alert dialog, with focus moved in and kept inside
 
 <Preview>
@@ -185,7 +186,8 @@ type ConfirmOptions = {
   onConfirm?: () => void | Promise<void>;
 
   // called when `onConfirm` throws or rejects. the confirm stays open.
-  onConfirmError?: (error: unknown) => void | Promise<void>;
+  // not awaited.
+  onConfirmError?: (error: unknown) => void;
 
   // the cancel button's text. defaults to `Alerter`'s `cancelText`, or `"Cancel"`.
   cancelText?: string;
@@ -287,7 +289,7 @@ type ConfirmItem = {
 
   // the actions passed to `showConfirm`, if set.
   onConfirm?: () => void | Promise<void>;
-  onConfirmError?: (error: unknown) => void | Promise<void>;
+  onConfirmError?: (error: unknown) => void;
 };
 ```
 
@@ -299,6 +301,8 @@ type ConfirmItem = {
   `ConfirmComponent` are built on [Headless Alert](/components/headless/alert),
   so they share its [known issues](/components/headless/alert#known-issues),
   like the page shifting sideways while an item is open.
+- 🐞 **Errors in `onConfirmError` aren't caught**: If `onConfirmError` throws,
+  or returns a promise that rejects, the error surfaces as an uncaught error.
 
 ---
 
