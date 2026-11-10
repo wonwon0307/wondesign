@@ -71,6 +71,35 @@ describe("Alert - interactions", () => {
     expect(trigger.dataset.state).toBe("open"); // should stay open
   });
 
+  it("should run onClick before closing the alert", () => {
+    let count = 0;
+    const handleClick = vi.fn().mockImplementation((e) => {
+      if (count === 0) {
+        e.preventDefault();
+      }
+
+      count++;
+    });
+
+    const { getByTestId, getByText } = render(
+      <TestComponent>
+        <AlertClose onClick={handleClick}>Close</AlertClose>
+      </TestComponent>,
+    );
+
+    const trigger = getByTestId("alert-trigger");
+    fireEvent.click(trigger);
+
+    const closeButton = getByText("Close");
+    fireEvent.click(closeButton);
+    expect(handleClick).toHaveBeenCalled();
+    // should not close if preventDefault was called
+    expect(trigger.dataset.state).toBe("open");
+
+    fireEvent.click(closeButton);
+    expect(trigger.dataset.state).toBe("closed"); // should close on second click
+  });
+
   it("should focus on the content itself, if no focusable element is in the content", () => {
     const { getByTestId } = render(<TestComponent>Test</TestComponent>);
 
