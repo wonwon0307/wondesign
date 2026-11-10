@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 import { Button, type ButtonProps } from "@/Button/Button";
 import { ContentContext, useAlertInternal } from "./contexts";
@@ -8,16 +8,10 @@ export interface AlertCloseProps extends Omit<
   "children" | "type" | "onClick"
 > {
   children: React.ReactNode;
-  onClose?: () => void | Promise<void>;
 }
 
-export function AlertClose({
-  children,
-  onClose,
-  isDisabled = false,
-  ...rest
-}: Readonly<AlertCloseProps>) {
-  const { closeAlert, isPending, setPending } = useAlertInternal();
+export function AlertClose({ children, ...rest }: Readonly<AlertCloseProps>) {
+  const { closeAlert } = useAlertInternal();
 
   const isInsideContent = useContext(ContentContext);
 
@@ -27,40 +21,8 @@ export function AlertClose({
     );
   }
 
-  useEffect(() => {
-    return () => {
-      setPending(false);
-    };
-  }, [setPending]);
-
-  const handleClose = async () => {
-    const result = onClose?.();
-
-    if (!(result instanceof Promise)) {
-      // synchronous onClose
-      closeAlert();
-      return;
-    }
-
-    setPending(true);
-
-    try {
-      await result;
-      closeAlert();
-    } catch {
-      // failed to close, do nothing
-    } finally {
-      setPending(false);
-    }
-  };
-
   return (
-    <Button
-      {...rest}
-      type="button"
-      isDisabled={isDisabled || isPending}
-      onClick={handleClose}
-    >
+    <Button {...rest} type="button" onClick={closeAlert}>
       {children}
     </Button>
   );
