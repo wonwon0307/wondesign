@@ -5,6 +5,7 @@ import {
   Roboto_Slab,
 } from "next/font/google";
 import { headers } from "next/headers";
+import { Alerter } from "@wondesign/ui/Alert";
 import { LightDarkProvider } from "@wondesign/ui/theme";
 import { LightDarkScript } from "@wondesign/ui/server";
 import { wondesignTokenVariables } from "@wondesign/ui/tokens";
@@ -67,6 +68,7 @@ export async function RootLayout({ children }: Readonly<Props>) {
             {children}
           </main>
           <footer role="contentinfo">Footer</footer>
+          <Alerter />
         </body>
       </LightDarkProvider>
     </html>
