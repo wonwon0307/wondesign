@@ -88,7 +88,8 @@ function MyAlert({ alert, closeAlert }: AlertComponentProps) {
       <Alert.Content className="content">
         <Alert.Title>{alert.title}</Alert.Title>
         <Alert.Message>{alert.message}</Alert.Message>
-        <Alert.Close>{alert.closeText}</Alert.Close>
+        {/* style the button by `alert.tone`: "primary", "secondary" or "destructive" */}
+        <Alert.Close className={alert.tone}>{alert.closeText}</Alert.Close>
       </Alert.Content>
     </Alert>
   );
@@ -167,3 +168,6 @@ The title is a [Heading](/components/texts/heading) at level 2, the message a
 [Description](/components/texts/description), and the buttons are
 [Buttons](/components/buttons/button). The rest, like the padding and the
 space between the buttons, have default values too.
+
+An alert's button is `"secondary"` by default. Pass `tone` to `showAlert` to
+change it for one alert.
