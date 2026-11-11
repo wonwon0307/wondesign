@@ -56,7 +56,13 @@ export function Toast() {
     scopeRef: toastRef,
   });
 
-  return isOpen && <div ref={toastRef} role="status">…</div>;
+  return (
+    isOpen && (
+      <div ref={toastRef} role="status">
+        …
+      </div>
+    )
+  );
 }
 ```
 
