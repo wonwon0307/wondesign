@@ -1,0 +1,173 @@
+import { Keyboard } from "@wondesign/ui/Code";
+
+# Usage
+
+This page covers `Alerter`: setting it up, building your own items and
+styling them. For calling `showAlert`, `showConfirm` and `dismissAlerts`, refer
+to the [Examples tab](/components/alert/examples). For
+every function, prop and type, refer to the
+[API](/components/alert/overview#api).
+
+---
+
+## Setting Up the Alerter
+
+Place `Alerter` once, where it stays in the page, like the root layout. It
+renders nothing until an item is shown:
+
+```tsx
+import { Alerter } from "@wondesign/alert";
+
+export function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <Alerter />
+      </body>
+    </html>
+  );
+}
+```
+
+- 📌 `Alerter` is a client component, so it can go straight into a server
+  layout, like the root layout of a Next.js app.
+
+The buttons read "Close" on an alert, and "OK" and "Cancel" on a confirm. To
+change these defaults across your app, pass them to `Alerter`. A text passed
+to `showAlert` or `showConfirm` still wins:
+
+```tsx
+<Alerter closeText="Back" confirmText="Confirm" cancelText="Go back" />
+```
+
+---
+
+## Building Your Own Items
+
+When the ready-made items don't fit, pass your own components to `Alerter`.
+`AlertComponent` renders every alert, and `ConfirmComponent` every confirm.
+Pass one or both: the other keeps the ready-made look.
+
+It is strongly recommended to build them from
+[Headless Alert](/components/headless/alert), so focus, the page behind and
+screen readers stay handled.
+
+### What Your Components Must Do
+
+- ✋ **Dismiss the item from `onOpenChange`.** **Without it, the item is never
+  dismissed**: it stays on screen, and items called after it never appear.
+  `onClick` on `Alert.Close` isn't enough, since <Keyboard>Esc</Keyboard>
+  doesn't run it.
+- ✋ **Pass `onClick` to the confirm button yourself.**
+- ✋ **Keep the item open.** Pass `isOpen` to `Alert`. `Alerter` removes your
+  component when the item is done, so there's no closed state to handle.
+- ✋ **Style and position it yourself**, including the backdrop. See
+  [Adding a Backdrop](/components/headless/alert/usage#adding-a-backdrop) in
+  Headless Alert.
+- ✋ **Order the buttons on purpose.** Focus starts on the first button in the
+  markup. Put "Cancel" first to start on the safest response, or the confirm
+  button first when <Keyboard>Esc</Keyboard> is enough to back out.
+
+Below are examples of an `AlertComponent` and a `ConfirmComponent`.
+
+```tsx
+// AlertComponent example
+import { Alerter, type AlertComponentProps } from "@wondesign/alert";
+import { Alert } from "@wondesign/headless/Alert";
+
+function MyAlert({ alert, closeAlert }: AlertComponentProps) {
+  // called by `Alert.Close` and Esc
+  const onOpenChange = (newOpen: boolean) => {
+    if (!newOpen) closeAlert();
+  };
+
+  return (
+    <Alert isOpen onOpenChange={onOpenChange}>
+      <Alert.Backdrop className="backdrop" />
+      <Alert.Content className="content">
+        <Alert.Title>{alert.title}</Alert.Title>
+        <Alert.Message>{alert.message}</Alert.Message>
+        {/* style the button by `alert.tone`: "primary", "secondary" or "destructive" */}
+        <Alert.Close className={alert.tone}>{alert.closeText}</Alert.Close>
+      </Alert.Content>
+    </Alert>
+  );
+}
+
+<Alerter AlertComponent={MyAlert} />;
+```
+
+A `ConfirmComponent` works the same way, with a `confirm` prop in place of
+`alert`. On the confirm button, call `event.preventDefault()` to keep
+the confirm open, await `confirm.onConfirm`, then call `closeConfirm(true)`:
+
+```tsx
+// ConfirmComponent example
+function MyConfirm({ confirm, closeConfirm }: ConfirmComponentProps) {
+  const [isPending, setIsPending] = useState(false);
+
+  const onConfirm = async (event: React.MouseEvent) => {
+    event.preventDefault(); // keeps the confirm open
+    setIsPending(true);
+
+    try {
+      await confirm.onConfirm?.();
+      closeConfirm(true);
+    } catch (error) {
+      confirm.onConfirmError?.(error);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  // called by "Cancel" and Esc, ignored while `onConfirm` runs
+  const onOpenChange = (newOpen: boolean) => {
+    if (!newOpen && !isPending) closeConfirm(false);
+  };
+
+  return (
+    <Alert isOpen onOpenChange={onOpenChange}>
+      …
+      {/* pass `isPending` to `isDisabled`, so "Cancel" can't be pressed while `onConfirm` runs */}
+      <Alert.Close isDisabled={isPending}>{confirm.cancelText}</Alert.Close>
+      <Alert.Close isLoading={isPending} onClick={onConfirm}>
+        {confirm.confirmText}
+      </Alert.Close>
+    </Alert>
+  );
+}
+```
+
+For everything your components receive, see
+[Props](/components/alert/overview#props).
+
+---
+
+## Styling
+
+**`Alerter` doesn't take `className` or `style`.** Start from the default
+styles. When they don't fit your design everywhere,
+[change the tokens](/foundations/tokens/customization). When you need more than
+the tokens allow, [build your own items](#building-your-own-items).
+
+### Default Styles
+
+The key values are:
+
+- 🎨 **Backdrop color**: `tokens.colors.overlay`, with the page behind
+  blurred by `4px`
+- 🎨 **Background color**: `tokens.colors.surface`
+- 🎨 **Border radius**: `tokens.radius.lg`
+- 🎨 **Width**: `90%` of the screen on small screens, and `50%` on larger
+  ones, up to `640px`
+- 🎨 **Stacking**: `tokens.zIndex.overlay` for the backdrop, and
+  `tokens.zIndex.alert` for the item
+
+The title is a [Heading](/components/texts/heading) at level 2, the message a
+[Description](/components/texts/description), and the buttons are
+[Buttons](/components/buttons/button). The rest, like the padding and the
+space between the buttons, have default values too.
+
+An alert's button is `"secondary"` by default. Pass `tone` to `showAlert` to
+change it for one alert.

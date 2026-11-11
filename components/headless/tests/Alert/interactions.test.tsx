@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 
 import { AlertClose } from "@/Alert/Close";
 import { TestComponent } from "./test-component";
@@ -39,62 +39,51 @@ describe("Alert - interactions", () => {
     expect(document.documentElement.style.overflowY).toBe("auto");
   });
 
-  it("should call the onClose callback when the alert is closed", () => {
-    const onClose = vi.fn();
-
-    const { getByTestId, getByText } = render(
-      <TestComponent>
-        <AlertClose onClose={onClose}>Close</AlertClose>
-      </TestComponent>,
-    );
+  it("should close on escape key press", () => {
+    const { getByTestId } = render(<TestComponent>Test</TestComponent>);
 
     const trigger = getByTestId("alert-trigger");
-    fireEvent.click(trigger);
 
-    const closeButton = getByText("Close");
-    fireEvent.click(closeButton);
-    expect(onClose).toHaveBeenCalled();
+    // initial state
     expect(trigger.dataset.state).toBe("closed");
-  });
 
-  it("should call async onClose when the alert is closed", async () => {
-    const onClose = vi.fn(() => Promise.resolve());
+    // do nothing
+    fireEvent.keyDown(document, { key: "Escape", code: "Escape" });
+    expect(trigger.dataset.state).toBe("closed"); // should still be closed
 
-    const { getByTestId, getByText } = render(
-      <TestComponent keepMounted>
-        <AlertClose onClose={onClose}>Confirm</AlertClose>
-        <AlertClose onClose={onClose}>Close</AlertClose>
-      </TestComponent>,
-    );
-
-    const content = getByTestId("alert-content");
-    const trigger = getByTestId("alert-trigger");
-    const confirmButton = getByText("Confirm");
-    const closeButton = getByText("Close");
-
+    // open the alert
     fireEvent.click(trigger);
-    fireEvent.click(confirmButton);
-    expect(onClose).toHaveBeenCalled();
-    expect(confirmButton.dataset.disabled).toBe("true");
-    expect(closeButton.dataset.disabled).toBe("true");
-    expect(content.dataset.pending).toBe("true");
-    expect(content.getAttribute("aria-busy")).toBe("true");
+    expect(trigger.dataset.state).toBe("open"); // should be open after click
 
-    await waitFor(() => {
-      expect(trigger.dataset.state).toBe("closed");
-      expect(confirmButton.dataset.disabled).toBeUndefined();
-      expect(closeButton.dataset.disabled).toBeUndefined();
-      expect(content.dataset.pending).toBeUndefined();
-      expect(content.getAttribute("aria-busy")).toBeFalsy();
-    });
+    fireEvent.keyDown(document, { key: "Escape", code: "Escape" });
+    expect(trigger.dataset.state).toBe("closed"); // should be closed after escape key press
   });
 
-  it("should not close if async onClose rejects", async () => {
-    const onClose = vi.fn(() => Promise.reject());
+  it("should NOT close on outside clicks", () => {
+    const { getByTestId } = render(<TestComponent>Test</TestComponent>);
+
+    const trigger = getByTestId("alert-trigger");
+    fireEvent.click(trigger);
+
+    fireEvent.mouseDown(document);
+    fireEvent.mouseUp(document);
+    fireEvent.click(document);
+    expect(trigger.dataset.state).toBe("open"); // should stay open
+  });
+
+  it("should run onClick before closing the alert", () => {
+    let count = 0;
+    const handleClick = vi.fn().mockImplementation((e) => {
+      if (count === 0) {
+        e.preventDefault();
+      }
+
+      count++;
+    });
 
     const { getByTestId, getByText } = render(
       <TestComponent>
-        <AlertClose onClose={onClose}>Close</AlertClose>
+        <AlertClose onClick={handleClick}>Close</AlertClose>
       </TestComponent>,
     );
 
@@ -103,13 +92,13 @@ describe("Alert - interactions", () => {
 
     const closeButton = getByText("Close");
     fireEvent.click(closeButton);
-    expect(onClose).toHaveBeenCalled();
-    expect(closeButton.dataset.disabled).toBe("true");
-
-    await waitFor(() => {
-      expect(closeButton.dataset.disabled).toBeUndefined();
-    });
+    expect(handleClick).toHaveBeenCalledTimes(1);
+    // should not close if preventDefault was called
     expect(trigger.dataset.state).toBe("open");
+
+    fireEvent.click(closeButton);
+    expect(handleClick).toHaveBeenCalledTimes(2);
+    expect(trigger.dataset.state).toBe("closed"); // should close on second click
   });
 
   it("should focus on the content itself, if no focusable element is in the content", () => {
@@ -120,20 +109,5 @@ describe("Alert - interactions", () => {
     fireEvent.click(trigger);
     const content = getByTestId("alert-content");
     expect(document.activeElement).toBe(content);
-  });
-
-  it("should NOT close on escape key or outside clicks", () => {
-    const { getByTestId } = render(<TestComponent>Test</TestComponent>);
-
-    const trigger = getByTestId("alert-trigger");
-    fireEvent.click(trigger);
-
-    fireEvent.keyDown(document, { key: "Escape", code: "Escape" });
-    expect(trigger.dataset.state).toBe("open"); // should stay open
-
-    fireEvent.mouseDown(document);
-    fireEvent.mouseUp(document);
-    fireEvent.click(document);
-    expect(trigger.dataset.state).toBe("open"); // should stay open
   });
 });

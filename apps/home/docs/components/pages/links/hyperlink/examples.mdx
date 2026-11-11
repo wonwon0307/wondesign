@@ -20,7 +20,7 @@ The `appearance` property sets the color. `"default"` is the default:
 - 🎨 **`"inherit"`**: the color of the text around it, for colored
   surfaces like banners and dark footers.
 
-<Preview>
+<Preview orientation="vertical">
   <p>
     {"Read our "}
     <Hyperlink href="#">{"privacy policy"}</Hyperlink>
@@ -51,7 +51,7 @@ The `appearance` property sets the color. `"default"` is the default:
 Use `"inherit"` on a colored surface, like an error banner. It's always
 underlined, since the underline is the only thing that shows it's a link:
 
-<Preview>
+<Preview orientation="vertical">
   <p
     style={{
       padding: "var(--spacing-md)",
@@ -87,7 +87,7 @@ default:
 - 📏 **`"none"`**: never underlined, for links that are clearly links, like
   in a navigation or a footer.
 
-<Preview>
+<Preview orientation="vertical">
   <p>
     {"See the "}
     <Hyperlink href="#">{"installation guide"}</Hyperlink>
@@ -122,7 +122,7 @@ default:
 Pass `isDisabled` to turn the link off. It can't be followed, leaves the tab
 order, fades, and isn't underlined on hover:
 
-<Preview>
+<Preview orientation="vertical">
   <p>
     {"Your invoices are in "}
     <Hyperlink href="#">{"Billing"}</Hyperlink>
@@ -149,7 +149,7 @@ order, fades, and isn't underlined on hover:
 When a single link needs to look different, change it with `className` or
 `style`, like a lighter font weight:
 
-<Preview>
+<Preview orientation="vertical">
   <p>
     {"Read the "}
     <Hyperlink href="#" style={{ fontWeight: "normal" }}>

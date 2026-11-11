@@ -16,7 +16,7 @@ The `variant` property sets whether screen readers announce the separator:
 - 🔹 **`"theme-break"`** — announced as a separator, for a real change of
   topic, like the break between two scenes in a story.
 
-<Preview>
+<Preview orientation="vertical">
   The first scene ends here.
   <Separator variant="theme-break" />
   The second scene starts here.
@@ -37,7 +37,7 @@ The `variant` property sets whether screen readers announce the separator:
 By default, the line is horizontal and divides content stacked on top of each
 other. Add `vertical` to divide content placed side by side:
 
-<Preview orientation="horizontal">
+<Preview>
   Home
   <Separator vertical />
   Docs
@@ -67,7 +67,7 @@ other. Add `vertical` to divide content placed side by side:
 The `bold` property draws a 2px line instead of a 1px one, for breaks that
 should stand out more:
 
-<Preview>
+<Preview orientation="vertical">
   Regular
   <Separator />
   Bold
@@ -104,7 +104,7 @@ its container, like a `gap`. Override any of them with `className` or
 When a single separator needs to look different, change it with `className`
 or `style`, like a line with space around it in a stronger color:
 
-<Preview>
+<Preview orientation="vertical">
   Above the line.
   <Separator style={{ margin: "16px 0", backgroundColor: "currentColor" }} />
   Below the line.

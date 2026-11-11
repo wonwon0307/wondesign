@@ -1,9 +1,10 @@
-import { useId, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
 import { useScrollLock } from "@wondesign/disclosure/scroll-lock";
 import { useAutoFocus } from "@wondesign/focus/auto-focus";
 import { useBackgroundInert } from "@wondesign/focus/background-inert";
 import { useFocusTrap } from "@wondesign/focus/trap";
+import { useEscapeKey } from "@wondesign/key-events/escape-key";
 
 import { AlertContext } from "./contexts";
 
@@ -33,15 +34,15 @@ export function AlertProvider({
     setControlledOpen: onOpenChange,
     initialState: defaultOpen,
   });
-  const contentId = useId();
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
-  const [isPending, setPending] = useState(false);
   const [titleId, setTitleId] = useState<string | undefined>(undefined);
   const [messageId, setMessageId] = useState<string | undefined>(undefined);
+  const [contentId, setContentId] = useState<string | undefined>(undefined);
 
   useAutoFocus(wrapperRef, { enabled: isOpen, returnRef: triggerRef });
   useBackgroundInert(wrapperRef, { enabled: isOpen });
+  useEscapeKey(closeAlert, { enabled: isOpen });
   useFocusTrap(wrapperRef, { enabled: isOpen });
   useScrollLock({ enabled: isOpen });
 
@@ -52,15 +53,14 @@ export function AlertProvider({
       closeAlert,
       keepMounted,
       disablePortal,
-      isPending,
-      setPending,
-      contentId,
       wrapperRef,
       triggerRef,
       titleId,
       setTitleId,
       messageId,
       setMessageId,
+      contentId,
+      setContentId,
     }),
     [
       isOpen,
@@ -68,7 +68,6 @@ export function AlertProvider({
       closeAlert,
       keepMounted,
       disablePortal,
-      isPending,
       contentId,
       titleId,
       messageId,

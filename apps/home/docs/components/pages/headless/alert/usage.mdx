@@ -1,3 +1,4 @@
+import { Keyboard } from "@wondesign/ui/Code";
 import { Callout } from "@wondesign/ui/Texts";
 
 # Usage
@@ -7,48 +8,59 @@ the [API tab](/components/headless/alert/api).
 
 ---
 
-## Closing the Alert
+## Running an Action
 
-Every close button closes the alert, **including the one that confirms**. Run the
-action itself in `onClose`:
+Every close button closes the alert, **including the one that confirms**. Run
+the action itself in `onClick`. You don't need to close the alert yourself:
+`Alert.Close` does it after `onClick`.
 
 ```tsx
 <Alert.Close>Cancel</Alert.Close>
-<Alert.Close onClose={deleteFile}>Delete</Alert.Close>
+<Alert.Close onClick={logOut}>Log out</Alert.Close>
 ```
 
-### Async onClose
+Both are `Alert.Close`, so nothing tells them apart but your styles.
+Make the one that runs an action look different from the ones that
+only close, so the user can tell which one acts.
 
-When `onClose` returns a promise, the alert waits for it before closing. While
-it waits, **every close button is disabled**, not just the one that was
-pressed, and the content is marked as busy:
+### Async Actions
 
-```tsx
-const handleDelete = async () => {
-  await deleteFile();
-};
+The alert closes right after `onClick` runs. **It doesn't wait for a returned
+promise**, so a failing action can't keep it open. To keep the alert open
+until an action finishes, call `event.preventDefault()` in `onClick`, and
+close the alert yourself once the action is done, by controlling it or with
+`closeAlert` from [`useAlert`](#building-your-own-parts).
 
-// "Cancel" is disabled as well, while "Delete" is waiting
-<Alert.Close>Cancel</Alert.Close>
-<Alert.Close onClose={handleDelete}>Delete</Alert.Close>
-```
-
-If the promise rejects, the alert stays open, and the error is **silently
-swallowed**: it isn't rethrown or logged. **Return without throwing to close
-the alert even when the action fails.** Catch the error inside `onClose` to
-show feedback or report it:
+The alert doesn't know about your action, so while it runs, **the close
+buttons stay enabled, and <Keyboard>Esc</Keyboard> still closes the alert**.
+Disable your buttons, and ignore closes in `onOpenChange` until the action is
+done:
 
 ```tsx
-const handleDelete = async () => {
+const [open, setOpen] = useState(false);
+const [isDeleting, setDeleting] = useState(false);
+
+const handleDelete = async (event: React.MouseEvent) => {
+  event.preventDefault(); // keeps the alert open
+  setDeleting(true);
+
   try {
     await deleteFile();
-  } catch (error) {
-    showError("Couldn't delete the file");
-    throw error; // keeps the alert open
+    setOpen(false); // or `closeAlert()`, inside a component of your own
+  } catch {
+    showError("Couldn't delete the file"); // keeps the alert open
+  } finally {
+    setDeleting(false);
   }
 };
 
-<Alert.Close onClose={handleDelete}>Delete</Alert.Close>;
+<Alert isOpen={open} onOpenChange={(next) => !isDeleting && setOpen(next)}>
+  {/*...*/}
+  <Alert.Close isDisabled={isDeleting}>Cancel</Alert.Close>
+  <Alert.Close isLoading={isDeleting} onClick={handleDelete}>
+    Delete
+  </Alert.Close>
+</Alert>;
 ```
 
 ---
@@ -63,9 +75,13 @@ content. **Start on the least destructive response**: put "Cancel" before
 <Alert.Content>
   {/* focused when the alert opens */}
   <Alert.Close>Cancel</Alert.Close>
-  <Alert.Close onClose={deleteFile}>Delete</Alert.Close>
+  <Alert.Close onClick={deleteFile}>Delete</Alert.Close>
 </Alert.Content>
 ```
+
+You can't choose another element to start on yet, like the title of a long
+message so it's read from the top. For now, the order in the markup decides
+where focus starts.
 
 ---
 
@@ -205,6 +221,5 @@ with plain CSS:
 
 ```css
 .content[data-state="open"] { … }
-.content[data-pending] { … }
 .close[data-disabled] { … }
 ```

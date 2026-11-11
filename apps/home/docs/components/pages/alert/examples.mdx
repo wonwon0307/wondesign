@@ -1,0 +1,279 @@
+import { Keyboard } from "@wondesign/ui/Code";
+import { AlertDemo, Preview } from "@/widgets/preview";
+
+# Examples
+
+This page covers calling `showAlert`, `showConfirm` and `dismissAlerts`, from
+a simple alert to items that follow one another. For `Alerter`, refer to the
+[Usage tab](/components/alert/usage). Every example assumes `Alerter` is
+[set up](/components/alert/usage#setting-up-the-alerter), and uses the
+default components from `@wondesign/alert`. Press the button in a preview to
+see the item.
+
+---
+
+## Showing an Alert
+
+`showAlert` shows an alert: a title and a message, with a single button to
+close it. The button reads "Close" by default:
+
+<Preview>
+  <AlertDemo
+    type="alert"
+    label="Upload"
+    title="Upload failed"
+    description="The file is larger than 10 MB."
+  />
+</Preview>
+
+```tsx
+import { showAlert } from "@wondesign/alert";
+
+const handleClick = () => {
+  showAlert("Upload failed", "The file is larger than 10 MB.");
+};
+
+<Button onClick={handleClick}>Upload</Button>;
+```
+
+Pass `closeText` to change the button's text, and `tone` to change its look.
+Await `showAlert` to run something once it closes:
+
+<Preview>
+  <AlertDemo
+    type="alert"
+    label="Finish"
+    title="Setup complete"
+    description="Your workspace is ready."
+    closeText="Continue"
+    tone="primary"
+  />
+</Preview>
+
+```tsx
+const handleClick = async () => {
+  await showAlert("Setup complete", "Your workspace is ready.", {
+    closeText: "Continue",
+    tone: "primary",
+  });
+
+  router.push("/dashboard");
+};
+
+<Button onClick={handleClick}>Finish</Button>;
+```
+
+---
+
+## Showing a Confirm
+
+`showConfirm` shows a confirm, and resolves to `true` when the user confirms.
+The buttons read "OK" and "Cancel" by default:
+
+<Preview>
+  <AlertDemo
+    type="confirm"
+    label="Place order"
+    title="Place your order?"
+    description="Your card will be charged $24.99."
+  />
+</Preview>
+
+```tsx
+import { showConfirm } from "@wondesign/alert";
+
+const handleClick = async () => {
+  const confirmed = await showConfirm(
+    "Place your order?",
+    "Your card will be charged $24.99.",
+  );
+
+  if (confirmed) placeOrder();
+};
+
+<Button onClick={handleClick}>Place order</Button>;
+```
+
+Pass `confirmText` and `cancelText` to change the buttons' text:
+
+<Preview>
+  <AlertDemo
+    type="confirm"
+    label="Save"
+    title="Save changes?"
+    description="Your team will see the new version."
+    confirmText="Save"
+    closeText="Not yet"
+  />
+</Preview>
+
+```tsx
+const handleClick = async () => {
+  const confirmed = await showConfirm(
+    "Save changes?",
+    "Your team will see the new version.",
+    { confirmText: "Save", cancelText: "Not yet" },
+  );
+
+  if (confirmed) save();
+};
+
+<Button onClick={handleClick}>Save</Button>;
+```
+
+---
+
+## Destructive Actions
+
+Pass `isDestructive` when confirming would delete or lose something. The
+confirm button then uses the destructive look:
+
+<Preview>
+  <AlertDemo
+    type="confirm"
+    label="Delete"
+    title="Delete this file?"
+    description="This can't be undone."
+    variant="destructive"
+    confirmText="Delete"
+  />
+</Preview>
+
+```tsx
+const handleClick = async () => {
+  const confirmed = await showConfirm(
+    "Delete this file?",
+    "This can't be undone.",
+    { confirmText: "Delete", isDestructive: true },
+  );
+
+  if (confirmed) deleteFile();
+};
+
+<Button onClick={handleClick}>Delete</Button>;
+```
+
+---
+
+## Async Actions
+
+Pass the action as `onConfirm` to keep the confirm open while it runs. The
+confirm button shows that it's loading, and "Cancel" and
+
+<Keyboard>Esc</Keyboard> do nothing until it finishes.
+
+If the action fails, the confirm stays open, and **the promise and every item
+after it keep waiting** until the user cancels or tries again. Pass
+`onConfirmError` to report the error. **Without it, the error is silently
+swallowed.** (Publishing takes a second in this preview.)
+
+<Preview>
+  <AlertDemo
+    type="confirm"
+    label="Publish (success)"
+    title="Publish this post?"
+    description="It will be visible to everyone."
+    action="success"
+  />
+  <AlertDemo
+    type="confirm"
+    label="Publish (fail)"
+    title="Publish this post?"
+    description="It will be visible to everyone."
+    action="failure"
+  />
+</Preview>
+
+```tsx
+const handleClick = async () => {
+  await showConfirm("Publish this post?", "It will be visible to everyone.", {
+    onConfirm: publishPost,
+    onConfirmError: (error) => reportError(error),
+  });
+};
+
+<Button onClick={handleClick}>Publish</Button>;
+```
+
+- 📌 To close the confirm even when the action fails, catch the error
+  inside `onConfirm` and return without throwing.
+
+### Prefer Running the Action Afterwards
+
+While a confirm is open, no other item can show, so **an alert about the
+failure can't appear until the confirm closes**. For actions that can fail,
+await `showConfirm` instead, run the action once it closes, and show an alert
+if it fails:
+
+```tsx
+const handleClick = async () => {
+  const confirmed = await showConfirm(
+    "Publish this post?",
+    "It will be visible to everyone.",
+  );
+
+  if (!confirmed) return;
+
+  try {
+    await publishPost();
+  } catch {
+    showAlert("Couldn't publish the post", "Try again in a moment.");
+  }
+};
+```
+
+---
+
+## One After Another
+
+Await an item before showing the next, so the next one can depend on the
+answer:
+
+<Preview>
+  <AlertDemo
+    type="confirm"
+    label="Sign up"
+    title="Create your account?"
+    description="You can change your details later."
+    followUp={{ title: "Welcome", description: "Your account is ready." }}
+  />
+</Preview>
+
+```tsx
+const handleClick = async () => {
+  const signedUp = await showConfirm(
+    "Create your account?",
+    "You can change your details later.",
+  );
+
+  if (signedUp) {
+    await createAccount(); // takes a second in this preview
+    showAlert("Welcome", "Your account is ready.");
+  }
+};
+
+<Button onClick={handleClick}>Sign up</Button>;
+```
+
+Items shown without awaiting don't replace the open one: they wait their
+turn, in the order they were called.
+
+---
+
+## Dismissing Items
+
+Call `dismissAlerts` to close the open item and every waiting one at once,
+like when the user logs out:
+
+```tsx
+import { dismissAlerts } from "@wondesign/alert";
+
+async function logOut() {
+  dismissAlerts();
+  await signOut();
+}
+```
+
+Every dismissed confirm resolves `showConfirm` to `false`, and every dismissed
+alert resolves `showAlert`. **This includes a confirm whose `onConfirm` is
+still running**: it resolves to `false`, even if the action then succeeds.

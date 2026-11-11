@@ -22,7 +22,7 @@ from `@wondesign/tokens`.
 Uses the `tokens.colors.text` token. Use it for something worth knowing,
 like how billing works:
 
-<Preview>
+<Preview orientation="vertical">
   <Callout variant="info">
     {"Invoices are created on the 1st of every month."}
   </Callout>
@@ -39,7 +39,7 @@ like how billing works:
 Uses the `tokens.colors.warning` token. Use it for something to be careful
 about, like a setting with side effects:
 
-<Preview>
+<Preview orientation="vertical">
   <Callout variant="warning">
     {
       "Changing your username also changes your profile URL. Links to the old URL will stop working."
@@ -59,7 +59,7 @@ about, like a setting with side effects:
 Uses the `tokens.colors.error` token. Use it for something that's wrong and
 needs fixing, like an expired card:
 
-<Preview>
+<Preview orientation="vertical">
   <Callout variant="error">
     {"Your card has expired. Update it to keep using paid features."}
   </Callout>
@@ -76,7 +76,7 @@ needs fixing, like an expired card:
 Uses the `tokens.colors.success` token. Use it for something that's set up
 correctly, like a verified domain:
 
-<Preview>
+<Preview orientation="vertical">
   <Callout variant="success">
     {"Your domain is verified. Emails are sent from @acme.com."}
   </Callout>
@@ -100,7 +100,7 @@ title renders as a `Heading`, the content as a `Paragraph`, and the icon as
 that icon. Leave out the `title` for a short note, and the `icon` to keep the
 variant's own:
 
-<Preview>
+<Preview orientation="vertical">
   <Callout variant="warning">
     {"Changing your username also changes your profile URL."}
   </Callout>
@@ -128,7 +128,7 @@ default:
 - **`"medium"`**: a level 5 title, medium content and a medium icon
 - **`"small"`**: a level 6 title, small content and a small icon
 
-<Preview>
+<Preview orientation="vertical">
   <Callout size="large" title="Large">
     {"A level 4 title, with large content."}
   </Callout>
@@ -173,7 +173,7 @@ The default icons are as follows:
 When a callout needs to look different, change it with `className` or
 `style`, like a flat banner with a colored edge:
 
-<Preview>
+<Preview orientation="vertical">
   <Callout
     variant="success"
     style={{ borderRadius: 0, borderLeft: "4px solid" }}
@@ -214,7 +214,7 @@ choose how each of them renders:
 **They render as they are, without the callout's styles for them.** Use the
 text components yourself to keep the text styles:
 
-<Preview>
+<Preview orientation="vertical">
   <Callout
     title={<div style={{ margin: "12px 0" }}>Need help?</div>}
     icon={<span>🎉</span>}
