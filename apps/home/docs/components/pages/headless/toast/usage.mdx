@@ -54,6 +54,10 @@ needs a way to close it, like `ToastClose`:
 </Toast>;
 ```
 
+Don't change `duration` while the toast is open. The timer starts over with
+the new `duration`, **even while the toast is paused**, so it can close under
+the user's pointer.
+
 ---
 
 ## Closing
