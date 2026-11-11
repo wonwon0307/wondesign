@@ -1,0 +1,169 @@
+import { Keyboard } from "@wondesign/ui/Code";
+
+# API
+
+This page covers every part of `Toast`, its hook and its types. Import them
+from `@wondesign/headless/Toast`:
+
+```ts
+import {
+  // components
+  ToastArea,
+  Toast,
+  ToastTitle,
+  ToastMessage,
+  ToastClose,
+  // hook
+  useToast,
+  // types
+  type ToastAreaProps,
+  type ToastProps,
+  type ToastTitleProps,
+  type ToastMessageProps,
+  type ToastCloseProps,
+} from "@wondesign/headless/Toast";
+```
+
+---
+
+## Components
+
+The parts that make up a toast. Each one renders a single element and accepts
+that element's props. Every `Toast` must be inside `ToastArea`, and every
+other part inside a `Toast`.
+
+### ToastArea
+
+Renders a `<div>` with `role="status"`, `aria-live="polite"` and
+`aria-atomic="false"`, in its own [Portal](/components/headless/portal) unless
+`disablePortal` is `true`.
+
+**Props**
+
+Accepts all `<div>` props, except `role`, `aria-live` and `aria-atomic`, which
+the area manages. Key props:
+
+```ts
+interface ToastAreaProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  disablePortal?: boolean; // defaults to `false`
+  // ...
+}
+```
+
+### Toast
+
+Renders a `<div>` that holds one toast. It holds the open state and the timer,
+pauses the timer while hovered or focused, and closes on
+<Keyboard>Esc</Keyboard> while focus is inside it. Must be used inside
+`ToastArea`.
+
+**Props**
+
+Accepts all `<div>` props, except `hidden`, `role`, `aria-live`,
+`aria-atomic`, `onMouseEnter`, `onMouseLeave`, `onFocus` and `onBlur`, which
+the toast manages. It sets its own `ref`, so it doesn't take one. Key props:
+
+```ts
+interface ToastProps {
+  children: React.ReactNode;
+  // in milliseconds, defaults to `5000`.
+  // `0` keeps it open until closed.
+  duration?: number;
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
+  defaultOpen?: boolean; // defaults to `false`
+  asChild?: boolean;
+  // ...
+}
+```
+
+**Data Attributes**
+
+```ts
+"data-paused": "true" | undefined; // present while the timer is paused
+```
+
+### ToastTitle
+
+Renders an `<h3>` with the heading of the toast. Must be used inside `Toast`.
+
+**Props**
+
+Accepts all `<h3>` props. Key props:
+
+```ts
+interface ToastTitleProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  // ...
+}
+```
+
+### ToastMessage
+
+Renders a `<p>` with the text of the toast. Must be used inside `Toast`.
+
+**Props**
+
+Accepts all `<p>` props. Key props:
+
+```ts
+interface ToastMessageProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  // ...
+}
+```
+
+### ToastClose
+
+Renders a `<button>` that closes the toast. If passed, `onClick` runs before
+the toast closes, and can keep it open by calling `event.preventDefault()`.
+**It doesn't wait for a returned promise.** Must be used inside `Toast`.
+
+**Props**
+
+Accepts all props of [Headless Button](/components/headless/button), except
+`type`, which the close button manages. Key props:
+
+```ts
+interface ToastCloseProps {
+  children: React.ReactNode;
+  // runs before the toast closes.
+  // call `event.preventDefault()` to keep it open.
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  asChild?: boolean;
+  isDisabled?: boolean; // defaults to `false`
+  // ...
+}
+```
+
+**Data Attributes**
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```
+
+---
+
+## Hooks
+
+### useToast
+
+Reads the state of the nearest `Toast`, for building your own parts. Throws an
+error when used outside one.
+
+**Returns**
+
+```ts
+function useToast(): {
+  isOpen: boolean; // whether the toast is open
+  isPaused: boolean; // whether the timer is paused
+  dismissToast: () => void; // closes it
+  pauseTimer: () => void; // stops the timer
+  resumeTimer: () => void; // continues the timer from where it stopped
+};
+```

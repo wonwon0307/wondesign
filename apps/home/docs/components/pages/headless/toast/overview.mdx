@@ -1,0 +1,117 @@
+import { Keyboard } from "@wondesign/ui/Code";
+
+# Toast
+
+`Toast` shows a short message without interrupting the user, like "Saved" or
+"Link copied". It announces the message to screen readers as a status
+message, through a polite live region with the `status` role. It closes on its
+own after a while, and waits while the user is reading it, so you only bring
+the look.
+
+`Toast` is built on these accessibility guidelines: WAI-ARIA's
+[`aria-live`](https://www.w3.org/TR/wai-aria-1.2/#aria-live) property and
+[`status`](https://www.w3.org/TR/wai-aria-1.2/#status) role, and WCAG's
+[Status Messages](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html).
+
+Use it for messages that don't need an answer. For messages the user has to
+answer before they carry on, or urgent ones that can't wait, like an error
+that blocks their work, **use an [Alert](/components/headless/alert)
+instead**.
+
+---
+
+## Key Features
+
+- ✅ **Accessible by Default**: Announced to screen readers without moving focus
+- ✅ **Closes on Its Own**: Closes after a set time, or stays until it's closed
+- ✅ **Waits for the User**: Pauses while hovered or focused
+- ✅ **Many Toasts, One Area**: Show several toasts together in a single area
+- ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
+- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
+
+---
+
+## Structure
+
+For what you can configure, refer to the
+[Usage tab](/components/headless/toast/usage). For every prop, refer to the
+[API tab](/components/headless/toast/api).
+
+- 🧩 **ToastArea**: the area every toast shows in. Render it once, and put
+  your toasts inside it.
+- 🧩 **Toast**: one toast. It holds its own open state and timer.
+- 🧩 **ToastTitle**: an optional heading for the toast.
+- 🧩 **ToastMessage**: the text of the toast.
+- 🧩 **ToastClose**: a button that closes the toast, after running its
+  `onClick`.
+
+```tsx
+<ToastArea>
+  <Toast isOpen={isSaved} onOpenChange={setSaved}>
+    <ToastTitle>Saved</ToastTitle>
+    <ToastMessage>Your changes are live.</ToastMessage>
+    <ToastClose>Dismiss</ToastClose>
+  </Toast>
+</ToastArea>
+```
+
+**Every toast must go inside a `ToastArea`**, and the title, message and close
+button must go inside a toast.
+
+---
+
+## How It Works
+
+A toast has to reach the user without getting in their way. `Toast` builds
+this in, with a WAI-ARIA live region: it decides how the toast closes, when it
+waits, and what screen readers announce.
+You don't need to wire up any of it.
+
+### Closing
+
+The toast closes after `duration`, 5 seconds by default, or through
+`ToastClose`. <Keyboard>Esc</Keyboard> also closes it when focus is inside
+the toast. Clicks outside don't close it.
+
+The timer automatically starts when the toast opens, from the full `duration`
+each time.
+
+<Keyboard>Esc</Keyboard> is handled by [Escape
+Key](/foundations/key-events/escape-key).
+
+### Waiting for the User
+
+The timer pauses while the pointer is over the toast or focus is inside it.
+Once both have left, the timer resumes, rather than starting over.
+
+### Screen Readers
+
+`ToastArea` is a polite live region, so each toast is announced when it
+appears, once the screen reader has finished what it's reading. Focus doesn't
+move, so the user can carry on where they were.
+
+Each toast is read as a whole, **including the label of its close button**
+(see [Closing](/components/headless/toast/usage#closing) for an example).
+Toasts already showing aren't read again when a new one appears.
+
+---
+
+## Known Issues
+
+- 🐞 **Focus is lost when a toast closes**: If focus is inside a toast when it
+  closes, by `ToastClose` or <Keyboard>Esc</Keyboard>, it **moves to the start
+  of the page**, and the user loses their place.
+
+---
+
+## Upcoming Features
+
+- 🔜 **Shortcut to the Toasts**: Jump to the toasts with a keyboard shortcut, instead of tabbing to the end of the page
+- 🔜 **Pause When the Page Is Hidden**: The timer pauses while the tab is in the background or the window loses focus, so toasts don't close unseen
+- 🔜 **Swipe to Dismiss**: Close a toast by swiping it away on touch screens
+
+---
+
+## Used By
+
+- 📦 **Toast** in [`@wondesign/toast`](/components/toast)
