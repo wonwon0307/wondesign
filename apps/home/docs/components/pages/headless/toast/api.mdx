@@ -151,10 +151,12 @@ interface ToastCloseProps {
 
 ## Hooks
 
+Hooks read the state of the nearest `Toast`, for building your own parts.
+They throw an error when used outside one.
+
 ### useToast
 
-Reads the state of the nearest `Toast`, for building your own parts. Throws an
-error when used outside one.
+Reads the state of the nearest `Toast`.
 
 **Returns**
 
