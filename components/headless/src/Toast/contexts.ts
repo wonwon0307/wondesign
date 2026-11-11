@@ -22,6 +22,7 @@ export function useToastArea() {
 
 type ToastContextType = {
   isOpen: boolean;
+  isPaused: boolean;
   dismissToast: () => void;
   resumeTimer: () => void;
   pauseTimer: () => void;
@@ -48,11 +49,18 @@ export function useToastInternal(errMsg?: string) {
 }
 
 export function useToast() {
-  const { isOpen, dismissToast, resumeTimer, pauseTimer, keepMounted } =
-    useToastInternal();
+  const {
+    isOpen,
+    isPaused,
+    dismissToast,
+    resumeTimer,
+    pauseTimer,
+    keepMounted,
+  } = useToastInternal();
 
   return {
     isOpen,
+    isPaused,
     dismissToast,
     resumeTimer,
     pauseTimer,

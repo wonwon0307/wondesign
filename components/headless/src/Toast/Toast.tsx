@@ -4,6 +4,7 @@ import {
   useLayoutEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
 import { useEscapeKey } from "@wondesign/key-events/escape-key";
@@ -55,6 +56,14 @@ export function Toast({
   const { isReady } = useToastArea();
   const isHoveredRef = useRef<boolean>(false);
   const isFocusedRef = useRef<boolean>(false);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [prevOpen, setPrevOpen] = useState<boolean>(isOpen);
+
+  // 열리거나 닫힐 때, 이전의 일시정지 상태를 초기화한다.
+  if (prevOpen !== isOpen) {
+    setPrevOpen(isOpen);
+    setIsPaused(false);
+  }
 
   useLayoutEffect(() => {
     dismissRef.current = dismissToast;
@@ -66,7 +75,7 @@ export function Toast({
     scopeRef: contentRef,
   });
 
-  const resumeTimer = useCallback(() => {
+  const startTimer = useCallback(() => {
     if (remainingRef.current <= 0) return;
     if (timerRef.current) return; // 타이머가 이미 실행 중이면, 중복해서 시작하지 않는다.
 
@@ -77,7 +86,14 @@ export function Toast({
     );
   }, []);
 
+  const resumeTimer = useCallback(() => {
+    setIsPaused(false);
+    startTimer();
+  }, [startTimer]);
+
   const pauseTimer = useCallback(() => {
+    setIsPaused(true);
+
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
@@ -99,30 +115,30 @@ export function Toast({
   }, [duration]);
 
   useEffect(() => {
-    if (duration <= 0) return;
-
+    // duration이 0 이하이면 startTimer가 타이머를 시작하지 않는다.
     if (isOpen && isReady) {
       isHoveredRef.current = false;
       isFocusedRef.current = false;
       resetTimer();
-      resumeTimer();
+      startTimer();
     }
 
     return () => {
       resetTimer();
     };
-  }, [isOpen, isReady, resetTimer, resumeTimer, duration]);
+  }, [isOpen, isReady, resetTimer, startTimer]);
 
   const contextValue = useMemo(
     () => ({
       isOpen,
+      isPaused,
       dismissToast,
       resumeTimer,
       pauseTimer,
       keepMounted,
       contentRef,
     }),
-    [isOpen, dismissToast, resumeTimer, pauseTimer, keepMounted],
+    [isOpen, isPaused, dismissToast, resumeTimer, pauseTimer, keepMounted],
   );
 
   if (!isReady) return null;
@@ -160,6 +176,7 @@ export function Toast({
         onFocus={handleFocus}
         onBlur={handleBlur}
         data-state={isOpen ? "open" : "closed"}
+        data-paused={isPaused || undefined}
       >
         {children}
       </Component>
