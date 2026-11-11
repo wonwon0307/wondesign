@@ -1,0 +1,222 @@
+# Usage
+
+This page covers what you can configure on `Toast`. For every prop, refer to
+the [API tab](/components/headless/toast/api).
+
+---
+
+## Placing the Area
+
+Render `ToastArea` once, near the root of your app, and put every toast inside
+it. It renders at the end of `<body>`, but **doesn't position or stack the
+toasts**: style it yourself, for example as a column in a corner of the
+screen.
+
+Keep everything that isn't a toast outside the area. **Anything inside it is
+announced to screen readers when it changes.**
+
+```tsx
+<ToastArea className="toast-area">
+  <Toast>…</Toast>
+  <Toast>…</Toast>
+</ToastArea>
+```
+
+```css
+.toast-area {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+```
+
+---
+
+## Duration
+
+The toast closes after 5 seconds by default. Pass `duration`, in milliseconds,
+to change it.
+
+**Pass `0` to keep the toast open until it's closed.** A toast that stays open
+needs a way to close it, like `ToastClose`:
+
+```tsx
+// closes after 10 seconds
+<Toast duration={10000}>…</Toast>;
+
+// stays open until closed
+<Toast duration={0}>
+  {/*…*/}
+  <ToastClose>Dismiss</ToastClose>
+</Toast>;
+```
+
+Don't change `duration` while the toast is open. The timer starts over with
+the new `duration`, **even while the toast is paused**, so it can close under
+the user's pointer.
+
+---
+
+## Closing
+
+`ToastClose` runs its `onClick`, then closes the toast. Call
+`event.preventDefault()` in `onClick` to keep it open:
+
+```tsx
+<ToastClose>Dismiss</ToastClose>
+<ToastClose onClick={undo}>Undo</ToastClose>
+```
+
+### Screen Readers
+
+The close button's label is announced along with the message, as part of the
+toast. This toast is read as "Saved. Your changes are live. Dismiss":
+
+```tsx
+<Toast>
+  <ToastTitle>Saved</ToastTitle>
+  <ToastMessage>Your changes are live.</ToastMessage>
+  <ToastClose>Dismiss</ToastClose>
+</Toast>
+```
+
+So **pick a label that makes sense after the message**, like "Dismiss" or
+"Undo". For an icon-only button, give it an `aria-label`.
+
+---
+
+## Heading Level
+
+`ToastTitle` renders an `<h3>`. Use `asChild` to render another heading
+level:
+
+```tsx
+<ToastTitle asChild>
+  <h4>Saved</h4>
+</ToastTitle>
+```
+
+---
+
+## Open State
+
+`Toast` keeps its own state and starts closed. Pass `defaultOpen` to start it
+open, or `isOpen` and `onOpenChange` to control it yourself. Both modes are
+powered by [Disclosure](/foundations/disclosure/open-state#how-it-works).
+There's no trigger part, so a toast is shown in one of these two ways.
+
+**Controlled**: Pass `isOpen` and `onOpenChange`, and open the toast from
+wherever the event happens, like after a save:
+
+```tsx
+const [isSaved, setSaved] = useState(false);
+
+const handleSave = async () => {
+  await save();
+  setSaved(true);
+};
+
+<button onClick={handleSave}>Save</button>;
+
+<ToastArea>
+  <Toast isOpen={isSaved} onOpenChange={setSaved}>
+    <ToastMessage>Saved</ToastMessage>
+  </Toast>
+</ToastArea>;
+```
+
+**Open on Render**: Pass `defaultOpen`, and the toast shows as soon as it's
+rendered, like a welcome message on page load. It **can't be opened again once
+it closes**, so control it if you need to show it more than once:
+
+```tsx
+<ToastArea>
+  <Toast defaultOpen>
+    <ToastMessage>Welcome back</ToastMessage>
+  </Toast>
+</ToastArea>
+```
+
+---
+
+## Rendering in Place
+
+The area renders in a [Portal](/components/headless/portal) at the end of
+`<body>`, so it isn't clipped by its parents.
+Pass `disablePortal` to `ToastArea` to render it where it is in the document
+instead:
+
+```tsx
+<ToastArea disablePortal>…</ToastArea>
+```
+
+**Make sure you know what you're doing**: rendered in place, the toasts can be
+clipped by their parents or covered by other elements, and handling that is up
+to you.
+
+---
+
+## Building Your Own Parts
+
+`useToast` gives any component inside `Toast` the open state, a way to close
+it, and control over the timer. For example, a link that closes the toast
+after going somewhere:
+
+```tsx
+import { useToast } from "@wondesign/headless/Toast";
+
+function ViewLink() {
+  const { dismissToast } = useToast();
+
+  return (
+    <a href="/files" onClick={dismissToast}>
+      View
+    </a>
+  );
+}
+```
+
+`pauseTimer` and `resumeTimer` stop and continue the timer, as hovering and
+focusing do. `resumeTimer` **doesn't check whether the toast is still hovered
+or focused**, so calling it then lets the toast close under the user.
+
+For everything the hook returns, refer to the
+[API tab](/components/headless/toast/api#usetoast).
+
+---
+
+## Styling with Data Attributes
+
+The parts expose their state as
+[data attributes](/components/headless/toast/api), so you can style each state
+with plain CSS:
+
+```css
+.toast[data-paused] { … }
+.close[data-disabled] { … }
+```
+
+For example, a bar that shrinks over the toast's `duration` and stops while
+the timer is paused:
+
+```css
+.progress {
+  animation: shrink 5000ms linear forwards; /* same as `duration` */
+}
+
+.toast[data-paused] .progress {
+  animation-play-state: paused;
+}
+
+@keyframes shrink {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}
+```

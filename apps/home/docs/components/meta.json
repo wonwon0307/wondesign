@@ -19,6 +19,7 @@
             "[Alert](/headless/alert)",
             "[Collapsible](/headless/collapsible)",
             "[Tabs](/headless/tabs)",
+            "[Toast](/headless/toast)",
             "[Tooltip](/headless/tooltip)"
           ]
         },

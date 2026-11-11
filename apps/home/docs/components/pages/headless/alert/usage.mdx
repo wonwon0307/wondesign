@@ -158,7 +158,8 @@ the backdrop, by its order in the document or with `z-index`:
 
 ## Rendering in Place
 
-The backdrop and content render at the end of `<body>`, so they aren't
+The backdrop and content each render in a
+[Portal](/components/headless/portal) at the end of `<body>`, so they aren't
 clipped by their parents. Pass `disablePortal` to `Alert` to render both where
 they are in the document instead:
 

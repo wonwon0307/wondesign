@@ -1,0 +1,180 @@
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { useOpenState } from "@wondesign/disclosure/open-state";
+import { useEscapeKey } from "@wondesign/key-events/escape-key";
+
+import { AsChild } from "@/AsChild/AsChild";
+import { ToastContext, useToastArea } from "./contexts";
+
+export interface ToastProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  | "children"
+  | "hidden"
+  | "role"
+  | "aria-atomic"
+  | "aria-live"
+  | "onMouseEnter"
+  | "onMouseLeave"
+  | "onFocus"
+  | "onBlur"
+> {
+  children: React.ReactNode;
+  duration?: number;
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
+  defaultOpen?: boolean;
+  asChild?: boolean;
+}
+
+export function Toast({
+  children,
+  duration = 5000,
+  isOpen: controlledOpen,
+  onOpenChange,
+  defaultOpen = false,
+  asChild = false,
+  ...rest
+}: Readonly<ToastProps>) {
+  const { isOpen, hide: dismissToast } = useOpenState({
+    controlledOpen,
+    setControlledOpen: onOpenChange,
+    initialState: defaultOpen,
+  });
+  const remainingRef = useRef<number>(duration);
+  const startedAtRef = useRef<number | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const dismissRef = useRef(dismissToast);
+  const { isReady } = useToastArea();
+  const isHoveredRef = useRef<boolean>(false);
+  const isFocusedRef = useRef<boolean>(false);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [prevOpen, setPrevOpen] = useState<boolean>(isOpen);
+
+  // 열리거나 닫힐 때, 이전의 일시정지 상태를 초기화한다.
+  if (prevOpen !== isOpen) {
+    setPrevOpen(isOpen);
+    setIsPaused(false);
+  }
+
+  useLayoutEffect(() => {
+    dismissRef.current = dismissToast;
+  });
+
+  useEscapeKey(dismissToast, {
+    // content가 포커스를 가지고 있을 때만 Escape 키로 닫기 활성화
+    enabled: isOpen,
+    scopeRef: contentRef,
+  });
+
+  const startTimer = useCallback(() => {
+    if (remainingRef.current <= 0) return;
+    if (timerRef.current) return; // 타이머가 이미 실행 중이면, 중복해서 시작하지 않는다.
+
+    startedAtRef.current = Date.now();
+    timerRef.current = setTimeout(
+      () => dismissRef.current(),
+      remainingRef.current,
+    );
+  }, []);
+
+  const resumeTimer = useCallback(() => {
+    setIsPaused(false);
+    startTimer();
+  }, [startTimer]);
+
+  const pauseTimer = useCallback(() => {
+    setIsPaused(true);
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+
+    if (startedAtRef.current !== null) {
+      remainingRef.current -= Date.now() - startedAtRef.current;
+      startedAtRef.current = null;
+    }
+  }, []);
+
+  const resetTimer = useCallback(() => {
+    remainingRef.current = duration;
+    startedAtRef.current = null;
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, [duration]);
+
+  useEffect(() => {
+    // duration이 0 이하이면 startTimer가 타이머를 시작하지 않는다.
+    if (isOpen && isReady) {
+      isHoveredRef.current = false;
+      isFocusedRef.current = false;
+      resetTimer();
+      startTimer();
+    }
+
+    return () => {
+      resetTimer();
+    };
+  }, [isOpen, isReady, resetTimer, startTimer]);
+
+  const contextValue = useMemo(
+    () => ({
+      isOpen,
+      isPaused,
+      dismissToast,
+      resumeTimer,
+      pauseTimer,
+      contentRef,
+    }),
+    [isOpen, isPaused, dismissToast, resumeTimer, pauseTimer],
+  );
+
+  if (!isReady) return null;
+  if (!isOpen) return null;
+
+  const handleMouseEnter = () => {
+    isHoveredRef.current = true;
+    pauseTimer();
+  };
+  const handleMouseLeave = () => {
+    isHoveredRef.current = false;
+    if (!isFocusedRef.current) resumeTimer();
+  };
+  const handleFocus = () => {
+    isFocusedRef.current = true;
+    pauseTimer();
+  };
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    isFocusedRef.current = false;
+    if (e.currentTarget.contains(e.relatedTarget)) return;
+    if (!isHoveredRef.current) resumeTimer();
+  };
+
+  const Component = asChild ? AsChild : "div";
+
+  return (
+    <ToastContext.Provider value={contextValue}>
+      <Component
+        {...rest}
+        ref={contentRef}
+        aria-atomic="true"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        data-paused={isPaused || undefined}
+      >
+        {children}
+      </Component>
+    </ToastContext.Provider>
+  );
+}

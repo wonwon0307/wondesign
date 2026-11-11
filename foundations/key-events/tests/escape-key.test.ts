@@ -40,6 +40,36 @@ describe("useEscapeKey", () => {
     expect(callback).not.toHaveBeenCalled();
   });
 
+  it("calls callback only while focus is inside scopeRef", () => {
+    const callback = vi.fn();
+    const scope = document.createElement("div");
+    const inside = document.createElement("button");
+    const outside = document.createElement("button");
+    scope.appendChild(inside);
+    document.body.append(scope, outside);
+
+    renderHook(() => useEscapeKey(callback, { scopeRef: { current: scope } }));
+
+    outside.focus();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(callback).not.toHaveBeenCalled();
+
+    inside.focus();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(callback).toHaveBeenCalledTimes(1);
+
+    scope.remove();
+    outside.remove();
+  });
+
+  it("does not call callback when scopeRef is empty", () => {
+    const callback = vi.fn();
+    renderHook(() => useEscapeKey(callback, { scopeRef: { current: null } }));
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(callback).not.toHaveBeenCalled();
+  });
+
   it("does not call callback when disabled", () => {
     const callback = vi.fn();
     renderHook(() => useEscapeKey(callback, { enabled: false }));
