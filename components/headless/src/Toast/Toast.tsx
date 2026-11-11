@@ -29,7 +29,6 @@ export interface ToastProps extends Omit<
   isOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
   defaultOpen?: boolean;
-  keepMounted?: boolean;
   asChild?: boolean;
 }
 
@@ -39,7 +38,6 @@ export function Toast({
   isOpen: controlledOpen,
   onOpenChange,
   defaultOpen = false,
-  keepMounted = false,
   asChild = false,
   ...rest
 }: Readonly<ToastProps>) {
@@ -135,14 +133,13 @@ export function Toast({
       dismissToast,
       resumeTimer,
       pauseTimer,
-      keepMounted,
       contentRef,
     }),
-    [isOpen, isPaused, dismissToast, resumeTimer, pauseTimer, keepMounted],
+    [isOpen, isPaused, dismissToast, resumeTimer, pauseTimer],
   );
 
   if (!isReady) return null;
-  if (!isOpen && !keepMounted) return null;
+  if (!isOpen) return null;
 
   const handleMouseEnter = () => {
     isHoveredRef.current = true;
@@ -175,7 +172,6 @@ export function Toast({
         onMouseLeave={handleMouseLeave}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        data-state={isOpen ? "open" : "closed"}
         data-paused={isPaused || undefined}
       >
         {children}

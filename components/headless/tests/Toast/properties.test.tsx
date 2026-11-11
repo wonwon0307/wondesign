@@ -37,17 +37,6 @@ describe("Toast - properties", () => {
     expect(getByTestId("toast")).toBeTruthy();
   });
 
-  it("respects the keepMounted prop", () => {
-    const { getByTestId } = render(<TestComponent keepMounted />);
-
-    act(() => vi.advanceTimersToNextFrame());
-
-    const toast = getByTestId("toast");
-    expect(toast).toBeTruthy();
-    expect(toast.dataset.state).toBe("closed");
-    expect(toast.hidden).toBe(true);
-  });
-
   it("respects the disablePortal prop", () => {
     const { getByTestId } = render(
       <div>

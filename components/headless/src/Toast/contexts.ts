@@ -26,7 +26,6 @@ type ToastContextType = {
   dismissToast: () => void;
   resumeTimer: () => void;
   pauseTimer: () => void;
-  keepMounted: boolean;
 
   contentRef: React.RefObject<HTMLDivElement | null>;
 };
@@ -49,14 +48,8 @@ export function useToastInternal(errMsg?: string) {
 }
 
 export function useToast() {
-  const {
-    isOpen,
-    isPaused,
-    dismissToast,
-    resumeTimer,
-    pauseTimer,
-    keepMounted,
-  } = useToastInternal();
+  const { isOpen, isPaused, dismissToast, resumeTimer, pauseTimer } =
+    useToastInternal();
 
   return {
     isOpen,
@@ -64,6 +57,5 @@ export function useToast() {
     dismissToast,
     resumeTimer,
     pauseTimer,
-    keepMounted,
   };
 }
