@@ -166,7 +166,6 @@ export function Toast({
       <Component
         {...rest}
         ref={contentRef}
-        hidden={!isOpen}
         aria-atomic="true"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

@@ -21,8 +21,7 @@ describe("Toast - properties", () => {
 
     act(() => vi.advanceTimersToNextFrame());
 
-    // defaultOpen과 keepMounted 모두 false가 기본값이기 때문에
-    // toast는 document에 없다
+    // defaultOpen의 기본값이 false이기 때문에 toast는 document에 없다
     expect(queryByTestId("toast")).toBeNull();
 
     // disablePortal도 false이기 때문에, toast-area는 document의 직접 자식이다
