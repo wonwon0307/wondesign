@@ -1,5 +1,11 @@
 # @wondesign/key-events
 
+## 0.2.1
+
+### Patch Changes
+
+- [#130](https://github.com/wonwon0307/wondesign/pull/130) [`0679db4`](https://github.com/wonwon0307/wondesign/commit/0679db4bfa7c6cf98da99d2844742cdfe509785e) Thanks [@wonwon0307](https://github.com/wonwon0307)! - Add `scopeRef` option to `useEscapeKey`. When given, Escape only calls the callback while focus is inside the referenced element, and does nothing while the ref is empty.
+
 ## 0.2.0
 
 ### Minor Changes
