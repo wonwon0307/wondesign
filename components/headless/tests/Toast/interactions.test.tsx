@@ -101,11 +101,18 @@ describe("Toast - interactions", () => {
     act(() => vi.advanceTimersToNextFrame());
 
     expect(getByText("Test Toast")).toBeTruthy();
+
+    // 타이머 절반 진행
+    act(() => vi.advanceTimersByTime(500));
+
+    // 마우스를 올리고 타이머의 100%가 흘러도 그대로 보여야 한다
     fireEvent.mouseEnter(getByText("Test Toast"));
     act(() => vi.advanceTimersByTime(1000));
-    expect(queryByText("Test Toast")).toBeTruthy(); // Should still be visible
+    expect(queryByText("Test Toast")).toBeTruthy();
+
+    // 마우스를 내리면, 나머지 절반만 지나도 toast가 닫힌다
     fireEvent.mouseLeave(getByText("Test Toast"));
-    act(() => vi.advanceTimersByTime(1000));
+    act(() => vi.advanceTimersByTime(500));
     expect(queryByText("Test Toast")).not.toBeTruthy();
   });
 
@@ -117,11 +124,15 @@ describe("Toast - interactions", () => {
     act(() => vi.advanceTimersToNextFrame());
 
     expect(getByText("Test Toast")).toBeTruthy();
+
+    act(() => vi.advanceTimersByTime(500));
+
     fireEvent.focus(getByText("Test Toast"));
     act(() => vi.advanceTimersByTime(1000));
-    expect(queryByText("Test Toast")).toBeTruthy(); // Should still be visible
+    expect(queryByText("Test Toast")).toBeTruthy();
+
     fireEvent.blur(getByText("Test Toast"));
-    act(() => vi.advanceTimersByTime(1000));
+    act(() => vi.advanceTimersByTime(500));
     expect(queryByText("Test Toast")).not.toBeTruthy();
   });
 });
