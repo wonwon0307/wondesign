@@ -79,12 +79,7 @@ describe("preview components", () => {
 
   it("rejects when the action fails", async () => {
     vi.useFakeTimers();
-    let action!: Promise<void>;
-    vi.mocked(showConfirm).mockImplementation(async (_t, _m, opts) => {
-      action = Promise.resolve(opts?.onConfirm?.());
-      await action;
-      return true;
-    });
+    vi.mocked(showConfirm).mockResolvedValue(false);
 
     const { getByText } = render(
       <AlertDemo
@@ -98,7 +93,9 @@ describe("preview components", () => {
 
     fireEvent.click(getByText("Test Confirm"));
 
+    const onConfirm = vi.mocked(showConfirm).mock.lastCall?.[2]?.onConfirm;
+    const result = expect(onConfirm?.()).rejects.toThrow();
     await vi.advanceTimersByTimeAsync(2000);
-    await expect(action).rejects.toThrow();
+    await result;
   });
 });
