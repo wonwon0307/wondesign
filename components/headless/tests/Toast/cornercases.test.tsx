@@ -71,8 +71,10 @@ describe("Toast - corner cases", () => {
     });
     act(() => vi.advanceTimersByTime(5000));
     expect(getByTestId("toast")).toBeTruthy();
+    expect(getByTestId("toast").dataset.paused).toBe("true");
 
     fireEvent.blur(getByTestId("toast"));
+    expect(getByTestId("toast").dataset.paused).toBeUndefined();
     act(() => vi.advanceTimersByTime(5000));
     expect(queryByTestId("toast")).toBeNull();
   });
@@ -87,9 +89,11 @@ describe("Toast - corner cases", () => {
     // 일단 hover와 focus를 모두 활성화
     fireEvent.mouseEnter(getByTestId("toast"));
     fireEvent.focus(getByTestId("toast"));
+    expect(getByTestId("toast").dataset.paused).toBe("true");
 
     // hover가 떠나도 focus가 남아있으므로 타이머는 시작되지 않아야 한다
     fireEvent.mouseLeave(getByTestId("toast"));
+    expect(getByTestId("toast").dataset.paused).toBe("true");
     act(() => vi.advanceTimersByTime(5000));
     expect(queryByTestId("toast")).toBeTruthy();
 
@@ -97,11 +101,13 @@ describe("Toast - corner cases", () => {
     // 마찬가지로 타이머가 시작되지 않아야 한다
     fireEvent.mouseEnter(getByTestId("toast"));
     fireEvent.blur(getByTestId("toast"));
+    expect(getByTestId("toast").dataset.paused).toBe("true");
     act(() => vi.advanceTimersByTime(5000));
     expect(queryByTestId("toast")).toBeTruthy();
 
     // 둘다 비활성화 되어야 타이머가 시작된다
     fireEvent.mouseLeave(getByTestId("toast"));
+    expect(getByTestId("toast").dataset.paused).toBeUndefined();
     act(() => vi.advanceTimersByTime(5000));
     expect(queryByTestId("toast")).toBeNull();
   });
