@@ -1,0 +1,46 @@
+{
+  "name": "@wondesign/toast",
+  "description": "WonDesign - Toast",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "design",
+    "system",
+    "ui",
+    "components",
+    "toast",
+    "notification",
+    "feedback",
+    "imperative-ui",
+    "react",
+    "typescript"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsdown",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vanilla-extract/recipes": "catalog:",
+    "@wondesign/buttons": "workspace:*",
+    "@wondesign/headless": "workspace:*",
+    "@wondesign/texts": "workspace:*"
+  },
+  "devDependencies": {
+    "@vanilla-extract/css": "catalog:",
+    "@vanilla-extract/rollup-plugin": "catalog:",
+    "@wondesign/tokens": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19.2",
+    "react-dom": "^19.2"
+  }
+}
