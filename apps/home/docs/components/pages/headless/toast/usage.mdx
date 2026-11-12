@@ -140,6 +140,10 @@ it closes**, so control it if you need to show it more than once:
 </ToastArea>
 ```
 
+- 📌 `onOpenChange` is only called when the toast is controlled.
+  **It's never called with `defaultOpen` alone**, even when the
+  toast closes. Pass `isOpen` too if you need to know when it closes.
+
 ---
 
 ## Showing Toasts from Anywhere
@@ -149,8 +153,9 @@ use an imperative API instead, like the `@wondesign/toast` package, so a toast
 can be shown from anywhere.
 
 You can also build your own: keep the toasts in a store outside React, and
-render them in a component placed once. Control each toast, and remove it from
-the store when it closes:
+render them in a component placed once. Control each toast with `isOpen`, and
+remove it from the store in `onOpenChange`. **With `defaultOpen` instead, the
+toast hides but is never removed**, so it keeps its place in the store:
 
 ```tsx
 function Toaster() {

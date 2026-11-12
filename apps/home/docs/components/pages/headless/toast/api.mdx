@@ -72,6 +72,7 @@ interface ToastProps {
   // `0` keeps it open until closed.
   duration?: number;
   isOpen?: boolean;
+  // only called when `isOpen` is passed.
   onOpenChange?: (isOpen: boolean) => void;
   defaultOpen?: boolean; // defaults to `false`
   asChild?: boolean;
