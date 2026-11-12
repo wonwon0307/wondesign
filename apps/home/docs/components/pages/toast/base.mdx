@@ -1,0 +1,216 @@
+---
+metaTitle: Base | Toast
+title: Base
+description: The base module for any Toaster, with an external store for toasts and a React hook to read it.
+---
+
+# Base Module
+
+`@wondesign/toast/base` is the base module for any Toaster. It provides an
+external store for toasts and a React hook to read it, and renders nothing.
+Use it to build your own Toaster, when [Toaster](/components/toast/toaster)
+doesn't fit, even with your own toast component: like your own layout, or
+your own options.
+
+It shares the store with `@wondesign/toast`, so `dismissToasts` from either
+entry point clears the same toasts.
+
+It is strongly recommended to render the toasts with
+[Headless Toast](/components/headless/toast), so timing, pausing and screen
+readers stay handled.
+
+---
+
+## Declaring Your Types
+
+Declare the options your toasts take, and the toasts your Toaster receives, by
+extending the base types. Then wrap `showToast` once, so the rest of your app
+calls a typed function:
+
+```ts
+import {
+  showToast,
+  type BaseToastItem,
+  type BaseToastOptions,
+} from "@wondesign/toast/base";
+
+interface MyToastOptions extends BaseToastOptions {
+  tone?: "neutral" | "danger";
+}
+
+interface MyToastItem extends BaseToastItem {
+  tone?: "neutral" | "danger";
+}
+
+export function toast(message: string, options?: MyToastOptions) {
+  showToast<MyToastOptions>(message, options);
+}
+```
+
+- 📌 Pass the type to `showToast`. Without it, **the options aren't
+  type-checked correctly**: a misspelled option still compiles, and is passed
+  on to your Toaster as it is.
+
+---
+
+## Building Your Toaster
+
+What your Toaster must do:
+
+- ✋ **Render every toast inside one `ToastArea`**, and keep it in the page,
+  so each toast is announced as it appears.
+- ✋ **Pass `isOpen` to each `Toast`, and dismiss it from `onOpenChange`.**
+  **Without both, the toast is never removed** from the store: it hides once
+  its time is up, but isn't dismissed correctly from the app.
+- ✋ **Dismiss every toast when your Toaster unmounts**, like `Toaster` does.
+  Otherwise **old toasts show up again** when it mounts again.
+- ✋ **Limit and position the toasts yourself.** The store holds every toast,
+  in the order they were shown.
+
+```tsx
+import { useEffect } from "react";
+import { useToasts } from "@wondesign/toast/base";
+import { Toast, ToastArea, ToastMessage } from "@wondesign/headless/Toast";
+
+export function MyToaster() {
+  const { toasts, dismissToast, dismissToasts } = useToasts<MyToastItem>();
+
+  useEffect(() => dismissToasts, [dismissToasts]);
+
+  // called when the time is up, by `ToastClose` and Esc
+  const onOpenChange = (id: number) => (newOpen: boolean) => {
+    if (!newOpen) dismissToast(id);
+  };
+
+  return (
+    <ToastArea className="area">
+      {/* to support positions, group the toasts into one div per position */}
+      {toasts.slice(0, 3).map((toast) => (
+        <Toast
+          key={toast.id}
+          isOpen
+          duration={toast.duration}
+          onOpenChange={onOpenChange(toast.id)}
+          className={toast.tone}
+        >
+          <ToastMessage>{toast.message}</ToastMessage>
+        </Toast>
+      ))}
+    </ToastArea>
+  );
+}
+```
+
+---
+
+## How It Works
+
+The base module only stores the toasts. Rendering, timing and closing them is
+up to your Toaster. This section covers what the store does with each toast.
+For how each toast behaves on screen, refer to
+[Headless Toast](/components/headless/toast#how-it-works).
+
+### Options
+
+`showToast` turns the message and options into a toast in the store. Each
+toast gets an `id` unique to it, the `message`, and the `duration`, `5000` if
+not passed. Every other option is copied onto the toast unchanged, so your
+own options reach your Toaster without any extra setup.
+
+### Closing
+
+A toast stays in the store until it's dismissed. If you're using Headless
+Toast, it is recommended to pass `duration` to `Toast`, so it closes the toast
+for you.
+
+**A negative `duration` shows nothing.** It logs a warning in development, and
+nothing at all in production.
+
+### On the Server
+
+**Calling `showToast` on the server adds nothing.** It logs a warning in
+development, and nothing at all in production. Call it from event handlers or
+effects.
+
+---
+
+## API
+
+Import the functions, the hook and their types from `@wondesign/toast/base`:
+
+```ts
+import {
+  // functions
+  showToast,
+  dismissToasts,
+  // hook
+  useToasts,
+  // types
+  type BaseToastOptions,
+  type BaseToastItem,
+  type UseToastsResult,
+} from "@wondesign/toast/base";
+```
+
+### showToast
+
+Adds a toast to the store.
+
+```ts
+function showToast<T extends BaseToastOptions>(
+  message: string,
+  options?: T,
+): void;
+
+type BaseToastOptions = {
+  // how long the toast stays, in milliseconds. `0` keeps it until it's closed.
+  // defaults to `5000`.
+  duration?: number;
+};
+```
+
+### dismissToasts
+
+Removes every toast. Use it when the user logs out, for example.
+
+```ts
+function dismissToasts(): void;
+```
+
+### useToasts
+
+Returns every toast in the store, and the functions to remove them.
+
+```ts
+function useToasts<T extends BaseToastItem>(): UseToastsResult<T>;
+
+type UseToastsResult<T extends BaseToastItem> = {
+  // every toast, in the order they were shown.
+  toasts: T[];
+
+  // removes one toast.
+  dismissToast: (id: number) => void;
+
+  // removes every toast.
+  dismissToasts: () => void;
+};
+
+type BaseToastItem = {
+  // unique to this toast.
+  id: number;
+
+  // the message passed to `showToast`.
+  message: string;
+
+  // the `duration` passed to `showToast`, or `5000`.
+  duration: number;
+};
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Render your Toaster exactly once**, and not next to
+  [Toaster](/components/toast/toaster). Every Toaster reads the same store, so
+  **every toast shows up in each of them**.
