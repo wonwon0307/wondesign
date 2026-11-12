@@ -1,0 +1,166 @@
+# Usage
+
+This page covers `Toaster`: setting it up, building your own toast and
+styling it. For calling `toast` and `dismissToasts`, refer to the
+[Examples tab](/components/toast/toaster/examples). For every function, prop
+and type, refer to the [API](/components/toast/toaster/overview#api).
+
+---
+
+## Setting Up the Toaster
+
+Place `Toaster` once, where it stays in the page, like the root layout. It
+renders nothing until a toast is shown:
+
+```tsx
+import { Toaster } from "@wondesign/toast";
+
+export function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
+}
+```
+
+- 📌 `Toaster` is a client component, so it can go straight into a server
+  layout, like the root layout of a Next.js app.
+
+Toasts without a `position` show at the `defaultPosition`. The default
+`defaultPosition` value is `"bottom"`. Up to `maxToasts` toasts show at once in
+each position, 5 by default. Pass either to change it:
+
+```tsx
+<Toaster defaultPosition="top-right" maxToasts={3} />
+```
+
+---
+
+## Building Your Own Toast
+
+When the ready-made toast doesn't fit, pass your own component to `Toaster` as
+`ToastComponent`. It renders every toast.
+
+It is strongly recommended to build it from
+[Headless Toast](/components/headless/toast), so timing, pausing and screen
+readers stay handled.
+
+### What Your Component Must Do
+
+- ✋ **Dismiss the toast from `onOpenChange`.** **Without it, the toast only
+  disappears from the screen**: it isn't removed from the store, so it keeps
+  its place, and toasts waiting behind it never appear.
+- ✋ **Keep the toast open.** Pass `isOpen` to `Toast`. `Toaster` removes
+  your component when the toast is done, so there's no closed state to
+  handle.
+- ✋ **Pass `duration` to `Toast`**, so the toast closes when it should.
+- ✋ **Style it by `type` yourself**, if your toasts should look different
+  per type.
+
+```tsx
+import { Toaster, type ToastItemProps } from "@wondesign/toast";
+import {
+  Toast,
+  ToastClose,
+  ToastMessage,
+  ToastTitle,
+} from "@wondesign/headless/Toast";
+
+function MyToast({ toast, dismissToast }: ToastItemProps) {
+  // called when the time is up, by `ToastClose` and Esc
+  const onOpenChange = (newOpen: boolean) => {
+    if (!newOpen) dismissToast();
+  };
+
+  return (
+    <Toast
+      isOpen
+      duration={toast.duration}
+      onOpenChange={onOpenChange}
+      // style the toast by `toast.type`: "default", "info", "success", "warning" or "error"
+      className={toast.type}
+    >
+      {toast.title && <ToastTitle>{toast.title}</ToastTitle>}
+      <ToastMessage>{toast.message}</ToastMessage>
+      {toast.action && (
+        <ToastClose onClick={toast.action.onClick}>
+          {toast.action.label}
+        </ToastClose>
+      )}
+    </Toast>
+  );
+}
+
+// renders every toast with `MyToast`, in place of the ready-made toast component
+<Toaster ToastComponent={MyToast} />;
+```
+
+For everything your component receives, see
+[Props](/components/toast/toaster/overview#props).
+
+---
+
+## Adding Your Own Options
+
+To pass more to your component, like an icon, add it to `ToastOptions` and
+`ToastItem` in a `.d.ts` file. Every option passed to `toast` reaches your
+component.
+
+Use this together with [your own toast component](#building-your-own-toast).
+The ready-made toast component only shows the options it knows, so yours need
+a component that reads them.
+
+```ts
+// toast.d.ts
+import "@wondesign/toast";
+
+declare module "@wondesign/toast" {
+  interface ToastOptions {
+    icon?: IconName;
+  }
+
+  interface ToastItem {
+    icon?: IconName;
+  }
+}
+```
+
+```tsx
+toast.success("Your changes are saved.", { icon: "cloud" });
+```
+
+---
+
+## Styling
+
+`Toaster` takes `className` and `style`, and passes them to the area that
+holds every toast. Start from the default styles. When they don't fit your
+design everywhere, [change the tokens](/foundations/tokens/customization).
+When you need more than the tokens allow,
+[build your own toast](#building-your-own-toast), or
+[your own Toaster](/components/toast/base).
+
+### Default Styles
+
+The key values are:
+
+- 🎨 **Background color**: the type's color faded 20% into white in light
+  mode and black in dark mode, and 25% while hovered: `tokens.colors.primary`
+  for default, `tokens.colors.text` for info, and `tokens.colors.success`,
+  `tokens.colors.warning` and `tokens.colors.error` for the rest
+- 🎨 **Border**: `0.5px` in `tokens.colors.border`
+- 🎨 **Border radius**: `tokens.radius.md`
+- 🎨 **Shadow**: `tokens.elevation.lv1`
+- 🎨 **Width**: `360px`
+- 🎨 **Distance from the edge**: `tokens.spacing.layoutSmall`
+- 🎨 **Stacking**: `tokens.zIndex.toast`
+
+Each type has its own icon. The title is a
+[Heading](/components/texts/heading) at level 3, the message a
+[Description](/components/texts/description), and the action a small
+[Button](/components/buttons/button). The rest, like the padding and the
+space between toasts, have default values too.
