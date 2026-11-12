@@ -6,6 +6,9 @@ import { Callout } from "@wondesign/ui/Texts";
 This page covers what you can configure on `Alert`. For every prop, refer to
 the [API tab](/components/headless/alert/api).
 
+To see real, styled examples of `Alert`, go to the
+[Examples tab](/components/alert/examples) of `@wondesign/alert`.
+
 ---
 
 ## Running an Action
@@ -187,6 +190,28 @@ keeps its state, like text typed into a field:
   stays visible** with no error. Set the `display` only while it's open, with
   `[data-state="open"]`.
 </Callout>
+
+---
+
+## Showing Alerts from Anywhere
+
+Controlling the open state of every alert yourself gets repetitive.
+[`@wondesign/alert`](/components/alert) works well for this: place its
+`Alerter` once, then call `showAlert` or `showConfirm` from anywhere, and await
+the answer:
+
+```tsx
+import { showConfirm } from "@wondesign/alert";
+
+const confirmed = await showConfirm(
+  "Log out?",
+  "You'll need to sign in again.",
+);
+```
+
+You can also build your own in the same way: keep the alerts waiting to be
+shown in a store outside React, render the first one with `Alert` in a
+component placed once, and resolve a promise when it closes.
 
 ---
 

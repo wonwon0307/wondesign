@@ -142,6 +142,35 @@ it closes**, so control it if you need to show it more than once:
 
 ---
 
+## Showing Toasts from Anywhere
+
+Controlling every toast yourself doesn't scale. It is strongly recommended to
+use an imperative API instead, like the `@wondesign/toast` package, so a toast
+can be shown from anywhere.
+
+You can also build your own: keep the toasts in a store outside React, and
+render them in a component placed once. Control each toast, and remove it from
+the store when it closes:
+
+```tsx
+function Toaster() {
+  // your own store
+  const toasts = useSyncExternalStore(subscribe, getToasts, getToasts);
+
+  return (
+    <ToastArea>
+      {toasts.map((toast) => (
+        <Toast key={toast.id} isOpen onOpenChange={() => removeToast(toast.id)}>
+          <ToastMessage>{toast.message}</ToastMessage>
+        </Toast>
+      ))}
+    </ToastArea>
+  );
+}
+```
+
+---
+
 ## Rendering in Place
 
 The area renders in a [Portal](/components/headless/portal) at the end of
