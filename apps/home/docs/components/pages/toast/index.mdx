@@ -1,0 +1,58 @@
+---
+title: Toast
+description: Short messages shown with a single function call, from anywhere in your app, that close on their own.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/toast" relPath="components/toast">
+  `@wondesign/toast` shows short messages with a single function call, from
+  anywhere in your app, like "Saved" or "Link copied". Toasts close on their
+  own, and are built on [Headless Toast](/components/headless/toast), so
+  timing, pausing and screen readers are already handled.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/toast
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/toast` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Ready to Use**: Show a toast with one function call, with no state to manage
+- ✅ **Status Types**: Show info, success, warning and error toasts
+- ✅ **Composable**: Render every toast with your own component, and keep the same functions
+- ✅ **Your Own Toaster**: Or keep only the list of toasts, and render it your own way
+- ✅ **Accessible by Default**: Announced to screen readers without moving focus
+
+Use it for messages that don't need an answer. For messages the user has to
+answer before they carry on, **use an [Alert](/components/alert) instead**.
+
+---
+
+## Entry Points
+
+The package comes with two entry points. Both share the same list of toasts.
+
+- ⭐ **[Toaster](/components/toast/toaster)** — `@wondesign/toast`. A
+  ready-made `Toaster` and a `toast` function, with types, positions and
+  actions. Start here.
+- ⭐ **[Base](/components/toast/base)** — `@wondesign/toast/base`. Only the
+  list of toasts and the functions to change it, with nothing rendered. Use it
+  to build your own Toaster.
+
+---
+
+## Upcoming Features
+
+- 🔜 **Update in Place**: Change a toast's message or type while it's showing, like "Uploading…" turning into "Uploaded"
