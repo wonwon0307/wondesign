@@ -1,3 +1,4 @@
+import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 import { tokens } from "@wondesign/ui/tokens";
 
@@ -24,4 +25,20 @@ const preview = recipe({
   },
 });
 
-export const styles = { preview };
+const iconGrid = style({
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+  gap: tokens.spacing.md,
+});
+
+const iconBox = style({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: tokens.spacing.md,
+  gap: tokens.spacing.sm,
+  borderRadius: tokens.radius.md,
+  backgroundColor: tokens.colors.backgroundMuted,
+});
+
+export const styles = { preview, iconGrid, iconBox };
