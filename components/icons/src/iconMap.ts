@@ -13,7 +13,7 @@ import { CopyCode } from "./components/CopyCode";
 import { Copy } from "./components/Copy";
 import { DownloadCode } from "./components/DownloadCode";
 import { Download } from "./components/Download";
-import { Error } from "./components/Error";
+import { ErrorCircle } from "./components/ErrorCircle";
 import { ExternalLink } from "./components/ExternalLink";
 import { Info } from "./components/Info";
 import { LoadingBubble } from "./components/LoadingBubble";
@@ -40,7 +40,7 @@ export type IconName =
   | "copy"
   | "download-code"
   | "download"
-  | "error"
+  | "error-circle"
   | "external-link"
   | "info"
   | "loading-bubble"
@@ -67,7 +67,7 @@ export const iconMap: Record<IconName, ComponentType<IconProps>> = {
   copy: Copy,
   "download-code": DownloadCode,
   download: Download,
-  error: Error,
+  "error-circle": ErrorCircle,
   "external-link": ExternalLink,
   info: Info,
   "loading-bubble": LoadingBubble,
