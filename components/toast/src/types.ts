@@ -6,7 +6,7 @@ export type ToastPosition = "top" | "top-right" | "bottom" | "bottom-right";
 export interface ToastAction {
   variant: "primary" | "secondary" | "destructive";
   label: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface ToastOptions extends BaseToastOptions {
