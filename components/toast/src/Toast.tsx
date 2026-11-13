@@ -64,7 +64,7 @@ function getIconName(type: ToastType): IconName {
     case "warning":
       return "warning";
     case "error":
-      return "error";
+      return "error-circle";
     case "info":
       return "info";
     default:
