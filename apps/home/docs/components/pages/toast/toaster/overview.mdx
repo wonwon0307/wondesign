@@ -123,8 +123,8 @@ toast.warning(message: string, options?: ToastOptions): void;
 toast.error(message: string, options?: ToastOptions): void;
 
 type ToastOptions = {
-  // a heading shown above the message.
-  title?: string;
+  // more detail, shown under the message.
+  description?: string;
 
   // how long the toast stays, in milliseconds. `0` keeps it until it's closed.
   // defaults to `5000`.
@@ -203,9 +203,9 @@ type ToastItem = {
   // the `duration` passed to `toast`, or `5000`.
   duration: number;
 
-  // the `position`, `title` and `action` passed to `toast`, if set.
+  // the `position`, `description` and `action` passed to `toast`, if set.
   position?: ToastPosition;
-  title?: string;
+  description?: string;
   action?: ToastAction;
 };
 

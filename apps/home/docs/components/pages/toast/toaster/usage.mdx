@@ -66,8 +66,8 @@ import { Toaster, type ToastItemProps } from "@wondesign/toast";
 import {
   Toast,
   ToastClose,
+  ToastDescription,
   ToastMessage,
-  ToastTitle,
 } from "@wondesign/headless/Toast";
 
 function MyToast({ toast, dismissToast }: ToastItemProps) {
@@ -84,8 +84,10 @@ function MyToast({ toast, dismissToast }: ToastItemProps) {
       // style the toast by `toast.type`: "default", "info", "success", "warning" or "error"
       className={toast.type}
     >
-      {toast.title && <ToastTitle>{toast.title}</ToastTitle>}
       <ToastMessage>{toast.message}</ToastMessage>
+      {toast.description && (
+        <ToastDescription>{toast.description}</ToastDescription>
+      )}
       {toast.action && (
         <ToastClose onClick={toast.action.onClick}>
           {toast.action.label}
@@ -159,8 +161,8 @@ The key values are:
 - 🎨 **Distance from the edge**: `tokens.spacing.layoutSmall`
 - 🎨 **Stacking**: `tokens.zIndex.toast`
 
-Each type has its own icon. The title is a
-[Heading](/components/texts/heading) at level 3, the message a
+The message is a [Heading](/components/texts/heading) at level 3, with the
+type's icon beside it. The description is a
 [Description](/components/texts/description), and the action a small
 [Button](/components/buttons/button). The rest, like the padding and the
 space between toasts, have default values too.
