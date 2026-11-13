@@ -7,6 +7,7 @@ import {
 import { headers } from "next/headers";
 import { Alerter } from "@wondesign/ui/Alert";
 import { LightDarkScript } from "@wondesign/ui/server";
+import { Toaster } from "@wondesign/ui/Toast";
 import { LightDarkProvider } from "@wondesign/ui/theme";
 import { wondesignTokenVariables } from "@wondesign/ui/tokens";
 import { clsx } from "clsx";
@@ -69,6 +70,7 @@ export async function RootLayout({ children }: Readonly<Props>) {
           </main>
           <footer role="contentinfo">Footer</footer>
           <Alerter />
+          <Toaster />
         </body>
       </LightDarkProvider>
     </html>
