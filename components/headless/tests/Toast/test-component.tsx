@@ -1,7 +1,7 @@
 import { ToastArea } from "@/Toast/Area";
 import { Toast, type ToastProps } from "@/Toast/Toast";
-import { ToastTitle } from "@/Toast/Title";
 import { ToastMessage } from "@/Toast/Message";
+import { ToastDescription } from "@/Toast/Description";
 import { ToastClose } from "@/Toast/Close";
 
 export function TestComponent({
@@ -15,8 +15,10 @@ export function TestComponent({
   return (
     <ToastArea disablePortal={disablePortal} data-testid="toast-area">
       <Toast {...rest} data-testid="toast">
-        <ToastTitle data-testid="toast-title">Test Toast</ToastTitle>
-        <ToastMessage data-testid="toast-message">Test Message</ToastMessage>
+        <ToastMessage data-testid="toast-message">Test Toast</ToastMessage>
+        <ToastDescription data-testid="toast-description">
+          Test Description
+        </ToastDescription>
         <ToastClose onClick={onClick} data-testid="toast-close">
           Close
         </ToastClose>

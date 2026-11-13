@@ -2,8 +2,8 @@ import { act, fireEvent, render } from "@testing-library/react";
 
 import { ToastArea } from "@/Toast/Area";
 import { Toast } from "@/Toast/Toast";
-import { ToastTitle } from "@/Toast/Title";
 import { ToastMessage } from "@/Toast/Message";
+import { ToastDescription } from "@/Toast/Description";
 import { ToastClose } from "@/Toast/Close";
 import { TestComponent } from "./test-component";
 
@@ -67,12 +67,12 @@ describe("Toast - properties", () => {
         <span>
           <Toast defaultOpen asChild data-testid="toast">
             <section>
-              <ToastTitle asChild data-testid="toast-title">
-                <h5>Test Toast</h5>
-              </ToastTitle>
               <ToastMessage asChild data-testid="toast-message">
-                <span>This is a test message</span>
+                <h5>This is a test message</h5>
               </ToastMessage>
+              <ToastDescription asChild data-testid="toast-description">
+                <span>This is a test description</span>
+              </ToastDescription>
               <ToastClose asChild data-testid="toast-close">
                 <a>Close</a>
               </ToastClose>
@@ -92,13 +92,13 @@ describe("Toast - properties", () => {
     expect(toast).toBeTruthy();
     expect(toast.tagName).toBe("SECTION");
 
-    const toastTitle = getByTestId("toast-title");
-    expect(toastTitle).toBeTruthy();
-    expect(toastTitle.tagName).toBe("H5");
-
     const toastMessage = getByTestId("toast-message");
     expect(toastMessage).toBeTruthy();
-    expect(toastMessage.tagName).toBe("SPAN");
+    expect(toastMessage.tagName).toBe("H5");
+
+    const toastDescription = getByTestId("toast-description");
+    expect(toastDescription).toBeTruthy();
+    expect(toastDescription.tagName).toBe("SPAN");
 
     const toastClose = getByTestId("toast-close");
     expect(toastClose).toBeTruthy();
