@@ -129,7 +129,10 @@ toast:
     label="Save profile"
     type="success"
     message="Profile updated."
-    action={{ label: "Undo", followUp: "Your changes are undone." }}
+    action={{
+      label: "Undo",
+      followUp: { message: "Your changes are undone." },
+    }}
   />
 </Preview>
 
@@ -160,9 +163,8 @@ the first time in this preview.)
     message="File deleted."
     action={{
       label: "Undo",
-      followUp: "File restored.",
-      followUpType: "success",
-      failFirst: true,
+      followUp: { message: "File restored.", type: "success" },
+      failFirst: "Couldn't restore the file. Try again.",
     }}
   />
 </Preview>
