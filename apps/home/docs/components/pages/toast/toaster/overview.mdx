@@ -146,8 +146,9 @@ type ToastAction = {
   // the button's look.
   variant: "primary" | "secondary" | "destructive";
 
-  // called when the button is pressed. the toast then closes.
-  onClick: () => void;
+  // called when the button is pressed. the toast then closes, unless
+  // `event.preventDefault()` is called. without it, the button only closes the toast.
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 ```
 
@@ -170,7 +171,7 @@ type ToasterProps = {
   // renders every toast. defaults to the ready-made toast.
   ToastComponent?: React.ComponentType<ToastItemProps>;
 
-  // where toasts without a `position` show. defaults to `"bottom"`.
+  // where toasts without a `position` show. defaults to `"top-right"`.
   defaultPosition?: ToastPosition;
 
   // how many toasts show at once in each position. defaults to `5`.
@@ -247,3 +248,4 @@ The default toast is built on Headless Toast, so it also gets
 - 🔜 **Close Button**: Close a toast without an action, other than with <Keyboard>Esc</Keyboard>
 - 🔜 **Promise Toasts**: Show a loading toast while a promise runs, then a success or error toast once it settles
 - 🔜 **Stacked Toasts**: Choose between stacking the toasts in each position, and listing them one after another
+- 🔜 **Timer**: Show how much time is left before a toast closes, like with a small clock

@@ -31,11 +31,11 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
   layout, like the root layout of a Next.js app.
 
 Toasts without a `position` show at the `defaultPosition`. The default
-`defaultPosition` value is `"bottom"`. Up to `maxToasts` toasts show at once in
+`defaultPosition` value is `"top-right"`. Up to `maxToasts` toasts show at once in
 each position, 5 by default. Pass either to change it:
 
 ```tsx
-<Toaster defaultPosition="top-right" maxToasts={3} />
+<Toaster defaultPosition="bottom" maxToasts={3} />
 ```
 
 ---
@@ -150,19 +150,20 @@ When you need more than the tokens allow,
 
 The key values are:
 
-- 🎨 **Background color**: the type's color faded 20% into white in light
-  mode and black in dark mode, and 25% while hovered: `tokens.colors.primary`
-  for default, `tokens.colors.text` for info, and `tokens.colors.success`,
-  `tokens.colors.warning` and `tokens.colors.error` for the rest
-- 🎨 **Border**: `0.5px` in `tokens.colors.border`
+- 🎨 **Type color**: `tokens.colors.primary` for default, `tokens.colors.text`
+  for info, and `tokens.colors.success`, `tokens.colors.warning` and
+  `tokens.colors.error` for the rest. The icon takes this color.
+- 🎨 **Background color**: the type color at 20% opacity, and 40% while the
+  toast is paused, by hover or focus
+- 🎨 **Background blur**: the page behind the toast is blurred by `12px`
 - 🎨 **Border radius**: `tokens.radius.md`
 - 🎨 **Shadow**: `tokens.elevation.lv1`
-- 🎨 **Width**: `360px`
+- 🎨 **Width**: `360px`, and never wider than the screen
 - 🎨 **Distance from the edge**: `tokens.spacing.layoutSmall`
 - 🎨 **Stacking**: `tokens.zIndex.toast`
 
 The message is a [Heading](/components/texts/heading) at level 3, with the
-type's icon beside it. The description is a
-[Description](/components/texts/description), and the action a small
-[Button](/components/buttons/button). The rest, like the padding and the
-space between toasts, have default values too.
+type's icon beside it. The description is a small
+[Description](/components/texts/description) under the message, and the
+action a small, outlined [Button](/components/buttons/button). The rest, like
+the padding and the space between toasts, have default values too.
