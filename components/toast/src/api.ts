@@ -3,8 +3,8 @@ import type { InternalOptions, ToastOptions, ToastType } from "./types";
 
 function dispatch(type: ToastType, message: string, options?: ToastOptions) {
   showToast<InternalOptions>(message, {
-    type,
     ...options,
+    type,
   });
 }
 
