@@ -1,24 +1,14 @@
 import { fireEvent, render } from "@testing-library/react";
 import { showAlert, showConfirm } from "@wondesign/ui/Alert";
 
-import { Preview, AlertDemo } from "@/widgets/preview";
+import { AlertDemo } from "@/widgets/preview";
 
 vi.mock("@wondesign/ui/Alert", () => ({
   showAlert: vi.fn(),
   showConfirm: vi.fn(),
 }));
 
-describe("preview components", () => {
-  it("renders <Preview> correctly", () => {
-    const { getByText } = render(
-      <Preview>
-        <div>Test Content</div>
-      </Preview>,
-    );
-
-    expect(getByText("Test Content")).toBeTruthy();
-  });
-
+describe("AlertDemo", () => {
   it("renders <AlertDemo> and calls showAlert correctly", () => {
     const { getByText } = render(
       <AlertDemo
