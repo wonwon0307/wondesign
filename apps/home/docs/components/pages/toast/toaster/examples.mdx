@@ -1,0 +1,271 @@
+import { DismissToastsDemo, Preview, ToastDemo } from "@/widgets/preview";
+
+# Examples
+
+This page covers calling `toast` and `dismissToasts`: first showing a toast
+and its status, then every option a toast takes. For `Toaster`, refer to the
+[Usage tab](/components/toast/toaster/usage). Every example assumes `Toaster`
+is [set up](/components/toast/toaster/usage#setting-up-the-toaster), and uses
+the default toast API from `@wondesign/toast`. Press the button in a preview
+to see the toast.
+
+---
+
+## Showing Toasts
+
+`toast` shows a message, and closes it after `duration` milliseconds (5000 by
+default):
+
+<Preview>
+  <ToastDemo label="Copy link" message="Link copied." />
+</Preview>
+
+```tsx
+import { toast } from "@wondesign/toast";
+
+const handleClick = () => {
+  toast("Link copied.");
+};
+
+<Button onClick={handleClick}>Copy link</Button>;
+```
+
+### Status Toasts
+
+Call `toast.info`, `toast.success`, `toast.warning` or `toast.error` to show
+the toast's status:
+
+<Preview>
+  <ToastDemo
+    label="Info"
+    type="info"
+    message="A new version is available."
+  />
+  <ToastDemo
+    label="Success"
+    type="success"
+    message="Your changes are saved."
+  />
+  <ToastDemo
+    label="Warning"
+    type="warning"
+    message="You're almost out of storage."
+  />
+  <ToastDemo
+    label="Error"
+    type="error"
+    message="Couldn't save your changes."
+  />
+</Preview>
+
+```tsx
+toast.info("A new version is available.");
+toast.success("Your changes are saved.");
+toast.warning("You're almost out of storage.");
+toast.error("Couldn't save your changes.");
+```
+
+---
+
+## Options
+
+Pass options as the second argument, to any of the functions above. Every
+option works the same with `toast`, `toast.success` and the rest.
+
+### Description
+
+Pass `description` to show more detail under the message:
+
+<Preview>
+  <ToastDemo
+    label="Invite"
+    type="success"
+    message="Invite sent"
+    description="Alex will get an email shortly."
+  />
+</Preview>
+
+```tsx
+toast.success("Invite sent", {
+  description: "Alex will get an email shortly.",
+});
+```
+
+### Duration
+
+Pass `duration`, in milliseconds, to change how long the toast stays. Pass `0`
+to keep it until it's closed:
+
+<Preview>
+  <ToastDemo label="Short" message="Copied." duration={1000} />
+  <ToastDemo
+    label="Infinite"
+    type="warning"
+    message="You're offline."
+    duration={0}
+    action={{ label: "Dismiss" }}
+  />
+</Preview>
+
+```tsx
+toast("Copied.", { duration: 1000 });
+
+toast.warning("You're offline.", {
+  duration: 0,
+  action: { label: "Dismiss", variant: "secondary" },
+});
+```
+
+- 📌 Give a toast with `duration: 0` a way to close it, like an action.
+  Without `onClick`, the action only closes the toast.
+
+### Actions
+
+Pass `action` to add a button. Pressing it runs `onClick`, then closes the
+toast:
+
+<Preview>
+  <ToastDemo
+    label="Save profile"
+    type="success"
+    message="Profile updated."
+    action={{ label: "Undo", followUp: "Your changes are undone." }}
+  />
+</Preview>
+
+```tsx
+const undoChanges = () => {
+  restoreProfile();
+  toast("Your changes are undone.");
+};
+
+const handleClick = () => {
+  saveProfile();
+
+  toast.success("Profile updated.", {
+    action: { label: "Undo", variant: "secondary", onClick: undoChanges },
+  });
+};
+
+<Button onClick={handleClick}>Save profile</Button>;
+```
+
+Call `event.preventDefault()` in `onClick` to keep the toast open, like when
+the action fails and the user should be able to try again. (Restoring fails
+the first time in this preview.)
+
+<Preview>
+  <ToastDemo
+    label="Delete"
+    message="File deleted."
+    action={{
+      label: "Undo",
+      followUp: "File restored.",
+      followUpType: "success",
+      failFirst: true,
+    }}
+  />
+</Preview>
+
+```tsx
+const restoreFile = () => toast.success("File restored.");
+
+const handleClick = () => {
+  deleteFile();
+
+  toast("File deleted.", {
+    action: {
+      label: "Undo",
+      variant: "secondary",
+      onClick: (event) => {
+        if (!canRestoreFile()) {
+          event.preventDefault(); // keeps the toast open
+          toast.error("Couldn't restore the file. Try again.");
+          return;
+        }
+
+        restoreFile();
+      },
+    },
+  });
+};
+
+<Button onClick={handleClick}>Delete</Button>;
+```
+
+### Positions
+
+Pass `position` to choose where the toast shows. Without it, the toast shows
+at `Toaster`'s `defaultPosition`, which you can
+[set yourself](/components/toast/toaster/usage#setting-up-the-toaster):
+
+<Preview>
+  <ToastDemo label="Top" message="top toasts appear here." position="top" />
+  <ToastDemo
+    label="Top right"
+    message="top-right toasts appear here."
+    position="top-right"
+  />
+  <ToastDemo
+    label="Bottom"
+    message="bottom toasts appear here."
+    position="bottom"
+  />
+  <ToastDemo
+    label="Bottom right"
+    message="bottom-right toasts appear here."
+    position="bottom-right"
+  />
+</Preview>
+
+```tsx
+toast("bottom toasts appear here.", { position: "bottom" });
+```
+
+---
+
+## Toasts Over the Limit
+
+Toasts show together, up to `maxToasts` at once in each position. Toasts over
+the limit wait until an earlier one in the same position closes:
+
+<Preview>
+  <ToastDemo
+    label="Upload 8 files"
+    message="Uploaded file"
+    duration={2000}
+    count={8}
+  />
+</Preview>
+
+```tsx
+files.forEach((file) => {
+  toast(`Uploaded ${file.name}`, { duration: 2000 });
+});
+```
+
+---
+
+## Dismissing Toasts
+
+Call `dismissToasts` to close every toast at once, including the waiting
+ones, like when the user logs out:
+
+<Preview>
+  <ToastDemo
+    label="Show toasts"
+    message="Stays until dismissed"
+    duration={0}
+    count={3}
+  />
+  <DismissToastsDemo />
+</Preview>
+
+```tsx
+import { dismissToasts } from "@wondesign/toast";
+
+async function logOut() {
+  dismissToasts();
+  await signOut();
+}
+```
