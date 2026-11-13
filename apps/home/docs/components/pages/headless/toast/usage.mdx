@@ -77,8 +77,8 @@ toast. This toast is read as "Saved. Your changes are live. Dismiss":
 
 ```tsx
 <Toast>
-  <ToastTitle>Saved</ToastTitle>
-  <ToastMessage>Your changes are live.</ToastMessage>
+  <ToastMessage>Saved</ToastMessage>
+  <ToastDescription>Your changes are live.</ToastDescription>
   <ToastClose>Dismiss</ToastClose>
 </Toast>
 ```
@@ -90,13 +90,13 @@ So **pick a label that makes sense after the message**, like "Dismiss" or
 
 ## Heading Level
 
-`ToastTitle` renders an `<h3>`. Use `asChild` to render another heading
+`ToastMessage` renders an `<h3>`. Use `asChild` to render another heading
 level:
 
 ```tsx
-<ToastTitle asChild>
+<ToastMessage asChild>
   <h4>Saved</h4>
-</ToastTitle>
+</ToastMessage>
 ```
 
 ---
