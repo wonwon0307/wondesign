@@ -44,22 +44,22 @@ For what you can configure, refer to the
 - 🧩 **ToastArea**: the area every toast shows in. Render it once, and put
   your toasts inside it.
 - 🧩 **Toast**: one toast. It holds its own open state and timer.
-- 🧩 **ToastTitle**: an optional heading for the toast.
-- 🧩 **ToastMessage**: the text of the toast.
+- 🧩 **ToastMessage**: the main line of the toast, as a heading.
+- 🧩 **ToastDescription**: optional detail, shown under the message.
 - 🧩 **ToastClose**: a button that closes the toast, after running its
   `onClick`.
 
 ```tsx
 <ToastArea>
   <Toast isOpen={isSaved} onOpenChange={setSaved}>
-    <ToastTitle>Saved</ToastTitle>
-    <ToastMessage>Your changes are live.</ToastMessage>
+    <ToastMessage>Saved</ToastMessage>
+    <ToastDescription>Your changes are live.</ToastDescription>
     <ToastClose>Dismiss</ToastClose>
   </Toast>
 </ToastArea>
 ```
 
-**Every toast must go inside a `ToastArea`**, and the title, message and close
+**Every toast must go inside a `ToastArea`**, and the message, description and close
 button must go inside a toast.
 
 ---

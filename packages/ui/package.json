@@ -49,6 +49,7 @@
     "@wondesign/tabs": "workspace:*",
     "@wondesign/texts": "workspace:*",
     "@wondesign/theme": "workspace:*",
+    "@wondesign/toast": "workspace:*",
     "@wondesign/tokens": "workspace:*",
     "@wondesign/tooltip": "workspace:*"
   },

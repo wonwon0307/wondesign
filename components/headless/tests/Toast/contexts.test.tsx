@@ -2,8 +2,8 @@ import { act, render } from "@testing-library/react";
 
 import { ToastArea } from "@/Toast/Area";
 import { Toast } from "@/Toast/Toast";
-import { ToastTitle } from "@/Toast/Title";
 import { ToastMessage } from "@/Toast/Message";
+import { ToastDescription } from "@/Toast/Description";
 import { ToastClose } from "@/Toast/Close";
 import { useToast } from "@/Toast/contexts";
 
@@ -41,18 +41,6 @@ describe("Toast - contexts", () => {
     );
   });
 
-  it("throws when Toast.Title is used outside of Toast", () => {
-    expect(() =>
-      render(
-        <ToastArea>
-          <ToastTitle>Title</ToastTitle>
-        </ToastArea>,
-      ),
-    ).toThrow(
-      "[WonDesign Headless] ToastTitle must be used within a Toast component.",
-    );
-  });
-
   it("throws when Toast.Message is used outside of Toast", () => {
     expect(() =>
       render(
@@ -62,6 +50,18 @@ describe("Toast - contexts", () => {
       ),
     ).toThrow(
       "[WonDesign Headless] ToastMessage must be used within a Toast component.",
+    );
+  });
+
+  it("throws when Toast.Description is used outside of Toast", () => {
+    expect(() =>
+      render(
+        <ToastArea>
+          <ToastDescription>Description</ToastDescription>
+        </ToastArea>,
+      ),
+    ).toThrow(
+      "[WonDesign Headless] ToastDescription must be used within a Toast component.",
     );
   });
 

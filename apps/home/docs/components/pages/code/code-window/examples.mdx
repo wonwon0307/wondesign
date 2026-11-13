@@ -208,8 +208,9 @@ content, like a text label:
 ```tsx
 <CodeWindow code={code} lang="bash">
   <CodeWindowCopyButton
-    onCopy={() => toast("Copied!")}
-    onCopyFail={() => toast("Couldn't copy the code")}
+    // `toast` from @wondesign/toast
+    onCopy={() => toast.success("Copied!")}
+    onCopyFail={() => toast.error("Couldn't copy the code")}
     timeout={3000}
   >
     Copy

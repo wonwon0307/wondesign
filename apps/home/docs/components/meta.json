@@ -104,6 +104,12 @@
             "[Alert](/alert)",
             {
               "type": "link",
+              "label": "Toast",
+              "url": "/toast",
+              "items": ["[Toaster](/toast/toaster)", "[Base](/toast/base)"]
+            },
+            {
+              "type": "link",
               "label": "Loading",
               "url": "/loading",
               "items": [

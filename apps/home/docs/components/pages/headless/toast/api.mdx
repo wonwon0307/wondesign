@@ -10,16 +10,16 @@ import {
   // components
   ToastArea,
   Toast,
-  ToastTitle,
   ToastMessage,
+  ToastDescription,
   ToastClose,
   // hook
   useToast,
   // types
   type ToastAreaProps,
   type ToastProps,
-  type ToastTitleProps,
   type ToastMessageProps,
+  type ToastDescriptionProps,
   type ToastCloseProps,
 } from "@wondesign/headless/Toast";
 ```
@@ -72,6 +72,7 @@ interface ToastProps {
   // `0` keeps it open until closed.
   duration?: number;
   isOpen?: boolean;
+  // only called when `isOpen` is passed.
   onOpenChange?: (isOpen: boolean) => void;
   defaultOpen?: boolean; // defaults to `false`
   asChild?: boolean;
@@ -85,32 +86,34 @@ interface ToastProps {
 "data-paused": "true" | undefined; // present while the timer is paused
 ```
 
-### ToastTitle
+### ToastMessage
 
-Renders an `<h3>` with the heading of the toast. Must be used inside `Toast`.
+Renders an `<h3>` with the main line of the toast. Must be used inside
+`Toast`.
 
 **Props**
 
 Accepts all `<h3>` props. Key props:
 
 ```ts
-interface ToastTitleProps {
+interface ToastMessageProps {
   children: React.ReactNode;
   asChild?: boolean;
   // ...
 }
 ```
 
-### ToastMessage
+### ToastDescription
 
-Renders a `<p>` with the text of the toast. Must be used inside `Toast`.
+Renders a `<p>` with optional detail, shown under the message. Must be used
+inside `Toast`.
 
 **Props**
 
 Accepts all `<p>` props. Key props:
 
 ```ts
-interface ToastMessageProps {
+interface ToastDescriptionProps {
   children: React.ReactNode;
   asChild?: boolean;
   // ...

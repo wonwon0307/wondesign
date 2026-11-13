@@ -3,8 +3,8 @@ import { useToastInternal } from "./contexts";
 
 export interface ToastMessageProps
   extends
-    Omit<React.HTMLAttributes<HTMLParagraphElement>, "children">,
-    React.RefAttributes<HTMLParagraphElement> {
+    Omit<React.HTMLAttributes<HTMLHeadingElement>, "children">,
+    React.RefAttributes<HTMLHeadingElement> {
   children: React.ReactNode;
   asChild?: boolean;
 }
@@ -18,7 +18,7 @@ export function ToastMessage({
     "[WonDesign Headless] ToastMessage must be used within a Toast component.",
   );
 
-  const Component = asChild ? AsChild : "p";
+  const Component = asChild ? AsChild : "h3";
 
   return <Component {...rest}>{children}</Component>;
 }

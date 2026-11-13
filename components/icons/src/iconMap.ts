@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import type { IconProps } from "@wondesign/svg2tsx";
 
 import { Alert } from "./components/Alert";
+import { Bell } from "./components/Bell";
 import { CheckCircle } from "./components/CheckCircle";
 import { CheckFill } from "./components/CheckFill";
 import { Check } from "./components/Check";
@@ -12,6 +13,7 @@ import { CopyCode } from "./components/CopyCode";
 import { Copy } from "./components/Copy";
 import { DownloadCode } from "./components/DownloadCode";
 import { Download } from "./components/Download";
+import { ErrorCircle } from "./components/ErrorCircle";
 import { ExternalLink } from "./components/ExternalLink";
 import { Info } from "./components/Info";
 import { LoadingBubble } from "./components/LoadingBubble";
@@ -27,6 +29,7 @@ import { Warning } from "./components/Warning";
 
 export type IconName =
   | "alert"
+  | "bell"
   | "check-circle"
   | "check-fill"
   | "check"
@@ -37,6 +40,7 @@ export type IconName =
   | "copy"
   | "download-code"
   | "download"
+  | "error-circle"
   | "external-link"
   | "info"
   | "loading-bubble"
@@ -52,6 +56,7 @@ export type IconName =
 
 export const iconMap: Record<IconName, ComponentType<IconProps>> = {
   alert: Alert,
+  bell: Bell,
   "check-circle": CheckCircle,
   "check-fill": CheckFill,
   check: Check,
@@ -62,6 +67,7 @@ export const iconMap: Record<IconName, ComponentType<IconProps>> = {
   copy: Copy,
   "download-code": DownloadCode,
   download: Download,
+  "error-circle": ErrorCircle,
   "external-link": ExternalLink,
   info: Info,
   "loading-bubble": LoadingBubble,

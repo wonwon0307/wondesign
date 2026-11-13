@@ -1,0 +1,251 @@
+import { Keyboard } from "@wondesign/ui/Code";
+import { Preview, ToastDemo } from "@/widgets/preview";
+
+# Toaster
+
+`Toaster` shows every toast from `toast` calls, from anywhere in your app.
+
+There are two ways to use it:
+
+- 🎁 **Use the ready-made toast component.** Place `Toaster` once near the
+  root of your app, and call `toast` wherever you need one.
+- 🧩 **Build your own toast component.** Pass your own component to
+  `Toaster` when the ready-made look doesn't fit. Building it from
+  [Headless Toast](/components/headless/toast) is strongly recommended. The
+  functions stay the same.
+
+When you need your own layout or your own options, build your own Toaster with
+[Base](/components/toast/base) instead.
+
+---
+
+## Key Features
+
+- ✅ **Ready to Use**: Show a toast with one function call, with no state to manage
+- ✅ **Status Types**: Show info, success, warning and error toasts, each with its own icon and color
+- ✅ **Actions**: Add a button to a toast, like "Undo"
+- ✅ **Closes on Its Own**: Closes after a set time, or stays until it's closed with `duration: 0`
+- ✅ **Positions**: Pin each toast to the top or bottom edge, either centered or in the right corner
+- ✅ **Many at Once**: Show several toasts together, up to a limit you set
+- ✅ **Composable**: Or render every toast with your own component, and keep the same functions
+- ✅ **Accessible by Default**: Announced to screen readers without moving focus
+
+<Preview>
+  <ToastDemo label="Save" message="Your changes are saved." type="success" />
+</Preview>
+
+```tsx
+import { Toaster, toast } from "@wondesign/toast";
+
+// once, near the root of your app
+<Toaster />;
+
+// anywhere, like in an event handler, after an API call, or in an effect
+toast.success("Your changes are saved.");
+```
+
+See [Usage](/components/toast/toaster/usage) for `Toaster`, and
+[Examples](/components/toast/toaster/examples) for calling `toast` and
+`dismissToasts`.
+
+---
+
+## How It Works
+
+`toast` adds every toast to a store, and `Toaster` reads that store and shows
+the toasts together. This section covers where and how many toasts show, and
+how they close.
+
+For how the store behaves, like on the server, refer to
+[Base](/components/toast/base#how-it-works). For how each toast behaves on
+screen, like pausing and screen readers, refer to
+[Headless Toast](/components/headless/toast#how-it-works).
+
+### Positions
+
+Each toast shows its own `position`: `"top"`, `"top-right"`, `"bottom"` or
+`"bottom-right"`. A toast without one shows at `Toaster`'s `defaultPosition`.
+At the top and the top right, newer toasts show above older ones. At the
+bottom and the bottom right, they show below them.
+
+### Many at Once
+
+Unlike an [Alert](/components/alert), toasts don't wait for one another:
+`Toaster` shows up to `maxToasts` of them at once **in each position** (5 at
+the top, 5 at the top right, and so on), 5 by default. Toasts called beyond
+that **wait until an earlier one in the same position closes**, in the order
+they were called.
+
+### Closing
+
+A toast closes after `duration`, 5 seconds by default. A `duration` of `0` is
+essentially infinite: the toast stays until it's closed. Pressing its action
+closes it too, after running the action's `onClick`.
+
+**A negative `duration` shows nothing.** It logs a warning in development, and
+nothing at all in production.
+
+---
+
+## API
+
+Import the functions, the component and their types from `@wondesign/toast`:
+
+```ts
+import {
+  // functions
+  toast,
+  dismissToasts,
+  // component
+  Toaster,
+  // types
+  type ToastType,
+  type ToastPosition,
+  type ToastAction,
+  type ToastOptions,
+  type ToastItem,
+  type ToastItemProps,
+  type ToasterProps,
+} from "@wondesign/toast";
+```
+
+### toast
+
+Shows a toast. `toast` shows a default toast, and `toast.info`,
+`toast.success`, `toast.warning` and `toast.error` show one of that type.
+
+```ts
+function toast(message: string, options?: ToastOptions): void;
+
+toast.info(message: string, options?: ToastOptions): void;
+toast.success(message: string, options?: ToastOptions): void;
+toast.warning(message: string, options?: ToastOptions): void;
+toast.error(message: string, options?: ToastOptions): void;
+
+type ToastOptions = {
+  // more detail, shown under the message.
+  description?: string;
+
+  // how long the toast stays, in milliseconds. `0` keeps it until it's closed.
+  // defaults to `5000`.
+  duration?: number;
+
+  // where the toast shows on the screen. defaults to `Toaster`'s `defaultPosition`.
+  position?: ToastPosition;
+
+  // a button shown in the toast.
+  action?: ToastAction;
+};
+
+type ToastPosition = "top" | "top-right" | "bottom" | "bottom-right";
+
+type ToastAction = {
+  // the button's text.
+  label: string;
+
+  // the button's look.
+  variant: "primary" | "secondary" | "destructive";
+
+  // called when the button is pressed. the toast then closes, unless
+  // `event.preventDefault()` is called. without it, the button only closes the toast.
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+};
+```
+
+### dismissToasts
+
+Closes every toast, including the ones waiting, like when the user logs out.
+
+```ts
+function dismissToasts(): void;
+```
+
+### Props
+
+`Toaster` displays the toasts from `toast`. Place it once, near the root of
+your app. It also takes every prop of
+[`ToastArea`](/components/headless/toast/api), like `className`.
+
+```ts
+type ToasterProps = {
+  // renders every toast. defaults to the ready-made toast.
+  ToastComponent?: React.ComponentType<ToastItemProps>;
+
+  // where toasts without a `position` show. defaults to `"top-right"`.
+  defaultPosition?: ToastPosition;
+
+  // how many toasts show at once in each position. defaults to `5`.
+  maxToasts?: number;
+};
+```
+
+The component you pass to `Toaster` receives:
+
+```ts
+type ToastItemProps = {
+  // the toast to show.
+  toast: ToastItem;
+
+  // removes the toast.
+  dismissToast: () => void;
+};
+
+type ToastItem = {
+  // unique to this toast.
+  id: number;
+
+  // `"default"`, or the type from `toast.info`, `toast.success`,
+  // `toast.warning` or `toast.error`.
+  type: ToastType;
+
+  // the message passed to `toast`.
+  message: string;
+
+  // the `duration` passed to `toast`, or `5000`.
+  duration: number;
+
+  // the `position`, `description` and `action` passed to `toast`, if set.
+  position?: ToastPosition;
+  description?: string;
+  action?: ToastAction;
+};
+
+type ToastType = "default" | "info" | "success" | "warning" | "error";
+```
+
+---
+
+## Known Issues
+
+- 🐞 **Inherited from Headless Toast**: The default toast is built on
+  [Headless Toast](/components/headless/toast), so it shares its
+  [known issues](/components/headless/toast#known-issues), like focus moving
+  to the start of the page when a focused toast closes.
+
+---
+
+## Watch Out
+
+- ⚠️ **Place `Toaster` exactly once.** Every `Toaster` renders the same toasts,
+  so **with two of them, every toast shows up twice**.
+- ⚠️ **Don't render `Toaster` next to a Toaster built with
+  [Base](/components/toast/base).** Both read the same store, so **every toast
+  shows up in both**.
+- ⚠️ **Keep `Toaster` in the page at all times.** When it unmounts, **every
+  toast is dismissed**, including the waiting ones. Don't put it in a page or
+  component that unmounts.
+- ⚠️ **Don't put anything the user must act on in a toast.** It closes on its
+  own, so the user may never see it. Use an [Alert](/components/alert)
+  instead.
+
+---
+
+## Upcoming Features
+
+The default toast is built on Headless Toast, so it also gets
+[Headless Toast's upcoming features](/components/headless/toast#upcoming-features).
+
+- 🔜 **Close Button**: Close a toast without an action, other than with <Keyboard>Esc</Keyboard>
+- 🔜 **Promise Toasts**: Show a loading toast while a promise runs, then a success or error toast once it settles
+- 🔜 **Stacked Toasts**: Choose between stacking the toasts in each position, and listing them one after another
+- 🔜 **Timer**: Show how much time is left before a toast closes, like with a small clock
