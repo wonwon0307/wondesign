@@ -9,24 +9,18 @@ import { AppIcon, type IconName } from "@wondesign/icons";
 import { Description } from "@wondesign/texts/Description";
 import { Heading } from "@wondesign/texts/Heading";
 
-import type { ToastItemProps, ToastType } from "./types";
 import { styles } from "./styles.css";
+import type { ToastItemProps, ToastType } from "./types";
 
 export function DefaultToast({
   toast,
   dismissToast,
 }: Readonly<ToastItemProps>) {
-  const onOpenChange = (newOpen: boolean) => {
-    if (newOpen === false) {
-      dismissToast();
-    }
-  };
-
   return (
     <Toast
       duration={toast.duration}
       isOpen
-      onOpenChange={onOpenChange}
+      onOpenChange={dismissToast}
       className={styles.toast({ type: toast.type })}
     >
       <div className={styles.textArea}>
