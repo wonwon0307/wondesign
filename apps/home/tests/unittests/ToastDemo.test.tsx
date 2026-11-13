@@ -13,6 +13,14 @@ vi.mock("@wondesign/ui/Toast", () => ({
   dismissToasts: vi.fn(),
 }));
 
+function createClickEvent() {
+  return {
+    preventDefault: vi.fn(),
+  } as unknown as React.MouseEvent<HTMLButtonElement> & {
+    preventDefault: ReturnType<typeof vi.fn>;
+  };
+}
+
 describe("ToastDemo", () => {
   it("renders <ToastDemo> and calls default toast correctly", () => {
     const { getByText } = render(
@@ -67,7 +75,7 @@ describe("ToastDemo", () => {
     );
   });
 
-  it("renders infinite toast correctly", () => {
+  it("renders infinite toast with action correctly", () => {
     const action = {
       label: "Close",
     };
@@ -88,6 +96,57 @@ describe("ToastDemo", () => {
         duration: 0,
       }),
     );
+
+    const options = vi.mocked(toast).mock.calls[0][1];
+    options?.action?.onClick?.(createClickEvent());
+    expect(toast).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps the toast open and shows an error on the first press only", () => {
+    const { getByText } = render(
+      <ToastDemo
+        label="Show"
+        message="Test Toast"
+        action={{
+          label: "Undo",
+          followUp: { message: "Restored", type: "success" },
+          failFirst: "Couldn't restore",
+        }}
+      />,
+    );
+
+    fireEvent.click(getByText("Show"));
+    const onClick = vi.mocked(toast).mock.calls[0][1]?.action?.onClick;
+
+    // first press fails
+    const firstPress = createClickEvent();
+    onClick?.(firstPress);
+    expect(firstPress.preventDefault).toHaveBeenCalled();
+    expect(toast.error).toHaveBeenCalledWith("Couldn't restore");
+    expect(toast.success).not.toHaveBeenCalled();
+
+    // second press succeeds
+    const secondPress = createClickEvent();
+    onClick?.(secondPress);
+    expect(secondPress.preventDefault).not.toHaveBeenCalled();
+    expect(toast.success).toHaveBeenCalledWith("Restored", undefined);
+  });
+
+  it("shows a default follow-up toast when the action is pressed", () => {
+    const { getByText } = render(
+      <ToastDemo
+        label="Show"
+        message="Test Toast"
+        action={{ label: "Undo", followUp: { message: "Undone" } }}
+      />,
+    );
+
+    fireEvent.click(getByText("Show"));
+    const options = vi.mocked(toast).mock.calls[0][1];
+    expect(options?.action?.variant).toBe("secondary");
+
+    options?.action?.onClick?.(createClickEvent());
+    expect(toast).toHaveBeenLastCalledWith("Undone", undefined);
   });
 
   it("renders multiple toasts correctly", () => {
