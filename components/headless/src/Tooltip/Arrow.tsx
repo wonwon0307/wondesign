@@ -14,6 +14,7 @@ export function TooltipArrow({
   className,
   ...rest
 }: Readonly<TooltipArrowProps>) {
+  const { arrowRef } = useTooltipInternal();
   const isInsideContent = useContext(ContentContext);
 
   if (!isInsideContent) {
@@ -21,8 +22,6 @@ export function TooltipArrow({
       `[WonDesign Headless] Tooltip.Arrow must be used inside Tooltip.Content.`,
     );
   }
-
-  const { arrowRef } = useTooltipInternal();
 
   return (
     <div ref={arrowRef} className={className} {...rest} aria-hidden="true">
