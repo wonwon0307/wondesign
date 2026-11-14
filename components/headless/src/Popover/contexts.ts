@@ -33,7 +33,7 @@ export function usePopoverInternal() {
 
   if (!context) {
     throw new Error(
-      "[WonDesign Headless] usePopover() must be used within the Popover Provider.",
+      "[WonDesign Headless] usePopover() must be used inside a Popover Provider.",
     );
   }
   return context;

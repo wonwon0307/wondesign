@@ -19,7 +19,7 @@ export function TooltipArrow({
 
   if (!isInsideContent) {
     throw new Error(
-      `[WonDesign Headless] Tooltip.Arrow must be used inside Tooltip.Content.`,
+      `[WonDesign Headless] TooltipArrow must be used inside a TooltipContent.`,
     );
   }
 

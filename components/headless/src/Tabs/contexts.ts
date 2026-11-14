@@ -17,7 +17,7 @@ export function useTabsInternal() {
 
   if (!context) {
     throw new Error(
-      "[WonDesign Headless] useTabs() must be used inside the Tabs Provider.",
+      "[WonDesign Headless] useTabs() must be used inside a Tabs Provider.",
     );
   }
 
@@ -43,7 +43,7 @@ export function useTabsList() {
 
   if (!context) {
     throw new Error(
-      "[WonDesign Headless] useTabsList() must be used inside a Tabs.List component.",
+      "[WonDesign Headless] useTabsList() must be used inside a TabsList component.",
     );
   }
 

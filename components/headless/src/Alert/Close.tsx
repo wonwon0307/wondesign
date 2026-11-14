@@ -26,7 +26,7 @@ export function AlertClose({
 
   if (!isInsideContent) {
     throw new Error(
-      "[WonDesign Headless] AlertClose must be used within AlertContent.",
+      "[WonDesign Headless] AlertClose must be used inside an AlertContent.",
     );
   }
 

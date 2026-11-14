@@ -25,7 +25,7 @@ export function useAlertInternal() {
 
   if (!context) {
     throw new Error(
-      "[WonDesign Headless] useAlert() must be used within the Alert Provider.",
+      "[WonDesign Headless] useAlert() must be used inside an Alert Provider.",
     );
   }
 

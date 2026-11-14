@@ -15,7 +15,7 @@ export function ToastMessage({
   ...rest
 }: Readonly<ToastMessageProps>) {
   useToastInternal(
-    "[WonDesign Headless] ToastMessage must be used within a Toast component.",
+    "[WonDesign Headless] ToastMessage must be used inside a Toast component.",
   );
 
   const Component = asChild ? AsChild : "h3";

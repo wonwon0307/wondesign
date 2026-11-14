@@ -31,7 +31,7 @@ export function useTooltipInternal() {
 
   if (!context) {
     throw new Error(
-      `[WonDesign Headless] useTooltip() must be used inside the Tooltip Provider.`,
+      `[WonDesign Headless] useTooltip() must be used inside a Tooltip Provider.`,
     );
   }
 

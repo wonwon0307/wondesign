@@ -18,7 +18,7 @@ export function PopoverArrow({
 
   if (!isInsideContent) {
     throw new Error(
-      "[WonDesign Headless] PopoverArrow must be used within PopoverContent.",
+      "[WonDesign Headless] PopoverArrow must be used inside a PopoverContent.",
     );
   }
 

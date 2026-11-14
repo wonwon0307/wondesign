@@ -5,7 +5,7 @@ import { Collapsible } from "@/Collapsible";
 
 describe("Collapsible - structure", () => {
   const errorMsg =
-    "[WonDesign Headless] useCollapsible() must be used inside the Collapsible wrapper.";
+    "[WonDesign Headless] useCollapsible() must be used inside a Collapsible Provider.";
 
   it("Collapsible.Content must be used within the Collapsible wrapper", () => {
     expect(() =>

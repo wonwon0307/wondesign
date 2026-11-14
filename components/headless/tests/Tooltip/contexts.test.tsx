@@ -24,11 +24,11 @@ describe("Tooltip - structure", () => {
 
   it("should raise error if Tooltip.Content is used outside of Tooltip", () => {
     expect(() => render(<TooltipContent>Content</TooltipContent>)).toThrow(
-      "[WonDesign Headless] useTooltip() must be used inside the Tooltip Provider.",
+      "[WonDesign Headless] useTooltip() must be used inside a Tooltip Provider.",
     );
   });
 
-  it("should raise error if Tooltip.Arrow is used outside of Tooltip.Content", () => {
+  it("should raise error if TooltipArrow is used outside of TooltipContent", () => {
     expect(() =>
       render(
         <TooltipProvider>
@@ -36,13 +36,13 @@ describe("Tooltip - structure", () => {
         </TooltipProvider>,
       ),
     ).toThrow(
-      "[WonDesign Headless] Tooltip.Arrow must be used inside Tooltip.Content.",
+      "[WonDesign Headless] TooltipArrow must be used inside a TooltipContent.",
     );
   });
 
   it("should raise error if Tooltip.Trigger is used outside of Tooltip", () => {
     expect(() => render(<TooltipTrigger>Trigger</TooltipTrigger>)).toThrow(
-      "[WonDesign Headless] useTooltip() must be used inside the Tooltip Provider.",
+      "[WonDesign Headless] useTooltip() must be used inside a Tooltip Provider.",
     );
   });
 

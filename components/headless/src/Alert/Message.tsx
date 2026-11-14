@@ -28,7 +28,7 @@ export function AlertMessage({
 
   if (!isInsideContent) {
     throw new Error(
-      "[WonDesign Headless] AlertMessage must be used within AlertContent.",
+      "[WonDesign Headless] AlertMessage must be used inside an AlertContent.",
     );
   }
 

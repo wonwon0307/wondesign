@@ -13,7 +13,7 @@ export function useToastArea() {
 
   if (!context) {
     throw new Error(
-      "[WonDesign Headless] a Toast component must be rendered inside a ToastArea.",
+      "[WonDesign Headless] Toast must be rendered inside a ToastArea.",
     );
   }
 
@@ -40,7 +40,7 @@ export function useToastInternal(errMsg?: string) {
   if (!context) {
     throw new Error(
       errMsg ??
-        "[WonDesign Headless] useToast() must be used within a Toast component.",
+        "[WonDesign Headless] useToast() must be used inside a Toast component.",
     );
   }
 

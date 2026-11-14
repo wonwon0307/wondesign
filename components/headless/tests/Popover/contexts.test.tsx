@@ -26,7 +26,7 @@ describe("Popover - contexts", () => {
 
   it("should raise an error if usePopover is used outside of the provider", () => {
     const errorMsg =
-      "[WonDesign Headless] usePopover() must be used within the Popover Provider.";
+      "[WonDesign Headless] usePopover() must be used inside a Popover Provider.";
 
     expect(() => render(<PopoverContent>Content</PopoverContent>)).toThrow(
       errorMsg,
@@ -47,7 +47,7 @@ describe("Popover - contexts", () => {
         </PopoverProvider>,
       ),
     ).toThrow(
-      "[WonDesign Headless] PopoverTitle must be used within PopoverContent.",
+      "[WonDesign Headless] PopoverTitle must be used inside a PopoverContent.",
     );
     expect(() =>
       render(
@@ -56,7 +56,7 @@ describe("Popover - contexts", () => {
         </PopoverProvider>,
       ),
     ).toThrow(
-      "[WonDesign Headless] PopoverClose must be used within PopoverContent.",
+      "[WonDesign Headless] PopoverClose must be used inside a PopoverContent.",
     );
     expect(() =>
       render(
@@ -65,7 +65,7 @@ describe("Popover - contexts", () => {
         </PopoverProvider>,
       ),
     ).toThrow(
-      "[WonDesign Headless] PopoverArrow must be used within PopoverContent.",
+      "[WonDesign Headless] PopoverArrow must be used inside a PopoverContent.",
     );
   });
 
