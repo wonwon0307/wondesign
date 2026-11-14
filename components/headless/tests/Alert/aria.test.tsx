@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 
 import { AlertProvider } from "@/Alert/Provider";
 import { AlertContent } from "@/Alert/Content";
@@ -7,10 +7,17 @@ import { TestComponent } from "./test-component";
 describe("Alert - aria attributes", () => {
   it("should have correct aria attributes", () => {
     const { getByTestId, getByText } = render(
-      <TestComponent isOpen>Test</TestComponent>,
+      <TestComponent>Test</TestComponent>,
     );
 
     const trigger = getByTestId("alert-trigger");
+
+    // aria-controls is not set when the alert is not open
+    expect(trigger.getAttribute("aria-controls")).toBeNull();
+    expect(trigger.getAttribute("aria-haspopup")).toBe("dialog");
+
+    fireEvent.click(trigger);
+
     const content = getByTestId("alert-content");
     const title = getByText("Test Title");
     const message = getByText("Test Message");
@@ -24,7 +31,6 @@ describe("Alert - aria attributes", () => {
     expect(content.getAttribute("aria-describedby")).toBe(message.id);
 
     // trigger
-    expect(trigger.getAttribute("aria-haspopup")).toBe("dialog");
     expect(trigger.getAttribute("aria-controls")).toBe(content.id);
   });
 

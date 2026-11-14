@@ -14,7 +14,8 @@ export function AlertTrigger({
   children,
   ...rest
 }: Readonly<AlertTriggerProps>) {
-  const { isOpen, showAlert, contentId, triggerRef } = useAlertInternal();
+  const { isOpen, showAlert, keepMounted, contentId, triggerRef } =
+    useAlertInternal();
   const isInsideContent = useContext(ContentContext);
 
   useEffect(() => {
@@ -25,6 +26,8 @@ export function AlertTrigger({
     }
   }, [isInsideContent]);
 
+  const ariaControls = !isOpen && !keepMounted ? undefined : contentId;
+
   return (
     <Button
       {...rest}
@@ -32,7 +35,7 @@ export function AlertTrigger({
       type="button"
       onClick={showAlert}
       aria-haspopup="dialog"
-      aria-controls={contentId}
+      aria-controls={ariaControls}
       data-state={isOpen ? "open" : "closed"}
     >
       {children}
