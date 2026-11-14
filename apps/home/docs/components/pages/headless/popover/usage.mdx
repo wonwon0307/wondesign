@@ -218,11 +218,11 @@ to render it where it is in the document instead:
 ```
 
 <Callout variant="warning" title="It can end up somewhere unexpected">
-  The position from `usePopover` is measured from the viewport. With
-  `position: fixed`, that's usually still right when the content renders in
-  place. But inside an ancestor with a `transform`, `filter` or similar,
-  `fixed` is measured from that ancestor instead, so **the content can be
-  placed somewhere unexpected** with no error.
+  The position from `usePopover` is measured from the viewport. With `position:
+  fixed`, that's usually still right when the content renders in place. But
+  inside an ancestor with a `transform`, `filter` or similar, `fixed` is
+  measured from that ancestor instead, so **the content can be placed somewhere
+  unexpected** with no error.
 </Callout>
 
 ---
