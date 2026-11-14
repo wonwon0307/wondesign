@@ -29,8 +29,14 @@ describe("Tooltip - structure", () => {
   });
 
   it("should raise error if Tooltip.Arrow is used outside of Tooltip.Content", () => {
-    expect(() => render(<TooltipArrow>Arrow</TooltipArrow>)).toThrow(
-      "Tooltip.Arrow must be used inside Tooltip.Content.",
+    expect(() =>
+      render(
+        <TooltipProvider>
+          <TooltipArrow>Arrow</TooltipArrow>
+        </TooltipProvider>,
+      ),
+    ).toThrow(
+      "[WonDesign Headless] Tooltip.Arrow must be used inside Tooltip.Content.",
     );
   });
 
@@ -38,5 +44,45 @@ describe("Tooltip - structure", () => {
     expect(() => render(<TooltipTrigger>Trigger</TooltipTrigger>)).toThrow(
       "[WonDesign Headless] useTooltip() must be used inside the Tooltip Provider.",
     );
+  });
+
+  it("warns on console when TooltipTrigger is inside TooltipContent", () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    vi.stubEnv("NODE_ENV", "development");
+
+    const TestComponent = () => (
+      <TooltipProvider isOpen>
+        <TooltipContent>
+          <TooltipTrigger>Trigger</TooltipTrigger>
+        </TooltipContent>
+      </TooltipProvider>
+    );
+
+    render(<TestComponent />);
+    expect(console.warn).toHaveBeenCalledWith(
+      "[WonDesign Headless] TooltipTrigger should be rendered outside of TooltipContent.",
+    );
+
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it("doesn't warn on console if Trigger is inside Content in production", () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    vi.stubEnv("NODE_ENV", "production");
+
+    const TestComponent = () => (
+      <TooltipProvider isOpen>
+        <TooltipContent>
+          <TooltipTrigger>Trigger</TooltipTrigger>
+        </TooltipContent>
+      </TooltipProvider>
+    );
+
+    render(<TestComponent />);
+    expect(console.warn).not.toHaveBeenCalled();
+
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
   });
 });

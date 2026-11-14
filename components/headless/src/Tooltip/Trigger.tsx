@@ -1,5 +1,7 @@
+import { useContext, useEffect } from "react";
+
 import { Button, type ButtonProps } from "@/Button/Button";
-import { useTooltipInternal } from "./contexts";
+import { ContentContext, useTooltipInternal } from "./contexts";
 
 export interface TooltipTriggerProps extends Omit<
   ButtonProps,
@@ -24,6 +26,7 @@ export function TooltipTrigger({
   ...rest
 }: Readonly<TooltipTriggerProps>) {
   const context = useTooltipInternal();
+  const isInsideContent = useContext(ContentContext);
 
   const {
     isOpen,
@@ -35,6 +38,14 @@ export function TooltipTrigger({
     tooltipId,
     triggerRef,
   } = context;
+
+  useEffect(() => {
+    if (isInsideContent && process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[WonDesign Headless] TooltipTrigger should be rendered outside of TooltipContent.",
+      );
+    }
+  }, [isInsideContent]);
 
   const ariaDescribedBy = !keepMounted && !isOpen ? undefined : tooltipId;
 
