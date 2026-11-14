@@ -10,10 +10,11 @@ To see real, styled examples of `Tooltip`, go to the
 
 ---
 
-## Positioning the Content
+## Applying the Position
 
-`useTooltip` gives you the position of the content and the arrow. **Apply them
-yourself**, usually in a small wrapper of your own:
+`Tooltip` works out where the content and arrow go, but **doesn't move them
+there**. `useTooltip` gives you the calculated positions; apply them yourself,
+usually in a small wrapper of your own:
 
 ```tsx
 import { Tooltip, useTooltip } from "@wondesign/headless/Tooltip";
@@ -44,6 +45,7 @@ arrow `absolute` inside it the same way.
 
 ## Placement and Alignment
 
+Props on `Tooltip` choose where the content goes, relative to the trigger.
 The default placement is `"bottom"`; pass `placement` to prefer another side.
 The default alignment is `"center"`; pass `align` to line it up with the start
 or end of the trigger instead:
