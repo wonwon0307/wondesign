@@ -73,7 +73,7 @@ describe("Popover - interactions", () => {
     fireEvent.focus(trigger);
     trigger.focus();
     fireEvent.keyDown(trigger, { key: "Escape", code: "Escape" });
-    expect(content).toBeTruthy();
+    expect(queryByText("Test Content")).toBeTruthy();
 
     // focuses the popover content before pressing escape
     fireEvent.focus(content);

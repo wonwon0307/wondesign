@@ -29,6 +29,9 @@ describe("Popover - properties", () => {
     const content = getByTestId("popover-content");
     expect(content).toBeTruthy();
     expect(content.dataset.state).toBe("open");
+
+    fireEvent.click(getByTestId("popover-button"));
+    expect(onOpenChange).toHaveBeenCalledWith(false);
   });
 
   it("keeps components mounted if keepMounted is true", () => {
