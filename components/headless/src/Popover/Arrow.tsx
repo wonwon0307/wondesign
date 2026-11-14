@@ -13,7 +13,7 @@ export function PopoverArrow({
   children,
   ...rest
 }: Readonly<PopoverArrowProps>) {
-  const { arrowRef } = usePopoverInternal();
+  const { placement, arrowRef } = usePopoverInternal();
   const isInsideContent = useContext(ContentContext);
 
   if (!isInsideContent) {
@@ -23,7 +23,7 @@ export function PopoverArrow({
   }
 
   return (
-    <div {...rest} ref={arrowRef} aria-hidden="true">
+    <div {...rest} ref={arrowRef} aria-hidden="true" data-placement={placement}>
       {children}
     </div>
   );

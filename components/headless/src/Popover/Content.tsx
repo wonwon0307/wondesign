@@ -22,6 +22,7 @@ export function PopoverContent({
     isOpen,
     disablePortal,
     keepMounted,
+    placement,
     titleId,
     setContentId,
     floatingRef,
@@ -51,6 +52,7 @@ export function PopoverContent({
           aria-label={titleId ? undefined : ariaLabel}
           aria-labelledby={titleId}
           data-state={isOpen ? "open" : "closed"}
+          data-placement={placement}
         >
           {children}
         </Component>
