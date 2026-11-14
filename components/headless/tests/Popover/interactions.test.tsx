@@ -67,16 +67,14 @@ describe("Popover - interactions", () => {
     fireEvent.click(trigger);
 
     const content = getByText("Test Content");
-    expect(content).toBeTruthy();
+    expect(queryByText("Test Content")).toBeTruthy();
 
     // doesn't close when focus is outside the popover content
-    fireEvent.focus(trigger);
     trigger.focus();
     fireEvent.keyDown(trigger, { key: "Escape", code: "Escape" });
     expect(queryByText("Test Content")).toBeTruthy();
 
     // focuses the popover content before pressing escape
-    fireEvent.focus(content);
     content.focus();
     fireEvent.keyDown(document.body, { key: "Escape", code: "Escape" });
     expect(queryByText("Test Content")).toBeNull();
@@ -119,7 +117,6 @@ describe("Popover - interactions", () => {
 
     const outsideButton = getByText("Outside Button");
 
-    fireEvent.focus(outsideButton);
     outsideButton.focus();
     expect(document.activeElement).toBe(outsideButton);
 
