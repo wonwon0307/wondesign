@@ -8,16 +8,38 @@ import { PopoverTrigger } from "@/Popover/Trigger";
 import { TestComponent } from "./test-component";
 
 describe("Popover - properties", () => {
+  it("respects the `defaultOpen` prop", () => {
+    const { getByTestId } = render(
+      <TestComponent defaultOpen>Test Content</TestComponent>,
+    );
+
+    const content = getByTestId("popover-content");
+    expect(content).toBeTruthy();
+    expect(content.dataset.state).toBe("open");
+  });
+
+  it("supports controlled mode", () => {
+    const onOpenChange = vi.fn();
+    const { getByTestId } = render(
+      <TestComponent isOpen onOpenChange={onOpenChange}>
+        Test Content
+      </TestComponent>,
+    );
+
+    const content = getByTestId("popover-content");
+    expect(content).toBeTruthy();
+    expect(content.dataset.state).toBe("open");
+  });
+
   it("keeps components mounted if keepMounted is true", () => {
     const { getByTestId } = render(
-      <PopoverProvider>
-        <TestComponent keepMounted>Test Content</TestComponent>
-      </PopoverProvider>,
+      <TestComponent keepMounted>Test Content</TestComponent>,
     );
 
     const content = getByTestId("popover-content");
     expect(content).toBeTruthy();
     expect(content.dataset.state).toBe("closed");
+    expect(content.hidden).toBe(true);
   });
 
   it("supports the `asChild` prop", () => {
