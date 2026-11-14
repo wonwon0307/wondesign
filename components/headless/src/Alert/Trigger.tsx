@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { Button, type ButtonProps } from "@/Button/Button";
 import { ContentContext, useAlertInternal } from "./contexts";
@@ -17,11 +17,13 @@ export function AlertTrigger({
   const { isOpen, showAlert, contentId, triggerRef } = useAlertInternal();
   const isInsideContent = useContext(ContentContext);
 
-  if (isInsideContent && process.env.NODE_ENV !== "production") {
-    console.warn(
-      "[WonDesign Headless] AlertTrigger should be rendered outside of AlertContent.",
-    );
-  }
+  useEffect(() => {
+    if (isInsideContent && process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[WonDesign Headless] AlertTrigger should be rendered outside of AlertContent.",
+      );
+    }
+  }, [isInsideContent]);
 
   return (
     <Button

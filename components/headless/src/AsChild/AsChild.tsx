@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement } from "react";
+import { cloneElement, isValidElement, useEffect } from "react";
 
 type AnyProps = Record<string, unknown>;
 
@@ -44,22 +44,22 @@ type AsChildProps = {
 
 export function AsChild({
   children,
-  ref,
   ...props
 }: AsChildProps): React.ReactElement | null {
-  if (!isValidElement(children)) {
-    if (process.env.NODE_ENV !== "production") {
+  const isValidChild = isValidElement(children);
+
+  useEffect(() => {
+    if (!isValidChild && process.env.NODE_ENV !== "production") {
       console.warn(
         "[WonDesign Headless] asChild requires a single valid React element as child.",
       );
     }
+  }, [isValidChild]);
+
+  if (!isValidElement(children)) {
     return null;
   }
 
-  const config: AnyProps = {
-    ...mergeProps(props, children.props as AnyProps),
-    ref,
-  };
-
-  return cloneElement(children, config);
+  // props still holds the slot's ref; mergeProps skips the child's, so the slot's wins.
+  return cloneElement(children, mergeProps(props, children.props as AnyProps));
 }
