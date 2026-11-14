@@ -1,0 +1,217 @@
+# API
+
+This page covers every part of `Popover`, its hook and its types. Import them
+from `@wondesign/headless/Popover`:
+
+```ts
+import {
+  // compound component, with its parts attached
+  Popover,
+  // hook
+  usePopover,
+  // named exports
+  PopoverProvider,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverTitle,
+  PopoverClose,
+  PopoverArrow,
+  // types
+  type PopoverProps,
+  type PopoverTriggerProps,
+  type PopoverContentProps,
+  type PopoverTitleProps,
+  type PopoverCloseProps,
+  type PopoverArrowProps,
+} from "@wondesign/headless/Popover";
+```
+
+---
+
+## Components
+
+The parts that make up a `Popover`. Each one, apart from the provider, renders
+a single element and accepts that element's props. Every part must be inside
+the provider.
+
+### Provider
+
+`Popover` or `PopoverProvider`. Coordinates every part: it holds the open
+state, handles dismissal and focus, gives the parts the ids that link them,
+and works out where the content and arrow go. **Renders no element of its
+own.**
+
+**Props**
+
+```ts
+interface PopoverProps {
+  children: React.ReactNode;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  defaultOpen?: boolean; // defaults to `false`
+  keepMounted?: boolean; // defaults to `false`
+  disablePortal?: boolean; // defaults to `false`
+  placement?: "top" | "bottom" | "left" | "right"; // defaults to `"bottom"`
+  forcePlacement?: boolean; // defaults to `false`
+  align?: "start" | "center" | "end"; // defaults to `"center"`
+  offset?: number; // in px, defaults to `4`
+  padding?: number; // in px, defaults to `8`
+}
+```
+
+### Trigger
+
+`Popover.Trigger` or `PopoverTrigger`. Renders a `<button>` that opens and
+closes the popover. Use it outside `Popover.Content`. Inside it, **it only logs
+a warning** in development.
+
+**Props**
+
+Accepts all props of [Headless Button](/components/headless/button), except
+`type`, `onClick`, `aria-haspopup`, `aria-expanded` and `aria-controls`, which
+the trigger manages. It sets its own `ref`, so it doesn't take one. Key props:
+
+```ts
+interface PopoverTriggerProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  isDisabled?: boolean; // defaults to `false`
+  // ...
+}
+```
+
+> When using `asChild` on the trigger, render a `<button>` (or a component that renders one).
+> Otherwise, keyboard and screen reader support could be **lost silently**.
+
+**Data Attributes**
+
+```ts
+"data-state": "open" | "closed";
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```
+
+### Content
+
+`Popover.Content` or `PopoverContent`. Renders a non-modal `<dialog>`, in a
+[Portal](/components/headless/portal) unless `disablePortal` is `true`.
+
+**Props**
+
+Accepts all `<dialog>` props, except `id`, `role`, `open`, `tabIndex` and
+`aria-labelledby`, which the content manages. It sets its own `ref`, so it
+doesn't take one. Key props:
+
+```ts
+interface PopoverContentProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  "aria-label"?: string; // defaults to `"Popover Content"`, used only without `Popover.Title`
+  // ...
+}
+```
+
+**Data Attributes**
+
+```ts
+"data-state": "open" | "closed";
+"data-placement": "top" | "bottom" | "left" | "right"; // the side it ended up on, after flipping
+```
+
+### Title
+
+`Popover.Title` or `PopoverTitle`. Renders an `<h2>` that names the popover.
+Must be used inside `Popover.Content`.
+
+**Props**
+
+Accepts all `<h2>` props, except `id`, which the title manages. Key props:
+
+```ts
+interface PopoverTitleProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  // ...
+}
+```
+
+### Close
+
+`Popover.Close` or `PopoverClose`. Renders a `<button>` that runs its
+`onClick`, then closes the popover, unless `onClick` calls
+`event.preventDefault()`. **It doesn't wait for a returned promise.** Must be
+used inside `Popover.Content`.
+
+**Props**
+
+Accepts all props of [Headless Button](/components/headless/button). Key props:
+
+```ts
+interface PopoverCloseProps {
+  children: React.ReactNode;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the popover closes. call `event.preventDefault()` to keep it open
+  asChild?: boolean;
+  isDisabled?: boolean; // defaults to `false`
+  isLoading?: boolean; // defaults to `false`
+  // ...
+}
+```
+
+**Data Attributes**
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```
+
+### Arrow
+
+`Popover.Arrow` or `PopoverArrow`. Renders a `<div>` for an arrow pointing at
+the trigger. Must be used inside `Popover.Content`.
+
+**Props**
+
+Accepts all `<div>` props, except `aria-hidden`, which the arrow manages. It
+sets its own `ref`, so it doesn't take one. Key props:
+
+```ts
+interface PopoverArrowProps {
+  children?: React.ReactNode; // the arrow's shape, like an SVG
+  // ...
+}
+```
+
+**Data Attributes**
+
+```ts
+"data-placement": "top" | "bottom" | "left" | "right"; // the side the content ended up on, after flipping
+```
+
+---
+
+## Hooks
+
+Hooks read the state of the nearest provider, for building your own parts.
+They throw an error when used outside one.
+
+### usePopover
+
+Reads the state and position of the nearest `Popover`.
+
+**Returns**
+
+```ts
+function usePopover(): {
+  isOpen: boolean; // whether the popover is open
+  showPopover: () => void; // opens it
+  hidePopover: () => void; // closes it
+  togglePopover: () => void; // opens or closes it
+  keepMounted: boolean; // the `keepMounted` prop
+  disablePortal: boolean; // the `disablePortal` prop
+  placement: "top" | "bottom" | "left" | "right"; // the side it ended up on, after flipping
+  content: { x: number; y: number }; // from the top left of the viewport
+  arrow: { x: number; y: number }; // from the top left of the content
+  isPositioned: boolean; // whether the position has been worked out since it opened
+  updatePosition: () => void; // works out the position again
+};
+```
