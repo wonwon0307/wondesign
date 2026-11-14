@@ -1,0 +1,137 @@
+import { Keyboard, KeyboardGroup } from "@wondesign/ui/Code";
+
+# Popover
+
+`Popover` shows floating content next to its trigger, as a non-modal dialog,
+following the
+[WAI-ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
+without the parts that make it modal. It handles opening and closing, moves
+focus in and back out, works out where the content fits on screen, and labels
+it for assistive technology, so you only bring the look.
+
+Use it when the content belongs next to its trigger, like a filter form or
+quick settings. The page behind **stays usable** while it's open.
+
+Don't use it when the content doesn't need to sit next to its trigger, like a
+long form or a step the user has to finish before carrying on. For a short hint
+with nothing to interact with, use a [Tooltip](/components/headless/tooltip)
+instead.
+
+---
+
+## Key Features
+
+- ✅ **Accessible by Default**: Announced as a dialog, named by its title
+- ✅ **Closes On**: A close button, <Keyboard>Esc</Keyboard> or a click outside
+- ✅ **Focus Management**: Moves focus in when it opens, and returns it to the trigger when it closes
+- ✅ **Non-Modal**: The page behind stays usable while it's open
+- ✅ **Auto Flip & Shift**: Flips to the opposite side when space runs short, and shifts to stay inside the viewport
+- ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
+- ✅ **Keep Content Mounted**: Hide closed content instead of removing it
+- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
+
+---
+
+## Structure
+
+For what you can configure, refer to the
+[Usage tab](/components/headless/popover/usage). For every prop, refer to the
+[API tab](/components/headless/popover/api).
+
+- 🧩 **Popover**: coordinates every part. It holds the open state, handles
+  dismissal and focus, and works out the position. **Renders no element of its
+  own.**
+- 🧩 **Popover.Trigger**: the button that opens the popover.
+- 🧩 **Popover.Content**: the floating dialog itself.
+- 🧩 **Popover.Title**: the heading that names the popover.
+- 🧩 **Popover.Close**: a button that closes the popover, after running its
+  `onClick`.
+- 🧩 **Popover.Arrow**: an optional arrow pointing at the trigger.
+
+```tsx
+<Popover>
+  <Popover.Trigger>Filters</Popover.Trigger>
+  <Popover.Content>
+    <Popover.Title>Filters</Popover.Title>
+    …
+    <Popover.Close>Done</Popover.Close>
+    <Popover.Arrow>…</Popover.Arrow>
+  </Popover.Content>
+</Popover>;
+
+// or, with named exports
+<PopoverProvider>
+  <PopoverTrigger>Filters</PopoverTrigger>
+  <PopoverContent>
+    <PopoverTitle>Filters</PopoverTitle>
+    …
+    <PopoverClose>Done</PopoverClose>
+    <PopoverArrow>…</PopoverArrow>
+  </PopoverContent>
+</PopoverProvider>;
+```
+
+---
+
+## How It Works
+
+A popover has to open where the user expects it, take focus without trapping
+it, and get out of the way when the user is done. `Popover` builds this in,
+following the
+[WAI-ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
+without the parts that make it modal: it decides how the popover closes, where
+focus goes, where the content sits, and what screen readers announce. You don't
+need to wire up any of it.
+
+### Opening and Closing
+
+A click on `Popover.Trigger` opens the popover. It closes through
+`Popover.Close`, a click outside, or <Keyboard>Esc</Keyboard>.
+
+<Keyboard>Esc</Keyboard> only closes the popover **while focus is inside it**.
+Once focus has moved elsewhere on the page, <Keyboard>Esc</Keyboard> is left to
+whatever has focus.
+
+Clicks outside are handled by
+[Click Outside](/foundations/pointer/click-outside), and
+<Keyboard>Esc</Keyboard> by [Escape Key](/foundations/key-events/escape-key).
+
+### Focus
+
+When the popover opens, focus moves to the **first focusable element inside the
+content**. With nothing focusable inside, the content itself takes focus. When
+it closes, focus returns to `Popover.Trigger`.
+
+Focus isn't trapped: <Keyboard>Tab</Keyboard> and
+
+<KeyboardGroup shortkey="Shift+Tab" /> can move out of the content, and the
+popover **stays open** when they do.
+
+Focus is handled by [Auto Focus](/foundations/focus/auto-focus).
+
+### Placement
+
+If the preferred side doesn't have room, the popover **flips to the opposite
+side**, as long as that side has more room. It also shifts along its side to
+stay inside the viewport, and follows the trigger when the page scrolls or
+resizes. The position is worked out by
+[Position](/foundations/position/floating-position), so it behaves exactly as
+described there.
+
+### Screen Readers
+
+The trigger is announced as a button that opens a dialog, along with whether
+it's open. The content is announced as a dialog, named by `Popover.Title`.
+Without a title, it's named by its `aria-label`, "Popover Content" by default,
+so **a title or an `aria-label` of your own is strongly recommended**.
+
+---
+
+## Known Issues
+
+- 🐞 **Focus jumps back after a click outside**: Closing the popover by clicking
+  elsewhere returns focus to the trigger, instead of leaving it where the user
+  clicked.
+- 🐞 **Nested overlays close the popover**: Clicking inside a popover, tooltip
+  or other overlay opened from inside the popover counts as a click outside,
+  and closes it.
