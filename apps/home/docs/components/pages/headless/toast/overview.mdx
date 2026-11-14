@@ -43,7 +43,8 @@ For what you can configure, refer to the
 
 - 🧩 **ToastArea**: the area every toast shows in. Render it once, and put
   your toasts inside it.
-- 🧩 **Toast**: one toast. It holds its own open state and timer.
+- 🧩 **Toast**: one toast. It holds its own open state and timer. Every toast
+  must go inside a `ToastArea`.
 - 🧩 **ToastMessage**: the main line of the toast, as a heading.
 - 🧩 **ToastDescription**: optional detail, shown under the message.
 - 🧩 **ToastClose**: a button that closes the toast, after running its
@@ -58,9 +59,6 @@ For what you can configure, refer to the
   </Toast>
 </ToastArea>
 ```
-
-**Every toast must go inside a `ToastArea`**, and the message, description and close
-button must go inside a toast.
 
 ---
 
