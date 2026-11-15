@@ -20,7 +20,7 @@ usually in a small wrapper of your own:
 import { Tooltip, useTooltip } from "@wondesign/headless/Tooltip";
 
 function MyTooltipContent({ children }: { children: React.ReactNode }) {
-  const { content } = useTooltip();
+  const { content, isPositioned } = useTooltip();
 
   return (
     <Tooltip.Content
@@ -29,6 +29,7 @@ function MyTooltipContent({ children }: { children: React.ReactNode }) {
         top: 0,
         left: 0,
         transform: `translate3d(${content.x}px, ${content.y}px, 0)`,
+        visibility: isPositioned ? "visible" : "hidden",
       }}
     >
       {children}
@@ -37,9 +38,24 @@ function MyTooltipContent({ children }: { children: React.ReactNode }) {
 }
 ```
 
-The content's position is measured from the top left of the viewport. The
-arrow's position is measured from the top left of the content, so position the
-arrow `absolute` inside it the same way.
+`content` is measured from the top left of the viewport, and `arrow` from the
+top left of the content, so position the arrow `absolute` inside it the same
+way. `isPositioned` stays `false` until the first position is worked out, so
+hiding the content until then avoids a flash in the corner. For how the
+position is worked out, refer to
+[Floating Position](/foundations/position/floating-position).
+
+### Updating the Position
+
+The position updates on its own when the page scrolls or resizes, or when the
+trigger or content changes size. When the trigger moves for another reason,
+call `updatePosition`:
+
+```tsx
+const { updatePosition } = useTooltip();
+
+useEffect(updatePosition, [layoutChanged, updatePosition]);
+```
 
 ---
 
@@ -124,10 +140,12 @@ where it is in the document instead:
 <Tooltip.Content disablePortal>…</Tooltip.Content>
 ```
 
-<Callout variant="warning" title="Compute the position yourself">
-  The position from `useTooltip` is measured from the viewport, which suits
-  content rendered in the Portal. When you render the content in place, work out
-  its position yourself, relative to the element it ends up in.
+<Callout variant="warning" title="It can end up somewhere unexpected">
+  The position from `useTooltip` is measured from the viewport. With `position:
+  fixed`, that's usually still right when the content renders in place. But
+  inside an ancestor with a `transform`, `filter` or similar, `fixed` is
+  measured from that ancestor instead, so **the content can be placed somewhere
+  unexpected** with no error.
 </Callout>
 
 ---

@@ -126,5 +126,6 @@ Reads the open state of the nearest `Collapsible`.
 function useCollapsible(): {
   isOpen: boolean; // whether the content is open
   toggle: () => void; // opens or closes the content
+  keepMounted: boolean; // the `keepMounted` prop
 };
 ```

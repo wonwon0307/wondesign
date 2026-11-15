@@ -154,7 +154,11 @@ function useTooltip(): {
   showWithDelay: () => void; // shows it after `showDelay`
   hideImmediate: () => void; // hides it, without the delay
   hideWithDelay: () => void; // hides it after `hideDelay`
+  keepMounted: boolean; // the `keepMounted` prop
+  placement: "top" | "bottom" | "left" | "right"; // the side it ended up on, after flipping
   content: { x: number; y: number }; // from the top left of the viewport
   arrow: { x: number; y: number }; // from the top left of the content
+  isPositioned: boolean; // whether the position has been worked out since it opened
+  updatePosition: () => void; // works out the position again
 };
 ```
