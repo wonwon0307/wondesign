@@ -34,9 +34,7 @@ type TabsListContextValue = {
   orientation: "vertical" | "horizontal";
 };
 
-export const TabsListContext = createContext<TabsListContextValue | undefined>(
-  undefined,
-);
+export const TabsListContext = createContext<TabsListContextValue | null>(null);
 
 export function useTabsList() {
   const context = useContext(TabsListContext);

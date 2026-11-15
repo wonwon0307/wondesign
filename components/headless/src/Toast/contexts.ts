@@ -1,12 +1,10 @@
 import { createContext, useContext } from "react";
 
-type ToastAreaContext = {
+type ToastAreaContextValue = {
   isReady: boolean;
 };
 
-export const AreaContext = createContext<ToastAreaContext | undefined>(
-  undefined,
-);
+export const AreaContext = createContext<ToastAreaContextValue | null>(null);
 
 export function useToastArea() {
   const context = useContext(AreaContext);
@@ -20,7 +18,7 @@ export function useToastArea() {
   return context;
 }
 
-type ToastContextType = {
+type ToastContextValue = {
   isOpen: boolean;
   isPaused: boolean;
   dismissToast: () => void;
@@ -30,9 +28,7 @@ type ToastContextType = {
   contentRef: React.RefObject<HTMLDivElement | null>;
 };
 
-export const ToastContext = createContext<ToastContextType | undefined>(
-  undefined,
-);
+export const ToastContext = createContext<ToastContextValue | null>(null);
 
 export function useToastInternal(errMsg?: string) {
   const context = useContext(ToastContext);

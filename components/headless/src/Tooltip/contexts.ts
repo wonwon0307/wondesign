@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import type { Position } from "@wondesign/position";
 
-type TooltipContextType = {
+type TooltipContextValue = {
   // state
   isOpen: boolean;
   keepMounted: boolean;
@@ -22,9 +22,7 @@ type TooltipContextType = {
   arrow: Position;
 };
 
-export const TooltipContext = createContext<TooltipContextType | undefined>(
-  undefined,
-);
+export const TooltipContext = createContext<TooltipContextValue | null>(null);
 
 export function useTooltipInternal() {
   const context = useContext(TooltipContext);

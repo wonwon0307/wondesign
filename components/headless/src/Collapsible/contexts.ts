@@ -4,8 +4,9 @@ type CollapsibleContextValue = {
   isOpen: boolean;
   keepMounted: boolean;
   toggle: () => void;
-  contentId: string;
   toggleId: string;
+  contentId: string | undefined;
+  setContentId: (contentId: string | undefined) => void;
 };
 
 export const CollapsibleContext = createContext<CollapsibleContextValue | null>(
