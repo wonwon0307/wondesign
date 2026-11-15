@@ -17,7 +17,7 @@ export interface CollapsibleContentProps
 
 export function CollapsibleContent({
   children,
-  asChild,
+  asChild = false,
   role = asChild ? undefined : "group",
   ...rest
 }: Readonly<CollapsibleContentProps>) {

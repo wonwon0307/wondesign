@@ -15,7 +15,7 @@ export interface TooltipContentProps extends Omit<
 
 export function TooltipContent({
   children,
-  asChild,
+  asChild = false,
   disablePortal = false,
   ...rest
 }: Readonly<TooltipContentProps>) {
