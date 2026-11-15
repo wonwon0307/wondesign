@@ -6,7 +6,7 @@ import { ContentContext, useTooltipInternal } from "./contexts";
 
 export interface TooltipContentProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
-  "children" | "id" | "role" | "aria-hidden" | "onMouseEnter" | "onMouseLeave"
+  "children" | "id" | "role" | "hidden" | "onMouseEnter" | "onMouseLeave"
 > {
   children: React.ReactNode;
   asChild?: boolean;
@@ -48,10 +48,10 @@ export function TooltipContent({
           {...rest}
           id={tooltipId}
           role="tooltip"
+          hidden={!isOpen}
           ref={floatingRef}
           onMouseEnter={clearTimer} // 마우스가 trigger를 떠나 content로 들어오면, 타이머를 초기화하여, 사라지지 않도록 해야한다.
           onMouseLeave={hideWithDelay}
-          aria-hidden={!isOpen}
           data-state={isOpen ? "open" : "closed"}
         >
           {children}

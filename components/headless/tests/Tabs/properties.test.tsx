@@ -39,7 +39,7 @@ describe("Tabs - properties", () => {
     expect(inactiveTab.getAttribute("tabindex")).toBe("-1");
 
     expect(activePanel.getAttribute("data-state")).toBe("active");
-    expect(activePanel.getAttribute("aria-hidden")).toBe("false");
+    expect(activePanel.hidden).toBe(false);
     expect(activePanel.getAttribute("tabindex")).toBe("0");
 
     // inactive panel should not be in the document
@@ -61,8 +61,8 @@ describe("Tabs - properties", () => {
 
     // inactive panel should still be in the document
     expect(inactivePanel).toBeTruthy();
+    expect(inactivePanel.hidden).toBe(true);
     expect(inactivePanel.getAttribute("data-state")).toBe("inactive");
-    expect(inactivePanel.getAttribute("aria-hidden")).toBe("true");
     expect(inactivePanel.getAttribute("tabindex")).toBe("-1");
   });
 
