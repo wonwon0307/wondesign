@@ -135,15 +135,16 @@ where it is in the document instead:
 ## Keeping Content Mounted
 
 Closed content is **removed from the page** by default. Pass `keepMounted` to
-keep it in the page instead:
+keep it in the page, hidden with the `hidden` attribute:
 
 ```tsx
 <Tooltip keepMounted>…</Tooltip>
 ```
 
 <Callout variant="warning" title="Closed content can stay visible">
-  Closed content is only hidden from screen readers, so **it stays visible**
-  with no error. Hide it in your styles, with `[data-state="closed"]`.
+  A `display` value in your styles overrides the `hidden` attribute, so **it
+  stays visible** with no error. Set the `display` only while it's open, with
+  `[data-state="open"]`.
 </Callout>
 
 ---
