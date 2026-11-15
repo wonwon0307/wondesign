@@ -26,7 +26,7 @@ export function useCollapsibleInternal() {
 }
 
 export function useCollapsible() {
-  const { isOpen, toggle } = useCollapsibleInternal();
+  const { isOpen, toggle, keepMounted } = useCollapsibleInternal();
 
-  return { isOpen, toggle };
+  return { isOpen, toggle, keepMounted };
 }
