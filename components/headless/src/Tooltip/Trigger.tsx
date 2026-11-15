@@ -6,6 +6,7 @@ import { ContentContext, useTooltipInternal } from "./contexts";
 export interface TooltipTriggerProps extends Omit<
   ButtonProps,
   | "children"
+  | "type"
   | "ref"
   | "aria-describedby"
   | "onMouseEnter"
@@ -52,6 +53,7 @@ export function TooltipTrigger({
   return (
     <Button
       {...rest}
+      type="button"
       ref={triggerRef}
       asChild={asChild}
       aria-describedby={ariaDescribedBy}
