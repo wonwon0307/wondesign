@@ -3,10 +3,10 @@ import { useContext, useId, useLayoutEffect } from "react";
 import { AsChild } from "@/AsChild/AsChild";
 import { ContentContext, usePopoverInternal } from "./contexts";
 
-export interface PopoverTitleProps extends Omit<
-  React.HTMLAttributes<HTMLHeadingElement>,
-  "children" | "id"
-> {
+export interface PopoverTitleProps
+  extends
+    Omit<React.HTMLAttributes<HTMLHeadingElement>, "children" | "id">,
+    React.RefAttributes<HTMLHeadingElement> {
   children: React.ReactNode;
   asChild?: boolean;
 }
