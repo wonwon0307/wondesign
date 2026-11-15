@@ -64,7 +64,7 @@ warning** in development.
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`aria-describedby`, the mouse, focus and touch handlers (`onMouseEnter`,
+`type`, `aria-describedby`, the mouse, focus and touch handlers (`onMouseEnter`,
 `onMouseLeave`, `onFocus`, `onBlur` and `onTouch*`), which the trigger manages.
 It sets its own `ref`, so it doesn't take one. Key props:
 
@@ -129,7 +129,7 @@ sets its own `ref`, so it doesn't take one. Key props:
 
 ```ts
 interface TooltipArrowProps {
-  children: React.ReactNode; // the arrow's shape, like an SVG
+  children?: React.ReactNode; // the arrow's shape, like an SVG
   // ...
 }
 ```
