@@ -50,7 +50,6 @@ interface PopoverProps {
   onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean; // defaults to `false`
   keepMounted?: boolean; // defaults to `false`
-  disablePortal?: boolean; // defaults to `false`
   placement?: "top" | "bottom" | "left" | "right"; // defaults to `"bottom"`
   forcePlacement?: boolean; // defaults to `false`
   align?: "start" | "center" | "end"; // defaults to `"center"`
@@ -100,12 +99,17 @@ interface PopoverTriggerProps {
 
 Accepts all `<dialog>` props, except `id`, `role`, `open`, `tabIndex` and
 `aria-labelledby`, which the content manages. It sets its own `ref`, so it
-doesn't take one. Key props:
+doesn't take one.
+
+It also adds a prop of its own. `disablePortal` renders the content where it
+is, instead of in a [Portal](/components/headless/portal) at the end of
+`<body>`. Key props:
 
 ```ts
 interface PopoverContentProps {
   children: React.ReactNode;
   asChild?: boolean;
+  disablePortal?: boolean; // defaults to `false`
   "aria-label"?: string; // defaults to `"Popover Content"`, used only without `Popover.Title`
   // ...
 }
@@ -125,7 +129,8 @@ Must be used inside `Popover.Content`.
 
 **Props**
 
-Accepts all `<h2>` props, except `id`, which the title manages. Key props:
+Accepts all `<h2>` props, except `id`, which the title manages. You can also
+pass a `ref`; the title sets none of its own. Key props:
 
 ```ts
 interface PopoverTitleProps {
@@ -207,7 +212,6 @@ function usePopover(): {
   hidePopover: () => void; // closes it
   togglePopover: () => void; // opens or closes it
   keepMounted: boolean; // the `keepMounted` prop
-  disablePortal: boolean; // the `disablePortal` prop
   placement: "top" | "bottom" | "left" | "right"; // the side it ended up on, after flipping
   content: { x: number; y: number }; // from the top left of the viewport
   arrow: { x: number; y: number }; // from the top left of the content

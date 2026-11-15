@@ -3,10 +3,10 @@ import { useContext, useId, useLayoutEffect } from "react";
 import { AsChild } from "@/AsChild/AsChild";
 import { ContentContext, usePopoverInternal } from "./contexts";
 
-export interface PopoverTitleProps extends Omit<
-  React.HTMLAttributes<HTMLHeadingElement>,
-  "children" | "id"
-> {
+export interface PopoverTitleProps
+  extends
+    Omit<React.HTMLAttributes<HTMLHeadingElement>, "children" | "id">,
+    React.RefAttributes<HTMLHeadingElement> {
   children: React.ReactNode;
   asChild?: boolean;
 }
@@ -27,7 +27,7 @@ export function PopoverTitle({
 
   if (!isInsideContent) {
     throw new Error(
-      "[WonDesign Headless] PopoverTitle must be used within PopoverContent.",
+      "[WonDesign Headless] PopoverTitle must be used inside a PopoverContent.",
     );
   }
 

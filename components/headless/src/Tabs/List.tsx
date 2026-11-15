@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useArrowNavigation } from "@wondesign/focus/arrow-navigation";
 
 import { AsChild } from "@/AsChild/AsChild";
@@ -66,11 +66,17 @@ export function TabsList({
     if (firstTab) updateActiveTab(firstTab);
   }, [activeTab, children, isDisabled, updateActiveTab]);
 
-  if (process.env.NODE_ENV !== "production" && !ariaLabel && !ariaLabelledBy) {
-    console.warn(
-      "[WonDesign Headless] It is strongly recommended to provide either an aria-label or aria-labelledby for the tablist element.",
-    );
-  }
+  useEffect(() => {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !ariaLabel &&
+      !ariaLabelledBy
+    ) {
+      console.warn(
+        "[WonDesign Headless] It is strongly recommended to provide either an aria-label or aria-labelledby for the tablist element.",
+      );
+    }
+  }, [ariaLabel, ariaLabelledBy]);
 
   const Component = asChild ? AsChild : "div";
 

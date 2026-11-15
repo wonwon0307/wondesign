@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { Button, type ButtonProps } from "@/Button/Button";
 import { ContentContext, useAlertInternal } from "./contexts";
@@ -14,14 +14,19 @@ export function AlertTrigger({
   children,
   ...rest
 }: Readonly<AlertTriggerProps>) {
-  const { isOpen, showAlert, contentId, triggerRef } = useAlertInternal();
+  const { isOpen, showAlert, keepMounted, contentId, triggerRef } =
+    useAlertInternal();
   const isInsideContent = useContext(ContentContext);
 
-  if (isInsideContent && process.env.NODE_ENV !== "production") {
-    console.warn(
-      "[WonDesign Headless] AlertTrigger should be rendered outside of AlertContent.",
-    );
-  }
+  useEffect(() => {
+    if (isInsideContent && process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[WonDesign Headless] AlertTrigger should be rendered outside of AlertContent.",
+      );
+    }
+  }, [isInsideContent]);
+
+  const ariaControls = !isOpen && !keepMounted ? undefined : contentId;
 
   return (
     <Button
@@ -30,7 +35,7 @@ export function AlertTrigger({
       type="button"
       onClick={showAlert}
       aria-haspopup="dialog"
-      aria-controls={contentId}
+      aria-controls={ariaControls}
       data-state={isOpen ? "open" : "closed"}
     >
       {children}

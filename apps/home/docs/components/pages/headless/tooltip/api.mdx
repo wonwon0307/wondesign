@@ -58,12 +58,13 @@ interface TooltipProps {
 ### Trigger
 
 `Tooltip.Trigger` or `TooltipTrigger`. Renders a `<button>` that the tooltip
-describes.
+describes. Use it outside `Tooltip.Content`. Inside it, **it only logs a
+warning** in development.
 
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`aria-describedby`, the mouse, focus and touch handlers (`onMouseEnter`,
+`type`, `aria-describedby`, the mouse, focus and touch handlers (`onMouseEnter`,
 `onMouseLeave`, `onFocus`, `onBlur` and `onTouch*`), which the trigger manages.
 It sets its own `ref`, so it doesn't take one. Key props:
 
@@ -93,7 +94,7 @@ content.
 
 **Props**
 
-Accepts all `<div>` props, except `id`, `role`, `aria-hidden`, `onMouseEnter`
+Accepts all `<div>` props, except `id`, `role`, `hidden`, `onMouseEnter`
 and `onMouseLeave`, which the content manages. It sets its own `ref`, so it
 doesn't take one.
 
@@ -128,7 +129,7 @@ sets its own `ref`, so it doesn't take one. Key props:
 
 ```ts
 interface TooltipArrowProps {
-  children: React.ReactNode; // the arrow's shape, like an SVG
+  children?: React.ReactNode; // the arrow's shape, like an SVG
   // ...
 }
 ```
@@ -153,7 +154,11 @@ function useTooltip(): {
   showWithDelay: () => void; // shows it after `showDelay`
   hideImmediate: () => void; // hides it, without the delay
   hideWithDelay: () => void; // hides it after `hideDelay`
+  keepMounted: boolean; // the `keepMounted` prop
+  placement: "top" | "bottom" | "left" | "right"; // the side it ended up on, after flipping
   content: { x: number; y: number }; // from the top left of the viewport
   arrow: { x: number; y: number }; // from the top left of the content
+  isPositioned: boolean; // whether the position has been worked out since it opened
+  updatePosition: () => void; // works out the position again
 };
 ```

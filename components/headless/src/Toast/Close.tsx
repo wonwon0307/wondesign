@@ -14,7 +14,7 @@ export function ToastClose({
   ...rest
 }: Readonly<ToastCloseProps>) {
   const { dismissToast } = useToastInternal(
-    "[WonDesign Headless] ToastClose must be used within a Toast component.",
+    "[WonDesign Headless] ToastClose must be used inside a Toast component.",
   );
 
   const finalOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {

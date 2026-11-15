@@ -55,7 +55,8 @@ and closes the content.
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`id`, `onClick`, `aria-expanded` and `aria-controls`, which the toggle manages.
+`id`, `type`, `onClick`, `aria-expanded` and `aria-controls`, which the toggle
+manages.
 You can also pass a `ref`; the toggle sets none of its own. Key props:
 
 ```ts
@@ -126,5 +127,6 @@ Reads the open state of the nearest `Collapsible`.
 function useCollapsible(): {
   isOpen: boolean; // whether the content is open
   toggle: () => void; // opens or closes the content
+  keepMounted: boolean; // the `keepMounted` prop
 };
 ```

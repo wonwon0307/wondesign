@@ -15,7 +15,7 @@ export function ToastDescription({
   ...rest
 }: Readonly<ToastDescriptionProps>) {
   useToastInternal(
-    "[WonDesign Headless] ToastDescription must be used within a Toast component.",
+    "[WonDesign Headless] ToastDescription must be used inside a Toast component.",
   );
 
   const Component = asChild ? AsChild : "p";

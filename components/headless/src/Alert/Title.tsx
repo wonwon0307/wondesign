@@ -28,7 +28,7 @@ export function AlertTitle({
 
   if (!isInsideContent) {
     throw new Error(
-      "[WonDesign Headless] AlertTitle must be used within AlertContent.",
+      "[WonDesign Headless] AlertTitle must be used inside an AlertContent.",
     );
   }
 

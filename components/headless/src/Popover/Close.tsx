@@ -17,7 +17,7 @@ export function PopoverClose({
 
   if (!isInsideContent) {
     throw new Error(
-      "[WonDesign Headless] PopoverClose must be used within PopoverContent.",
+      "[WonDesign Headless] PopoverClose must be used inside a PopoverContent.",
     );
   }
 

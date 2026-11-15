@@ -3,9 +3,9 @@ import { renderHook } from "@testing-library/react";
 import { useCollapsible } from "@/Collapsible/contexts";
 
 describe("useCollapsible", () => {
-  it("should throw an error if used outside the Collapsible wrapper", () => {
+  it("should throw an error if used outside the Collapsible Provider", () => {
     expect(() => renderHook(() => useCollapsible())).toThrow(
-      "[WonDesign Headless] useCollapsible() must be used inside the Collapsible wrapper.",
+      "[WonDesign Headless] useCollapsible() must be used inside a Collapsible Provider.",
     );
   });
 });

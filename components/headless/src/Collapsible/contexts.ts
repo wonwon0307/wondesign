@@ -4,8 +4,9 @@ type CollapsibleContextValue = {
   isOpen: boolean;
   keepMounted: boolean;
   toggle: () => void;
-  contentId: string;
   toggleId: string;
+  contentId: string | undefined;
+  setContentId: (contentId: string | undefined) => void;
 };
 
 export const CollapsibleContext = createContext<CollapsibleContextValue | null>(
@@ -17,7 +18,7 @@ export function useCollapsibleInternal() {
 
   if (!context) {
     throw new Error(
-      `[WonDesign Headless] useCollapsible() must be used inside the Collapsible wrapper.`,
+      `[WonDesign Headless] useCollapsible() must be used inside a Collapsible Provider.`,
     );
   }
 
@@ -25,7 +26,7 @@ export function useCollapsibleInternal() {
 }
 
 export function useCollapsible() {
-  const { isOpen, toggle } = useCollapsibleInternal();
+  const { isOpen, toggle, keepMounted } = useCollapsibleInternal();
 
-  return { isOpen, toggle };
+  return { isOpen, toggle, keepMounted };
 }

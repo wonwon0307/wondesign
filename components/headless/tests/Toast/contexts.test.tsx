@@ -37,7 +37,7 @@ describe("Toast - contexts", () => {
 
   it("throws when Toast is used outside of ToastArea", () => {
     expect(() => render(<Toast defaultOpen>Test</Toast>)).toThrow(
-      "[WonDesign Headless] a Toast component must be rendered inside a ToastArea.",
+      "[WonDesign Headless] Toast must be rendered inside a ToastArea.",
     );
   });
 
@@ -49,7 +49,7 @@ describe("Toast - contexts", () => {
         </ToastArea>,
       ),
     ).toThrow(
-      "[WonDesign Headless] ToastMessage must be used within a Toast component.",
+      "[WonDesign Headless] ToastMessage must be used inside a Toast component.",
     );
   });
 
@@ -61,7 +61,7 @@ describe("Toast - contexts", () => {
         </ToastArea>,
       ),
     ).toThrow(
-      "[WonDesign Headless] ToastDescription must be used within a Toast component.",
+      "[WonDesign Headless] ToastDescription must be used inside a Toast component.",
     );
   });
 
@@ -73,7 +73,7 @@ describe("Toast - contexts", () => {
         </ToastArea>,
       ),
     ).toThrow(
-      "[WonDesign Headless] ToastClose must be used within a Toast component.",
+      "[WonDesign Headless] ToastClose must be used inside a Toast component.",
     );
   });
 
@@ -84,7 +84,7 @@ describe("Toast - contexts", () => {
     };
 
     expect(() => render(<TestComponent />)).toThrow(
-      "[WonDesign Headless] useToast() must be used within a Toast component.",
+      "[WonDesign Headless] useToast() must be used inside a Toast component.",
     );
   });
 });

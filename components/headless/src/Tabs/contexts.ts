@@ -17,7 +17,7 @@ export function useTabsInternal() {
 
   if (!context) {
     throw new Error(
-      "[WonDesign Headless] useTabs() must be used inside the Tabs Provider.",
+      "[WonDesign Headless] useTabs() must be used inside a Tabs Provider.",
     );
   }
 
@@ -34,16 +34,14 @@ type TabsListContextValue = {
   orientation: "vertical" | "horizontal";
 };
 
-export const TabsListContext = createContext<TabsListContextValue | undefined>(
-  undefined,
-);
+export const TabsListContext = createContext<TabsListContextValue | null>(null);
 
 export function useTabsList() {
   const context = useContext(TabsListContext);
 
   if (!context) {
     throw new Error(
-      "[WonDesign Headless] useTabsList() must be used inside a Tabs.List component.",
+      "[WonDesign Headless] useTabsList() must be used inside a TabsList component.",
     );
   }
 

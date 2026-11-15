@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-type AlertContextType = {
+type AlertContextValue = {
   isOpen: boolean;
   showAlert: () => void;
   closeAlert: () => void;
@@ -17,7 +17,7 @@ type AlertContextType = {
   setContentId: (contentId: string | undefined) => void;
 };
 
-export const AlertContext = createContext<AlertContextType | null>(null);
+export const AlertContext = createContext<AlertContextValue | null>(null);
 export const ContentContext = createContext<boolean>(false);
 
 export function useAlertInternal() {
@@ -25,7 +25,7 @@ export function useAlertInternal() {
 
   if (!context) {
     throw new Error(
-      "[WonDesign Headless] useAlert() must be used within the Alert Provider.",
+      "[WonDesign Headless] useAlert() must be used inside an Alert Provider.",
     );
   }
 

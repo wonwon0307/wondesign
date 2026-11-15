@@ -1,26 +1,24 @@
 import { createContext, useContext } from "react";
 
-type ToastAreaContext = {
+type ToastAreaContextValue = {
   isReady: boolean;
 };
 
-export const AreaContext = createContext<ToastAreaContext | undefined>(
-  undefined,
-);
+export const AreaContext = createContext<ToastAreaContextValue | null>(null);
 
 export function useToastArea() {
   const context = useContext(AreaContext);
 
   if (!context) {
     throw new Error(
-      "[WonDesign Headless] a Toast component must be rendered inside a ToastArea.",
+      "[WonDesign Headless] Toast must be rendered inside a ToastArea.",
     );
   }
 
   return context;
 }
 
-type ToastContextType = {
+type ToastContextValue = {
   isOpen: boolean;
   isPaused: boolean;
   dismissToast: () => void;
@@ -30,9 +28,7 @@ type ToastContextType = {
   contentRef: React.RefObject<HTMLDivElement | null>;
 };
 
-export const ToastContext = createContext<ToastContextType | undefined>(
-  undefined,
-);
+export const ToastContext = createContext<ToastContextValue | null>(null);
 
 export function useToastInternal(errMsg?: string) {
   const context = useContext(ToastContext);
@@ -40,7 +36,7 @@ export function useToastInternal(errMsg?: string) {
   if (!context) {
     throw new Error(
       errMsg ??
-        "[WonDesign Headless] useToast() must be used within a Toast component.",
+        "[WonDesign Headless] useToast() must be used inside a Toast component.",
     );
   }
 

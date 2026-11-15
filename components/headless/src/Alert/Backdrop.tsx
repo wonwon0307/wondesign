@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { Portal } from "@/Portal/Portal";
 import { ContentContext, useAlertInternal } from "./contexts";
@@ -12,11 +12,13 @@ export function AlertBackdrop(props: Readonly<AlertBackdropProps>) {
   const { isOpen, disablePortal, keepMounted } = useAlertInternal();
   const isInsideContent = useContext(ContentContext);
 
-  if (isInsideContent && process.env.NODE_ENV !== "production") {
-    console.warn(
-      "[WonDesign Headless] AlertBackdrop should be rendered outside of AlertContent.",
-    );
-  }
+  useEffect(() => {
+    if (isInsideContent && process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[WonDesign Headless] AlertBackdrop should be rendered outside of AlertContent.",
+      );
+    }
+  }, [isInsideContent]);
 
   if (!isOpen && !keepMounted) {
     return null;

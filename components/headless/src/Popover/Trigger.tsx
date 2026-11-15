@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { Button, type ButtonProps } from "@/Button/Button";
 import { ContentContext, usePopoverInternal } from "./contexts";
@@ -24,11 +24,13 @@ export function PopoverTrigger({
     usePopoverInternal();
   const isInsideContent = useContext(ContentContext);
 
-  if (isInsideContent && process.env.NODE_ENV !== "production") {
-    console.warn(
-      "[WonDesign Headless] PopoverTrigger should be rendered outside of PopoverContent.",
-    );
-  }
+  useEffect(() => {
+    if (isInsideContent && process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[WonDesign Headless] PopoverTrigger should be rendered outside of PopoverContent.",
+      );
+    }
+  }, [isInsideContent]);
 
   const ariaControls = !keepMounted && !isOpen ? undefined : contentId;
 

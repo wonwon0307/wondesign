@@ -27,7 +27,7 @@ describe("Alert - contexts", () => {
 
   it("should raise an error if Alert.Content is used outside of the provider", () => {
     expect(() => render(<AlertContent>Test</AlertContent>)).toThrow(
-      "[WonDesign Headless] useAlert() must be used within the Alert Provider.",
+      "[WonDesign Headless] useAlert() must be used inside an Alert Provider.",
     );
   });
 
@@ -39,7 +39,7 @@ describe("Alert - contexts", () => {
         </AlertProvider>,
       ),
     ).toThrow(
-      "[WonDesign Headless] AlertTitle must be used within AlertContent.",
+      "[WonDesign Headless] AlertTitle must be used inside an AlertContent.",
     );
   });
 
@@ -51,7 +51,7 @@ describe("Alert - contexts", () => {
         </AlertProvider>,
       ),
     ).toThrow(
-      "[WonDesign Headless] AlertMessage must be used within AlertContent.",
+      "[WonDesign Headless] AlertMessage must be used inside an AlertContent.",
     );
   });
 
@@ -63,7 +63,7 @@ describe("Alert - contexts", () => {
         </AlertProvider>,
       ),
     ).toThrow(
-      "[WonDesign Headless] AlertClose must be used within AlertContent.",
+      "[WonDesign Headless] AlertClose must be used inside an AlertContent.",
     );
   });
 

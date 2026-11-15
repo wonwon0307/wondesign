@@ -24,19 +24,65 @@ describe("Tooltip - structure", () => {
 
   it("should raise error if Tooltip.Content is used outside of Tooltip", () => {
     expect(() => render(<TooltipContent>Content</TooltipContent>)).toThrow(
-      "[WonDesign Headless] useTooltip() must be used inside the Tooltip Provider.",
+      "[WonDesign Headless] useTooltip() must be used inside a Tooltip Provider.",
     );
   });
 
-  it("should raise error if Tooltip.Arrow is used outside of Tooltip.Content", () => {
-    expect(() => render(<TooltipArrow>Arrow</TooltipArrow>)).toThrow(
-      "Tooltip.Arrow must be used inside Tooltip.Content.",
+  it("should raise error if TooltipArrow is used outside of TooltipContent", () => {
+    expect(() =>
+      render(
+        <TooltipProvider>
+          <TooltipArrow>Arrow</TooltipArrow>
+        </TooltipProvider>,
+      ),
+    ).toThrow(
+      "[WonDesign Headless] TooltipArrow must be used inside a TooltipContent.",
     );
   });
 
   it("should raise error if Tooltip.Trigger is used outside of Tooltip", () => {
     expect(() => render(<TooltipTrigger>Trigger</TooltipTrigger>)).toThrow(
-      "[WonDesign Headless] useTooltip() must be used inside the Tooltip Provider.",
+      "[WonDesign Headless] useTooltip() must be used inside a Tooltip Provider.",
     );
+  });
+
+  it("warns on console when TooltipTrigger is inside TooltipContent", () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    vi.stubEnv("NODE_ENV", "development");
+
+    const TestComponent = () => (
+      <TooltipProvider isOpen>
+        <TooltipContent>
+          <TooltipTrigger>Trigger</TooltipTrigger>
+        </TooltipContent>
+      </TooltipProvider>
+    );
+
+    render(<TestComponent />);
+    expect(console.warn).toHaveBeenCalledWith(
+      "[WonDesign Headless] TooltipTrigger should be rendered outside of TooltipContent.",
+    );
+
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it("doesn't warn on console if Trigger is inside Content in production", () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    vi.stubEnv("NODE_ENV", "production");
+
+    const TestComponent = () => (
+      <TooltipProvider isOpen>
+        <TooltipContent>
+          <TooltipTrigger>Trigger</TooltipTrigger>
+        </TooltipContent>
+      </TooltipProvider>
+    );
+
+    render(<TestComponent />);
+    expect(console.warn).not.toHaveBeenCalled();
+
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
   });
 });

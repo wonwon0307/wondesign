@@ -210,11 +210,11 @@ const [open, setOpen] = useState(false);
 ## Rendering in Place
 
 The content renders in a [Portal](/components/headless/portal) at the end of
-`<body>`, so it isn't clipped by its parents. Pass `disablePortal` to `Popover`
-to render it where it is in the document instead:
+`<body>`, so it isn't clipped by its parents. Pass `disablePortal` to render it
+where it is in the document instead:
 
 ```tsx
-<Popover disablePortal>…</Popover>
+<Popover.Content disablePortal>…</Popover.Content>
 ```
 
 <Callout variant="warning" title="It can end up somewhere unexpected">

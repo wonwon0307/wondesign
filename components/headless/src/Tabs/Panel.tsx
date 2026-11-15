@@ -5,7 +5,7 @@ export interface TabPanelProps
   extends
     Omit<
       React.HTMLAttributes<HTMLDivElement>,
-      "role" | "id" | "hidden" | "aria-hidden" | "aria-labelledby" | "tabIndex"
+      "role" | "id" | "hidden" | "aria-labelledby" | "tabIndex"
     >,
     React.RefAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -35,7 +35,6 @@ export function TabPanel({
       role="tabpanel"
       hidden={!isActive}
       tabIndex={isActive ? 0 : -1}
-      aria-hidden={!isActive}
       aria-labelledby={tabId(tabName)}
       data-state={isActive ? "active" : "inactive"}
     >

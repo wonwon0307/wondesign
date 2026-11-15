@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
-import type { Position } from "@wondesign/position";
+import type { FloatingPlacement, Position } from "@wondesign/position";
 
-type TooltipContextType = {
+type TooltipContextValue = {
   // state
   isOpen: boolean;
   keepMounted: boolean;
@@ -12,26 +12,28 @@ type TooltipContextType = {
   hideWithDelay: () => void;
   clearTimer: () => void;
   // id for aria
-  tooltipId: string;
+  tooltipId: string | undefined;
+  setTooltipId: (id: string | undefined) => void;
   // refs
   triggerRef: React.RefObject<HTMLButtonElement | null>;
   floatingRef: React.RefObject<HTMLDivElement | null>;
   arrowRef: React.RefObject<HTMLDivElement | null>;
   // positioning
+  placement: FloatingPlacement;
+  isPositioned: boolean;
+  updatePosition: () => void;
   content: Position;
   arrow: Position;
 };
 
-export const TooltipContext = createContext<TooltipContextType | undefined>(
-  undefined,
-);
+export const TooltipContext = createContext<TooltipContextValue | null>(null);
 
 export function useTooltipInternal() {
   const context = useContext(TooltipContext);
 
   if (!context) {
     throw new Error(
-      `[WonDesign Headless] useTooltip() must be used inside the Tooltip Provider.`,
+      `[WonDesign Headless] useTooltip() must be used inside a Tooltip Provider.`,
     );
   }
 
@@ -45,6 +47,10 @@ export function useTooltip() {
     showWithDelay,
     hideImmediate,
     hideWithDelay,
+    keepMounted,
+    placement,
+    isPositioned,
+    updatePosition,
     content,
     arrow,
   } = useTooltipInternal();
@@ -55,6 +61,10 @@ export function useTooltip() {
     showWithDelay,
     hideImmediate,
     hideWithDelay,
+    keepMounted,
+    placement,
+    isPositioned,
+    updatePosition,
     content,
     arrow,
   };

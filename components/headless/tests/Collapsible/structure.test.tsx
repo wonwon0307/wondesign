@@ -5,9 +5,9 @@ import { Collapsible } from "@/Collapsible";
 
 describe("Collapsible - structure", () => {
   const errorMsg =
-    "[WonDesign Headless] useCollapsible() must be used inside the Collapsible wrapper.";
+    "[WonDesign Headless] useCollapsible() must be used inside a Collapsible Provider.";
 
-  it("Collapsible.Content must be used within the Collapsible wrapper", () => {
+  it("Collapsible.Content must be used inside a Collapsible Provider", () => {
     expect(() =>
       render(<Collapsible.Content>Content</Collapsible.Content>),
     ).toThrow(errorMsg);
@@ -32,7 +32,7 @@ describe("Collapsible - structure", () => {
     expect(getByText("Content").tagName).toBe("SECTION");
   });
 
-  it("Collapsible.Toggle must be used within the Collapsible wrapper", () => {
+  it("Collapsible.Toggle must be used inside a Collapsible Provider", () => {
     expect(() =>
       render(<Collapsible.Toggle>Trigger</Collapsible.Toggle>),
     ).toThrow(errorMsg);
