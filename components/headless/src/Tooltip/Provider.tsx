@@ -34,15 +34,23 @@ export function TooltipProvider({
     show: showImmediate,
     hide: hideImmediate,
   } = useOpenState({ controlledOpen, setControlledOpen: onOpenChange });
-  const { triggerRef, floatingRef, arrowRef, content, arrow } =
-    useFloatingPosition({
-      enabled: isOpen,
-      placement: userPlacement,
-      forcePlacement,
-      align,
-      offset,
-      padding,
-    });
+  const {
+    triggerRef,
+    floatingRef,
+    arrowRef,
+    placement,
+    isPositioned,
+    update: updatePosition,
+    content,
+    arrow,
+  } = useFloatingPosition({
+    enabled: isOpen,
+    placement: userPlacement,
+    forcePlacement,
+    align,
+    offset,
+    padding,
+  });
   const [tooltipId, setTooltipId] = useState<string | undefined>(undefined);
   const timer = useRef<NodeJS.Timeout | null>(null);
 
@@ -90,6 +98,9 @@ export function TooltipProvider({
       triggerRef,
       floatingRef,
       arrowRef,
+      placement,
+      isPositioned,
+      updatePosition,
       content,
       arrow,
     }),
@@ -105,6 +116,9 @@ export function TooltipProvider({
       hideWithDelay,
       clearTimer,
       tooltipId,
+      placement,
+      isPositioned,
+      updatePosition,
       content,
       arrow,
     ],

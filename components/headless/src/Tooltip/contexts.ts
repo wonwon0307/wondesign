@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { Position } from "@wondesign/position";
+import type { FloatingPlacement, Position } from "@wondesign/position";
 
 type TooltipContextValue = {
   // state
@@ -19,6 +19,9 @@ type TooltipContextValue = {
   floatingRef: React.RefObject<HTMLDivElement | null>;
   arrowRef: React.RefObject<HTMLDivElement | null>;
   // positioning
+  placement: FloatingPlacement;
+  isPositioned: boolean;
+  updatePosition: () => void;
   content: Position;
   arrow: Position;
 };
@@ -44,6 +47,10 @@ export function useTooltip() {
     showWithDelay,
     hideImmediate,
     hideWithDelay,
+    keepMounted,
+    placement,
+    isPositioned,
+    updatePosition,
     content,
     arrow,
   } = useTooltipInternal();
@@ -54,6 +61,10 @@ export function useTooltip() {
     showWithDelay,
     hideImmediate,
     hideWithDelay,
+    keepMounted,
+    placement,
+    isPositioned,
+    updatePosition,
     content,
     arrow,
   };
