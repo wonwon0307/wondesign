@@ -12,7 +12,8 @@ type TooltipContextValue = {
   hideWithDelay: () => void;
   clearTimer: () => void;
   // id for aria
-  tooltipId: string;
+  tooltipId: string | undefined;
+  setTooltipId: (id: string | undefined) => void;
   // refs
   triggerRef: React.RefObject<HTMLButtonElement | null>;
   floatingRef: React.RefObject<HTMLDivElement | null>;

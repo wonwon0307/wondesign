@@ -1,3 +1,5 @@
+import { useId, useLayoutEffect } from "react";
+
 import { AsChild } from "@/AsChild/AsChild";
 import { useCollapsibleInternal } from "./contexts";
 
@@ -19,7 +21,15 @@ export function CollapsibleContent({
   role = asChild ? undefined : "group",
   ...rest
 }: Readonly<CollapsibleContentProps>) {
-  const { isOpen, keepMounted, contentId, toggleId } = useCollapsibleInternal();
+  const { isOpen, keepMounted, toggleId, setContentId } =
+    useCollapsibleInternal();
+  const contentId = useId();
+
+  useLayoutEffect(() => {
+    setContentId(contentId);
+
+    return () => setContentId(undefined);
+  }, [contentId, setContentId]);
 
   if (!keepMounted && !isOpen) {
     return null;

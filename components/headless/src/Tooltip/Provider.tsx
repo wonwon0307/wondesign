@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
 import { useEscapeKey } from "@wondesign/key-events/escape-key";
 import { useClickOutside } from "@wondesign/pointer/click-outside";
@@ -43,8 +43,8 @@ export function TooltipProvider({
       offset,
       padding,
     });
+  const [tooltipId, setTooltipId] = useState<string | undefined>(undefined);
   const timer = useRef<NodeJS.Timeout | null>(null);
-  const tooltipId = useId();
 
   useClickOutside(floatingRef, hideImmediate, {
     enabled: isOpen,
@@ -86,6 +86,7 @@ export function TooltipProvider({
       hideWithDelay,
       clearTimer,
       tooltipId,
+      setTooltipId,
       triggerRef,
       floatingRef,
       arrowRef,

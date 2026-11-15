@@ -1,3 +1,5 @@
+import { useId, useLayoutEffect } from "react";
+
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
 import { ContentContext, useTooltipInternal } from "./contexts";
@@ -20,11 +22,18 @@ export function TooltipContent({
   const {
     isOpen,
     keepMounted,
-    tooltipId,
+    setTooltipId,
     floatingRef,
     hideWithDelay,
     clearTimer,
   } = useTooltipInternal();
+  const tooltipId = useId();
+
+  useLayoutEffect(() => {
+    setTooltipId(tooltipId);
+
+    return () => setTooltipId(undefined);
+  }, [tooltipId, setTooltipId]);
 
   if (!keepMounted && !isOpen) {
     return null;
