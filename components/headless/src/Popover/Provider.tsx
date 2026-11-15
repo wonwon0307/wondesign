@@ -12,7 +12,6 @@ export interface PopoverProps extends FloatingOptions {
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;
-  disablePortal?: boolean;
   keepMounted?: boolean;
 }
 
@@ -21,7 +20,6 @@ export function PopoverProvider({
   isOpen: controlledOpen,
   onOpenChange,
   defaultOpen = false,
-  disablePortal = false,
   keepMounted = false,
   placement: userPlacement = "bottom",
   forcePlacement = false,
@@ -74,7 +72,6 @@ export function PopoverProvider({
       togglePopover,
       showPopover,
       hidePopover,
-      disablePortal,
       keepMounted,
       titleId,
       setTitleId,
@@ -94,7 +91,6 @@ export function PopoverProvider({
       togglePopover,
       showPopover,
       hidePopover,
-      disablePortal,
       keepMounted,
       titleId,
       contentId,

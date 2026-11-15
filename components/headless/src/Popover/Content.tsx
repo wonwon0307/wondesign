@@ -10,23 +10,18 @@ export interface PopoverContentProps extends Omit<
 > {
   children: React.ReactNode;
   asChild?: boolean;
+  disablePortal?: boolean;
 }
 
 export function PopoverContent({
   children,
   asChild = false,
+  disablePortal = false,
   "aria-label": ariaLabel = "Popover Content",
   ...rest
 }: Readonly<PopoverContentProps>) {
-  const {
-    isOpen,
-    disablePortal,
-    keepMounted,
-    placement,
-    titleId,
-    setContentId,
-    floatingRef,
-  } = usePopoverInternal();
+  const { isOpen, keepMounted, placement, titleId, setContentId, floatingRef } =
+    usePopoverInternal();
   const contentId = useId();
 
   useLayoutEffect(() => {

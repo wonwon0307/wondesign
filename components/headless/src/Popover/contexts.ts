@@ -6,7 +6,6 @@ type PopoverContextValue = {
   togglePopover: () => void;
   showPopover: () => void;
   hidePopover: () => void;
-  disablePortal: boolean;
   keepMounted: boolean;
 
   titleId: string | undefined;
@@ -45,7 +44,6 @@ export function usePopover() {
     togglePopover,
     showPopover,
     hidePopover,
-    disablePortal,
     keepMounted,
     placement,
     content,
@@ -59,7 +57,6 @@ export function usePopover() {
     togglePopover,
     showPopover,
     hidePopover,
-    disablePortal,
     keepMounted,
     placement,
     content,
