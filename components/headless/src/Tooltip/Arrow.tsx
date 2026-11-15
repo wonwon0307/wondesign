@@ -6,7 +6,7 @@ export interface TooltipArrowProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "children" | "aria-hidden"
 > {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export function TooltipArrow({
