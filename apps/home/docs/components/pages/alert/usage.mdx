@@ -65,9 +65,10 @@ screen readers stay handled.
 - ✋ **Style and position it yourself**, including the backdrop. See
   [Adding a Backdrop](/components/headless/alert/usage#adding-a-backdrop) in
   Headless Alert.
-- ✋ **Order the buttons on purpose.** Focus starts on the first button in the
-  markup. Put "Cancel" first to start on the safest response, or the confirm
-  button first when <Keyboard>Esc</Keyboard> is enough to back out.
+- ✋ **Choose where focus starts.** Focus starts on the first button in the
+  markup, or on the one you pass to `Alert` as `initialFocusRef`. Start on
+  "Cancel" for the safest response, or the confirm button when
+  {<Keyboard>Esc</Keyboard>} is enough to back out.
 
 Below are examples of an `AlertComponent` and a `ConfirmComponent`.
 

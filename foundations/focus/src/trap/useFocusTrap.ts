@@ -14,18 +14,29 @@ export function useFocusTrap<TTarget extends HTMLElement = HTMLDivElement>(
     if (!enabled || !targetRef.current) return;
 
     const handler = (event: KeyboardEvent) => {
-      if (
-        event.key !== "Tab" ||
-        !targetRef.current?.contains(document.activeElement)
-      ) {
+      if (event.key !== "Tab" || !targetRef.current) return;
+
+      const target = targetRef.current;
+      const active = document.activeElement;
+
+      if (!target.contains(active)) {
+        // focus is lost
+        if (active === null || active === document.body) {
+          // recover focus to the first focusable element
+          // or the target itself
+          event.preventDefault();
+          (getFocusableElements(target)[0] ?? target).focus();
+        }
+        // null이거나 body가 아닌 경우는, 다른 요소가 포커스를 의도적으로 가져갔을 경우
+        // 그대로 둔다
         return;
       }
 
-      const focusables = getFocusableElements(targetRef.current);
+      const focusables = getFocusableElements(target);
 
       if (focusables.length === 0) {
         event.preventDefault();
-        targetRef.current.focus();
+        target.focus();
         return;
       }
 
