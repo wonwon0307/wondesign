@@ -19,6 +19,19 @@ describe("Popover - properties", () => {
     expect(content.dataset.state).toBe("open");
   });
 
+  it("respects the disableOutsideClick prop", () => {
+    const { getByTestId } = render(
+      <TestComponent disableOutsideClick>Test Content</TestComponent>,
+    );
+
+    const trigger = getByTestId("popover-trigger");
+    fireEvent.click(trigger);
+
+    fireEvent.pointerDown(document);
+    fireEvent.pointerUp(document);
+    expect(trigger.dataset.state).toBe("open");
+  });
+
   it("respects the disableEscapeKey prop", () => {
     const { getByTestId } = render(
       <TestComponent disableEscapeKey>Test Content</TestComponent>,

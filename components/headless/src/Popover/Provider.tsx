@@ -13,6 +13,7 @@ export interface PopoverProps extends FloatingOptions {
   onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;
   keepMounted?: boolean;
+  disableOutsideClick?: boolean;
   disableEscapeKey?: boolean;
   initialFocusRef?: React.RefObject<HTMLElement | null>;
   returnFocusRef?: React.RefObject<HTMLElement | null>;
@@ -29,6 +30,7 @@ export function PopoverProvider({
   align = "center",
   offset = 4,
   padding = 8,
+  disableOutsideClick = false,
   disableEscapeKey = false,
   initialFocusRef,
   returnFocusRef,
@@ -66,7 +68,7 @@ export function PopoverProvider({
   );
 
   useClickOutside(floatingRef, hidePopover, {
-    enabled: isOpen,
+    enabled: isOpen && !disableOutsideClick,
     excludeRef: triggerRef,
   });
   useEscapeKey(hidePopover, {
