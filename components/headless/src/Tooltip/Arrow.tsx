@@ -14,7 +14,7 @@ export function TooltipArrow({
   className,
   ...rest
 }: Readonly<TooltipArrowProps>) {
-  const { arrowRef } = useTooltipInternal();
+  const { placement, arrowRef } = useTooltipInternal();
   const isInsideContent = useContext(ContentContext);
 
   if (!isInsideContent) {
@@ -24,7 +24,13 @@ export function TooltipArrow({
   }
 
   return (
-    <div ref={arrowRef} className={className} {...rest} aria-hidden="true">
+    <div
+      ref={arrowRef}
+      className={className}
+      {...rest}
+      aria-hidden="true"
+      data-placement={placement}
+    >
       {children}
     </div>
   );
