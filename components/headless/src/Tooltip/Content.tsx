@@ -23,6 +23,7 @@ export function TooltipContent({
     isOpen,
     keepMounted,
     setTooltipId,
+    placement,
     floatingRef,
     hideWithDelay,
     clearTimer,
@@ -53,6 +54,7 @@ export function TooltipContent({
           onMouseEnter={clearTimer} // 마우스가 trigger를 떠나 content로 들어오면, 타이머를 초기화하여, 사라지지 않도록 해야한다.
           onMouseLeave={hideWithDelay}
           data-state={isOpen ? "open" : "closed"}
+          data-placement={placement}
         >
           {children}
         </Component>

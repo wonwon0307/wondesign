@@ -5,15 +5,16 @@ import { Keyboard, KeyboardGroup } from "@wondesign/ui/Code";
 `Popover` shows floating content next to its trigger, as a non-modal dialog,
 following the
 [WAI-ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
-without the parts that make it modal. It handles opening and closing, moves
+without the parts that make it modal (focus trap, background inert and scroll
+lock). It handles opening and closing, moves
 focus in and back out, works out where the content fits on screen, and labels
 it for assistive technology, so you only bring the look.
 
 Use it when the content belongs next to its trigger, like a filter form or
 quick settings. The page behind **stays usable** while it's open.
 
-Don't use it when the content doesn't need to sit next to its trigger, like a
-long form or a step the user has to finish before carrying on. For a short hint
+For a long form or a step the user has to finish before carrying on, use a
+[Modal](/components/headless/modal) instead. For a short hint
 with nothing to interact with, use a [Tooltip](/components/headless/tooltip)
 instead.
 
@@ -79,7 +80,8 @@ A popover has to open where the user expects it, take focus without trapping
 it, and get out of the way when the user is done. `Popover` builds this in,
 following the
 [WAI-ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
-without the parts that make it modal: it decides how the popover closes, where
+without the parts that make it modal (focus trap, background inert and scroll
+lock): it decides how the popover closes, where
 focus goes, where the content sits, and what screen readers announce. You don't
 need to wire up any of it.
 
@@ -104,8 +106,7 @@ content**. With nothing focusable inside, the content itself takes focus. When
 it closes, focus returns to `Popover.Trigger`.
 
 Focus isn't trapped: <Keyboard>Tab</Keyboard> and
-
-<KeyboardGroup shortkey="Shift+Tab" /> can move out of the content, and the
+{<KeyboardGroup shortkey="Shift+Tab" />} can move out of the content, and the
 popover **stays open** when they do.
 
 Focus is handled by [Auto Focus](/foundations/focus/auto-focus).

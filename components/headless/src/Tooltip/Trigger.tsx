@@ -61,6 +61,7 @@ export function TooltipTrigger({
       onMouseLeave={hideWithDelay}
       onFocus={showImmediate}
       onBlur={hideImmediate}
+      data-state={isOpen ? "open" : "closed"}
     >
       {children}
     </Button>
