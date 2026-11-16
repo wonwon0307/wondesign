@@ -39,6 +39,18 @@ describe("Alert - properties", () => {
     expect(backdrop.parentElement).not.toBe(document.body);
   });
 
+  it("respects the disableEscapeKey prop", () => {
+    const { getByTestId } = render(
+      <TestComponent disableEscapeKey>Test</TestComponent>,
+    );
+
+    const trigger = getByTestId("alert-trigger");
+    fireEvent.click(trigger);
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(trigger.dataset.state).toBe("open");
+  });
+
   it("supports controlled mode", () => {
     const controlledOpen = vi.fn();
 

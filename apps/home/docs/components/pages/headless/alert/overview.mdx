@@ -90,8 +90,8 @@ behind, and what screen readers announce. You don't need to wire up any of it.
 
 ### Closing
 
-The alert closes through `Alert.Close` and <Keyboard>Esc</Keyboard>. Clicks
-outside don't close it, so the user has to choose a response.
+The alert closes through `Alert.Close` and <Keyboard>Esc</Keyboard> (unless
+switched off). Clicks outside don't close it, so the user has to choose a response.
 
 <Keyboard>Esc</Keyboard> is handled by [Escape
 Key](/foundations/key-events/escape-key).
@@ -138,7 +138,6 @@ Without a title, they only announce its `aria-label`, "Alert" by default, so
 
 ## Upcoming Features
 
-- 🔜 **Optional Escape Key**: Choose whether <Keyboard>Esc</Keyboard> closes the alert, for alerts that need a deliberate answer
 - 🔜 **Initial Focus Target**: Choose which element takes focus when the alert opens, like the least destructive response or the title of a long message
 
 ---

@@ -13,6 +13,7 @@ export interface PopoverProps extends FloatingOptions {
   onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;
   keepMounted?: boolean;
+  disableEscapeKey?: boolean;
 }
 
 export function PopoverProvider({
@@ -26,6 +27,7 @@ export function PopoverProvider({
   align = "center",
   offset = 4,
   padding = 8,
+  disableEscapeKey = false,
 }: Readonly<PopoverProps>) {
   const {
     isOpen,
@@ -63,7 +65,10 @@ export function PopoverProvider({
     enabled: isOpen,
     excludeRef: triggerRef,
   });
-  useEscapeKey(hidePopover, { enabled: isOpen, scopeRef: floatingRef });
+  useEscapeKey(hidePopover, {
+    enabled: isOpen && !disableEscapeKey,
+    scopeRef: floatingRef,
+  });
   useAutoFocus(floatingRef, { enabled: isOpen, returnRef: triggerRef });
 
   const contextValue = useMemo(

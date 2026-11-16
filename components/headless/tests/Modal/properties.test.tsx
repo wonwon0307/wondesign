@@ -18,7 +18,7 @@ describe("Modal - properties", () => {
     expect(content.dataset.state).toBe("open");
   });
 
-  it("should respect the disablePortal prop", () => {
+  it("respects the disablePortal prop", () => {
     const { getByTestId } = render(<TestComponent isOpen disablePortal />);
 
     const backdrop = getByTestId("modal-backdrop");
@@ -27,7 +27,7 @@ describe("Modal - properties", () => {
     expect(backdrop.parentElement).not.toBe(document.body);
   });
 
-  it("should respect the keepMounted prop", () => {
+  it("respects the keepMounted prop", () => {
     const { getByTestId } = render(<TestComponent keepMounted />);
 
     const trigger = getByTestId("modal-trigger");
@@ -47,6 +47,16 @@ describe("Modal - properties", () => {
     expect(backdrop.hidden).toBe(false);
     expect(content.dataset.state).toBe("open");
     expect(content.hidden).toBe(false);
+  });
+
+  it("respects the disableEscapeKey prop", () => {
+    const { getByTestId } = render(<TestComponent disableEscapeKey />);
+
+    const trigger = getByTestId("modal-trigger");
+    fireEvent.click(trigger);
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(trigger.dataset.state).toBe("open");
   });
 
   it("supports controlled mode", () => {

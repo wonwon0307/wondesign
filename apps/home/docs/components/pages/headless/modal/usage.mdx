@@ -139,6 +139,19 @@ would throw away what the user typed:
 
 ---
 
+## Escape Key
+
+<Keyboard>Esc</Keyboard> closes the modal by default. Pass `disableEscapeKey` to
+turn it off:
+
+```tsx
+<Modal disableEscapeKey>…</Modal>
+```
+
+`Modal.Close` and a click outside still close the modal.
+
+---
+
 ## Heading Level
 
 `Modal.Title` renders an `<h2>`. Use `asChild` to render another heading
