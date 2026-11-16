@@ -85,12 +85,12 @@ behind, and what screen readers announce. You don't need to wire up any of it.
 ### Opening and Closing
 
 A click on `Modal.Trigger` opens the modal. It closes through `Modal.Close`,
-<Keyboard>Esc</Keyboard>, and a click outside the content (unless switched
-off). A click on `Modal.Backdrop` counts as a click outside.
+{<Keyboard>Esc</Keyboard>}, and a click outside the content (unless switched off).
+A click on `Modal.Backdrop` counts as a click outside.
 
 Clicks outside are handled by
 [Click Outside](/foundations/pointer/click-outside), and
-<Keyboard>Esc</Keyboard> by [Escape Key](/foundations/key-events/escape-key).
+{<Keyboard>Esc</Keyboard>} by [Escape Key](/foundations/key-events/escape-key).
 
 ### Focus
 
@@ -98,8 +98,7 @@ When the modal opens, focus moves to the **first focusable element inside the
 content**. With nothing focusable inside, the content itself takes focus.
 
 While it's open, <Keyboard>Tab</Keyboard> and
-
-<KeyboardGroup shortkey="Shift+Tab" /> stay inside the content. When it closes,
+{<KeyboardGroup shortkey="Shift+Tab" />} stay inside the content. When it closes,
 focus returns to `Modal.Trigger`. If the trigger doesn't exist, focus returns to
 whatever had it before the modal opened.
 
