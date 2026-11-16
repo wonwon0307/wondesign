@@ -170,6 +170,28 @@ from submitting:
 
 ---
 
+## Outside Clicks
+
+A click outside the content closes the popover by default. Pass
+`disableOutsideClick` to keep it open while the user works on the page behind,
+like a color picker next to what it edits:
+
+```tsx
+<Popover disableOutsideClick>…</Popover>
+```
+
+`Popover.Close`, the trigger and <Keyboard>Esc</Keyboard> still close the
+popover.
+
+<Callout variant="warning" title="Give it a way to close">
+  {<Keyboard>Esc</Keyboard>} only closes the popover while focus is inside it.
+  Once the user clicks into the page, only the trigger and `Popover.Close` can
+  close it. Without a `Popover.Close`, **the user has to find the trigger
+  again**.
+</Callout>
+
+---
+
 ## Escape Key
 
 <Keyboard>Esc</Keyboard> closes the popover by default. Pass `disableEscapeKey`
