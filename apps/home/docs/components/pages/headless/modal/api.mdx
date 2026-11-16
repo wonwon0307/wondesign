@@ -1,0 +1,209 @@
+# API
+
+This page covers every part of `Modal`, its hook and its types. Import them
+from `@wondesign/headless/Modal`:
+
+```ts
+import {
+  // compound component, with its parts attached
+  Modal,
+  // hook
+  useModal,
+  // named exports
+  ModalProvider,
+  ModalTrigger,
+  ModalBackdrop,
+  ModalContent,
+  ModalTitle,
+  ModalClose,
+  // types
+  type ModalProps,
+  type ModalTriggerProps,
+  type ModalBackdropProps,
+  type ModalContentProps,
+  type ModalTitleProps,
+  type ModalCloseProps,
+} from "@wondesign/headless/Modal";
+```
+
+---
+
+## Components
+
+The parts that make up a `Modal`. Each one, apart from the provider, renders
+a single element and accepts that element's props. Every part must be inside
+the provider.
+
+### Provider
+
+`Modal` or `ModalProvider`. Coordinates every part: it holds the open state,
+handles dismissal, moves and traps focus, blocks the page behind while it's
+open, and gives the parts the ids that link them. **Renders no element of its
+own.**
+
+**Props**
+
+```ts
+interface ModalProps {
+  children: React.ReactNode;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  defaultOpen?: boolean; // defaults to `false`
+  keepMounted?: boolean; // defaults to `false`
+  disablePortal?: boolean; // defaults to `false`, applies to the backdrop and content
+  disableOutsideClick?: boolean; // defaults to `false`. keeps the modal open on a click outside the content
+}
+```
+
+### Trigger
+
+`Modal.Trigger` or `ModalTrigger`. Renders a `<button>` that opens the modal.
+Use it outside `Modal.Content`. Inside it, **it only logs a warning** in
+development.
+
+**Props**
+
+Accepts all props of [Headless Button](/components/headless/button), except
+`type`, `onClick` and `aria-haspopup`, which the trigger manages. It sets its
+own `ref`, so it doesn't take one. Key props:
+
+```ts
+interface ModalTriggerProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  isDisabled?: boolean; // defaults to `false`
+  // ...
+}
+```
+
+> When using `asChild` on the trigger, render a `<button>` (or a component that renders one).
+> Otherwise, keyboard and screen reader support could be **lost silently**.
+
+**Data Attributes**
+
+```ts
+"data-state": "open" | "closed";
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```
+
+### Backdrop
+
+`Modal.Backdrop` or `ModalBackdrop`. Renders an empty `<div>` behind the
+modal, in its own [Portal](/components/headless/portal) unless `disablePortal`
+is `true`. A click on it closes the modal, like any click outside the content,
+unless `disableOutsideClick` is `true`.
+Use it outside `Modal.Content`. Inside it, **it only logs a warning** in
+development.
+
+**Props**
+
+Accepts all `<div>` props, except `children` and `hidden`, which the backdrop
+manages. You can also pass a `ref`; the backdrop sets none of its own.
+
+**Data Attributes**
+
+```ts
+"data-state": "open" | "closed";
+```
+
+### Content
+
+`Modal.Content` or `ModalContent`. Renders a `<dialog>` that acts as a modal
+dialog, in its own [Portal](/components/headless/portal) unless
+`disablePortal` is `true`.
+
+**Props**
+
+Accepts all standard HTML attributes, except `role`, `hidden`, `tabIndex`,
+`aria-modal` and `aria-labelledby`, which the content manages. It sets its own
+`ref`, so it doesn't take one.
+
+It **doesn't accept `<dialog>`-only props**, like `open`, `onClose` or
+`onCancel`. The modal isn't opened through the browser's dialog methods, so
+those would never run. Use `isOpen` and `onOpenChange` on `Modal` instead.
+Key props:
+
+```ts
+interface ModalContentProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  "aria-label"?: string; // defaults to `"Modal"`, used only without `Modal.Title`
+  // ...
+}
+```
+
+**Data Attributes**
+
+```ts
+"data-state": "open" | "closed";
+```
+
+### Title
+
+`Modal.Title` or `ModalTitle`. Renders an `<h2>` that names the modal. Must be
+used inside `Modal.Content`.
+
+**Props**
+
+Accepts all `<h2>` props, except `id`, which the title manages. You can also
+pass a `ref`; the title sets none of its own. Key props:
+
+```ts
+interface ModalTitleProps {
+  children: React.ReactNode;
+  asChild?: boolean;
+  // ...
+}
+```
+
+### Close
+
+`Modal.Close` or `ModalClose`. Renders a `<button>` that runs its `onClick`,
+then closes the modal, unless `onClick` calls `event.preventDefault()`. **It
+doesn't wait for a returned promise.** Must be used inside `Modal.Content`.
+
+**Props**
+
+Accepts all props of [Headless Button](/components/headless/button). Key props:
+
+```ts
+interface ModalCloseProps {
+  children: React.ReactNode;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the modal closes. call `event.preventDefault()` to keep it open
+  asChild?: boolean;
+  isDisabled?: boolean; // defaults to `false`
+  isLoading?: boolean; // defaults to `false`
+  // ...
+}
+```
+
+**Data Attributes**
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```
+
+---
+
+## Hooks
+
+Hooks read the state of the nearest provider, for building your own parts.
+They throw an error when used outside one.
+
+### useModal
+
+Reads the state of the nearest `Modal`.
+
+**Returns**
+
+```ts
+function useModal(): {
+  isOpen: boolean; // whether the modal is open
+  openModal: () => void; // opens it
+  closeModal: () => void; // closes it
+  keepMounted: boolean; // the `keepMounted` prop
+  disablePortal: boolean; // the `disablePortal` prop
+};
+```
