@@ -68,6 +68,19 @@ const handleDelete = async (event: React.MouseEvent) => {
 
 ---
 
+## Escape Key
+
+<Keyboard>Esc</Keyboard> closes the alert by default. Pass `disableEscapeKey` to
+turn it off, for alerts that need a deliberate answer:
+
+```tsx
+<Alert disableEscapeKey>…</Alert>
+```
+
+Then only `Alert.Close` closes the alert.
+
+---
+
 ## Initial Focus
 
 When the alert opens, focus moves to the first focusable element inside the

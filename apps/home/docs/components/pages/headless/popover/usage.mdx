@@ -170,6 +170,19 @@ from submitting:
 
 ---
 
+## Escape Key
+
+<Keyboard>Esc</Keyboard> closes the popover by default. Pass `disableEscapeKey`
+to turn it off:
+
+```tsx
+<Popover disableEscapeKey>…</Popover>
+```
+
+`Popover.Close`, the trigger and a click outside still close the popover.
+
+---
+
 ## Heading Level
 
 `Popover.Title` renders an `<h2>`. Use `asChild` to render another heading
