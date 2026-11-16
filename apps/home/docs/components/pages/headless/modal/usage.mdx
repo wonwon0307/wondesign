@@ -152,6 +152,40 @@ turn it off:
 
 ---
 
+## Choosing Where Focus Goes
+
+When the modal opens, focus moves to the first focusable element inside the
+content. Pass `initialFocusRef` to start somewhere else. When the modal
+closes, focus returns to `Modal.Trigger`. Pass `returnFocusRef` to send it
+somewhere else:
+
+```tsx
+const nameRef = useRef<HTMLInputElement>(null);
+const closeSettingsRef = useRef<HTMLButtonElement>(null);
+
+<>
+  <Modal initialFocusRef={nameRef} returnFocusRef={closeSettingsRef}>
+    <Modal.Trigger>Edit profile</Modal.Trigger>
+    <Modal.Content>
+      <Modal.Close aria-label="Close">
+        <CloseIcon />
+      </Modal.Close>
+      <Modal.Title>Profile</Modal.Title>
+      <input ref={nameRef} aria-label="Name" />
+      {/* … */}
+      <Modal.Close>Cancel</Modal.Close>
+      <Modal.Close onClick={saveProfile}>Confirm</Modal.Close>
+    </Modal.Content>
+  </Modal>
+  <button ref={closeSettingsRef}>Close settings</button>
+</>;
+```
+
+Both are handled by [Auto Focus](/foundations/focus/auto-focus), so they behave
+exactly as described there, including when the element can't take focus.
+
+---
+
 ## Heading Level
 
 `Modal.Title` renders an `<h2>`. Use `asChild` to render another heading
