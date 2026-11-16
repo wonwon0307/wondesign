@@ -19,7 +19,7 @@ export function useFocusTrap<TTarget extends HTMLElement = HTMLDivElement>(
       const target = targetRef.current;
       const active = document.activeElement;
 
-      if (!target?.contains(active)) {
+      if (!target.contains(active)) {
         // focus is lost
         if (active === null || active === document.body) {
           // recover focus to the first focusable element
@@ -32,11 +32,11 @@ export function useFocusTrap<TTarget extends HTMLElement = HTMLDivElement>(
         return;
       }
 
-      const focusables = getFocusableElements(targetRef.current);
+      const focusables = getFocusableElements(target);
 
       if (focusables.length === 0) {
         event.preventDefault();
-        targetRef.current.focus();
+        target.focus();
         return;
       }
 
