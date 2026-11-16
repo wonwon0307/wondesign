@@ -5,7 +5,8 @@ import { Keyboard, KeyboardGroup } from "@wondesign/ui/Code";
 `Popover` shows floating content next to its trigger, as a non-modal dialog,
 following the
 [WAI-ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
-without the parts that make it modal. It handles opening and closing, moves
+without the parts that make it modal (focus trap, background inert and scroll
+lock). It handles opening and closing, moves
 focus in and back out, works out where the content fits on screen, and labels
 it for assistive technology, so you only bring the look.
 
@@ -79,7 +80,8 @@ A popover has to open where the user expects it, take focus without trapping
 it, and get out of the way when the user is done. `Popover` builds this in,
 following the
 [WAI-ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
-without the parts that make it modal: it decides how the popover closes, where
+without the parts that make it modal (focus trap, background inert and scroll
+lock): it decides how the popover closes, where
 focus goes, where the content sits, and what screen readers announce. You don't
 need to wire up any of it.
 
