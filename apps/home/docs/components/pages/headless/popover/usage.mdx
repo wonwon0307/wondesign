@@ -183,6 +183,35 @@ to turn it off:
 
 ---
 
+## Choosing Where Focus Goes
+
+When the popover opens, focus moves to the first focusable element inside the
+content. Pass `initialFocusRef` to start somewhere else. When the popover
+closes, focus returns to `Popover.Trigger`. Pass `returnFocusRef` to send it
+somewhere else:
+
+```tsx
+const confirmRef = useRef<HTMLButtonElement>(null);
+const dateFieldRef = useRef<HTMLInputElement>(null);
+
+<>
+  <input ref={dateFieldRef} aria-label="Date" value={selected} readOnly />
+  <Popover initialFocusRef={confirmRef} returnFocusRef={dateFieldRef}>
+    <Popover.Trigger>Pick a date</Popover.Trigger>
+    <Popover.Content>
+      <Popover.Title>Dates</Popover.Title>
+      {/* … */}
+      <Popover.Close ref={confirmRef}>Confirm</Popover.Close>
+    </Popover.Content>
+  </Popover>
+</>;
+```
+
+Both are handled by [Auto Focus](/foundations/focus/auto-focus), so they behave
+exactly as described there, including when the element can't take focus.
+
+---
+
 ## Heading Level
 
 `Popover.Title` renders an `<h2>`. Use `asChild` to render another heading
