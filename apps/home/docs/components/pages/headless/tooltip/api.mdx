@@ -83,6 +83,7 @@ interface TooltipTriggerProps {
 **Data Attributes**
 
 ```ts
+"data-state": "open" | "closed";
 "data-disabled": "true" | undefined; // present when disabled
 "data-loading": "true" | undefined; // present when loading
 ```
@@ -115,6 +116,7 @@ interface TooltipContentProps {
 
 ```ts
 "data-state": "open" | "closed";
+"data-placement": "top" | "bottom" | "left" | "right"; // the side it ended up on, after flipping
 ```
 
 ### Arrow
@@ -132,6 +134,12 @@ interface TooltipArrowProps {
   children?: React.ReactNode; // the arrow's shape, like an SVG
   // ...
 }
+```
+
+**Data Attributes**
+
+```ts
+"data-placement": "top" | "bottom" | "left" | "right"; // the side the content ended up on, after flipping
 ```
 
 ---

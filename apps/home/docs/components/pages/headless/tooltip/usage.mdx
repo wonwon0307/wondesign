@@ -197,10 +197,12 @@ For everything the hook returns, refer to the
 
 ## Styling with Data Attributes
 
-The content exposes its state as
+The parts expose their state as
 [data attributes](/components/headless/tooltip/api), so you can style each
 state with plain CSS:
 
 ```css
+.trigger[data-state="open"] { … }
 .content[data-state="open"] { … }
+.arrow[data-placement="top"] { … }
 ```
