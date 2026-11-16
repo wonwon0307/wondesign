@@ -14,6 +14,8 @@ export interface PopoverProps extends FloatingOptions {
   defaultOpen?: boolean;
   keepMounted?: boolean;
   disableEscapeKey?: boolean;
+  initialFocusRef?: React.RefObject<HTMLElement | null>;
+  returnFocusRef?: React.RefObject<HTMLElement | null>;
 }
 
 export function PopoverProvider({
@@ -28,6 +30,8 @@ export function PopoverProvider({
   offset = 4,
   padding = 8,
   disableEscapeKey = false,
+  initialFocusRef,
+  returnFocusRef,
 }: Readonly<PopoverProps>) {
   const {
     isOpen,
@@ -69,7 +73,11 @@ export function PopoverProvider({
     enabled: isOpen && !disableEscapeKey,
     scopeRef: floatingRef,
   });
-  useAutoFocus(floatingRef, { enabled: isOpen, returnRef: triggerRef });
+  useAutoFocus(floatingRef, {
+    enabled: isOpen,
+    returnRef: returnFocusRef ?? triggerRef,
+    initialRef: initialFocusRef,
+  });
 
   const contextValue = useMemo(
     () => ({
