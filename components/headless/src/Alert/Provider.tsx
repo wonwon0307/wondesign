@@ -15,6 +15,7 @@ export interface AlertProps {
   defaultOpen?: boolean;
   keepMounted?: boolean;
   disablePortal?: boolean;
+  disableEscapeKey?: boolean;
 }
 
 export function AlertProvider({
@@ -24,6 +25,7 @@ export function AlertProvider({
   defaultOpen = false,
   keepMounted = false,
   disablePortal = false,
+  disableEscapeKey = false,
 }: Readonly<AlertProps>) {
   const {
     isOpen,
@@ -42,7 +44,7 @@ export function AlertProvider({
 
   useAutoFocus(wrapperRef, { enabled: isOpen, returnRef: triggerRef });
   useBackgroundInert(wrapperRef, { enabled: isOpen });
-  useEscapeKey(closeAlert, { enabled: isOpen });
+  useEscapeKey(closeAlert, { enabled: isOpen && !disableEscapeKey });
   useFocusTrap(wrapperRef, { enabled: isOpen });
   useScrollLock({ enabled: isOpen });
 

@@ -17,6 +17,7 @@ export interface ModalProps {
   keepMounted?: boolean;
   disablePortal?: boolean;
   disableOutsideClick?: boolean;
+  disableEscapeKey?: boolean;
 }
 
 export function ModalProvider({
@@ -27,6 +28,7 @@ export function ModalProvider({
   keepMounted = false,
   disablePortal = false,
   disableOutsideClick = false,
+  disableEscapeKey = false,
 }: Readonly<ModalProps>) {
   const {
     isOpen,
@@ -47,7 +49,10 @@ export function ModalProvider({
   });
   useBackgroundInert(floatingRef, { enabled: isOpen }); // focus를 제대로 trigger로 return 시키려면, 반드시 useAutoFocus보다 먼저 호출되어야 함
   useAutoFocus(floatingRef, { enabled: isOpen, returnRef: triggerRef });
-  useEscapeKey(closeModal, { enabled: isOpen, scopeRef: floatingRef });
+  useEscapeKey(closeModal, {
+    enabled: isOpen && !disableEscapeKey,
+    scopeRef: floatingRef,
+  });
   useFocusTrap(floatingRef, { enabled: isOpen });
   useScrollLock({ enabled: isOpen });
 
