@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { fireEvent, render } from "@testing-library/react";
 
 import { AlertProvider } from "@/Alert/Provider";
@@ -49,6 +50,37 @@ describe("Alert - properties", () => {
 
     fireEvent.keyDown(document, { key: "Escape" });
     expect(trigger.dataset.state).toBe("open");
+  });
+
+  it("respects the initialFocusRef and returnFocusRef props", () => {
+    const AlertWithFocusRefs = () => {
+      const initialRef = useRef<HTMLButtonElement>(null);
+      const nextRef = useRef<HTMLButtonElement>(null);
+
+      return (
+        <div>
+          <TestComponent initialFocusRef={initialRef} returnFocusRef={nextRef}>
+            <button>First Button</button>
+            <button ref={initialRef}>Second Button</button>
+            <AlertClose>Close</AlertClose>
+          </TestComponent>
+          <button ref={nextRef}>Next Button</button>
+        </div>
+      );
+    };
+
+    const { getByText } = render(<AlertWithFocusRefs />);
+
+    const trigger = getByText("Trigger");
+    const nextButton = getByText("Next Button");
+
+    fireEvent.click(trigger);
+    const secondButton = getByText("Second Button");
+    const closeButton = getByText("Close");
+    expect(document.activeElement).toBe(secondButton);
+
+    fireEvent.click(closeButton);
+    expect(document.activeElement).toBe(nextButton);
   });
 
   it("supports controlled mode", () => {

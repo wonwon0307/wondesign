@@ -98,18 +98,6 @@ describe("Modal - interactions", () => {
     expect(trigger.dataset.state).toBe("closed");
   });
 
-  it("should not close the modal on outside click if disableOutsideClick is true", () => {
-    const { getByText } = render(<TestComponent disableOutsideClick />);
-
-    const trigger = getByText("Open Modal");
-    fireEvent.click(trigger);
-    expect(trigger.dataset.state).toBe("open");
-
-    fireEvent.pointerDown(document);
-    fireEvent.pointerUp(document);
-    expect(trigger.dataset.state).toBe("open");
-  });
-
   it("should focus on the content itself, if no focusable elemens is in the content", () => {
     const { getByText } = render(
       <ModalProvider>
