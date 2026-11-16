@@ -56,6 +56,8 @@ interface PopoverProps {
   offset?: number; // in px, defaults to `4`
   padding?: number; // in px, defaults to `8`
   disableEscapeKey?: boolean; // defaults to `false`. keeps the popover open on `Esc`
+  initialFocusRef?: React.RefObject<HTMLElement | null>; // takes focus on open, instead of the first focusable element. must be inside the content
+  returnFocusRef?: React.RefObject<HTMLElement | null>; // takes focus back on close, instead of the trigger
 }
 ```
 

@@ -53,6 +53,8 @@ interface AlertProps {
   keepMounted?: boolean; // defaults to `false`
   disablePortal?: boolean; // defaults to `false`, applies to the backdrop and content
   disableEscapeKey?: boolean; // defaults to `false`. keeps the alert open on `Esc`
+  initialFocusRef?: React.RefObject<HTMLElement | null>; // takes focus on open, instead of the first focusable element. must be inside the content
+  returnFocusRef?: React.RefObject<HTMLElement | null>; // takes focus back on close, instead of the trigger
 }
 ```
 

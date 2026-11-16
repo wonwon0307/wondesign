@@ -18,6 +18,8 @@ export interface ModalProps {
   disablePortal?: boolean;
   disableOutsideClick?: boolean;
   disableEscapeKey?: boolean;
+  initialFocusRef?: React.RefObject<HTMLElement | null>;
+  returnFocusRef?: React.RefObject<HTMLElement | null>;
 }
 
 export function ModalProvider({
@@ -29,6 +31,8 @@ export function ModalProvider({
   disablePortal = false,
   disableOutsideClick = false,
   disableEscapeKey = false,
+  initialFocusRef,
+  returnFocusRef,
 }: Readonly<ModalProps>) {
   const {
     isOpen,
@@ -48,7 +52,11 @@ export function ModalProvider({
     excludeRef: triggerRef,
   });
   useBackgroundInert(floatingRef, { enabled: isOpen }); // focus를 제대로 trigger로 return 시키려면, 반드시 useAutoFocus보다 먼저 호출되어야 함
-  useAutoFocus(floatingRef, { enabled: isOpen, returnRef: triggerRef });
+  useAutoFocus(floatingRef, {
+    enabled: isOpen,
+    returnRef: returnFocusRef ?? triggerRef,
+    initialRef: initialFocusRef,
+  });
   useEscapeKey(closeModal, {
     enabled: isOpen && !disableEscapeKey,
     scopeRef: floatingRef,

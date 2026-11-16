@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { fireEvent, render } from "@testing-library/react";
 
 import { PopoverProvider } from "@/Popover/Provider";
@@ -28,6 +29,36 @@ describe("Popover - properties", () => {
 
     fireEvent.keyDown(document, { key: "Escape" });
     expect(trigger.dataset.state).toBe("open");
+  });
+
+  it("respects the initialFocusRef and returnFocusRef props", () => {
+    const PopoverWithMultipleButtons = () => {
+      const initialRef = useRef<HTMLButtonElement>(null);
+      const nextRef = useRef<HTMLButtonElement>(null);
+
+      return (
+        <div>
+          <TestComponent initialFocusRef={initialRef} returnFocusRef={nextRef}>
+            <button>First Button</button>
+            <button ref={initialRef}>Second Button</button>
+          </TestComponent>
+          <button ref={nextRef}>Next Button</button>
+        </div>
+      );
+    };
+
+    const { getByText } = render(<PopoverWithMultipleButtons />);
+
+    const trigger = getByText("Trigger");
+    const nextButton = getByText("Next Button");
+
+    fireEvent.click(trigger);
+    const closeButton = getByText("Close");
+    const secondButton = getByText("Second Button");
+    expect(document.activeElement).toBe(secondButton);
+
+    fireEvent.click(closeButton);
+    expect(document.activeElement).toBe(nextButton);
   });
 
   it("supports controlled mode", () => {

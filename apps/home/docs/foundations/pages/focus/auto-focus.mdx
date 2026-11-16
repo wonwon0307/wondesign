@@ -1,22 +1,45 @@
 # Auto Focus
 
-`useAutoFocus` moves focus into an element when it opens, and back to where it
-was when it closes. It's what keyboard and screen reader users expect from
-dialogs, popovers and menus.
+`useAutoFocus` moves focus into an element when it opens, and back out when it
+closes. It falls back gracefully when it's pointed at an element that can't take
+focus. It's helpful for any overlay that needs the user's attention right away,
+like menus, dialogs and popovers.
 
 ---
 
 ## Usage
+
+The hook acts when `enabled` turns `true` or `false`, or when the component
+calling it mounts or unmounts. Overlays like menus, dialogs and popovers
+come and go the same way, so focus follows them in and out without any extra
+wiring.
+
+When `enabled` turns `true`, focus moves to `initialRef`. If it's outside
+`targetRef` or can't take focus, **it's ignored as if it wasn't given**, with
+no error. Without one, focus moves to the first focusable element inside
+`targetRef`, skipping disabled, hidden and inert ones. With nothing focusable
+inside, it moves to `targetRef` itself, so give it `tabIndex={-1}`, or **focus
+stays where it was**.
+
+When `enabled` turns `false`, or the component unmounts, focus goes back to
+`returnRef`. If it points at nothing by then, focus goes back to the element
+that had it before `enabled` turned `true`.
 
 ```tsx
 import { useRef, useState } from "react";
 import { useAutoFocus } from "@wondesign/focus/auto-focus";
 
 export function FilterPopover() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
+  const doneRef = useRef<HTMLButtonElement>(null);
+  const searchRef = useRef<HTMLButtonElement>(null);
 
-  useAutoFocus(contentRef, { enabled: isOpen });
+  useAutoFocus(contentRef, {
+    enabled: isOpen,
+    initialRef: doneRef,
+    returnRef: searchRef,
+  });
 
   return (
     <>
@@ -26,24 +49,19 @@ export function FilterPopover() {
           <label>
             <input type="checkbox" /> In stock
           </label>
-          <button onClick={() => setIsOpen(false)}>Done</button>
+          <button ref={doneRef} onClick={() => setIsOpen(false)}>
+            Done
+          </button>
         </div>
       )}
+      <button ref={searchRef}>Search</button>
     </>
   );
 }
 ```
 
-- 📌 When `enabled` turns `true`, focus moves to the first element inside that
-  Tab can reach, skipping disabled, hidden and inert ones. With nothing to
-  focus inside, it moves to the element itself.
-- 📌 When `enabled` turns `false`, or the component unmounts, focus goes back
-  to the element that had it before. Pass `returnRef` to send it somewhere
-  else, like the trigger of content opened with a shortkey. If `returnRef`
-  points at nothing when it opens, focus goes back to the element that had it
-  before instead.
-- 📌 Only elements with the native `disabled` attribute are skipped. Elements
-  disabled another way, like with `aria-disabled` or a headless
+- 📌 An element only counts as disabled with the native `disabled` attribute.
+  Elements disabled another way, like with `aria-disabled` or a headless
   [Button](/components/headless/button) with `isDisabled`, stay focusable, so
   **focus can land on them**.
 
@@ -63,6 +81,10 @@ interface UseAutoFocusOptions {
   // so focus moves in on open and back on close.
   enabled?: boolean;
 
+  // where focus moves to on open. must be inside `targetRef`.
+  // defaults to the first focusable element inside `targetRef`.
+  initialRef?: React.RefObject<HTMLElement | null>;
+
   // where focus goes back to on close.
   // defaults to the element that had focus before it opened.
   returnRef?: React.RefObject<HTMLElement | null>;
@@ -79,17 +101,9 @@ function useAutoFocus(
 
 ## Watch Out
 
-- ⚠️ **Give the element `tabIndex={-1}`**: With nothing focusable inside,
-  focus moves to the element itself, but only elements with a `tabIndex` can
-  take focus. Without it, **focus stays where it was**, usually on the
-  trigger:
-
-  ```tsx
-  // a message with no buttons, so focus moves to the element itself
-  <div ref={contentRef} tabIndex={-1}>
-    Saved!
-  </div>
-  ```
+- ⚠️ **Give a non-interactive `initialRef` `tabIndex={-1}`**: Headings,
+  paragraphs and similar elements can't take focus on their own, so without it
+  **focus starts on the first focusable element instead**.
 
 - ⚠️ **Pass the open state to `enabled`**: If the element isn't on the page
   all the time, pass its open state to `enabled`. Rendering it conditionally

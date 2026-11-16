@@ -81,23 +81,42 @@ Then only `Alert.Close` closes the alert.
 
 ---
 
-## Initial Focus
+## Choosing Where Focus Goes
 
 When the alert opens, focus moves to the first focusable element inside the
-content. **Start on the least destructive response**: put "Cancel" before
-"Delete" in the markup, and change the visual order with CSS if you need to:
+content. Pass `initialFocusRef` to start somewhere else. It's recommended to
+start on the least destructive response. When the alert closes, focus returns
+to `Alert.Trigger`. Pass `returnFocusRef` to send it somewhere else:
 
 ```tsx
-<Alert.Content>
-  {/* focused when the alert opens */}
-  <Alert.Close>Cancel</Alert.Close>
-  <Alert.Close onClick={deleteFile}>Delete</Alert.Close>
-</Alert.Content>
+const cancelRef = useRef<HTMLButtonElement>(null);
+const backToSettingsRef = useRef<HTMLButtonElement>(null);
+
+<>
+  <Alert initialFocusRef={cancelRef} returnFocusRef={backToSettingsRef}>
+    <Alert.Trigger>Delete account</Alert.Trigger>
+    <Alert.Content>
+      <Alert.Title>Delete your account?</Alert.Title>
+      <Alert.Message asChild>
+        <div>
+          Deleting the account would:
+          <ul>
+            <li>Remove all your projects</li>
+            <li>Cancel your subscription</li>
+          </ul>
+        </div>
+      </Alert.Message>
+      <button onClick={openHelp}>Read more</button>
+      <Alert.Close ref={cancelRef}>Cancel</Alert.Close>
+      <Alert.Close onClick={deleteAccount}>Delete</Alert.Close>
+    </Alert.Content>
+  </Alert>
+  <button ref={backToSettingsRef}>Back to settings</button>
+</>;
 ```
 
-You can't choose another element to start on yet, like the title of a long
-message so it's read from the top. For now, the order in the markup decides
-where focus starts.
+Both are handled by [Auto Focus](/foundations/focus/auto-focus), so they behave
+exactly as described there, including when the element can't take focus.
 
 ---
 

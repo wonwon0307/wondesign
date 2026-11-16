@@ -16,6 +16,8 @@ export interface AlertProps {
   keepMounted?: boolean;
   disablePortal?: boolean;
   disableEscapeKey?: boolean;
+  initialFocusRef?: React.RefObject<HTMLElement | null>;
+  returnFocusRef?: React.RefObject<HTMLElement | null>;
 }
 
 export function AlertProvider({
@@ -26,6 +28,8 @@ export function AlertProvider({
   keepMounted = false,
   disablePortal = false,
   disableEscapeKey = false,
+  initialFocusRef,
+  returnFocusRef,
 }: Readonly<AlertProps>) {
   const {
     isOpen,
@@ -42,8 +46,12 @@ export function AlertProvider({
   const [messageId, setMessageId] = useState<string | undefined>(undefined);
   const [contentId, setContentId] = useState<string | undefined>(undefined);
 
-  useAutoFocus(wrapperRef, { enabled: isOpen, returnRef: triggerRef });
   useBackgroundInert(wrapperRef, { enabled: isOpen });
+  useAutoFocus(wrapperRef, {
+    enabled: isOpen,
+    returnRef: returnFocusRef ?? triggerRef,
+    initialRef: initialFocusRef,
+  });
   useEscapeKey(closeAlert, { enabled: isOpen && !disableEscapeKey });
   useFocusTrap(wrapperRef, { enabled: isOpen });
   useScrollLock({ enabled: isOpen });

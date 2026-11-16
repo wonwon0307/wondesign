@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import { getFocusableElements } from "@/utils";
 
 export type UseAutoFocusOptions<TReturn extends HTMLElement = HTMLElement> = {
   enabled?: boolean;
+  initialRef?: React.RefObject<HTMLElement | null>;
   returnRef?: React.RefObject<TReturn | null>;
 };
 
@@ -12,16 +13,23 @@ export function useAutoFocus<
   TReturn extends HTMLElement = HTMLElement,
 >(
   targetRef: React.RefObject<TTarget | null>,
-  { enabled = false, returnRef }: UseAutoFocusOptions<TReturn> = {},
+  { enabled = false, initialRef, returnRef }: UseAutoFocusOptions<TReturn> = {},
 ) {
-  const returnFocusRef = useRef<TReturn | null>(null);
-
   useEffect(() => {
     if (!enabled || !targetRef.current) return;
 
-    // returnRef가 비어있다면, 이전에 focus가 있던 요소로 복귀한다
-    returnFocusRef.current =
-      returnRef?.current ?? (document.activeElement as TReturn);
+    const previousActive = document.activeElement;
+
+    // initialRef가 target 안에 있다면, 그 요소로 Focus 이동
+    const initial = initialRef?.current;
+    if (initial && targetRef.current.contains(initial)) {
+      initial.focus();
+
+      // focus를 받을 수 없는 요소라면, 아래의 기본 동작으로 넘어간다
+      if (document.activeElement === initial) {
+        return returnFocus;
+      }
+    }
 
     const focusables = getFocusableElements(targetRef.current);
 
@@ -33,11 +41,13 @@ export function useAutoFocus<
       targetRef.current.focus();
     }
 
+    return returnFocus;
+
     // cleanup function: Focus 복귀
-    return () => {
-      if (returnFocusRef.current) {
-        returnFocusRef.current.focus();
+    function returnFocus() {
+      if (returnRef?.current ?? previousActive) {
+        (returnRef?.current ?? (previousActive as HTMLElement)).focus();
       }
-    };
-  }, [enabled, targetRef, returnRef]);
+    }
+  }, [enabled, targetRef, initialRef, returnRef]);
 }
