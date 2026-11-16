@@ -7,23 +7,27 @@ describe("useFocusTrap - corner cases", () => {
   it("should recover focus when focus is lost to document body", async () => {
     const user = userEvent.setup();
     const { getByTestId, rerender } = render(
-      <TestComponent enabled>
-        <button data-testid="button-1" />
-        <button data-testid="button-2" />
-      </TestComponent>,
+      <>
+        <button data-testid="outside-button" />
+        <TestComponent enabled>
+          <button key="1" data-testid="button-1" />
+          <button key="2" data-testid="button-2" />
+        </TestComponent>
+      </>,
     );
 
     getByTestId("button-1").focus();
     expect(document.activeElement).toBe(getByTestId("button-1"));
 
     rerender(
-      <TestComponent enabled>
-        <button data-testid="button-2" />
-      </TestComponent>,
+      <>
+        <button data-testid="outside-button" />
+        <TestComponent enabled>
+          <button key="2" data-testid="button-2" />
+        </TestComponent>
+      </>,
     );
 
-    // so simulate focus lost to document body
-    document.documentElement.focus();
     expect(document.activeElement).toBe(document.body);
 
     // recover focus on next tab
@@ -35,7 +39,7 @@ describe("useFocusTrap - corner cases", () => {
     const user = userEvent.setup();
     const { getByTestId, rerender } = render(
       <TestComponent enabled>
-        <button data-testid="button" />
+        <button key="1" data-testid="button" />
       </TestComponent>,
     );
 
@@ -44,8 +48,6 @@ describe("useFocusTrap - corner cases", () => {
 
     rerender(<TestComponent enabled>Empty Content</TestComponent>);
 
-    // so simulate focus lost to document body
-    document.documentElement.focus();
     expect(document.activeElement).toBe(document.body);
 
     // recover focus on next tab

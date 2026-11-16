@@ -47,7 +47,7 @@ describe("useFocusTrap", () => {
     div.focus();
     expect(document.activeElement).toBe(div);
 
-    // 1. forward wrap
+    // 1. from an element outside the tab order
     await user.tab();
     expect(document.activeElement).toBe(button1);
 
