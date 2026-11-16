@@ -18,6 +18,18 @@ describe("Popover - properties", () => {
     expect(content.dataset.state).toBe("open");
   });
 
+  it("respects the disableEscapeKey prop", () => {
+    const { getByTestId } = render(
+      <TestComponent disableEscapeKey>Test Content</TestComponent>,
+    );
+
+    const trigger = getByTestId("popover-trigger");
+    fireEvent.click(trigger);
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(trigger.dataset.state).toBe("open");
+  });
+
   it("supports controlled mode", () => {
     const onOpenChange = vi.fn();
     const { getByTestId } = render(
