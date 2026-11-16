@@ -15,7 +15,8 @@ acknowledging an error that blocks their work. Despite its name, it **doesn't
 follow the [WAI-ARIA Alert pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)**,
 which announces a message without interrupting the user. For messages that
 don't need an answer, like "Saved", **use something that doesn't interrupt,
-like a [Toast](/components/headless/toast), instead**.
+like a [Toast](/components/headless/toast), instead**. For content that isn't
+urgent, like a form, use a [Modal](/components/headless/modal).
 
 `Alert` works well with [`@wondesign/alert`](/components/alert). Its `Alerter`
 shows each alert for you, so you can open one from anywhere with `showAlert`
