@@ -1,0 +1,134 @@
+import { Keyboard, KeyboardGroup } from "@wondesign/ui/Code";
+
+# Modal
+
+`Modal` shows content on top of the page and blocks the page behind until the
+user is done, following the
+[WAI-ARIA Dialog (Modal) pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+It handles opening and closing, moves and keeps focus inside, blocks the page
+behind, and labels it for assistive technology, so you only bring the look.
+
+Use it when the user has to finish a step before carrying on, like editing a
+profile, filling in a long form, or reviewing details before a purchase.
+
+Don't use it when the content belongs next to its trigger and the page should
+stay usable, like a filter form. Use a [Popover](/components/headless/popover)
+instead. For an urgent message that needs an answer, like confirming a
+destructive action, use an [Alert](/components/headless/alert).
+
+---
+
+## Key Features
+
+- ✅ **Accessible by Default**: Announced as a modal dialog, named by its title
+- ✅ **Closes On**: A close button, <Keyboard>Esc</Keyboard> or a click outside
+- ✅ **Focus Management**: Moves focus in when it opens, keeps it inside, and returns it when it closes
+- ✅ **Blocks the Page Behind**: The page behind can't be focused or scrolled while the modal is open
+- ✅ **Optional Backdrop**: Add a layer behind the modal, or leave it out
+- ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
+- ✅ **Keep Content Mounted**: Hide closed content instead of removing it
+- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
+
+---
+
+## Structure
+
+For what you can configure, refer to the
+[Usage tab](/components/headless/modal/usage). For every prop, refer to the
+[API tab](/components/headless/modal/api).
+
+- 🧩 **Modal**: coordinates every part. It holds the open state, manages focus,
+  and blocks the page behind while it's open. **Renders no element of its
+  own.**
+- 🧩 **Modal.Trigger**: the button that opens the modal.
+- 🧩 **Modal.Backdrop**: an optional layer behind the modal.
+- 🧩 **Modal.Content**: the modal dialog itself.
+- 🧩 **Modal.Title**: the heading that names the modal.
+- 🧩 **Modal.Close**: a button that closes the modal, after running its
+  `onClick`.
+
+```tsx
+<Modal>
+  <Modal.Trigger>Edit profile</Modal.Trigger>
+  <Modal.Backdrop />
+  <Modal.Content>
+    <Modal.Title>Edit profile</Modal.Title>
+    {/* … */}
+    <Modal.Close>Cancel</Modal.Close>
+    <Modal.Close onClick={saveProfile}>Save</Modal.Close>
+  </Modal.Content>
+</Modal>;
+
+// or, with named exports
+<ModalProvider>
+  <ModalTrigger>Edit profile</ModalTrigger>
+  <ModalBackdrop />
+  <ModalContent>
+    <ModalTitle>Edit profile</ModalTitle>
+    {/* … */}
+    <ModalClose>Cancel</ModalClose>
+    <ModalClose onClick={saveProfile}>Save</ModalClose>
+  </ModalContent>
+</ModalProvider>;
+```
+
+---
+
+## How It Works
+
+A modal has to hold the user's attention until they're done, without letting
+them lose their place on the page behind. `Modal` builds this in, following the
+[WAI-ARIA Dialog (Modal) pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/):
+it decides how the modal closes, where focus goes, what happens to the page
+behind, and what screen readers announce. You don't need to wire up any of it.
+
+### Opening and Closing
+
+A click on `Modal.Trigger` opens the modal. It closes through `Modal.Close`,
+<Keyboard>Esc</Keyboard>, and a click outside the content (unless switched
+off). A click on `Modal.Backdrop` counts as a click outside.
+
+Clicks outside are handled by
+[Click Outside](/foundations/pointer/click-outside), and
+<Keyboard>Esc</Keyboard> by [Escape Key](/foundations/key-events/escape-key).
+
+### Focus
+
+When the modal opens, focus moves to the **first focusable element inside the
+content**. With nothing focusable inside, the content itself takes focus.
+
+While it's open, <Keyboard>Tab</Keyboard> and
+
+<KeyboardGroup shortkey="Shift+Tab" /> stay inside the content. When it closes,
+focus returns to `Modal.Trigger`. If the trigger doesn't exist, focus returns to
+whatever had it before the modal opened.
+
+Focus is handled by [Auto Focus](/foundations/focus/auto-focus) and
+[Focus Trap](/foundations/focus/focus-trap).
+
+### The Page Behind
+
+While the modal is open, everything outside the content can't be focused or
+interacted with, and the page stops scrolling. These are handled by
+[Background Inert](/foundations/focus/background-inert) and
+[Scroll Lock](/foundations/disclosure/scroll-lock) respectively, so **their
+known issues carry over to `Modal`**.
+
+### Screen Readers
+
+The trigger is announced as a button that opens a dialog. The content is
+announced as a modal dialog, named by `Modal.Title`. Without a title, it's
+named by its `aria-label`, "Modal" by default, so **a title or an
+`aria-label` of your own is strongly recommended**.
+
+---
+
+## Known Issues
+
+- 🐞 **Nested overlays close the modal**: Clicking inside a popover, tooltip or
+  other overlay opened from inside the modal counts as a click outside, and
+  closes it.
+- 🐞 **Content added in the background while the modal is open**: It can still
+  be clicked and focused.
+- 🐞 **The page shifts sideways**: Where scrollbars take up space, the page
+  shifts by the scrollbar's width while the modal is open.
