@@ -1,12 +1,9 @@
 import { AsChild } from "@/AsChild/AsChild";
 
-export interface ButtonProps
-  extends
-    Omit<
-      React.ButtonHTMLAttributes<HTMLButtonElement>,
-      "disabled" | "aria-disabled" | "aria-busy"
-    >,
-    React.RefAttributes<HTMLButtonElement> {
+export interface ButtonProps extends Omit<
+  React.ComponentProps<"button">,
+  "disabled" | "aria-disabled" | "aria-busy"
+> {
   isDisabled?: boolean;
   isLoading?: boolean;
   asChild?: boolean;
@@ -20,7 +17,6 @@ export function Button({
   onClick,
   onKeyDown,
   type = "button",
-  ref,
   ...rest
 }: Readonly<ButtonProps>) {
   const disableEvents = isDisabled || isLoading;
@@ -50,14 +46,13 @@ export function Button({
   return (
     <Component
       {...rest}
-      ref={ref}
       type={type}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       aria-disabled={isDisabled || undefined}
       aria-busy={isLoading || undefined}
-      data-loading={isLoading || undefined}
       data-disabled={isDisabled || undefined}
+      data-loading={isLoading || undefined}
     >
       {children}
     </Component>
