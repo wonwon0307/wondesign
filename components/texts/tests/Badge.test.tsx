@@ -14,7 +14,7 @@ describe("Badge", () => {
 
     const badgeElement = getByTestId("badge");
     expect(badgeElement.style.backgroundColor).toBe(
-      "color-mix(in srgb, gray 18%, transparent)",
+      "color-mix(in srgb, gray 18%, transparent 82%)",
     );
   });
 
