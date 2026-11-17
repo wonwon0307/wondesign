@@ -13,9 +13,8 @@ import { Button } from "@wondesign/headless/Button";
 </Button>;
 ```
 
-See [Usage](/components/headless/as-child/usage) for the two ways to use it, and
-[Guides](/components/headless/as-child/guides) for how your props and the
-component's work together.
+See [Usage](/components/headless/as-child/usage) for the two ways to use it,
+what your child needs, and where to put your props.
 
 ---
 
@@ -23,34 +22,48 @@ component's work together.
 
 - ✅ **Keep the Behaviour**: Your element gets the component's ARIA attributes, state and handlers
 - ✅ **Bring Any Element**: Native elements, router links, or your own components
-- ✅ **Nothing Gets Lost**: Classes, styles and event handlers from both sides are combined
+- ✅ **Nothing Gets Lost**: Classes, styles, event handlers and refs from both sides are combined
 
 ---
 
-## Limitations
+## How It Works
 
-- ⚠️ **Refs aren't merged**: Unlike other props, only one `ref` reaches your
-  element. If the component sets a ref, **it replaces the one on your child**.
+When the component and your element both set the same prop:
 
-  ```tsx
-  // ✅ good - recommended method
-  <Collapsible.Content asChild ref={ref}>
-    <section>…</section>
-  </Collapsible.Content>
+- 🔗 **`className`**: both are kept
+- 🔗 **`style`**: both are merged, and yours wins on conflicts
+- 🔗 **`ref`**: both are attached
+- 🔗 **Event handlers**: both run — yours first, then the component's
+- 🔗 **Anything else**: the component's wins, if it sets one
 
-  // ✅ good - Collapsible.Content sets no ref of its own
-  <Collapsible.Content asChild>
-    <section ref={ref}>…</section>
-  </Collapsible.Content>
+```tsx
+<Tooltip.Trigger
+  asChild
+  className="trigger"
+  style={{ color: "gray", padding: 4 }}
+  onClick={trackTrigger}
+>
+  <button
+    ref={ref}
+    type="submit"
+    className="icon-button"
+    style={{ color: "blue" }}
+    onClick={trackButton}
+  >
+    Help
+  </button>
+</Tooltip.Trigger>
 
-  // ❌ bad - <button>'s ref is ignored, because Tooltip.Trigger sets its own
-  <Tooltip.Trigger asChild>
-    <button ref={ref}>Help</button>
-  </Tooltip.Trigger>
-  ```
+// className → "trigger icon-button"
+// style     → { color: "blue", padding: 4 }
+// ref       → the trigger's own, and `ref`
+// onClick   → trackButton, then trackTrigger
+// type      → "button", the trigger's own, so "submit" is ignored
+```
 
-  See [How Props Combine](/components/headless/as-child/guides#how-props-combine)
-  for how every other prop is handled.
+---
+
+## Watch Out
 
 - ⚠️ **One element only**: The child must be a single element. Text or several
   children **render nothing**, with a warning in development.
@@ -69,18 +82,14 @@ component's work together.
   ```
 
   The single element can be your own component too. See
-  [Components as the Child](/components/headless/as-child/guides#components-as-the-child)
+  [Custom Components](/components/headless/as-child/usage#custom-components)
   for what it needs.
 
----
-
-## Known Issues
-
-- 🐞 **Handlers on the child aren't blocked**: When a component blocks
-  interactions, like a disabled [Button](/components/headless/button/overview#known-issues),
+- ⚠️ **Handlers on the child aren't blocked**: When a component blocks
+  interactions, like a disabled [Button](/components/headless/button/overview#watch-out),
   it only blocks the handlers passed to it. Handlers written on the child still
-  run. Pass them to the component instead, as described in
-  [Pass Props to the Component](/components/headless/as-child/guides#pass-props-to-the-component).
+  run. Pass them to the component instead, as described in the
+  [asChild notes](/components/headless/as-child/usage#notes).
 
 ---
 

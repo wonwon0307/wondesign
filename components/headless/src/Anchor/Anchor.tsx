@@ -1,10 +1,7 @@
-export interface AnchorProps
-  extends
-    Omit<
-      React.AnchorHTMLAttributes<HTMLAnchorElement>,
-      "target" | "rel" | "aria-disabled"
-    >,
-    React.RefAttributes<HTMLAnchorElement> {
+export interface AnchorProps extends Omit<
+  React.ComponentProps<"a">,
+  "target" | "rel" | "aria-disabled"
+> {
   as?: React.ElementType;
   isDisabled?: boolean;
   openInNewTab?: boolean;
@@ -29,9 +26,7 @@ export function Anchor({
       href.startsWith("//"));
   const newTab = openInNewTab ?? isExternal;
 
-  const doNothingOnClick = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-  ) => {
+  const doNothingOnClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
   };

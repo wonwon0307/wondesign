@@ -6,10 +6,11 @@ reusable components the same prop.
 
 ---
 
-## With the asChild Prop
+## The asChild Prop
 
 Headless components that render an element take an `asChild` prop. Pass it, and
-wrap the element you want rendered instead.
+wrap the element you want rendered instead. Below are the most common ways
+to use the `asChild` prop.
 
 ### Changing the Element
 
@@ -21,25 +22,6 @@ Use `asChild` when the default element isn't the right one for the job, for exam
   <section>…</section>
 </Tabs.Panel>
 ```
-
-### Adding Behaviour to Your Components
-
-Wrap a component you've already styled, and it takes on the headless
-component's behaviour — here, the tooltip's hover, focus and ARIA wiring:
-
-```tsx
-import { Tooltip } from "@wondesign/headless/Tooltip";
-import { IconButton } from "@/components/IconButton";
-
-<Tooltip>
-  <Tooltip.Trigger asChild>
-    <IconButton icon="settings" aria-label="Settings" />
-  </Tooltip.Trigger>
-  <Tooltip.Content>Settings</Tooltip.Content>
-</Tooltip>;
-```
-
-### Rendering a Link
 
 To make the component a link, pass an [`Anchor`](/components/headless/anchor) (or a component built on it) as
 the child. The link keeps its own behaviour, and gains the component's on top:
@@ -58,9 +40,48 @@ import { Tooltip } from "@wondesign/headless/Tooltip";
 </Tooltip>;
 ```
 
+### Adding Behaviour
+
+The child doesn't have to be a DOM element. Wrap a component you've already
+styled, and it takes on the headless component's behaviour — here, the
+collapsible's toggling and ARIA wiring:
+
+```tsx
+import { Collapsible } from "@wondesign/headless/Collapsible";
+import { TextButton } from "@/components/TextButton";
+
+<Collapsible>
+  <Collapsible.Toggle asChild>
+    <TextButton>Show details</TextButton>
+  </Collapsible.Toggle>
+  <Collapsible.Content>…</Collapsible.Content>
+</Collapsible>;
+```
+
+### Notes
+
+It's the best practice to **pass props to the headless component
+rather than to your child**. The props a component controls itself
+— like `role`, ARIA attributes and the handlers it relies on —
+are left out of its types, so TypeScript catches a clash before it
+happens. The child has no such guard, and the same props on it are **ignored
+silently**, because the component's win:
+
+```tsx
+// ❌ type error - Tooltip.Trigger sets aria-describedby itself
+<Tooltip.Trigger asChild aria-describedby="custom-hint">
+  <button>Help</button>
+</Tooltip.Trigger>
+
+// ❌ ignored - the tooltip's aria-describedby wins
+<Tooltip.Trigger asChild>
+  <button aria-describedby="custom-hint">Help</button>
+</Tooltip.Trigger>
+```
+
 ---
 
-## Building Your Own Reusable Components
+## Custom Components
 
 `AsChild` is what powers the `asChild` prop. Use it to give your own reusable
 components the same prop: render `AsChild` in place of your default element
@@ -69,7 +90,7 @@ when `asChild` is set, and pass your props to it as usual.
 ```tsx
 import { AsChild } from "@wondesign/headless/AsChild";
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface CardProps extends React.ComponentProps<"div"> {
   asChild?: boolean;
 }
 
@@ -90,3 +111,22 @@ Whoever renders `Card` can now swap the `<div>` for their own element:
 
 Everything you pass to `AsChild` — here, `data-card` and the caller's props —
 ends up on that element.
+
+### Notes
+
+A component used as the child has to spread the props it receives
+(`{...props}`) onto the element it renders. Otherwise the parent's behaviour
+and accessibility are **silently lost**:
+
+```tsx
+// ✅ good
+function MyLink(props: Readonly<React.ComponentProps<"a">>) {
+  // spread every prop, so the Button's behaviour reaches the <a>
+  return <a {...props} />;
+}
+
+// ❌ bad - only href and children reach the <a>, the rest is dropped
+function BrokenLink({ href, children }: Readonly<React.ComponentProps<"a">>) {
+  return <a href={href}>{children}</a>;
+}
+```
