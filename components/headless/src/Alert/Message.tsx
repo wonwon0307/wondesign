@@ -16,9 +16,9 @@ export function AlertMessage({
   asChild = false,
   ...rest
 }: Readonly<AlertMessageProps>) {
-  const { setMessageId } = useAlertInternal();
+  const { setMessageId, scopeKey } = useAlertInternal();
   const messageId = useId();
-  const isInsideContent = useContext(ContentContext);
+  const isInsideContent = useContext(ContentContext) === scopeKey;
 
   useLayoutEffect(() => {
     setMessageId(messageId);

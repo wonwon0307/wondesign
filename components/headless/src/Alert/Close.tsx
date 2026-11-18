@@ -15,9 +15,9 @@ export function AlertClose({
   onClick,
   ...rest
 }: Readonly<AlertCloseProps>) {
-  const { closeAlert } = useAlertInternal();
+  const { closeAlert, scopeKey } = useAlertInternal();
 
-  const isInsideContent = useContext(ContentContext);
+  const isInsideContent = useContext(ContentContext) === scopeKey;
 
   const finalOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     onClick?.(e);

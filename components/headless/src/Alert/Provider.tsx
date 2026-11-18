@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
 import { useScrollLock } from "@wondesign/disclosure/scroll-lock";
 import { useAutoFocus } from "@wondesign/focus/auto-focus";
@@ -45,6 +45,7 @@ export function AlertProvider({
   const [titleId, setTitleId] = useState<string | undefined>(undefined);
   const [messageId, setMessageId] = useState<string | undefined>(undefined);
   const [contentId, setContentId] = useState<string | undefined>(undefined);
+  const scopeKey = useId();
 
   useBackgroundInert(wrapperRef, { enabled: isOpen });
   useAutoFocus(wrapperRef, {
@@ -71,6 +72,7 @@ export function AlertProvider({
       setMessageId,
       contentId,
       setContentId,
+      scopeKey,
     }),
     [
       isOpen,
@@ -81,6 +83,7 @@ export function AlertProvider({
       contentId,
       titleId,
       messageId,
+      scopeKey,
     ],
   );
 

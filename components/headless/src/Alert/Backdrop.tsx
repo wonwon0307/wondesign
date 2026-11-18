@@ -9,8 +9,8 @@ export type AlertBackdropProps = Omit<
 >;
 
 export function AlertBackdrop(props: Readonly<AlertBackdropProps>) {
-  const { isOpen, disablePortal, keepMounted } = useAlertInternal();
-  const isInsideContent = useContext(ContentContext);
+  const { isOpen, disablePortal, keepMounted, scopeKey } = useAlertInternal();
+  const isInsideContent = useContext(ContentContext) === scopeKey;
 
   useEffect(() => {
     if (isInsideContent && process.env.NODE_ENV !== "production") {

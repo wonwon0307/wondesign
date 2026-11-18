@@ -15,10 +15,11 @@ type AlertContextValue = {
   setMessageId: (messageId: string | undefined) => void;
   contentId: string | undefined;
   setContentId: (contentId: string | undefined) => void;
+  scopeKey: string;
 };
 
 export const AlertContext = createContext<AlertContextValue | null>(null);
-export const ContentContext = createContext<boolean>(false);
+export const ContentContext = createContext<string | null>(null);
 
 export function useAlertInternal() {
   const context = useContext(AlertContext);

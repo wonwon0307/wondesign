@@ -35,6 +35,7 @@ export function AlertContent({
     titleId,
     messageId,
     setContentId,
+    scopeKey,
   } = useAlertInternal();
   const contentId = useId();
   const mergedRef = useMemo(() => mergeRef(wrapperRef, ref), [wrapperRef, ref]);
@@ -53,7 +54,7 @@ export function AlertContent({
 
   return (
     <Portal disable={disablePortal}>
-      <ContentContext.Provider value={true}>
+      <ContentContext.Provider value={scopeKey}>
         <Component
           {...rest}
           ref={mergedRef}

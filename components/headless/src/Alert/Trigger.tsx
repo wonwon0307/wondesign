@@ -17,9 +17,9 @@ export function AlertTrigger({
   ref,
   ...rest
 }: Readonly<AlertTriggerProps>) {
-  const { isOpen, showAlert, keepMounted, contentId, triggerRef } =
+  const { isOpen, showAlert, keepMounted, contentId, triggerRef, scopeKey } =
     useAlertInternal();
-  const isInsideContent = useContext(ContentContext);
+  const isInsideContent = useContext(ContentContext) === scopeKey;
   const mergedRef = useMemo(() => mergeRef(triggerRef, ref), [triggerRef, ref]);
 
   useEffect(() => {

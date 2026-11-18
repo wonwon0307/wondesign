@@ -16,9 +16,9 @@ export function AlertTitle({
   asChild = false,
   ...rest
 }: Readonly<AlertTitleProps>) {
-  const { setTitleId } = useAlertInternal();
+  const { setTitleId, scopeKey } = useAlertInternal();
   const titleId = useId();
-  const isInsideContent = useContext(ContentContext);
+  const isInsideContent = useContext(ContentContext) === scopeKey;
 
   useLayoutEffect(() => {
     setTitleId(titleId);
