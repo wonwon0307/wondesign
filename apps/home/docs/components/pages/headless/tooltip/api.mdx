@@ -66,7 +66,7 @@ warning** in development.
 Accepts all props of [Headless Button](/components/headless/button), except
 `type`, `aria-describedby`, the mouse, focus and touch handlers (`onMouseEnter`,
 `onMouseLeave`, `onFocus`, `onBlur` and `onTouch*`), which the trigger manages.
-It sets its own `ref`, so it doesn't take one. Key props:
+You can also pass a `ref`. Key props:
 
 ```ts
 interface TooltipTriggerProps {
@@ -96,8 +96,7 @@ content.
 **Props**
 
 Accepts all `<div>` props, except `id`, `role`, `hidden`, `onMouseEnter`
-and `onMouseLeave`, which the content manages. It sets its own `ref`, so it
-doesn't take one.
+and `onMouseLeave`, which the content manages. You can also pass a `ref`.
 
 It also adds a prop of its own. `disablePortal` renders the content where it
 is, instead of in a [Portal](/components/headless/portal) at the end of
@@ -126,8 +125,8 @@ the trigger. Must be used inside `Tooltip.Content`.
 
 **Props**
 
-Accepts all `<div>` props, except `aria-hidden`, which the arrow manages. It
-sets its own `ref`, so it doesn't take one. Key props:
+Accepts all `<div>` props, except `aria-hidden`, which the arrow manages. You
+can also pass a `ref`. Key props:
 
 ```ts
 interface TooltipArrowProps {
