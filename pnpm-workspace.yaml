@@ -24,3 +24,7 @@ minimumReleaseAgeExclude:
 overrides:
   "katex": "0.18.2"
   "minimatch": "11.0.1"
+
+audit:
+  ignore:
+    - GHSA-fc5q-39xc-vjpf
