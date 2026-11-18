@@ -25,6 +25,7 @@ export function CollapsibleProvider({
   });
   const [contentId, setContentId] = useState<string | undefined>(undefined);
   const toggleId = useId();
+  const scopeKey = useId();
 
   const contextValue = useMemo(
     () => ({
@@ -34,8 +35,9 @@ export function CollapsibleProvider({
       toggleId,
       contentId,
       setContentId,
+      scopeKey,
     }),
-    [isOpen, keepMounted, toggle, contentId, toggleId],
+    [isOpen, keepMounted, toggle, contentId, toggleId, scopeKey],
   );
 
   return (
