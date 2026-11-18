@@ -41,7 +41,7 @@ Renders a `<div>` with `role="status"`, `aria-live="polite"` and
 **Props**
 
 Accepts all `<div>` props, except `role`, `aria-live` and `aria-atomic`, which
-the area manages. Key props:
+the area manages. You can also pass a `ref`. Key props:
 
 ```ts
 interface ToastAreaProps {
@@ -63,7 +63,7 @@ Must be used inside `ToastArea`.
 
 Accepts all `<div>` props, except `hidden`, `role`, `aria-live`,
 `aria-atomic`, `onMouseEnter`, `onMouseLeave`, `onFocus` and `onBlur`, which
-the toast manages. It sets its own `ref`, so it doesn't take one. Key props:
+the toast manages. You can also pass a `ref`. Key props:
 
 ```ts
 interface ToastProps {
@@ -93,7 +93,7 @@ Renders an `<h3>` with the main line of the toast. Must be used inside
 
 **Props**
 
-Accepts all `<h3>` props. Key props:
+Accepts all `<h3>` props. You can also pass a `ref`. Key props:
 
 ```ts
 interface ToastMessageProps {
@@ -110,7 +110,7 @@ inside `Toast`.
 
 **Props**
 
-Accepts all `<p>` props. Key props:
+Accepts all `<p>` props. You can also pass a `ref`. Key props:
 
 ```ts
 interface ToastDescriptionProps {
@@ -129,7 +129,7 @@ the toast closes, and can keep it open by calling `event.preventDefault()`.
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`type`, which the close button manages. Key props:
+`type`, which the close button manages. You can also pass a `ref`. Key props:
 
 ```ts
 interface ToastCloseProps {
