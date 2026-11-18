@@ -12,8 +12,8 @@ export function PopoverClose({
   onClick,
   ...rest
 }: Readonly<PopoverCloseProps>) {
-  const { hidePopover } = usePopoverInternal();
-  const isInsideContent = useContext(ContentContext);
+  const { hidePopover, scopeKey } = usePopoverInternal();
+  const isInsideContent = useContext(ContentContext) === scopeKey;
 
   if (!isInsideContent) {
     throw new Error(

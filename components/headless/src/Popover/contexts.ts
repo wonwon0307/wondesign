@@ -22,10 +22,11 @@ type PopoverContextValue = {
   updatePosition: () => void;
   content: Position;
   arrow: Position;
+  scopeKey: string;
 };
 
 export const PopoverContext = createContext<PopoverContextValue | null>(null);
-export const ContentContext = createContext<boolean>(false);
+export const ContentContext = createContext<string | null>(null);
 
 export function usePopoverInternal() {
   const context = useContext(PopoverContext);

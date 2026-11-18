@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
 import { useAutoFocus } from "@wondesign/focus/auto-focus";
 import { useEscapeKey } from "@wondesign/key-events/escape-key";
@@ -47,6 +47,8 @@ export function PopoverProvider({
   });
   const [titleId, setTitleId] = useState<string | undefined>(undefined);
   const [contentId, setContentId] = useState<string | undefined>(undefined);
+  const scopeKey = useId();
+
   const {
     triggerRef,
     floatingRef,
@@ -100,6 +102,7 @@ export function PopoverProvider({
       arrow,
       isPositioned,
       updatePosition,
+      scopeKey,
     }),
     [
       isOpen,
@@ -117,6 +120,7 @@ export function PopoverProvider({
       arrow,
       isPositioned,
       updatePosition,
+      scopeKey,
     ],
   );
 

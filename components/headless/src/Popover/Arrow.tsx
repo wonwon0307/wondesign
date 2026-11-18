@@ -1,9 +1,10 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 
+import { mergeRef } from "@/utils";
 import { ContentContext, usePopoverInternal } from "./contexts";
 
 export interface PopoverArrowProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
+  React.ComponentProps<"div">,
   "children" | "aria-hidden"
 > {
   children?: React.ReactNode;
@@ -11,10 +12,12 @@ export interface PopoverArrowProps extends Omit<
 
 export function PopoverArrow({
   children,
+  ref,
   ...rest
 }: Readonly<PopoverArrowProps>) {
-  const { placement, arrowRef } = usePopoverInternal();
-  const isInsideContent = useContext(ContentContext);
+  const { placement, arrowRef, scopeKey } = usePopoverInternal();
+  const isInsideContent = useContext(ContentContext) === scopeKey;
+  const mergedRef = useMemo(() => mergeRef(arrowRef, ref), [arrowRef, ref]);
 
   if (!isInsideContent) {
     throw new Error(
@@ -23,7 +26,12 @@ export function PopoverArrow({
   }
 
   return (
-    <div {...rest} ref={arrowRef} aria-hidden="true" data-placement={placement}>
+    <div
+      {...rest}
+      ref={mergedRef}
+      aria-hidden="true"
+      data-placement={placement}
+    >
       {children}
     </div>
   );
