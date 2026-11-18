@@ -95,7 +95,8 @@ interface ModalTriggerProps {
 
 `Modal.Backdrop` or `ModalBackdrop`. Renders an empty `<div>` behind the
 modal, in its own [Portal](/components/headless/portal) unless `disablePortal`
-is `true`. A click on it closes the modal, like any click outside the content,
+is `true`. When the modal closes, it stays on the page until its exit
+animation finishes. A click on it closes the modal, like any click outside the content,
 unless `disableOutsideClick` is `true`.
 Use it outside `Modal.Content`. Inside it, **it only logs a warning** in
 development.
@@ -115,7 +116,8 @@ manages.
 
 `Modal.Content` or `ModalContent`. Renders a `<dialog>` that acts as a modal
 dialog, in its own [Portal](/components/headless/portal) unless
-`disablePortal` is `true`.
+`disablePortal` is `true`. When the modal closes, it stays on the page until
+its exit animation finishes.
 
 **Props**
 

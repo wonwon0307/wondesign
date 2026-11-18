@@ -1,8 +1,9 @@
 import { useSyncExternalStore } from "react";
 
 import {
+  deleteToast,
+  deleteToasts,
   dismissToast,
-  dismissToasts,
   getServerSnapshot,
   getSnapshot,
   subscribe,
@@ -11,8 +12,9 @@ import type { BaseToastItem } from "./types";
 
 export interface UseToastsResult<T extends BaseToastItem> {
   toasts: T[];
+  deleteToast: (id: number) => void;
+  deleteToasts: () => void;
   dismissToast: (id: number) => void;
-  dismissToasts: () => void;
 }
 
 export function useToasts<T extends BaseToastItem>(): UseToastsResult<T> {
@@ -24,7 +26,8 @@ export function useToasts<T extends BaseToastItem>(): UseToastsResult<T> {
 
   return {
     toasts,
+    deleteToast,
+    deleteToasts,
     dismissToast,
-    dismissToasts,
   };
 }

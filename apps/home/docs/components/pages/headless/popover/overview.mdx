@@ -29,6 +29,7 @@ instead.
 - ✅ **Auto Flip & Shift**: Flips to the opposite side when space runs short, and shifts to stay inside the viewport
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
+- ✅ **Exit Animations**: Closed content stays until its exit animation finishes
 - ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
 
 ---
@@ -122,6 +123,14 @@ resizes. The position is worked out by
 [Position](/foundations/position/floating-position), so it behaves exactly as
 described there.
 
+### Exit Animations
+
+When the popover closes, the content's `data-state` changes to `"closed"`
+right away, but it **stays on the page until its animations and transitions
+finish**. Then it's removed, or hidden with `keepMounted`. While it's leaving,
+it can't be clicked or focused, and screen readers treat it as closed.
+**Infinite animations aren't waited for.**
+
 ### Screen Readers
 
 The trigger is announced as a button that opens a dialog, along with whether
@@ -139,3 +148,8 @@ so **a title or an `aria-label` of your own is strongly recommended**.
 - 🐞 **Nested overlays close the popover**: Clicking inside a popover, tooltip
   or other overlay opened from inside the popover counts as a click outside,
   and closes it.
+- 🐞 **Tab leaves the content in page order**: The content is rendered at the
+  end of the page, so <Keyboard>Tab</Keyboard> past its last element moves to
+  the browser's address bar, and {<KeyboardGroup shortkey="Shift+Tab" />}
+  before its first element moves to the last element on the page, instead of
+  next to the trigger.

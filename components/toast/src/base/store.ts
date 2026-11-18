@@ -27,11 +27,18 @@ export function addToast<T extends BaseToastItem>(toast: T): void {
 }
 
 export function dismissToast(id: number): void {
+  toasts = toasts.map((toast) =>
+    toast.id === id ? { ...toast, isOpen: false } : toast,
+  );
+  notify();
+}
+
+export function deleteToast(id: number): void {
   toasts = toasts.filter((toast) => toast.id !== id);
   notify();
 }
 
-export function dismissToasts(): void {
+export function deleteToasts(): void {
   toasts = [];
   notify();
 }

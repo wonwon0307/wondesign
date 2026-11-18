@@ -56,8 +56,9 @@ interface ToastAreaProps {
 
 Renders a `<div>` that holds one toast. It holds the open state and the timer,
 pauses the timer while hovered or focused, and closes when the user
-presses <Keyboard>Esc</Keyboard> while focus is inside it.
-Must be used inside `ToastArea`.
+presses <Keyboard>Esc</Keyboard> while focus is inside it. When it closes, it
+stays on the page until its exit animation finishes. Must be used inside
+`ToastArea`.
 
 **Props**
 
@@ -83,6 +84,7 @@ interface ToastProps {
 **Data Attributes**
 
 ```ts
+"data-state": "open" | "closed";
 "data-paused": "true" | undefined; // present while the timer is paused
 ```
 

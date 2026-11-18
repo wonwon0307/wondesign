@@ -1,5 +1,15 @@
-import { style } from "@vanilla-extract/css";
+import { style, keyframes } from "@vanilla-extract/css";
 import { mediaQueries, tokens } from "@wondesign/tokens";
+
+const fadeIn = keyframes({
+  from: { opacity: 0 },
+  to: { opacity: 1 },
+});
+
+const fadeOut = keyframes({
+  from: { opacity: 1 },
+  to: { opacity: 0 },
+});
 
 const backdrop = style({
   position: "fixed",
@@ -22,6 +32,14 @@ const alert = style({
   backgroundColor: tokens.colors.surface,
   borderRadius: tokens.radius.lg,
   zIndex: tokens.zIndex.alert,
+  selectors: {
+    "&[data-state='open']": {
+      animation: `${fadeIn} 0.3s ease`,
+    },
+    "&[data-state='closed']": {
+      animation: `${fadeOut} 0.3s ease forwards`,
+    },
+  },
   "@media": {
     [mediaQueries.breakpoints.small]: {
       width: "90%",

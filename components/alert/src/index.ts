@@ -1,7 +1,7 @@
 export { Alerter } from "./Alerter";
 export { showAlert, showConfirm } from "./api";
 
-export { dismissAll as dismissAlerts } from "./store";
+export { deleteAll as deleteAlerts } from "./store";
 
 export type {
   AlertOptions,

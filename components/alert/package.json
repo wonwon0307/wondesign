@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@wondesign/buttons": "workspace:*",
+    "@wondesign/disclosure": "workspace:*",
     "@wondesign/headless": "workspace:*",
     "@wondesign/texts": "workspace:*"
   },

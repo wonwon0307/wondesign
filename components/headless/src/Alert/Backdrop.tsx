@@ -1,6 +1,8 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
+import { usePresence } from "@wondesign/disclosure/presence";
 
 import { Portal } from "@/Portal/Portal";
+import { mergeRef } from "@/utils";
 import { ContentContext, useAlertInternal } from "./contexts";
 
 export type AlertBackdropProps = Omit<
@@ -8,9 +10,19 @@ export type AlertBackdropProps = Omit<
   "children" | "hidden"
 >;
 
-export function AlertBackdrop(props: Readonly<AlertBackdropProps>) {
+export function AlertBackdrop({
+  ref,
+  inert,
+  ...rest
+}: Readonly<AlertBackdropProps>) {
   const { isOpen, disablePortal, keepMounted, scopeKey } = useAlertInternal();
   const isInsideContent = useContext(ContentContext) === scopeKey;
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const { isPresent, status } = usePresence(backdropRef, isOpen);
+  const mergedRef = useMemo(
+    () => mergeRef(ref, backdropRef),
+    [ref, backdropRef],
+  );
 
   useEffect(() => {
     if (isInsideContent && process.env.NODE_ENV !== "production") {
@@ -20,15 +32,17 @@ export function AlertBackdrop(props: Readonly<AlertBackdropProps>) {
     }
   }, [isInsideContent]);
 
-  if (!isOpen && !keepMounted) {
+  if (!isPresent && !keepMounted) {
     return null;
   }
 
   return (
     <Portal disable={disablePortal}>
       <div
-        {...props}
-        hidden={!isOpen}
+        {...rest}
+        ref={mergedRef}
+        hidden={!isPresent}
+        inert={status === "closing" || inert}
         data-state={isOpen ? "open" : "closed"}
       />
     </Portal>

@@ -57,13 +57,9 @@ describe("Sidebar - interactions", () => {
 
     // children은 flatten인 Another Test Group만 보여야 한다
     const testGroupList = testGroup.getElementsByTagName("ul")[0];
-    expect(testGroupList.getAttribute("aria-hidden")).toBe("true");
-    expect(testGroupList.getAttribute("data-force-visible")).toBeNull();
+    expect(testGroupList.parentElement?.dataset.state).toBe("closed");
     const anotherTestGroupList = anotherTestGroup.getElementsByTagName("ul")[0];
-    expect(anotherTestGroupList.getAttribute("aria-hidden")).toBe("false");
-    expect(anotherTestGroupList.getAttribute("data-force-visible")).toBe(
-      "true",
-    );
+    expect(anotherTestGroupList.parentElement?.dataset.state).toBe("open");
 
     // 기본 툴팁 방향은 오른쪽이다 (사이드바가 왼쪽에 있으니; 하나만 대표로 확인)
     expect(tooltips[0].dataset.placement).toBe("right");

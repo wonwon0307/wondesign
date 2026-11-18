@@ -28,7 +28,8 @@ export function Toaster({
   maxToasts = 5,
   ...rest
 }: Readonly<ToasterProps>) {
-  const { toasts, dismissToast, dismissToasts } = useToasts<ToastItem>();
+  const { toasts, deleteToast, deleteToasts, dismissToast } =
+    useToasts<ToastItem>();
 
   const toastsByPosition = useMemo(() => {
     const grouped: Record<string, typeof toasts> = {};
@@ -44,9 +45,9 @@ export function Toaster({
 
   useEffect(() => {
     return () => {
-      dismissToasts();
+      deleteToasts();
     };
-  }, [dismissToasts]);
+  }, [deleteToasts]);
 
   if (maxToasts <= 0) {
     if (process.env.NODE_ENV !== "production") {
@@ -69,6 +70,7 @@ export function Toaster({
                 key={toast.id}
                 toast={toast}
                 dismissToast={() => dismissToast(toast.id)}
+                deleteToast={() => deleteToast(toast.id)}
               />
             ))}
         </div>

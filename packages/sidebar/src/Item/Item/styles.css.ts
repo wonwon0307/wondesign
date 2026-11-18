@@ -10,7 +10,6 @@ import {
 const wrapper = style({
   display: "flex",
   flexDirection: "column",
-  gap: tokens.spacing.sm,
 });
 
 const item = recipe({
@@ -25,13 +24,6 @@ const item = recipe({
     lineHeight: tokens.typography.lineHeight.body,
     backgroundColor: "transparent",
     userSelect: "none",
-    selectors: {
-      "&:focus-visible": {
-        backgroundColor: tokens.colors.backgroundHighlight,
-        outline: `1px solid ${tokens.colors.primary}`,
-        outlineOffset: "2px",
-      },
-    },
     "@media": {
       [mediaQueries.hoverable]: {
         selectors: {
@@ -49,9 +41,6 @@ const item = recipe({
         fontWeight: tokens.typography.fontWeight.medium,
         backgroundColor: colorWithFade(tokens.colors.primary, 0.12),
         selectors: {
-          "&:focus-visible": {
-            backgroundColor: colorWithOpacity(tokens.colors.primary, 0.24),
-          },
           "&::before": {
             content: '""',
             position: "absolute",
@@ -90,25 +79,35 @@ const item = recipe({
   },
 });
 
-const subitems = recipe({
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    paddingLeft: tokens.spacing.xl,
-    gap: tokens.spacing.sm,
-    selectors: {
-      "&[data-state='closed']:not([data-force-visible])": {
-        display: "none",
-      },
+const subitemsWrapper = style({
+  display: "grid",
+  gridTemplateRows: "1fr",
+  transition: "grid-template-rows 200ms ease, opacity 200ms ease",
+  opacity: 1,
+  selectors: {
+    "&[data-state='closed']": {
+      gridTemplateRows: "0fr",
+      opacity: 0,
     },
-  },
-  variants: {
-    hide: {
-      true: {
-        display: "none",
-      },
+    "&[hidden]": {
+      visibility: "hidden",
     },
   },
 });
 
-export const styles = { wrapper, item, subitems };
+const subitems = style({
+  display: "flex",
+  flexDirection: "column",
+  paddingTop: tokens.spacing.md,
+  paddingLeft: tokens.spacing.xl,
+  gap: tokens.spacing.md,
+  overflow: "hidden",
+  transition: "padding-top 200ms ease",
+  selectors: {
+    [`${subitemsWrapper}[data-state='closed'] &`]: {
+      paddingTop: 0,
+    },
+  },
+});
+
+export const styles = { wrapper, item, subitemsWrapper, subitems };

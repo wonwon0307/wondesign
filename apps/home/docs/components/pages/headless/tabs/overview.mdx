@@ -22,6 +22,7 @@ styled as tabs, **use [Navbar](/components/navbar) instead**.
 - ✅ **Horizontal & Vertical**: Arrow keys follow the direction of the list
 - ✅ **Disabled Tabs**: Turn off a single tab, or all of them
 - ✅ **Keep Panels Mounted**: Hide inactive panels instead of removing them
+- ✅ **Exit Animations**: An inactive panel stays until its exit animation finishes
 - ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
 
 ---
@@ -86,6 +87,14 @@ last one.
 A click, <Keyboard>Enter</Keyboard> or <Keyboard>Space</Keyboard> selects the
 focused tab. Moving between the tabs is handled by
 [Arrow Navigation](/foundations/focus/arrow-navigation).
+
+### Exit Animations
+
+When another tab is selected, the old panel's `data-state` changes to
+`"inactive"` right away, but it **stays on the page until its animations and
+transitions finish**. Then it's removed, or hidden with `keepPanelsMounted`.
+While it's leaving, it can't be clicked or focused, and screen readers skip
+it. **Infinite animations aren't waited for.**
 
 ### Screen Readers
 

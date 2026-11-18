@@ -1,4 +1,8 @@
+import { useMemo, useRef } from "react";
+import { usePresence } from "@wondesign/disclosure/presence";
+
 import { AsChild } from "@/AsChild/AsChild";
+import { mergeRef } from "@/utils";
 import { useTabsInternal } from "./contexts";
 
 export interface TabPanelProps extends Omit<
@@ -14,23 +18,29 @@ export function TabPanel({
   children,
   tabName,
   asChild = false,
+  inert,
+  ref,
   ...rest
 }: Readonly<TabPanelProps>) {
   const { activeTab, tabId, panelId, keepPanelsMounted } = useTabsInternal();
   const Component = asChild ? AsChild : "div";
-
+  const panelRef = useRef<HTMLDivElement>(null);
   const isActive = activeTab === tabName;
+  const { isPresent, status } = usePresence(panelRef, isActive);
+  const mergedRef = useMemo(() => mergeRef(ref, panelRef), [ref, panelRef]);
 
-  if (!keepPanelsMounted && !isActive) {
+  if (!keepPanelsMounted && !isPresent) {
     return null;
   }
 
   return (
     <Component
       {...rest}
+      ref={mergedRef}
       id={panelId(tabName)}
       role="tabpanel"
-      hidden={!isActive}
+      hidden={!isPresent}
+      inert={status === "closing" || inert}
       tabIndex={isActive ? 0 : -1}
       aria-labelledby={tabId(tabName)}
       data-state={isActive ? "active" : "inactive"}

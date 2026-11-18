@@ -5,8 +5,6 @@ import { mediaQueries, tokens } from "@wondesign/tokens";
 const group = style({
   display: "flex",
   flexDirection: "column",
-  padding: `${tokens.spacing.sm} 0`,
-  gap: tokens.spacing.xs,
 });
 
 const header = recipe({
@@ -16,7 +14,7 @@ const header = recipe({
     justifyContent: "space-between",
     padding: `${tokens.spacing.sm} ${tokens.spacing.lg}`,
     position: "relative",
-    borderRadius: tokens.radius.md,
+    borderRadius: tokens.radius.sm,
     fontSize: tokens.typography.fontSize.bodySmall,
     fontWeight: tokens.typography.fontWeight.semibold,
     color: tokens.colors.textMuted,
@@ -72,6 +70,11 @@ const overlayToggle = style({
   inset: 0,
   zIndex: 0,
   cursor: "pointer",
+  selectors: {
+    "&:focus-visible": {
+      outlineOffset: "-2px",
+    },
+  },
 });
 
 const icon = style({
@@ -96,23 +99,33 @@ const icon = style({
   },
 });
 
-const subitems = recipe({
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    paddingLeft: tokens.spacing.md,
-    gap: tokens.spacing.sm,
-    selectors: {
-      "&[data-state='closed']:not([data-force-visible])": {
-        display: "none",
-      },
+const wrapper = style({
+  display: "grid",
+  gridTemplateRows: "1fr",
+  transition: "grid-template-rows 200ms ease, opacity 200ms ease",
+  opacity: 1,
+  selectors: {
+    "&[data-state='closed']": {
+      gridTemplateRows: "0fr",
+      opacity: 0,
+    },
+    "&[hidden]": {
+      visibility: "hidden",
     },
   },
-  variants: {
-    hide: {
-      true: {
-        display: "none",
-      },
+});
+
+const subitems = style({
+  display: "flex",
+  flexDirection: "column",
+  paddingTop: tokens.spacing.md,
+  paddingLeft: tokens.spacing.md,
+  gap: tokens.spacing.md,
+  overflow: "hidden",
+  transition: "padding-top 200ms ease",
+  selectors: {
+    [`${wrapper}[data-state='closed'] &`]: {
+      paddingTop: 0,
     },
   },
 });
@@ -124,5 +137,6 @@ export const styles = {
   headerRight,
   overlayToggle,
   icon,
+  wrapper,
   subitems,
 };

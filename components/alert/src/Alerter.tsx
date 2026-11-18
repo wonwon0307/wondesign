@@ -2,7 +2,13 @@ import { useEffect, useMemo, useSyncExternalStore } from "react";
 
 import { Alert } from "./Alert";
 import { Confirm } from "./Confirm";
-import { dismissAll, getSnapshot, respond, subscribe } from "./store";
+import {
+  deleteAlert,
+  deleteAll,
+  getSnapshot,
+  respond,
+  subscribe,
+} from "./store";
 import type { AlerterProps } from "./types";
 
 export function Alerter({
@@ -30,7 +36,7 @@ export function Alerter({
 
   useEffect(() => {
     return () => {
-      dismissAll();
+      deleteAll();
     };
   }, []);
 
@@ -43,7 +49,8 @@ export function Alerter({
       <AlertComponent
         key={stableItem.id}
         alert={stableItem}
-        closeAlert={() => respond(stableItem.id, true)}
+        deleteAlert={() => deleteAlert(stableItem.id)}
+        dismissAlert={() => respond(stableItem.id, false)}
       />
     );
   }
@@ -52,7 +59,8 @@ export function Alerter({
     <ConfirmComponent
       key={stableItem.id}
       confirm={stableItem}
-      closeConfirm={(v) => respond(stableItem.id, v)}
+      deleteConfirm={() => deleteAlert(stableItem.id)}
+      dismissConfirm={(confirmed) => respond(stableItem.id, confirmed)}
     />
   );
 }

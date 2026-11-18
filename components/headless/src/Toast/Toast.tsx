@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
+import { usePresence } from "@wondesign/disclosure/presence";
 import { useEscapeKey } from "@wondesign/key-events/escape-key";
 
 import { AsChild } from "@/AsChild/AsChild";
@@ -40,6 +41,7 @@ export function Toast({
   onOpenChange,
   defaultOpen = false,
   asChild = false,
+  inert,
   ref,
   ...rest
 }: Readonly<ToastProps>) {
@@ -58,6 +60,7 @@ export function Toast({
   const isFocusedRef = useRef<boolean>(false);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [prevOpen, setPrevOpen] = useState<boolean>(isOpen);
+  const { isPresent, status } = usePresence(contentRef, isOpen);
   const mergedRef = useMemo(() => mergeRef(ref, contentRef), [ref, contentRef]);
 
   // 열리거나 닫힐 때, 이전의 일시정지 상태를 초기화한다.
@@ -142,7 +145,7 @@ export function Toast({
   );
 
   if (!isReady) return null;
-  if (!isOpen) return null;
+  if (!isPresent) return null;
 
   const handleMouseEnter = () => {
     isHoveredRef.current = true;
@@ -169,11 +172,13 @@ export function Toast({
       <Component
         {...rest}
         ref={mergedRef}
+        inert={status === "closing" || inert}
         aria-atomic="true"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        data-state={isOpen ? "open" : "closed"}
         data-paused={isPaused || undefined}
       >
         {children}

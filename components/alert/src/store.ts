@@ -23,6 +23,20 @@ export function respond(id: number, value: boolean): void {
   resolve(value);
 
   resolvers.delete(id);
+  queue = queue.map((alert) =>
+    alert.id === id ? { ...alert, isOpen: false } : alert,
+  );
+  notify();
+}
+
+export function deleteAlert(id: number): void {
+  const resolve = resolvers.get(id);
+
+  if (resolve) {
+    resolve(false);
+    resolvers.delete(id);
+  }
+
   queue = queue.filter((alert) => alert.id !== id);
   notify();
 }
@@ -47,7 +61,7 @@ export function enqueue(
   notify();
 }
 
-export function dismissAll(): void {
+export function deleteAll(): void {
   resolvers.forEach((resolve) => resolve(false));
   resolvers.clear();
   queue = [];

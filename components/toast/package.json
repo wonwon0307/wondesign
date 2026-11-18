@@ -35,6 +35,7 @@
   "dependencies": {
     "@vanilla-extract/recipes": "catalog:",
     "@wondesign/buttons": "workspace:*",
+    "@wondesign/disclosure": "workspace:*",
     "@wondesign/headless": "workspace:*",
     "@wondesign/icons": "workspace:*",
     "@wondesign/texts": "workspace:*"

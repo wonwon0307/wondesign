@@ -14,6 +14,11 @@ const overlayLink = style({
   borderRadius: "inherit",
   inset: 0,
   zIndex: 0,
+  selectors: {
+    "&:focus-visible": {
+      outlineOffset: "-2px",
+    },
+  },
 });
 
 const link = style({

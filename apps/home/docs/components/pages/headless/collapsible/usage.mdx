@@ -119,6 +119,23 @@ For everything the hook returns, refer to the
 
 ---
 
+## Animating the Content
+
+Animate the content with CSS, using its `data-state`. When it closes, it
+waits for your exit animation to finish before it leaves the page:
+
+```css
+.content[data-state="open"] {
+  animation: fade-in 200ms;
+}
+
+.content[data-state="closed"] {
+  animation: fade-out 200ms;
+}
+```
+
+---
+
 ## Styling with Data Attributes
 
 The toggle and content expose their state as

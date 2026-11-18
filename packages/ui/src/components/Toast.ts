@@ -1,4 +1,4 @@
-export { Toaster, toast, dismissToasts } from "@wondesign/toast";
+export { Toaster, toast, deleteToasts } from "@wondesign/toast";
 
 export type {
   ToastType,
@@ -11,7 +11,7 @@ export type {
 } from "@wondesign/toast";
 
 // re-export the base module as well
-// dismissToasts are the same thing between the two modules
+// deleteToasts are the same thing between the two modules
 export { showToast, useToasts } from "@wondesign/toast/base";
 
 export type { UseToastsResult } from "@wondesign/toast/base";

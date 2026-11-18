@@ -30,6 +30,7 @@ managing each one's open state yourself.
 - ✅ **Closes on Its Own**: Closes after a set time, or stays until it's closed
 - ✅ **Waits for the User**: Pauses while hovered or focused
 - ✅ **Many Toasts, One Area**: Show several toasts together in a single area
+- ✅ **Exit Animations**: A closed toast stays until its exit animation finishes
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
 - ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
 
@@ -85,6 +86,13 @@ Key](/foundations/key-events/escape-key).
 
 The timer pauses while the pointer is over the toast or focus is inside it.
 Once both have left, the timer resumes, rather than starting over.
+
+### Exit Animations
+
+When a toast closes, its `data-state` changes to `"closed"` right away, but it
+**stays on the page until its animations and transitions finish**, including
+those inside it. Then it's removed. While it's leaving, it can't be clicked or
+focused. **Infinite animations aren't waited for.**
 
 ### Screen Readers
 

@@ -96,7 +96,8 @@ interface AlertTriggerProps {
 
 `Alert.Backdrop` or `AlertBackdrop`. Renders an empty `<div>` behind the
 alert, in its own [Portal](/components/headless/portal) unless `disablePortal`
-is `true`. It **doesn't close the alert when clicked**. Use it outside
+is `true`. When the alert closes, it stays on the page until its exit
+animation finishes. It **doesn't close the alert when clicked**. Use it outside
 `Alert.Content`. Inside it, **it only logs a warning** in development.
 
 **Props**
@@ -114,7 +115,8 @@ manages.
 
 `Alert.Content` or `AlertContent`. Renders a `<div>` with the `alertdialog`
 role, in its own [Portal](/components/headless/portal) unless `disablePortal`
-is `true`.
+is `true`. When the alert closes, it stays on the page until its exit
+animation finishes.
 
 **Props**
 

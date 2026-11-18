@@ -222,6 +222,23 @@ For everything the hook returns, refer to the
 
 ---
 
+## Animating the Toast
+
+Animate each toast with CSS, using its `data-state`. When it closes, it waits
+for your exit animation to finish before it leaves the page:
+
+```css
+.toast[data-state="open"] {
+  animation: slide-in 200ms;
+}
+
+.toast[data-state="closed"] {
+  animation: slide-out 200ms;
+}
+```
+
+---
+
 ## Styling with Data Attributes
 
 The parts expose their state as
@@ -245,6 +262,10 @@ the timer is paused:
   animation-play-state: paused;
 }
 
+.toast[data-state="closed"] .progress {
+  animation: none;
+}
+
 @keyframes shrink {
   from {
     width: 100%;
@@ -254,3 +275,8 @@ the timer is paused:
   }
 }
 ```
+
+The `data-state="closed"` rule stops the bar when the toast closes. A toast
+waits for every animation inside it before it leaves, so without that rule, a
+toast closed early **stays until the bar runs out**, and one closed while
+paused **never leaves**.

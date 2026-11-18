@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react";
 import { Button } from "@wondesign/buttons/Button";
+import { usePresence } from "@wondesign/disclosure/presence";
 import { Alert as HeadlessAlert } from "@wondesign/headless/Alert";
 import { Description } from "@wondesign/texts/Description";
 import { Heading } from "@wondesign/texts/Heading";
@@ -6,17 +8,30 @@ import { Heading } from "@wondesign/texts/Heading";
 import { styles } from "./styles.css";
 import type { AlertComponentProps } from "./types";
 
-export function Alert({ alert, closeAlert }: Readonly<AlertComponentProps>) {
+export function Alert({
+  alert,
+  deleteAlert,
+  dismissAlert,
+}: Readonly<AlertComponentProps>) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { status } = usePresence(ref, alert.isOpen);
+
   const onOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
-      closeAlert();
+      dismissAlert();
     }
   };
 
+  useEffect(() => {
+    if (status === "closed") {
+      deleteAlert();
+    }
+  }, [status, deleteAlert]);
+
   return (
-    <HeadlessAlert isOpen onOpenChange={onOpenChange}>
+    <HeadlessAlert isOpen={alert.isOpen} onOpenChange={onOpenChange}>
       <HeadlessAlert.Backdrop className={styles.backdrop} />
-      <HeadlessAlert.Content className={styles.alert}>
+      <HeadlessAlert.Content ref={ref} className={styles.alert}>
         <HeadlessAlert.Title asChild>
           <Heading level={2}>{alert.title}</Heading>
         </HeadlessAlert.Title>

@@ -6,6 +6,7 @@ export interface AlertOptions {
 export type AlertItem = {
   type: "alert";
   id: number;
+  isOpen: boolean;
   title: string;
   message: string;
   closeText: string;
@@ -14,7 +15,8 @@ export type AlertItem = {
 
 export interface AlertComponentProps {
   alert: AlertItem;
-  closeAlert: () => void;
+  dismissAlert: () => void;
+  deleteAlert: () => void;
 }
 
 export interface ConfirmOptions {
@@ -28,6 +30,7 @@ export interface ConfirmOptions {
 export type ConfirmItem = {
   type: "confirm";
   id: number;
+  isOpen: boolean;
   title: string;
   message: string;
   confirmText: string;
@@ -39,7 +42,8 @@ export type ConfirmItem = {
 
 export type ConfirmComponentProps = {
   confirm: ConfirmItem;
-  closeConfirm: (confirmed: boolean) => void;
+  dismissConfirm: (confirmed: boolean) => void;
+  deleteConfirm: () => void;
 };
 
 export type AlerterProps = {

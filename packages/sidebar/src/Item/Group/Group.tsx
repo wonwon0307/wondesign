@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   CollapsibleProvider,
   CollapsibleContent,
@@ -27,13 +28,14 @@ export function SidebarGroup({
   className,
   ...rest
 }: Readonly<SidebarGroupProps>) {
+  const [userOpen, setUserOpen] = useState<boolean>(defaultOpen);
   const { state } = useSidebarInternal();
   const isHeaderHidden = state !== "expanded";
-  const isSubitemsHidden = collapsedBehavior === "hide" && state !== "expanded";
-  const forceVisible = collapsedBehavior === "flatten" && state !== "expanded";
+  const isOpen =
+    state === "expanded" ? userOpen : collapsedBehavior === "flatten";
 
   return (
-    <CollapsibleProvider defaultOpen={defaultOpen} keepMounted>
+    <CollapsibleProvider isOpen={isOpen} onOpenChange={setUserOpen} keepMounted>
       <SidebarItemWrapper {...rest} className={clsx(styles.group, className)}>
         <div
           className={styles.header({ hide: isHeaderHidden })}
@@ -49,15 +51,8 @@ export function SidebarGroup({
             className={styles.overlayToggle}
           />
         </div>
-        <CollapsibleContent asChild>
-          <ul
-            className={styles.subitems({ hide: isSubitemsHidden })}
-            hidden={isSubitemsHidden}
-            aria-hidden={isSubitemsHidden}
-            data-force-visible={forceVisible || undefined}
-          >
-            {children}
-          </ul>
+        <CollapsibleContent className={styles.wrapper}>
+          <ul className={styles.subitems}>{children}</ul>
         </CollapsibleContent>
       </SidebarItemWrapper>
     </CollapsibleProvider>

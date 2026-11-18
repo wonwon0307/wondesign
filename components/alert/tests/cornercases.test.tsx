@@ -2,7 +2,7 @@ import { act, fireEvent, render, waitFor } from "@testing-library/react";
 
 import { Alerter } from "@/Alerter";
 import { showAlert } from "@/api";
-import { dismissAll, respond } from "@/store";
+import { deleteAll, respond } from "@/store";
 
 vi.mock("@wondesign/headless/Alert", async (original) => {
   const { Alert } =
@@ -18,7 +18,7 @@ vi.mock("@wondesign/headless/Alert", async (original) => {
 
 describe("Alerter - corner cases", () => {
   // COVERAGE PURPOSE
-  it("removes the alert when dismissAll has been called", async () => {
+  it("removes the alert when deleteAll has been called", async () => {
     const { getByText, queryByText } = render(
       <div>
         <Alerter />
@@ -32,7 +32,7 @@ describe("Alerter - corner cases", () => {
     expect(getByText("Test Alert")).toBeTruthy();
 
     act(() => {
-      dismissAll();
+      deleteAll();
     });
 
     await waitFor(() => {

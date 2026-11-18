@@ -1,4 +1,5 @@
 import { useId, useLayoutEffect, useMemo } from "react";
+import { usePresence } from "@wondesign/disclosure/presence";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
@@ -24,6 +25,7 @@ export function AlertContent({
   children,
   asChild = false,
   "aria-label": ariaLabel = "Alert",
+  inert,
   ref,
   ...rest
 }: Readonly<AlertContentProps>) {
@@ -38,6 +40,7 @@ export function AlertContent({
     scopeKey,
   } = useAlertInternal();
   const contentId = useId();
+  const { isPresent, status } = usePresence(wrapperRef, isOpen);
   const mergedRef = useMemo(() => mergeRef(wrapperRef, ref), [wrapperRef, ref]);
 
   useLayoutEffect(() => {
@@ -46,7 +49,7 @@ export function AlertContent({
     return () => setContentId(undefined);
   }, [contentId, setContentId]);
 
-  if (!isOpen && !keepMounted) {
+  if (!isPresent && !keepMounted) {
     return null;
   }
 
@@ -61,7 +64,8 @@ export function AlertContent({
           id={contentId}
           role="alertdialog"
           tabIndex={-1}
-          hidden={!isOpen}
+          hidden={!isPresent}
+          inert={status === "closing" || inert}
           aria-modal="true"
           aria-label={titleId ? undefined : ariaLabel}
           aria-labelledby={titleId}

@@ -1,7 +1,7 @@
 # Usage
 
 This page covers `Toaster`: setting it up, building your own toast and
-styling it. For calling `toast` and `dismissToasts`, refer to the
+styling it. For calling `toast` and `deleteToasts`, refer to the
 [Examples tab](/components/toast/toaster/examples). For every function, prop
 and type, refer to the [API](/components/toast/toaster/overview#api).
 
@@ -51,17 +51,22 @@ readers stay handled.
 
 ### What Your Component Must Do
 
-- ✋ **Dismiss the toast from `onOpenChange`.** **Without it, the toast only
-  disappears from the screen**: it isn't removed from the store, so it keeps
-  its place, and toasts waiting behind it never appear.
-- ✋ **Keep the toast open.** Pass `isOpen` to `Toast`. `Toaster` removes
-  your component when the toast is done, so there's no closed state to
-  handle.
+- ✋ **Pass `toast.isOpen` to `Toast`, and dismiss the toast from
+  `onOpenChange`.** Dismissing closes the toast, so it can play its closing
+  animation.
+- ✋ **Delete each toast once it has closed.** Call `deleteToast` when its
+  closing animation ends, for example by watching it with
+  [`usePresence`](/foundations/disclosure/presence) as below. If you don't
+  need animations, call `deleteToast` directly from `onOpenChange`.
+  **Without it, a closed toast stays in the store**: it keeps its place, and
+  toasts waiting behind it never appear.
 - ✋ **Pass `duration` to `Toast`**, so the toast closes when it should.
 - ✋ **Style it by `type` yourself**, if your toasts should look different
   per type.
 
 ```tsx
+import { useEffect, useRef } from "react";
+import { usePresence } from "@wondesign/disclosure/presence";
 import { Toaster, type ToastItemProps } from "@wondesign/toast";
 import {
   Toast,
@@ -70,7 +75,15 @@ import {
   ToastMessage,
 } from "@wondesign/headless/Toast";
 
-function MyToast({ toast, dismissToast }: ToastItemProps) {
+function MyToast({ toast, dismissToast, deleteToast }: ToastItemProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { status } = usePresence(ref, toast.isOpen);
+
+  // deletes the toast once its closing animation ends
+  useEffect(() => {
+    if (status === "closed") deleteToast();
+  }, [status, deleteToast]);
+
   // called when the time is up, by `ToastClose` and Esc
   const onOpenChange = (newOpen: boolean) => {
     if (!newOpen) dismissToast();
@@ -78,7 +91,8 @@ function MyToast({ toast, dismissToast }: ToastItemProps) {
 
   return (
     <Toast
-      isOpen
+      ref={ref}
+      isOpen={toast.isOpen}
       duration={toast.duration}
       onOpenChange={onOpenChange}
       // style the toast by `toast.type`: "default", "info", "success", "warning" or "error"

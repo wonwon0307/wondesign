@@ -2,7 +2,7 @@ export {
   Alerter,
   showAlert,
   showConfirm,
-  dismissAlerts,
+  deleteAlerts,
 } from "@wondesign/alert";
 
 export type {

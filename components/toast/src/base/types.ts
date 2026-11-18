@@ -4,6 +4,7 @@ export interface BaseToastOptions {
 
 export interface BaseToastItem {
   id: number;
+  isOpen: boolean;
   message: string;
   duration: number;
 }

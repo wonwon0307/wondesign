@@ -64,8 +64,8 @@ warning** in development.
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`type`, `aria-describedby`, the mouse, focus and touch handlers (`onMouseEnter`,
-`onMouseLeave`, `onFocus`, `onBlur` and `onTouch*`), which the trigger manages.
+`type`, `aria-describedby`, and the mouse and focus handlers (`onMouseEnter`,
+`onMouseLeave`, `onFocus` and `onBlur`), which the trigger manages.
 Key props:
 
 ```ts
@@ -91,7 +91,8 @@ interface TooltipTriggerProps {
 ### Content
 
 `Tooltip.Content` or `TooltipContent`. Renders a `<div>` that holds the tooltip's
-content.
+content. When it hides, it stays on the page until its exit animation
+finishes.
 
 **Props**
 

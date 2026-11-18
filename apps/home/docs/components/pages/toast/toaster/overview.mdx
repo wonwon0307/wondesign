@@ -46,7 +46,7 @@ toast.success("Your changes are saved.");
 
 See [Usage](/components/toast/toaster/usage) for `Toaster`, and
 [Examples](/components/toast/toaster/examples) for calling `toast` and
-`dismissToasts`.
+`deleteToasts`.
 
 ---
 
@@ -95,7 +95,7 @@ Import the functions, the component and their types from `@wondesign/toast`:
 import {
   // functions
   toast,
-  dismissToasts,
+  deleteToasts,
   // component
   Toaster,
   // types
@@ -152,12 +152,13 @@ type ToastAction = {
 };
 ```
 
-### dismissToasts
+### deleteToasts
 
-Closes every toast, including the ones waiting, like when the user logs out.
+Removes every toast right away, including the ones waiting, like when the
+user logs out. **Toasts on screen skip their closing animations.**
 
 ```ts
-function dismissToasts(): void;
+function deleteToasts(): void;
 ```
 
 ### Props
@@ -186,13 +187,19 @@ type ToastItemProps = {
   // the toast to show.
   toast: ToastItem;
 
-  // removes the toast.
+  // closes the toast, so it can play its closing animation.
   dismissToast: () => void;
+
+  // removes the toast. call it once the toast has closed.
+  deleteToast: () => void;
 };
 
 type ToastItem = {
   // unique to this toast.
   id: number;
+
+  // `true` until the toast is dismissed.
+  isOpen: boolean;
 
   // `"default"`, or the type from `toast.info`, `toast.success`,
   // `toast.warning` or `toast.error`.

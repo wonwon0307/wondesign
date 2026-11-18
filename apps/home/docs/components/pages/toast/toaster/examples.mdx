@@ -1,8 +1,8 @@
-import { DismissToastsDemo, Preview, ToastDemo } from "@/widgets/preview";
+import { DeleteToastsDemo, Preview, ToastDemo } from "@/widgets/preview";
 
 # Examples
 
-This page covers calling `toast` and `dismissToasts`: first showing a toast
+This page covers calling `toast` and `deleteToasts`: first showing a toast
 and its status, then every option a toast takes. For `Toaster`, refer to the
 [Usage tab](/components/toast/toaster/usage). Every example assumes `Toaster`
 is [set up](/components/toast/toaster/usage#setting-up-the-toaster), and uses
@@ -236,26 +236,27 @@ files.forEach((file) => {
 
 ---
 
-## Dismissing Toasts
+## Deleting Toasts
 
-Call `dismissToasts` to close every toast at once, including the waiting
-ones, like when the user logs out:
+Call `deleteToasts` to remove every toast at once, including the waiting
+ones, like when the user logs out. They disappear right away, without their
+closing animations:
 
 <Preview>
   <ToastDemo
     label="Show toasts"
-    message="Stays until dismissed"
+    message="Stays until deleted"
     duration={0}
     count={3}
   />
-  <DismissToastsDemo />
+  <DeleteToastsDemo />
 </Preview>
 
 ```tsx
-import { dismissToasts } from "@wondesign/toast";
+import { deleteToasts } from "@wondesign/toast";
 
 async function logOut() {
-  dismissToasts();
+  deleteToasts();
   await signOut();
 }
 ```
