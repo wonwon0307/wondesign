@@ -16,7 +16,7 @@ const toggle = style({
   borderRadius: tokens.radius.sm,
   transition: "background-color 0.15s ease",
   selectors: {
-    [`&:hover,  &:focus-visible`]: {
+    [`&:hover, &:focus-visible`]: {
       backgroundColor: tokens.colors.backgroundHighlight,
     },
   },
