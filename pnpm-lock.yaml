@@ -297,6 +297,9 @@ importers:
       '@wondesign/buttons':
         specifier: workspace:*
         version: link:../buttons
+      '@wondesign/disclosure':
+        specifier: workspace:*
+        version: link:../../foundations/disclosure
       '@wondesign/headless':
         specifier: workspace:*
         version: link:../headless
