@@ -61,7 +61,7 @@ interface TabsProps {
 **Props**
 
 Accepts all `<div>` props, except `role` and `aria-orientation`, which the list
-manages. It sets its own `ref`, so it doesn't take one.
+manages. You can also pass a `ref`.
 
 It also adds two props of its own. `vertical` marks the list as vertical, so <Keyboard>↑</Keyboard> and <Keyboard>↓</Keyboard>
 move between tabs instead of <Keyboard>←</Keyboard> and <Keyboard>→</Keyboard>. It **doesn't change the
@@ -88,14 +88,15 @@ interface TabsListProps {
 
 ### Tab
 
-`Tabs.Tab` or `Tab`. Renders a `<button>` that selects its panel. Must be used
-inside `Tabs.List`.
+`Tabs.Tab` or `Tab`. Renders a `<button>` that runs its `onClick`, then
+selects its panel, unless `onClick` calls `event.preventDefault()`. Must be
+used inside `Tabs.List`.
 
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`id`, `role`, `tabIndex`, `onClick`, `onFocus`, `aria-selected`,
-`aria-controls` and `isLoading`, which the tab manages. You can also pass a `ref`; the tab sets
+`id`, `role`, `tabIndex`, `onFocus`, `aria-selected`, `aria-controls` and
+`isLoading`, which the tab manages. You can also pass a `ref`; the tab sets
 none of its own.
 
 It also adds a prop of its own. `tabName` is required, and names the tab: it
@@ -106,6 +107,7 @@ from `onTabChange`, `useTabs` and `data-value`. Key props:
 interface TabProps {
   children: React.ReactNode;
   tabName: string; // matches its panel's `tabName`
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the tab is selected. call `event.preventDefault()` to keep the current tab. doesn't run on focus with `switchOnFocus`
   asChild?: boolean;
   isDisabled?: boolean; // defaults to `false`
   // ...

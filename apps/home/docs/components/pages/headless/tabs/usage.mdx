@@ -51,6 +51,31 @@ If no enabled tab matches, **the first enabled tab is selected**, and
 
 ---
 
+## Checking Before Switching
+
+`Tabs.Tab` runs its `onClick`, then selects its panel. To keep the current
+tab, call `event.preventDefault()`:
+
+```tsx
+<Tabs.Tab
+  tabName="billing"
+  onClick={(event) => {
+    if (hasUnsavedChanges) {
+      event.preventDefault(); // keeps the current tab
+      showToast("Save your changes first");
+    }
+  }}
+>
+  Billing
+</Tabs.Tab>
+```
+
+With [`switchOnFocus`](#selecting-on-focus), a tab is selected as soon as it's
+focused, before any click. **`onClick` can't keep the current tab then**, and
+moving with the arrow keys doesn't run it at all.
+
+---
+
 ## Selecting on Focus
 
 By default, the arrow keys only move focus, and <Keyboard>Enter</Keyboard> or <Keyboard>Space</Keyboard>
