@@ -68,8 +68,7 @@ logs a warning** in development.
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`type` and `aria-haspopup`, which the trigger manages. You can also pass a
-`ref`. Key props:
+`type` and `aria-haspopup`, which the trigger manages. Key props:
 
 ```ts
 interface ModalTriggerProps {
@@ -104,7 +103,7 @@ development.
 **Props**
 
 Accepts all `<div>` props, except `children` and `hidden`, which the backdrop
-manages. You can also pass a `ref`; the backdrop sets none of its own.
+manages.
 
 **Data Attributes**
 
@@ -121,8 +120,7 @@ dialog, in its own [Portal](/components/headless/portal) unless
 **Props**
 
 Accepts all standard HTML attributes, except `role`, `hidden`, `tabIndex`,
-`aria-modal` and `aria-labelledby`, which the content manages. You can also
-pass a `ref`.
+`aria-modal` and `aria-labelledby`, which the content manages.
 
 It **doesn't accept `<dialog>`-only props**, like `open`, `onClose` or
 `onCancel`. The modal isn't opened through the browser's dialog methods, so
@@ -151,8 +149,7 @@ used inside `Modal.Content`.
 
 **Props**
 
-Accepts all `<h2>` props, except `id`, which the title manages. You can also
-pass a `ref`; the title sets none of its own. Key props:
+Accepts all `<h2>` props, except `id`, which the title manages. Key props:
 
 ```ts
 interface ModalTitleProps {

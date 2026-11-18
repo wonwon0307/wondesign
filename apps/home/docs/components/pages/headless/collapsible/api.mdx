@@ -58,7 +58,7 @@ its `onClick`, then opens or closes the content, unless `onClick` calls
 
 Accepts all props of [Headless Button](/components/headless/button), except
 `id`, `type`, `aria-expanded` and `aria-controls`, which the toggle manages.
-You can also pass a `ref`; the toggle sets none of its own. Key props:
+Key props:
 
 ```ts
 interface CollapsibleToggleProps {
@@ -89,7 +89,7 @@ and hidden.
 **Props**
 
 Accepts all `<div>` props, except `id`, `hidden`, `aria-hidden` and
-`aria-labelledby`, which the content manages. You can also pass a `ref`.
+`aria-labelledby`, which the content manages.
 
 It also narrows `role` to `"group"` or `"region"`. It's a `group` by default;
 pass `"region"` when the content is a major section of the page, and it's

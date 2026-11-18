@@ -68,8 +68,8 @@ logs a warning** in development.
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`type`, `aria-haspopup` and `aria-controls`, which the trigger manages. You
-can also pass a `ref`. Key props:
+`type`, `aria-haspopup` and `aria-controls`, which the trigger manages. Key
+props:
 
 ```ts
 interface AlertTriggerProps {
@@ -102,7 +102,7 @@ is `true`. It **doesn't close the alert when clicked**. Use it outside
 **Props**
 
 Accepts all `<div>` props, except `children` and `hidden`, which the backdrop
-manages. You can also pass a `ref`.
+manages.
 
 **Data Attributes**
 
@@ -120,7 +120,7 @@ is `true`.
 
 Accepts all `<div>` props, except `id`, `role`, `tabIndex`, `hidden`,
 `aria-modal`, `aria-labelledby` and `aria-describedby`, which the content
-manages. You can also pass a `ref`. Key props:
+manages. Key props:
 
 ```ts
 interface AlertContentProps {
@@ -144,8 +144,7 @@ used inside `Alert.Content`.
 
 **Props**
 
-Accepts all `<h2>` props, except `id`, which the title manages. You can also
-pass a `ref`; the title sets none of its own. Key props:
+Accepts all `<h2>` props, except `id`, which the title manages. Key props:
 
 ```ts
 interface AlertTitleProps {
@@ -162,8 +161,7 @@ Must be used inside `Alert.Content`.
 
 **Props**
 
-Accepts all `<p>` props, except `id`, which the message manages. You can also
-pass a `ref`. Key props:
+Accepts all `<p>` props, except `id`, which the message manages. Key props:
 
 ```ts
 interface AlertMessageProps {
@@ -182,7 +180,7 @@ doesn't wait for a returned promise.** Must be used inside `Alert.Content`.
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`type`, which the close button manages. You can also pass a `ref`. Key props:
+`type`, which the close button manages. Key props:
 
 ```ts
 interface AlertCloseProps {

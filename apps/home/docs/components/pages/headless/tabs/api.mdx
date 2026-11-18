@@ -61,7 +61,7 @@ interface TabsProps {
 **Props**
 
 Accepts all `<div>` props, except `role` and `aria-orientation`, which the list
-manages. You can also pass a `ref`.
+manages.
 
 It also adds two props of its own. `vertical` marks the list as vertical, so <Keyboard>↑</Keyboard> and <Keyboard>↓</Keyboard>
 move between tabs instead of <Keyboard>←</Keyboard> and <Keyboard>→</Keyboard>. It **doesn't change the
@@ -96,8 +96,7 @@ used inside `Tabs.List`.
 
 Accepts all props of [Headless Button](/components/headless/button), except
 `id`, `role`, `tabIndex`, `onFocus`, `aria-selected`, `aria-controls` and
-`isLoading`, which the tab manages. You can also pass a `ref`; the tab sets
-none of its own.
+`isLoading`, which the tab manages.
 
 It also adds a prop of its own. `tabName` is required, and names the tab: it
 pairs the tab with the panel of the same `tabName`, and it's the value you get
@@ -133,8 +132,7 @@ interface TabProps {
 **Props**
 
 Accepts all `<div>` props, except `id`, `role`, `hidden`, `tabIndex` and
-`aria-labelledby`, which the panel manages. You can also pass a `ref`; the
-panel sets none of its own.
+`aria-labelledby`, which the panel manages.
 
 It also adds a prop of its own. `tabName` is required, and pairs the panel with
 the tab of the same `tabName`: the panel is shown while that tab is selected.

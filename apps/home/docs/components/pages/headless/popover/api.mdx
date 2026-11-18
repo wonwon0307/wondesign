@@ -73,7 +73,7 @@ only logs a warning** in development.
 
 Accepts all props of [Headless Button](/components/headless/button), except
 `type`, `aria-haspopup`, `aria-expanded` and `aria-controls`, which the
-trigger manages. You can also pass a `ref`. Key props:
+trigger manages. Key props:
 
 ```ts
 interface PopoverTriggerProps {
@@ -104,8 +104,7 @@ interface PopoverTriggerProps {
 **Props**
 
 Accepts all standard HTML attributes, except `id`, `role`, `hidden`,
-`tabIndex` and `aria-labelledby`, which the content manages. You can also pass
-a `ref`.
+`tabIndex` and `aria-labelledby`, which the content manages.
 
 It **doesn't accept `<dialog>`-only props**, like `open`, `onClose` or
 `onCancel`. The popover isn't opened through the browser's dialog methods, so
@@ -139,8 +138,7 @@ Must be used inside `Popover.Content`.
 
 **Props**
 
-Accepts all `<h2>` props, except `id`, which the title manages. You can also
-pass a `ref`; the title sets none of its own. Key props:
+Accepts all `<h2>` props, except `id`, which the title manages. Key props:
 
 ```ts
 interface PopoverTitleProps {
@@ -186,8 +184,8 @@ the trigger. Must be used inside `Popover.Content`.
 
 **Props**
 
-Accepts all `<div>` props, except `aria-hidden`, which the arrow manages. You
-can also pass a `ref`. Key props:
+Accepts all `<div>` props, except `aria-hidden`, which the arrow manages. Key
+props:
 
 ```ts
 interface PopoverArrowProps {
