@@ -1,13 +1,13 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 
 import { Button, type ButtonProps } from "@/Button/Button";
+import { mergeRef } from "@/utils";
 import { ContentContext, useTooltipInternal } from "./contexts";
 
 export interface TooltipTriggerProps extends Omit<
   ButtonProps,
   | "children"
   | "type"
-  | "ref"
   | "aria-describedby"
   | "onMouseEnter"
   | "onMouseLeave"
@@ -24,11 +24,9 @@ export interface TooltipTriggerProps extends Omit<
 export function TooltipTrigger({
   children,
   asChild = false,
+  ref,
   ...rest
 }: Readonly<TooltipTriggerProps>) {
-  const context = useTooltipInternal();
-  const isInsideContent = useContext(ContentContext);
-
   const {
     isOpen,
     keepMounted,
@@ -38,7 +36,10 @@ export function TooltipTrigger({
     hideImmediate,
     tooltipId,
     triggerRef,
-  } = context;
+    scopeKey,
+  } = useTooltipInternal();
+  const isInsideContent = useContext(ContentContext) === scopeKey;
+  const mergedRef = useMemo(() => mergeRef(triggerRef, ref), [triggerRef, ref]);
 
   useEffect(() => {
     if (isInsideContent && process.env.NODE_ENV !== "production") {
@@ -54,7 +55,7 @@ export function TooltipTrigger({
     <Button
       {...rest}
       type="button"
-      ref={triggerRef}
+      ref={mergedRef}
       asChild={asChild}
       aria-describedby={ariaDescribedBy}
       onMouseEnter={showWithDelay}
