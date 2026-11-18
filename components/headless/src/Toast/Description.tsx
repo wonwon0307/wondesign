@@ -1,10 +1,10 @@
 import { AsChild } from "@/AsChild/AsChild";
 import { useToastInternal } from "./contexts";
 
-export interface ToastDescriptionProps
-  extends
-    Omit<React.HTMLAttributes<HTMLParagraphElement>, "children">,
-    React.RefAttributes<HTMLParagraphElement> {
+export interface ToastDescriptionProps extends Omit<
+  React.ComponentProps<"p">,
+  "children"
+> {
   children: React.ReactNode;
   asChild?: boolean;
 }

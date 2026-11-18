@@ -4,13 +4,10 @@ import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
 import { AreaContext } from "./contexts";
 
-export interface ToastAreaProps
-  extends
-    Omit<
-      React.HTMLAttributes<HTMLDivElement>,
-      "children" | "role" | "aria-live" | "aria-atomic"
-    >,
-    React.RefAttributes<HTMLDivElement> {
+export interface ToastAreaProps extends Omit<
+  React.ComponentProps<"div">,
+  "children" | "role" | "aria-live" | "aria-atomic"
+> {
   children: React.ReactNode;
   asChild?: boolean;
   disablePortal?: boolean;
