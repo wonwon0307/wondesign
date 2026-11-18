@@ -1,13 +1,10 @@
 import { AsChild } from "@/AsChild/AsChild";
 import { useTabsInternal } from "./contexts";
 
-export interface TabPanelProps
-  extends
-    Omit<
-      React.HTMLAttributes<HTMLDivElement>,
-      "role" | "id" | "hidden" | "aria-labelledby" | "tabIndex"
-    >,
-    React.RefAttributes<HTMLDivElement> {
+export interface TabPanelProps extends Omit<
+  React.ComponentProps<"div">,
+  "role" | "id" | "hidden" | "aria-labelledby" | "tabIndex"
+> {
   children: React.ReactNode;
   tabName: string;
   asChild?: boolean;
