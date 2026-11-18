@@ -1,4 +1,5 @@
 import { useId, useLayoutEffect, useMemo } from "react";
+import { usePresence } from "@wondesign/disclosure/presence";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
@@ -18,6 +19,7 @@ export function TooltipContent({
   children,
   asChild = false,
   disablePortal = false,
+  inert,
   ref,
   ...rest
 }: Readonly<TooltipContentProps>) {
@@ -32,6 +34,7 @@ export function TooltipContent({
     scopeKey,
   } = useTooltipInternal();
   const tooltipId = useId();
+  const { isPresent, status } = usePresence(floatingRef, isOpen);
   const mergedRef = useMemo(
     () => mergeRef(floatingRef, ref),
     [floatingRef, ref],
@@ -43,7 +46,7 @@ export function TooltipContent({
     return () => setTooltipId(undefined);
   }, [tooltipId, setTooltipId]);
 
-  if (!keepMounted && !isOpen) {
+  if (!keepMounted && !isPresent) {
     return null;
   }
 
@@ -56,7 +59,8 @@ export function TooltipContent({
           {...rest}
           id={tooltipId}
           role="tooltip"
-          hidden={!isOpen}
+          hidden={!isPresent}
+          inert={status === "closing" || inert}
           ref={mergedRef}
           onMouseEnter={clearTimer} // 마우스가 trigger를 떠나 content로 들어오면, 타이머를 초기화하여, 사라지지 않도록 해야한다.
           onMouseLeave={hideWithDelay}

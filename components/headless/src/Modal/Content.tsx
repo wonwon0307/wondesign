@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { usePresence } from "@wondesign/disclosure/presence";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
@@ -26,17 +27,19 @@ export function ModalContent({
   children,
   asChild = false,
   "aria-label": ariaLabel = "Modal",
+  inert,
   ref,
   ...rest
 }: Readonly<ModalContentProps>) {
   const { isOpen, keepMounted, disablePortal, titleId, floatingRef, scopeKey } =
     useModalInternal();
+  const { isPresent, status } = usePresence(floatingRef, isOpen);
   const mergedRef = useMemo(
     () => mergeRef(floatingRef, ref),
     [floatingRef, ref],
   );
 
-  if (!isOpen && !keepMounted) {
+  if (!isPresent && !keepMounted) {
     return null;
   }
 
@@ -49,8 +52,9 @@ export function ModalContent({
           {...rest}
           ref={mergedRef}
           role="dialog"
-          open={!asChild && isOpen}
-          hidden={!isOpen}
+          open={!asChild && isPresent}
+          hidden={!isPresent}
+          inert={status === "closing" || inert}
           tabIndex={-1}
           aria-modal="true"
           aria-label={titleId ? undefined : ariaLabel}

@@ -1,4 +1,5 @@
 import { useId, useLayoutEffect, useMemo } from "react";
+import { usePresence } from "@wondesign/disclosure/presence";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
@@ -28,6 +29,7 @@ export function PopoverContent({
   asChild = false,
   disablePortal = false,
   "aria-label": ariaLabel = "Popover Content",
+  inert,
   ref,
   ...rest
 }: Readonly<PopoverContentProps>) {
@@ -41,6 +43,7 @@ export function PopoverContent({
     scopeKey,
   } = usePopoverInternal();
   const contentId = useId();
+  const { isPresent, status } = usePresence(floatingRef, isOpen);
   const mergedRef = useMemo(
     () => mergeRef(floatingRef, ref),
     [floatingRef, ref],
@@ -51,7 +54,7 @@ export function PopoverContent({
     return () => setContentId(undefined);
   }, [contentId, setContentId]);
 
-  if (!keepMounted && !isOpen) return null;
+  if (!keepMounted && !isPresent) return null;
 
   const Component = asChild ? AsChild : "dialog";
 
@@ -63,8 +66,9 @@ export function PopoverContent({
           id={contentId}
           ref={mergedRef}
           role="dialog"
-          open={!asChild && isOpen}
-          hidden={!isOpen}
+          open={!asChild && isPresent}
+          hidden={!isPresent}
+          inert={status === "closing" || inert}
           tabIndex={-1}
           aria-label={titleId ? undefined : ariaLabel}
           aria-labelledby={titleId}
