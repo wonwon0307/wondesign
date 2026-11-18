@@ -37,7 +37,7 @@ const alert = style({
       animation: `${fadeIn} 0.3s ease`,
     },
     "&[data-state='closed']": {
-      animation: `${fadeOut} 0.3s ease`,
+      animation: `${fadeOut} 0.3s ease forwards`,
     },
   },
   "@media": {

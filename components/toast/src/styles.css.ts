@@ -125,7 +125,7 @@ const toast = recipe({
             animation: `${slideUpEnter} 0.3s ease`,
           },
           "&[data-state='closed']": {
-            animation: `${slideUpExit} 0.3s ease`,
+            animation: `${slideUpExit} 0.3s ease forwards`,
           },
         },
       },
@@ -135,7 +135,7 @@ const toast = recipe({
             animation: `${slideDownEnter} 0.3s ease`,
           },
           "&[data-state='closed']": {
-            animation: `${slideDownExit} 0.3s ease`,
+            animation: `${slideDownExit} 0.3s ease forwards`,
           },
         },
       },
