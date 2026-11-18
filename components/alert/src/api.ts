@@ -13,6 +13,7 @@ export function showAlert(
       {
         type: "alert",
         id: counter++,
+        isOpen: true,
         title,
         message,
         closeText,
@@ -39,6 +40,7 @@ export function showConfirm(
       {
         type: "confirm",
         id: counter++,
+        isOpen: true,
         title,
         message,
         confirmText,
