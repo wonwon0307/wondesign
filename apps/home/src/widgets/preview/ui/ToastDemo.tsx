@@ -2,7 +2,7 @@
 
 import { Button } from "@wondesign/ui/Buttons";
 import {
-  dismissToasts,
+  deleteToasts,
   toast,
   type ToastOptions,
   type ToastPosition,
@@ -33,10 +33,10 @@ function showToast(type: ToastType, message: string, options?: ToastOptions) {
   else toast[type](message, options);
 }
 
-export function DismissToastsDemo() {
+export function DeleteToastsDemo() {
   return (
-    <Button variant="secondary" size="small" onClick={() => dismissToasts()}>
-      Dismiss all
+    <Button variant="secondary" size="small" onClick={() => deleteToasts()}>
+      Delete all
     </Button>
   );
 }
