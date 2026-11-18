@@ -1,7 +1,7 @@
 import { fireEvent, render } from "@testing-library/react";
-import { dismissToasts, toast } from "@wondesign/ui/Toast";
+import { deleteToasts, toast } from "@wondesign/ui/Toast";
 
-import { DismissToastsDemo, ToastDemo } from "@/widgets/preview";
+import { DeleteToastsDemo, ToastDemo } from "@/widgets/preview";
 
 vi.mock("@wondesign/ui/Toast", () => ({
   toast: Object.assign(vi.fn(), {
@@ -10,7 +10,7 @@ vi.mock("@wondesign/ui/Toast", () => ({
     warning: vi.fn(),
     error: vi.fn(),
   }),
-  dismissToasts: vi.fn(),
+  deleteToasts: vi.fn(),
 }));
 
 function createClickEvent() {
@@ -158,10 +158,10 @@ describe("ToastDemo", () => {
     expect(toast).toHaveBeenCalledTimes(3);
   });
 
-  it("renders <DismissToastsDemo> and calls dismissAll correctly", () => {
-    const { getByText } = render(<DismissToastsDemo />);
+  it("renders <DeleteToastsDemo> and calls deleteToasts correctly", () => {
+    const { getByText } = render(<DeleteToastsDemo />);
 
-    fireEvent.click(getByText("Dismiss all"));
-    expect(dismissToasts).toHaveBeenCalled();
+    fireEvent.click(getByText("Delete all"));
+    expect(deleteToasts).toHaveBeenCalled();
   });
 });
