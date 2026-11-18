@@ -29,6 +29,33 @@ describe("Tabs - interactions", () => {
     expect(cb).toHaveBeenCalledWith("tab2");
   });
 
+  it("calls onClick when tab is clicked", () => {
+    const handleClick = vi.fn();
+    const { getByTestId } = render(
+      <TestComponent defaultTab="tab2" onTabClick={handleClick} />,
+    );
+
+    const tab1 = getByTestId("tab1");
+    expect(tab1.getAttribute("data-state")).toBe("inactive");
+    fireEvent.click(tab1);
+    expect(tab1.getAttribute("data-state")).toBe("active");
+    expect(handleClick).toHaveBeenCalled();
+  });
+
+  it("does not open tab when preventDefault is called", () => {
+    const handleClick = vi.fn((e: React.MouseEvent<HTMLButtonElement>) =>
+      e.preventDefault(),
+    );
+    const { getByTestId } = render(
+      <TestComponent defaultTab="tab2" onTabClick={handleClick} />,
+    );
+
+    const tab1 = getByTestId("tab1");
+    expect(tab1.getAttribute("data-state")).toBe("inactive");
+    fireEvent.click(tab1);
+    expect(tab1.getAttribute("data-state")).toBe("inactive");
+  });
+
   it("handles tab focus correctly", () => {
     const { getByTestId } = render(<TestComponent switchOnFocus />);
 
