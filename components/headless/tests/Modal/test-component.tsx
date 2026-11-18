@@ -7,20 +7,24 @@ import { ModalTrigger } from "@/Modal/Trigger";
 
 export function TestComponent({
   children,
-  onClick,
+  onClose,
+  onTrigger,
   ...rest
 }: Omit<ModalProps, "children"> & {
   children?: React.ReactNode;
-  onClick?: (e: React.MouseEvent) => void;
+  onClose?: (e: React.MouseEvent) => void;
+  onTrigger?: (e: React.MouseEvent) => void;
 }) {
   return (
     <ModalProvider {...rest}>
-      <ModalTrigger data-testid="modal-trigger">Open Modal</ModalTrigger>
+      <ModalTrigger onClick={onTrigger} data-testid="modal-trigger">
+        Open Modal
+      </ModalTrigger>
       <ModalBackdrop data-testid="modal-backdrop" />
       <ModalContent data-testid="modal-content">
         <ModalTitle data-testid="modal-title">Modal Title</ModalTitle>
         {children}
-        <ModalClose onClick={onClick} data-testid="modal-close">
+        <ModalClose onClick={onClose} data-testid="modal-close">
           Close
         </ModalClose>
       </ModalContent>
