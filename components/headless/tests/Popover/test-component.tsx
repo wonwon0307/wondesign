@@ -8,11 +8,19 @@ import { PopoverTrigger } from "@/Popover/Trigger";
 export function TestComponent({
   children,
   onClose,
+  onTrigger,
   ...rest
-}: Readonly<PopoverProps & { onClose?: (e: React.MouseEvent) => void }>) {
+}: Readonly<
+  PopoverProps & {
+    onClose?: (e: React.MouseEvent) => void;
+    onTrigger?: (e: React.MouseEvent) => void;
+  }
+>) {
   return (
     <PopoverProvider {...rest}>
-      <PopoverTrigger data-testid="popover-trigger">Trigger</PopoverTrigger>
+      <PopoverTrigger data-testid="popover-trigger" onClick={onTrigger}>
+        Trigger
+      </PopoverTrigger>
       <PopoverContent data-testid="popover-content">
         <PopoverTitle data-testid="popover-title">Popover Title</PopoverTitle>
         {children}

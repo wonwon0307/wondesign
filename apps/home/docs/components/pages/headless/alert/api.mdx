@@ -60,19 +60,21 @@ interface AlertProps {
 
 ### Trigger
 
-`Alert.Trigger` or `AlertTrigger`. Renders a `<button>` that opens the alert.
-Use it outside `Alert.Content`. Inside it, **it only logs a warning** in
-development.
+`Alert.Trigger` or `AlertTrigger`. Renders a `<button>` that runs its
+`onClick`, then opens the alert, unless `onClick` calls
+`event.preventDefault()`. Use it outside `Alert.Content`. Inside it, **it only
+logs a warning** in development.
 
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`type`, `onClick`, `aria-haspopup` and `aria-controls`, which the trigger
-manages. It sets its own `ref`, so it doesn't take one. Key props:
+`type`, `aria-haspopup` and `aria-controls`, which the trigger manages. Key
+props:
 
 ```ts
 interface AlertTriggerProps {
   children: React.ReactNode;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the alert opens. call `event.preventDefault()` to keep it closed
   asChild?: boolean;
   isDisabled?: boolean; // defaults to `false`
   // ...
@@ -118,7 +120,7 @@ is `true`.
 
 Accepts all `<div>` props, except `id`, `role`, `tabIndex`, `hidden`,
 `aria-modal`, `aria-labelledby` and `aria-describedby`, which the content
-manages. It sets its own `ref`, so it doesn't take one. Key props:
+manages. Key props:
 
 ```ts
 interface AlertContentProps {
@@ -142,8 +144,7 @@ used inside `Alert.Content`.
 
 **Props**
 
-Accepts all `<h2>` props, except `id`, which the title manages. You can also
-pass a `ref`; the title sets none of its own. Key props:
+Accepts all `<h2>` props, except `id`, which the title manages. Key props:
 
 ```ts
 interface AlertTitleProps {

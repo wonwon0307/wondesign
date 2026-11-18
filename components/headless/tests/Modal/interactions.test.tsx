@@ -40,10 +40,36 @@ describe("Modal - interactions", () => {
     expect(document.documentElement.style.overflowY).toBe("");
   });
 
+  it("should call onClick before opening the modal", () => {
+    const onClick = vi.fn();
+
+    const { getByText } = render(<TestComponent onTrigger={onClick} />);
+
+    const trigger = getByText("Open Modal");
+    expect(trigger.dataset.state).toBe("closed");
+
+    fireEvent.click(trigger);
+    expect(onClick).toHaveBeenCalled();
+    expect(trigger.dataset.state).toBe("open");
+  });
+
+  it("should not call onTrigger if defaultPrevented", () => {
+    const onClick = vi.fn((e) => e.preventDefault());
+
+    const { getByText } = render(<TestComponent onTrigger={onClick} />);
+
+    const trigger = getByText("Open Modal");
+    expect(trigger.dataset.state).toBe("closed");
+
+    fireEvent.click(trigger);
+    expect(onClick).toHaveBeenCalled();
+    expect(trigger.dataset.state).toBe("closed");
+  });
+
   it("should call onClick before closing the modal", () => {
     const onClick = vi.fn();
 
-    const { getByText } = render(<TestComponent onClick={onClick} />);
+    const { getByText } = render(<TestComponent onClose={onClick} />);
 
     const trigger = getByText("Open Modal");
     fireEvent.click(trigger);
@@ -57,7 +83,7 @@ describe("Modal - interactions", () => {
   it("should not close the modal on close button if defaultPrevented", () => {
     const onClick = vi.fn((e) => e.preventDefault());
 
-    const { getByText } = render(<TestComponent onClick={onClick} />);
+    const { getByText } = render(<TestComponent onClose={onClick} />);
 
     const trigger = getByText("Open Modal");
     fireEvent.click(trigger);

@@ -170,6 +170,26 @@ from submitting:
 
 ---
 
+## Checking Before Opening
+
+`Popover.Trigger` runs its `onClick`, then opens or closes the popover. To
+keep it as it is, call `event.preventDefault()`:
+
+```tsx
+<Popover.Trigger
+  onClick={(event) => {
+    if (!isSignedIn) {
+      event.preventDefault(); // keeps the popover closed
+      redirectToSignIn();
+    }
+  }}
+>
+  Share
+</Popover.Trigger>
+```
+
+---
+
 ## Outside Clicks
 
 A click outside the content closes the popover by default. Pass

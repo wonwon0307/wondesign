@@ -27,27 +27,26 @@ describe("Collapsible - aria attributes", () => {
     expect(queryByText("Content")).toBeNull();
   });
 
-  it("should have correct aria attributes when role is 'group'", () => {
-    const { getByText, queryByText } = render(
-      <TestCollapsible role="group">Group Content</TestCollapsible>,
+  it("should set aria-labelledby to the toggle button id when role is 'region'", () => {
+    const { getByText } = render(
+      <TestCollapsible isOpen role="region">
+        Region Content
+      </TestCollapsible>,
     );
 
-    const toggleButton = getByText("Toggle");
+    const content = getByText("Region Content");
+    const toggle = getByText("Toggle");
+    expect(content.getAttribute("aria-labelledby")).toBe(toggle.id);
+  });
 
-    // Initially closed
-    expect(toggleButton.getAttribute("aria-expanded")).toBe("false");
-    expect(queryByText("Group Content")).toBeNull();
+  it("should have set aria-labelledby to undefined when role is 'group'", () => {
+    const { getByText } = render(
+      <TestCollapsible isOpen role="group">
+        Group Content
+      </TestCollapsible>,
+    );
 
-    // Open the collapsible
-    fireEvent.click(toggleButton);
-
-    expect(toggleButton.getAttribute("aria-expanded")).toBe("true");
-    expect(getByText("Group Content")).toBeTruthy();
-
-    // Close the collapsible again
-    fireEvent.click(toggleButton);
-
-    expect(toggleButton.getAttribute("aria-expanded")).toBe("false");
-    expect(queryByText("Group Content")).toBeNull();
+    const content = getByText("Group Content");
+    expect(content.getAttribute("aria-labelledby")).toBeNull();
   });
 });

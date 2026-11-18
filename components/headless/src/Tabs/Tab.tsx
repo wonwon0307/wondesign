@@ -3,7 +3,6 @@ import { useTabsInternal, useTabsList } from "./contexts";
 
 export interface TabProps extends Omit<
   ButtonProps,
-  | "onClick"
   | "onFocus"
   | "role"
   | "aria-selected"
@@ -20,6 +19,7 @@ export function Tab({
   children,
   tabName,
   isDisabled: isButtonDisabled = false,
+  onClick,
   ...rest
 }: Readonly<TabProps>) {
   const {
@@ -35,7 +35,10 @@ export function Tab({
   const isActive = activeTab === tabName;
   const isTabDisabled = isButtonDisabled || isDisabled;
 
-  const handleClick = () => updateActiveTab(tabName);
+  const finalOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onClick?.(e);
+    if (!e.defaultPrevented) updateActiveTab(tabName);
+  };
   const handleFocus = () => {
     if (switchOnFocus && !isTabDisabled) {
       updateActiveTab(tabName);
@@ -48,7 +51,7 @@ export function Tab({
       id={tabId(tabName)}
       role="tab"
       isDisabled={isTabDisabled}
-      onClick={handleClick}
+      onClick={finalOnClick}
       onFocus={handleFocus}
       aria-selected={isActive ? "true" : "false"}
       aria-controls={panelId(tabName)}

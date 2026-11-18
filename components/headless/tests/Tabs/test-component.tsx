@@ -9,11 +9,13 @@ export function TestComponent({
   switchOnFocus = false,
   loop = false,
   defaultTab = "tab1",
+  onTabClick,
   ...rest
 }: Omit<TabsProps, "children"> & {
   vertical?: boolean;
   switchOnFocus?: boolean;
   loop?: boolean;
+  onTabClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
   return (
     <TabsProvider
@@ -29,7 +31,7 @@ export function TestComponent({
           aria-label="Tabs List"
           data-testid="list"
         >
-          <Tab tabName="tab1" data-testid="tab1">
+          <Tab tabName="tab1" onClick={onTabClick} data-testid="tab1">
             Tab 1
           </Tab>
           <Tab tabName="tab2" data-testid="tab2">

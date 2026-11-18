@@ -1,12 +1,22 @@
-import { useId, useLayoutEffect } from "react";
+import { useId, useLayoutEffect, useMemo } from "react";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
+import { mergeRef } from "@/utils";
 import { ContentContext, usePopoverInternal } from "./contexts";
 
 export interface PopoverContentProps extends Omit<
-  React.HTMLAttributes<HTMLDialogElement>,
-  "children" | "id" | "role" | "open" | "tabIndex" | "aria-labelledby"
+  React.ComponentProps<"dialog">,
+  | "children"
+  | "id"
+  | "role"
+  | "hidden"
+  | "tabIndex"
+  | "aria-labelledby"
+  | "open"
+  | "closedby"
+  | "onClose"
+  | "onCancel"
 > {
   children: React.ReactNode;
   asChild?: boolean;
@@ -18,11 +28,23 @@ export function PopoverContent({
   asChild = false,
   disablePortal = false,
   "aria-label": ariaLabel = "Popover Content",
+  ref,
   ...rest
 }: Readonly<PopoverContentProps>) {
-  const { isOpen, keepMounted, placement, titleId, setContentId, floatingRef } =
-    usePopoverInternal();
+  const {
+    isOpen,
+    keepMounted,
+    placement,
+    titleId,
+    setContentId,
+    floatingRef,
+    scopeKey,
+  } = usePopoverInternal();
   const contentId = useId();
+  const mergedRef = useMemo(
+    () => mergeRef(floatingRef, ref),
+    [floatingRef, ref],
+  );
 
   useLayoutEffect(() => {
     setContentId(contentId);
@@ -34,12 +56,12 @@ export function PopoverContent({
   const Component = asChild ? AsChild : "dialog";
 
   return (
-    <ContentContext.Provider value={true}>
+    <ContentContext.Provider value={scopeKey}>
       <Portal disable={disablePortal}>
         <Component
           {...rest}
           id={contentId}
-          ref={floatingRef}
+          ref={mergedRef}
           role="dialog"
           open={!asChild && isOpen}
           hidden={!isOpen}

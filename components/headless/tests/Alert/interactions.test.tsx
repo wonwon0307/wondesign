@@ -39,6 +39,36 @@ describe("Alert - interactions", () => {
     expect(document.documentElement.style.overflowY).toBe("auto");
   });
 
+  it("should call onClick before opening the alert", () => {
+    const onClick = vi.fn();
+
+    const { getByTestId } = render(
+      <TestComponent onTrigger={onClick}>Content</TestComponent>,
+    );
+
+    const trigger = getByTestId("alert-trigger");
+    expect(trigger.dataset.state).toBe("closed");
+
+    fireEvent.click(trigger);
+    expect(onClick).toHaveBeenCalled();
+    expect(trigger.dataset.state).toBe("open");
+  });
+
+  it("should not open the alert if defaultPrevented", () => {
+    const onClick = vi.fn((e) => e.preventDefault());
+
+    const { getByTestId } = render(
+      <TestComponent onTrigger={onClick}>Content</TestComponent>,
+    );
+
+    const trigger = getByTestId("alert-trigger");
+    expect(trigger.dataset.state).toBe("closed");
+
+    fireEvent.click(trigger);
+    expect(onClick).toHaveBeenCalled();
+    expect(trigger.dataset.state).toBe("closed");
+  });
+
   it("should close on escape key press", () => {
     const { getByTestId } = render(<TestComponent>Test</TestComponent>);
 

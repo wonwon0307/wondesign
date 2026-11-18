@@ -64,19 +64,21 @@ interface PopoverProps {
 
 ### Trigger
 
-`Popover.Trigger` or `PopoverTrigger`. Renders a `<button>` that opens and
-closes the popover. Use it outside `Popover.Content`. Inside it, **it only logs
-a warning** in development.
+`Popover.Trigger` or `PopoverTrigger`. Renders a `<button>` that runs its
+`onClick`, then opens or closes the popover, unless `onClick` calls
+`event.preventDefault()`. Use it outside `Popover.Content`. Inside it, **it
+only logs a warning** in development.
 
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`type`, `onClick`, `aria-haspopup`, `aria-expanded` and `aria-controls`, which
-the trigger manages. It sets its own `ref`, so it doesn't take one. Key props:
+`type`, `aria-haspopup`, `aria-expanded` and `aria-controls`, which the
+trigger manages. Key props:
 
 ```ts
 interface PopoverTriggerProps {
   children: React.ReactNode;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the popover opens or closes. call `event.preventDefault()` to keep it as it is
   asChild?: boolean;
   isDisabled?: boolean; // defaults to `false`
   // ...
@@ -101,9 +103,12 @@ interface PopoverTriggerProps {
 
 **Props**
 
-Accepts all `<dialog>` props, except `id`, `role`, `open`, `tabIndex` and
-`aria-labelledby`, which the content manages. It sets its own `ref`, so it
-doesn't take one.
+Accepts all standard HTML attributes, except `id`, `role`, `hidden`,
+`tabIndex` and `aria-labelledby`, which the content manages.
+
+It **doesn't accept `<dialog>`-only props**, like `open`, `onClose` or
+`onCancel`. The popover isn't opened through the browser's dialog methods, so
+those would never run. Use `isOpen` and `onOpenChange` on `Popover` instead.
 
 It also adds a prop of its own. `disablePortal` renders the content where it
 is, instead of in a [Portal](/components/headless/portal) at the end of
@@ -133,8 +138,7 @@ Must be used inside `Popover.Content`.
 
 **Props**
 
-Accepts all `<h2>` props, except `id`, which the title manages. You can also
-pass a `ref`; the title sets none of its own. Key props:
+Accepts all `<h2>` props, except `id`, which the title manages. Key props:
 
 ```ts
 interface PopoverTitleProps {
@@ -180,8 +184,8 @@ the trigger. Must be used inside `Popover.Content`.
 
 **Props**
 
-Accepts all `<div>` props, except `aria-hidden`, which the arrow manages. It
-sets its own `ref`, so it doesn't take one. Key props:
+Accepts all `<div>` props, except `aria-hidden`, which the arrow manages. Key
+props:
 
 ```ts
 interface PopoverArrowProps {

@@ -3,10 +3,10 @@ import { useContext, useId, useLayoutEffect } from "react";
 import { AsChild } from "@/AsChild/AsChild";
 import { ContentContext, usePopoverInternal } from "./contexts";
 
-export interface PopoverTitleProps
-  extends
-    Omit<React.HTMLAttributes<HTMLHeadingElement>, "children" | "id">,
-    React.RefAttributes<HTMLHeadingElement> {
+export interface PopoverTitleProps extends Omit<
+  React.ComponentProps<"h2">,
+  "children" | "id"
+> {
   children: React.ReactNode;
   asChild?: boolean;
 }
@@ -16,9 +16,9 @@ export function PopoverTitle({
   asChild = false,
   ...rest
 }: Readonly<PopoverTitleProps>) {
-  const { setTitleId } = usePopoverInternal();
+  const { setTitleId, scopeKey } = usePopoverInternal();
+  const isInsideContent = useContext(ContentContext) === scopeKey;
   const titleId = useId();
-  const isInsideContent = useContext(ContentContext);
 
   useLayoutEffect(() => {
     setTitleId(titleId);

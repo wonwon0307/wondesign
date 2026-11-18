@@ -24,9 +24,11 @@ type TooltipContextValue = {
   updatePosition: () => void;
   content: Position;
   arrow: Position;
+  scopeKey: string;
 };
 
 export const TooltipContext = createContext<TooltipContextValue | null>(null);
+export const ContentContext = createContext<string | null>(null);
 
 export function useTooltipInternal() {
   const context = useContext(TooltipContext);
@@ -69,5 +71,3 @@ export function useTooltip() {
     arrow,
   };
 }
-
-export const ContentContext = createContext(false);

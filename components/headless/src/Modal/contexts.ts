@@ -10,10 +10,11 @@ type ModalContextValue = {
   setTitleId: (id: string | undefined) => void;
   triggerRef: React.RefObject<HTMLButtonElement | null>;
   floatingRef: React.RefObject<HTMLDialogElement | null>;
+  scopeKey: string;
 };
 
 export const ModalContext = createContext<ModalContextValue | null>(null);
-export const ContentContext = createContext<boolean>(false);
+export const ContentContext = createContext<string | null>(null);
 
 export function useModalInternal() {
   const context = useContext(ModalContext);

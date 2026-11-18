@@ -28,6 +28,34 @@ describe("Popover - interactions", () => {
     expect(trigger.dataset.state).toBe("closed");
   });
 
+  it("should call onClick when trigger is clicked", () => {
+    const onClick = vi.fn();
+    const { getByTestId } = render(
+      <TestComponent onTrigger={onClick}>Test Content</TestComponent>,
+    );
+
+    const trigger = getByTestId("popover-trigger");
+    expect(trigger.dataset.state).toBe("closed");
+
+    fireEvent.click(trigger);
+    expect(onClick).toHaveBeenCalled();
+    expect(trigger.dataset.state).toBe("open");
+  });
+
+  it("should not call onClick when preventDefault is called", () => {
+    const onClick = vi.fn((e: React.MouseEvent) => e.preventDefault());
+    const { getByTestId } = render(
+      <TestComponent onTrigger={onClick}>Test Content</TestComponent>,
+    );
+
+    const trigger = getByTestId("popover-trigger");
+    expect(trigger.dataset.state).toBe("closed");
+
+    fireEvent.click(trigger);
+    expect(onClick).toHaveBeenCalled();
+    expect(trigger.dataset.state).toBe("closed");
+  });
+
   it("should close popover on close button click", () => {
     const onClose = vi.fn();
     // should only close

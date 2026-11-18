@@ -7,11 +7,13 @@ type CollapsibleContextValue = {
   toggleId: string;
   contentId: string | undefined;
   setContentId: (contentId: string | undefined) => void;
+  scopeKey: string;
 };
 
 export const CollapsibleContext = createContext<CollapsibleContextValue | null>(
   null,
 );
+export const ContentContext = createContext<string | null>(null);
 
 export function useCollapsibleInternal() {
   const context = useContext(CollapsibleContext);

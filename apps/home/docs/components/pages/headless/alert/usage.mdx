@@ -68,6 +68,26 @@ const handleDelete = async (event: React.MouseEvent) => {
 
 ---
 
+## Checking Before Opening
+
+`Alert.Trigger` runs its `onClick`, then opens the alert. To keep it closed,
+call `event.preventDefault()`:
+
+```tsx
+<Alert.Trigger
+  onClick={(event) => {
+    if (selectedFiles.length === 0) {
+      event.preventDefault(); // keeps the alert closed
+      showToast("Select a file first");
+    }
+  }}
+>
+  Delete
+</Alert.Trigger>
+```
+
+---
+
 ## Escape Key
 
 <Keyboard>Esc</Keyboard> closes the alert by default. Pass `disableEscapeKey` to

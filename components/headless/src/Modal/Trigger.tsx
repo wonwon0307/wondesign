@@ -1,21 +1,25 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 
 import { Button, type ButtonProps } from "@/Button/Button";
+import { mergeRef } from "@/utils";
 import { ContentContext, useModalInternal } from "./contexts";
 
 export interface ModalTriggerProps extends Omit<
   ButtonProps,
-  "children" | "onClick" | "type" | "ref" | "aria-haspopup"
+  "children" | "type" | "aria-haspopup"
 > {
   children: React.ReactNode;
 }
 
 export function ModalTrigger({
   children,
+  onClick,
+  ref,
   ...rest
 }: Readonly<ModalTriggerProps>) {
-  const { isOpen, openModal, triggerRef } = useModalInternal();
-  const isInsideContent = useContext(ContentContext);
+  const { isOpen, openModal, triggerRef, scopeKey } = useModalInternal();
+  const isInsideContent = useContext(ContentContext) === scopeKey;
+  const mergedRef = useMemo(() => mergeRef(triggerRef, ref), [triggerRef, ref]);
 
   useEffect(() => {
     if (isInsideContent && process.env.NODE_ENV !== "production") {
@@ -25,12 +29,17 @@ export function ModalTrigger({
     }
   }, [isInsideContent]);
 
+  const finalOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onClick?.(e);
+    if (!e.defaultPrevented) openModal();
+  };
+
   return (
     <Button
       {...rest}
-      ref={triggerRef}
+      ref={mergedRef}
       type="button"
-      onClick={openModal}
+      onClick={finalOnClick}
       aria-haspopup="dialog"
       data-state={isOpen ? "open" : "closed"}
     >

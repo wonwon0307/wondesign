@@ -1,9 +1,10 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 
+import { mergeRef } from "@/utils";
 import { ContentContext, useTooltipInternal } from "./contexts";
 
 export interface TooltipArrowProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
+  React.ComponentProps<"div">,
   "children" | "aria-hidden"
 > {
   children?: React.ReactNode;
@@ -11,11 +12,12 @@ export interface TooltipArrowProps extends Omit<
 
 export function TooltipArrow({
   children,
-  className,
+  ref,
   ...rest
 }: Readonly<TooltipArrowProps>) {
-  const { placement, arrowRef } = useTooltipInternal();
-  const isInsideContent = useContext(ContentContext);
+  const { placement, arrowRef, scopeKey } = useTooltipInternal();
+  const isInsideContent = useContext(ContentContext) === scopeKey;
+  const mergedRef = useMemo(() => mergeRef(arrowRef, ref), [arrowRef, ref]);
 
   if (!isInsideContent) {
     throw new Error(
@@ -25,9 +27,8 @@ export function TooltipArrow({
 
   return (
     <div
-      ref={arrowRef}
-      className={className}
       {...rest}
+      ref={mergedRef}
       aria-hidden="true"
       data-placement={placement}
     >

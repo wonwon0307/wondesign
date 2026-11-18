@@ -2,12 +2,13 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useArrowNavigation } from "@wondesign/focus/arrow-navigation";
 
 import { AsChild } from "@/AsChild/AsChild";
+import { mergeRef } from "@/utils";
 import { TabsListContext, useTabsInternal } from "./contexts";
 
 const TAB_ITEM_SELECTOR = '[role="tab"]:not([aria-disabled="true"])';
 
 export interface TabsListProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
+  React.ComponentProps<"div">,
   "role" | "aria-orientation"
 > {
   children: React.ReactNode;
@@ -23,15 +24,17 @@ export function TabsList({
   "aria-labelledby": ariaLabelledBy,
   vertical = false,
   loop = false,
+  ref,
   ...rest
 }: Readonly<TabsListProps>) {
   const { isDisabled, activeTab, updateActiveTab } = useTabsInternal();
-  const ref = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const orientation: "vertical" | "horizontal" = vertical
     ? "vertical"
     : "horizontal";
+  const mergedRef = useMemo(() => mergeRef(listRef, ref), [ref]);
 
-  useArrowNavigation(ref, {
+  useArrowNavigation(listRef, {
     itemSelector: TAB_ITEM_SELECTOR,
     orientation,
     loop,
@@ -39,7 +42,7 @@ export function TabsList({
   });
 
   useLayoutEffect(() => {
-    const container = ref.current;
+    const container = listRef.current;
     if (!container) return;
 
     const enabledTabs =
@@ -91,7 +94,7 @@ export function TabsList({
     <TabsListContext.Provider value={contextValue}>
       <Component
         {...rest}
-        ref={ref}
+        ref={mergedRef}
         role="tablist"
         aria-orientation={orientation}
         aria-label={ariaLabelledBy ? undefined : ariaLabel}
