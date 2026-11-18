@@ -13,10 +13,6 @@ export interface TooltipTriggerProps extends Omit<
   | "onMouseLeave"
   | "onFocus"
   | "onBlur"
-  | "onTouchStart"
-  | "onTouchEnd"
-  | "onTouchMove"
-  | "onTouchCancel"
 > {
   children: React.ReactNode;
 }
