@@ -28,6 +28,28 @@ const [open, setOpen] = useState(false);
 
 ---
 
+## Running an Action
+
+`Collapsible.Toggle` runs its `onClick`, then opens or closes the content.
+Run the action in `onClick`; you don't need to toggle the content yourself. To
+keep it as it is, call `event.preventDefault()`:
+
+```tsx
+<Collapsible.Toggle
+  onClick={(event) => {
+    if (hasUnsavedChanges) {
+      event.preventDefault(); // keeps the content open
+      return;
+    }
+    trackToggle();
+  }}
+>
+  Edit details
+</Collapsible.Toggle>
+```
+
+---
+
 ## Disabling the Toggle
 
 Pass `isDisabled` to the toggle, and it can't open or close the content. It

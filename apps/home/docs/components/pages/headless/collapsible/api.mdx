@@ -49,18 +49,20 @@ interface CollapsibleProps {
 
 ### Toggle
 
-`Collapsible.Toggle` or `CollapsibleToggle`. Renders a `<button>` that opens
-and closes the content.
+`Collapsible.Toggle` or `CollapsibleToggle`. Renders a `<button>` that runs
+its `onClick`, then opens or closes the content, unless `onClick` calls
+`event.preventDefault()`. Use it outside `Collapsible.Content`. Inside it,
+**it only logs a warning** in development.
 
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`id`, `type`, `onClick`, `aria-expanded` and `aria-controls`, which the toggle
-manages.
+`id`, `type`, `aria-expanded` and `aria-controls`, which the toggle manages.
 You can also pass a `ref`; the toggle sets none of its own. Key props:
 
 ```ts
 interface CollapsibleToggleProps {
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the content opens or closes. call `event.preventDefault()` to keep it as it is
   asChild?: boolean;
   isDisabled?: boolean; // defaults to `false`
   isLoading?: boolean; // defaults to `false`
@@ -87,8 +89,7 @@ and hidden.
 **Props**
 
 Accepts all `<div>` props, except `id`, `hidden`, `aria-hidden` and
-`aria-labelledby`, which the content manages. You can also pass a `ref`; the
-content sets none of its own.
+`aria-labelledby`, which the content manages. You can also pass a `ref`.
 
 It also narrows `role` to `"group"` or `"region"`. It's a `group` by default;
 pass `"region"` when the content is a major section of the page, and it's
