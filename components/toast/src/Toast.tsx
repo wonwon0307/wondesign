@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react";
 import { Button } from "@wondesign/buttons/Button";
+import { usePresence } from "@wondesign/disclosure/presence";
 import {
   Toast,
   ToastClose,
@@ -14,14 +16,26 @@ import type { ToastItemProps, ToastType } from "./types";
 
 export function DefaultToast({
   toast,
+  deleteToast,
   dismissToast,
 }: Readonly<ToastItemProps>) {
+  const ref = useRef<HTMLDivElement>(null);
+  const slideDirection = toast.position?.includes("bottom") ? "up" : "down";
+  const { status } = usePresence(ref, toast.isOpen);
+
+  useEffect(() => {
+    if (status === "closed") {
+      deleteToast();
+    }
+  }, [status, deleteToast]);
+
   return (
     <Toast
       duration={toast.duration}
-      isOpen
+      isOpen={toast.isOpen}
       onOpenChange={dismissToast}
-      className={styles.toast({ type: toast.type })}
+      ref={ref}
+      className={styles.toast({ type: toast.type, slideDirection })}
     >
       <div className={styles.textArea}>
         <div className={styles.messageArea}>

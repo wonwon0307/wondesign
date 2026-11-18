@@ -29,4 +29,5 @@ export interface ToastItem extends BaseToastItem {
 export interface ToastItemProps {
   toast: ToastItem;
   dismissToast: () => void;
+  deleteToast: () => void;
 }
