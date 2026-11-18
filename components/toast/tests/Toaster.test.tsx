@@ -70,6 +70,7 @@ describe("Toast - Toaster", () => {
             toast("Test Message", {
               duration: 1000,
               description: "Test Description",
+              position: "bottom",
             })
           }
         >
