@@ -1,9 +1,22 @@
 import { fireEvent, render } from "@testing-library/react";
+import { Alert as HeadlessAlert } from "@wondesign/headless/Alert";
 
 import { Alerter } from "@/Alerter";
 import { showAlert, showConfirm } from "@/api";
+import type { AlertComponentProps } from "@/types";
 
-describe("Alerter - Button Text tests", () => {
+function TestAlert({ alert, deleteAlert }: AlertComponentProps) {
+  return (
+    <HeadlessAlert isOpen={alert.isOpen} onOpenChange={deleteAlert}>
+      <HeadlessAlert.Content>
+        <HeadlessAlert.Title>{alert.title}</HeadlessAlert.Title>
+        <HeadlessAlert.Close>{alert.closeText}</HeadlessAlert.Close>
+      </HeadlessAlert.Content>
+    </HeadlessAlert>
+  );
+}
+
+describe("Alerter", () => {
   it("renders with default texts correctly", () => {
     const { getByText, queryByText } = render(
       <div>
@@ -71,6 +84,31 @@ describe("Alerter - Button Text tests", () => {
     expect(queryByText("Test Confirm")).toBeNull();
   });
 
+  it("shows the next alert in queue when the current alert is deleted", () => {
+    const callTwo = () => {
+      showAlert("Test Alert 1", "This is the first test alert");
+      showAlert("Test Alert 2", "This is the second test alert");
+    };
+    const { getByText, queryByText } = render(
+      <div>
+        <Alerter />
+        <button onClick={callTwo}>Show Alert</button>
+      </div>,
+    );
+
+    fireEvent.click(getByText("Show Alert"));
+    expect(getByText("Test Alert 1")).toBeTruthy();
+
+    fireEvent.click(getByText("Close"));
+    expect(queryByText("Test Alert 1")).toBeNull();
+    expect(getByText("Test Alert 2")).toBeTruthy();
+
+    // The next alert in the queue should be shown
+    expect(getByText("Close")).toBeTruthy();
+    fireEvent.click(getByText("Close"));
+    expect(queryByText("Test Alert 2")).toBeNull();
+  });
+
   it("respects per-alert override texts", () => {
     const { getByText, queryByText } = render(
       <div>
@@ -111,5 +149,22 @@ describe("Alerter - Button Text tests", () => {
     expect(getByText("Delete")).toBeTruthy();
     fireEvent.click(getByText("Back"));
     expect(queryByText("Test Confirm")).toBeNull();
+  });
+
+  it("deletes the alert right away when deleteAlert is called", () => {
+    const { getByText, queryByText } = render(
+      <div>
+        <Alerter AlertComponent={TestAlert} />
+        <button onClick={() => showAlert("Test Alert", "This is a test alert")}>
+          Show Alert
+        </button>
+      </div>,
+    );
+
+    fireEvent.click(getByText("Show Alert"));
+    expect(getByText("Test Alert")).toBeTruthy();
+    expect(getByText("Close")).toBeTruthy();
+    fireEvent.click(getByText("Close"));
+    expect(queryByText("Test Alert")).toBeNull();
   });
 });

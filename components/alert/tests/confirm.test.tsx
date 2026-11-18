@@ -7,16 +7,17 @@ import * as store from "@/store";
 describe("Alerter - onConfirm tests", () => {
   it("handles synchronous onConfirm correctly", async () => {
     const onConfirm = vi.fn();
+    let result: Promise<boolean> | undefined;
 
     const { getByText } = render(
       <div>
         <Alerter />
         <button
-          onClick={() =>
-            showConfirm("Test Confirm", "This is a test confirm", {
+          onClick={() => {
+            result = showConfirm("Test Confirm", "This is a test confirm", {
               onConfirm,
-            })
-          }
+            });
+          }}
         >
           Show Confirm
         </button>
@@ -31,6 +32,7 @@ describe("Alerter - onConfirm tests", () => {
     await waitFor(() => {
       expect(onConfirm).toHaveBeenCalled();
     });
+    await expect(result).resolves.toBe(true);
   });
 
   it("handles successful async onConfirm correctly", async () => {
@@ -88,17 +90,18 @@ describe("Alerter - onConfirm tests", () => {
   it("handles failed async onConfirm correctly", async () => {
     const onConfirm = vi.fn(() => Promise.reject());
     const onConfirmError = vi.fn();
+    let result: Promise<boolean> | undefined;
 
     const { getByText } = render(
       <div>
         <Alerter />
         <button
-          onClick={() =>
-            showConfirm("Test Confirm", "This is a test confirm", {
+          onClick={() => {
+            result = showConfirm("Test Confirm", "This is a test confirm", {
               onConfirm,
               onConfirmError,
-            })
-          }
+            });
+          }}
         >
           Show Confirm
         </button>
@@ -116,5 +119,9 @@ describe("Alerter - onConfirm tests", () => {
 
     expect(onConfirm).toHaveBeenCalled();
     expect(getByText("Test Confirm")).toBeTruthy(); // should still be open
+
+    // cancelling after the failure resolves false
+    fireEvent.click(getByText("Cancel"));
+    await expect(result).resolves.toBe(false);
   });
 });
