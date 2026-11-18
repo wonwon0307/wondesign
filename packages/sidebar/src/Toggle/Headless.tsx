@@ -1,7 +1,7 @@
 import { Button, type ButtonProps } from "@wondesign/headless/Button";
+import { useShortkeyDisplay } from "@wondesign/key-events/shortkey";
 
 import { useSidebarInternal } from "@/contexts/sidebar";
-import { useShortkeyDisplay } from "@wondesign/key-events/shortkey";
 
 export type HeadlessToggleProps = ButtonProps;
 
