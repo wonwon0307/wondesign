@@ -3,7 +3,7 @@ import { Keyboard } from "@wondesign/ui/Code";
 # Usage
 
 This page covers `Alerter`: setting it up, building your own items and
-styling them. For calling `showAlert`, `showConfirm` and `dismissAlerts`, refer
+styling them. For calling `showAlert`, `showConfirm` and `deleteAlerts`, refer
 to the [Examples tab](/components/alert/examples). For
 every function, prop and type, refer to the
 [API](/components/alert/overview#api).
@@ -60,8 +60,13 @@ screen readers stay handled.
   `onClick` on `Alert.Close` isn't enough, since <Keyboard>Esc</Keyboard>
   doesn't run it.
 - ✋ **Pass `onClick` to the confirm button yourself.**
-- ✋ **Keep the item open.** Pass `isOpen` to `Alert`. `Alerter` removes your
-  component when the item is done, so there's no closed state to handle.
+- ✋ **Pass the item's `isOpen` to `Alert`**, so it closes once it's
+  dismissed.
+- ✋ **Delete each item once it has closed.** Call `deleteAlert` or
+  `deleteConfirm` when its closing animation ends, for example by watching it
+  with [`usePresence`](/foundations/disclosure/presence) as below. If you
+  don't need animations, call it right after dismissing. **Without it, a
+  closed item stays in the queue**, and items called after it never appear.
 - ✋ **Style and position it yourself**, including the backdrop. See
   [Adding a Backdrop](/components/headless/alert/usage#adding-a-backdrop) in
   Headless Alert.
@@ -74,19 +79,29 @@ Below are examples of an `AlertComponent` and a `ConfirmComponent`.
 
 ```tsx
 // AlertComponent example
+import { useEffect, useRef } from "react";
+import { usePresence } from "@wondesign/disclosure/presence";
 import { Alerter, type AlertComponentProps } from "@wondesign/alert";
 import { Alert } from "@wondesign/headless/Alert";
 
-function MyAlert({ alert, closeAlert }: AlertComponentProps) {
+function MyAlert({ alert, dismissAlert, deleteAlert }: AlertComponentProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { status } = usePresence(ref, alert.isOpen);
+
+  // deletes the alert once its closing animation ends
+  useEffect(() => {
+    if (status === "closed") deleteAlert();
+  }, [status, deleteAlert]);
+
   // called by `Alert.Close` and Esc
   const onOpenChange = (newOpen: boolean) => {
-    if (!newOpen) closeAlert();
+    if (!newOpen) dismissAlert();
   };
 
   return (
-    <Alert isOpen onOpenChange={onOpenChange}>
+    <Alert isOpen={alert.isOpen} onOpenChange={onOpenChange}>
       <Alert.Backdrop className="backdrop" />
-      <Alert.Content className="content">
+      <Alert.Content ref={ref} className="content">
         <Alert.Title>{alert.title}</Alert.Title>
         <Alert.Message>{alert.message}</Alert.Message>
         {/* style the button by `alert.tone`: "primary", "secondary" or "destructive" */}
@@ -101,12 +116,23 @@ function MyAlert({ alert, closeAlert }: AlertComponentProps) {
 
 A `ConfirmComponent` works the same way, with a `confirm` prop in place of
 `alert`. On the confirm button, call `event.preventDefault()` to keep
-the confirm open, await `confirm.onConfirm`, then call `closeConfirm(true)`:
+the confirm open, await `confirm.onConfirm`, then call `dismissConfirm(true)`:
 
 ```tsx
 // ConfirmComponent example
-function MyConfirm({ confirm, closeConfirm }: ConfirmComponentProps) {
+function MyConfirm({
+  confirm,
+  dismissConfirm,
+  deleteConfirm,
+}: ConfirmComponentProps) {
   const [isPending, setIsPending] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const { status } = usePresence(ref, confirm.isOpen);
+
+  // deletes the confirm once its closing animation ends
+  useEffect(() => {
+    if (status === "closed") deleteConfirm();
+  }, [status, deleteConfirm]);
 
   const onConfirm = async (event: React.MouseEvent) => {
     event.preventDefault(); // keeps the confirm open
@@ -114,7 +140,7 @@ function MyConfirm({ confirm, closeConfirm }: ConfirmComponentProps) {
 
     try {
       await confirm.onConfirm?.();
-      closeConfirm(true);
+      dismissConfirm(true);
     } catch (error) {
       confirm.onConfirmError?.(error);
     } finally {
@@ -124,17 +150,19 @@ function MyConfirm({ confirm, closeConfirm }: ConfirmComponentProps) {
 
   // called by "Cancel" and Esc, ignored while `onConfirm` runs
   const onOpenChange = (newOpen: boolean) => {
-    if (!newOpen && !isPending) closeConfirm(false);
+    if (!newOpen && !isPending) dismissConfirm(false);
   };
 
   return (
-    <Alert isOpen onOpenChange={onOpenChange}>
-      …
-      {/* pass `isPending` to `isDisabled`, so "Cancel" can't be pressed while `onConfirm` runs */}
-      <Alert.Close isDisabled={isPending}>{confirm.cancelText}</Alert.Close>
-      <Alert.Close isLoading={isPending} onClick={onConfirm}>
-        {confirm.confirmText}
-      </Alert.Close>
+    <Alert isOpen={confirm.isOpen} onOpenChange={onOpenChange}>
+      <Alert.Content ref={ref} className="content">
+        {"…"}
+        {/* pass `isPending` to `isDisabled`, so "Cancel" can't be pressed while `onConfirm` runs */}
+        <Alert.Close isDisabled={isPending}>{confirm.cancelText}</Alert.Close>
+        <Alert.Close isLoading={isPending} onClick={onConfirm}>
+          {confirm.confirmText}
+        </Alert.Close>
+      </Alert.Content>
     </Alert>
   );
 }

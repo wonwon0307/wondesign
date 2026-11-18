@@ -81,7 +81,7 @@ if (confirmed) submit();
 
 See [Usage](/components/alert/usage) for `Alerter`, and
 [Examples](/components/alert/examples) for calling `showAlert`, `showConfirm`
-and `dismissAlerts`.
+and `deleteAlerts`.
 
 ---
 
@@ -132,7 +132,7 @@ import {
   // functions
   showAlert,
   showConfirm,
-  dismissAlerts,
+  deleteAlerts,
   // component
   Alerter,
   // types
@@ -196,15 +196,15 @@ type ConfirmOptions = {
 };
 ```
 
-### dismissAlerts
+### deleteAlerts
 
-Closes the open item and every waiting one, like when the user logs out.
-`showConfirm` resolves to `false`, and `showAlert` resolves. **This includes a
-confirm whose `onConfirm` is still running**: it resolves to `false`, even if
-the action then succeeds.
+Removes the open item and every waiting one right away, without the closing
+animation, like when the user logs out. `showConfirm` resolves to `false`,
+and `showAlert` resolves. **This includes a confirm whose `onConfirm` is
+still running**: it resolves to `false`, even if the action then succeeds.
 
 ```ts
-function dismissAlerts(): void;
+function deleteAlerts(): void;
 ```
 
 ### Props
@@ -239,7 +239,10 @@ type AlertComponentProps = {
   alert: AlertItem;
 
   // closes the alert, and resolves `showAlert`.
-  closeAlert: () => void;
+  dismissAlert: () => void;
+
+  // removes the alert, so the next item can show. call it once the alert has closed.
+  deleteAlert: () => void;
 };
 
 type AlertItem = {
@@ -247,6 +250,9 @@ type AlertItem = {
 
   // unique to this alert.
   id: number;
+
+  // `true` until the alert is dismissed.
+  isOpen: boolean;
 
   // the title and the message passed to `showAlert`.
   title: string;
@@ -264,7 +270,10 @@ type ConfirmComponentProps = {
   confirm: ConfirmItem;
 
   // closes the confirm, and resolves `showConfirm` with `confirmed`.
-  closeConfirm: (confirmed: boolean) => void;
+  dismissConfirm: (confirmed: boolean) => void;
+
+  // removes the confirm, so the next item can show. call it once the confirm has closed.
+  deleteConfirm: () => void;
 };
 
 type ConfirmItem = {
@@ -272,6 +281,9 @@ type ConfirmItem = {
 
   // unique to this confirm.
   id: number;
+
+  // `true` until the confirm is dismissed.
+  isOpen: boolean;
 
   // the title and the message passed to `showConfirm`.
   title: string;

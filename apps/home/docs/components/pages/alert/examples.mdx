@@ -3,7 +3,7 @@ import { AlertDemo, Preview } from "@/widgets/preview";
 
 # Examples
 
-This page covers calling `showAlert`, `showConfirm` and `dismissAlerts`, from
+This page covers calling `showAlert`, `showConfirm` and `deleteAlerts`, from
 a simple alert to items that follow one another. For `Alerter`, refer to the
 [Usage tab](/components/alert/usage). Every example assumes `Alerter` is
 [set up](/components/alert/usage#setting-up-the-alerter), and uses the
@@ -259,20 +259,21 @@ turn, in the order they were called.
 
 ---
 
-## Dismissing Items
+## Deleting Items
 
-Call `dismissAlerts` to close the open item and every waiting one at once,
-like when the user logs out:
+Call `deleteAlerts` to remove the open item and every waiting one at once,
+like when the user logs out. The open item disappears right away, without its
+closing animation:
 
 ```tsx
-import { dismissAlerts } from "@wondesign/alert";
+import { deleteAlerts } from "@wondesign/alert";
 
 async function logOut() {
-  dismissAlerts();
+  deleteAlerts();
   await signOut();
 }
 ```
 
-Every dismissed confirm resolves `showConfirm` to `false`, and every dismissed
+Every deleted confirm resolves `showConfirm` to `false`, and every deleted
 alert resolves `showAlert`. **This includes a confirm whose `onConfirm` is
 still running**: it resolves to `false`, even if the action then succeeds.
