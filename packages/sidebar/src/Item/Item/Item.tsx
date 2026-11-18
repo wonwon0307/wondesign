@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   CollapsibleProvider,
   CollapsibleContent,
@@ -22,28 +23,24 @@ export function SidebarItem({
   collapsedBehavior = "self-only",
   ...linkProps
 }: Readonly<SidebarItemProps>) {
+  const [userOpen, setUserOpen] = useState<boolean>(defaultOpen);
   const { state } = useSidebarInternal();
   const hasChildren = Boolean(children);
 
   if (hasChildren) {
-    const hideChildren =
-      collapsedBehavior === "self-only" && state === "collapsed";
-    const forceVisible =
-      collapsedBehavior === "flatten" && state === "collapsed";
+    const isOpen =
+      state === "collapsed" ? collapsedBehavior === "flatten" : userOpen;
 
     return (
-      <CollapsibleProvider defaultOpen={defaultOpen} keepMounted>
+      <CollapsibleProvider
+        isOpen={isOpen}
+        onOpenChange={setUserOpen}
+        keepMounted
+      >
         <SidebarItemWrapper className={styles.wrapper}>
           <Header {...linkProps} />
-          <CollapsibleContent asChild>
-            <ul
-              className={styles.subitems({ hide: hideChildren })}
-              hidden={hideChildren}
-              aria-hidden={hideChildren}
-              data-force-visible={forceVisible || undefined}
-            >
-              {children}
-            </ul>
+          <CollapsibleContent className={styles.subitemsWrapper}>
+            <ul className={styles.subitems}>{children}</ul>
           </CollapsibleContent>
         </SidebarItemWrapper>
       </CollapsibleProvider>
