@@ -12,7 +12,7 @@ Use it to build your own Toaster, when [Toaster](/components/toast/toaster)
 doesn't fit, even with your own toast component: like your own layout, or
 your own options.
 
-It shares the store with `@wondesign/toast`, so `dismissToasts` from either
+It shares the store with `@wondesign/toast`, so `deleteToasts` from either
 entry point clears the same toasts.
 
 It is strongly recommended to render the toasts with
@@ -59,44 +59,77 @@ What your Toaster must do:
 
 - ✋ **Render every toast inside one `ToastArea`**, and keep it in the page,
   so each toast is announced as it appears.
-- ✋ **Pass `isOpen` to each `Toast`, and dismiss it from `onOpenChange`.**
-  **Without both, the toast is never removed** from the store: it hides once
-  its time is up, but isn't dismissed correctly from the app.
-- ✋ **Dismiss every toast when your Toaster unmounts**, like `Toaster` does.
+- ✋ **Pass each toast's `isOpen` to its `Toast`, and dismiss it from
+  `onOpenChange`.** **Without both, the toast doesn't close correctly**: it
+  hides once its time is up, but stays open in the store.
+- ✋ **Delete each toast once it has closed.** Call `deleteToast` when its
+  closing animation ends, for example by watching it with
+  [`usePresence`](/foundations/disclosure/presence) as below. If you don't
+  need animations, call `deleteToast` directly from `onOpenChange`.
+  **Without it, a closed toast stays in the store**, and keeps counting
+  towards your limit.
+- ✋ **Delete every toast when your Toaster unmounts**, like `Toaster` does.
   Otherwise **old toasts show up again** when it mounts again.
 - ✋ **Limit and position the toasts yourself.** The store holds every toast,
   in the order they were shown.
 
 ```tsx
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { usePresence } from "@wondesign/disclosure/presence";
 import { useToasts } from "@wondesign/toast/base";
 import { Toast, ToastArea, ToastMessage } from "@wondesign/headless/Toast";
 
 export function MyToaster() {
-  const { toasts, dismissToast, dismissToasts } = useToasts<MyToastItem>();
+  const { toasts, dismissToast, deleteToast, deleteToasts } =
+    useToasts<MyToastItem>();
 
-  useEffect(() => dismissToasts, [dismissToasts]);
-
-  // called when the time is up, by `ToastClose` and Esc
-  const onOpenChange = (id: number) => (newOpen: boolean) => {
-    if (!newOpen) dismissToast(id);
-  };
+  useEffect(() => deleteToasts, [deleteToasts]);
 
   return (
     <ToastArea className="area">
       {/* to support positions, group the toasts into one div per position */}
       {toasts.slice(0, 3).map((toast) => (
-        <Toast
+        <MyToast
           key={toast.id}
-          isOpen
-          duration={toast.duration}
-          onOpenChange={onOpenChange(toast.id)}
-          className={toast.tone}
-        >
-          <ToastMessage>{toast.message}</ToastMessage>
-        </Toast>
+          toast={toast}
+          dismissToast={() => dismissToast(toast.id)}
+          deleteToast={() => deleteToast(toast.id)}
+        />
       ))}
     </ToastArea>
+  );
+}
+
+interface MyToastProps {
+  toast: MyToastItem;
+  dismissToast: () => void;
+  deleteToast: () => void;
+}
+
+function MyToast({ toast, dismissToast, deleteToast }: MyToastProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { status } = usePresence(ref, toast.isOpen);
+
+  // deletes the toast once its closing animation ends
+  useEffect(() => {
+    if (status === "closed") deleteToast();
+  }, [status, deleteToast]);
+
+  // called when the time is up, by `ToastClose` and Esc
+  const onOpenChange = (newOpen: boolean) => {
+    if (!newOpen) dismissToast();
+  };
+
+  return (
+    <Toast
+      ref={ref}
+      isOpen={toast.isOpen}
+      duration={toast.duration}
+      onOpenChange={onOpenChange}
+      className={toast.tone}
+    >
+      <ToastMessage>{toast.message}</ToastMessage>
+    </Toast>
   );
 }
 ```
@@ -113,15 +146,21 @@ For how each toast behaves on screen, refer to
 ### Options
 
 `showToast` turns the message and options into a toast in the store. Each
-toast gets an `id` unique to it, the `message`, and the `duration`, `5000` if
-not passed. Every other option is copied onto the toast unchanged, so your
+toast gets an `id` unique to it, the `message`, the `duration`, `5000` if not
+passed, and `isOpen`, `true` until it's dismissed. Every other option is copied onto the toast unchanged, so your
 own options reach your Toaster without any extra setup.
 
 ### Closing
 
-A toast stays in the store until it's dismissed. If you're using Headless
-Toast, it is recommended to pass `duration` to `Toast`, so it closes the toast
-for you.
+Closing a toast takes two steps, so it can play its closing animation:
+
+1. **Dismissing** closes the toast, and keeps it in the store while it
+   animates out.
+2. **Deleting** removes it from the store, once it has closed.
+
+`deleteToasts` skips the first step, and removes every toast right away. If
+you're using Headless Toast, it is recommended to pass `duration` to `Toast`,
+so it closes the toast for you.
 
 **A negative `duration` shows nothing.** It logs a warning in development, and
 nothing at all in production.
@@ -142,7 +181,7 @@ Import the functions, the hook and their types from `@wondesign/toast/base`:
 import {
   // functions
   showToast,
-  dismissToasts,
+  deleteToasts,
   // hook
   useToasts,
   // types
@@ -169,17 +208,18 @@ type BaseToastOptions = {
 };
 ```
 
-### dismissToasts
+### deleteToasts
 
-Removes every toast. Use it when the user logs out, for example.
+Removes every toast right away, without their closing animations. Use it when
+the user logs out, for example.
 
 ```ts
-function dismissToasts(): void;
+function deleteToasts(): void;
 ```
 
 ### useToasts
 
-Returns every toast in the store, and the functions to remove them.
+Returns every toast in the store, and the functions to close and remove them.
 
 ```ts
 function useToasts<T extends BaseToastItem>(): UseToastsResult<T>;
@@ -188,16 +228,22 @@ type UseToastsResult<T extends BaseToastItem> = {
   // every toast, in the order they were shown.
   toasts: T[];
 
-  // removes one toast.
+  // closes one toast, so it can play its closing animation.
   dismissToast: (id: number) => void;
 
-  // removes every toast.
-  dismissToasts: () => void;
+  // removes one toast. call it once the toast has closed.
+  deleteToast: (id: number) => void;
+
+  // removes every toast right away.
+  deleteToasts: () => void;
 };
 
 type BaseToastItem = {
   // unique to this toast.
   id: number;
+
+  // `true` until the toast is dismissed.
+  isOpen: boolean;
 
   // the message passed to `showToast`.
   message: string;
