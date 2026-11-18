@@ -24,3 +24,4 @@ minimumReleaseAgeExclude:
 overrides:
   "katex": "0.18.2"
   "minimatch": "11.0.1"
+  "picomatch": "4.0.7"
