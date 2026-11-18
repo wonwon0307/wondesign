@@ -102,7 +102,7 @@ is `true`. It **doesn't close the alert when clicked**. Use it outside
 **Props**
 
 Accepts all `<div>` props, except `children` and `hidden`, which the backdrop
-manages.
+manages. You can also pass a `ref`.
 
 **Data Attributes**
 
@@ -162,7 +162,8 @@ Must be used inside `Alert.Content`.
 
 **Props**
 
-Accepts all `<p>` props, except `id`, which the message manages. Key props:
+Accepts all `<p>` props, except `id`, which the message manages. You can also
+pass a `ref`. Key props:
 
 ```ts
 interface AlertMessageProps {
@@ -181,7 +182,7 @@ doesn't wait for a returned promise.** Must be used inside `Alert.Content`.
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`type`, which the close button manages. Key props:
+`type`, which the close button manages. You can also pass a `ref`. Key props:
 
 ```ts
 interface AlertCloseProps {
