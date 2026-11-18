@@ -60,19 +60,21 @@ interface ModalProps {
 
 ### Trigger
 
-`Modal.Trigger` or `ModalTrigger`. Renders a `<button>` that opens the modal.
-Use it outside `Modal.Content`. Inside it, **it only logs a warning** in
-development.
+`Modal.Trigger` or `ModalTrigger`. Renders a `<button>` that runs its
+`onClick`, then opens the modal, unless `onClick` calls
+`event.preventDefault()`. Use it outside `Modal.Content`. Inside it, **it only
+logs a warning** in development.
 
 **Props**
 
 Accepts all props of [Headless Button](/components/headless/button), except
-`type`, `onClick` and `aria-haspopup`, which the trigger manages. It sets its
-own `ref`, so it doesn't take one. Key props:
+`type` and `aria-haspopup`, which the trigger manages. You can also pass a
+`ref`. Key props:
 
 ```ts
 interface ModalTriggerProps {
   children: React.ReactNode;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the modal opens. call `event.preventDefault()` to keep it closed
   asChild?: boolean;
   isDisabled?: boolean; // defaults to `false`
   // ...
@@ -119,8 +121,8 @@ dialog, in its own [Portal](/components/headless/portal) unless
 **Props**
 
 Accepts all standard HTML attributes, except `role`, `hidden`, `tabIndex`,
-`aria-modal` and `aria-labelledby`, which the content manages. It sets its own
-`ref`, so it doesn't take one.
+`aria-modal` and `aria-labelledby`, which the content manages. You can also
+pass a `ref`.
 
 It **doesn't accept `<dialog>`-only props**, like `open`, `onClose` or
 `onCancel`. The modal isn't opened through the browser's dialog methods, so

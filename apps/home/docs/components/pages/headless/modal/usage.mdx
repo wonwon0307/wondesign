@@ -125,6 +125,26 @@ still close the modal**. To block them, control the modal and ignore closes in
 
 ---
 
+## Checking Before Opening
+
+`Modal.Trigger` runs its `onClick`, then opens the modal. To keep it closed,
+call `event.preventDefault()`:
+
+```tsx
+<Modal.Trigger
+  onClick={(event) => {
+    if (!isSignedIn) {
+      event.preventDefault(); // keeps the modal closed
+      redirectToSignIn();
+    }
+  }}
+>
+  Edit profile
+</Modal.Trigger>
+```
+
+---
+
 ## Outside Clicks
 
 A click outside the content closes the modal by default. Pass
