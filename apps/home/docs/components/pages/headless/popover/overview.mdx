@@ -148,3 +148,8 @@ so **a title or an `aria-label` of your own is strongly recommended**.
 - 🐞 **Nested overlays close the popover**: Clicking inside a popover, tooltip
   or other overlay opened from inside the popover counts as a click outside,
   and closes it.
+- 🐞 **Tab leaves the content in page order**: The content is rendered at the
+  end of the page, so <Keyboard>Tab</Keyboard> past its last element moves to
+  the browser's address bar, and {<KeyboardGroup shortkey="Shift+Tab" />}
+  before its first element moves to the last element on the page, instead of
+  next to the trigger.
