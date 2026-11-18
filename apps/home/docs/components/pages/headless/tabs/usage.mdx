@@ -185,6 +185,28 @@ For everything the hooks return, refer to the
 
 ---
 
+## Animating the Panels
+
+Animate the panels with CSS, using their `data-state`. When another tab is
+selected, the old panel waits for your exit animation to finish before it
+leaves the page:
+
+```css
+.panel[data-state="active"] {
+  animation: fade-in 200ms;
+}
+
+.panel[data-state="inactive"] {
+  animation: fade-out 200ms;
+}
+```
+
+While the old panel leaves, **both panels are on the page**, so the new one
+shows below it until it's gone. Stack the panels in your styles, like in one
+grid cell, to animate one over the other.
+
+---
+
 ## Styling with Data Attributes
 
 Each part exposes its state as
