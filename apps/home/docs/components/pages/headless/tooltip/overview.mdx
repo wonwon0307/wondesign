@@ -27,6 +27,7 @@ with something to interact with, use a
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
 - ✅ **Disabled Triggers**: A disabled trigger can still explain itself with a tooltip
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
+- ✅ **Exit Animations**: Closed content stays until its exit animation finishes
 - ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
 
 ---
@@ -95,6 +96,14 @@ side**, as long as that side has more room. It also shifts along its side to
 stay inside the viewport. The position is worked out by
 [Position](/foundations/position/floating-position), so it behaves exactly as
 described there.
+
+### Exit Animations
+
+When the tooltip hides, the content's `data-state` changes to `"closed"`
+right away, but it **stays on the page until its animations and transitions
+finish**. Then it's removed, or hidden with `keepMounted`. While it's leaving,
+it can't be hovered or clicked, and screen readers treat it as closed.
+**Infinite animations aren't waited for.**
 
 ### Screen Readers
 

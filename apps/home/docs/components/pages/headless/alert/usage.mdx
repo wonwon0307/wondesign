@@ -291,6 +291,26 @@ For everything the hook returns, refer to the
 
 ---
 
+## Animating the Content
+
+Animate the content and backdrop with CSS, using their `data-state`. When the
+alert closes, each one waits for its own exit animation to finish before it
+leaves the page:
+
+```css
+.backdrop[data-state="open"],
+.content[data-state="open"] {
+  animation: fade-in 200ms;
+}
+
+.backdrop[data-state="closed"],
+.content[data-state="closed"] {
+  animation: fade-out 200ms;
+}
+```
+
+---
+
 ## Styling with Data Attributes
 
 The parts expose their state as

@@ -27,6 +27,7 @@ destructive action, use an [Alert](/components/headless/alert).
 - ✅ **Optional Backdrop**: Add a layer behind the modal, or leave it out
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
+- ✅ **Exit Animations**: Closed content stays until its exit animation finishes
 - ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
 
 ---
@@ -113,6 +114,15 @@ interacted with, and the page stops scrolling. These are handled by
 [Background Inert](/foundations/focus/background-inert) and
 [Scroll Lock](/foundations/disclosure/scroll-lock) respectively, so **their
 known issues carry over to `Modal`**.
+
+### Exit Animations
+
+When the modal closes, the content's and backdrop's `data-state` changes to
+`"closed"` right away, but they **stay on the page until their animations and
+transitions finish**. Then they're removed, or hidden with `keepMounted`.
+While they're leaving, they can't be clicked or focused, and screen readers
+treat them as closed. The page behind doesn't wait: it's usable again as soon
+as the modal closes. **Infinite animations aren't waited for.**
 
 ### Screen Readers
 

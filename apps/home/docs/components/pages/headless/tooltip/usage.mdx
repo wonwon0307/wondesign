@@ -195,6 +195,23 @@ For everything the hook returns, refer to the
 
 ---
 
+## Animating the Content
+
+Animate the content with CSS, using its `data-state`. When it hides, it waits
+for your exit animation to finish before it leaves the page:
+
+```css
+.content[data-state="open"] {
+  animation: fade-in 150ms;
+}
+
+.content[data-state="closed"] {
+  animation: fade-out 150ms;
+}
+```
+
+---
+
 ## Styling with Data Attributes
 
 The parts expose their state as

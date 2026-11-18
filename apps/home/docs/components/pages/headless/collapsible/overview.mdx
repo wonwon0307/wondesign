@@ -20,6 +20,7 @@ an FAQ.
 - ✅ **Controlled & Uncontrolled**: Let it manage its own state, or drive it yourself
 - ✅ **Disabled Toggle**: Turn off the toggle without removing it
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
+- ✅ **Exit Animations**: Closed content stays until its exit animation finishes
 - ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
 
 ---
@@ -65,6 +66,14 @@ You don't need to wire up any of it.
 The toggle is a button, so a click, <Keyboard>Enter</Keyboard> or <Keyboard>Space</Keyboard>
 **opens the content when it's closed, and closes it
 when it's open**. Nothing else opens or closes it.
+
+### Exit Animations
+
+When the content closes, its `data-state` changes to `"closed"` right away,
+but it **stays on the page until its animations and transitions finish**.
+Then it's removed, or hidden with `keepMounted`. While it's leaving, it can't
+be clicked or focused, and screen readers treat it as closed. **Animations
+that repeat forever aren't waited for.**
 
 ### Screen Readers
 
