@@ -12,8 +12,8 @@ export function ModalClose({
   onClick,
   ...rest
 }: Readonly<ModalCloseProps>) {
-  const { closeModal } = useModalInternal();
-  const isInsideContent = useContext(ContentContext);
+  const { closeModal, scopeKey } = useModalInternal();
+  const isInsideContent = useContext(ContentContext) === scopeKey;
 
   if (!isInsideContent) {
     throw new Error(

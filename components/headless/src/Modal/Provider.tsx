@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
 import { useScrollLock } from "@wondesign/disclosure/scroll-lock";
 import { useAutoFocus } from "@wondesign/focus/auto-focus";
@@ -46,6 +46,7 @@ export function ModalProvider({
   const [titleId, setTitleId] = useState<string | undefined>(undefined);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const floatingRef = useRef<HTMLDialogElement>(null);
+  const scopeKey = useId();
 
   useClickOutside(floatingRef, closeModal, {
     enabled: isOpen && !disableOutsideClick,
@@ -75,6 +76,7 @@ export function ModalProvider({
       floatingRef,
       titleId,
       setTitleId,
+      scopeKey,
     }),
     [
       isOpen,
@@ -86,6 +88,7 @@ export function ModalProvider({
       floatingRef,
       titleId,
       setTitleId,
+      scopeKey,
     ],
   );
 

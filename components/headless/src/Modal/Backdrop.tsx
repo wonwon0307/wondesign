@@ -3,14 +3,14 @@ import { useContext, useEffect } from "react";
 import { Portal } from "@/Portal/Portal";
 import { ContentContext, useModalInternal } from "./contexts";
 
-export interface ModalBackdropProps
-  extends
-    Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "hidden">,
-    React.RefAttributes<HTMLDivElement> {}
+export type ModalBackdropProps = Omit<
+  React.ComponentProps<"div">,
+  "children" | "hidden"
+>;
 
 export function ModalBackdrop(props: Readonly<ModalBackdropProps>) {
-  const { isOpen, disablePortal, keepMounted } = useModalInternal();
-  const isInsideContent = useContext(ContentContext);
+  const { isOpen, disablePortal, keepMounted, scopeKey } = useModalInternal();
+  const isInsideContent = useContext(ContentContext) === scopeKey;
 
   useEffect(() => {
     if (isInsideContent && process.env.NODE_ENV !== "production") {

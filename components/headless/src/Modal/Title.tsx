@@ -3,10 +3,10 @@ import { useContext, useId, useLayoutEffect } from "react";
 import { AsChild } from "@/AsChild/AsChild";
 import { ContentContext, useModalInternal } from "./contexts";
 
-export interface ModalTitleProps
-  extends
-    Omit<React.HTMLAttributes<HTMLHeadingElement>, "children" | "id">,
-    React.RefAttributes<HTMLHeadingElement> {
+export interface ModalTitleProps extends Omit<
+  React.ComponentProps<"h2">,
+  "children" | "id"
+> {
   children: React.ReactNode;
   asChild?: boolean;
 }
@@ -16,9 +16,9 @@ export function ModalTitle({
   asChild = false,
   ...rest
 }: Readonly<ModalTitleProps>) {
-  const { setTitleId } = useModalInternal();
+  const { setTitleId, scopeKey } = useModalInternal();
   const titleId = useId();
-  const isInsideContent = useContext(ContentContext);
+  const isInsideContent = useContext(ContentContext) === scopeKey;
 
   useLayoutEffect(() => {
     setTitleId(titleId);
