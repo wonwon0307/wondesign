@@ -30,6 +30,7 @@ export function showToast<T extends BaseToastOptions>(
   addToast({
     ...rest,
     id: counter++,
+    isOpen: true,
     message,
     duration,
   });
