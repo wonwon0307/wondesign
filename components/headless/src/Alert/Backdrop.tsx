@@ -3,10 +3,10 @@ import { useContext, useEffect } from "react";
 import { Portal } from "@/Portal/Portal";
 import { ContentContext, useAlertInternal } from "./contexts";
 
-export interface AlertBackdropProps
-  extends
-    Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "hidden">,
-    React.RefAttributes<HTMLDivElement> {}
+export type AlertBackdropProps = Omit<
+  React.ComponentProps<"div">,
+  "children" | "hidden"
+>;
 
 export function AlertBackdrop(props: Readonly<AlertBackdropProps>) {
   const { isOpen, disablePortal, keepMounted } = useAlertInternal();

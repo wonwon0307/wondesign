@@ -1,11 +1,12 @@
-import { useId, useLayoutEffect } from "react";
+import { useId, useLayoutEffect, useMemo } from "react";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
+import { mergeRef } from "@/utils";
 import { ContentContext, useAlertInternal } from "./contexts";
 
 export interface AlertContentProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
+  React.ComponentProps<"div">,
   | "children"
   | "role"
   | "id"
@@ -23,6 +24,7 @@ export function AlertContent({
   children,
   asChild = false,
   "aria-label": ariaLabel = "Alert",
+  ref,
   ...rest
 }: Readonly<AlertContentProps>) {
   const {
@@ -35,6 +37,7 @@ export function AlertContent({
     setContentId,
   } = useAlertInternal();
   const contentId = useId();
+  const mergedRef = useMemo(() => mergeRef(wrapperRef, ref), [wrapperRef, ref]);
 
   useLayoutEffect(() => {
     setContentId(contentId);
@@ -53,7 +56,7 @@ export function AlertContent({
       <ContentContext.Provider value={true}>
         <Component
           {...rest}
-          ref={wrapperRef}
+          ref={mergedRef}
           id={contentId}
           role="alertdialog"
           tabIndex={-1}

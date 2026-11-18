@@ -3,10 +3,10 @@ import { useContext, useId, useLayoutEffect } from "react";
 import { AsChild } from "@/AsChild/AsChild";
 import { ContentContext, useAlertInternal } from "./contexts";
 
-export interface AlertMessageProps
-  extends
-    Omit<React.HTMLAttributes<HTMLParagraphElement>, "children" | "id">,
-    React.RefAttributes<HTMLParagraphElement> {
+export interface AlertMessageProps extends Omit<
+  React.ComponentProps<"p">,
+  "children" | "id"
+> {
   children: React.ReactNode;
   asChild?: boolean;
 }

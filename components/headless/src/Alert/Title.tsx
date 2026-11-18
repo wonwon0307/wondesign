@@ -3,10 +3,10 @@ import { useContext, useId, useLayoutEffect } from "react";
 import { AsChild } from "@/AsChild/AsChild";
 import { ContentContext, useAlertInternal } from "./contexts";
 
-export interface AlertTitleProps
-  extends
-    Omit<React.HTMLAttributes<HTMLHeadingElement>, "children" | "id">,
-    React.RefAttributes<HTMLHeadingElement> {
+export interface AlertTitleProps extends Omit<
+  React.ComponentProps<"h2">,
+  "children" | "id"
+> {
   children: React.ReactNode;
   asChild?: boolean;
 }
