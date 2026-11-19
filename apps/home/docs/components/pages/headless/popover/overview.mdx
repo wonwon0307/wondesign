@@ -106,7 +106,8 @@ and <Keyboard>Esc</Keyboard> by
 
 When the popover opens, focus moves to the **first focusable element inside the
 content**. With nothing focusable inside, the content itself takes focus. When
-it closes, focus returns to `Popover.Trigger`.
+it closes, focus returns to `Popover.Trigger`, unless the user has already
+moved it elsewhere, like by clicking an input outside the popover.
 
 Focus isn't trapped: <Keyboard>Tab</Keyboard> and
 {<KeyboardGroup shortkey="Shift+Tab" />} can move out of the content, and the
@@ -142,9 +143,6 @@ so **a title or an `aria-label` of your own is strongly recommended**.
 
 ## Known Issues
 
-- 🐞 **Focus jumps back after a click outside**: Closing the popover by clicking
-  elsewhere returns focus to the trigger, instead of leaving it where the user
-  clicked.
 - 🐞 **Nested overlays close the popover**: Clicking inside a popover, tooltip
   or other overlay opened from inside the popover counts as a click outside,
   and closes it.
