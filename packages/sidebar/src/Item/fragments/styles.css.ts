@@ -1,4 +1,5 @@
 import { style } from "@vanilla-extract/css";
+import { mediaQueries } from "@wondesign/tokens";
 
 const wrapper = style({
   display: "flex",
@@ -39,6 +40,11 @@ const defaultIcon = style({
   selectors: {
     [`${toggle}[data-state='open'] &`]: {
       transform: "rotate(90deg)",
+    },
+  },
+  "@media": {
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
     },
   },
 });

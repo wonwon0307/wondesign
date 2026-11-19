@@ -1,5 +1,5 @@
 import { keyframes, style } from "@vanilla-extract/css";
-import { tokens } from "@wondesign/tokens";
+import { mediaQueries, tokens } from "@wondesign/tokens";
 
 const toggle = style({
   position: "relative",
@@ -10,10 +10,16 @@ const toggle = style({
   padding: tokens.spacing.md,
   borderRadius: tokens.radius.md,
   color: tokens.colors.textMuted,
+  transition: "background-color 0.3s ease, color 0.3s ease",
   selectors: {
     "&:hover": {
       backgroundColor: tokens.colors.backgroundHighlight,
       color: tokens.colors.text,
+    },
+  },
+  "@media": {
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
     },
   },
 });
@@ -24,6 +30,11 @@ const sidebarIcon = style({
   opacity: tokens.opacity.normal,
   selectors: {
     [`${toggle}:hover &`]: { opacity: tokens.opacity.hide },
+  },
+  "@media": {
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
+    },
   },
 });
 
@@ -39,6 +50,11 @@ const arrowIcon = style({
     },
     [`${toggle}[data-side="right"][data-open="false"] &`]: {
       transform: "scaleX(-1)",
+    },
+  },
+  "@media": {
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
     },
   },
 });

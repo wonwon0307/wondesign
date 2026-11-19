@@ -93,6 +93,11 @@ const subitemsWrapper = style({
       visibility: "hidden",
     },
   },
+  "@media": {
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
+    },
+  },
 });
 
 const subitems = style({
@@ -106,6 +111,11 @@ const subitems = style({
   selectors: {
     [`${subitemsWrapper}[data-state='closed'] &`]: {
       paddingTop: 0,
+    },
+  },
+  "@media": {
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
     },
   },
 });

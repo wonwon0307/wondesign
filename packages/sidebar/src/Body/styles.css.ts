@@ -1,5 +1,5 @@
 import { recipe } from "@vanilla-extract/recipes";
-import { tokens } from "@wondesign/tokens";
+import { mediaQueries, tokens } from "@wondesign/tokens";
 
 const sidebar = recipe({
   base: {
@@ -11,6 +11,11 @@ const sidebar = recipe({
     overflow: "hidden",
     backgroundColor: tokens.colors.background,
     transition: "width 0.3s ease-in-out",
+    "@media": {
+      [mediaQueries.reducedMotion]: {
+        transition: "none",
+      },
+    },
   },
   variants: {
     appearance: {
