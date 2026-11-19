@@ -1,5 +1,6 @@
 import { keyframes } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
+import { mediaQueries } from "@wondesign/tokens";
 
 const rotate = keyframes({
   "0%": { transform: "rotate(0deg)" },
@@ -18,7 +19,7 @@ const spinner = recipe({
       slow: {
         animationDuration: "1.5s",
         "@media": {
-          "(prefers-reduced-motion: reduce)": {
+          [mediaQueries.reducedMotion]: {
             animationDuration: "3.75s",
           },
         },
@@ -26,7 +27,7 @@ const spinner = recipe({
       normal: {
         animationDuration: "1s",
         "@media": {
-          "(prefers-reduced-motion: reduce)": {
+          [mediaQueries.reducedMotion]: {
             animationDuration: "2.5s",
           },
         },
@@ -34,7 +35,7 @@ const spinner = recipe({
       fast: {
         animationDuration: "0.5s",
         "@media": {
-          "(prefers-reduced-motion: reduce)": {
+          [mediaQueries.reducedMotion]: {
             animationDuration: "1.25s",
           },
         },

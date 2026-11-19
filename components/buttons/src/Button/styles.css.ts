@@ -30,6 +30,9 @@ const formButton = recipe({
           },
         },
       },
+      [mediaQueries.reducedMotion]: {
+        transition: "none",
+      },
     },
   },
   variants: {
