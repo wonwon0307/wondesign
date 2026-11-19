@@ -1,0 +1,86 @@
+---
+title: Getting Started
+description: Choosing what to install, and getting your app ready for WonDesign.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+
+# Getting Started
+
+Install the packages you need, and they work right away, with no setup
+required.
+
+<Callout variant="warning" title="Requires React 19.2">
+  WonDesign needs React 19.2 or later.
+</Callout>
+
+WonDesign works best with modern browsers (Chrome / Edge 123+,
+Firefox 120+, etc.). In older
+browsers, colors, tints and responsive styles may not apply as expected.
+
+---
+
+## Choosing What to Install
+
+- 📦 **[All-in-One](/all-in-one)**: `@wondesign/ui`, with every package that
+  runs in your app under one name.
+- 📦 **Package by Package**: only the packages you need, from any layer, like
+  `@wondesign/tokens` or `@wondesign/focus` from Foundations,
+  `@wondesign/buttons` from Styled Components, or
+  [`@wondesign/headless`](/headless) alone to build your own components in
+  your own look. Each package's page shows how to install it.
+
+---
+
+## Setting Up Your App
+
+Every package works without this setup. Each step adds something on top:
+
+- 🔹 **CSS reset**: every browser starts from the same baseline. Without it,
+  browser default styles apply.
+- 🔹 **Token stylesheet**: your own token values apply. Without it, every
+  token uses its default value.
+- 🔹 **Theme**: light / dark switching. Without it, the page always shows the
+  light colors.
+- 🔹 **Fonts**: the fonts your tokens name are loaded. Without them, the
+  browser falls back to its own fonts.
+
+For example, in Next.js (App Router):
+
+```tsx
+// app/layout.tsx
+import "@wondesign/reset-css";
+import { wondesignTokenVariables } from "@wondesign/tokens";
+import { LightDarkProvider } from "@wondesign/theme/light-dark";
+import { LightDarkScript } from "@wondesign/theme/light-dark/server";
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: wondesignTokenVariables }} />
+        <LightDarkScript />
+      </head>
+      <body>
+        <LightDarkProvider>{children}</LightDarkProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+With All-in-One, the same imports come from `@wondesign/ui`. See
+[All-in-One](/all-in-one).
+
+For other frameworks, fonts and other ways to theme, see
+[Tokens Setup](/foundations/tokens/setup) and
+[Theme Setup](/foundations/theme/setup).
+
+---
+
+## Next Steps
+
+- **[Styling](/styling)** — changing the look, from one component to your
+  whole app.
