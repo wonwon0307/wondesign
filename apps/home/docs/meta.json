@@ -2,81 +2,184 @@
   "baseUrl": "/",
   "sidebar": [
     "[Introduction](/introduction)",
-    "[Getting Started](/getting-started)",
-    "[All in One](/all-in-one)",
-    "[Styling](/styling)",
     {
-      "type": "link",
-      "label": "Foundations",
-      "url": "/foundations",
+      "type": "group",
+      "label": "UI",
       "items": [
+        "[Getting Started](/getting-started)",
+        "[All in One](/all-in-one)",
+        "[Styling](/styling)",
         {
-          "type": "group",
-          "label": "Primitives",
+          "type": "link",
+          "label": "Foundations",
+          "url": "/foundations",
           "items": [
-            "[Reset CSS](/foundations/reset-css)",
             {
-              "type": "link",
-              "label": "Tokens",
-              "url": "/foundations/tokens",
+              "type": "group",
+              "label": "Primitives",
               "items": [
-                "[Setup](/foundations/tokens/setup)",
-                "[Design Tokens](/foundations/tokens/design-tokens)",
-                "[Media Queries](/foundations/tokens/media-queries)",
-                "[Customization](/foundations/tokens/customization)",
-                "[Utilities](/foundations/tokens/utilities)",
-                "[Troubleshooting](/foundations/tokens/troubleshooting)"
+                "[Reset CSS](/foundations/reset-css)",
+                {
+                  "type": "link",
+                  "label": "Tokens",
+                  "url": "/foundations/tokens",
+                  "items": [
+                    "[Setup](/foundations/tokens/setup)",
+                    "[Design Tokens](/foundations/tokens/design-tokens)",
+                    "[Media Queries](/foundations/tokens/media-queries)",
+                    "[Customization](/foundations/tokens/customization)",
+                    "[Utilities](/foundations/tokens/utilities)",
+                    "[Troubleshooting](/foundations/tokens/troubleshooting)"
+                  ]
+                },
+                {
+                  "type": "link",
+                  "label": "Theme",
+                  "url": "/foundations/theme",
+                  "items": [
+                    "[How It Works](/foundations/theme/how-it-works)",
+                    "[Setup](/foundations/theme/setup)",
+                    "[Usage](/foundations/theme/usage)",
+                    "[Troubleshooting](/foundations/theme/troubleshooting)"
+                  ]
+                }
               ]
             },
             {
-              "type": "link",
-              "label": "Theme",
-              "url": "/foundations/theme",
+              "type": "group",
+              "label": "Interactions",
               "items": [
-                "[How It Works](/foundations/theme/how-it-works)",
-                "[Setup](/foundations/theme/setup)",
-                "[Usage](/foundations/theme/usage)",
-                "[Troubleshooting](/foundations/theme/troubleshooting)"
+                "[Disclosure](/foundations/disclosure)",
+                "[Focus](/foundations/focus)",
+                "[Key Events](/foundations/key-events)",
+                "[Pointer](/foundations/pointer)",
+                "[Position](/foundations/position)"
               ]
             }
           ]
         },
         {
-          "type": "group",
-          "label": "Interactions",
+          "type": "link",
+          "label": "Headless Components",
+          "url": "/headless",
           "items": [
-            "[Disclosure](/foundations/disclosure)",
-            "[Focus](/foundations/focus)",
-            "[Key Events](/foundations/key-events)",
-            "[Pointer](/foundations/pointer)",
-            "[Position](/foundations/position)"
+            {
+              "type": "group",
+              "label": "Elements",
+              "items": [
+                "[Button](/headless/button)",
+                "[Anchor](/headless/anchor)"
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Patterns",
+              "items": [
+                "[Alert](/headless/alert)",
+                "[Collapsible](/headless/collapsible)",
+                "[Modal](/headless/modal)",
+                "[Popover](/headless/popover)",
+                "[Tabs](/headless/tabs)",
+                "[Toast](/headless/toast)",
+                "[Tooltip](/headless/tooltip)"
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Utilities",
+              "items": [
+                "[AsChild](/headless/as-child)",
+                "[Portal](/headless/portal)"
+              ]
+            }
           ]
         },
         {
-          "type": "group",
-          "label": "Utilities",
+          "type": "link",
+          "label": "Styled Components",
+          "url": "/components",
           "items": [
             {
-              "type": "link",
-              "label": "SVG2TSX",
-              "url": "/foundations/svg2tsx",
+              "type": "group",
+              "label": "Atoms",
               "items": [
+                "[Icons](/components/icons)",
                 {
-                  "type": "group",
-                  "label": "Guides",
+                  "type": "link",
+                  "label": "Buttons",
+                  "url": "/components/buttons",
                   "items": [
-                    "[Quick Start](/foundations/svg2tsx/quick-start)",
-                    "[Customization](/foundations/svg2tsx/customization)",
-                    "[The Facade Component](/foundations/svg2tsx/facade)",
-                    "[Multiple Families](/foundations/svg2tsx/family)"
+                    "[Pressable](/components/buttons/pressable)",
+                    "[Button](/components/buttons/button)",
+                    "[IconButton](/components/buttons/icon-button)",
+                    "[LinkButton](/components/buttons/link-button)"
                   ]
                 },
                 {
-                  "type": "group",
-                  "label": "Reference",
+                  "type": "link",
+                  "label": "Links",
+                  "url": "/components/links",
                   "items": [
-                    "[CLI](/foundations/svg2tsx/cli)",
-                    "[Config](/foundations/svg2tsx/config)"
+                    "[Anchor](/components/links/anchor)",
+                    "[Hyperlink](/components/links/hyperlink)",
+                    "[IconLink](/components/links/icon-link)",
+                    "[FormLink](/components/links/form-link)"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Content Display",
+              "items": [
+                {
+                  "type": "link",
+                  "label": "Texts",
+                  "url": "/components/texts",
+                  "items": [
+                    "[Heading](/components/texts/heading)",
+                    "[Description](/components/texts/description)",
+                    "[Paragraph](/components/texts/paragraph)",
+                    "[Callout](/components/texts/callout)",
+                    "[Badge](/components/texts/badge)"
+                  ]
+                },
+                {
+                  "type": "link",
+                  "label": "Code",
+                  "url": "/components/code",
+                  "items": [
+                    "[InlineCode](/components/code/inline-code)",
+                    "[CodeBlock](/components/code/code-block)",
+                    "[CodeWindow](/components/code/code-window)",
+                    "[Keyboard](/components/code/keyboard)",
+                    "[KeyboardGroup](/components/code/keyboard-group)"
+                  ]
+                },
+                "[Separator](/components/separator)"
+              ]
+            },
+            {
+              "type": "group",
+              "label": "Feedback",
+              "items": [
+                "[Alert](/components/alert)",
+                {
+                  "type": "link",
+                  "label": "Toast",
+                  "url": "/components/toast",
+                  "items": [
+                    "[Toaster](/components/toast/toaster)",
+                    "[Base](/components/toast/base)"
+                  ]
+                },
+                {
+                  "type": "link",
+                  "label": "Loading",
+                  "url": "/components/loading",
+                  "items": [
+                    "[Spinner](/components/loading/spinner)",
+                    "[Skeleton](/components/loading/skeleton)"
                   ]
                 }
               ]
@@ -86,125 +189,28 @@
       ]
     },
     {
-      "type": "link",
-      "label": "Headless Components",
-      "url": "/headless",
+      "type": "group",
+      "label": "Utilities",
       "items": [
         {
-          "type": "group",
-          "label": "Elements",
-          "items": ["[Button](/headless/button)", "[Anchor](/headless/anchor)"]
-        },
-        {
-          "type": "group",
-          "label": "Patterns",
+          "type": "link",
+          "label": "SVG2TSX",
+          "url": "/svg2tsx",
           "items": [
-            "[Alert](/headless/alert)",
-            "[Collapsible](/headless/collapsible)",
-            "[Modal](/headless/modal)",
-            "[Popover](/headless/popover)",
-            "[Tabs](/headless/tabs)",
-            "[Toast](/headless/toast)",
-            "[Tooltip](/headless/tooltip)"
-          ]
-        },
-        {
-          "type": "group",
-          "label": "Utilities",
-          "items": [
-            "[AsChild](/headless/as-child)",
-            "[Portal](/headless/portal)"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "link",
-      "label": "Styled Components",
-      "url": "/components",
-      "items": [
-        {
-          "type": "group",
-          "label": "Atoms",
-          "items": [
-            "[Icons](/components/icons)",
             {
-              "type": "link",
-              "label": "Buttons",
-              "url": "/components/buttons",
+              "type": "group",
+              "label": "Guides",
               "items": [
-                "[Pressable](/components/buttons/pressable)",
-                "[Button](/components/buttons/button)",
-                "[IconButton](/components/buttons/icon-button)",
-                "[LinkButton](/components/buttons/link-button)"
+                "[Quick Start](/svg2tsx/quick-start)",
+                "[Customization](/svg2tsx/customization)",
+                "[The Facade Component](/svg2tsx/facade)",
+                "[Multiple Families](/svg2tsx/family)"
               ]
             },
             {
-              "type": "link",
-              "label": "Links",
-              "url": "/components/links",
-              "items": [
-                "[Anchor](/components/links/anchor)",
-                "[Hyperlink](/components/links/hyperlink)",
-                "[IconLink](/components/links/icon-link)",
-                "[FormLink](/components/links/form-link)"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": "Content Display",
-          "items": [
-            {
-              "type": "link",
-              "label": "Texts",
-              "url": "/components/texts",
-              "items": [
-                "[Heading](/components/texts/heading)",
-                "[Description](/components/texts/description)",
-                "[Paragraph](/components/texts/paragraph)",
-                "[Callout](/components/texts/callout)",
-                "[Badge](/components/texts/badge)"
-              ]
-            },
-            {
-              "type": "link",
-              "label": "Code",
-              "url": "/components/code",
-              "items": [
-                "[InlineCode](/components/code/inline-code)",
-                "[CodeBlock](/components/code/code-block)",
-                "[CodeWindow](/components/code/code-window)",
-                "[Keyboard](/components/code/keyboard)",
-                "[KeyboardGroup](/components/code/keyboard-group)"
-              ]
-            },
-            "[Separator](/components/separator)"
-          ]
-        },
-        {
-          "type": "group",
-          "label": "Feedback",
-          "items": [
-            "[Alert](/components/alert)",
-            {
-              "type": "link",
-              "label": "Toast",
-              "url": "/components/toast",
-              "items": [
-                "[Toaster](/components/toast/toaster)",
-                "[Base](/components/toast/base)"
-              ]
-            },
-            {
-              "type": "link",
-              "label": "Loading",
-              "url": "/components/loading",
-              "items": [
-                "[Spinner](/components/loading/spinner)",
-                "[Skeleton](/components/loading/skeleton)"
-              ]
+              "type": "group",
+              "label": "Reference",
+              "items": ["[CLI](/svg2tsx/cli)", "[Config](/svg2tsx/config)"]
             }
           ]
         }
