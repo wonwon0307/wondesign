@@ -4,7 +4,7 @@
     "[Introduction](/introduction)",
     {
       "type": "group",
-      "label": "UI",
+      "label": "Design System",
       "items": [
         "[Getting Started](/getting-started)",
         "[All in One](/all-in-one)",
@@ -190,7 +190,7 @@
     },
     {
       "type": "group",
-      "label": "Utilities",
+      "label": "Tools",
       "items": [
         {
           "type": "link",
