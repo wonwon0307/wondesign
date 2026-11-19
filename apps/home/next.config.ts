@@ -7,7 +7,6 @@ const withVanillaExtract = createVanillaExtractPlugin({
 });
 
 const withWonDocs = createWonDocs({
-  contentsDir: ["./docs/components", "./docs/foundations"],
   allowUnlinkedPages: true,
 });
 
