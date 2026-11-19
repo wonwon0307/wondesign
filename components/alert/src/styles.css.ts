@@ -35,9 +35,19 @@ const alert = style({
   selectors: {
     "&[data-state='open']": {
       animation: `${fadeIn} 0.3s ease`,
+      "@media": {
+        [mediaQueries.reducedMotion]: {
+          animation: "none",
+        },
+      },
     },
     "&[data-state='closed']": {
       animation: `${fadeOut} 0.3s ease forwards`,
+      "@media": {
+        [mediaQueries.reducedMotion]: {
+          animation: "none",
+        },
+      },
     },
   },
   "@media": {

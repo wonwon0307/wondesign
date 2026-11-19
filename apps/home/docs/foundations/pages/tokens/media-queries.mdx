@@ -1,7 +1,7 @@
 ---
 metaTitle: Media Queries | Tokens
 title: Media Queries
-description: Ready-made breakpoint and hover queries, and how to use them in CSS-in-JS, vanilla-extract, and JavaScript.
+description: Ready-made breakpoint, hover and reduced motion queries, and how to use them in CSS-in-JS, vanilla-extract, and JavaScript.
 ---
 
 # Media Queries
@@ -17,7 +17,8 @@ styles in JavaScript.**
 ## Default Queries
 
 The `mediaQueries` object holds ready-made query strings: three breakpoints
-with their combinations, and a query for devices that can hover:
+with their combinations, a query for devices that can hover, and a query for
+users who prefer reduced motion:
 
 ```ts
 {
@@ -29,6 +30,7 @@ with their combinations, and a query for devices that can hover:
     notLarge: "screen and (width < 1280px)", // small + medium
   },
   hoverable: "(hover: hover) and (pointer: fine)",
+  reducedMotion: "(prefers-reduced-motion: reduce)",
 }
 ```
 
@@ -98,6 +100,20 @@ export const link = style({
       selectors: {
         "&:hover": { textDecoration: "underline" },
       },
+    },
+  },
+});
+```
+
+`reducedMotion` tones down or turns off animations for users who've asked
+their system for less motion:
+
+```ts
+export const panel = style({
+  transition: "height 200ms ease",
+  "@media": {
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
     },
   },
 });

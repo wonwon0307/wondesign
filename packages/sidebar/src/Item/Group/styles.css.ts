@@ -96,6 +96,9 @@ const icon = style({
         },
       },
     },
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
+    },
   },
 });
 
@@ -113,6 +116,11 @@ const wrapper = style({
       visibility: "hidden",
     },
   },
+  "@media": {
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
+    },
+  },
 });
 
 const subitems = style({
@@ -126,6 +134,11 @@ const subitems = style({
   selectors: {
     [`${wrapper}[data-state='closed'] &`]: {
       paddingTop: 0,
+    },
+  },
+  "@media": {
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
     },
   },
 });

@@ -1,6 +1,6 @@
 import { style, keyframes } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
-import { colorWithOpacity, tokens } from "@wondesign/tokens";
+import { colorWithOpacity, mediaQueries, tokens } from "@wondesign/tokens";
 
 const slideUpEnter = keyframes({
   from: { transform: "translateY(100%)", opacity: 0 },
@@ -69,6 +69,11 @@ const toast = recipe({
     boxShadow: tokens.elevation.lv1,
     backdropFilter: "blur(12px) saturate(1.5)",
     transition: "background-color 0.2s ease",
+    "@media": {
+      [mediaQueries.reducedMotion]: {
+        transition: "none",
+      },
+    },
   },
   variants: {
     type: {
@@ -123,9 +128,19 @@ const toast = recipe({
         selectors: {
           "&[data-state='open']": {
             animation: `${slideUpEnter} 0.3s ease`,
+            "@media": {
+              [mediaQueries.reducedMotion]: {
+                animation: "none",
+              },
+            },
           },
           "&[data-state='closed']": {
             animation: `${slideUpExit} 0.3s ease forwards`,
+            "@media": {
+              [mediaQueries.reducedMotion]: {
+                animation: "none",
+              },
+            },
           },
         },
       },
@@ -133,9 +148,24 @@ const toast = recipe({
         selectors: {
           "&[data-state='open']": {
             animation: `${slideDownEnter} 0.3s ease`,
+            "@media": {
+              [mediaQueries.reducedMotion]: {
+                animation: "none",
+              },
+            },
           },
           "&[data-state='closed']": {
             animation: `${slideDownExit} 0.3s ease forwards`,
+            "@media": {
+              [mediaQueries.reducedMotion]: {
+                animation: "none",
+              },
+            },
+          },
+        },
+        "@media": {
+          [mediaQueries.reducedMotion]: {
+            animation: "none",
           },
         },
       },

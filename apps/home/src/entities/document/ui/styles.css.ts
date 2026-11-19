@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { tokens } from "@wondesign/ui/tokens";
+import { mediaQueries, tokens } from "@wondesign/ui/tokens";
 
 const item = style({
   display: "grid",
@@ -20,6 +20,11 @@ const toggle = style({
       backgroundColor: tokens.colors.backgroundHighlight,
     },
   },
+  "@media": {
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
+    },
+  },
 });
 
 const toggleIcon = style({
@@ -27,6 +32,11 @@ const toggleIcon = style({
   selectors: {
     [`${toggle}[data-state='open'] &`]: {
       transform: "rotate(90deg)",
+    },
+  },
+  "@media": {
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
     },
   },
 });

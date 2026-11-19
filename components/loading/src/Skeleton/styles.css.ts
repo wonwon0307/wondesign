@@ -1,6 +1,6 @@
 import { keyframes, style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
-import { tokens } from "@wondesign/tokens";
+import { mediaQueries, tokens } from "@wondesign/tokens";
 
 const pulse = keyframes({
   "0%, 100%": { opacity: 1 },
@@ -42,7 +42,7 @@ const skeleton = recipe({
       pulse: {
         animation: `${pulse} 1.5s ease-in-out infinite`,
         "@media": {
-          ["(prefers-reduced-motion: reduce)"]: { animationDuration: "3s" },
+          [mediaQueries.reducedMotion]: { animationDuration: "3s" },
         },
       },
       wave: {
@@ -62,7 +62,7 @@ const skeleton = recipe({
           },
         },
         "@media": {
-          "(prefers-reduced-motion: reduce)": {
+          [mediaQueries.reducedMotion]: {
             selectors: {
               "&::after": {
                 display: "none",
