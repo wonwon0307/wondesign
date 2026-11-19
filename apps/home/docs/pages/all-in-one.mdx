@@ -1,0 +1,92 @@
+---
+title: All-in-One
+description: Every WonDesign package that runs in your app, under one name.
+---
+
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/ui" relPath="packages/ui">
+  `@wondesign/ui` brings every WonDesign package that runs in your app under
+  one name: the foundations, the headless components and every styled
+  component.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/ui
+```
+
+---
+
+## Key Features
+
+- ✅ **One Install**: Every package that runs in your app, with a single dependency
+- ✅ **One Version**: A single version to update, instead of one per package
+- ✅ **Separate Entries**: Import each package from its own entry, so you only bundle what you use
+
+---
+
+## What's Included
+
+- 🔹 **Foundations**: [Reset CSS](/foundations/reset-css),
+  [Tokens](/foundations/tokens) and [Theme](/foundations/theme)
+- 🔹 **Headless Components**: every component in
+  [`@wondesign/headless`](/headless)
+- 🔹 **Styled Components**: every [styled package](/components)
+
+[SVG2TSX](/foundations/svg2tsx) isn't included. It's a CLI you run at build
+time, so install it on its own, as a dev dependency.
+
+---
+
+## Setting Up Your App
+
+The setup is the same as in [Getting Started](/getting-started), with every
+import from `@wondesign/ui`. For example, in Next.js (App Router):
+
+{/* TODO: update the import paths once the export naming is settled */}
+
+```tsx
+// app/layout.tsx
+import "@wondesign/ui/styles.css";
+import { wondesignTokenVariables } from "@wondesign/ui/tokens";
+import { LightDarkProvider } from "@wondesign/ui/theme";
+import { LightDarkScript } from "@wondesign/ui/server";
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: wondesignTokenVariables }} />
+        <LightDarkScript />
+      </head>
+      <body>
+        <LightDarkProvider>{children}</LightDarkProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+`@wondesign/ui/styles.css` is the CSS reset. Each component brings its own
+styles, so there's nothing else to import.
+
+---
+
+## Imports
+
+Each package has its own entry, named after it:
+
+```tsx
+import { Button } from "@wondesign/ui/Buttons";
+import { Heading, Paragraph } from "@wondesign/ui/Texts";
+import { Collapsible } from "@wondesign/ui/Headless";
+```
+
+Headless components have their own entry, so they never clash with styled
+components of the same name, like `Button` or `Tooltip`.
