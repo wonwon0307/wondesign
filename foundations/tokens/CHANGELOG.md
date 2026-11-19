@@ -1,5 +1,14 @@
 # @wondesign/tokens
 
+## 0.2.0
+
+### Minor Changes
+
+- [#152](https://github.com/wonwon0307/wondesign/pull/152) [`1e88666`](https://github.com/wonwon0307/wondesign/commit/1e88666de39fff65f3f6ff7f6b4f5e08365b9c13) Thanks [@wonwon0307](https://github.com/wonwon0307)! - Add `mediaQueries.reducedMotion`, a ready-made query for users who've asked their system for less motion, to tone down or turn off animations.
+
+  - **Ready to use**: `"(prefers-reduced-motion: reduce)"`, used like any other query in `mediaQueries`.
+  - **Kept when customizing**: spreading the default `mediaQueries` into your own keeps `reducedMotion` alongside `hoverable`.
+
 ## 0.1.3
 
 ### Patch Changes
