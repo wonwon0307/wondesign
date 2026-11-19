@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { tokens } from "@wondesign/ui/tokens";
+import { mediaQueries, tokens } from "@wondesign/ui/tokens";
 
 const body = style({
   display: "flex",
@@ -9,10 +9,11 @@ const body = style({
   backgroundColor: tokens.colors.background,
   color: tokens.colors.text,
   fontFamily: tokens.typography.fontFamily.normal,
+  transition: "background-color 0.3s ease, color 0.3s ease",
 
   "@media": {
-    "(prefers-reduced-motion: no-preference)": {
-      transition: "background-color 0.3s ease, color 0.3s ease",
+    [mediaQueries.reducedMotion]: {
+      transition: "none",
     },
   },
 });
