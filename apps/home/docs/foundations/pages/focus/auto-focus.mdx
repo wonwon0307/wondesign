@@ -23,7 +23,8 @@ stays where it was**.
 
 When `enabled` turns `false`, or the component unmounts, focus goes back to
 `returnRef`. If it points at nothing by then, focus goes back to the element
-that had it before `enabled` turned `true`.
+that had it before `enabled` turned `true`. If focus has already moved outside
+`targetRef`, like to an input the user clicked, **it stays there**.
 
 ```tsx
 import { useRef, useState } from "react";
