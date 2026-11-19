@@ -1,7 +1,7 @@
 # Config Reference
 
 Every field `svg2tsx.config.ts` accepts, its type, and its default. See
-[Overview](/foundations/svg2tsx/config/overview) for how to actually set up
+[Overview](/svg2tsx/config/overview) for how to actually set up
 the config file and a few worked examples.
 
 ---
@@ -26,7 +26,7 @@ The one option that changes the shape of everything else `svg2tsx` writes:
   imported.
 
 - **`"facade"`** — adds `iconMap.ts` and a name-keyed facade component; see
-  [The Facade Component](/foundations/svg2tsx/facade) for the full picture. This
+  [The Facade Component](/svg2tsx/facade) for the full picture. This
   **replaces** the barrel: `index.ts` no longer exports individual icons,
   only the facade, `IconName`, and `IconProps`.
 
@@ -116,7 +116,7 @@ Default: `"Icon"`
 
 Appended to each family's PascalCase name to build that family's facade
 component's name (e.g. family `"brand"` → `BrandIcon`). Only relevant when
-`mode` writes a facade — see [Naming](/foundations/svg2tsx/facade#naming).
+`mode` writes a facade — see [Naming](/svg2tsx/facade#naming).
 
 ---
 
@@ -128,7 +128,7 @@ Type: SVGR's `Config`, minus `typescript`, `configFile`, `index`,
 Default: see each field below.
 
 Forwarded to [`@svgr/core`](https://react-svgr.com/docs/options/). See
-[Customization](/foundations/svg2tsx/customization) for what's actually worth reaching
+[Customization](/svg2tsx/customization) for what's actually worth reaching
 for among what's left, versus what to think twice about.
 
 - **`icon`** — Default `true`.
@@ -153,11 +153,11 @@ for among what's left, versus what to think twice about.
   is exported from its file.
 - **`template`** — WonDesign's `{ size = "1em", ...props }` template.
   Produces the component shape documented in
-  [Quick Start](/foundations/svg2tsx/quick-start).
+  [Quick Start](/svg2tsx/quick-start).
 
 `typescript`, `configFile`, `index`, `plugins`, `prettier`, and
 `prettierConfig` can't be set at all — see
-[Customization](/foundations/svg2tsx/customization#what-you-cannot-customize) for why
+[Customization](/svg2tsx/customization#what-you-cannot-customize) for why
 each one is locked.
 
 ### svgoConfig merges shallowly
