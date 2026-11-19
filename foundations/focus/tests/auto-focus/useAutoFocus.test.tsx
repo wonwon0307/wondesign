@@ -84,6 +84,37 @@ describe("useAutoFocus", () => {
     expect(document.activeElement).toBe(next);
   });
 
+  it("does not return focus if user already focused another element", () => {
+    const WithReturn = () => {
+      const nextRef = useRef<HTMLDivElement>(null);
+      return (
+        <div>
+          <TestComponent returnRef={nextRef}>Content</TestComponent>
+          <div ref={nextRef} data-testid="next" tabIndex={-1} />
+          <button data-testid="other" />
+        </div>
+      );
+    };
+
+    const { getByTestId } = render(<WithReturn />);
+
+    const trigger = getByTestId("trigger");
+    const other = getByTestId("other");
+
+    trigger.focus();
+    expect(document.activeElement).toBe(trigger);
+
+    fireEvent.click(trigger);
+    const content = getByTestId("content");
+    expect(document.activeElement).toBe(content);
+
+    other.focus();
+    expect(document.activeElement).toBe(other);
+
+    fireEvent.click(trigger);
+    expect(document.activeElement).toBe(other);
+  });
+
   it("focuses to content itself when there isn't any focusable element", () => {
     const { getByTestId } = render(<TestComponent>Content</TestComponent>);
 
