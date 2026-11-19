@@ -194,7 +194,7 @@ export const marketingVariables = buildCssVariables(
 Use this when you need different breakpoints, or queries of your own.
 **Media queries aren't part of the stylesheet**, so they're customized in
 JavaScript instead. Build your own `mediaQueries` in the same shape as the
-package's: spread the default one to keep `hoverable`, swap in breakpoints
+package's: spread the default one to keep `hoverable` and `reducedMotion`, swap in breakpoints
 with your own widths, and add any queries of your own:
 
 ```ts
@@ -207,7 +207,7 @@ import {
 export const mediaQueries = {
   ...defaultMediaQueries,
   breakpoints: createSimpleBreakpointQueries({ sm: "640px", lg: "1024px" }),
-  reducedMotion: "(prefers-reduced-motion: reduce)",
+  portrait: "(orientation: portrait)",
 };
 ```
 
