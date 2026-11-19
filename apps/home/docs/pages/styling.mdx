@@ -1,0 +1,66 @@
+---
+title: Styling
+description: Changing the look of WonDesign components, from a single component to your whole app.
+---
+
+# Styling
+
+**WonDesign doesn't tie you to a CSS library.** Styled components ship as
+plain, ready-built CSS, and headless components ship with no styles at all, so
+you can style them with whatever you already use: Tailwind, CSS-in-JS,
+vanilla-extract, CSS Modules or plain CSS.
+
+The examples on this page use plain CSS, but any of these works the same way.
+
+---
+
+## App-Wide Styles
+
+Styled components are styled based on
+[`@wondesign/tokens`](/foundations/tokens). Redeclare a token to change every
+component that uses it. For building a full set of values, light and dark
+colors and scoped themes, see [Customization](/foundations/tokens/customization).
+
+```css
+:root {
+  --color-primary: #7c3aed; /* every component that uses --color-primary changes */
+  --radius-md: 12px;
+}
+```
+
+---
+
+## One Component
+
+Use `className` and `style` as you normally would. Your styles are applied on
+top of the defaults:
+
+```tsx
+<Button className="checkout">Checkout</Button>
+```
+
+```css
+.checkout {
+  margin-top: var(--spacing-lg);
+  animation: slide-up 200ms ease-out;
+}
+```
+
+Use token values over hard-coded ones, like `var(--spacing-lg)` above, so your
+styles stay consistent with the rest of the app.
+
+---
+
+## Styling with Data Attributes
+
+Components expose their state, like open, active, disabled or loading, as
+`data-*` attributes. Style each state with an attribute selector, with no
+extra props:
+
+```css
+.trigger[data-state="open"] { … }
+.tab[data-state="active"] { … }
+.button[data-loading] { … }
+```
+
+Each component's API lists the attributes it exposes.
