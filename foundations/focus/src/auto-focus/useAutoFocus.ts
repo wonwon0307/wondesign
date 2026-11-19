@@ -18,6 +18,7 @@ export function useAutoFocus<
   useEffect(() => {
     if (!enabled || !targetRef.current) return;
 
+    const target = targetRef.current;
     const previousActive = document.activeElement;
 
     // initialRef가 target 안에 있다면, 그 요소로 Focus 이동
@@ -45,6 +46,12 @@ export function useAutoFocus<
 
     // cleanup function: Focus 복귀
     function returnFocus() {
+      // 사용자가 이미 target 밖으로 Focus를 옮겼다면, 되돌리지 않는다
+      const active = document.activeElement;
+      if (active && active !== document.body && !target.contains(active)) {
+        return;
+      }
+
       if (returnRef?.current ?? previousActive) {
         (returnRef?.current ?? (previousActive as HTMLElement)).focus();
       }
