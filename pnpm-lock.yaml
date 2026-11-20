@@ -260,9 +260,6 @@ importers:
       '@vanilla-extract/recipes':
         specifier: 'catalog:'
         version: 0.5.7(@vanilla-extract/css@1.21.3)
-      '@wondesign/sidebar':
-        specifier: workspace:*
-        version: link:../../components/sidebar
       '@wondesign/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -835,9 +832,21 @@ importers:
       '@wondesign/code':
         specifier: workspace:*
         version: link:../../components/code
+      '@wondesign/disclosure':
+        specifier: workspace:*
+        version: link:../../foundations/disclosure
+      '@wondesign/focus':
+        specifier: workspace:*
+        version: link:../../foundations/focus
+      '@wondesign/headless':
+        specifier: workspace:*
+        version: link:../../components/headless
       '@wondesign/icons':
         specifier: workspace:*
         version: link:../../components/icons
+      '@wondesign/key-events':
+        specifier: workspace:*
+        version: link:../../foundations/key-events
       '@wondesign/links':
         specifier: workspace:*
         version: link:../../components/links
@@ -847,9 +856,18 @@ importers:
       '@wondesign/navbar':
         specifier: workspace:*
         version: link:../../components/navbar
+      '@wondesign/pointer':
+        specifier: workspace:*
+        version: link:../../foundations/pointer
+      '@wondesign/position':
+        specifier: workspace:*
+        version: link:../../foundations/position
       '@wondesign/separator':
         specifier: workspace:*
         version: link:../../components/separator
+      '@wondesign/sidebar':
+        specifier: workspace:*
+        version: link:../../components/sidebar
       '@wondesign/tabs':
         specifier: workspace:*
         version: link:../../components/tabs
@@ -869,10 +887,10 @@ importers:
         specifier: workspace:*
         version: link:../../components/tooltip
       react:
-        specifier: ^19
+        specifier: ^19.2
         version: 19.3.1
       react-dom:
-        specifier: ^19
+        specifier: ^19.2
         version: 19.3.1(react@19.3.1)
     devDependencies:
       '@wondesign/reset-css':
