@@ -3,7 +3,7 @@ import { deleteToasts, toast } from "@wondesign/ui/Toast";
 
 import { DeleteToastsDemo, ToastDemo } from "@/widgets/preview";
 
-vi.mock("@wondesign/ui/Toast", () => ({
+vi.mock("@wondesign/ui/toast", () => ({
   toast: Object.assign(vi.fn(), {
     info: vi.fn(),
     success: vi.fn(),

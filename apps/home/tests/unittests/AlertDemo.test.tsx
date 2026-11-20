@@ -3,7 +3,7 @@ import { showAlert, showConfirm } from "@wondesign/ui/Alert";
 
 import { AlertDemo } from "@/widgets/preview";
 
-vi.mock("@wondesign/ui/Alert", () => ({
+vi.mock("@wondesign/ui/alert", () => ({
   showAlert: vi.fn(),
   showConfirm: vi.fn(),
 }));
