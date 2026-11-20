@@ -12,22 +12,10 @@
     "typescript"
   ],
   "exports": {
-    "./server": {
-      "types": "./dist/server.d.mts",
-      "default": "./dist/server.mjs"
-    },
-    "./theme": {
-      "types": "./dist/theme.d.mts",
-      "default": "./dist/theme.mjs"
-    },
-    "./tokens": {
-      "types": "./dist/tokens.d.mts",
-      "default": "./dist/tokens.mjs"
-    },
     "./styles.css": "./dist/styles.css",
     "./*": {
-      "types": "./dist/components/*.d.mts",
-      "default": "./dist/components/*.mjs"
+      "types": "./dist/entries/*.d.mts",
+      "default": "./dist/entries/*.mjs"
     }
   },
   "scripts": {
