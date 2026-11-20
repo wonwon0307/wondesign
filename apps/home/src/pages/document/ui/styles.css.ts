@@ -1,7 +1,25 @@
 import { style } from "@vanilla-extract/css";
 import { mediaQueries, tokens } from "@wondesign/ui/tokens";
 
-const container = style({
+const layout = style({
+  flex: 1,
+  display: "flex",
+  flexDirection: "row",
+});
+
+const sidebar = style({
+  position: "sticky",
+  top: "48px",
+  left: 0,
+  height: `calc(100vh - 64px)`,
+});
+
+const main = style({
+  flex: 1,
+  minWidth: 0,
+});
+
+const page = style({
   display: "flex",
   flex: 1,
   flexDirection: "column",
@@ -85,7 +103,10 @@ const listItem = style({
 });
 
 export const styles = {
-  container,
+  layout,
+  sidebar,
+  main,
+  page,
   header,
   description,
   body,

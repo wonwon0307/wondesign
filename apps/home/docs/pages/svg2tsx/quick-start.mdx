@@ -1,0 +1,115 @@
+---
+metaTitle: Quick Start | SVG2TSX
+title: Quick Start
+description: Converting an icon set with the default config.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+
+# Basic Usage
+
+`@wondesign/svg2tsx` provides you a default configuration that generates icons that fit
+the general purpose of icon components in React based apps. Here is what gets generated
+when using its default configuration.
+
+---
+
+## Steps
+
+**1. Setup** — Create a directory named `assets/` in the root of your project
+and place SVG files inside like the example below.
+
+```
+assets/
+  arrow-right.svg
+  chevron-right.svg
+  cloud.svg
+```
+
+**2. Generate** — Use the command to generate the React components.
+
+```bash
+pnpm exec svg2tsx
+```
+
+**3. Results** — The generated filetree would look like the simple diagram below, where
+the `index.ts` file re-exports the `ArrowRight`, `ChevronRight` and `Cloud` components.
+
+```
+src/
+  components/
+    ArrowRight.tsx
+    ChevronRight.tsx
+    Cloud.tsx
+  index.ts
+```
+
+The `ChevronRight` component, as an example, would look like the code below.
+
+```tsx
+// src/components/ChevronRight.tsx
+import type { IconProps } from "@wondesign/svg2tsx";
+
+export function ChevronRight({ size = "1em", ...props }: Readonly<IconProps>) {
+  return (
+    <svg {...props} width={size} height={size}>
+      {/* ...converted SVG markup... */}
+    </svg>
+  );
+}
+```
+
+---
+
+## What the Defaults Do
+
+- 🔹 **One prop for size**: `size` sets the width and height together
+- 🔹 **Colors from CSS**: Every color becomes `currentColor`, so icons follow
+  the CSS `color`
+- 🔹 **Clean scaling**: The `viewBox` is kept, and hard-coded dimensions are
+  removed
+- 🔹 **No ID collisions**: IDs are prefixed, so icons on the same page don't
+  clash
+- 🔹 **Named exports**: Each component is exported by its name, with no React
+  import needed
+
+---
+
+## The Size Prop
+
+`size` takes a number in pixels, or any CSS length. It's `"1em"` by default,
+so icons scale with the text around them:
+
+```tsx
+<ChevronRight size={24} /> // 24px
+<ChevronRight size="2rem" />
+```
+
+<Callout title="CSS still has the final say">
+  `className` and `style` can still resize an icon, even its width and height
+  separately, since CSS overrides the `width` and `height` attributes.
+</Callout>
+
+---
+
+## IconProps
+
+Every generated component takes `IconProps`. It's exported, so your own
+icon-like components can reuse it:
+
+```ts
+// from @wondesign/svg2tsx
+type IconProps = { size?: number | string } & React.SVGProps<SVGSVGElement>;
+
+// in your own code
+import type { IconProps } from "@wondesign/svg2tsx";
+
+type MyIconProps = IconProps & { variant?: "filled" | "outline" };
+```
+
+---
+
+## Next Steps
+
+- **[Customization](/svg2tsx/customization)** — changing what `svg2tsx`
+  generates.

@@ -1,7 +1,7 @@
 import { act, render } from "@testing-library/react";
-import { type DocsTocEntry } from "@wondocs/core/pages";
+import type { DocsTocEntry } from "@wondocs/core/pages";
 
-import { DocumentTabs, DocumentTOC } from "@/widgets/document";
+import { DocumentTOC } from "@/widgets/document";
 
 let intersect: IntersectionObserverCallback;
 vi.stubGlobal(
@@ -11,47 +11,6 @@ vi.stubGlobal(
     return { observe: vi.fn(), unobserve: vi.fn(), disconnect: vi.fn() };
   }),
 );
-
-describe("DocumentPage - Tabs", () => {
-  it("sorts tabs correctly", () => {
-    // 아무 순서로 집어넣어도 정렬되어 렌더링 되는지 테스트
-    const tabs = [
-      { slug: "test", url: "/test" },
-      { slug: "api", url: "/api" },
-      { slug: "css-variables", url: "/css-variables" },
-      { slug: "random", url: "/random" },
-      { slug: "examples", url: "/examples" },
-      { slug: "overview", url: "/overview" },
-    ];
-
-    const { getAllByRole } = render(<DocumentTabs tabs={tabs} />);
-
-    const links = getAllByRole("link").map((link) => link.textContent);
-
-    expect(links).toEqual([
-      "Overview",
-      "Examples",
-      "API",
-      "CSS Variables",
-      "Random",
-      "Test",
-    ]);
-  });
-
-  it("sorts non-priority tabs alphabetically", () => {
-    const tabs = [
-      { slug: "zeta", url: "/zeta" },
-      { slug: "alpha", url: "/alpha" },
-      { slug: "mid", url: "/mid" },
-    ];
-
-    const { getAllByRole } = render(<DocumentTabs tabs={tabs} />);
-
-    const links = getAllByRole("link").map((link) => link.textContent);
-
-    expect(links).toEqual(["Alpha", "Mid", "Zeta"]);
-  });
-});
 
 describe("DocumentPage - TOC", () => {
   it("marks the intersecting heading as active", () => {

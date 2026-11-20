@@ -1,0 +1,70 @@
+---
+metaTitle: Facade | SVG2TSX
+title: The Facade Component
+description: How to use the generated facade component
+---
+
+# The Facade Component
+
+A facade component is a single, name-keyed entry point for a family's
+icons — instead of importing each icon directly, consumers pass an icon
+name as a prop and the facade resolves it at runtime.
+
+---
+
+## Key Features
+
+- ✅ **Type-Safe**: The `icon` prop only accepts real icon names
+- ✅ **Safe at Runtime**: An unknown name logs a warning and renders nothing, instead of throwing
+- ✅ **Editable**: Your edits to the facade file are kept across runs
+- ✅ **IconName Type**: Every icon name is exported as a type, to use in your own code
+
+```ts
+import type { IconName } from "@wondesign/icons";
+
+// only accepts real icon names
+type NavItemProps = {
+  icon: IconName;
+  label: string;
+};
+```
+
+---
+
+## Usage
+
+`svg2tsx` generates one whenever `mode` is set to `"facade"` or `"both"`.
+
+```ts
+// svg2tsx.config.ts
+export default defineConfig({
+  mode: "facade",
+});
+```
+
+Consumers render it by name:
+
+```tsx
+<AppIcon icon="chevron-down" />
+```
+
+[`@wondesign/icons`](/components/icons) is built with this config.
+
+---
+
+## Naming
+
+The facade is named `{familyName}{facadeSuffix}`, with the family name in
+PascalCase. See [Config](/svg2tsx/config) for both fields.
+
+```tsx
+// svg2tsx.config.ts
+export default defineConfig({
+  mode: "facade",
+  entry: { name: "won-design", srcDir: "assets", outDir: "src" },
+  facadeSuffix: "Logo",
+});
+
+// generates `WonDesignLogo`
+<WonDesignLogo icon={iconName} />;
+```

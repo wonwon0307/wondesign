@@ -1,5 +1,8 @@
-import { testSidebarItems } from "./testdata/collection";
-import { testPageChildrenData, testPageData } from "./testdata/document";
+import {
+  testPageChildrenData,
+  testPageData,
+  testSidebarItems,
+} from "./testdata";
 
 vi.mock("next/font/google", () => ({
   Google_Sans: () => ({
@@ -21,7 +24,7 @@ vi.mock("next/headers", () => ({
 vi.mock("next/navigation", () => ({
   notFound: vi.fn().mockThrow(new Error("notFound called")),
   redirect: vi.fn(),
-  usePathname: vi.fn().mockReturnValue("/test-collection/test-link"),
+  usePathname: vi.fn().mockReturnValue("/test-link"),
   RedirectType: {
     replace: "replace",
   },

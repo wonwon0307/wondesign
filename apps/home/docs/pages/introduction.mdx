@@ -1,0 +1,56 @@
+---
+title: Introduction
+description: What WonDesign is, and how its three layers fit together.
+---
+
+import { Callout } from "@wondesign/ui/Texts";
+
+# WonDesign
+
+WonDesign is a design system for React, built in three layers: Foundations,
+Headless Components and Styled Components. Each layer builds on the one below
+it, and each one is a set of small packages you can install on their own.
+
+---
+
+## Three Layers
+
+Each layer decides a little more for you than the one below it. Pick the
+layer that decides as much as you want.
+
+- 🧱 **[Foundations](/foundations)**: Tokens, theming, a CSS reset, and React
+  hooks for focus, keyboard, pointer and positioning. They decide how things
+  behave, but render nothing and take no stance on how anything looks.
+- 🛠️ **[Headless Components](/headless)**: Accessible components built on
+  Foundations, with state, keyboard support, focus and ARIA already wired up,
+  and no styles at all. Bring your own look.
+- 🎨 **[Styled Components](/components)**: Components with the WonDesign look,
+  built on Headless Components and the tokens. Use them as they are, or
+  arrange their parts into components of your own.
+
+Alongside the layers, WonDesign has utilities for building a design system,
+like [SVG2TSX](/svg2tsx), which turns SVG files into React icon components.
+
+---
+
+## Philosophy
+
+<Callout title="Do the groundwork once">
+  Every React app redoes the same groundwork, from a CSS reset to the same
+  buttons and tooltips. WonDesign does it once, so you can focus on what makes
+  your product **yours**.
+</Callout>
+
+<Callout title="Every package stands on its own">
+  Install only the package you need, and it works. No other WonDesign package
+  needs to be installed or set up first, not even the tokens.
+</Callout>
+
+---
+
+## Next Steps
+
+- **[Getting Started](/getting-started)** — choosing what to install, and
+  getting your app ready.
+- **[Styling](/styling)** — changing the look, from one component to your
+  whole app.

@@ -1,0 +1,73 @@
+---
+metaTitle: Family | SVG2TSX
+title: Multiple Families
+description: Converting more than one independent set of icons in a single run
+---
+
+# Multiple Families
+
+A family is one independent icon set, with its own `srcDir` and `outDir`.
+Families that share a config go in one `entry` array, and families that need
+their own config go in separate configs. The two can be mixed: each config in
+an array can have its own `entry` array.
+
+---
+
+## Shared Config
+
+Give `entry` an array. Each item is one family, and every family shares the
+rest of the config:
+
+```ts
+export default defineConfig({
+  mode: "both",
+  entry: [
+    { srcDir: "assets/brand", outDir: "src/brand" },
+    { srcDir: "assets/ui", outDir: "src/ui" },
+  ],
+});
+```
+
+```
+src/
+  brand/
+    components/Logo.tsx
+    iconMap.ts
+    BrandIcon.tsx
+    index.ts
+  ui/
+    components/Close.tsx
+    iconMap.ts
+    UiIcon.tsx
+    index.ts
+```
+
+---
+
+## Separate Configs
+
+When families need a different `mode`, `suffix`, `facadeSuffix` or
+`svgrOptions`, export an array of configs. Each config is resolved on its
+own:
+
+```ts
+export default defineConfig([
+  {
+    mode: "facade",
+    entry: { srcDir: "assets/brand", outDir: "src/brand" },
+  },
+  {
+    mode: "barrel",
+    suffix: "Icon",
+    entry: { srcDir: "assets/ui", outDir: "src/ui" },
+  },
+]);
+```
+
+---
+
+## Naming
+
+Family names and icon names must be unique across the whole config file,
+including every config in an exported array. See
+[Config](/svg2tsx/config#entry) for how a family's name is set.

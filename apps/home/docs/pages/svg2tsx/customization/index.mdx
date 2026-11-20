@@ -1,0 +1,102 @@
+---
+metaTitle: Customization | SVG2TSX
+title: Customization
+description: Setting up svg2tsx.config.ts to change what svg2tsx generates.
+---
+
+# Customizing SVG2TSX
+
+Every setting lives in `svg2tsx.config.ts`, and every field in it is
+optional. This page covers setting up the config and the SVGR options.
+[The Facade Component](/svg2tsx/customization/facade) and
+[Multiple Families](/svg2tsx/customization/family) have their own pages. For
+each field's type and default, see [Config](/svg2tsx/config).
+
+---
+
+## Setting Up the Config
+
+`svg2tsx` only reads configuration from a `svg2tsx.config.ts` file — there's
+no other way to pass it. By default it looks for one with exactly
+that name in the current working directory; pass `-c <path>` to point
+elsewhere (see [CLI](/svg2tsx/cli)). With no config file at all, it runs
+entirely on the defaults.
+
+```ts
+import { defineConfig } from "@wondesign/svg2tsx";
+
+export default defineConfig({
+  mode: "facade",
+  entry: { name: "app", srcDir: "assets", outDir: "src" },
+});
+```
+
+`defineConfig` exists purely for type-checking and autocomplete — at
+runtime it just returns whatever you pass it, unchanged. The file is
+loaded with [jiti](https://github.com/unjs/jiti), so a plain `.ts` file
+works with no separate build step.
+
+The default export can be a single config object, as above, or an
+**array** of them — see [Separate Configs](/svg2tsx/customization/family#separate-configs)
+for when and how to use that.
+
+---
+
+## SVGR Options
+
+Every icon goes through the same pipeline: validate, then run through
+[`@svgr/core`](https://react-svgr.com/) under a `svgrOptions` object that
+`@wondesign/svg2tsx` mostly pre-fills for you. For every default, see
+[svgrOptions](/svg2tsx/config#svgroptions) in Config.
+
+### What You Cannot Customize
+
+While `svgrOptions` is based on SVGR's `Config` type, `@wondesign/svg2tsx`
+specifically does not allow the following 6 fields:
+
+- ❌ **`typescript`** — fixed to `true`
+- ❌ **`configFile`** — there's no on-disk SVGR config to load; `svg2tsx.config.ts` already is one
+- ❌ **`index`** — svg2tsx writes its own `index.ts`, so SVGR doesn't need to
+- ❌ **`plugins`** — svgo and jsx are already wired up; there's nothing else safe to add here
+- ❌ **`prettier` / `prettierConfig`** — broken in SVGR itself as of v8; setting either does nothing
+
+### What You Can Customize
+
+Every other field can be overridden through `svg2tsx.config.ts`, and behaves
+exactly as SVGR documents it — see
+[SVGR's options reference](https://react-svgr.com/docs/options/) for the
+full list, types, and defaults. For example:
+
+```ts
+import { defineConfig } from "@wondesign/svg2tsx";
+
+export default defineConfig({
+  svgrOptions: {
+    native: true,
+    exportType: "default",
+    expandProps: "end",
+  },
+});
+```
+
+💡 A few fields worth reaching for:
+
+- ⚙️ **`native`** — emit `react-native-svg` elements instead of DOM SVG.
+- ⚙️ **`svgo` / `svgoConfig`** — turn SVG optimization off entirely, or
+  change which passes run (e.g. drop the `currentColor` conversion to keep
+  a multi-color icon set's original fills).
+- ⚙️ **`expandProps`** — whether a caller-supplied `width`/`height` can
+  override the icon's size, or `size` stays the only way in.
+- ⚙️ **`exportType`** — `"named"` (default) or `"default"` exports.
+
+⚠️ A few fields worth thinking twice about:
+
+- ⚙️ **`template`** — the fixed `{ size = "1em", ...props }` shape, and the
+  `import type { IconProps } from "@wondesign/svg2tsx"` import, come from here.
+- ⚙️ **`svgProps` / `icon`** — these are what bind the rendered `width`/
+  `height` to the `size` prop in the first place.
+
+To write your own `template` or JSX transform, see SVGR's
+[Custom Templates](https://react-svgr.com/docs/custom-templates/) and
+[Custom Transformations](https://react-svgr.com/docs/custom-transformations/).
+`svg2tsx` forwards whatever you put there.

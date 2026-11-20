@@ -1,0 +1,211 @@
+---
+metaTitle: Config | SVG2TSX
+title: Config
+description: Every field svg2tsx.config.ts accepts, its type, and its default.
+---
+
+# Config Reference
+
+Every field `svg2tsx.config.ts` accepts, its type, and its default. See
+[Customization](/svg2tsx/customization) for setting up the config file.
+
+---
+
+## API
+
+Import `defineConfig` and the `Config` type from `@wondesign/svg2tsx`. Every
+field can be left out:
+
+```ts
+type Config = {
+  // what svg2tsx writes besides the icons. defaults to `"barrel"`.
+  mode?: "barrel" | "facade" | "both";
+
+  // the families to convert.
+  // defaults to `{ name: "app", srcDir: "assets", outDir: "src" }`.
+  entry?: FamilyEntry | FamilyEntry[];
+
+  // appended to every icon component's name. defaults to `""`.
+  suffix?: string;
+
+  // appended to every facade component's name. defaults to `"Icon"`.
+  facadeSuffix?: string;
+
+  // forwarded to SVGR, minus `typescript`, `configFile`, `index`,
+  // `plugins`, `prettier` and `prettierConfig`.
+  svgrOptions?: SvgrConfig;
+};
+
+type FamilyEntry = {
+  // the family's name, in kebab-case. defaults to the `srcDir` folder name.
+  name?: string;
+
+  // the folder of SVG files to convert.
+  srcDir: string;
+
+  // the folder the components are written to.
+  outDir: string;
+};
+
+function defineConfig(config: Config | Config[]): Config | Config[];
+```
+
+---
+
+## mode
+
+Type: `"barrel" | "facade" | "both"`
+
+Default: `"barrel"`
+
+What `index.ts` exports:
+
+- 🔹 **`"barrel"`** — each icon component by name.
+- 🔹 **`"facade"`** — a [facade component](/svg2tsx/customization/facade) that renders any
+  icon by name, instead of the individual icons.
+- 🔹 **`"both"`** — the individual icons and the facade.
+
+---
+
+## entry
+
+Type: `FamilyEntry | FamilyEntry[]`
+
+Default: `{ name: "app", srcDir: "assets", outDir: "src" }`
+
+```ts
+type FamilyEntry = {
+  name?: string;
+  srcDir: string;
+  outDir: string;
+};
+```
+
+One entry = one family, scanned and written independently — there's no
+automatic nesting by folder depth. If you want per-family output
+directories, each entry's `outDir` says so explicitly:
+
+```ts
+export default defineConfig({
+  entry: [
+    { srcDir: "assets/brand", outDir: "src/brand" },
+    { srcDir: "assets/ui", outDir: "src/ui" },
+  ],
+});
+```
+
+- 🔹 **`name`** — the family's name. Defaults to the `srcDir` folder name.
+  Must be kebab-case in every mode, since it's always turned into a
+  component name.
+- 🔹 **`srcDir`** — the folder of SVG files. Subfolders aren't scanned.
+- 🔹 **`outDir`** — the folder the family's files are written to.
+
+### Watch Out
+
+- ⚠️ **Keep `srcDir` and `outDir` inside `cwd`.** Both are resolved relative
+  to `cwd`. An absolute path, `..` or `cwd` itself throws.
+- ⚠️ **Don't edit `outDir` by hand.** It's deleted and recreated on every run
+  except a dry run, so your edits are lost. The one exception is the
+  [facade component](/svg2tsx/customization/facade): once its file exists, `svg2tsx` keeps
+  it as it is, so you can edit it to fit your app. Delete the file to
+  generate it again.
+- ⚠️ **Don't point two entries at the same `outDir`.** Their files are
+  written to the same folder, so **files they share, like `index.ts`,
+  overwrite each other**.
+- ⚠️ **Keep family names unique** across the whole config file, including
+  every config in an exported array. A repeated name throws.
+
+---
+
+## suffix
+
+Type: `string`
+
+Default: `""`
+
+Appended to every generated icon component's name — **not the facade's**.
+
+```ts
+export default defineConfig({ suffix: "Icon" });
+// error.svg -> ErrorIcon, not Error
+```
+
+Useful when an icon's plain name would collide with something else in
+scope, like `Error` shadowing JavaScript's built-in `Error`.
+
+---
+
+## facadeSuffix
+
+Type: `string`
+
+Default: `"Icon"`
+
+Appended to each family's PascalCase name to build that family's facade
+component's name (e.g. family `"brand"` → `BrandIcon`). Only relevant when
+`mode` writes a facade — see [Naming](/svg2tsx/customization/facade#naming) on the Facade
+Component page.
+
+---
+
+## svgrOptions
+
+Type: SVGR's `Config`, minus the
+[fields you cannot customize](/svg2tsx/customization#what-you-cannot-customize).
+
+Forwarded to [`@svgr/core`](https://react-svgr.com/docs/options/), with these
+defaults:
+
+```ts
+svgrOptions: {
+  icon: true,
+  native: false,
+  jsxRuntime: "automatic",
+  expandProps: "start",
+  svgProps: { width: "{size}", height: "{size}" },
+  svgo: true,
+  svgoConfig: {
+    plugins: [
+      {
+        name: "preset-default",
+        params: { overrides: { removeViewBox: false } },
+      },
+      { name: "convertColors", params: { currentColor: true } },
+      "prefixIds",
+      "removeDimensions",
+    ],
+  },
+  exportType: "named",
+  template, // WonDesign's `{ size = "1em", ...props }` template
+}
+```
+
+### svgoConfig
+
+Setting `svgoConfig.plugins` **replaces** the whole default list. To add a
+plugin, repeat the defaults alongside it:
+
+```ts
+export default defineConfig({
+  svgrOptions: {
+    svgoConfig: {
+      plugins: [
+        {
+          name: "preset-default",
+          params: { overrides: { removeViewBox: false } },
+        },
+        { name: "convertColors", params: { currentColor: true } },
+        "prefixIds",
+        "removeDimensions",
+        "removeXMLNS",
+      ],
+    },
+  },
+});
+```
+
+### expandProps
+
+With `"start"`, the caller's props come before the fixed `width` and
+`height`, so `size` always wins over a passed `width` or `height`. With
+`"end"`, the caller's `width` and `height` win instead.

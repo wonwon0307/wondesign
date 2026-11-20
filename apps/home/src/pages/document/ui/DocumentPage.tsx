@@ -7,13 +7,13 @@ import { mdxComponents } from "./mdx";
 import { styles } from "./styles.css";
 
 interface Props {
-  params: Promise<{ collection: string; slug: string[] }>;
+  params: Promise<{ slug: string[] }>;
 }
 
 export async function DocumentPage({ params }: Readonly<Props>) {
-  const { collection, slug } = await params;
-  const path = `/${collection}/${slug.join("/")}`;
+  const { slug } = await params;
 
+  const path = `/${slug.join("/")}`;
   const data = getPageData(path);
 
   if (!data) {
@@ -39,7 +39,7 @@ export async function DocumentPage({ params }: Readonly<Props>) {
   const { default: Content } = await component();
 
   return (
-    <div className={styles.container}>
+    <div className={styles.page}>
       <div className={styles.header}>
         {meta.title && <Heading level={1}>{meta.title}</Heading>}
         {meta.description && (
