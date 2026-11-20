@@ -46,6 +46,7 @@
     "@wondesign/loading": "workspace:*",
     "@wondesign/navbar": "workspace:*",
     "@wondesign/separator": "workspace:*",
+    "@wondesign/sidebar": "workspace:*",
     "@wondesign/tabs": "workspace:*",
     "@wondesign/texts": "workspace:*",
     "@wondesign/theme": "workspace:*",
