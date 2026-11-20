@@ -46,8 +46,6 @@ time, so install it on its own, as a dev dependency.
 The setup is the same as in [Getting Started](/getting-started), with every
 import from `@wondesign/ui`. For example, in Next.js (App Router):
 
-{/* TODO: update the import paths once the export naming is settled */}
-
 ```tsx
 // app/layout.tsx
 import "@wondesign/ui/styles.css";
@@ -82,10 +80,15 @@ styles, so there's nothing else to import.
 Each package has its own entry, named after it:
 
 ```tsx
-import { Button } from "@wondesign/ui/Buttons";
-import { Heading, Paragraph } from "@wondesign/ui/Texts";
-import { Collapsible } from "@wondesign/ui/Headless";
+import { Button } from "@wondesign/ui/buttons";
+import { Heading, Paragraph } from "@wondesign/ui/texts";
+import { useFocusTrap } from "@wondesign/ui/focus";
 ```
 
-Headless components have their own entry, so they never clash with styled
-components of the same name, like `Button` or `Tooltip`.
+Headless components come from the entry of their styled package, prefixed with
+`Headless`, so they never clash with styled components of the same name:
+
+```tsx
+import { Button, HeadlessButton } from "@wondesign/ui/buttons";
+import { Anchor, HeadlessAnchor } from "@wondesign/ui/links";
+```
