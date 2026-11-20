@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import { headers } from "next/headers";
+import * as Navigation from "next/navigation";
 
 import { RootLayout } from "@/app/RootLayout";
 import { NotFound } from "@/pages/not-found";
@@ -13,12 +14,33 @@ describe("RootLayout", () => {
     // header
     expect(getByRole("banner")).toBeTruthy();
     expect(getByText("WonDesign")).toBeTruthy();
-    expect(getByText("Foundations")).toBeTruthy();
-    expect(getByText("Components")).toBeTruthy();
+    expect(getByText("Documentation")).toBeTruthy();
 
     expect(getByRole("main")).toBeTruthy(); // main
     expect(getByText("Main Content")).toBeTruthy();
     expect(getByRole("contentinfo")).toBeTruthy(); // footer
+  });
+
+  it("marks documentation link as active when on a document page", async () => {
+    vi.spyOn(Navigation, "usePathname").mockReturnValue("/test-slug/overview");
+
+    const { getByText } = render(
+      await RootLayout({ children: <div>Main Content</div> }),
+    );
+
+    const link = getByText("Documentation");
+    expect(link.dataset.active).toBe("true");
+  });
+
+  it("does not mark documentation link as active when not on a document page", async () => {
+    vi.spyOn(Navigation, "usePathname").mockReturnValue("/");
+
+    const { getByText } = render(
+      await RootLayout({ children: <div>Main Content</div> }),
+    );
+
+    const link = getByText("Documentation");
+    expect(link.dataset.active).toBeFalsy();
   });
 
   it("passes the request nonce to the inline style and script", async () => {
