@@ -8,8 +8,9 @@ import { PackageInfo } from "@/entities/package";
 
 <PackageInfo name="@wondesign/svg2tsx" relPath="foundations/svg2tsx">
   `@wondesign/svg2tsx` scans one or more directories of SVG files and generates
-  a matching tree of type-safe React components - one component per icon, plus
-  the boilerplate (barrel exports, a name-keyed map, a facade component) to
+  a matching tree of type-safe React components with
+  [SVGR](https://react-svgr.com/): one component per icon, plus the
+  boilerplate (barrel exports, a name-keyed map, a facade component) to
   consume them.
 </PackageInfo>
 
@@ -21,20 +22,18 @@ import { PackageInfo } from "@/entities/package";
 pnpm add -D @wondesign/svg2tsx
 ```
 
-> See [`@wondesign/icons`](/components/icons) for a real consumer.
+[`@wondesign/icons`](/components/icons) is built with it.
 
 ---
 
 ## Key Features
 
-The svg2tsx CLI converts SVG files into React components based on [SVGR](https://react-svgr.com/). The key features are as follows:
-
-- ✅ **Auto Convert**: Automatically converts SVG files to Typescript React components
-- ✅ **Duplicate Checks**: Automatically detects duplicate names and contents
-- ✅ **Multiple Families**: Convert several independent sets of icons — each with its own source/output directories — in a single run
-- ✅ **Platform Independent**: Set options to convert icons for React Native components
-- ✅ **Barrel Exports**: Automatically creates the `index.ts` barrel file if needed
-- ✅ **Facade Component**: Automatically creates a facade component if needed
+- ✅ **Auto Convert**: Converts SVG files to TypeScript React components
+- ✅ **Duplicate Checks**: Detects duplicate names and contents
+- ✅ **Multiple Families**: Converts several independent icon sets in a single run
+- ✅ **React Native**: Supports conversions for React Native
+- ✅ **Barrel Exports**: Creates an `index.ts` that exports every icon
+- ✅ **Facade Component**: Creates one component that renders any icon by name
 
 ---
 
@@ -55,11 +54,22 @@ Any violation aborts the whole run with a message naming the offending file(s) �
 
 ---
 
+## Known Issues
+
+- 🐞 **IconProps doesn't match React Native**: The exported `IconProps` type
+  is always `React.SVGProps<SVGSVGElement>`, even with `native: true`, so it
+  doesn't match the props of `react-native-svg`.
+
+---
+
+## Upcoming Features
+
+- 🔜 **Icon Names Array**: Export every icon name as an array in facade mode, like for an icon picker
+- 🔜 **Built-In Formatting**: Format the generated files, without a separate Prettier step
+
+---
+
 ## Next Steps
 
-- [Quick Start](/svg2tsx/quick-start) - Get a default icon set converted in under a minute.
-- [Customization](/svg2tsx/customization) - What you can and can't change about the generated components.
-- [The Facade Component](/svg2tsx/facade) - Look up icons by name at runtime instead of importing each one directly.
-- [Multiple Families](/svg2tsx/family) - Convert more than one independent icon set in a single run.
-- [CLI](/svg2tsx/cli) - Every flag the `svg2tsx` command accepts.
-- [Config](/svg2tsx/config) - Every field `svg2tsx.config.ts` accepts, and how they combine.
+- **[Quick Start](/svg2tsx/quick-start)** — converting an icon set with the
+  defaults.
