@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@testing-library/react";
-import { showAlert, showConfirm } from "@wondesign/ui/Alert";
+import { showAlert, showConfirm } from "@wondesign/ui/alert";
 
 import { AlertDemo } from "@/widgets/preview";
 
