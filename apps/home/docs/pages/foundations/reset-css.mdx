@@ -20,20 +20,20 @@ import { PackageInfo } from "@/entities/package";
 pnpm add @wondesign/reset-css
 ```
 
+<Callout title="Using @wondesign/ui?">
+  The reset is bundled into `@wondesign/ui/styles.css`, so there's no need to
+  install this package separately.
+</Callout>
+
 ---
 
 ## Usage
 
 A few common ways to load it — pick whichever fits your setup.
 
-<Callout title="Using @wondesign/ui?">
-  The reset is bundled into `@wondesign/ui/styles.css`, so there's no need to
-  install this package separately.
-</Callout>
+### App root import
 
-### 1. App root import
-
-Import the css from the root of the app. For example, `app/layout.tsx` of NextJS App Router.
+Import the CSS from the root of the app. For example, `app/layout.tsx` of NextJS App Router.
 
 ```tsx
 // layout.tsx
@@ -44,9 +44,9 @@ export default function RootLayout() {
 }
 ```
 
-### 2. Root CSS import
+### Root CSS import
 
-Import the css from the root css of the app.
+Import the CSS from the root CSS of the app.
 Make sure this import is done as high in the tree as possible, before any other styles.
 
 ```css
@@ -54,7 +54,7 @@ Make sure this import is done as high in the tree as possible, before any other 
 @import "@wondesign/reset-css";
 ```
 
-And import the root css from app root.
+And import the root CSS from app root.
 
 ```tsx
 // root.tsx
@@ -65,23 +65,35 @@ export default function RootLayout() {
 }
 ```
 
-### 3. Via CSS framework API
+### Other setups
 
 `@wondesign/reset-css` is just a stylesheet — nothing about it depends on a
-specific loading mechanism. If your framework exposes its own way to apply
-global styles (e.g. a `globalStyle()`/`createGlobalStyle()`-style API), you
-can use that instead of the plain imports in steps 1 and 2 above.
+specific loading mechanism. Any setup that can load a CSS file works, like a
+`<link>` tag or your bundler's global CSS entry.
+
+---
+
+## What It Changes
+
+Most of the reset only evens out browser differences. A few rules change how
+plain elements look:
+
+- 🔸 **Lists**: `ul` and `ol` lose their bullets and indent.
+- 🔸 **Links**: `a` takes its parent's color and loses its underline.
+- 🔸 **Media**: `img`, `video`, `canvas` and `svg` become `display: block`, so
+  an inline icon no longer sits within a line of text.
+- 🔸 **Forms**: `button`, `input`, `select` and `textarea` lose their border,
+  background and padding.
+- 🔸 **Dialogs**: `dialog` loses its margin, so a modal dialog is no longer
+  centered.
 
 ---
 
 ## Compatibility
 
-✅ You're free to customize `@wondesign/reset-css` yourself — it's not a
-build artifact, just a stylesheet.
-
-✅ **Browser support.** Targets modern evergreen browsers (Chrome, Firefox,
-Safari, Edge). It does not patch legacy browsers such as IE11.
-
 ⚠️ **Tailwind.** Tailwind's Preflight layer already applies its own reset.
-Importing both can cause rules to double up or conflict — pick one, or
-scope `@wondesign/reset-css` to parts of your app that don't use Tailwind.
+Importing both can cause rules to double up or conflict — pick one.
+
+⚠️ **Safari lists.** Without a list style, Safari's VoiceOver stops
+announcing `ul` and `ol` as lists. Add `role="list"` to the lists that should
+still be announced.
