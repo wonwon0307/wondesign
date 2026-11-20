@@ -1,19 +1,17 @@
 import type { Metadata } from "next";
 
 import { getPageData } from "@/entities/document";
-import { capitalize } from "@/shared/lib/capitalize";
 
 interface Props {
-  params: Promise<{ collection: string; slug: string[] }>;
+  params: Promise<{ slug: string[] }>;
 }
 
 export async function generateMetadata({
   params,
 }: Readonly<Props>): Promise<Metadata> {
-  const { collection, slug } = await params;
+  const { slug } = await params;
 
-  const path = `/${collection}/${slug.join("/")}`;
-
+  const path = `/${slug.join("/")}`;
   const data = getPageData(path);
 
   if (!data?.meta) {
@@ -28,7 +26,7 @@ export async function generateMetadata({
   const title = meta.metaTitle ?? meta.title;
 
   return {
-    title: `${title} | ${capitalize(collection)} | WonDesign`,
+    title: `${title} | WonDesign`,
     description: meta.description,
   };
 }
