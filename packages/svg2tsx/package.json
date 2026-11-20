@@ -15,7 +15,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wonwon0307/wondesign.git",
-    "directory": "foundations/svg2tsx"
+    "directory": "packages/svg2tsx"
   },
   "publishConfig": {
     "access": "public",
