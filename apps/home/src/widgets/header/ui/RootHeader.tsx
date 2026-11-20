@@ -10,11 +10,9 @@ import { WonDesignLogo, GithubLogo } from "@/shared/ui/Logos";
 import { styles } from "./styles.css";
 
 export function RootHeader() {
-  const pages = [
-    { label: "Foundations", href: "/foundations" },
-    { label: "Components", href: "/components" },
-  ];
   const pathname = usePathname();
+  const isDocsActive =
+    pathname && pathname !== "/" && !pathname.startsWith("/colors");
 
   return (
     <header role="banner" className={styles.header}>
@@ -26,15 +24,9 @@ export function RootHeader() {
       </div>
       <div className={styles.headerRight}>
         <Navbar aria-label="Main Tab Navigation" className={styles.tabs}>
-          {pages.map((page) => (
-            <NavLink
-              key={page.href}
-              href={page.href}
-              isActive={pathname?.startsWith(page.href)}
-            >
-              {page.label}
-            </NavLink>
-          ))}
+          <NavLink href="/introduction" isActive={isDocsActive || false}>
+            Documentation
+          </NavLink>
         </Navbar>
         <div className={styles.links}>
           <Tooltip
