@@ -1,7 +1,7 @@
 ---
 metaTitle: Facade | SVG2TSX
 title: The Facade Component
-description: How and when to use the generated facade component
+description: How to use the generated facade component
 ---
 
 # The Facade Component
@@ -9,6 +9,25 @@ description: How and when to use the generated facade component
 A facade component is a single, name-keyed entry point for a family's
 icons — instead of importing each icon directly, consumers pass an icon
 name as a prop and the facade resolves it at runtime.
+
+---
+
+## Key Features
+
+- ✅ **Type-Safe**: The `icon` prop only accepts real icon names
+- ✅ **Safe at Runtime**: An unknown name logs a warning and renders nothing, instead of throwing
+- ✅ **Editable**: Your edits to the facade file are kept across runs
+- ✅ **IconName Type**: Every icon name is exported as a type, to use in your own code
+
+```ts
+import type { IconName } from "@wondesign/icons";
+
+// only accepts real icon names
+type NavItemProps = {
+  icon: IconName;
+  label: string;
+};
+```
 
 ---
 
@@ -29,24 +48,7 @@ Consumers render it by name:
 <AppIcon icon="chevron-down" />
 ```
 
----
-
-## Key Features
-
-- ✅ **Type-Safe**: The `icon` prop only accepts real icon names
-- ✅ **Safe at Runtime**: An unknown name logs a warning and renders nothing, instead of throwing
-- ✅ **Editable**: Your edits to the facade file are kept across runs
-- ✅ **IconName Type**: Every icon name is exported as a type, to use in your own code
-
-```ts
-import type { IconName } from "@wondesign/icons";
-
-// only accepts real icon names
-type NavItemProps = {
-  icon: IconName;
-  label: string;
-};
-```
+[`@wondesign/icons`](/components/icons) is built with this config.
 
 ---
 

@@ -31,8 +31,11 @@ Print the installed CLI version.
 
 ## Formatting output
 
-It is strongly recommended to pair the CLI with a formatter in your
-`package.json` script, since SVGR output isn't pre-formatted:
+Pairing the CLI with a formatter in your `package.json` script is **strongly
+recommended**. SVGR's output isn't formatted, and `svgrOptions.prettier` and
+`prettierConfig` don't work (see
+[Customization](/svg2tsx/customization#what-you-cannot-customize)), so a
+separate formatting pass is the only way to get formatted files:
 
 ```json
 {
@@ -41,9 +44,3 @@ It is strongly recommended to pair the CLI with a formatter in your
   }
 }
 ```
-
-- This step is strongly recommended — `svgrOptions.prettier`/
-  `prettierConfig` don't actually work (see
-  [Customization](/svg2tsx/customization#what-you-cannot-customize)), so a
-  separate formatting pass is the only way generated files end up formatted
-  at all.

@@ -3,7 +3,6 @@ title: SVG2TSX
 description: A CLI tool that converts SVG icons into React components.
 ---
 
-import { Callout } from "@wondesign/ui/Texts";
 import { PackageInfo } from "@/entities/package";
 
 <PackageInfo name="@wondesign/svg2tsx" relPath="foundations/svg2tsx">
@@ -39,16 +38,19 @@ pnpm add -D @wondesign/svg2tsx
 
 ## Rules
 
-`svg2tsx` validates your source files and config before converting anything. The rules are as follows:
+`svg2tsx` validates your source files and config before converting anything:
 
-- ❗️ **kebab-case SVG files** - SVG filenames must be strictly kebab-case (`^[a-z][a-z0-9]*(-[a-z0-9]+)*$`)
-- ❗️ **Unique family names** - Family names (set through `entry.name` or `srcDir`'s basename)
-  must be unique across the whole config. Reusing one throws, even across different array entries.
-- ❗️ **Unique icon names** - Icon names must be unique across the whole run as well (not just within a family).
-- ❗️ **Unique icon content** - The content within each SVG file must be unique too —
-  byte-identical SVGs (even under different names) are rejected as duplicates.
-- ❗️ **Non-empty family** - Each family must contain at least one `*.svg` file in its `srcDir`.
-- ❗️ **Non-empty content** - Icon content cannot be empty.
+- ❗️ **kebab-case file names**: SVG file names must be kebab-case, like
+  `chevron-down.svg`.
+- ❗️ **Unique family names**: Family names, set through `entry.name` or the
+  `srcDir` folder name, must be unique across the whole config file.
+- ❗️ **Unique icon names**: Icon names must be unique across the whole run,
+  not just within a family.
+- ❗️ **Unique icon content**: Byte-identical SVGs are rejected as duplicates,
+  even under different names.
+- ❗️ **Non-empty families**: Each family must contain at least one `*.svg`
+  file in its `srcDir`.
+- ❗️ **Non-empty content**: An SVG file can't be empty.
 
 Any violation aborts the whole run with a message naming the offending file(s) — nothing partial is written.
 

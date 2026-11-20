@@ -7,8 +7,7 @@ description: Every field svg2tsx.config.ts accepts, its type, and its default.
 # Config Reference
 
 Every field `svg2tsx.config.ts` accepts, its type, and its default. See
-[Customization](/svg2tsx/customization) for setting up the config file and a
-few common configurations.
+[Customization](/svg2tsx/customization) for setting up the config file.
 
 ---
 
@@ -62,7 +61,7 @@ Default: `"barrel"`
 What `index.ts` exports:
 
 - 🔹 **`"barrel"`** — each icon component by name.
-- 🔹 **`"facade"`** — a [facade component](/svg2tsx/facade) that renders any
+- 🔹 **`"facade"`** — a [facade component](/svg2tsx/customization/facade) that renders any
   icon by name, instead of the individual icons.
 - 🔹 **`"both"`** — the individual icons and the facade.
 
@@ -107,7 +106,7 @@ export default defineConfig({
   to `cwd`. An absolute path, `..` or `cwd` itself throws.
 - ⚠️ **Don't edit `outDir` by hand.** It's deleted and recreated on every run
   except a dry run, so your edits are lost. The one exception is the
-  [facade component](/svg2tsx/facade): once its file exists, `svg2tsx` keeps
+  [facade component](/svg2tsx/customization/facade): once its file exists, `svg2tsx` keeps
   it as it is, so you can edit it to fit your app. Delete the file to
   generate it again.
 - ⚠️ **Don't point two entries at the same `outDir`.** Their files are
@@ -144,7 +143,7 @@ Default: `"Icon"`
 
 Appended to each family's PascalCase name to build that family's facade
 component's name (e.g. family `"brand"` → `BrandIcon`). Only relevant when
-`mode` writes a facade — see [Naming](/svg2tsx/facade#naming) on the Facade
+`mode` writes a facade — see [Naming](/svg2tsx/customization/facade#naming) on the Facade
 Component page.
 
 ---

@@ -202,9 +202,15 @@
               "label": "Guides",
               "items": [
                 "[Quick Start](/svg2tsx/quick-start)",
-                "[Customization](/svg2tsx/customization)",
-                "[The Facade Component](/svg2tsx/facade)",
-                "[Multiple Families](/svg2tsx/family)"
+                {
+                  "type": "link",
+                  "label": "Customization",
+                  "url": "/svg2tsx/customization",
+                  "items": [
+                    "[The Facade Component](/svg2tsx/customization/facade)",
+                    "[Multiple Families](/svg2tsx/customization/family)"
+                  ]
+                }
               ]
             },
             {
