@@ -1,7 +1,7 @@
 ---
 metaTitle: CLI | SVG2TSX
 title: CLI
-description: A CLI tool that converts SVG icons into React components.
+description: Every flag the svg2tsx command accepts.
 ---
 
 # CLI
@@ -42,10 +42,8 @@ It is strongly recommended to pair the CLI with a formatter in your
 }
 ```
 
-- This step is strongly recommended, not optional — `svgrOptions.prettier`/
+- This step is strongly recommended — `svgrOptions.prettier`/
   `prettierConfig` don't actually work (see
   [Customization](/svg2tsx/customization#what-you-cannot-customize)), so a
   separate formatting pass is the only way generated files end up formatted
   at all.
-- Skip the formatter on `--dry-run` runs — nothing gets written to disk, so
-  there's nothing to format.
