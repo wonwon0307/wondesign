@@ -1,9 +1,9 @@
 import { fireEvent, render } from "@testing-library/react";
-import { deleteToasts, toast } from "@wondesign/ui/Toast";
+import { deleteToasts, toast } from "@wondesign/ui/toast";
 
 import { DeleteToastsDemo, ToastDemo } from "@/widgets/preview";
 
-vi.mock("@wondesign/ui/Toast", () => ({
+vi.mock("@wondesign/ui/toast", () => ({
   toast: Object.assign(vi.fn(), {
     info: vi.fn(),
     success: vi.fn(),

@@ -1,10 +1,10 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { AppIcon } from "@wondesign/ui/Icons";
-import { Anchor, IconLink } from "@wondesign/ui/Links";
-import { Navbar, NavLink } from "@wondesign/ui/Navbar";
-import { Tooltip } from "@wondesign/ui/Tooltip";
+import { AppIcon } from "@wondesign/ui/icons";
+import { Anchor, IconLink } from "@wondesign/ui/links";
+import { Navbar, NavLink } from "@wondesign/ui/navbar";
+import { Tooltip } from "@wondesign/ui/tooltip";
 
 import { WonDesignLogo, GithubLogo } from "@/shared/ui/Logos";
 import { styles } from "./styles.css";

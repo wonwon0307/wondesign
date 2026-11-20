@@ -1,8 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { SidebarItem, SidebarItemToggle } from "@wondesign/sidebar/Item";
-import { Badge } from "@wondesign/ui/Texts";
+import { SidebarItem, SidebarItemToggle } from "@wondesign/ui/sidebar";
 import { type DocsLink } from "@wondocs/core/sidebar";
 
 import { styles } from "./styles.css";
@@ -37,24 +36,9 @@ export function DocumentLink({ link, children }: Readonly<Props>) {
           <div />
         )
       }
-      right={<SidebarStatus badge={link.right} />}
       className={styles.item}
     >
       {children}
     </SidebarItem>
   );
-}
-
-interface StatusProps {
-  badge: DocsLink["right"];
-}
-
-function SidebarStatus({ badge }: Readonly<StatusProps>) {
-  if (badge === "Coming Soon") {
-    return <Badge color="#e18115" label={badge} size="small" />;
-  }
-  if (badge === "Internal") {
-    return <Badge color="#6c757d" label={badge} size="small" />;
-  }
-  return null;
 }

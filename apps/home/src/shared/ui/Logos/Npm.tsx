@@ -1,4 +1,4 @@
-import type { IconProps } from "@wondesign/ui/Icons";
+import type { IconProps } from "@wondesign/ui/icons";
 
 export function NpmLogo({
   size = 24,

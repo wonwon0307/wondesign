@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 
 import { IconPreview } from "@/widgets/preview";
 
-vi.mock("@wondesign/ui/Icons", () => ({
+vi.mock("@wondesign/ui/icons", () => ({
   AppIcon: () => <div>AppIcon</div>,
 }));
 

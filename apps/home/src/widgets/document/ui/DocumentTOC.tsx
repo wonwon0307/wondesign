@@ -1,7 +1,7 @@
 "use client";
 
-import { Hyperlink } from "@wondesign/ui/Links";
-import { Heading } from "@wondesign/ui/Texts";
+import { Hyperlink } from "@wondesign/ui/links";
+import { Heading } from "@wondesign/ui/texts";
 import type { DocsTocEntry } from "@wondocs/core/pages";
 
 import { useActiveHeading } from "../lib/useActiveHeading";

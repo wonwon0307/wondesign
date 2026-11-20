@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 
 import { mdxComponents } from "@/pages/document/ui/mdx";
 
-vi.mock("@wondesign/ui/Code", () => ({
+vi.mock("@wondesign/ui/code", () => ({
   InlineCode: ({ children }: { children: React.ReactNode }) => (
     <code>{children}</code>
   ),

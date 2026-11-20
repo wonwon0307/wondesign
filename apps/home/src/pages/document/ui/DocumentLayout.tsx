@@ -1,6 +1,8 @@
-import { SidebarProvider } from "@wondesign/sidebar";
-import { SidebarBody } from "@wondesign/sidebar/Body";
-import { SidebarNav } from "@wondesign/sidebar/Nav";
+import {
+  SidebarProvider,
+  SidebarBody,
+  SidebarNav,
+} from "@wondesign/ui/sidebar";
 import { getSidebar } from "@wondocs/core/sidebar";
 
 import { SidebarItem } from "@/widgets/sidebar";

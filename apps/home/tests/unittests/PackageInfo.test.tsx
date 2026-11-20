@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 
 import { PackageInfo } from "@/entities/package";
 
-vi.mock("@wondesign/ui/Tooltip", () => ({
+vi.mock("@wondesign/ui/tooltip", () => ({
   Tooltip: ({
     children,
     text,

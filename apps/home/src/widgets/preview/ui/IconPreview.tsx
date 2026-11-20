@@ -1,5 +1,5 @@
-import { InlineCode } from "@wondesign/ui/Code";
-import { AppIcon, type IconName } from "@wondesign/ui/Icons";
+import { InlineCode } from "@wondesign/ui/code";
+import { AppIcon, type IconName } from "@wondesign/ui/icons";
 
 import { styles } from "./styles.css";
 

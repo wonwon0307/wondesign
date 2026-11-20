@@ -13,3 +13,7 @@ export type { IconButtonProps } from "@wondesign/buttons/IconButton";
 // Link
 export { LinkButton } from "@wondesign/buttons/LinkButton";
 export type { LinkButtonProps } from "@wondesign/buttons/LinkButton";
+
+// headless
+export { Button as HeadlessButton } from "@wondesign/headless/Button";
+export type { ButtonProps as HeadlessButtonProps } from "@wondesign/headless/Button";

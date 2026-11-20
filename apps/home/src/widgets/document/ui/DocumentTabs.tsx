@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Navbar, NavLink } from "@wondesign/ui/Navbar";
+import { Navbar, NavLink } from "@wondesign/ui/navbar";
 
 import type { TabEntry } from "@/entities/document";
 import { capitalize } from "@/shared/lib/capitalize";

@@ -1,7 +1,7 @@
-import { CodeWindow, InlineCode } from "@wondesign/ui/Code";
-import { Hyperlink } from "@wondesign/ui/Links";
-import { Separator } from "@wondesign/ui/Separator";
-import { Callout, Heading, Paragraph } from "@wondesign/ui/Texts";
+import { CodeWindow, InlineCode } from "@wondesign/ui/code";
+import { Hyperlink } from "@wondesign/ui/links";
+import { Separator } from "@wondesign/ui/separator";
+import { Callout, Heading, Paragraph } from "@wondesign/ui/texts";
 
 import { styles } from "./styles.css";
 
