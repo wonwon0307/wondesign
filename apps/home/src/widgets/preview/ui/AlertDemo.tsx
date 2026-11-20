@@ -1,7 +1,7 @@
 "use client";
 
-import { showAlert, showConfirm } from "@wondesign/ui/Alert";
-import { Button } from "@wondesign/ui/Buttons";
+import { showAlert, showConfirm } from "@wondesign/ui/alert";
+import { Button } from "@wondesign/ui/buttons";
 
 interface Props {
   type: "alert" | "confirm";

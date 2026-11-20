@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@wondesign/ui/Buttons";
+import { Button } from "@wondesign/ui/buttons";
 import {
   deleteToasts,
   toast,
   type ToastOptions,
   type ToastPosition,
   type ToastType,
-} from "@wondesign/ui/Toast";
+} from "@wondesign/ui/toast";
 
 interface Props {
   label: string;

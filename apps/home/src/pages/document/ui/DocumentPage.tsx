@@ -1,5 +1,5 @@
 import { notFound, redirect, RedirectType } from "next/navigation";
-import { Heading, Description } from "@wondesign/ui/Texts";
+import { Heading, Description } from "@wondesign/ui/texts";
 
 import { DocumentTabs, DocumentTOC } from "@/widgets/document";
 import { getPageData } from "@/entities/document";

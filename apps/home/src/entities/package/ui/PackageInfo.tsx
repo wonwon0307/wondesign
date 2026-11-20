@@ -1,7 +1,7 @@
-import { AppIcon } from "@wondesign/ui/Icons";
-import { IconLink } from "@wondesign/ui/Links";
-import { Callout, Heading } from "@wondesign/ui/Texts";
-import { Tooltip } from "@wondesign/ui/Tooltip";
+import { AppIcon } from "@wondesign/ui/icons";
+import { IconLink } from "@wondesign/ui/links";
+import { Callout, Heading } from "@wondesign/ui/texts";
+import { Tooltip } from "@wondesign/ui/tooltip";
 
 import { GithubLogo, NpmLogo } from "@/shared/ui/Logos";
 import { styles } from "./styles.css";

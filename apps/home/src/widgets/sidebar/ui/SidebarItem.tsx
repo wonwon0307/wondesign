@@ -1,4 +1,4 @@
-import { SidebarGroup } from "@wondesign/sidebar/Item";
+import { SidebarGroup } from "@wondesign/ui/sidebar";
 import { type DocsItem } from "@wondocs/core/sidebar";
 
 import { DocumentLink } from "@/entities/document";

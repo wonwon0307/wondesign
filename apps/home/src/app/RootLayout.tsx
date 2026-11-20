@@ -5,9 +5,9 @@ import {
   Roboto_Slab,
 } from "next/font/google";
 import { headers } from "next/headers";
-import { Alerter } from "@wondesign/ui/Alert";
+import { Alerter } from "@wondesign/ui/alert";
 import { LightDarkScript } from "@wondesign/ui/server";
-import { Toaster } from "@wondesign/ui/Toast";
+import { Toaster } from "@wondesign/ui/toast";
 import { LightDarkProvider } from "@wondesign/ui/theme";
 import { wondesignTokenVariables } from "@wondesign/ui/tokens";
 import { clsx } from "clsx";
