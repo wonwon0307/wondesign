@@ -1,0 +1,118 @@
+# Floating Position
+
+`useFloatingPosition` places floating content next to the element that opens
+it, and keeps it there. It's the usual way to position a tooltip, popover or
+menu.
+
+```tsx
+import { useFloatingPosition } from "@wondesign/position";
+// or
+import { useFloatingPosition } from "@wondesign/ui/position";
+```
+
+---
+
+## Key Features
+
+- ✅ **Any Side, Any Alignment**: Place content above, below or beside its trigger, lined up at the start, center or end
+- ✅ **Flips When Needed**: Moves to the opposite side when there isn't room
+- ✅ **Stays on Screen**: Keeps content inside the viewport, with space to spare at the edges
+- ✅ **Arrow Included**: Points an arrow at the trigger, even when the content has moved to fit
+- ✅ **Keeps Up**: Follows the trigger on scroll and resize, and when the trigger, content or arrow changes size
+- ✅ **Typed Refs**: Refs ready to attach, typed for the elements you use
+
+---
+
+## API
+
+Import `useFloatingPosition` and its types from `@wondesign/position`. The
+hook returns the refs to attach and where to move the content and the arrow:
+
+```ts
+function useFloatingPosition<
+  TTrigger extends HTMLElement = HTMLButtonElement,
+  TFloating extends HTMLElement = HTMLDivElement,
+  TArrow extends HTMLElement = HTMLDivElement,
+>(
+  options?: UseFloatingPositionOptions,
+): UseFloatingPositionReturn<TTrigger, TFloating, TArrow>;
+```
+
+`options` and everything in it can be left out:
+
+```ts
+type FloatingPlacement = "top" | "bottom" | "left" | "right";
+type FloatingAlign = "start" | "center" | "end";
+
+// the options for where the content goes.
+// for components that take them as props.
+interface FloatingOptions {
+  // the side to place the content on. defaults to `"bottom"`.
+  placement?: FloatingPlacement;
+
+  // stay on `placement`, even without room. defaults to `false`.
+  forcePlacement?: boolean;
+
+  // how to line the content up with the trigger. defaults to `"center"`.
+  align?: FloatingAlign;
+
+  // the gap between the trigger and the content, in pixels. defaults to `0`.
+  offset?: number;
+
+  // the space to keep from the viewport's edges, in pixels. defaults to `0`.
+  padding?: number;
+}
+
+interface UseFloatingPositionOptions extends FloatingOptions {
+  // whether the position is kept up to date. defaults to `true`.
+  // pass the open state, so it only updates while the content is shown.
+  enabled?: boolean;
+}
+```
+
+The returned value:
+
+```ts
+type Position = { x: number; y: number };
+
+interface UseFloatingPositionReturn<
+  TTrigger extends HTMLElement = HTMLButtonElement,
+  TFloating extends HTMLElement = HTMLDivElement,
+  TArrow extends HTMLElement = HTMLDivElement,
+> {
+  // attach to the trigger, the content and the arrow.
+  triggerRef: React.RefObject<TTrigger | null>;
+  floatingRef: React.RefObject<TFloating | null>;
+  arrowRef: React.RefObject<TArrow | null>;
+
+  // the side the content is on. may differ from the `placement` option.
+  placement: FloatingPlacement;
+
+  // where the content goes, from the top-left corner of the viewport.
+  content: Position;
+
+  // where the arrow goes, from the top-left corner of the content.
+  arrow: Position;
+
+  // whether the position has been worked out at least once since
+  // `enabled` turned on. use it to hide the content until then.
+  isPositioned: boolean;
+
+  // works out the position again, right away.
+  update: () => void;
+}
+```
+
+---
+
+## Upcoming Features
+
+- 🔜 **Hide When Out of View**: Know when the trigger has been scrolled off
+  screen, to hide the content with it
+- 🔜 **Arrow Padding**: Keep the arrow away from the content's rounded corners
+
+---
+
+## Used By
+
+- 🧩 **Popover**, **Tooltip** in [`@wondesign/headless`](/headless)

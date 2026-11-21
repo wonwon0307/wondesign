@@ -1,5 +1,43 @@
 ---
 title: Position
 description: A React hook that places floating content — tooltips, popovers, menus — next to the element that opens it, and keeps it there.
-type: tabs
 ---
+
+import { Callout } from "@wondesign/ui/texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/position" relPath="foundations/position">
+  `@wondesign/position` places floating content next to the element that opens
+  it — tooltips, popovers, menus, dropdowns. It picks a side with room, keeps
+  the content on screen, and points an arrow back at the trigger.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/position
+```
+
+With [All-in-One](/all-in-one), import from `@wondesign/ui/position` instead.
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/position` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Floating Content**: Place a tooltip, popover or menu next to its trigger, and keep it there
+
+---
+
+## Hooks
+
+The package has one hook for now, imported from `@wondesign/position`.
+
+- ⭐ **[Floating Position](/foundations/position/floating-position)** —
+  places floating content next to its trigger, on a side with room, and keeps
+  it on screen.
