@@ -44,9 +44,9 @@ useLongPress(buttonRef, showHint, { threshold: 800, moveTolerance: 20 });
 
 ## Watch Out
 
-- ⚠️ **Pass the render condition to `enabled`**: With `enabled` left at its
-  default `true`, the hook turns on before an element that's rendered
-  conditionally appears, and **never picks it up**:
+- ⚠️ **Pass the render condition to `enabled`**: With `enabled` always
+  `true`, the hook turns on before an element that's rendered conditionally
+  appears, and **never picks it up**:
 
   ```tsx
   // ❌ the hook is already on when the button appears, so it never sees it

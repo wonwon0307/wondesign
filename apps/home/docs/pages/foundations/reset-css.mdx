@@ -3,7 +3,6 @@ title: Reset CSS
 description: A minimal, dependency-free CSS reset that normalizes box-sizing, typography, forms, links and much more across browsers.
 ---
 
-import { Callout } from "@wondesign/ui/texts";
 import { PackageInfo } from "@/entities/package";
 
 <PackageInfo name="@wondesign/reset-css" relPath="foundations/reset-css">
@@ -20,10 +19,8 @@ import { PackageInfo } from "@/entities/package";
 pnpm add @wondesign/reset-css
 ```
 
-<Callout title="Using @wondesign/ui?">
-  The reset is bundled into `@wondesign/ui/styles.css`, so there's no need to
-  install this package separately.
-</Callout>
+With [All-in-One](/all-in-one), the reset is already part of
+`@wondesign/ui/styles.css`, so there's nothing else to install.
 
 ---
 
@@ -38,6 +35,7 @@ Import the CSS from the root of the app. For example, `app/layout.tsx` of NextJS
 ```tsx
 // layout.tsx
 import "@wondesign/reset-css";
+// or import "@wondesign/ui/styles.css";
 
 export default function RootLayout() {
   // ...
@@ -52,6 +50,7 @@ Make sure this import is done as high in the tree as possible, before any other 
 ```css
 /* root.css */
 @import "@wondesign/reset-css";
+/* or @import "@wondesign/ui/styles.css"; */
 ```
 
 And import the root CSS from app root.

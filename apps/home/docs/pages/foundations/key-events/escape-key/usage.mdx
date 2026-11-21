@@ -13,8 +13,9 @@ call `callback`.
 
 ## Closing on Escape
 
-Pass the callback, and the open state as `enabled`, so the hook only listens
-while there's something to close:
+Pass the callback, and the open state as `enabled`. **`enabled` defaults to
+`true`**, so without it, the hook listens all the time, even while there's
+nothing to close:
 
 ```tsx
 import { useState } from "react";
