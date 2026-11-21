@@ -1,0 +1,72 @@
+import { Keyboard } from "@wondesign/ui/code";
+
+# Usage
+
+By default, the hook listens on the whole page, wherever focus is, including
+inside inputs, so the user can close a dialog while typing in it. Holding
+{<Keyboard>Esc</Keyboard>} down calls `callback` once, not on every repeat.
+{<Keyboard>Esc</Keyboard>} pressed while composing text with an input method
+(IME), like for Japanese or Chinese, only cancels the composition, and doesn't
+call `callback`.
+
+---
+
+## Closing on Escape
+
+Pass the callback, and the open state as `enabled`, so the hook only listens
+while there's something to close:
+
+```tsx
+import { useState } from "react";
+import { useEscapeKey } from "@wondesign/key-events/escape-key";
+
+export function Dialog() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEscapeKey(() => setIsOpen(false), { enabled: isOpen });
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Open</button>
+      {isOpen && <div role="dialog">…</div>}
+    </>
+  );
+}
+```
+
+---
+
+## Scoping to an Element
+
+Pass `scopeRef` to listen only while focus is inside an element, like a toast
+that should close only once the user has moved into it. The ref is checked on
+every press:
+
+- 🔹 **Left out**: <Keyboard>Esc</Keyboard> works wherever focus is.
+- 🔹 **Passed, pointing at an element**: <Keyboard>Esc</Keyboard> works only
+  while focus is inside that element.
+- 🔹 **Passed, but pointing at nothing yet**: **<Keyboard>Esc</Keyboard> does
+  nothing**, not even outside it.
+
+```tsx
+import { useRef, useState } from "react";
+import { useEscapeKey } from "@wondesign/key-events/escape-key";
+
+export function Toast() {
+  const [isOpen, setIsOpen] = useState(true);
+  const toastRef = useRef<HTMLDivElement>(null);
+
+  useEscapeKey(() => setIsOpen(false), {
+    enabled: isOpen,
+    scopeRef: toastRef,
+  });
+
+  return (
+    isOpen && (
+      <div ref={toastRef} role="status">
+        …
+      </div>
+    )
+  );
+}
+```

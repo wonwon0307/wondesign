@@ -1,5 +1,51 @@
 ---
 title: Key Events
 description: React hooks for keyboard interactions — closing on Escape and binding shortkeys like Mod+K, on every platform.
-type: tabs
 ---
+
+import { Keyboard, KeyboardGroup } from "@wondesign/ui/code";
+import { Callout } from "@wondesign/ui/texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/key-events" relPath="foundations/key-events">
+  `@wondesign/key-events` handles the keyboard interactions that dialogs, menus
+  and command palettes rely on. It takes care of the details that are easy to
+  get wrong, like platform differences and typing in inputs.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/key-events
+```
+
+With [All-in-One](/all-in-one), import from `@wondesign/ui/key-events`
+instead.
+
+<Callout variant="warning" title="Requires React 19.2">
+  `@wondesign/key-events` needs React 19.2 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Escape to Close**: Run a callback when the user presses <Keyboard>Esc</Keyboard>
+- ✅ **Cross-Platform Shortkeys**: Bind shortkeys like <KeyboardGroup shortkey="Mod+K" />, with <Keyboard>Mod</Keyboard> following the user's platform
+- ✅ **Ready to Show**: Show a shortkey's keys the way the user's platform writes them
+
+---
+
+## Hooks
+
+Each hook has its own entry, like `@wondesign/key-events/escape-key`, so you
+only bundle the ones you use.
+
+- ⭐ **[Escape Key](/foundations/key-events/escape-key)** — calls a callback
+  when the user presses <Keyboard>Esc</Keyboard>, to close a dialog, menu or
+  tooltip.
+- ⭐ **[Shortkey](/foundations/key-events/shortkey)** — listens for a shortkey
+  like <KeyboardGroup shortkey="Mod+K" />, and shows its keys for the user's
+  platform.

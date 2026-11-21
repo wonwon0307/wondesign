@@ -1,0 +1,133 @@
+import { Keyboard, KeyboardGroup } from "@wondesign/ui/code";
+
+# Usage
+
+`useShortkey` listens on the whole page, wherever focus is, and a matched
+shortkey replaces whatever the browser would do for it. Shortkeys without
+{<Keyboard>Ctrl</Keyboard>} or <Keyboard>⌘</Keyboard>, like
+{<Keyboard>/</Keyboard>} or <KeyboardGroup shortkey="Shift+S" />, **don't fire
+while the user is typing** in an input, textarea, select or editable element.
+Holding a shortkey down calls `callback` once, not on every repeat.
+
+---
+
+## Listening for a Shortkey
+
+Pass the shortkey and a callback. To turn the hook off, pass `enabled: false`,
+or `null` as the shortkey:
+
+```tsx
+import { useState } from "react";
+import { useShortkey } from "@wondesign/key-events/shortkey";
+
+export function SearchButton() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useShortkey("Mod+K", () => setIsOpen((open) => !open));
+
+  // …
+}
+```
+
+---
+
+## Showing a Shortkey
+
+Pass the same shortkey to `useShortkeyDisplay` to show it. Modifiers look
+different on each platform, so for a shortkey with modifiers, **it returns
+`undefined` on the server and during hydration**, and fills in once the page
+is running in the browser. A single key, like `K`, is returned right away:
+
+```tsx
+import { useState } from "react";
+import {
+  useShortkey,
+  useShortkeyDisplay,
+} from "@wondesign/key-events/shortkey";
+
+const SEARCH_SHORTKEY = "Mod+K";
+
+export function SearchButton() {
+  const [isOpen, setIsOpen] = useState(false);
+  useShortkey(SEARCH_SHORTKEY, () => setIsOpen((open) => !open));
+  const display = useShortkeyDisplay(SEARCH_SHORTKEY);
+
+  return (
+    <button
+      aria-keyshortcuts={display?.keyShortcuts}
+      onClick={() => setIsOpen(true)}
+    >
+      Search <kbd aria-label={display?.label}>{display?.keys.join(" ")}</kbd>
+    </button>
+  );
+}
+```
+
+Modifiers are listed in the order each platform's users expect, whatever order
+you write them in.
+
+- 📌 `useShortkeyDisplay` doesn't listen for key presses, so you can call it
+  as often as you like, for example once in a button and again in its tooltip.
+- 📌 Wire `label` to the keys' `aria-label`, so screen readers read them by
+  name, like "Command K", instead of reading out the symbols.
+
+---
+
+## Writing Shortkeys
+
+A shortkey is up to two modifiers and a key, joined with `+`: `"K"`, `"Mod+K"`
+or `"Mod+Shift+K"`. The order of the modifiers doesn't matter, but they must
+match exactly — `Mod+K` doesn't fire when <Keyboard>Shift</Keyboard> is also
+held.
+
+**Modifiers** — names on the same line mean the same thing:
+
+- 🔵 `Mod` — <Keyboard>⌘</Keyboard> on Apple devices, <Keyboard>Ctrl</Keyboard>
+  everywhere else
+- 🔵 `Ctrl`, `Control`
+- 🔵 `Alt`, `Opt`, `Option`
+- 🔵 `Shift`
+- 🔵 `Meta`, `Cmd`, `Command`, `Win`, `Windows`
+
+**Keys**:
+
+- 🟣 Letters `A` to `Z`, always written in uppercase. The case only matters
+  when writing the shortkey: `Mod+K` fires when the user presses
+  <Keyboard>Mod</Keyboard> and the <Keyboard>K</Keyboard> key, with no
+  <Keyboard>Shift</Keyboard> needed, and whether <Keyboard>Caps Lock</Keyboard>
+  is on doesn't matter.
+- 🟣 Digits `0` to `9`
+- 🟣 Symbols `` ` `` `-` `=` `[` `]` `\` `;` `'` `,` `.` `/`
+
+`useShortkeyDisplay` also accepts `Enter`, `Return`, `Escape`, `Tab`, `Space`,
+`CapsLock`, `Backspace`, `Delete`, the arrows `↑` `↓` `←` `→` and `F1` to
+`F12` as the key, so you can show them. `useShortkey` doesn't bind them.
+
+---
+
+## Watch Out
+
+- ⚠️ **Enable one hook per shortkey**: When more than one enabled
+  `useShortkey` listens for the same shortkey, **one press calls every
+  `callback`**. Make sure only one is enabled at a time, using `enabled` or
+  `null`.
+- ⚠️ **Use `Mod` for cross-platform shortkeys**: `Ctrl` always means the
+  Control key, on a Mac too, where users expect <Keyboard>⌘</Keyboard>. Write `Mod+K`, not
+  `Ctrl+K`, unless you really mean Control.
+- ⚠️ **Write the unshifted symbol**: To bind `?`, write `Shift+/` — the key
+  it's on. `?` itself is an invalid key.
+- ⚠️ **Browser shortcuts are replaced**: Binding <KeyboardGroup shortkey="Mod+S" />,
+  <KeyboardGroup shortkey="Mod+F" /> or <KeyboardGroup shortkey="Mod+P" />
+  **stops the browser from saving, finding or printing**. It's not recommended
+  to turn a browser shortcut into a different feature — only do so if you really
+  know what you're doing.
+- ⚠️ **Shortkeys from outside your code**: TypeScript checks shortkeys you
+  write, but not ones read at runtime, like from user settings. In
+  `useShortkey`, an invalid one **does nothing**, apart from a warning in the
+  console. `useShortkeyDisplay` **shows what it can, with no warning**: unknown
+  modifiers are left out, and an unknown key is shown as written.
+- ⚠️ **Avoid `Ctrl+Alt` shortkeys**: On Windows, the <Keyboard>AltGr</Keyboard> key
+  counts as <Keyboard>Ctrl</Keyboard> + <Keyboard>Alt</Keyboard>, and many
+  keyboards type characters with it — like `ą` on Polish or `@` on German
+  keyboards. Binding <KeyboardGroup shortkey="Ctrl+Alt+A" /> **stops Polish users from
+  typing `ą`**, even inside inputs.

@@ -1,0 +1,84 @@
+import { Keyboard } from "@wondesign/ui/code";
+
+# Escape Key
+
+`useEscapeKey` calls `callback` when the user presses <Keyboard>Esc</Keyboard>.
+It's the usual way to close something from the keyboard, for example a dialog,
+menu or tooltip.
+
+```tsx
+import { useEscapeKey } from "@wondesign/key-events/escape-key";
+// or
+import { useEscapeKey } from "@wondesign/ui/key-events";
+```
+
+---
+
+## Key Features
+
+- ✅ **Wherever Focus Is**: Listens on the whole page, even while the user types in an input
+- ✅ **Scoped to an Element**: Or listens only while focus is inside an element
+- ✅ **Fires Once**: Holding <Keyboard>Esc</Keyboard> down calls it once, not on every repeat
+- ✅ **Safe While Composing**: <Keyboard>Esc</Keyboard> that cancels a composition doesn't close anything
+
+---
+
+## API
+
+Import `useEscapeKey` and `EscapeKeyOptions` from
+`@wondesign/key-events/escape-key`. `callback` is required. The hook returns
+nothing — it only calls `callback`:
+
+```ts
+function useEscapeKey(
+  // called when Escape is pressed.
+  callback: () => void,
+  options?: EscapeKeyOptions,
+): void;
+```
+
+`options` and everything in it can be left out:
+
+```ts
+interface EscapeKeyOptions {
+  // whether the hook is listening. defaults to `true`.
+  // for example, pass the open state,
+  // so it only listens while there's something to close.
+  enabled?: boolean;
+
+  // only listen while focus is inside this element.
+  // leave it out to listen wherever focus is.
+  scopeRef?: React.RefObject<HTMLElement | null>;
+}
+```
+
+---
+
+## Known Issues
+
+- 🐞 **Every layer closes at once**: Each enabled `useEscapeKey` is called on
+  the same <Keyboard>Esc</Keyboard> press. With a menu open inside a dialog,
+  **one press closes both**. Until [layered Escape](#upcoming-features) lands,
+  turn the outer hook off while the inner layer is open:
+
+  ```tsx
+  // the dialog only listens while its menu is closed
+  useEscapeKey(closeDialog, { enabled: isDialogOpen && !isMenuOpen });
+  ```
+
+- 🐞 **Safari calls `callback` while composing**: Safari doesn't report the
+  <Keyboard>Esc</Keyboard> press that cancels an input method (IME) composition
+  as part of it. There, cancelling a composition **also calls `callback`**,
+  closing the dialog along with it.
+
+---
+
+## Upcoming Features
+
+- 🔜 **Layered Escape**: Only the topmost layer closes when several listen for <Keyboard>Esc</Keyboard>
+
+---
+
+## Used By
+
+- 🧩 **Alert**, **Modal**, **Popover**, **Toast**, **Tooltip** in [`@wondesign/headless`](/headless)
