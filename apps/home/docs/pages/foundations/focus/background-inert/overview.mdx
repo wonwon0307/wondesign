@@ -1,0 +1,63 @@
+# Background Inert
+
+`useBackgroundInert` makes everything on the page outside an element inert
+while it's open. Users can't click, focus or select anything behind it, and
+screen readers skip it. Modal content, like dialogs and alerts, needs it to
+really be modal.
+
+```tsx
+import { useBackgroundInert } from "@wondesign/focus/background-inert";
+// or
+import { useBackgroundInert } from "@wondesign/ui/focus";
+```
+
+---
+
+## Key Features
+
+- ✅ **Truly Modal**: The page behind can't be clicked, focused, selected or read by screen readers
+- ✅ **Several Layers at Once**: The page stays inert until the last layer closes, in any order
+- ✅ **Restores the Page**: Everything goes back to normal on close
+
+---
+
+## API
+
+Import `useBackgroundInert` and `UseBackgroundInertOptions` from
+`@wondesign/focus/background-inert`. `containerRef` is required. The hook
+returns nothing — it only makes the page behind inert:
+
+```ts
+function useBackgroundInert(
+  // the element to keep usable. everything outside it becomes inert.
+  containerRef: React.RefObject<HTMLElement | null>,
+  options?: UseBackgroundInertOptions,
+): void;
+```
+
+`options` and everything in it can be left out:
+
+```ts
+interface UseBackgroundInertOptions {
+  // whether the page behind is inert. defaults to `false`.
+  // pass the open state, so it's only inert while open.
+  enabled?: boolean;
+}
+```
+
+---
+
+## Known Issues
+
+- 🐞 **Content added while open stays usable**: Only what's on the page when
+  the hook turns on becomes inert. Something that appears behind it later,
+  like a toast or a chat widget, can still be clicked and focused.
+- 🐞 **Toasts aren't announced**: A toast area that's on the page when the
+  hook turns on becomes inert too, so screen readers don't read new toasts
+  until the hook turns off.
+
+---
+
+## Used By
+
+- 🧩 **Alert**, **Modal** in [`@wondesign/headless`](/headless)

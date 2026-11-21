@@ -1,0 +1,62 @@
+# Auto Focus
+
+`useAutoFocus` moves focus into an element when it opens, and back out when it
+closes. It's helpful for any overlay that needs the user's attention right
+away, like menus, dialogs and popovers.
+
+```tsx
+import { useAutoFocus } from "@wondesign/focus/auto-focus";
+// or
+import { useAutoFocus } from "@wondesign/ui/focus";
+```
+
+---
+
+## Key Features
+
+- ✅ **Focus on Open**: Move focus into content when it opens
+- ✅ **Focus on Close**: Move focus back when it closes, to where it was or to an element you choose
+- ✅ **Choose Where It Starts**: Start on any element inside, or on the first one that can take focus
+- ✅ **Skips What Can't Be Focused**: Disabled, hidden and inert elements are left out
+- ✅ **Respects the User**: Focus the user moved elsewhere stays there on close
+
+---
+
+## API
+
+Import `useAutoFocus` and `UseAutoFocusOptions` from
+`@wondesign/focus/auto-focus`. `targetRef` is required. The hook returns
+nothing — it only moves focus:
+
+```ts
+function useAutoFocus(
+  // the element to move focus into.
+  targetRef: React.RefObject<HTMLElement | null>,
+  options?: UseAutoFocusOptions,
+): void;
+```
+
+`options` and everything in it can be left out:
+
+```ts
+interface UseAutoFocusOptions {
+  // whether focus is moved in. defaults to `false`.
+  // pass the open state,
+  // so focus moves in on open and back on close.
+  enabled?: boolean;
+
+  // where focus moves to on open. must be inside `targetRef`.
+  // defaults to the first focusable element inside `targetRef`.
+  initialRef?: React.RefObject<HTMLElement | null>;
+
+  // where focus goes back to on close.
+  // defaults to the element that had focus before it opened.
+  returnRef?: React.RefObject<HTMLElement | null>;
+}
+```
+
+---
+
+## Used By
+
+- 🧩 **Alert**, **Modal**, **Popover** in [`@wondesign/headless`](/headless)
