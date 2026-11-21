@@ -1,0 +1,107 @@
+# Usage
+
+Call the hook where the open state is needed, and pass what it returns to your
+own elements.
+
+---
+
+## Opening and Closing
+
+With no options, the hook keeps the state for you, and starts closed. `show`,
+`hide` and `toggle` are ready to pass to buttons and child components:
+
+```tsx
+import { useOpenState } from "@wondesign/disclosure/open-state";
+
+export function FilterPanel() {
+  const { isOpen, show, hide } = useOpenState();
+
+  return (
+    <>
+      <button onClick={show}>Filters</button>
+      {isOpen && (
+        <div>
+          {/* filters */}
+          <button onClick={hide}>Done</button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+For a single button that opens and closes, use `toggle`:
+
+```tsx
+const { isOpen, toggle } = useOpenState();
+
+return <button onClick={toggle}>{isOpen ? "Hide filters" : "Show filters"}</button>;
+```
+
+---
+
+## Starting Open
+
+Pass `initialState: true` to start open instead. Like `useState`, it's only
+read on the first render:
+
+```tsx
+const { isOpen, show, hide } = useOpenState({ initialState: true });
+```
+
+---
+
+## Controlling the State
+
+When the state lives somewhere else, for example in a parent, a store or the
+URL, pass it in as `controlledOpen`, with `setControlledOpen` to update it:
+
+```tsx
+import { useOpenState } from "@wondesign/disclosure/open-state";
+
+export function FilterPanel() {
+  const { filtersOpen, setFiltersOpen } = useFilterStore();
+  const { isOpen, show, hide } = useOpenState({
+    controlledOpen: filtersOpen,
+    setControlledOpen: setFiltersOpen,
+  });
+
+  // …same as above
+}
+```
+
+The rest of the component stays the same — `isOpen`, `show` and `hide` now
+read from and write to the store.
+
+---
+
+## Watch Out
+
+- ⚠️ **Pass both to control the state**: `controlledOpen` and
+  `setControlledOpen` only work together. Passing `setControlledOpen` alone
+  **never calls it**, and passing `controlledOpen` alone makes the state
+  read-only, so **`show`, `hide` and `toggle` do nothing**:
+
+  ```tsx
+  // never called
+  useOpenState({ setControlledOpen: setOpen });
+
+  // always open, and show / hide / toggle do nothing
+  useOpenState({ controlledOpen: true });
+
+  // controlled, and called on every change
+  useOpenState({ controlledOpen: open, setControlledOpen: setOpen });
+  ```
+
+- ⚠️ **Avoid switching modes while mounted**: It works, but the state can jump.
+  Going back to uncontrolled picks up the hook's own state from before it was
+  controlled, **not the last `controlledOpen`**. This usually happens by accident,
+  with a value that's sometimes `undefined`:
+
+  ```tsx
+  // uncontrolled while `data` loads, then controlled once it arrives
+  useOpenState({ controlledOpen: data?.isOpen, setControlledOpen });
+
+  // controlled from the first render
+  useOpenState({ controlledOpen: data?.isOpen ?? false, setControlledOpen });
+  ```

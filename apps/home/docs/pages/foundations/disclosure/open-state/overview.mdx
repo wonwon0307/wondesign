@@ -1,0 +1,80 @@
+# Open State
+
+`useOpenState` keeps track of whether something is open or closed, and gives
+you `show`, `hide` and `toggle` to change it. It's the usual way to open and
+close a menu, panel or dialog.
+
+It works best when building reusable components. Since it supports both
+controlled and uncontrolled modes, whoever renders the component can pick the
+mode, the same way [WonDesign's Headless components](/headless) do.
+
+```tsx
+import { useOpenState } from "@wondesign/disclosure/open-state";
+// or
+import { useOpenState } from "@wondesign/ui/disclosure";
+```
+
+---
+
+## Key Features
+
+- ✅ **Uncontrolled Mode**: The default, easy-to-use mode — the state is kept for you, starting open or closed
+- ✅ **Controlled Mode**: Full control — pass the state in, and decide what happens on every change
+- ✅ **Same API Either Way**: Read, open and close the state the same way in both modes
+- ✅ **Built-in Toggle**: Open or close with a single call
+- ✅ **Stable Callbacks**: Opening and closing are safe to pass down or use in effects
+
+---
+
+## API
+
+Import `useOpenState` and its types from `@wondesign/disclosure/open-state`,
+for typing your own wrappers:
+
+```ts
+function useOpenState(options?: UseOpenStateOptions): UseOpenStateReturn;
+```
+
+`options` and every field in it are optional:
+
+```ts
+interface UseOpenStateOptions {
+  // the open state from outside.
+  // anything but `undefined` puts the hook in controlled mode.
+  controlledOpen?: boolean;
+
+  // called with the new state in controlled mode, never in uncontrolled mode.
+  // keep it stable (a state setter or a memoized callback): `show` and `hide`
+  // change whenever it does.
+  setControlledOpen?: (open: boolean) => void;
+
+  // whether to start open in uncontrolled mode. defaults to `false`.
+  // only read on the first render, like `useState`.
+  initialState?: boolean;
+}
+
+interface UseOpenStateReturn {
+  // whether it's open. always matches `controlledOpen` in controlled mode.
+  isOpen: boolean;
+
+  // open and close it. stable as long as `setControlledOpen` is.
+  show: () => void;
+  hide: () => void;
+
+  // open it if closed, close it if open. changes whenever `isOpen` does.
+  toggle: () => void;
+}
+```
+
+---
+
+## Upcoming Features
+
+- 🔜 **Delayed Open State**: Open and close after a delay, like a tooltip on hover
+
+---
+
+## Used By
+
+- 🧩 **Alert**, **Collapsible**, **Modal**, **Popover**, **Toast**, **Tooltip** in [`@wondesign/headless`](/headless)
+- 🧩 **SidebarProvider** in `@wondesign/sidebar`

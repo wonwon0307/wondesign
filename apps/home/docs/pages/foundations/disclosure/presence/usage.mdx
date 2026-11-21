@@ -1,0 +1,94 @@
+# Usage
+
+The hook waits for every CSS transition and animation on the element and
+inside it, and the status is updated to `"closed"` once they all end. With
+nothing animating, including reduced motion, the status goes to `"closed"`
+right away. Opening the content again while it's closing cancels
+the close, and the status is updated back to `"open"`.
+
+- 📌 Infinite animations, like a spinner, aren't waited for.
+
+---
+
+## Animating Out
+
+Render the content while `isPresent` is `true`, instead of while it's open,
+and start the closing animation from the open state. Here, `data-state` turns
+`"closed"` when the panel closes, the CSS fades it out, and the panel is
+removed once the fade ends:
+
+```tsx
+import { useRef } from "react";
+import { useOpenState } from "@wondesign/disclosure/open-state";
+import { usePresence } from "@wondesign/disclosure/presence";
+
+export function FilterPanel() {
+  const { isOpen, show, hide } = useOpenState();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const { isPresent } = usePresence(panelRef, isOpen);
+
+  return (
+    <>
+      <button onClick={show}>Filters</button>
+      {isPresent && (
+        <div
+          ref={panelRef}
+          className="panel"
+          data-state={isOpen ? "open" : "closed"}
+        >
+          {/* filters */}
+          <button onClick={hide}>Done</button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+```css
+.panel {
+  transition: opacity 200ms;
+}
+
+.panel[data-state="closed"] {
+  opacity: 0;
+}
+```
+
+Render on `isPresent`, not the open state. Otherwise, the content is
+removed as soon as it closes, and **the closing animation never plays**:
+
+```tsx
+// ❌ removed as soon as it closes
+return isOpen ? <div ref={panelRef}>…</div> : null;
+
+// ✅ removed once its closing animation ends
+return isPresent ? <div ref={panelRef}>…</div> : null;
+```
+
+---
+
+## Reading the Status
+
+`status` tells you which of the three stages the content is in: `"open"`,
+`"closing"` or `"closed"`. Use it to change
+how the content behaves while it animates out, like making it inert so it
+can't be clicked or focused on its way out:
+
+```tsx
+const { isPresent, status } = usePresence(panelRef, isOpen);
+
+return isPresent ? (
+  <div ref={panelRef} inert={status === "closing"}>
+    …
+  </div>
+) : null;
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Paused animations never end**: A paused animation on the element or
+  inside it never finishes, so the status stays `"closing"`, and **the
+  content is never removed**.
