@@ -3,6 +3,7 @@ title: All-in-One
 description: Every WonDesign package that runs in your app, under one name.
 ---
 
+import { Callout } from "@wondesign/ui/texts";
 import { PackageInfo } from "@/entities/package";
 
 <PackageInfo name="@wondesign/ui" relPath="packages/ui">
@@ -17,6 +18,10 @@ import { PackageInfo } from "@/entities/package";
 ```bash
 pnpm add @wondesign/ui
 ```
+
+<Callout variant="warning" title="Requires React 19.2">
+  `@wondesign/ui` needs React 19.2 or later.
+</Callout>
 
 ---
 
