@@ -1,20 +1,20 @@
 ---
 metaTitle: Foundations
 title: About WonDesign Foundations
-description: The low-level primitives that a design system is built on top of.
+description: The low-level packages a design system is built on top of.
 ---
 
 # WonDesign Foundations
 
 **WonDesign Foundations** is the **skeleton for design systems** — the
-**low-level infrastructure** that design tokens, theming, a CSS reset, and the
-behaviour behind menus, dialogs, tooltips and tabs are built on.
+**low-level infrastructure** that components like alerts, popovers and tabs
+are built on.
 
-Every app or project ends up redoing the same groundwork: a color palette,
-a CSS reset, a set of tokens, focus and keyboard handling. Foundations
-standardize that repetitive work into small, focused packages, so it's
-done once and you can spend your time on the part that makes your product
-look like _yours_.
+Every app or project ends up redoing the same groundwork — for example, a
+color palette, a CSS reset, a set of tokens, or focus and keyboard handling.
+Foundations standardize that repetitive work into small, single-purpose
+packages, so it's done once and you can spend your time on the business logic
+that makes your product work.
 
 ---
 
@@ -22,23 +22,23 @@ look like _yours_.
 
 > **Opinionated logic, unopinionated style.**
 
-Foundations take a strong stance on **behaviour**: where focus goes when a
-dialog opens, how a shortkey works across platforms, where floating content
-finds room, how a token becomes a CSS variable. They take no stance on
-**appearance**. The hooks render nothing, and the default token values are
-there to start from, not to keep.
+Foundations take a strong stance on **behaviour**, but leave the **look** to
+you. The hooks render nothing, and tokens and theme decide how your styles
+reach the page, not what they look like. Their default values are there to
+start from, not to keep.
 
 This makes Foundations a **safe dependency for any design system**, whatever
-its brand or styling approach. The components built on top of them — unstyled in
-[`@wondesign/headless`](/components/headless), and styled in the rest of the
-library — live in **[Components](/components/about)**.
+its brand or styling approach. Build your own components on top of them, the
+same way [Headless Components](/headless) and
+[Styled Components](/components) are built.
 
 ---
 
 ## Packages
 
 **Every package stands on its own** — install only the ones you use. None of
-them depends on another.
+them depends on another. To get them all under one name, install
+[All-in-One](/all-in-one), which re-exports every package below.
 
 ### Primitives
 
@@ -47,24 +47,22 @@ The base layer every app sits on — styles, values and themes.
 - 📦 **[`@wondesign/reset-css`](/foundations/reset-css)** — A single stylesheet
   that smooths out browser defaults, so every browser starts from the same
   baseline.
-- 📦 **[`@wondesign/tokens`](/foundations/tokens)** — A semantic set of design
-  tokens, from colors to spacing, available as CSS variables and a typed
-  object, with light and dark palettes and ready-made media queries.
-- 📦 **[`@wondesign/theme`](/foundations/theme)** — Light / dark / system or
-  named-theme switching for React, saved between visits, synced across tabs,
-  and free of first-paint flashes.
+- 📦 **[`@wondesign/tokens`](/foundations/tokens)** — Semantic design tokens as
+  CSS variables and a typed object, with light and dark palettes and media
+  queries.
+- 📦 **[`@wondesign/theme`](/foundations/theme)** — Light / dark or
+  named-theme switching for React, saved, synced across tabs and free of
+  first-paint flashes.
 
 ### Interactions
 
 React hooks for the behaviour behind interactive components. They hold **no
 markup and no styles** — attach them to your own elements.
 
-- 📦 **[`@wondesign/disclosure`](/foundations/disclosure)** — Open / closed state
-  for anything that shows and hides, controlled or uncontrolled, and locking
-  the page's scroll while it's open.
-- 📦 **[`@wondesign/focus`](/foundations/focus)** — Arrow key navigation, moving
-  focus in when content opens and back when it closes, focus traps, and
-  keeping the background out of reach.
+- 📦 **[`@wondesign/disclosure`](/foundations/disclosure)** — Open / closed state,
+  closing animations and scroll locking for anything that shows and hides.
+- 📦 **[`@wondesign/focus`](/foundations/focus)** — Arrow key navigation, focus
+  on open and close, focus traps and an inert background.
 - 📦 **[`@wondesign/key-events`](/foundations/key-events)** — Closing on Escape
   and cross-platform shortkeys like `Mod+K`.
 - 📦 **[`@wondesign/pointer`](/foundations/pointer)** — Clicks outside an element
@@ -77,8 +75,7 @@ markup and no styles** — attach them to your own elements.
 
 ## Next Steps
 
-- **[Tokens Setup](/foundations/tokens/setup)** — installing the token
+- **[Tokens Quick Start](/foundations/tokens/quick-start)** — installing the token
   stylesheet in your framework.
 - **[Theme Setup](/foundations/theme/setup)** — adding light / dark or named
   themes to your app.
-- **[Components](/components/about)** — the components built on Foundations.

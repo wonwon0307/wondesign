@@ -1,0 +1,74 @@
+# Usage
+
+Turn the lock on with `enabled`, usually by passing the open state. When it
+turns `false`, or the component unmounts, scrolling comes back the way it was
+before. Several locks can be on at once, like an alert opened over a dialog,
+and scrolling stays locked until the last one turns off, in any order.
+
+---
+
+## Locking the Background
+
+Pass the open state as `enabled`. By default, the background (the page
+behind the open content) stops scrolling. Content with its own
+scrollbar keeps scrolling, so a long list inside the drawer can still be
+scrolled while the page behind it stays put:
+
+```tsx
+import { useOpenState } from "@wondesign/disclosure/open-state";
+import { useScrollLock } from "@wondesign/disclosure/scroll-lock";
+
+export function MenuDrawer() {
+  const { isOpen, show, hide } = useOpenState();
+
+  useScrollLock({ enabled: isOpen });
+
+  return (
+    <>
+      <button onClick={show}>Menu</button>
+      {isOpen && (
+        <div role="dialog" aria-modal="true">
+          {/* menu */}
+          <button onClick={hide}>Close</button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+---
+
+## Locking a Specific Element
+
+Pass `targetRef` to lock one element instead of the background, like an app
+whose `<main>` scrolls on its own:
+
+```tsx
+const mainRef = useRef<HTMLElement>(null);
+
+useScrollLock({ enabled: isOpen, targetRef: mainRef });
+
+return <main ref={mainRef}>…</main>;
+```
+
+Only that element is locked, and the rest of the page still scrolls.
+
+---
+
+## Watch Out
+
+- ⚠️ **The element must be there when the lock turns on**: The hook only
+  looks for the element when `enabled` turns `true`. If the element renders
+  later, like once its data loads, **it's never locked**, and the background
+  isn't locked either:
+
+  ```tsx
+  // ❌ the list isn't there yet when the lock turns on, so it's never locked
+  useScrollLock({ enabled: isOpen, targetRef: listRef });
+
+  // ✅ the lock turns on once the list is there
+  useScrollLock({ enabled: isOpen && data !== undefined, targetRef: listRef });
+
+  return data ? <ul ref={listRef}>…</ul> : <Spinner />;
+  ```

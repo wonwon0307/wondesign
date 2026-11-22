@@ -1,0 +1,68 @@
+# Arrow Navigation
+
+`useArrowNavigation` moves focus between items in a group with the arrow
+keys. It's the usual keyboard pattern for tabs, toolbars, menus and lists.
+
+```tsx
+import { useArrowNavigation } from "@wondesign/focus/arrow-navigation";
+// or
+import { useArrowNavigation } from "@wondesign/ui/focus";
+```
+
+---
+
+## Key Features
+
+- ✅ **Arrow Keys, Home and End**: Move to the previous or next item, or jump to the first or last
+- ✅ **Horizontal & Vertical**: The arrow keys follow the direction of the group
+- ✅ **Looping**: Wrap around at the ends, or stop there
+- ✅ **Live Items**: Items added, removed or disabled while it's on are picked up
+
+---
+
+## API
+
+Import `useArrowNavigation` and `UseArrowNavigationOptions` from
+`@wondesign/focus/arrow-navigation`. `targetRef` and `itemSelector` are
+required. The hook returns nothing — it only moves focus:
+
+```ts
+function useArrowNavigation(
+  // the container holding the items, like the tab list.
+  targetRef: React.RefObject<HTMLElement | null>,
+  options: UseArrowNavigationOptions,
+): void;
+```
+
+Everything in `options` but `itemSelector` can be left out:
+
+```ts
+interface UseArrowNavigationOptions {
+  // finds the items inside the container, like `'[role="tab"]'`.
+  itemSelector: string;
+
+  // whether the hook is listening. defaults to `false`.
+  enabled?: boolean;
+
+  // which arrow keys move focus. defaults to `"horizontal"`.
+  // `"horizontal"` uses left and right, `"vertical"` uses up and down.
+  orientation?: "horizontal" | "vertical";
+
+  // wrap around at the ends,
+  // instead of stopping at the first and last item. defaults to `false`.
+  loop?: boolean;
+}
+```
+
+---
+
+## Upcoming Features
+
+- 🔜 **Typeahead**: Jump to an item by typing the first letters of its name
+- 🔜 **Grid Navigation**: Move in both directions, for grids and calendars
+
+---
+
+## Used By
+
+- 🧩 **Tabs** in [`@wondesign/headless`](/headless)

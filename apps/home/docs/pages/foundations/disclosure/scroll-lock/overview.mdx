@@ -1,0 +1,59 @@
+# Scroll Lock
+
+`useScrollLock` stops the background from scrolling while something is open.
+Modal content, like dialogs, alerts and drawers, needs it so the page behind
+stays where it was.
+
+```tsx
+import { useScrollLock } from "@wondesign/disclosure/scroll-lock";
+// or
+import { useScrollLock } from "@wondesign/ui/disclosure";
+```
+
+---
+
+## Key Features
+
+- ✅ **Background or One Element**: Lock the background, or only the element that scrolls
+- ✅ **Inner Content Still Scrolls**: Content that scrolls on its own, like a long list, stays scrollable
+- ✅ **Several Locks at Once**: The background stays locked until the last lock turns off, in any order
+- ✅ **Restores Scrolling**: Scrolling comes back the way it was once unlocked
+
+---
+
+## API
+
+Import `useScrollLock` and `UseScrollLockOptions` from
+`@wondesign/disclosure/scroll-lock`. The hook returns nothing — it only locks
+scrolling:
+
+```ts
+function useScrollLock(options?: UseScrollLockOptions): void;
+```
+
+`options` and everything in it can be left out:
+
+```ts
+interface UseScrollLockOptions {
+  // whether scrolling is locked. defaults to `false`.
+  // pass the open state, so it's only locked while open.
+  enabled?: boolean;
+
+  // the element to lock. defaults to the background, the page behind.
+  targetRef?: React.RefObject<HTMLElement | null>;
+}
+```
+
+---
+
+## Known Issues
+
+- 🐞 **The page shifts sideways**: Where scrollbars take up space, like on
+  Windows, locking hides the scrollbar. The page gets wider, and its content
+  shifts by the scrollbar's width until it unlocks.
+
+---
+
+## Used By
+
+- 🧩 **Alert**, **Modal** in [`@wondesign/headless`](/headless)

@@ -1,0 +1,164 @@
+---
+metaTitle: API | Theme
+title: API
+description: The providers, scripts and hooks of @wondesign/theme, with their props and return values.
+---
+
+# API
+
+Light-Dark is imported from `@wondesign/theme/light-dark`, and Named Themes
+from `@wondesign/theme`. Their scripts come from the `/server` entry next to
+each. Every hook throws when it's used outside its provider.
+
+---
+
+## Light-Dark
+
+```tsx
+import { LightDarkProvider, useLightDark } from "@wondesign/theme/light-dark";
+import { LightDarkScript } from "@wondesign/theme/light-dark/server";
+```
+
+### LightDarkProvider
+
+Every prop apart from `children` can be left out:
+
+```ts
+interface LightDarkProps {
+  children: React.ReactNode;
+
+  // the themes for each side. the first of each is its default.
+  // defaults to `{ light: ["light"], dark: ["dark"] }`.
+  themes?: Themes;
+
+  // the mode before the user picks one.
+  // defaults to `"system"`, or `"light"` with `disableSystem`.
+  defaultMode?: Mode;
+
+  // remove `"system"`, so the OS setting is never consulted.
+  // defaults to `false`.
+  disableSystem?: boolean;
+
+  // where the user's choice is saved.
+  // defaults to `"wondesign-light-dark"`.
+  storageKey?: string;
+}
+```
+
+### LightDarkScript
+
+Pass the same `themes`, `defaultMode` and `storageKey` as the provider:
+
+```ts
+interface ScriptProps {
+  themes?: Themes;
+  defaultMode?: Mode;
+  storageKey?: string;
+
+  // the nonce for a nonce-based Content Security Policy.
+  nonce?: string;
+}
+```
+
+### useLightDark
+
+```ts
+function useLightDark(): {
+  // what the user picked.
+  mode: Mode;
+
+  // what's applied: `mode`, with `"system"` resolved against the OS.
+  colorScheme: ColorScheme;
+
+  // the applied theme: `lightTheme` or `darkTheme`, depending on `colorScheme`.
+  theme: string;
+
+  // the theme used for each side.
+  lightTheme: string;
+  darkTheme: string;
+
+  // the provider's `themes`, without duplicates.
+  themes: Themes;
+
+  // the provider's `disableSystem`.
+  disableSystem: boolean;
+
+  selectMode: (mode: Mode) => void;
+  selectLightTheme: (theme: string) => void;
+  selectDarkTheme: (theme: string) => void;
+};
+```
+
+Before hydration, it returns `defaultMode`, with `"system"` resolved to
+`"light"`, and the first theme of each side.
+
+### Types
+
+```ts
+type ColorScheme = "light" | "dark";
+type Mode = ColorScheme | "system";
+
+type Themes = {
+  light: readonly [string, ...string[]];
+  dark: readonly [string, ...string[]];
+};
+```
+
+---
+
+## Named Themes
+
+```tsx
+import { ThemeProvider, useTheme } from "@wondesign/theme";
+import { ThemeScript } from "@wondesign/theme/server";
+```
+
+### ThemeProvider
+
+`children` and `themes` are required:
+
+```ts
+interface ThemeProps {
+  children: React.ReactNode;
+
+  // the themes to pick from, like `["ocean", "forest", "sunset"]`.
+  themes: readonly [string, ...string[]];
+
+  // the theme before the user picks one. defaults to the first of `themes`.
+  defaultTheme?: string;
+
+  // where the user's choice is saved. defaults to `"wondesign-theme"`.
+  storageKey?: string;
+}
+```
+
+### ThemeScript
+
+`defaultTheme` is required. Pass the same `defaultTheme` and `storageKey` as
+the provider:
+
+```ts
+interface ScriptProps {
+  defaultTheme: string;
+  storageKey?: string;
+
+  // the nonce for a nonce-based Content Security Policy.
+  nonce?: string;
+}
+```
+
+### useTheme
+
+```ts
+function useTheme(): {
+  // the applied theme.
+  theme: string;
+
+  // the provider's `themes`.
+  themes: readonly [string, ...string[]];
+
+  selectTheme: (theme: string) => void;
+};
+```
+
+Before hydration, it returns `defaultTheme`.

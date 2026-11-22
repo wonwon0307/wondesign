@@ -1,0 +1,70 @@
+# Long Press
+
+`useLongPress` calls `callback` when the user holds a finger on `ref`'s
+element. It's a touch stand-in for hover, for example to show a tooltip.
+
+```tsx
+import { useLongPress } from "@wondesign/pointer/long-press";
+// or
+import { useLongPress } from "@wondesign/ui/pointer";
+```
+
+---
+
+## Key Features
+
+- ✅ **Fires While Held**: The callback runs once the finger has been down long enough, without waiting for it to lift
+- ✅ **Forgiving**: A slightly shaky finger doesn't cancel the press
+- ✅ **No Accidental Presses**: Scrolling and pinch-zooming never fire it
+- ✅ **Customizable**: Set how long and how still the press must be
+
+---
+
+## API
+
+Import `useLongPress` and `LongPressOptions` from
+`@wondesign/pointer/long-press`. `ref` and `callback` are required. The hook
+returns nothing — it only calls `callback`:
+
+```ts
+function useLongPress(
+  // the element to press.
+  ref: React.RefObject<HTMLElement | null>,
+
+  // called on a long press.
+  callback: () => void,
+
+  options?: LongPressOptions,
+): void;
+```
+
+`options` and everything in it can be left out:
+
+```ts
+interface LongPressOptions {
+  // whether the hook is listening. defaults to `true`.
+  // for example, pass `!isOpen`,
+  // so it only listens while there's something to open.
+  enabled?: boolean;
+
+  // how long, in milliseconds, the finger must stay down.
+  // defaults to `500`.
+  threshold?: number;
+
+  // how far, in pixels, the finger can move
+  // before the press is cancelled. defaults to `10`.
+  moveTolerance?: number;
+}
+```
+
+---
+
+## Upcoming Features
+
+- 🔜 **Long Press for Mouse and Pen**: Let a long press work beyond touch screens
+
+---
+
+## Used By
+
+- 🧩 **Tooltip** in [`@wondesign/headless`](/headless)

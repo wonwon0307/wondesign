@@ -1,0 +1,78 @@
+# Usage
+
+The hook listens on the whole page, and works the same for mouse, touch and
+pen. Only a press that both **starts and ends outside counts**. Pressing
+inside and releasing outside, or the other way around, does nothing. Any mouse
+button counts, **including a right click**.
+
+---
+
+## Closing
+
+Pass the element, the callback, and the open state as `enabled`. **`enabled`
+defaults to `true`**, so without it, the hook listens all the time, even while
+there's nothing to close:
+
+```tsx
+import { useRef, useState } from "react";
+import { useClickOutside } from "@wondesign/pointer/click-outside";
+
+export function Popover() {
+  const [isOpen, setIsOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useClickOutside(contentRef, () => setIsOpen(false), { enabled: isOpen });
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Menu</button>
+      {isOpen && <div ref={contentRef}>…</div>}
+    </>
+  );
+}
+```
+
+---
+
+## Excluding an Element
+
+Pass `excludeRef` to treat presses on another element as inside. Pass the
+trigger here, so clicking it doesn't close the popup and open it again right
+away:
+
+```tsx
+const triggerRef = useRef<HTMLButtonElement>(null);
+
+useClickOutside(contentRef, () => setIsOpen(false), {
+  enabled: isOpen,
+  excludeRef: triggerRef,
+});
+
+return (
+  <>
+    <button ref={triggerRef} onClick={() => setIsOpen((open) => !open)}>
+      Menu
+    </button>
+    {isOpen && <div ref={contentRef}>…</div>}
+  </>
+);
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Portals count as outside**: The hook checks the page's elements, not
+  React's tree. Content rendered through a portal, like a dropdown's list,
+  sits outside `ref`'s element, so **pressing it calls `callback`**. Pass it
+  as `excludeRef`:
+
+  ```tsx
+  useClickOutside(contentRef, onClose, { excludeRef: listRef });
+
+  return (
+    <div ref={contentRef}>
+      {createPortal(<ul ref={listRef}>…</ul>, document.body)}
+    </div>
+  );
+  ```

@@ -1,5 +1,51 @@
 ---
 title: Disclosure
-description: React hooks for anything that shows and hides — its open / closed state, controlled or uncontrolled, keeping it on the page while it animates out, and locking the page's scroll while it's open.
-type: tabs
+description: React hooks for open / closed state, closing animations and scroll locking for anything that shows and hides.
 ---
+
+import { Callout } from "@wondesign/ui/texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/disclosure" relPath="foundations/disclosure">
+  `@wondesign/disclosure` handles anything that shows and hides, like alerts,
+  popovers and tooltips. It keeps track of whether it's open, keeps it on the
+  page while it animates out, and locks the page's scroll while it's open. Use
+  it straight in your app, or to build components of your own.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/disclosure
+```
+
+With [All-in-One](/all-in-one), import from `@wondesign/ui/disclosure`
+instead.
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/disclosure` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Controlled & Uncontrolled**: Let the state be kept for you, or pass it in yourself
+- ✅ **Exit Animations**: Keep closed content on the page until its closing animation ends
+- ✅ **Scroll Lock**: Stop the page behind open content from scrolling, even with several layers open
+
+---
+
+## Hooks
+
+Each hook has its own entry, like `@wondesign/disclosure/open-state`, so you
+only bundle the ones you use.
+
+- ⭐ **[Open State](/foundations/disclosure/open-state)** — whether something
+  is open, with ways to open, close and toggle it, controlled or uncontrolled.
+- ⭐ **[Presence](/foundations/disclosure/presence)** — keeps closed content on
+  the page until its closing animation ends.
+- ⭐ **[Scroll Lock](/foundations/disclosure/scroll-lock)** — stops the page,
+  or one element, from scrolling while something is open.

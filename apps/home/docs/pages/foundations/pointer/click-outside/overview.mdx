@@ -1,0 +1,70 @@
+# Click Outside
+
+`useClickOutside` calls `callback` when the user clicks or taps outside
+`ref`'s element. It's the usual way to close something, for example a popover,
+menu or tooltip.
+
+```tsx
+import { useClickOutside } from "@wondesign/pointer/click-outside";
+// or
+import { useClickOutside } from "@wondesign/ui/pointer";
+```
+
+---
+
+## Key Features
+
+- ✅ **Mouse, Touch and Pen**: Works the same for every kind of pointer
+- ✅ **Forgiving**: Dragging into or out of the element isn't a click outside
+- ✅ **Exclude an Element**: Leave out another element, like the trigger that opens a popup
+- ✅ **Inline Callbacks**: Pass a new callback on every render, and it still works
+
+---
+
+## API
+
+Import `useClickOutside` and `ClickOutsideOptions` from
+`@wondesign/pointer/click-outside`. `ref` and `callback` are required. The
+hook returns nothing — it only calls `callback`:
+
+```ts
+function useClickOutside(
+  // the element to watch.
+  // presses inside it, or inside its children, are ignored.
+  ref: React.RefObject<HTMLElement | null>,
+
+  // called on a click outside.
+  callback: () => void,
+
+  options?: ClickOutsideOptions,
+): void;
+```
+
+`options` and everything in it can be left out:
+
+```ts
+interface ClickOutsideOptions {
+  // whether the hook is listening. defaults to `true`.
+  // for example, pass the open state,
+  // so it only listens while there's something to close.
+  enabled?: boolean;
+
+  // another element whose presses are ignored,
+  // like the trigger that opens a popup.
+  excludeRef?: React.RefObject<HTMLElement | null>;
+}
+```
+
+---
+
+## Upcoming Features
+
+- 🔜 **Multiple Excluded Elements**: Leave more than one element out of a click outside
+- 🔜 **Portal-Aware Click Outside**: Content rendered through a portal from inside the element counts as inside
+- 🔜 **Choose Which Mouse Buttons Count**: Ignore right or middle clicks for a click outside
+
+---
+
+## Used By
+
+- 🧩 **Modal**, **Popover**, **Tooltip** in [`@wondesign/headless`](/headless)

@@ -21,20 +21,19 @@ import { PackageInfo } from "@/entities/package";
 pnpm add @wondesign/theme
 ```
 
+With [All-in-One](/all-in-one), import from `@wondesign/ui/theme` instead,
+and the scripts from `@wondesign/ui/server`.
+
 <Callout variant="warning" title="Requires React 19">
   `@wondesign/theme` needs React 19 or later.
-</Callout>
-
-<Callout title="Using @wondesign/ui?">
-  `@wondesign/ui/theme` re-exports both providers and hooks, and
-  `@wondesign/ui/server` re-exports both scripts.
 </Callout>
 
 ---
 
 ## Key Features
 
-- ✅ **Two Ways to Theme**: Pick from a flat list of named themes, or let light / dark / system decide, with one or more themes for each side
+- ✅ **Named Themes**: Pick from a flat list of themes
+- ✅ **Light and Dark**: Switch between light, dark and system, with one or more themes for each side
 - ✅ **Follows the OS**: Can follow the user's OS light / dark setting, even when it changes
 - ✅ **Persistence**: The user's choice is saved and re-applied on every visit
 - ✅ **Cross-Tab Sync**: Change the theme in one tab, and every other open tab switches with it
@@ -49,68 +48,54 @@ pnpm add @wondesign/theme
 There are three ways to theme your app, from the simplest to the most
 flexible. Pick one per app.
 
-### Light-Dark
+- ⭐ **[Light-Dark](/foundations/theme/setup#light-dark)** — a light / dark /
+  system switch.
+- ⭐ **[Advanced Light-Dark](/foundations/theme/setup#advanced-light-dark)** —
+  Light-Dark with more than one theme per side.
+- ⭐ **[Named Themes](/foundations/theme/setup#named-themes)** — a flat list
+  of themes, none tied to light or dark.
 
-A light / dark / system switch. The easiest way to use it is with the
-[`@wondesign/tokens` preset](/foundations/tokens/setup): its colors already
-have a light and a dark value, so they follow the switch with no extra CSS.
+---
 
-Not using the preset? Write your own colors with CSS's
-[`light-dark()`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark)
-function, and they follow the switch the same way.
+## How It Works
 
-```ts
-import { LightDarkProvider } from "@wondesign/theme/light-dark";
+The provider decides which theme is active, writes it to `<html>`, and saves
+the user's choice, which beats your defaults. With Light-Dark, a **mode** of
+`"light"`, `"dark"` or `"system"` decides which side's theme is used, and the
+color scheme is written too, as the `color-scheme` property that
+`light-dark()` colors follow:
+
+```html
+<!-- Named Themes -->
+<html data-theme="ocean"></html>
+
+<!-- Light-Dark, with "midnight" picked for dark -->
+<html
+  data-theme="midnight"
+  data-color-scheme="dark"
+  style="color-scheme: dark"
+></html>
 ```
 
-See [Light-Dark Setup](/foundations/theme/setup#light-dark) to get started.
+**Saved choices**:
 
-### Advanced Light-Dark
-
-Light-Dark with more than one theme per side — say, `"light"` and `"paper"`
-for light, `"dark"` and `"midnight"` for dark. The user still picks light,
-dark, or system, and also picks which theme to use for each side. Style the
-extra themes with `data-theme` selectors on top of your light and dark colors.
-
-```ts
-import { LightDarkProvider } from "@wondesign/theme/light-dark";
-```
-
-See [Advanced Light-Dark Setup](/foundations/theme/setup#advanced-light-dark)
-to set it up.
-
-### Named Themes
-
-A flat list of themes — `"ocean"`, `"forest"`, `"sunset"` — with none of them
-tied to light or dark. The user picks one, and you style each with
-`data-theme` selectors.
-
-```ts
-import { ThemeProvider } from "@wondesign/theme";
-```
-
-See [Named Themes Setup](/foundations/theme/setup#named-themes) to get started.
+- 🔹 A saved theme you've since removed falls back to your default.
+- 🔹 If the browser can't save the choice, like in some private browsing
+  modes, the theme still works until the page is closed.
+- 🔹 Apps on the same origin share the saved choice. Give each its own
+  `storageKey` if they shouldn't.
 
 ---
 
 ## Known Issues
 
-- 🐞 **light-dark() colors in Next.js**: Colors built with `light-dark()` may not follow the theme, or fall back to an unexpected color, when your build tool rewrites `light-dark()` for older browsers. See [Troubleshooting](/foundations/theme/troubleshooting) for the fix
+- 🐞 **light-dark() colors in NextJS**: Colors built with `light-dark()` may not follow the theme, or fall back to an unexpected color, when your build tool rewrites `light-dark()` for older browsers. See the [NextJS setup](/foundations/theme/setup#nextjs-app-router) for the fix
 
 ---
 
 ## Next Steps
 
-- **[How It Works](/foundations/theme/how-it-works)** — how the theme is
-  picked, what's written to the page, and how the user's choice is saved.
 - **[Setup](/foundations/theme/setup)** — adding the provider and script to
   your app, configuring your themes, and framework examples.
 - **[Usage](/foundations/theme/usage)** — updating the theme, and reading it
   from the HTML element or the hooks.
-- **[Troubleshooting](/foundations/theme/troubleshooting)** — fixes for
-  colors that don't follow the theme.
-- **[Token Setup](/foundations/tokens/setup)** — installing
-  `wondesignTokenVariables`, which supplies the `light-dark()` colors the
-  light-dark entry switches between.
-- **[Light and Dark Colors](/foundations/tokens/customization#light-and-dark-colors)**
-  — building your own `light-dark()` palette with `mergeLightDark`.

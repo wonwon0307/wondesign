@@ -3,6 +3,7 @@ title: All-in-One
 description: Every WonDesign package that runs in your app, under one name.
 ---
 
+import { Callout } from "@wondesign/ui/texts";
 import { PackageInfo } from "@/entities/package";
 
 <PackageInfo name="@wondesign/ui" relPath="packages/ui">
@@ -17,6 +18,10 @@ import { PackageInfo } from "@/entities/package";
 ```bash
 pnpm add @wondesign/ui
 ```
+
+<Callout variant="warning" title="Requires React 19.2">
+  `@wondesign/ui` needs React 19.2 or later.
+</Callout>
 
 ---
 
@@ -43,7 +48,7 @@ time, so install it on its own, as a dev dependency.
 ## Setting Up Your App
 
 The setup is the same as in [Getting Started](/getting-started), with every
-import from `@wondesign/ui`. For example, in Next.js (App Router):
+import from `@wondesign/ui`. For example, in NextJS (App Router):
 
 ```tsx
 // app/layout.tsx

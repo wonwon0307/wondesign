@@ -49,11 +49,53 @@
               "type": "group",
               "label": "Interactions",
               "items": [
-                "[Disclosure](/foundations/disclosure)",
-                "[Focus](/foundations/focus)",
-                "[Key Events](/foundations/key-events)",
-                "[Pointer](/foundations/pointer)",
-                "[Position](/foundations/position)"
+                {
+                  "type": "link",
+                  "label": "Disclosure",
+                  "url": "/foundations/disclosure",
+                  "items": [
+                    "[Open State](/foundations/disclosure/open-state)",
+                    "[Presence](/foundations/disclosure/presence)",
+                    "[Scroll Lock](/foundations/disclosure/scroll-lock)"
+                  ]
+                },
+                {
+                  "type": "link",
+                  "label": "Focus",
+                  "url": "/foundations/focus",
+                  "items": [
+                    "[Arrow Navigation](/foundations/focus/arrow-navigation)",
+                    "[Auto Focus](/foundations/focus/auto-focus)",
+                    "[Focus Trap](/foundations/focus/focus-trap)",
+                    "[Background Inert](/foundations/focus/background-inert)"
+                  ]
+                },
+                {
+                  "type": "link",
+                  "label": "Key Events",
+                  "url": "/foundations/key-events",
+                  "items": [
+                    "[Escape Key](/foundations/key-events/escape-key)",
+                    "[Shortkey](/foundations/key-events/shortkey)"
+                  ]
+                },
+                {
+                  "type": "link",
+                  "label": "Pointer",
+                  "url": "/foundations/pointer",
+                  "items": [
+                    "[Click Outside](/foundations/pointer/click-outside)",
+                    "[Long Press](/foundations/pointer/long-press)"
+                  ]
+                },
+                {
+                  "type": "link",
+                  "label": "Position",
+                  "url": "/foundations/position",
+                  "items": [
+                    "[Floating Position](/foundations/position/floating-position)"
+                  ]
+                }
               ]
             }
           ]

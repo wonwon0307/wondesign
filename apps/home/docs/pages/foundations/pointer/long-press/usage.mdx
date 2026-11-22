@@ -1,0 +1,80 @@
+# Usage
+
+The hook is **touch only**: holding down a mouse button or pen does nothing.
+`callback` fires once the finger has been down long enough, while it's still
+down, not when it's lifted. The press is cancelled when:
+
+- 📌 The finger lifts early, or moves too far
+- 📌 The browser interrupts the touch, like to scroll the page
+- 📌 A second finger touches, so pinch-zooming never fires it
+
+---
+
+## Detecting a Long Press
+
+Pass the element and the callback:
+
+```tsx
+import { useRef, useState } from "react";
+import { useLongPress } from "@wondesign/pointer/long-press";
+
+export function HintButton() {
+  const [showHint, setShowHint] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useLongPress(buttonRef, () => setShowHint(true), { enabled: !showHint });
+
+  return <button ref={buttonRef}>?</button>;
+}
+```
+
+---
+
+## Timing and Tolerance
+
+Pass `threshold` for how long, in milliseconds, the finger must stay down, and
+`moveTolerance` for how far, in pixels, it can move before the press is
+cancelled. The defaults are `500` and `10`:
+
+```tsx
+useLongPress(buttonRef, showHint, { threshold: 800, moveTolerance: 20 });
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Pass the render condition to `enabled`**: With `enabled` always
+  `true`, the hook turns on before an element that's rendered conditionally
+  appears, and **never picks it up**:
+
+  ```tsx
+  // ❌ the hook is already on when the button appears, so it never sees it
+  useLongPress(buttonRef, showHint);
+
+  // ✅ the hook turns on together with the button
+  useLongPress(buttonRef, showHint, { enabled: isReady });
+
+  return isReady ? <button ref={buttonRef}>?</button> : null;
+  ```
+
+- ⚠️ **The browser's own long press still happens**: `useLongPress` doesn't
+  block text selection, or the menu some devices open on a long press. Turn
+  them off on the element if they get in the way:
+
+  ```tsx
+  <button
+    ref={buttonRef}
+    style={{
+      // stops a long press from selecting text
+      userSelect: "none",
+      WebkitUserSelect: "none",
+      // stops iOS from showing its callout menu
+      WebkitTouchCallout: "none",
+    }}
+    // stops the context menu some Android devices open
+    onContextMenu={(event) => event.preventDefault()}
+  >
+    ?
+  </button>
+  ```

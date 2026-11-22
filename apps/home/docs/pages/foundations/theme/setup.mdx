@@ -21,13 +21,16 @@ Setting up the theme takes three pieces, all at the root of your app:
 
 ## Configuration
 
-Follow the configuration for the way you picked in
-[Ways to Theme](/foundations/theme#ways-to-theme).
+There are three ways to configure the theme. Pick one per app.
 
 ### Light-Dark
 
-The simplest setup: colors built with CSS `light-dark()`. For this method,
-**do not pass anything to the `themes` property**.
+A light / dark / system switch, and the simplest setup. Colors from the
+[`@wondesign/tokens` preset](/foundations/tokens/quick-start) already follow it.
+Otherwise, write your own with CSS's
+[`light-dark()`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark).
+
+For this method, **do not pass anything to the `themes` property**.
 
 ```tsx
 import { LightDarkProvider } from "@wondesign/theme/light-dark";
@@ -45,10 +48,21 @@ body {
 }
 ```
 
+Pass `disableSystem` to remove `"system"`, so the OS setting is never
+consulted. Without a default mode, first-time visitors then get light mode
+instead of following their OS:
+
+```tsx
+<LightDarkProvider disableSystem>{children}</LightDarkProvider>
+```
+
 ### Advanced Light-Dark
 
-For more than one theme per side, pass `themes` to both. The first theme of
-each side is its default:
+Light-Dark with more than one theme per side. The user picks light, dark or
+system, and a theme for each side. Style the extra themes with `data-theme`
+selectors.
+
+Pass `themes` to both. The first theme of each side is its default:
 
 ```tsx
 const themes = {
@@ -60,9 +74,13 @@ const themes = {
 <LightDarkProvider themes={themes}>{children}</LightDarkProvider>
 ```
 
+`disableSystem` works here too, the same as in [Light-Dark](#light-dark).
 See the [NextJS example](#nextjs-app-router) for the CSS.
 
 ### Named Themes
+
+A flat list of themes, none tied to light or dark. Style each with
+`data-theme` selectors.
 
 Pass your theme names to `ThemeProvider`, and the default to both. If you
 leave `defaultTheme` out of the provider, the first theme is the default:
@@ -108,8 +126,8 @@ system mode, give the script your default mode as well.**
 **Named Themes**
 
 Pass the same default theme and storage key to both. The script doesn't get
-the list of themes. If you remove a theme that a user had picked, they may
-see it briefly on their next visit, before your default takes over.
+the list of themes, so a user whose theme you removed may see it briefly on
+their next visit.
 
 ```tsx
 <ThemeScript defaultTheme="ocean" />
@@ -152,8 +170,7 @@ rendered.
 
 ## Examples
 
-Where the provider and the script go depends on your framework, and on
-whether your app is server-rendered. Below are a few common setups.
+Where the provider and the script go depends on your framework.
 
 ### NextJS (App Router)
 
@@ -213,13 +230,46 @@ body {
 }
 ```
 
-The script sets attributes on `<html>` before React hydrates, so the server's
-HTML and the page no longer match on that one element.
-**`suppressHydrationWarning` on `<html>` is required** — without it, React
-logs a hydration mismatch.
+The script sets attributes on `<html>` before React hydrates, so
+**`suppressHydrationWarning` on `<html>` is required**, or React logs a
+hydration mismatch. Both providers are client components, so a server layout
+can render them.
 
-Both providers are already client components, so they can be rendered
-straight from a server layout.
+**light-dark() colors**: NextJS rewrites `light-dark()` for older browsers,
+and the rewritten colors only follow a `color-scheme` declared in your CSS,
+not the one the provider sets. **Without one, they ignore the theme.**
+Declare it on the root:
+
+```css
+/* app/globals.css */
+:root {
+  color-scheme: light dark;
+}
+
+:root[data-color-scheme="light"] {
+  color-scheme: light;
+}
+
+:root[data-color-scheme="dark"] {
+  color-scheme: dark;
+}
+```
+
+The first rule follows the OS until a theme is applied, and the other two
+follow the user's choice. Or, if your app only supports browsers with
+`light-dark()`, set `browserslist` in your `package.json`, so NextJS leaves it
+as is:
+
+```json
+{
+  "browserslist": [
+    "chrome >= 123",
+    "edge >= 123",
+    "firefox >= 120",
+    "safari >= 17.5"
+  ]
+}
+```
 
 ### React Router (Framework Mode)
 
@@ -269,11 +319,9 @@ As with NextJS, **`suppressHydrationWarning` on `<html>` is required.**
 
 ### Client-only Apps
 
-Client-only apps (Vite, Rsbuild, Parcel, etc.) have no server to render the script on each request.
-Instead, render it once at build time, and put it in the `<head>`
-of your `index.html`.
-
-Below is an example using Vite for a Named Themes setup:
+Client-only apps (Vite, Rsbuild, Parcel, etc.) have no server to render the
+script. Render it once at build time, into the `<head>` of your `index.html`.
+A Named Themes setup with Vite:
 
 ```ts
 // vite.config.ts
@@ -346,5 +394,5 @@ nonce. With a nonce-based CSP, allow it by its hash instead.
 
 - **[Usage](/foundations/theme/usage)** — updating the theme, and reading it
   from the HTML element or the hooks.
-- **[Token Setup](/foundations/tokens/setup)** — installing
+- **[Tokens Quick Start](/foundations/tokens/quick-start)** — installing
   `wondesignTokenVariables`, which supplies `light-dark()` colors.

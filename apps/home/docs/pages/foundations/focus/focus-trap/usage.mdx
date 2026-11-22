@@ -1,0 +1,75 @@
+import { Keyboard, KeyboardGroup } from "@wondesign/ui/code";
+
+# Usage
+
+The trap is on while `enabled` is `true` and the component calling it is
+mounted, so focus stays inside modal content for as long as it's open. **The
+trap doesn't move focus in**. It only holds focus that's already inside, so it
+works best together with [Auto Focus](/foundations/focus/auto-focus), to move
+focus in on open, and [Background Inert](/foundations/focus/background-inert),
+to keep the page behind out of reach (without it, clicking something behind
+the content moves focus out, and a trap inside another trap can let focus
+slip out).
+
+While it's on, <Keyboard>Tab</Keyboard> on the last element moves to the
+first, and {<KeyboardGroup shortkey="Shift+Tab" />} on the first moves to the
+last. Disabled, hidden and inert elements are skipped. If focus is lost, like
+when the focused element is removed, the next <Keyboard>Tab</Keyboard> brings
+it back inside. Focus held by something else, like another trap, is left
+alone.
+
+---
+
+## Trapping Focus
+
+Pass the element and its open state, together with `useAutoFocus` and
+`useBackgroundInert`. With
+nothing focusable inside, focus stays on the element itself, so give it
+`tabIndex={-1}`:
+
+```tsx
+import { useRef, useState } from "react";
+import { useAutoFocus } from "@wondesign/focus/auto-focus";
+import { useBackgroundInert } from "@wondesign/focus/background-inert";
+import { useFocusTrap } from "@wondesign/focus/trap";
+
+export function DeleteDialog() {
+  const [isOpen, setIsOpen] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useAutoFocus(dialogRef, { enabled: isOpen });
+  useFocusTrap(dialogRef, { enabled: isOpen });
+  useBackgroundInert(dialogRef, { enabled: isOpen });
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Delete</button>
+      {isOpen && (
+        <div ref={dialogRef} role="dialog" aria-modal="true" tabIndex={-1}>
+          <p>Delete this file?</p>
+          <button onClick={() => setIsOpen(false)}>Cancel</button>
+          <button>Delete</button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Pass the open state to `enabled`**: With `enabled` always `true`, the
+  hook turns on before content that's rendered conditionally appears, and
+  **never traps focus**:
+
+  ```tsx
+  // ❌ the hook is already on when the dialog appears, so it never sees it
+  useFocusTrap(dialogRef, { enabled: true });
+
+  // ✅ the hook turns on together with the dialog
+  useFocusTrap(dialogRef, { enabled: isOpen });
+
+  return isOpen ? <div ref={dialogRef}>…</div> : null;
+  ```

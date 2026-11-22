@@ -1,0 +1,121 @@
+import { Keyboard, KeyboardGroup } from "@wondesign/ui/code";
+
+# Shortkey
+
+`useShortkey` calls `callback` when the user presses a shortkey, like
+{<KeyboardGroup shortkey="Mod+K" />}. `useShortkeyDisplay` returns that shortkey
+ready to show: its keys for the user's platform, and the `aria-label` and
+`aria-keyshortcuts` values for screen readers.
+
+To show the keys ready-styled, pass the same shortkey to
+[KeyboardGroup](/components/code/keyboard-group) from `@wondesign/code`.
+
+```tsx
+import {
+  useShortkey,
+  useShortkeyDisplay,
+} from "@wondesign/key-events/shortkey";
+// or
+import { useShortkey, useShortkeyDisplay } from "@wondesign/ui/key-events";
+```
+
+---
+
+## Key Features
+
+- ✅ **Typed Shortkeys**: Write shortkeys like <KeyboardGroup shortkey="Mod+K" /> as plain strings, checked by TypeScript
+- ✅ **Cross-Platform**: <Keyboard>Mod</Keyboard> means <Keyboard>⌘</Keyboard> on Apple devices and <Keyboard>Ctrl</Keyboard> everywhere else
+- ✅ **Safe While Typing**: Shortkeys without <Keyboard>Ctrl</Keyboard> or <Keyboard>⌘</Keyboard> pause while the user types in an input
+- ✅ **Ready to Show**: Get a shortkey's keys for the user's platform, without listening for it
+- ✅ **Accessible**: Get the values for screen readers and the control a shortkey triggers
+- ✅ **Forgiving**: Inline callbacks work as they are, and holding a key down fires it once
+
+---
+
+## API
+
+Import the hooks, their types and the shortkey types from
+`@wondesign/key-events/shortkey`.
+
+### useShortkey
+
+Listens for a shortkey. `key` and `callback` are required. The hook returns
+nothing — it only calls `callback`:
+
+```ts
+function useShortkey(
+  // the shortkey to listen for, like `"Mod+K"`.
+  // pass `null` to turn the hook off.
+  key: BindableShortkey | null,
+
+  // called when the shortkey is pressed.
+  callback: () => void,
+
+  options?: ShortkeyOptions,
+): void;
+```
+
+`options` and everything in it can be left out:
+
+```ts
+interface ShortkeyOptions {
+  // whether the hook is listening. defaults to `true`.
+  // for example, turn it off while the feature it opens is unavailable.
+  enabled?: boolean;
+}
+```
+
+### useShortkeyDisplay
+
+Shows a shortkey, like in a button, a menu or a tooltip. It returns
+`undefined` when `shortkey` is `null`:
+
+```ts
+function useShortkeyDisplay(
+  // the shortkey to show, like `"Mod+K"`.
+  // pass `null` to show nothing.
+  shortkey: Shortkey | null,
+): ShortkeyDisplay | undefined;
+```
+
+```ts
+interface ShortkeyDisplay {
+  // the keys as the user's platform writes them,
+  // like `["⌘", "K"]` on a Mac and `["Ctrl", "K"]` elsewhere.
+  keys: string[];
+
+  // the value for the `aria-label` attribute,
+  // the key names for screen readers, like `"Command K"`.
+  label: string;
+
+  // the value for the `aria-keyshortcuts` attribute, like `"Meta+K"`.
+  keyShortcuts: string;
+}
+```
+
+---
+
+## Known Issues
+
+- 🐞 **Typing in web components**: Shortkeys without <Keyboard>Ctrl</Keyboard> or
+  {<Keyboard>⌘</Keyboard>} **still fire while the user types** in an input inside
+  a web component (a custom HTML element, like `<search-field>`).
+- 🐞 **Keys are matched by position**: Shortkeys follow where a key sits on a
+  US QWERTY keyboard, not what's printed on it. On a French AZERTY keyboard,
+  <KeyboardGroup shortkey="Mod+Z" /> fires from the key labelled
+  <Keyboard>W</Keyboard>. Support for [layout-aware
+  shortkeys](#upcoming-features) is planned.
+
+---
+
+## Upcoming Features
+
+- 🔜 **Layout-Aware Shortkeys**: Match the key the user sees, not its position on a QWERTY keyboard
+- 🔜 **Scoped Shortkeys**: Only listen while focus is inside an element, like a panel or an editor
+
+---
+
+## Used By
+
+- 🧩 **SidebarProvider**, **SidebarToggle** in `@wondesign/sidebar`
+- 🧩 **KeyboardGroup** in [`@wondesign/code`](/components/code)

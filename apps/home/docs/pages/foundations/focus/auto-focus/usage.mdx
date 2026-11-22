@@ -1,0 +1,102 @@
+# Usage
+
+The hook acts when `enabled` turns `true` or `false`, or when the component
+calling it mounts or unmounts. Overlays like menus, dialogs and popovers come
+and go the same way, so focus follows them in and out without any extra
+wiring.
+
+When `enabled` turns `true`, focus moves to the first focusable element
+inside, skipping disabled, hidden and inert ones. When `enabled` turns
+`false`, or the component unmounts, focus goes back to the element that had it
+before opening. If focus has already moved outside the element, like to an
+input the user clicked, **it stays there**.
+
+- 📌 An element only counts as disabled with the native `disabled` attribute.
+  Elements disabled another way, like with `aria-disabled` or a headless
+  [Button](/headless/button) with `isDisabled`, stay focusable, so **focus can
+  land on them**.
+
+---
+
+## Moving Focus In and Back
+
+Pass the element and its open state. With nothing focusable inside, focus
+moves to the element itself, so give it `tabIndex={-1}`, or **focus stays
+where it was**:
+
+```tsx
+import { useRef, useState } from "react";
+import { useAutoFocus } from "@wondesign/focus/auto-focus";
+
+export function FilterPopover() {
+  const [isOpen, setIsOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useAutoFocus(contentRef, { enabled: isOpen });
+
+  return (
+    <>
+      <button onClick={() => setIsOpen((open) => !open)}>Filters</button>
+      {isOpen && (
+        <div ref={contentRef} tabIndex={-1}>
+          <label>
+            <input type="checkbox" /> In stock
+          </label>
+          <button onClick={() => setIsOpen(false)}>Done</button>
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+---
+
+## Initial Focus
+
+Pass `initialRef` to start on a specific element inside, like the main action.
+If it's outside the element or can't take focus, **it's ignored as if it
+wasn't given**, with no error:
+
+```tsx
+const doneRef = useRef<HTMLButtonElement>(null);
+
+useAutoFocus(contentRef, { enabled: isOpen, initialRef: doneRef });
+```
+
+---
+
+## Return Focus
+
+Pass `returnRef` to send focus somewhere else on close, like a button that
+uses what was just picked. If it points at nothing by then, focus goes back to
+the element that had it before opening:
+
+```tsx
+const searchRef = useRef<HTMLButtonElement>(null);
+
+useAutoFocus(contentRef, { enabled: isOpen, returnRef: searchRef });
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Starting on a non-interactive element**: If you really want focus to
+  start on something like a heading, give it `tabIndex={-1}`. Headings and
+  paragraphs can't take focus on their own, so without it **focus starts on
+  the first focusable element instead**.
+
+- ⚠️ **Pass the open state to `enabled`**: With `enabled` always `true`, the
+  hook turns on before content that's rendered conditionally appears, and
+  **never moves focus in**:
+
+  ```tsx
+  // ❌ the hook is already on when the popover appears, so it never sees it
+  useAutoFocus(contentRef, { enabled: true });
+
+  // ✅ the hook turns on together with the popover
+  useAutoFocus(contentRef, { enabled: isOpen });
+
+  return isOpen ? <div ref={contentRef}>…</div> : null;
+  ```

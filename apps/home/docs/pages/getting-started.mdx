@@ -22,15 +22,23 @@ browsers, colors, tints and responsive styles may not apply as expected.
 
 ## Choosing What to Install
 
-- 📦 **[All-in-One](/all-in-one)**: `@wondesign/ui`, with every package that
-  runs in your app under one name.
-- 📦 **Package by Package**: only the packages you need, from any layer, like
-  `@wondesign/tokens` or `@wondesign/focus` from Foundations,
-  `@wondesign/buttons` from Styled Components, or
-  [`@wondesign/headless`](/headless) alone to build your own components in
-  your own look. Each package's page shows how to install it. Packages from
-  different layers mix freely, like a few styled packages alongside
-  `@wondesign/headless` in the same app.
+There are two ways to install WonDesign: everything at once, or only the
+packages you need.
+
+### All-in-One
+
+[`@wondesign/ui`](/all-in-one) brings every package that runs in your app
+under one name.
+
+### Package by Package
+
+Install only the packages you need, from any layer, like `@wondesign/tokens`
+or `@wondesign/focus` from Foundations, `@wondesign/buttons` from Styled
+Components, or [`@wondesign/headless`](/headless) alone to build your own
+components in your own look. Each package's page shows how to install it.
+
+Packages from different layers mix freely, like a few styled packages
+alongside `@wondesign/headless` in the same app.
 
 ---
 
@@ -47,7 +55,7 @@ Every package works without this setup. Each step adds something on top:
 - 🔹 **Fonts**: the fonts your tokens name are loaded. Without them, the
   browser falls back to its own fonts.
 
-For example, in Next.js (App Router):
+For example, in NextJS (App Router):
 
 ```tsx
 // app/layout.tsx
