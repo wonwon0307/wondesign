@@ -11,7 +11,7 @@ There are two ways to use it:
   root of your app, and call `toast` wherever you need one.
 - 🧩 **Build your own toast component.** Pass your own component to
   `Toaster` when the ready-made look doesn't fit. Building it from
-  [Headless Toast](/components/headless/toast) is strongly recommended. The
+  [Headless Toast](/headless/toast) is strongly recommended. The
   functions stay the same.
 
 When you need your own layout or your own options, build your own Toaster with
@@ -59,7 +59,7 @@ how they close.
 For how the store behaves, like on the server, refer to
 [Base](/components/toast/base#how-it-works). For how each toast behaves on
 screen, like pausing and screen readers, refer to
-[Headless Toast](/components/headless/toast#how-it-works).
+[Headless Toast](/headless/toast#how-it-works).
 
 ### Positions
 
@@ -165,7 +165,7 @@ function deleteToasts(): void;
 
 `Toaster` displays the toasts from `toast`. Place it once, near the root of
 your app. It also takes every prop of
-[`ToastArea`](/components/headless/toast/api), like `className`.
+[`ToastArea`](/headless/toast/api), like `className`.
 
 ```ts
 type ToasterProps = {
@@ -225,8 +225,8 @@ type ToastType = "default" | "info" | "success" | "warning" | "error";
 ## Known Issues
 
 - 🐞 **Inherited from Headless Toast**: The default toast is built on
-  [Headless Toast](/components/headless/toast), so it shares its
-  [known issues](/components/headless/toast#known-issues), like focus moving
+  [Headless Toast](/headless/toast), so it shares its
+  [known issues](/headless/toast#known-issues), like focus moving
   to the start of the page when a focused toast closes.
 
 ---
@@ -250,7 +250,7 @@ type ToastType = "default" | "info" | "success" | "warning" | "error";
 ## Upcoming Features
 
 The default toast is built on Headless Toast, so it also gets
-[Headless Toast's upcoming features](/components/headless/toast#upcoming-features).
+[Headless Toast's upcoming features](/headless/toast#upcoming-features).
 
 - 🔜 **Close Button**: Close a toast without an action, other than with <Keyboard>Esc</Keyboard>
 - 🔜 **Promise Toasts**: Show a loading toast while a promise runs, then a success or error toast once it settles

@@ -15,7 +15,7 @@ the look.
 
 Use it for messages that don't need an answer. For messages the user has to
 answer before they carry on, or urgent ones that can't wait, like an error
-that blocks their work, **use an [Alert](/components/headless/alert)
+that blocks their work, **use an [Alert](/headless/alert)
 instead**.
 
 It is strongly recommended to use `Toast` through an imperative API, like the
@@ -32,15 +32,15 @@ managing each one's open state yourself.
 - ✅ **Many Toasts, One Area**: Show several toasts together in a single area
 - ✅ **Exit Animations**: A closed toast stays until its exit animation finishes
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
-- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
+- ✅ **Composable**: Render your own elements with [`asChild`](/headless/as-child)
 
 ---
 
 ## Structure
 
 For what you can configure, refer to the
-[Usage tab](/components/headless/toast/usage). For every prop, refer to the
-[API tab](/components/headless/toast/api).
+[Usage tab](/headless/toast/usage). For every prop, refer to the
+[API tab](/headless/toast/api).
 
 - 🧩 **ToastArea**: the area every toast shows in. Render it once, and put
   your toasts inside it.
@@ -80,7 +80,7 @@ The timer automatically starts when the toast opens, from the full `duration`
 each time.
 
 <Keyboard>Esc</Keyboard> is handled by [Escape
-Key](/foundations/key-events/escape-key).
+Key](/interactions/key-events/escape-key).
 
 ### Waiting for the User
 
@@ -101,7 +101,7 @@ appears, once the screen reader has finished what it's reading. Focus doesn't
 move, so the user can carry on where they were.
 
 Each toast is read as a whole, **including the label of its close button**
-(see [Screen Readers](/components/headless/toast/usage#screen-readers) for an
+(see [Screen Readers](/headless/toast/usage#screen-readers) for an
 example).
 Toasts already showing aren't read again when a new one appears.
 

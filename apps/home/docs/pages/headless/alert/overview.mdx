@@ -15,8 +15,8 @@ acknowledging an error that blocks their work. Despite its name, it **doesn't
 follow the [WAI-ARIA Alert pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)**,
 which announces a message without interrupting the user. For messages that
 don't need an answer, like "Saved", **use something that doesn't interrupt,
-like a [Toast](/components/headless/toast), instead**. For content that isn't
-urgent, like a form, use a [Modal](/components/headless/modal).
+like a [Toast](/headless/toast), instead**. For content that isn't
+urgent, like a form, use a [Modal](/headless/modal).
 
 `Alert` works well with [`@wondesign/alert`](/components/alert). Its `Alerter`
 shows each alert for you, so you can open one from anywhere with `showAlert`
@@ -33,15 +33,15 @@ or `showConfirm`, without managing the open state yourself.
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
 - ✅ **Exit Animations**: Closed content stays until its exit animation finishes
-- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
+- ✅ **Composable**: Render your own elements with [`asChild`](/headless/as-child)
 
 ---
 
 ## Structure
 
 For what you can configure, refer to the
-[Usage tab](/components/headless/alert/usage). For every prop, refer to the
-[API tab](/components/headless/alert/api).
+[Usage tab](/headless/alert/usage). For every prop, refer to the
+[API tab](/headless/alert/api).
 
 - 🧩 **Alert**: coordinates every part. It holds the open state, manages focus,
   and blocks the page behind while it's open. **Renders no element of its
@@ -96,7 +96,7 @@ The alert closes through `Alert.Close` and <Keyboard>Esc</Keyboard> (unless
 switched off). Clicks outside don't close it, so the user has to choose a response.
 
 <Keyboard>Esc</Keyboard> is handled by [Escape
-Key](/foundations/key-events/escape-key).
+Key](/interactions/key-events/escape-key).
 
 ### Focus
 
@@ -109,15 +109,15 @@ While it's open, <Keyboard>Tab</Keyboard> and
 focus returns to `Alert.Trigger`. If the trigger doesn't exist, focus returns to
 whatever had it before the alert opened.
 
-Focus is handled by [Auto Focus](/foundations/focus/auto-focus) and
-[Focus Trap](/foundations/focus/focus-trap).
+Focus is handled by [Auto Focus](/interactions/focus/auto-focus) and
+[Focus Trap](/interactions/focus/focus-trap).
 
 ### The Page Behind
 
 While the alert is open, everything outside the content can't be clicked or
 focused, and the page stops scrolling. These are handled by
-[Background Inert](/foundations/focus/background-inert) and
-[Scroll Lock](/foundations/disclosure/scroll-lock) respectively, so **their
+[Background Inert](/interactions/focus/background-inert) and
+[Scroll Lock](/interactions/disclosure/scroll-lock) respectively, so **their
 known issues carry over to `Alert`**.
 
 ### Exit Animations

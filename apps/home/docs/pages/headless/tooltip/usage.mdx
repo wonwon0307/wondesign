@@ -3,7 +3,7 @@ import { Callout } from "@wondesign/ui/texts";
 # Usage
 
 This page covers what you can configure on `Tooltip`. For every prop, refer to
-the [API tab](/components/headless/tooltip/api).
+the [API tab](/headless/tooltip/api).
 
 To see real, styled examples of `Tooltip`, go to the
 [Examples tab](/components/tooltip/examples) of `@wondesign/tooltip`.
@@ -43,7 +43,7 @@ top left of the content, so position the arrow `absolute` inside it the same
 way. `isPositioned` stays `false` until the first position is worked out, so
 hiding the content until then avoids a flash in the corner. For how the
 position is worked out, refer to
-[Floating Position](/foundations/position/floating-position).
+[Floating Position](/interactions/position/floating-position).
 
 ### Updating the Position
 
@@ -95,7 +95,7 @@ hiding. Focus and long press **ignore the delays**:
 
 `Tooltip` keeps its own state and starts closed. Pass `isOpen` and
 `onOpenChange` to control it yourself. Both modes are powered by
-[Disclosure](/foundations/disclosure/open-state#how-it-works), so they behave
+[Disclosure](/interactions/disclosure/open-state), so they behave
 exactly as described there:
 
 ```tsx
@@ -126,13 +126,13 @@ disabled:
 ```
 
 To show no tooltip at all, render a plain
-[Headless Button](/components/headless/button) instead of the `Tooltip`.
+[Headless Button](/headless/button) instead of the `Tooltip`.
 
 ---
 
 ## Rendering in Place
 
-The content renders in a [Portal](/components/headless/portal) at the end of
+The content renders in a [Portal](/headless/portal) at the end of
 `<body>`, so it isn't clipped by its parents. Pass `disablePortal` to render it
 where it is in the document instead:
 
@@ -191,7 +191,7 @@ The content is **still positioned against `Tooltip.Trigger`**, wherever it's
 opened from.
 
 For everything the hook returns, refer to the
-[API tab](/components/headless/tooltip/api#usetooltip).
+[API tab](/headless/tooltip/api#usetooltip).
 
 ---
 
@@ -215,7 +215,7 @@ for your exit animation to finish before it leaves the page:
 ## Styling with Data Attributes
 
 The parts expose their state as
-[data attributes](/components/headless/tooltip/api), so you can style each
+[data attributes](/headless/tooltip/api), so you can style each
 state with plain CSS:
 
 ```css

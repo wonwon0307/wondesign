@@ -13,7 +13,7 @@ import { Button } from "@wondesign/headless/Button";
 </Button>;
 ```
 
-See [Usage](/components/headless/as-child/usage) for the two ways to use it,
+See [Usage](/headless/as-child/usage) for the two ways to use it,
 what your child needs, and where to put your props.
 
 ---
@@ -82,31 +82,31 @@ When the component and your element both set the same prop:
   ```
 
   The single element can be your own component too. See
-  [Custom Components](/components/headless/as-child/usage#custom-components)
+  [Custom Components](/headless/as-child/usage#custom-components)
   for what it needs.
 
 - ⚠️ **Handlers on the child aren't blocked**: When a component blocks
-  interactions, like a disabled [Button](/components/headless/button/overview#watch-out),
+  interactions, like a disabled [Button](/headless/button/overview#watch-out),
   it only blocks the handlers passed to it. Handlers written on the child still
   run. Pass them to the component instead, as described in the
-  [asChild notes](/components/headless/as-child/usage#notes).
+  [asChild notes](/headless/as-child/usage#notes).
 
 ---
 
 ## Supported Components
 
-- 🔘 **[Button](/components/headless/button)**
-- 🧩 **[Alert](/components/headless/alert)**: `Alert.Trigger`, `Alert.Content`,
+- 🔘 **[Button](/headless/button)**
+- 🧩 **[Alert](/headless/alert)**: `Alert.Trigger`, `Alert.Content`,
   `Alert.Title`, `Alert.Message`, `Alert.Close`
-- 🧩 **[Collapsible](/components/headless/collapsible)**: `Collapsible.Toggle`,
+- 🧩 **[Collapsible](/headless/collapsible)**: `Collapsible.Toggle`,
   `Collapsible.Content`
-- 🧩 **[Popover](/components/headless/popover)**: `Popover.Trigger`,
+- 🧩 **[Popover](/headless/popover)**: `Popover.Trigger`,
   `Popover.Content`, `Popover.Title`, `Popover.Close`
-- 🧩 **[Tabs](/components/headless/tabs)**: `Tabs.List`, `Tabs.Tab`, `Tabs.Panel`
-- 🧩 **[Toast](/components/headless/toast)**: `ToastArea`, `Toast`,
+- 🧩 **[Tabs](/headless/tabs)**: `Tabs.List`, `Tabs.Tab`, `Tabs.Panel`
+- 🧩 **[Toast](/headless/toast)**: `ToastArea`, `Toast`,
   `ToastMessage`, `ToastDescription`, `ToastClose`
-- 🧩 **[Tooltip](/components/headless/tooltip)**: `Tooltip.Trigger`,
+- 🧩 **[Tooltip](/headless/tooltip)**: `Tooltip.Trigger`,
   `Tooltip.Content`
 
 `Anchor`, and every component built on it, take an `as` prop instead, for rendering a router
-link. See the [Anchor](/components/headless/anchor/usage#router-links) document for details.
+link. See the [Anchor](/headless/anchor/usage#router-links) document for details.

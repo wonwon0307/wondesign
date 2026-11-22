@@ -3,7 +3,7 @@ import { Callout } from "@wondesign/ui/texts";
 # Usage
 
 This page covers what you can configure on `Collapsible`. For every prop,
-refer to the [API tab](/components/headless/collapsible/api).
+refer to the [API tab](/headless/collapsible/api).
 
 ---
 
@@ -11,7 +11,7 @@ refer to the [API tab](/components/headless/collapsible/api).
 
 `Collapsible` keeps its own state and starts closed. Pass `defaultOpen` to
 start it open, or `isOpen` and `onOpenChange` to control it yourself. Both
-modes are powered by [Disclosure](/foundations/disclosure/open-state#how-it-works), so they
+modes are powered by [Disclosure](/interactions/disclosure/open-state), so they
 behave exactly as described there:
 
 ```tsx
@@ -54,7 +54,7 @@ keep it as it is, call `event.preventDefault()`:
 
 Pass `isDisabled` to the toggle, and it can't open or close the content. It
 **stays focusable**, like a
-[Headless Button](/components/headless/button/usage#disabled), and the content
+[Headless Button](/headless/button/usage#disabled), and the content
 **stays in whatever state it was in**:
 
 ```tsx
@@ -115,7 +115,7 @@ function Chevron() {
 ```
 
 For everything the hook returns, refer to the
-[API tab](/components/headless/collapsible/api#usecollapsible).
+[API tab](/headless/collapsible/api#usecollapsible).
 
 ---
 
@@ -139,7 +139,7 @@ waits for your exit animation to finish before it leaves the page:
 ## Styling with Data Attributes
 
 The toggle and content expose their state as
-[data attributes](/components/headless/collapsible/api), so you can style each
+[data attributes](/headless/collapsible/api), so you can style each
 state with plain CSS:
 
 ```css

@@ -4,7 +4,7 @@ import { Callout } from "@wondesign/ui/texts";
 # Usage
 
 This page covers what you can configure on `Modal`. For every prop, refer to
-the [API tab](/components/headless/modal/api).
+the [API tab](/headless/modal/api).
 
 ---
 
@@ -28,7 +28,7 @@ it stays on top of the page, with `z-index`:
   The content renders a `<dialog>`, which browsers give a default margin,
   border, padding and background. Without resetting them, **the content lands
   in the wrong place** with no error. Set `margin: 0`, or use
-  [Reset CSS](/foundations/reset-css), which resets all of them.
+  [Reset CSS](/styling/reset-css), which resets all of them.
 </Callout>
 
 ---
@@ -201,7 +201,7 @@ const closeSettingsRef = useRef<HTMLButtonElement>(null);
 </>;
 ```
 
-Both are handled by [Auto Focus](/foundations/focus/auto-focus), so they behave
+Both are handled by [Auto Focus](/interactions/focus/auto-focus), so they behave
 exactly as described there, including when the element can't take focus.
 
 ---
@@ -223,7 +223,7 @@ level:
 
 `Modal` keeps its own state and starts closed. Pass `defaultOpen` to start it
 open, or `isOpen` and `onOpenChange` to control it yourself. Both modes are
-powered by [Disclosure](/foundations/disclosure/open-state#how-it-works), so
+powered by [Disclosure](/interactions/disclosure/open-state), so
 they behave exactly as described there:
 
 ```tsx
@@ -251,7 +251,7 @@ open, like while there are unsaved changes or an action is still running,
 ## Rendering in Place
 
 The backdrop and content each render in a
-[Portal](/components/headless/portal) at the end of `<body>`, so they aren't
+[Portal](/headless/portal) at the end of `<body>`, so they aren't
 clipped by their parents. Pass `disablePortal` to `Modal` to render both where
 they are in the document instead:
 
@@ -302,7 +302,7 @@ function EditMenuItem() {
 ```
 
 For everything the hook returns, refer to the
-[API tab](/components/headless/modal/api#usemodal).
+[API tab](/headless/modal/api#usemodal).
 
 ---
 
@@ -329,7 +329,7 @@ leaves the page:
 ## Styling with Data Attributes
 
 The parts expose their state as
-[data attributes](/components/headless/modal/api), so you can style each state
+[data attributes](/headless/modal/api), so you can style each state
 with plain CSS:
 
 ```css
