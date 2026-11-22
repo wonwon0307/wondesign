@@ -4,7 +4,7 @@ title: Usage
 description: Switch the theme from your own UI with useLightDark or useTheme, and style by theme in CSS.
 ---
 
-# Usage
+# Using the Theme
 
 The hooks read and change the theme from your components. The server doesn't
 know the user's choice or the OS setting, so until hydration finishes, **the
@@ -14,7 +14,12 @@ theme in CSS instead: the script has already set the attributes on `<html>`.
 
 ---
 
-## Switching Light and Dark
+## Light-Dark
+
+`useLightDark` reads and changes the theme in a Light-Dark or Advanced
+Light-Dark setup.
+
+### Switching Modes
 
 Call `selectMode` from `useLightDark`:
 
@@ -34,9 +39,7 @@ export function DarkModeToggle() {
 }
 ```
 
----
-
-## Offering System Mode
+### System Mode
 
 Show a `"system"` option unless the provider has `disableSystem`:
 
@@ -52,9 +55,7 @@ return (
 );
 ```
 
----
-
-## Picking a Theme per Side
+### Advanced Light-Dark
 
 With Advanced Light-Dark, call `selectLightTheme` or `selectDarkTheme`. This
 doesn't change the mode: a dark theme picked while the page is light only
@@ -74,7 +75,11 @@ return (
 
 ---
 
-## Picking a Named Theme
+## Named Themes
+
+`useTheme` reads and changes the theme in a Named Themes setup.
+
+### Switching Themes
 
 Call `selectTheme` from `useTheme`:
 

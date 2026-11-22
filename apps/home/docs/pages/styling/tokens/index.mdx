@@ -1,0 +1,75 @@
+---
+title: Tokens
+description: A semantic set of design tokens — colors, typography, spacing and more — delivered as a typed JavaScript object backed by CSS variables, with the tools to build your own.
+---
+
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/tokens" relPath="foundations/tokens">
+  `@wondesign/tokens` is a token foundation for design systems. It defines a
+  fixed, semantic vocabulary (`primary`, `spacing.md`, `radius.lg`, …) as a
+  typed `tokens` object for styles written in JavaScript, backs every token
+  with a CSS variable and a built-in fallback, and turns your own values into a
+  stylesheet. Just typed objects and plain strings — no
+  dependencies, no React.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/tokens
+```
+
+With [All-in-One](/all-in-one), import from `@wondesign/ui/tokens` instead.
+
+---
+
+## Key Features
+
+- ✅ **Semantic Design Tokens**: Tokens are named by role, not by value, across seven categories
+- ✅ **Media Queries**: Ready-made breakpoint, hover and reduced motion queries
+- ✅ **Safe Fallbacks**: Every token falls back to its default value
+- ✅ **Preset**: Start from the WonDesign values, with light and dark colors
+- ✅ **Customizable**: Turn your own values into a stylesheet
+- ✅ **Framework Agnostic**: Plain strings, for any framework and any way of writing styles
+
+---
+
+## How It Works
+
+The `tokens` object holds every token as a string, for styles written in
+JavaScript. Each one reads from a CSS variable, which a stylesheet like the
+WonDesign preset defines, so the same tokens also work in CSS:
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.spacing.md; // "var(--spacing-md, 8px)"
+```
+
+Each token also has its default value built in as a fallback, so **without a
+stylesheet, every token still works**, at its default.
+
+---
+
+## Known Issues
+
+- 🐞 **colorWithFade in NextJS**: Colors made with `colorWithFade` may not show, or fall back to an unexpected color, when your build tool rewrites `light-dark()` for older browsers. See [Styling](/styling#known-issues) for the fix
+
+---
+
+## Upcoming Features
+
+- 🔜 **Extendable Tokens**: Add tokens of your own to any category, and use them from the `tokens` object like the built-in ones
+- 🔜 **Lint**: Flag hard-coded values, such as `padding: 8px` or `color: #1647E8`, where a token should be used instead
+
+---
+
+## Next Steps
+
+- 👉 **[Setup](/styling/tokens/setup)** — loading the token
+  stylesheet, the color scheme and the fonts.
+- 👉 **[Usage](/styling/tokens/usage)** — using tokens and media queries
+  in your styles.

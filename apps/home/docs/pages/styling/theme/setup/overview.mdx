@@ -1,0 +1,178 @@
+# Setting Up the Theme
+
+Setting up the theme takes three pieces, all at the root of your app:
+
+- 🔵 **Provider** — `LightDarkProvider` or `ThemeProvider`. The React context
+  that the hook reads, and that keeps `<html>` in sync when the theme changes.
+- 🔵 **Script** — `LightDarkScript` or `ThemeScript`. An inline script in the
+  `<head>` that applies the saved theme before the first paint.
+- 🔵 **CSS** — your colors, built with `light-dark()` or keyed on `data-theme` /
+  `data-color-scheme`.
+
+There are three ways to configure the theme, described below. Pick one per
+app. For complete setups in NextJS, React Router and client-only apps, see the
+[Examples tab](/styling/theme/setup/examples).
+
+---
+
+## Light-Dark
+
+A light / dark / system switch, and the simplest setup. For this method,
+**do not pass anything to the `themes` prop**.
+
+Colors from the
+[`@wondesign/tokens` preset](/styling/tokens/setup) already follow the
+switch.
+Otherwise, write your own with CSS's
+[`light-dark()`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark).
+
+```tsx
+import { LightDarkProvider } from "@wondesign/theme/light-dark";
+import { LightDarkScript } from "@wondesign/theme/light-dark/server";
+
+<LightDarkScript />
+<LightDarkProvider>{children}</LightDarkProvider>
+```
+
+```css
+/* light-dark(<light value>, <dark value>) */
+body {
+  background: light-dark(#ffffff, #1c1c1e);
+  color: light-dark(#1c1c1e, #f5f5f7);
+}
+```
+
+Pass `disableSystem` to remove `"system"`, so the OS setting is never
+consulted. Without a default mode, first-time visitors then get light mode
+instead of following their OS:
+
+```tsx
+<LightDarkProvider disableSystem>{children}</LightDarkProvider>
+```
+
+See the
+[React Router example](/styling/theme/setup/examples#react-router-framework-mode)
+for a complete setup.
+
+---
+
+## Advanced Light-Dark
+
+Light-Dark with more than one theme per side. The user picks light, dark or
+system, and a theme for each side. Style the extra themes with `data-theme`
+selectors.
+
+Pass `themes` to both. The first theme of each side is its default:
+
+```tsx
+const themes = {
+  light: ["light", "paper"], // first item "light" is the default
+  dark: ["dark", "midnight"], // first item "dark" is the default
+} as const;
+
+<LightDarkScript themes={themes} />
+<LightDarkProvider themes={themes}>{children}</LightDarkProvider>
+```
+
+`disableSystem` works here too, the same as in [Light-Dark](#light-dark).
+See the [NextJS example](/styling/theme/setup/examples#nextjs-app-router) for
+the CSS.
+
+---
+
+## Named Themes
+
+A flat list of themes, none tied to light or dark. Style each with
+`data-theme` selectors.
+
+Pass your theme names to `ThemeProvider`, and the default to both. If you
+leave `defaultTheme` out of the provider, the first theme is the default:
+
+```tsx
+import { ThemeProvider } from "@wondesign/theme";
+import { ThemeScript } from "@wondesign/theme/server";
+
+const themes = ["ocean", "forest", "sunset"] as const;
+
+<ThemeScript defaultTheme="ocean" />
+<ThemeProvider themes={themes} defaultTheme="ocean">{children}</ThemeProvider>
+```
+
+See the [client-only example](/styling/theme/setup/examples#client-only-apps)
+for the CSS.
+
+---
+
+## Content Security Policy
+
+Both scripts are inline. If your Content-Security-Policy only allows inline
+scripts that carry a nonce, the browser blocks them, and **the page falls back
+to the flash**. Pass the nonce your server generated for the request:
+
+```tsx
+<LightDarkScript nonce={nonce} />
+<ThemeScript defaultTheme="ocean" nonce={nonce} />
+```
+
+The nonce has to be generated per request, so the page can't be statically
+rendered.
+
+---
+
+## Watch Out
+
+- ⚠️ **Pass the same options to the script and the provider**: Both resolve
+  the theme on their own, so if their options differ, **the page flashes from
+  one theme to the other on load**. Any option you leave out falls back to the
+  same default on both.
+
+  With Light-Dark, pass the same themes, default mode and storage key:
+
+  ```tsx
+  <LightDarkScript themes={themes} defaultMode="dark" />
+  <LightDarkProvider themes={themes} defaultMode="dark">{children}</LightDarkProvider>
+  ```
+
+  With Named Themes, pass the same default theme and storage key. The script
+  doesn't get the list of themes, so a user whose theme you removed may see it
+  briefly on their next visit:
+
+  ```tsx
+  <ThemeScript defaultTheme="ocean" />
+  <ThemeProvider themes={themes} defaultTheme="ocean">{children}</ThemeProvider>
+  ```
+
+- ⚠️ **Give the script a default mode with `disableSystem`**: The script
+  doesn't know about `disableSystem`, and it defaults to system mode. Without
+  a default mode on both, **first-time visitors see their OS theme flash
+  before light mode applies**:
+
+  ```tsx
+  <LightDarkScript defaultMode="light" />
+  <LightDarkProvider disableSystem defaultMode="light">{children}</LightDarkProvider>
+  ```
+
+- ⚠️ **Keep theme names unique**: A duplicate name warns in the console. With
+  Light-Dark, names must be unique across both sides. Each of the following
+  triggers a warning:
+
+  ```ts
+  // ❌ for Light-Dark
+  const duplicateWithin = { light: ["light", "light"], dark: ["dark"] };
+  const duplicateAcross = {
+    light: ["light", "colorful"],
+    dark: ["dark", "colorful"],
+  };
+
+  // ❌ for Named
+  const duplicateNamed = ["ocean", "forest", "ocean"];
+  ```
+
+---
+
+## Next Steps
+
+- 👉 **[Usage](/styling/theme/usage)** — updating the theme, and reading it
+  from the HTML element or the hooks.
+- 👉 **[Tokens Setup](/styling/tokens/setup)** — loading
+  `wondesignTokenVariables`, which supplies `light-dark()` colors.

@@ -1,0 +1,301 @@
+---
+metaTitle: Tokens | Tokens
+title: Tokens
+description: Every token in @wondesign/tokens, by category — its key on the tokens object, its CSS variable, and its default value.
+---
+
+# Tokens
+
+Every token in `@wondesign/tokens`, by category. Each category shows its type,
+with every token's CSS variable and default value in a comment, followed by an
+example from the `tokens` object.
+
+The default is the fallback built into `tokens`. The WonDesign preset loads
+the same values, except for colors and font families, explained in their
+sections.
+
+---
+
+## Colors
+
+`tokens.colors` — 18 semantic color roles.
+
+Each one falls back to the `wondesignLight` value;
+`wondesignTokenVariables` loads both palettes as `light-dark()` pairs,
+so the dark value applies whenever the page's `color-scheme` is dark.
+
+Each comment ends with the dark value, after the `/`.
+
+```ts
+interface ColorTokens {
+  // brand
+  primary: string; // "var(--color-primary, #1647E8)" / #3B82F6
+  onPrimary: string; // "var(--color-on-primary, #F9FAFB)" / #F9FAFB
+
+  // alerts
+  error: string; // "var(--color-error, #B91C1C)" / #B91C1C
+  warning: string; // "var(--color-warning, #D27700)" / #EBB30B
+  success: string; // "var(--color-success, #007200)" / #007200
+
+  // background
+  background: string; // "var(--color-background, #F5F5F9)" / #141418
+  backgroundHighlight: string; // "var(--color-background-highlight, #88889025)" / #88889025
+  backgroundMuted: string; // "var(--color-background-muted, #EAEAEC)" / #1E1E23
+  backgroundInverted: string; // "var(--color-background-inverted, #1A1A20)" / #D6D6DC
+  surface: string; // "var(--color-surface, #FFFFFF)" / #26262C
+  overlay: string; // "var(--color-overlay, #00000060)" / #000000A0
+
+  // text
+  text: string; // "var(--color-text, #1A1A20)" / #D6D6DC
+  textMuted: string; // "var(--color-text-muted, #5A5A62)" / #8E8E96
+  textInverted: string; // "var(--color-text-inverted, #F5F5F9)" / #141418
+
+  // border
+  border: string; // "var(--color-border, #1A1A2026)" / #D6D6DC26
+  borderHighlight: string; // "var(--color-border-highlight, #1A1A2040)" / #D6D6DC40
+  borderMuted: string; // "var(--color-border-muted, #1A1A2014)" / #D6D6DC14
+  borderInverted: string; // "var(--color-border-inverted, #F5F5F926)" / #14141826
+}
+```
+
+Use them from the `tokens` object:
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.colors.primary; // "var(--color-primary, #1647E8)"
+```
+
+---
+
+## Elevation
+
+`tokens.elevation` — three `box-shadow` levels, from a subtle lift to a
+clearly floating layer. Works in both light and dark mode.
+
+```ts
+interface ElevationTokens {
+  // "var(--elevation-lv1, 0px 1px 3px rgba(127, 127, 127, 0.2))"
+  lv1: string;
+
+  // "var(--elevation-lv2,
+  //   0px 1px 3px rgba(127, 127, 127, 0.2),
+  //   0px 1px 1px rgba(127, 127, 127, 0.14),
+  //   0px 2px 1px rgba(127, 127, 127, 0.12))"
+  lv2: string;
+
+  // "var(--elevation-lv3,
+  //   0px 3px 5px rgba(127, 127, 127, 0.2),
+  //   0px 6px 10px rgba(127, 127, 127, 0.14),
+  //   0px 1px 18px rgba(127, 127, 127, 0.12))"
+  lv3: string;
+}
+```
+
+Use them from the `tokens` object:
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.elevation.lv1; // "var(--elevation-lv1, 0px 1px 3px rgba(127, 127, 127, 0.2))"
+```
+
+---
+
+## Opacity
+
+`tokens.opacity` — `opacity` values for common element states. Values are
+strings, so your own can be numbers (`"0.5"`) or percentages (`"50%"`).
+
+```ts
+interface OpacityTokens {
+  hide: string; // "var(--opacity-hide, 0)"
+  disabled: string; // "var(--opacity-disabled, 0.5)"
+  pending: string; // "var(--opacity-pending, 0.75)"
+  hover: string; // "var(--opacity-hover, 0.85)"
+  normal: string; // "var(--opacity-normal, 1)"
+}
+```
+
+Use them from the `tokens` object:
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.opacity.disabled; // "var(--opacity-disabled, 0.5)"
+```
+
+---
+
+## Radius
+
+`tokens.radius` — `border-radius` values, from barely rounded to a full pill.
+
+```ts
+interface RadiusTokens {
+  xs: string; // "var(--radius-xs, 2px)"
+  sm: string; // "var(--radius-sm, 4px)"
+  md: string; // "var(--radius-md, 8px)"
+  lg: string; // "var(--radius-lg, 12px)"
+  xl: string; // "var(--radius-xl, 16px)"
+  full: string; // "var(--radius-full, 9999px)"
+}
+```
+
+Use them from the `tokens` object:
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.radius.md; // "var(--radius-md, 8px)"
+```
+
+---
+
+## Spacing
+
+`tokens.spacing` — `padding`, `margin` and `gap` values. A five-step scale
+for spacing inside and between components, and three larger steps for page
+layout.
+
+```ts
+interface SpacingTokens {
+  xs: string; // "var(--spacing-xs, 2px)"
+  sm: string; // "var(--spacing-sm, 4px)"
+  md: string; // "var(--spacing-md, 8px)"
+  lg: string; // "var(--spacing-lg, 12px)"
+  xl: string; // "var(--spacing-xl, 16px)"
+  layoutSmall: string; // "var(--spacing-layout-sm, 1%)"
+  layoutMedium: string; // "var(--spacing-layout-md, 4%)"
+  layoutLarge: string; // "var(--spacing-layout-lg, 15%)"
+}
+```
+
+Use them from the `tokens` object:
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.spacing.md; // "var(--spacing-md, 8px)"
+```
+
+---
+
+## Typography
+
+`tokens.typography` — the individual axes of type, in four groups: font
+size, line height, font weight and font family. Combine them to build your
+own text styles.
+
+Use them from the `tokens` object:
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.typography.fontSize.bodyMedium; // "var(--font-size-body-md, 1rem)"
+```
+
+### Font Size
+
+`tokens.typography.fontSize`
+
+```ts
+interface TypographyTokens {
+  fontSize: {
+    bodyExtraSmall: string; // "var(--font-size-body-xs, 0.75rem)"
+    bodySmall: string; // "var(--font-size-body-sm, 0.875rem)"
+    bodyMedium: string; // "var(--font-size-body-md, 1rem)"
+    bodyLarge: string; // "var(--font-size-body-lg, 1.125rem)"
+    bodyExtraLarge: string; // "var(--font-size-body-xl, 1.25rem)"
+    headingSmall: string; // "var(--font-size-heading-sm, 1.5rem)"
+    headingMedium: string; // "var(--font-size-heading-md, 1.75rem)"
+    headingLarge: string; // "var(--font-size-heading-lg, 2rem)"
+  };
+  ...
+}
+```
+
+### Line Height
+
+`tokens.typography.lineHeight` — unitless, so they scale with the font size.
+
+```ts
+interface TypographyTokens {
+  lineHeight: {
+    single: string; // "var(--line-height-single, 1)"
+    heading: string; // "var(--line-height-heading, 1.2)"
+    title: string; // "var(--line-height-title, 1.35)"
+    body: string; // "var(--line-height-body, 1.5)"
+    paragraph: string; // "var(--line-height-paragraph, 1.7)"
+  };
+  ...
+}
+```
+
+### Font Weight
+
+`tokens.typography.fontWeight`
+
+```ts
+interface TypographyTokens {
+  fontWeight: {
+    regular: string; // "var(--font-weight-regular, 400)"
+    medium: string; // "var(--font-weight-medium, 500)"
+    semibold: string; // "var(--font-weight-semibold, 600)"
+    bold: string; // "var(--font-weight-bold, 700)"
+  };
+  ...
+}
+```
+
+### Font Family
+
+`tokens.typography.fontFamily` — the fallbacks are fonts available on most
+systems.
+
+```ts
+interface TypographyTokens {
+  fontFamily: {
+    brand: string; // "var(--font-family-brand, 'Brush Script MT', cursive)"
+    normal: string; // "var(--font-family-normal, Arial, sans-serif)"
+    code: string; // "var(--font-family-code, 'Courier New', monospace)"
+    quote: string; // "var(--font-family-quote, 'Georgia', serif)"
+  };
+  ...
+}
+```
+
+The WonDesign preset sets these to its own web fonts instead: Kalam, Google
+Sans, JetBrains Mono and Roboto Slab. **The fonts aren't bundled**, so load
+them yourself. See
+[The Preset](/styling/tokens/setup#the-preset).
+
+---
+
+## Z-Index
+
+`tokens.zIndex` — stacking layers, listed from bottom to top. Layers that
+never appear at the same time share a value.
+
+```ts
+interface ZIndexTokens {
+  hidden: string; // "var(--z-index-hidden, -1)"
+  sticky: string; // "var(--z-index-sticky, 100)"
+  menu: string; // "var(--z-index-menu, 200)"
+  dropdown: string; // "var(--z-index-dropdown, 200)"
+  popover: string; // "var(--z-index-popover, 200)"
+  tooltip: string; // "var(--z-index-tooltip, 300)"
+  overlay: string; // "var(--z-index-overlay, 700)"
+  modal: string; // "var(--z-index-modal, 800)"
+  toast: string; // "var(--z-index-toast, 900)"
+  alert: string; // "var(--z-index-alert, 1000)"
+}
+```
+
+Use them from the `tokens` object:
+
+```ts
+import { tokens } from "@wondesign/tokens";
+
+tokens.zIndex.modal; // "var(--z-index-modal, 800)"
+```

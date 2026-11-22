@@ -1,0 +1,174 @@
+---
+metaTitle: API | Tokens
+title: API
+description: Every export of @wondesign/tokens — the ready-made values, the default values, the utility functions and the types.
+---
+
+# API
+
+This page covers every export of `@wondesign/tokens`:
+
+```ts
+import {
+  // ready-made values
+  tokens,
+  mediaQueries,
+  wondesignTokenVariables,
+  // default values
+  wondesignLight,
+  wondesignDark,
+  defaultElevation,
+  defaultOpacity,
+  defaultRadius,
+  defaultSpacing,
+  defaultTypography,
+  defaultZIndex,
+  // utility functions
+  buildCssVariables,
+  mergeLightDark,
+  colorWithFade,
+  colorWithOpacity,
+  createSimpleBreakpointQueries,
+  createBreakpointQueries,
+  // types
+  type DesignTokens,
+  type ThemeInput,
+  type ColorTokens,
+  type ElevationTokens,
+  type OpacityTokens,
+  type RadiusTokens,
+  type SpacingTokens,
+  type TypographyTokens,
+  type ZIndexTokens,
+  type BreakpointTokens,
+  type SimpleBreakpointQueries,
+  type BreakpointQueries,
+} from "@wondesign/tokens";
+```
+
+---
+
+## Ready-Made Values
+
+The values to use straight away:
+
+- 🔹 `tokens` — every token as a `var()` string, with fallback.
+  See [Tokens](/styling/tokens/design-tokens).
+- 🔹 `mediaQueries` — the default queries. See
+  [Media Queries](/styling/tokens/media-queries).
+- 🔹 `wondesignTokenVariables` — the WonDesign preset, as a stylesheet string.
+  See [The Preset](/styling/tokens/setup#the-preset).
+
+---
+
+## Default Values
+
+The values each category starts from, to spread into your own. See
+[Tokens](/styling/tokens/design-tokens) for every value:
+
+- 🔹 `wondesignLight`, `wondesignDark` — the WonDesign color palettes.
+- 🔹 `defaultElevation`, `defaultOpacity`, `defaultRadius`, `defaultSpacing`,
+  `defaultTypography`, `defaultZIndex` — the defaults of the other categories.
+
+---
+
+## Utility Functions
+
+The functions that build stylesheets, colors and breakpoint queries of your
+own. The color functions return CSS `color-mix()` strings, and the breakpoint
+functions return the shapes in
+[Breakpoint Queries](/styling/tokens/media-queries#breakpoint-queries).
+
+### buildCssVariables
+
+Turns a set of token values, by category, into a stylesheet string, with the
+variables defined on `selector`. **Every category is always written**, so a
+category you leave out is written at its defaults. **Colors default to
+`wondesignLight` alone**, so pass colors merged with
+[`mergeLightDark`](#mergelightdark) for light and dark values.
+
+```ts
+function buildCssVariables<T extends ThemeInput>(
+  theme?: T,
+  selector?: string, // defaults to ":root"
+): string;
+```
+
+### mergeLightDark
+
+Merges a light and a dark palette into one, where every role is a CSS
+`light-dark()` pair. Roles you add on top of `ColorTokens` are merged too.
+**Both palettes must have the same roles**, or it's a type error.
+
+```ts
+function mergeLightDark<T extends ColorTokens>(
+  lightColors: T,
+  darkColors: T,
+): { [K in keyof T]: string };
+```
+
+### colorWithFade
+
+Mixes a color toward a base color. **The result is opaque.**
+
+`color` takes any CSS color, including a token. `ratio` is how much of it to
+keep, from `0` to `1`, and values outside that range are clamped.
+
+`colorSpace` takes any color space `color-mix()` accepts, like `oklab` or
+`oklch`. **It's written into the CSS as it is**, so an unknown one makes the
+whole property ignored.
+
+```ts
+function colorWithFade(
+  color: string,
+  ratio: number,
+  options?: {
+    base?: string; // defaults to "light-dark(#ffffff, #000000)"
+    colorSpace?: string; // defaults to "srgb"
+  },
+): string;
+```
+
+### colorWithOpacity
+
+Makes a color translucent, by mixing it toward `transparent`. **The result
+lets what's behind it show through.**
+
+`opacity` goes from `0` to `1`, and values outside that range are clamped.
+`color` and `colorSpace` work the same as in [`colorWithFade`](#colorwithfade).
+
+```ts
+function colorWithOpacity(
+  color: string,
+  opacity: number,
+  options?: {
+    colorSpace?: string; // defaults to "srgb"
+  },
+): string;
+```
+
+### createSimpleBreakpointQueries
+
+Builds three ranges, `small`, `medium` and `large`, at two widths.
+`mediaQueries.breakpoints` is built with its default widths.
+
+```ts
+function createSimpleBreakpointQueries(widths?: {
+  sm?: string; // defaults to "768px"
+  lg?: string; // defaults to "1280px"
+}): SimpleBreakpointQueries;
+```
+
+### createBreakpointQueries
+
+Builds six ranges for devices and their orientation, at five widths.
+
+```ts
+function createBreakpointQueries(widths?: {
+  xs?: string; // defaults to "480px"
+  sm?: string; // defaults to "768px"
+  md?: string; // defaults to "1024px"
+  lg?: string; // defaults to "1280px"
+  xl?: string; // defaults to "1440px"
+}): BreakpointQueries;
+```

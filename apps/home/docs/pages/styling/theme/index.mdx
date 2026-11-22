@@ -48,22 +48,24 @@ and the scripts from `@wondesign/ui/server`.
 There are three ways to theme your app, from the simplest to the most
 flexible. Pick one per app.
 
-- ⭐ **[Light-Dark](/foundations/theme/setup#light-dark)** — a light / dark /
+- ⭐ **[Light-Dark](/styling/theme/setup#light-dark)** — a light / dark /
   system switch.
-- ⭐ **[Advanced Light-Dark](/foundations/theme/setup#advanced-light-dark)** —
+- ⭐ **[Advanced Light-Dark](/styling/theme/setup#advanced-light-dark)** —
   Light-Dark with more than one theme per side.
-- ⭐ **[Named Themes](/foundations/theme/setup#named-themes)** — a flat list
+- ⭐ **[Named Themes](/styling/theme/setup#named-themes)** — a flat list
   of themes, none tied to light or dark.
 
 ---
 
 ## How It Works
 
-The provider decides which theme is active, writes it to `<html>`, and saves
-the user's choice, which beats your defaults. With Light-Dark, a **mode** of
-`"light"`, `"dark"` or `"system"` decides which side's theme is used, and the
-color scheme is written too, as the `color-scheme` property that
-`light-dark()` colors follow:
+The provider decides which theme is active. The user's choice comes first,
+and your default applies until they make one. With Light-Dark in `"system"`
+mode, the OS light / dark setting decides which side's theme is used.
+
+The provider then writes the active theme to `<html>` as `data-theme`. With
+Light-Dark, it also writes the side as `data-color-scheme`, and sets the
+`color-scheme` style that `light-dark()` colors follow:
 
 ```html
 <!-- Named Themes -->
@@ -77,25 +79,23 @@ color scheme is written too, as the `color-scheme` property that
 ></html>
 ```
 
-**Saved choices**:
-
-- 🔹 A saved theme you've since removed falls back to your default.
-- 🔹 If the browser can't save the choice, like in some private browsing
-  modes, the theme still works until the page is closed.
-- 🔹 Apps on the same origin share the saved choice. Give each its own
-  `storageKey` if they shouldn't.
+The provider also saves the user's choices, and re-applies them on every
+visit. With Light-Dark, that's the mode and the theme picked for each side.
+With Named Themes, it's the theme. Apps on the same origin that both use
+`@wondesign/theme` save to the same place by default, so **their choices
+clash**. Give each app its own `storageKey` to keep them apart.
 
 ---
 
 ## Known Issues
 
-- 🐞 **light-dark() colors in NextJS**: Colors built with `light-dark()` may not follow the theme, or fall back to an unexpected color, when your build tool rewrites `light-dark()` for older browsers. See the [NextJS setup](/foundations/theme/setup#nextjs-app-router) for the fix
+- 🐞 **light-dark() colors in NextJS**: Colors built with `light-dark()` may not follow the theme, or fall back to an unexpected color, when your build tool rewrites `light-dark()` for older browsers. See [Styling](/styling#known-issues) for the fix
 
 ---
 
 ## Next Steps
 
-- **[Setup](/foundations/theme/setup)** — adding the provider and script to
+- 👉 **[Setup](/styling/theme/setup)** — adding the provider and script to
   your app, configuring your themes, and framework examples.
-- **[Usage](/foundations/theme/usage)** — updating the theme, and reading it
+- 👉 **[Usage](/styling/theme/usage)** — updating the theme, and reading it
   from the HTML element or the hooks.

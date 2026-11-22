@@ -24,51 +24,11 @@ With [All-in-One](/all-in-one), the reset is already part of
 
 ---
 
-## Usage
+## Key Features
 
-A few common ways to load it — pick whichever fits your setup.
-
-### App root import
-
-Import the CSS from the root of the app. For example, `app/layout.tsx` of NextJS App Router.
-
-```tsx
-// layout.tsx
-import "@wondesign/reset-css";
-// or import "@wondesign/ui/styles.css";
-
-export default function RootLayout() {
-  // ...
-}
-```
-
-### Root CSS import
-
-Import the CSS from the root CSS of the app.
-Make sure this import is done as high in the tree as possible, before any other styles.
-
-```css
-/* root.css */
-@import "@wondesign/reset-css";
-/* or @import "@wondesign/ui/styles.css"; */
-```
-
-And import the root CSS from app root.
-
-```tsx
-// root.tsx
-import "./root.css";
-
-export default function RootLayout() {
-  // ...
-}
-```
-
-### Other setups
-
-`@wondesign/reset-css` is just a stylesheet — nothing about it depends on a
-specific loading mechanism. Any setup that can load a CSS file works, like a
-`<link>` tag or your bundler's global CSS entry.
+- ✅ **Plain CSS**: A single stylesheet, with no build step, config or JavaScript
+- ✅ **Even Baseline**: Every browser starts from the same box sizing, typography and form styles
+- ✅ **Works Anywhere**: Load it with any framework or bundler, or a plain `<link>` tag
 
 ---
 
@@ -88,11 +48,19 @@ plain elements look:
 
 ---
 
-## Compatibility
+## Watch Out
 
-⚠️ **Tailwind.** Tailwind's Preflight layer already applies its own reset.
-Importing both can cause rules to double up or conflict — pick one.
+- ⚠️ **Use one reset with Tailwind**: Tailwind's Preflight already applies its
+  own reset. With both imported, **their rules double up or conflict**, so
+  pick one.
+- ⚠️ **Safari doesn't announce lists**: Without a list style, Safari's
+  VoiceOver **stops announcing `ul` and `ol` as lists**. Add `role="list"` to
+  the lists that should still be announced.
 
-⚠️ **Safari lists.** Without a list style, Safari's VoiceOver stops
-announcing `ul` and `ol` as lists. Add `role="list"` to the lists that should
-still be announced.
+---
+
+## Next Steps
+
+- 👉 **[Setup](/styling/reset-css/setup)** — loading the reset in your app.
+- 👉 **[Tokens Setup](/styling/tokens/setup)** — loading the
+  token stylesheet in your framework.
