@@ -12,8 +12,8 @@ behind stays inert until the last one closes, in any order.
 
 ## Making the Background Inert
 
-This hook works best together with [Auto Focus](/foundations/focus/auto-focus)
-and [Focus Trap](/foundations/focus/focus-trap). **On its own, it doesn't move
+This hook works best together with [Auto Focus](/interactions/focus/auto-focus)
+and [Focus Trap](/interactions/focus/focus-trap). **On its own, it doesn't move
 focus in or keep Tab inside**. Focus on something that becomes inert is lost,
 and Tab moves out to the browser's address bar after the last element.
 `useAutoFocus` moves focus into the content, and `useFocusTrap` keeps Tab
@@ -70,7 +70,7 @@ export function DeleteDialog() {
   backdrop, overlay or scrim rendered next to the element is outside it, so it
   **can't be clicked**, and closing on a click there won't work. Either keep
   it inside the element, by passing a wrapper's ref, or close with
-  [Click Outside](/foundations/pointer/click-outside) instead, which listens
+  [Click Outside](/interactions/pointer/click-outside) instead, which listens
   on the whole page:
 
   ```tsx

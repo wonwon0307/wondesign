@@ -5,8 +5,8 @@ import { Keyboard, KeyboardGroup } from "@wondesign/ui/code";
 The trap is on while `enabled` is `true` and the component calling it is
 mounted, so focus stays inside modal content for as long as it's open. **The
 trap doesn't move focus in**. It only holds focus that's already inside, so it
-works best together with [Auto Focus](/foundations/focus/auto-focus), to move
-focus in on open, and [Background Inert](/foundations/focus/background-inert),
+works best together with [Auto Focus](/interactions/focus/auto-focus), to move
+focus in on open, and [Background Inert](/interactions/focus/background-inert),
 to keep the page behind out of reach (without it, clicking something behind
 the content moves focus out, and a trap inside another trap can let focus
 slip out).
