@@ -108,7 +108,11 @@ const { floatingRef, placement } = useFloatingPosition({
   placement: "right",
 });
 
-return <div ref={floatingRef} data-placement={placement}>…</div>;
+return (
+  <div ref={floatingRef} data-placement={placement}>
+    …
+  </div>
+);
 ```
 
 ---
@@ -121,7 +125,12 @@ the space kept from the edges of the viewport. Content that would come closer
 is moved back in, and never hides behind a scrollbar:
 
 ```tsx
-useFloatingPosition({ enabled: isOpen, align: "start", offset: 8, padding: 16 });
+useFloatingPosition({
+  enabled: isOpen,
+  align: "start",
+  offset: 8,
+  padding: 16,
+});
 ```
 
 ---

@@ -25,7 +25,9 @@ export function DarkModeToggle() {
   const { colorScheme, selectMode } = useLightDark();
 
   return (
-    <button onClick={() => selectMode(colorScheme === "dark" ? "light" : "dark")}>
+    <button
+      onClick={() => selectMode(colorScheme === "dark" ? "light" : "dark")}
+    >
       Toggle dark mode
     </button>
   );

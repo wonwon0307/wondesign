@@ -35,7 +35,9 @@ For a single button that opens and closes, use `toggle`:
 ```tsx
 const { isOpen, toggle } = useOpenState();
 
-return <button onClick={toggle}>{isOpen ? "Hide filters" : "Show filters"}</button>;
+return (
+  <button onClick={toggle}>{isOpen ? "Hide filters" : "Show filters"}</button>
+);
 ```
 
 ---
