@@ -4,7 +4,7 @@ import { Callout } from "@wondesign/ui/texts";
 # Usage
 
 This page covers what you can configure on `Alert`. For every prop, refer to
-the [API tab](/components/headless/alert/api).
+the [API tab](/headless/alert/api).
 
 To see real, styled examples of `Alert`, go to the
 [Examples tab](/components/alert/examples) of `@wondesign/alert`.
@@ -135,7 +135,7 @@ const backToSettingsRef = useRef<HTMLButtonElement>(null);
 </>;
 ```
 
-Both are handled by [Auto Focus](/foundations/focus/auto-focus), so they behave
+Both are handled by [Auto Focus](/interactions/focus/auto-focus), so they behave
 exactly as described there, including when the element can't take focus.
 
 ---
@@ -157,7 +157,7 @@ level:
 
 `Alert` keeps its own state and starts closed. Pass `defaultOpen` to start it
 open, or `isOpen` and `onOpenChange` to control it yourself. Both modes are
-powered by [Disclosure](/foundations/disclosure/open-state#how-it-works), so
+powered by [Disclosure](/interactions/disclosure/open-state), so
 they behave exactly as described there:
 
 ```tsx
@@ -214,7 +214,7 @@ the backdrop, by its order in the document or with `z-index`:
 ## Rendering in Place
 
 The backdrop and content each render in a
-[Portal](/components/headless/portal) at the end of `<body>`, so they aren't
+[Portal](/headless/portal) at the end of `<body>`, so they aren't
 clipped by their parents. Pass `disablePortal` to `Alert` to render both where
 they are in the document instead:
 
@@ -287,7 +287,7 @@ function DeleteMenuItem() {
 ```
 
 For everything the hook returns, refer to the
-[API tab](/components/headless/alert/api#usealert).
+[API tab](/headless/alert/api#usealert).
 
 ---
 
@@ -314,7 +314,7 @@ leaves the page:
 ## Styling with Data Attributes
 
 The parts expose their state as
-[data attributes](/components/headless/alert/api), so you can style each state
+[data attributes](/headless/alert/api), so you can style each state
 with plain CSS:
 
 ```css

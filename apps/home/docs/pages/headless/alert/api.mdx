@@ -67,7 +67,7 @@ logs a warning** in development.
 
 **Props**
 
-Accepts all props of [Headless Button](/components/headless/button), except
+Accepts all props of [Headless Button](/headless/button), except
 `type`, `aria-haspopup` and `aria-controls`, which the trigger manages. Key
 props:
 
@@ -95,7 +95,7 @@ interface AlertTriggerProps {
 ### Backdrop
 
 `Alert.Backdrop` or `AlertBackdrop`. Renders an empty `<div>` behind the
-alert, in its own [Portal](/components/headless/portal) unless `disablePortal`
+alert, in its own [Portal](/headless/portal) unless `disablePortal`
 is `true`. When the alert closes, it stays on the page until its exit
 animation finishes. It **doesn't close the alert when clicked**. Use it outside
 `Alert.Content`. Inside it, **it only logs a warning** in development.
@@ -114,7 +114,7 @@ manages.
 ### Content
 
 `Alert.Content` or `AlertContent`. Renders a `<div>` with the `alertdialog`
-role, in its own [Portal](/components/headless/portal) unless `disablePortal`
+role, in its own [Portal](/headless/portal) unless `disablePortal`
 is `true`. When the alert closes, it stays on the page until its exit
 animation finishes.
 
@@ -181,7 +181,7 @@ doesn't wait for a returned promise.** Must be used inside `Alert.Content`.
 
 **Props**
 
-Accepts all props of [Headless Button](/components/headless/button), except
+Accepts all props of [Headless Button](/headless/button), except
 `type`, which the close button manages. Key props:
 
 ```ts

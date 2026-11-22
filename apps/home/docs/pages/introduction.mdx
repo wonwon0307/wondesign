@@ -1,28 +1,30 @@
 ---
 title: Introduction
-description: What WonDesign is, and how its three layers fit together.
+description: What WonDesign is, and how its four parts fit together.
 ---
 
 import { Callout } from "@wondesign/ui/texts";
 
 # WonDesign
 
-WonDesign is a design system for React, built in three layers: Foundations,
-Headless Components and Styled Components. Each layer builds on the one below
-it, and each one is a set of small packages you can install on their own.
+WonDesign is a design system for React, built from four parts: Styling,
+Interactions, Headless Components and Styled Components. Each part is a set of
+small packages you can install on their own.
 
 ---
 
-## Three Layers
+## How It Fits Together
 
-Each layer decides a little more for you than the one below it. Pick the
-layer that decides as much as you want.
+Styling and Interactions are the base, and each part built on them decides a
+little more for you. Pick the part that decides as much as you want.
 
-- 🧱 **[Foundations](/foundations)**: Tokens, theming, a CSS reset, and React
-  hooks for focus, keyboard, pointer and positioning. They decide how things
-  behave, but render nothing and take no stance on how anything looks.
+- 🖌️ **[Styling](/styling)**: A CSS reset, design tokens and theme switching.
+  They set the base of your app's look, and render nothing.
+- 🧱 **[Interactions](/interactions)**: React hooks for focus, keyboard,
+  pointer and positioning. They decide how things behave, but render nothing
+  and take no stance on how anything looks.
 - 🛠️ **[Headless Components](/headless)**: Accessible components built on
-  Foundations, with state, keyboard support, focus and ARIA already wired up,
+  Interactions, with state, keyboard support, focus and ARIA already wired up,
   and no styles at all. Bring your own look.
 - 🎨 **[Styled Components](/components)**: Components with the WonDesign look,
   built on Headless Components and the tokens. Use them as they are, or
@@ -50,7 +52,7 @@ like [SVG2TSX](/svg2tsx), which turns SVG files into React icon components.
 
 ## Next Steps
 
-- **[Getting Started](/getting-started)** — choosing what to install, and
+- 👉 **[Getting Started](/getting-started)** — choosing what to install, and
   getting your app ready.
-- **[Styling](/styling)** — changing the look, from one component to your
-  whole app.
+- 👉 **[Styling](/styling)** — the CSS reset, design tokens and theme
+  switching.

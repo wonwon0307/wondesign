@@ -1,0 +1,114 @@
+# Examples
+
+Complete setups for three common kinds of app. Where the stylesheet goes
+depends on your framework. The first two use the WonDesign preset, and the
+last one builds its own values. Start from the one closest to your app.
+
+---
+
+## NextJS (App Router)
+
+This example uses the WonDesign preset, rendered in the root layout's
+`<head>`. NextJS rewrites `light-dark()` for older browsers, so
+**`light-dark()` colors may ignore the color scheme**. See
+[Known Issues](/styling#known-issues) in Styling for the fix:
+
+```tsx
+// app/layout.tsx
+import { wondesignTokenVariables } from "@wondesign/tokens";
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en">
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: wondesignTokenVariables }} />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+---
+
+## React Router (Framework Mode)
+
+This example uses the WonDesign preset, rendered in the root `Layout`'s
+`<head>`, before `<Meta />` and `<Links />`:
+
+```tsx
+// app/root.tsx
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { wondesignTokenVariables } from "@wondesign/tokens";
+
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style dangerouslySetInnerHTML={{ __html: wondesignTokenVariables }} />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {children}
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+export default function App() {
+  return <Outlet />;
+}
+```
+
+---
+
+## Client-only Apps
+
+This example uses values of your own with Vite. Client-only apps (Vite,
+Rsbuild, Parcel, etc.) have no server to render the stylesheet, so a small
+plugin writes it into `index.html`. The config runs in Node, so keep the
+module that builds your values free of browser-only code:
+
+```ts
+// src/tokens.ts
+import { buildCssVariables, mergeLightDark } from "@wondesign/tokens";
+
+export const tokenVariables = buildCssVariables({
+  colors: mergeLightDark(
+    { primary: "#7C3AED", ... },
+    { primary: "#A78BFA", ... },
+  ),
+  spacing: { md: "10px", ... },
+});
+```
+
+```ts
+// vite.config.ts
+import { defineConfig, type Plugin } from "vite";
+import react from "@vitejs/plugin-react";
+import { tokenVariables } from "./src/tokens";
+
+function tokens(): Plugin {
+  return {
+    name: "tokens",
+    transformIndexHtml: () => [
+      {
+        tag: "style",
+        children: tokenVariables,
+        injectTo: "head-prepend",
+      },
+    ],
+  };
+}
+
+export default defineConfig({
+  plugins: [react(), tokens()],
+});
+```

@@ -4,7 +4,7 @@ import { Callout } from "@wondesign/ui/texts";
 # Usage
 
 This page covers what you can configure on `Popover`. For every prop, refer to
-the [API tab](/components/headless/popover/api).
+the [API tab](/headless/popover/api).
 
 ---
 
@@ -40,13 +40,13 @@ function MyPopoverContent({ children }: { children: React.ReactNode }) {
 top left of the content. `isPositioned` stays `false` until the first position
 is worked out, so hiding the content until then avoids a flash in the corner.
 For how the position is worked out, refer to
-[Floating Position](/foundations/position/floating-position).
+[Floating Position](/interactions/position/floating-position).
 
 <Callout variant="warning" title="Reset the dialog's default styles">
   The content renders a `<dialog>`, which browsers center horizontally with
   `margin: auto` by default. Without resetting it, **the content lands in the
   wrong place** with no error. Set `margin: 0`, or use
-  [Reset CSS](/foundations/reset-css), which also resets the dialog's default
+  [Reset CSS](/styling/reset-css), which also resets the dialog's default
   border, padding and background.
 </Callout>
 
@@ -249,7 +249,7 @@ const dateFieldRef = useRef<HTMLInputElement>(null);
 </>;
 ```
 
-Both are handled by [Auto Focus](/foundations/focus/auto-focus), so they behave
+Both are handled by [Auto Focus](/interactions/focus/auto-focus), so they behave
 exactly as described there, including when the element can't take focus.
 
 ---
@@ -271,7 +271,7 @@ level:
 
 `Popover` keeps its own state and starts closed. Pass `defaultOpen` to start it
 open, or `isOpen` and `onOpenChange` to control it yourself. Both modes are
-powered by [Disclosure](/foundations/disclosure/open-state#how-it-works), so
+powered by [Disclosure](/interactions/disclosure/open-state), so
 they behave exactly as described there:
 
 ```tsx
@@ -293,7 +293,7 @@ const [open, setOpen] = useState(false);
 
 ## Rendering in Place
 
-The content renders in a [Portal](/components/headless/portal) at the end of
+The content renders in a [Portal](/headless/portal) at the end of
 `<body>`, so it isn't clipped by its parents. Pass `disablePortal` to render it
 where it is in the document instead:
 
@@ -353,7 +353,7 @@ The content is **still positioned against `Popover.Trigger`**, wherever it's
 opened from.
 
 For everything the hook returns, refer to the
-[API tab](/components/headless/popover/api#usepopover).
+[API tab](/headless/popover/api#usepopover).
 
 ---
 
@@ -377,7 +377,7 @@ waits for your exit animation to finish before it leaves the page:
 ## Styling with Data Attributes
 
 The parts expose their state as
-[data attributes](/components/headless/popover/api), so you can style each
+[data attributes](/headless/popover/api), so you can style each
 state with plain CSS:
 
 ```css

@@ -6,8 +6,8 @@ import { PackageInfo } from "@/entities/package";
 <PackageInfo name="@wondesign/alert" relPath="components/alert">
   `@wondesign/alert` shows alerts and confirms with a single function call, from
   anywhere in your app. Its default components build on [Headless
-  Alert](/components/headless/alert), so focus, the page behind and screen
-  readers are already handled.
+  Alert](/headless/alert), so focus, the page behind and screen readers are
+  already handled.
 </PackageInfo>
 
 These docs use three terms:
@@ -22,7 +22,7 @@ There are two ways to use it:
 - 🎁 **Use the ready-made items.** Place `Alerter` once in your app, and call
   `showAlert` or `showConfirm` wherever you need one.
 - 🧩 **Build your own items.** Pass your own components to `Alerter`, built
-  from [Headless Alert](/components/headless/alert), when the ready-made look
+  from [Headless Alert](/headless/alert), when the ready-made look
   doesn't fit. The functions stay the same.
 
 Use it when the user has to answer before they carry on, like confirming a
@@ -38,8 +38,8 @@ messages that don't need an answer, like "Saved", **use a
 pnpm add @wondesign/alert
 ```
 
-<Callout variant="warning" title="Requires React 19">
-  `@wondesign/alert` needs React 19 or later.
+<Callout variant="warning" title="Requires React 19.2">
+  `@wondesign/alert` needs React 19.2 or later.
 </Callout>
 
 ---
@@ -109,7 +109,7 @@ waiting** until the user cancels or tries again.
 ### From Headless Alert
 
 Closing, focus, the page behind and screen readers work as in
-[Headless Alert](/components/headless/alert#how-it-works).
+[Headless Alert](/headless/alert#how-it-works).
 
 <Keyboard>Esc</Keyboard> works like "Close" on an alert and "Cancel" on a
 confirm, and **does nothing while `onConfirm` runs**.
@@ -309,8 +309,8 @@ type ConfirmItem = {
 ## Known Issues
 
 - 🐞 **Inherited from Headless Alert**: The default `AlertComponent` and
-  `ConfirmComponent` are built on [Headless Alert](/components/headless/alert),
-  so they share its [known issues](/components/headless/alert#known-issues),
+  `ConfirmComponent` are built on [Headless Alert](/headless/alert),
+  so they share its [known issues](/headless/alert#known-issues),
   like the page shifting sideways while an item is open.
 - 🐞 **Errors in `onConfirmError` aren't caught**: If `onConfirmError` throws,
   or returns a promise that rejects, the error surfaces as an uncaught error.

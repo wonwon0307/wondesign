@@ -1,7 +1,7 @@
 # Usage
 
 This page covers what you can configure on `Toast`. For every prop, refer to
-the [API tab](/components/headless/toast/api).
+the [API tab](/headless/toast/api).
 
 ---
 
@@ -105,7 +105,7 @@ level:
 
 `Toast` keeps its own state and starts closed. Pass `defaultOpen` to start it
 open, or `isOpen` and `onOpenChange` to control it yourself. Both modes are
-powered by [Disclosure](/foundations/disclosure/open-state#how-it-works).
+powered by [Disclosure](/interactions/disclosure/open-state).
 There's no trigger part, so a toast is shown in one of these two ways.
 
 **Controlled**: Pass `isOpen` and `onOpenChange`, and open the toast from
@@ -178,7 +178,7 @@ function Toaster() {
 
 ## Rendering in Place
 
-The area renders in a [Portal](/components/headless/portal) at the end of
+The area renders in a [Portal](/headless/portal) at the end of
 `<body>`, so it isn't clipped by its parents.
 Pass `disablePortal` to `ToastArea` to render it where it is in the document
 instead:
@@ -218,7 +218,7 @@ focusing do. `resumeTimer` **doesn't check whether the toast is still hovered
 or focused**, so calling it then lets the toast close under the user.
 
 For everything the hook returns, refer to the
-[API tab](/components/headless/toast/api#usetoast).
+[API tab](/headless/toast/api#usetoast).
 
 ---
 
@@ -242,7 +242,7 @@ for your exit animation to finish before it leaves the page:
 ## Styling with Data Attributes
 
 The parts expose their state as
-[data attributes](/components/headless/toast/api), so you can style each state
+[data attributes](/headless/toast/api), so you can style each state
 with plain CSS:
 
 ```css

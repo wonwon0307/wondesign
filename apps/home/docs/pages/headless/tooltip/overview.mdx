@@ -13,7 +13,7 @@ Use it for a short hint about its trigger, like the name of an icon-only
 button, a keyboard shortcut, or why a button is disabled. Keep it to plain
 text: **links and buttons inside a tooltip can't be reached**. For content
 with something to interact with, use a
-[Popover](/components/headless/popover) instead.
+[Popover](/headless/popover) instead.
 
 ---
 
@@ -28,15 +28,15 @@ with something to interact with, use a
 - ✅ **Disabled Triggers**: A disabled trigger can still explain itself with a tooltip
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
 - ✅ **Exit Animations**: Closed content stays until its exit animation finishes
-- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
+- ✅ **Composable**: Render your own elements with [`asChild`](/headless/as-child)
 
 ---
 
 ## Structure
 
 For what you can configure, refer to the
-[Usage tab](/components/headless/tooltip/usage). For every prop, refer to the
-[API tab](/components/headless/tooltip/api).
+[Usage tab](/headless/tooltip/usage). For every prop, refer to the
+[API tab](/headless/tooltip/api).
 
 - 🧩 **Tooltip**: coordinates every part. It holds the open state, handles the
   delays and dismissal, and works out the position. **Renders no element of its
@@ -86,15 +86,15 @@ long press the trigger instead. Moving the pointer from the trigger onto the
 content keeps it open.
 
 Long press and clicks outside are handled by
-[Pointer](/foundations/pointer), and <Keyboard>Esc</Keyboard> by
-[Key Events](/foundations/key-events).
+[Pointer](/interactions/pointer), and <Keyboard>Esc</Keyboard> by
+[Key Events](/interactions/key-events).
 
 ### Placement
 
 If the preferred side doesn't have room, the tooltip **flips to the opposite
 side**, as long as that side has more room. It also shifts along its side to
 stay inside the viewport. The position is worked out by
-[Position](/foundations/position/floating-position), so it behaves exactly as
+[Position](/interactions/position/floating-position), so it behaves exactly as
 described there.
 
 ### Exit Animations

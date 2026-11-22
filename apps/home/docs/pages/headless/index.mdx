@@ -39,25 +39,15 @@ pnpm add @wondesign/headless
 
 ## Components
 
-The components come in three tiers. Each one builds on the tier before it.
-
-### Utilities
-
-Helpers that control how and where things render. They don't render any UI of
-their own.
-
-- 🧰 **[AsChild](/components/headless/as-child)** — renders your own element in
-  place of a component's default one, merging props, handlers and refs.
-- 🧰 **[Portal](/components/headless/portal)** — renders its children at the end
-  of `<body>`, safely with server rendering.
+The components come in three groups.
 
 ### Elements
 
 Accessible wrappers around single native elements.
 
-- 🔘 **[Button](/components/headless/button)** — a `<button>` with disabled and
+- 🔘 **[Button](/headless/button)** — a `<button>` with disabled and
   loading states that stays focusable while blocking clicks.
-- 🔘 **[Anchor](/components/headless/anchor)** — an `<a>` that can be disabled,
+- 🔘 **[Anchor](/headless/anchor)** — an `<a>` that can be disabled,
   opens external links in a new tab, and works with router link components.
 
 ### Patterns
@@ -65,20 +55,30 @@ Accessible wrappers around single native elements.
 Multi-part components following the
 [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/patterns/).
 
-- 🧩 **[Alert](/components/headless/alert)** — a modal alert that interrupts with
+- 🧩 **[Alert](/headless/alert)** — a modal alert that interrupts with
   an urgent message and waits for a response.
-- 🧩 **[Collapsible](/components/headless/collapsible)** — a toggle that shows and
+- 🧩 **[Collapsible](/headless/collapsible)** — a toggle that shows and
   hides a section of content.
-- 🧩 **[Modal](/components/headless/modal)** — content on top of the page that
+- 🧩 **[Modal](/headless/modal)** — content on top of the page that
   blocks the page behind until the user is done.
-- 🧩 **[Popover](/components/headless/popover)** — floating content opened from
+- 🧩 **[Popover](/headless/popover)** — floating content opened from
   a trigger, that leaves the page behind usable.
-- 🧩 **[Tabs](/components/headless/tabs)** — a set of tabs, each showing its own
+- 🧩 **[Tabs](/headless/tabs)** — a set of tabs, each showing its own
   panel, with arrow-key navigation.
-- 🧩 **[Toast](/components/headless/toast)** — a short message that's announced
+- 🧩 **[Toast](/headless/toast)** — a short message that's announced
   without interrupting and closes on its own.
-- 🧩 **[Tooltip](/components/headless/tooltip)** — floating content shown on
+- 🧩 **[Tooltip](/headless/tooltip)** — floating content shown on
   hover, focus or long press, positioned to stay on screen.
+
+### Utilities
+
+Helpers that control how and where things render. They don't render any UI of
+their own.
+
+- 🧰 **[AsChild](/headless/as-child)** — renders your own element in
+  place of a component's default one, merging props, handlers and refs.
+- 🧰 **[Portal](/headless/portal)** — renders its children at the end
+  of `<body>`, safely with server rendering.
 
 ---
 

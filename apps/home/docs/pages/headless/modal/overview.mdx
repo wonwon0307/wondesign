@@ -12,9 +12,9 @@ Use it when the user has to finish a step before carrying on, like editing a
 profile, filling in a long form, or reviewing details before a purchase.
 
 Don't use it when the content belongs next to its trigger and the page should
-stay usable, like a filter form. Use a [Popover](/components/headless/popover)
+stay usable, like a filter form. Use a [Popover](/headless/popover)
 instead. For an urgent message that needs an answer, like confirming a
-destructive action, use an [Alert](/components/headless/alert).
+destructive action, use an [Alert](/headless/alert).
 
 ---
 
@@ -28,15 +28,15 @@ destructive action, use an [Alert](/components/headless/alert).
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
 - ✅ **Exit Animations**: Closed content stays until its exit animation finishes
-- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
+- ✅ **Composable**: Render your own elements with [`asChild`](/headless/as-child)
 
 ---
 
 ## Structure
 
 For what you can configure, refer to the
-[Usage tab](/components/headless/modal/usage). For every prop, refer to the
-[API tab](/components/headless/modal/api).
+[Usage tab](/headless/modal/usage). For every prop, refer to the
+[API tab](/headless/modal/api).
 
 - 🧩 **Modal**: coordinates every part. It holds the open state, manages focus,
   and blocks the page behind while it's open. **Renders no element of its
@@ -91,8 +91,8 @@ A click on `Modal.Trigger` opens the modal. It closes through `Modal.Close`,
 off). A click on `Modal.Backdrop` counts as a click outside.
 
 Clicks outside are handled by
-[Click Outside](/foundations/pointer/click-outside), and
-{<Keyboard>Esc</Keyboard>} by [Escape Key](/foundations/key-events/escape-key).
+[Click Outside](/interactions/pointer/click-outside), and
+{<Keyboard>Esc</Keyboard>} by [Escape Key](/interactions/key-events/escape-key).
 
 ### Focus
 
@@ -104,15 +104,15 @@ While it's open, <Keyboard>Tab</Keyboard> and
 focus returns to `Modal.Trigger`. If the trigger doesn't exist, focus returns to
 whatever had it before the modal opened.
 
-Focus is handled by [Auto Focus](/foundations/focus/auto-focus) and
-[Focus Trap](/foundations/focus/focus-trap).
+Focus is handled by [Auto Focus](/interactions/focus/auto-focus) and
+[Focus Trap](/interactions/focus/focus-trap).
 
 ### The Page Behind
 
 While the modal is open, everything outside the content can't be focused or
 interacted with, and the page stops scrolling. These are handled by
-[Background Inert](/foundations/focus/background-inert) and
-[Scroll Lock](/foundations/disclosure/scroll-lock) respectively, so **their
+[Background Inert](/interactions/focus/background-inert) and
+[Scroll Lock](/interactions/disclosure/scroll-lock) respectively, so **their
 known issues carry over to `Modal`**.
 
 ### Exit Animations

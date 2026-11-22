@@ -1,0 +1,101 @@
+---
+metaTitle: Media Queries | Tokens
+title: Media Queries
+description: The ready-made breakpoint, hover and reduced motion queries, and the two kinds of breakpoint queries.
+---
+
+# Media Queries
+
+Every query in `@wondesign/tokens`. Each section shows its type, with every
+query's default value in a comment. All of them are plain strings, used as in
+[Usage](/styling/tokens/usage).
+
+---
+
+## Default Queries
+
+`mediaQueries` — three breakpoints with their combinations, a query for
+devices that can hover, and a query for users who prefer reduced motion.
+
+```ts
+const mediaQueries: {
+  breakpoints: SimpleBreakpointQueries; // see Breakpoint Queries
+  hoverable: string; // "(hover: hover) and (pointer: fine)"
+  reducedMotion: string; // "(prefers-reduced-motion: reduce)"
+};
+```
+
+Use them from the `mediaQueries` object:
+
+```ts
+import { mediaQueries } from "@wondesign/tokens";
+
+mediaQueries.breakpoints.small; // "screen and (width < 768px)"
+```
+
+---
+
+## Breakpoint Queries
+
+Breakpoint queries come in two shapes. Each range includes its lower bound and
+excludes its upper bound, so **every width matches exactly one range**. A
+screen exactly `768px` wide is `medium`, not both, and not neither.
+
+`SimpleBreakpointQueries` — three ranges at two widths, with their
+combinations. `mediaQueries.breakpoints` has this shape, at the default
+widths:
+
+```ts
+type SimpleBreakpointQueries = {
+  small: string; // "screen and (width < 768px)"
+  medium: string; // "screen and (768px <= width < 1280px)"
+  large: string; // "screen and (width >= 1280px)"
+  notSmall: string; // "screen and (width >= 768px)"
+  notLarge: string; // "screen and (width < 1280px)"
+};
+```
+
+`BreakpointQueries` — six ranges at five widths, for devices and their
+orientation. Each range has up to three queries: `only` matches just this
+range, `andSmaller` this range and everything below it, and `andLarger` this
+range and everything above it. At the default widths:
+
+```ts
+type BreakpointQueries = {
+  mobilePortrait: {
+    only: string; // "screen and (width < 480px)"
+  };
+
+  mobileLandscape: {
+    only: string; // "screen and (480px <= width < 768px)"
+    andSmaller: string; // "screen and (width < 768px)"
+    andLarger: string; // "screen and (width >= 480px)"
+  };
+
+  tabletPortrait: {
+    only: string; // "screen and (768px <= width < 1024px)"
+    andSmaller: string; // "screen and (width < 1024px)"
+    andLarger: string; // "screen and (width >= 768px)"
+  };
+
+  tabletLandscape: {
+    only: string; // "screen and (1024px <= width < 1280px)"
+    andSmaller: string; // "screen and (width < 1280px)"
+    andLarger: string; // "screen and (width >= 1024px)"
+  };
+
+  laptop: {
+    only: string; // "screen and (1280px <= width < 1440px)"
+    andSmaller: string; // "screen and (width < 1440px)"
+    andLarger: string; // "screen and (width >= 1280px)"
+  };
+
+  desktop: {
+    only: string; // "screen and (width >= 1440px)"
+  };
+};
+```
+
+`mobilePortrait` and `desktop` only have `only`. They're the two ends of the
+screen, so their other queries would be either the same as `only` or match
+every width.

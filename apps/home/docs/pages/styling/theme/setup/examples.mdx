@@ -1,0 +1,172 @@
+# Examples
+
+Complete setups for three common kinds of app. Where the provider and the
+script go depends on your framework, and each example uses a different
+configuration. Start from the one closest to your app, and swap in the
+configuration you chose.
+
+---
+
+## NextJS (App Router)
+
+This example uses Advanced Light-Dark, with two themes per side. The script sets
+attributes on `<html>` before React hydrates, so **`suppressHydrationWarning`
+on `<html>` is required**, or React logs a hydration mismatch. Both providers
+are client components, so a server layout can render them:
+
+```tsx
+// app/layout.tsx
+import { LightDarkProvider } from "@wondesign/theme/light-dark";
+import { LightDarkScript } from "@wondesign/theme/light-dark/server";
+import "./globals.css";
+
+const themes = {
+  light: ["light", "paper"],
+  dark: ["dark", "midnight"],
+} as const;
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* With a nonce-based CSP, also pass nonce={nonce} — see Content Security Policy in the Overview tab */}
+        <LightDarkScript themes={themes} />
+      </head>
+      <body>
+        <LightDarkProvider themes={themes}>{children}</LightDarkProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+```css
+/* app/globals.css */
+[data-theme="light"] {
+  --background: #ffffff;
+  --text: #1c1c1e;
+}
+
+/* [data-theme="paper"] { ... } */
+/* [data-theme="dark"] { ... } */
+/* [data-theme="midnight"] { ... } */
+
+body {
+  background: var(--background);
+  color: var(--text);
+}
+```
+
+---
+
+## React Router (Framework Mode)
+
+This example uses Light-Dark. Render the script in the root `Layout`, before
+`<Meta />` and `<Links />`. As with NextJS, **`suppressHydrationWarning` on
+`<html>` is required**:
+
+```tsx
+// app/root.tsx
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { LightDarkProvider } from "@wondesign/theme/light-dark";
+import { LightDarkScript } from "@wondesign/theme/light-dark/server";
+import "./app.css";
+
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <LightDarkScript />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <LightDarkProvider>{children}</LightDarkProvider>
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+export default function App() {
+  return <Outlet />;
+}
+```
+
+```css
+/* app/app.css */
+body {
+  background: light-dark(#ffffff, #1c1c1e);
+  color: light-dark(#1c1c1e, #f5f5f7);
+}
+```
+
+---
+
+## Client-only Apps
+
+This example uses Named Themes with Vite. Client-only apps (Vite, Rsbuild,
+Parcel, etc.) have no server to render the script, so render it once at build
+time, into the `<head>` of your `index.html`. Since the script is baked into a
+static file, it can't carry a per-request nonce. With a nonce-based CSP, allow
+it by its hash instead:
+
+```ts
+// vite.config.ts
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { ThemeScript } from "@wondesign/theme/server";
+
+const themeScript = renderToStaticMarkup(
+  createElement(ThemeScript, { defaultTheme: "ocean" }),
+);
+
+export default defineConfig({
+  plugins: [
+    react(),
+    {
+      name: "theme-script",
+      transformIndexHtml: (html) =>
+        html.replace("<head>", `<head>${themeScript}`),
+    },
+  ],
+});
+```
+
+Then render the provider at the root, as usual:
+
+```tsx
+// main.tsx
+import { createRoot } from "react-dom/client";
+import { ThemeProvider } from "@wondesign/theme";
+import "./index.css";
+
+createRoot(document.getElementById("root")!).render(
+  <ThemeProvider themes={["ocean", "forest", "sunset"]} defaultTheme="ocean">
+    <App />
+  </ThemeProvider>,
+);
+```
+
+```css
+/* index.css */
+[data-theme="ocean"] {
+  --background: #f0f7ff;
+  --text: #0b2545;
+}
+
+/* [data-theme="forest"] { ... } */
+/* [data-theme="sunset"] { ... } */
+
+body {
+  background: var(--background);
+  color: var(--text);
+}
+```

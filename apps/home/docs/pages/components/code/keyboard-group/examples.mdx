@@ -12,10 +12,10 @@ its code.
 ## Showing a Bound Shortkey
 
 Pass the same shortkey to
-[useShortkey](/foundations/key-events/shortkey) and `KeyboardGroup`, so the
+[useShortkey](/interactions/key-events/shortkey) and `KeyboardGroup`, so the
 shortcut you show is always the one that works. Keep it in one constant, and
 get the `aria-keyshortcuts` value from
-[useShortkeyDisplay](/foundations/key-events/shortkey#useshortkeydisplay):
+[useShortkeyDisplay](/interactions/key-events/shortkey#useshortkeydisplay):
 
 ```tsx
 import { useState } from "react";
@@ -78,7 +78,7 @@ command palette.
 
 By default, screen readers read the key names, like "Command Shift P", from
 the `label` of
-[useShortkeyDisplay](/foundations/key-events/shortkey#useshortkeydisplay).
+[useShortkeyDisplay](/interactions/key-events/shortkey#useshortkeydisplay).
 To read something else, like what the shortcut does, pass `aria-label`:
 
 <Preview orientation="vertical">

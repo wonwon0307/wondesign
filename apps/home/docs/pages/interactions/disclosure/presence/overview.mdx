@@ -1,0 +1,62 @@
+# Presence
+
+`usePresence` keeps closed content on the page until its closing animation
+ends. Without it, content is removed the moment it closes, and its fade or
+slide out never plays.
+
+It works with any open state, like the one from
+[Open State](/interactions/disclosure/open-state), so you can animate content
+out before it's removed.
+
+```tsx
+import { usePresence } from "@wondesign/disclosure/presence";
+// or
+import { usePresence } from "@wondesign/ui/disclosure";
+```
+
+---
+
+## Key Features
+
+- ✅ **Exit Animations**: Closed content stays on the page until its closing animation ends
+- ✅ **Waits for Everything**: Every CSS transition and animation on the content, and inside it, is waited for
+- ✅ **Reduced Motion Friendly**: With nothing animating, the content is removed right away
+- ✅ **Interruptible**: Opening again while it closes cancels the close
+- ✅ **Closing Status**: Tell when the content is on its way out
+
+---
+
+## API
+
+Import `usePresence` and its types from `@wondesign/disclosure/presence`.
+Both arguments are required:
+
+```ts
+function usePresence(
+  // the element that animates out.
+  // its animations, and those of everything inside it, are waited for.
+  targetRef: React.RefObject<HTMLElement | null>,
+
+  // whether the content is open. pass the open state.
+  isOpen: boolean,
+): UsePresenceReturn;
+```
+
+```ts
+type PresenceStatus = "open" | "closing" | "closed";
+
+interface UsePresenceReturn {
+  // whether the content should be on the page.
+  // `true` while open and while closing.
+  isPresent: boolean;
+
+  // `"closing"` while the closing animation runs.
+  status: PresenceStatus;
+}
+```
+
+---
+
+## Used By
+
+- 🧩 **Alert**, **Collapsible**, **Modal**, **Popover**, **Tabs**, **Toast**, **Tooltip** in [`@wondesign/headless`](/headless)

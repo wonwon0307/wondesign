@@ -1,0 +1,144 @@
+---
+metaTitle: Usage | Theme
+title: Usage
+description: Switch the theme from your own UI with useLightDark or useTheme, and style by theme in CSS.
+---
+
+# Using the Theme
+
+The hooks read and change the theme from your components. The server doesn't
+know the user's choice or the OS setting, so until hydration finishes, **the
+hooks return your defaults**, and anything you render from them can change
+right after the first paint. For anything visible on first paint, style by
+theme in CSS instead: the script has already set the attributes on `<html>`.
+
+---
+
+## Light-Dark
+
+`useLightDark` reads and changes the theme in a Light-Dark or Advanced
+Light-Dark setup.
+
+### Switching Modes
+
+Call `selectMode` from `useLightDark`:
+
+```tsx
+import { useLightDark } from "@wondesign/theme/light-dark";
+
+export function DarkModeToggle() {
+  const { colorScheme, selectMode } = useLightDark();
+
+  return (
+    <button
+      onClick={() => selectMode(colorScheme === "dark" ? "light" : "dark")}
+    >
+      Toggle dark mode
+    </button>
+  );
+}
+```
+
+### System Mode
+
+Show a `"system"` option unless the provider has `disableSystem`:
+
+```tsx
+const { mode, disableSystem, selectMode } = useLightDark();
+
+return (
+  <select value={mode} onChange={(e) => selectMode(e.target.value)}>
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+    {!disableSystem && <option value="system">System</option>}
+  </select>
+);
+```
+
+### Advanced Light-Dark
+
+With Advanced Light-Dark, call `selectLightTheme` or `selectDarkTheme`. This
+doesn't change the mode: a dark theme picked while the page is light only
+shows once the page is dark.
+
+```tsx
+const { themes, darkTheme, selectDarkTheme } = useLightDark();
+
+return (
+  <select value={darkTheme} onChange={(e) => selectDarkTheme(e.target.value)}>
+    {themes.dark.map((name) => (
+      <option key={name}>{name}</option>
+    ))}
+  </select>
+);
+```
+
+---
+
+## Named Themes
+
+`useTheme` reads and changes the theme in a Named Themes setup.
+
+### Switching Themes
+
+Call `selectTheme` from `useTheme`:
+
+```tsx
+import { useTheme } from "@wondesign/theme";
+
+export function ThemePicker() {
+  const { themes, theme, selectTheme } = useTheme();
+
+  return (
+    <select value={theme} onChange={(e) => selectTheme(e.target.value)}>
+      {themes.map((name) => (
+        <option key={name}>{name}</option>
+      ))}
+    </select>
+  );
+}
+```
+
+---
+
+## Styling by Theme
+
+Select on `data-theme` or `data-color-scheme` in CSS, for images, icons, or
+anything else your colors can't express:
+
+```css
+html[data-color-scheme="light"] .logo-dark,
+html[data-color-scheme="dark"] .logo-light {
+  display: none;
+}
+```
+
+Outside React, read them from the dataset:
+
+```ts
+document.documentElement.dataset.theme; // like "midnight" or "ocean"
+document.documentElement.dataset.colorScheme; // "light" or "dark", Light-Dark only
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Only select what the provider knows**: A theme that isn't in `themes`,
+  or `"system"` with `disableSystem`, **does nothing**, apart from a warning
+  in the console.
+- ⚠️ **Declare `color-scheme` only on the root**: Every element inherits
+  `color-scheme` from `<html>`. An element below it, often `body`, that
+  declares its own **overrides the theme** for everything inside:
+
+  ```css
+  /* ❌ everything inside body follows the OS, not the theme */
+  body {
+    color-scheme: light dark;
+  }
+
+  /* ✅ declare it only on the root */
+  :root {
+    color-scheme: light dark;
+  }
+  ```

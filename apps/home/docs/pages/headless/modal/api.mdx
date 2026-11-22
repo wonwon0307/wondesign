@@ -67,7 +67,7 @@ logs a warning** in development.
 
 **Props**
 
-Accepts all props of [Headless Button](/components/headless/button), except
+Accepts all props of [Headless Button](/headless/button), except
 `type` and `aria-haspopup`, which the trigger manages. Key props:
 
 ```ts
@@ -94,7 +94,7 @@ interface ModalTriggerProps {
 ### Backdrop
 
 `Modal.Backdrop` or `ModalBackdrop`. Renders an empty `<div>` behind the
-modal, in its own [Portal](/components/headless/portal) unless `disablePortal`
+modal, in its own [Portal](/headless/portal) unless `disablePortal`
 is `true`. When the modal closes, it stays on the page until its exit
 animation finishes. A click on it closes the modal, like any click outside the content,
 unless `disableOutsideClick` is `true`.
@@ -115,7 +115,7 @@ manages.
 ### Content
 
 `Modal.Content` or `ModalContent`. Renders a `<dialog>` that acts as a modal
-dialog, in its own [Portal](/components/headless/portal) unless
+dialog, in its own [Portal](/headless/portal) unless
 `disablePortal` is `true`. When the modal closes, it stays on the page until
 its exit animation finishes.
 
@@ -169,7 +169,7 @@ doesn't wait for a returned promise.** Must be used inside `Modal.Content`.
 
 **Props**
 
-Accepts all props of [Headless Button](/components/headless/button). Key props:
+Accepts all props of [Headless Button](/headless/button). Key props:
 
 ```ts
 interface ModalCloseProps {

@@ -1,0 +1,194 @@
+# Setting Up the Tokens
+
+Setting up the tokens takes the following steps:
+
+- 🔹 **Stylesheet** — load the token stylesheet, so your values apply.
+- 🔹 **Color scheme** — set the page's color scheme.
+- 🔹 **Fonts** — load the fonts the tokens name.
+
+Colors follow the page's `color-scheme`, so **without one, the page always
+shows the light colors**. Manage it with [`@wondesign/theme`](/styling/theme),
+or declare `color-scheme: light dark;` on `:root` to follow the system setting.
+
+Font family tokens only name fonts, and don't load them. Load each font
+yourself under the same name as the token value, with `next/font`, a Google
+Fonts `<link>` or `@fontsource`.
+
+The media queries don't require any setup, but their breakpoints can be built
+from your own widths.
+
+This page explains how to set up the tokens, with the WonDesign preset or with
+values of your own, and how to customize the breakpoints. For complete setups in NextJS, React Router and
+client-only apps, see the [Examples tab](/styling/tokens/setup/examples).
+
+---
+
+## The Preset
+
+The quickest method is the WonDesign preset, `wondesignTokenVariables`: a
+ready-made stylesheet with light and dark colors, and four web fonts:
+
+- 🔤 **[Kalam](https://fonts.google.com/specimen/Kalam)** — `brand`
+- 🔤 **[Google Sans](https://fonts.google.com/specimen/Google+Sans)** — `normal`
+- 🔤 **[JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono)** —
+  `code`
+- 🔤 **[Roboto Slab](https://fonts.google.com/specimen/Roboto+Slab)** — `quote`
+
+The fonts aren't bundled, so **unless you load them yourself, the fallbacks
+apply**, like `system-ui` for `normal`.
+
+Its colors are `light-dark()` pairs, so declare `color-scheme: light dark;`
+on `:root`, or manage it with `@wondesign/theme`, for the dark colors to show.
+
+Render the stylesheet as one `<style>` tag in the `<head>`, so the variables
+are in place before the first paint:
+
+```tsx
+import { wondesignTokenVariables } from "@wondesign/tokens";
+
+<style dangerouslySetInnerHTML={{ __html: wondesignTokenVariables }} />;
+```
+
+Render it on the server where you can. In client-only apps, write it into
+your HTML at build time instead.
+
+---
+
+## Customization
+
+`buildCssVariables` builds the stylesheet from your own values instead of the
+preset's. Load the result the same way as the preset.
+
+You can change the values of any category, and merge light and dark colors.
+Media queries are customized separately, in JavaScript.
+
+### Changing Values
+
+Pass only the categories you change, and the rest keep their defaults.
+
+**Each category takes its full set of keys**, so spread its default and
+override what you need. Typography is nested into groups, so **spread the
+group you change as well**, or the rest of that group is lost:
+
+```ts
+import {
+  buildCssVariables,
+  defaultSpacing,
+  defaultTypography,
+} from "@wondesign/tokens";
+
+export const tokenVariables = buildCssVariables({
+  spacing: { ...defaultSpacing, md: "10px" },
+  typography: {
+    ...defaultTypography,
+    fontFamily: {
+      ...defaultTypography.fontFamily,
+      normal: "Inter, sans-serif",
+    },
+  },
+});
+```
+
+Every default is exported. See [Tokens](/styling/tokens/design-tokens) for
+every key.
+
+### Light-Dark
+
+Merge a light and a dark palette with `mergeLightDark`, which turns each color
+into a `light-dark()` pair, like the preset's:
+
+```ts
+buildCssVariables({
+  colors: mergeLightDark(
+    { primary: "#7C3AED", ... },
+    { primary: "#A78BFA", ... },
+  ),
+}); // --color-primary: light-dark(#7c3aed, #a78bfa);
+```
+
+The pairs only switch once the page has a color scheme, so declare one, or
+manage it with `@wondesign/theme`:
+
+```css
+:root {
+  color-scheme: light dark;
+}
+```
+
+### Custom Queries
+
+Media queries aren't part of the stylesheet, so they're customized in
+JavaScript instead. The package has two functions for building breakpoint
+queries, for different purposes:
+
+- 🔹 **`createSimpleBreakpointQueries`** — splits the screen into three
+  ranges, `small`, `medium` and `large`, at two widths. It returns the same
+  shape as `mediaQueries.breakpoints`.
+- 🔹 **`createBreakpointQueries`** — splits the screen into six ranges for
+  devices and their orientation, from `mobilePortrait` to `desktop`, at five
+  widths.
+
+Call one once, in a module your styles share, along with any queries of your
+own. Then import your queries from there instead of the package:
+
+```ts
+// src/media-queries.ts
+import {
+  createSimpleBreakpointQueries,
+  mediaQueries as defaultMediaQueries,
+} from "@wondesign/tokens";
+
+export const mediaQueries = {
+  ...defaultMediaQueries,
+  breakpoints: createSimpleBreakpointQueries({ sm: "640px", lg: "1024px" }),
+  portrait: "(orientation: portrait)",
+};
+```
+
+```ts
+// card.css.ts
+import { mediaQueries } from "@/media-queries";
+```
+
+See [API](/styling/tokens/api#createsimplebreakpointqueries) for the widths
+each function takes.
+
+---
+
+## Scoped Themes
+
+Pass a selector as the second argument to give part of the page its own look,
+like a marketing section. **Load the result after the `:root` stylesheet**:
+
+```ts
+export const marketingVariables = buildCssVariables(
+  { ...myValues, colors: { ...myValues.colors, primary: "#E11D48" } },
+  '[data-theme-scope="marketing"]',
+);
+```
+
+```tsx
+<section data-theme-scope="marketing">
+  {/* components in here use the marketing primary color */}
+</section>
+```
+
+---
+
+## Watch Out
+
+- ⚠️ **Scoped themes write every category**: `buildCssVariables` fills in the
+  defaults for any category you leave out, and inside the scope, **they
+  replace your `:root` values**. Colors default to `wondesignLight`, so a scope
+  without its own colors also stays light in dark mode. Pass the scoped
+  stylesheet the same values as your `:root` one, and change only what the
+  scope needs, as in [Scoped Themes](#scoped-themes).
+
+---
+
+## Next Steps
+
+- 👉 **[Usage](/styling/tokens/usage)** — using tokens and media queries
+  in your styles.
+- 👉 **[Tokens](/styling/tokens/design-tokens)** — every token, with its
+  variable and default value.

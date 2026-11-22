@@ -50,7 +50,7 @@ When the ready-made items don't fit, pass your own components to `Alerter`.
 Pass one or both: the other keeps the ready-made look.
 
 It is strongly recommended to build them from
-[Headless Alert](/components/headless/alert), so focus, the page behind and
+[Headless Alert](/headless/alert), so focus, the page behind and
 screen readers stay handled.
 
 ### What Your Components Must Do
@@ -64,11 +64,11 @@ screen readers stay handled.
   dismissed.
 - ✋ **Delete each item once it has closed.** Call `deleteAlert` or
   `deleteConfirm` when its closing animation ends, for example by watching it
-  with [`usePresence`](/foundations/disclosure/presence) as below. If you
+  with [`usePresence`](/interactions/disclosure/presence) as below. If you
   don't need animations, call it right after dismissing. **Without it, a
   closed item stays in the queue**, and items called after it never appear.
 - ✋ **Style and position it yourself**, including the backdrop. See
-  [Adding a Backdrop](/components/headless/alert/usage#adding-a-backdrop) in
+  [Adding a Backdrop](/headless/alert/usage#adding-a-backdrop) in
   Headless Alert.
 - ✋ **Choose where focus starts.** Focus starts on the first button in the
   markup, or on the one you pass to `Alert` as `initialFocusRef`. Start on
@@ -177,7 +177,7 @@ For everything your components receive, see
 
 **`Alerter` doesn't take `className` or `style`.** Start from the default
 styles. When they don't fit your design everywhere,
-[change the tokens](/foundations/tokens/customization). When you need more than
+[change the tokens](/styling/tokens/setup#changing-values). When you need more than
 the tokens allow, [build your own items](#building-your-own-items).
 
 ### Default Styles

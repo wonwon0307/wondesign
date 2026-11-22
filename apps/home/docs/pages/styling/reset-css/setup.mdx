@@ -1,0 +1,53 @@
+---
+metaTitle: Setup | Reset CSS
+title: Setup
+description: Load the reset from your root component, your root CSS, or any setup that can load a stylesheet.
+---
+
+# Setting Up Reset CSS
+
+`@wondesign/reset-css` is a plain stylesheet, so any setup that can load a CSS
+file works.
+
+The two most common setups are below. If neither fits your app, load it any
+other way, like a `<link>` tag or your bundler's global CSS entry.
+
+---
+
+## Root Component
+
+Import the CSS from the root of the app. For example, `app/layout.tsx` of NextJS App Router.
+
+```tsx
+// layout.tsx
+import "@wondesign/reset-css";
+// or import "@wondesign/ui/styles.css";
+
+export default function RootLayout() {
+  // ...
+}
+```
+
+---
+
+## Root CSS
+
+Import the CSS from the root CSS of the app.
+Make sure this import is done as high in the tree as possible, before any other styles.
+
+```css
+/* root.css */
+@import "@wondesign/reset-css";
+/* or @import "@wondesign/ui/styles.css"; */
+```
+
+And import the root CSS from app root.
+
+```tsx
+// root.tsx
+import "./root.css";
+
+export default function RootLayout() {
+  // ...
+}
+```

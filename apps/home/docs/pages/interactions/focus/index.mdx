@@ -1,0 +1,53 @@
+---
+title: Focus
+description: React hooks for keyboard focus — arrow key navigation, moving focus in and back, focus traps and an inert background.
+---
+
+import { Keyboard } from "@wondesign/ui/code";
+import { Callout } from "@wondesign/ui/texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/focus" relPath="foundations/focus">
+  `@wondesign/focus` handles keyboard focus for tabs, menus, dialogs and
+  anything else that opens or groups controls. It puts focus where keyboard and
+  screen reader users expect it, and keeps it from getting lost.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/focus
+```
+
+With [All-in-One](/all-in-one), import from `@wondesign/ui/focus` instead.
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/focus` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Arrow Key Navigation**: Move between items in a group, like tabs or a toolbar, with the arrow keys
+- ✅ **Focus on Open**: Move focus into content when it opens, and back out when it closes
+- ✅ **Focus Trap**: Keep <Keyboard>Tab</Keyboard> inside content, like a dialog, while it's open
+- ✅ **Background Inert**: Keep the page behind modal content from being clicked, focused or read
+
+---
+
+## Hooks
+
+Each hook has its own entry, like `@wondesign/focus/auto-focus`, so you only
+bundle the ones you use.
+
+- ⭐ **[Arrow Navigation](/interactions/focus/arrow-navigation)** — moves focus
+  between items in a group with the arrow keys.
+- ⭐ **[Auto Focus](/interactions/focus/auto-focus)** — moves focus into content
+  when it opens, and back out when it closes.
+- ⭐ **[Focus Trap](/interactions/focus/focus-trap)** — keeps
+  <Keyboard>Tab</Keyboard> inside content while it's open.
+- ⭐ **[Background Inert](/interactions/focus/background-inert)** — makes
+  everything outside the content inert while it's open.

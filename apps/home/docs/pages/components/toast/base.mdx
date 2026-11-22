@@ -16,7 +16,7 @@ It shares the store with `@wondesign/toast`, so `deleteToasts` from either
 entry point clears the same toasts.
 
 It is strongly recommended to render the toasts with
-[Headless Toast](/components/headless/toast), so timing, pausing and screen
+[Headless Toast](/headless/toast), so timing, pausing and screen
 readers stay handled.
 
 ---
@@ -64,7 +64,7 @@ What your Toaster must do:
   hides once its time is up, but stays open in the store.
 - ✋ **Delete each toast once it has closed.** Call `deleteToast` when its
   closing animation ends, for example by watching it with
-  [`usePresence`](/foundations/disclosure/presence) as below. If you don't
+  [`usePresence`](/interactions/disclosure/presence) as below. If you don't
   need animations, call `deleteToast` directly from `onOpenChange`.
   **Without it, a closed toast stays in the store**, and keeps counting
   towards your limit.
@@ -141,7 +141,7 @@ function MyToast({ toast, dismissToast, deleteToast }: MyToastProps) {
 The base module only stores the toasts. Rendering, timing and closing them is
 up to your Toaster. This section covers what the store does with each toast.
 For how each toast behaves on screen, refer to
-[Headless Toast](/components/headless/toast#how-it-works).
+[Headless Toast](/headless/toast#how-it-works).
 
 ### Options
 

@@ -1,0 +1,191 @@
+---
+metaTitle: Usage | Tokens
+title: Usage
+description: Use tokens, media queries and the color helpers in your styles, in JavaScript or CSS.
+---
+
+# Styling
+
+The `tokens` object and `mediaQueries` are plain strings, made to be used
+wherever you write styles in JavaScript. Every token is also a CSS variable,
+so the tokens work in CSS as well.
+
+```ts
+import { mediaQueries, tokens } from "@wondesign/tokens";
+
+tokens.spacing.md; // "var(--spacing-md, 8px)"
+mediaQueries.breakpoints.small; // "screen and (width < 768px)"
+```
+
+---
+
+## Tokens
+
+Every token is a plain string, so it works as a value in React's `style` prop:
+
+```tsx
+import { tokens } from "@wondesign/tokens";
+
+<div
+  style={{
+    padding: tokens.spacing.md,
+    borderRadius: tokens.radius.md,
+    color: tokens.colors.primary,
+  }}
+/>;
+```
+
+With template-literal libraries like styled-components and Emotion,
+interpolate tokens straight into the CSS. Object-style APIs, such as Emotion's
+`css` prop, take tokens the same way as inline styles:
+
+```tsx
+import styled from "styled-components"; // or "@emotion/styled"
+import { tokens } from "@wondesign/tokens";
+
+const Card = styled.div`
+  padding: ${tokens.spacing.lg};
+  border-radius: ${tokens.radius.md};
+  background-color: ${tokens.colors.surface};
+`;
+```
+
+`vanilla-extract`, and any zero-runtime library that takes style objects at
+build time, takes tokens as style values:
+
+```ts
+// card.css.ts
+import { style } from "@vanilla-extract/css";
+import { tokens } from "@wondesign/tokens";
+
+export const card = style({
+  padding: tokens.spacing.lg,
+  borderRadius: tokens.radius.md,
+  backgroundColor: tokens.colors.surface,
+});
+```
+
+### Tokens in CSS
+
+Since every token is a CSS variable, the tokens also work in CSS files,
+including CSS Modules and Sass. `mediaQueries` is JavaScript only, so **write
+media queries out by hand**:
+
+```css
+.card {
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+}
+
+@media screen and (width < 768px) {
+  .card {
+    padding: var(--spacing-md);
+  }
+}
+```
+
+Tailwind v4 reads CSS variables in any utility with the `(--variable)` syntax.
+**No Tailwind configuration is needed**, since the variables come from the
+token stylesheet you loaded in [Setup](/styling/tokens/setup):
+
+```tsx
+<div className="rounded-(--radius-md) bg-(--color-surface) p-(--spacing-lg)" />
+```
+
+---
+
+## Media Queries
+
+**CSS variables can't be used inside media queries**, so `mediaQueries` holds
+plain query strings instead. **Inline styles can't hold media queries**, so
+use a styling library for them. See
+[Media Queries](/styling/tokens/media-queries) for every query.
+
+In template-literal libraries, interpolate a query after `@media`:
+
+```tsx
+const Card = styled.div`
+  padding: ${tokens.spacing.lg};
+
+  @media ${mediaQueries.breakpoints.small} {
+    padding: ${tokens.spacing.md};
+  }
+`;
+```
+
+In `vanilla-extract`, use queries as keys under `@media`:
+
+```ts
+export const card = style({
+  padding: tokens.spacing.lg,
+  "@media": {
+    [mediaQueries.breakpoints.small]: {
+      padding: tokens.spacing.md,
+    },
+  },
+});
+```
+
+To react to a query in code, pass it to `matchMedia`:
+
+```ts
+const small = window.matchMedia(mediaQueries.breakpoints.small);
+
+small.matches;
+small.addEventListener("change", (event) => {
+  console.log(event.matches);
+});
+```
+
+---
+
+## Color Helpers
+
+`colorWithFade` and `colorWithOpacity` derive tints from any color, including
+a token. Both return plain `color-mix()` strings, so they work anywhere the
+`tokens` object does.
+
+`colorWithFade` mixes the color toward white in light mode and black in dark
+mode. **The result is opaque.**
+
+`colorWithOpacity` mixes the color toward `transparent`. **The result lets
+what's behind it show through.**
+
+```ts
+colorWithFade("#1647E8", 0.2);
+// "color-mix(in srgb, #1647E8 20%, light-dark(#ffffff, #000000))"
+
+// fade toward a color of your own, instead of white or black
+colorWithFade("#1647E8", 0.2, { base: "#FFD700" });
+// "color-mix(in srgb, #1647E8 20%, #FFD700)"
+
+colorWithOpacity(tokens.colors.primary, 0.1);
+// "color-mix(in srgb, var(--color-primary, #1647E8) 10%, transparent)"
+
+// mix in another color space, for a more even blend
+colorWithOpacity("#1647E8", 0.1, { colorSpace: "oklch" });
+// "color-mix(in oklch, #1647E8 10%, transparent)"
+```
+
+Use them like any other token:
+
+```tsx
+import { colorWithFade, colorWithOpacity, tokens } from "@wondesign/tokens";
+
+// inline styles
+<div style={{ backgroundColor: colorWithFade(tokens.colors.primary, 0.2) }} />;
+
+// styled-components
+const Highlight = styled.span`
+  background-color: ${colorWithOpacity(tokens.colors.primary, 0.1)};
+`;
+
+// vanilla-extract
+export const banner = style({
+  backgroundColor: colorWithFade(tokens.colors.primary, 0.2),
+});
+```
+
+See [API](/styling/tokens/api#colorwithfade) for their options, like the base
+color and the color space.

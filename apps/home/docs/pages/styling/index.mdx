@@ -1,0 +1,86 @@
+---
+title: Styling
+description: The packages behind your app's look — a CSS reset, design tokens and theme switching — and how they fit together.
+---
+
+# Styling
+
+Three packages form the base of your app's look. They control how your styles
+reach the page, and leave the look itself to you.
+
+---
+
+## Packages
+
+- 📦 **[`@wondesign/reset-css`](/styling/reset-css)** — A single stylesheet
+  that smooths out browser defaults, so every browser starts from the same
+  baseline.
+- 📦 **[`@wondesign/tokens`](/styling/tokens)** — Semantic design tokens as
+  a typed JavaScript object backed by CSS variables, with light and dark
+  palettes and media queries.
+- 📦 **[`@wondesign/theme`](/styling/theme)** — Light / dark or named-theme
+  switching for React, saved, synced across tabs and free of first-paint
+  flashes.
+
+For the best results, use all three, installed one by one or together through
+[All-in-One](/all-in-one). Each also works on its own, so you can adopt only
+what you need. Anything you leave out falls back to its default.
+
+---
+
+## Watch Out
+
+- ⚠️ **Modern browsers only**: The tokens rely on `light-dark()`,
+  `color-mix()` and range media queries, supported from Chrome / Edge 123,
+  Firefox 120 and Safari 17.5. **In older browsers, colors, tints and
+  responsive styles may not apply.**
+
+---
+
+## Known Issues
+
+- 🐞 **light-dark() colors in NextJS**: NextJS rewrites `light-dark()` for
+  older browsers, and the rewritten colors only follow a `color-scheme`
+  declared in your CSS, not the one the theme sets. **They ignore the theme,
+  and `colorWithFade` colors may not show, or fall back to an unexpected
+  color.** Declare the color scheme on the root:
+
+  ```css
+  /* app/globals.css */
+  :root {
+    color-scheme: light dark;
+  }
+
+  /* with @wondesign/theme */
+  :root[data-color-scheme="light"] {
+    color-scheme: light;
+  }
+
+  :root[data-color-scheme="dark"] {
+    color-scheme: dark;
+  }
+  ```
+
+  The first rule follows the OS, and the other two follow the user's theme. If
+  your app only supports browsers with `light-dark()`, set `browserslist` in
+  your `package.json` instead, so NextJS leaves it as is:
+
+  ```json
+  {
+    "browserslist": [
+      "chrome >= 123",
+      "edge >= 123",
+      "firefox >= 120",
+      "safari >= 17.5"
+    ]
+  }
+  ```
+
+---
+
+## Next Steps
+
+- 👉 **[Tokens Setup](/styling/tokens/setup)** — loading the
+  token stylesheet in your framework.
+- 👉 **[Theme Setup](/styling/theme/setup)** — adding light / dark or named
+  themes to your app.

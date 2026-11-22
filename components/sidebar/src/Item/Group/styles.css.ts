@@ -127,7 +127,6 @@ const subitems = style({
   display: "flex",
   flexDirection: "column",
   paddingTop: tokens.spacing.md,
-  paddingLeft: tokens.spacing.md,
   gap: tokens.spacing.md,
   overflow: "hidden",
   transition: "padding-top 200ms ease",

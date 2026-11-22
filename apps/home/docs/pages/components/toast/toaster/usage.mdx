@@ -46,7 +46,7 @@ When the ready-made toast doesn't fit, pass your own component to `Toaster` as
 `ToastComponent`. It renders every toast.
 
 It is strongly recommended to build it from
-[Headless Toast](/components/headless/toast), so timing, pausing and screen
+[Headless Toast](/headless/toast), so timing, pausing and screen
 readers stay handled.
 
 ### What Your Component Must Do
@@ -56,7 +56,7 @@ readers stay handled.
   animation.
 - ✋ **Delete each toast once it has closed.** Call `deleteToast` when its
   closing animation ends, for example by watching it with
-  [`usePresence`](/foundations/disclosure/presence) as below. If you don't
+  [`usePresence`](/interactions/disclosure/presence) as below. If you don't
   need animations, call `deleteToast` directly from `onOpenChange`.
   **Without it, a closed toast stays in the store**: it keeps its place, and
   toasts waiting behind it never appear.
@@ -155,7 +155,7 @@ toast.success("Your changes are saved.", { icon: "cloud" });
 
 `Toaster` takes `className` and `style`, and passes them to the area that
 holds every toast. Start from the default styles. When they don't fit your
-design everywhere, [change the tokens](/foundations/tokens/customization).
+design everywhere, [change the tokens](/styling/tokens/setup#changing-values).
 When you need more than the tokens allow,
 [build your own toast](#building-your-own-toast), or
 [your own Toaster](/components/toast/base).

@@ -1,0 +1,66 @@
+---
+title: Reset CSS
+description: A minimal, dependency-free CSS reset that normalizes box-sizing, typography, forms, links and much more across browsers.
+---
+
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/reset-css" relPath="foundations/reset-css">
+  `@wondesign/reset-css` is a single plain CSS file. No build step, no config,
+  no JS — just a stylesheet that normalizes browser defaults (box sizing,
+  typography, form elements, links, etc.) before any custom styles are applied.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/reset-css
+```
+
+With [All-in-One](/all-in-one), the reset is already part of
+`@wondesign/ui/styles.css`, so there's nothing else to install.
+
+---
+
+## Key Features
+
+- ✅ **Plain CSS**: A single stylesheet, with no build step, config or JavaScript
+- ✅ **Even Baseline**: Every browser starts from the same box sizing, typography and form styles
+- ✅ **Works Anywhere**: Load it with any framework or bundler, or a plain `<link>` tag
+
+---
+
+## What It Changes
+
+Most of the reset only evens out browser differences. A few rules change how
+plain elements look:
+
+- 🔸 **Lists**: `ul` and `ol` lose their bullets and indent.
+- 🔸 **Links**: `a` takes its parent's color and loses its underline.
+- 🔸 **Media**: `img`, `video`, `canvas` and `svg` become `display: block`, so
+  an inline icon no longer sits within a line of text.
+- 🔸 **Forms**: `button`, `input`, `select` and `textarea` lose their border,
+  background and padding.
+- 🔸 **Dialogs**: `dialog` loses its margin, so a modal dialog is no longer
+  centered.
+
+---
+
+## Watch Out
+
+- ⚠️ **Use one reset with Tailwind**: Tailwind's Preflight already applies its
+  own reset. With both imported, **their rules double up or conflict**, so
+  pick one.
+- ⚠️ **Safari doesn't announce lists**: Without a list style, Safari's
+  VoiceOver **stops announcing `ul` and `ol` as lists**. Add `role="list"` to
+  the lists that should still be announced.
+
+---
+
+## Next Steps
+
+- 👉 **[Setup](/styling/reset-css/setup)** — loading the reset in your app.
+- 👉 **[Tokens Setup](/styling/tokens/setup)** — loading the
+  token stylesheet in your framework.

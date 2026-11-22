@@ -14,8 +14,8 @@ Use it when the content belongs next to its trigger, like a filter form or
 quick settings. The page behind **stays usable** while it's open.
 
 For a long form or a step the user has to finish before carrying on, use a
-[Modal](/components/headless/modal) instead. For a short hint
-with nothing to interact with, use a [Tooltip](/components/headless/tooltip)
+[Modal](/headless/modal) instead. For a short hint
+with nothing to interact with, use a [Tooltip](/headless/tooltip)
 instead.
 
 ---
@@ -30,15 +30,15 @@ instead.
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
 - ✅ **Exit Animations**: Closed content stays until its exit animation finishes
-- ✅ **Composable**: Render your own elements with [`asChild`](/components/headless/as-child)
+- ✅ **Composable**: Render your own elements with [`asChild`](/headless/as-child)
 
 ---
 
 ## Structure
 
 For what you can configure, refer to the
-[Usage tab](/components/headless/popover/usage). For every prop, refer to the
-[API tab](/components/headless/popover/api).
+[Usage tab](/headless/popover/usage). For every prop, refer to the
+[API tab](/headless/popover/api).
 
 - 🧩 **Popover**: coordinates every part. It holds the open state, handles
   dismissal and focus, and works out the position. **Renders no element of its
@@ -98,9 +98,9 @@ Once focus has moved elsewhere on the page, <Keyboard>Esc</Keyboard> is left to
 whatever has focus.
 
 Clicks outside are handled by
-[Click Outside](/foundations/pointer/click-outside),
+[Click Outside](/interactions/pointer/click-outside),
 and <Keyboard>Esc</Keyboard> by
-[Escape Key](/foundations/key-events/escape-key).
+[Escape Key](/interactions/key-events/escape-key).
 
 ### Focus
 
@@ -113,7 +113,7 @@ Focus isn't trapped: <Keyboard>Tab</Keyboard> and
 {<KeyboardGroup shortkey="Shift+Tab" />} can move out of the content, and the
 popover **stays open** when they do.
 
-Focus is handled by [Auto Focus](/foundations/focus/auto-focus).
+Focus is handled by [Auto Focus](/interactions/focus/auto-focus).
 
 ### Placement
 
@@ -121,7 +121,7 @@ If the preferred side doesn't have room, the popover **flips to the opposite
 side**, as long as that side has more room. It also shifts along its side to
 stay inside the viewport, and follows the trigger when the page scrolls or
 resizes. The position is worked out by
-[Position](/foundations/position/floating-position), so it behaves exactly as
+[Position](/interactions/position/floating-position), so it behaves exactly as
 described there.
 
 ### Exit Animations

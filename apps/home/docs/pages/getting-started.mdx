@@ -14,10 +14,6 @@ required.
   WonDesign needs React 19.2 or later.
 </Callout>
 
-WonDesign works best with modern browsers (Chrome / Edge 123+,
-Firefox 120+, etc.). In older
-browsers, colors, tints and responsive styles may not apply as expected.
-
 ---
 
 ## Choosing What to Install
@@ -32,30 +28,21 @@ under one name.
 
 ### Package by Package
 
-Install only the packages you need, from any layer, like `@wondesign/tokens`
-or `@wondesign/focus` from Foundations, `@wondesign/buttons` from Styled
-Components, or [`@wondesign/headless`](/headless) alone to build your own
+Install only the packages you need, from any part, like `@wondesign/tokens`
+from Styling, `@wondesign/focus` from Interactions, `@wondesign/buttons` from
+Styled Components, or [`@wondesign/headless`](/headless) alone to build your own
 components in your own look. Each package's page shows how to install it.
 
-Packages from different layers mix freely, like a few styled packages
+Packages from different parts mix freely, like a few styled packages
 alongside `@wondesign/headless` in the same app.
 
 ---
 
 ## Setting Up Your App
 
-Every package works without this setup. Each step adds something on top:
-
-- 🔹 **CSS reset**: every browser starts from the same baseline. Without it,
-  browser default styles apply.
-- 🔹 **Token stylesheet**: your own token values apply. Without it, every
-  token uses its default value.
-- 🔹 **Theme**: light / dark switching. Without it, the page always shows the
-  light colors.
-- 🔹 **Fonts**: the fonts your tokens name are loaded. Without them, the
-  browser falls back to its own fonts.
-
-For example, in NextJS (App Router):
+Every package works without this setup. It adds a CSS reset, your own token
+values, light / dark switching and fonts on top, as described in
+[Styling](/styling). For example, in NextJS (App Router):
 
 ```tsx
 // app/layout.tsx
@@ -81,16 +68,20 @@ export default function RootLayout({
 }
 ```
 
+NextJS rewrites `light-dark()` for older browsers, so **`light-dark()` colors
+may ignore the theme**. See [Known Issues](/styling#known-issues) in Styling
+for the fix.
+
 With All-in-One, the same imports come from `@wondesign/ui`. See
 [All-in-One](/all-in-one).
 
 For other frameworks, fonts and other ways to theme, see
-[Tokens Setup](/foundations/tokens/setup) and
-[Theme Setup](/foundations/theme/setup).
+[Tokens Setup](/styling/tokens/setup) and
+[Theme Setup](/styling/theme/setup).
 
 ---
 
 ## Next Steps
 
-- **[Styling](/styling)** — changing the look, from one component to your
-  whole app.
+- 👉 **[Styling](/styling)** — the CSS reset, design tokens and theme
+  switching.
