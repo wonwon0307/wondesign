@@ -8,94 +8,103 @@
       "items": [
         "[Getting Started](/getting-started)",
         "[All in One](/all-in-one)",
-        "[Styling](/styling)",
         {
           "type": "link",
-          "label": "Foundations",
-          "url": "/foundations",
+          "label": "Styling",
+          "url": "/styling",
           "items": [
             {
-              "type": "group",
-              "label": "Primitives",
+              "type": "link",
+              "label": "Reset CSS",
+              "url": "/styling/reset-css",
+              "items": ["[Setup](/styling/reset-css/setup)"]
+            },
+            {
+              "type": "link",
+              "label": "Tokens",
+              "url": "/styling/tokens",
               "items": [
-                "[Reset CSS](/foundations/reset-css)",
                 {
-                  "type": "link",
-                  "label": "Tokens",
-                  "url": "/foundations/tokens",
+                  "type": "group",
+                  "label": "Guides",
                   "items": [
-                    "[Setup](/foundations/tokens/setup)",
-                    "[Design Tokens](/foundations/tokens/design-tokens)",
-                    "[Media Queries](/foundations/tokens/media-queries)",
-                    "[Customization](/foundations/tokens/customization)",
-                    "[Utilities](/foundations/tokens/utilities)",
-                    "[Troubleshooting](/foundations/tokens/troubleshooting)"
+                    "[Setup](/styling/tokens/setup)",
+                    "[Usage](/styling/tokens/usage)"
                   ]
                 },
                 {
-                  "type": "link",
-                  "label": "Theme",
-                  "url": "/foundations/theme",
+                  "type": "group",
+                  "label": "Reference",
                   "items": [
-                    "[How It Works](/foundations/theme/how-it-works)",
-                    "[Setup](/foundations/theme/setup)",
-                    "[Usage](/foundations/theme/usage)",
-                    "[Troubleshooting](/foundations/theme/troubleshooting)"
+                    "[Tokens](/styling/tokens/design-tokens)",
+                    "[Media Queries](/styling/tokens/media-queries)",
+                    "[API](/styling/tokens/api)"
                   ]
                 }
               ]
             },
             {
-              "type": "group",
-              "label": "Interactions",
+              "type": "link",
+              "label": "Theme",
+              "url": "/styling/theme",
               "items": [
-                {
-                  "type": "link",
-                  "label": "Disclosure",
-                  "url": "/foundations/disclosure",
-                  "items": [
-                    "[Open State](/foundations/disclosure/open-state)",
-                    "[Presence](/foundations/disclosure/presence)",
-                    "[Scroll Lock](/foundations/disclosure/scroll-lock)"
-                  ]
-                },
-                {
-                  "type": "link",
-                  "label": "Focus",
-                  "url": "/foundations/focus",
-                  "items": [
-                    "[Arrow Navigation](/foundations/focus/arrow-navigation)",
-                    "[Auto Focus](/foundations/focus/auto-focus)",
-                    "[Focus Trap](/foundations/focus/focus-trap)",
-                    "[Background Inert](/foundations/focus/background-inert)"
-                  ]
-                },
-                {
-                  "type": "link",
-                  "label": "Key Events",
-                  "url": "/foundations/key-events",
-                  "items": [
-                    "[Escape Key](/foundations/key-events/escape-key)",
-                    "[Shortkey](/foundations/key-events/shortkey)"
-                  ]
-                },
-                {
-                  "type": "link",
-                  "label": "Pointer",
-                  "url": "/foundations/pointer",
-                  "items": [
-                    "[Click Outside](/foundations/pointer/click-outside)",
-                    "[Long Press](/foundations/pointer/long-press)"
-                  ]
-                },
-                {
-                  "type": "link",
-                  "label": "Position",
-                  "url": "/foundations/position",
-                  "items": [
-                    "[Floating Position](/foundations/position/floating-position)"
-                  ]
-                }
+                "[Setup](/styling/theme/setup)",
+                "[Usage](/styling/theme/usage)",
+                "[API](/styling/theme/api)"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "link",
+          "label": "Interactions",
+          "url": "/interactions",
+          "items": [
+            {
+              "type": "link",
+              "label": "Disclosure",
+              "url": "/interactions/disclosure",
+              "items": [
+                "[Open State](/interactions/disclosure/open-state)",
+                "[Presence](/interactions/disclosure/presence)",
+                "[Scroll Lock](/interactions/disclosure/scroll-lock)"
+              ]
+            },
+            {
+              "type": "link",
+              "label": "Focus",
+              "url": "/interactions/focus",
+              "items": [
+                "[Arrow Navigation](/interactions/focus/arrow-navigation)",
+                "[Auto Focus](/interactions/focus/auto-focus)",
+                "[Focus Trap](/interactions/focus/focus-trap)",
+                "[Background Inert](/interactions/focus/background-inert)"
+              ]
+            },
+            {
+              "type": "link",
+              "label": "Key Events",
+              "url": "/interactions/key-events",
+              "items": [
+                "[Escape Key](/interactions/key-events/escape-key)",
+                "[Shortkey](/interactions/key-events/shortkey)"
+              ]
+            },
+            {
+              "type": "link",
+              "label": "Pointer",
+              "url": "/interactions/pointer",
+              "items": [
+                "[Click Outside](/interactions/pointer/click-outside)",
+                "[Long Press](/interactions/pointer/long-press)"
+              ]
+            },
+            {
+              "type": "link",
+              "label": "Position",
+              "url": "/interactions/position",
+              "items": [
+                "[Floating Position](/interactions/position/floating-position)"
               ]
             }
           ]
