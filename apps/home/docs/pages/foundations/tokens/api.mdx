@@ -1,0 +1,166 @@
+---
+metaTitle: API | Tokens
+title: API
+description: The functions and exports of @wondesign/tokens — building stylesheets, merging light and dark palettes, and deriving tints and translucent colors.
+---
+
+# API
+
+Everything is imported from `@wondesign/tokens`. The breakpoint functions are
+listed in [Media Queries](/foundations/tokens/media-queries).
+
+---
+
+## Exports
+
+- 🔹 `tokens` — every token as a `var()` string. See
+  [Tokens](/foundations/tokens/design-tokens).
+- 🔹 `mediaQueries` — the ready-made queries. See
+  [Media Queries](/foundations/tokens/media-queries).
+- 🔹 `wondesignTokenVariables` — the WonDesign preset, as a stylesheet string.
+- 🔹 `wondesignLight`, `wondesignDark` — the WonDesign color palettes.
+- 🔹 `defaultElevation`, `defaultOpacity`, `defaultRadius`, `defaultSpacing`,
+  `defaultTypography`, `defaultZIndex` — the default values of each category.
+- 🔹 Types for each category, like `ColorTokens` and `SpacingTokens`, and
+  `ThemeInput` for `buildCssVariables`.
+
+---
+
+## buildCssVariables
+
+Turns a set of token values into a stylesheet string:
+
+```ts
+function buildCssVariables<T extends ThemeInput>(
+  // the token values, by category: `colors`, `elevation`, `opacity`,
+  // `radius`, `spacing`, `typography` and `zIndex`.
+  // each category can be left out. defaults to `{}`.
+  theme?: T,
+
+  // the selector the variables are defined on. defaults to `":root"`.
+  selector?: string,
+): string;
+```
+
+```ts
+buildCssVariables({ spacing: { ...defaultSpacing, md: "10px" } });
+// ":root {
+//   --color-primary: #1647E8;
+//   …
+//   --spacing-md: 10px;
+//   …
+// }"
+```
+
+- 📌 **Every category is always written**, so a category you leave out is
+  written at its defaults, not skipped.
+- 📌 **Colors default to `wondesignLight` alone.** For light and dark values,
+  pass colors merged with [`mergeLightDark`](#mergelightdark).
+- 📌 Keys you add to a category are written as variables named after the
+  category and the key. See
+  [Extending Categories](/foundations/tokens/customization#extending-categories).
+
+---
+
+## mergeLightDark
+
+Merges a light and a dark palette into one, where every role is a CSS
+`light-dark()` pair:
+
+```ts
+function mergeLightDark<T extends ColorTokens>(
+  // the palette for light mode.
+  lightColors: T,
+
+  // the palette for dark mode, with the same roles.
+  darkColors: T,
+): { [K in keyof T]: string };
+```
+
+```ts
+const colors = mergeLightDark(wondesignLight, wondesignDark);
+
+colors.primary; // "light-dark(#1647E8, #3B82F6)"
+```
+
+Roles you add on top of `ColorTokens` are merged too, and the result is typed
+with them. **Both palettes must have the same roles**: adding `secondary` to
+only one of them is a type error.
+
+---
+
+## colorWithFade
+
+Mixes a color toward a base color, using CSS `color-mix()`:
+
+```ts
+function colorWithFade(
+  // any CSS color, including a token like `tokens.colors.primary`.
+  color: string,
+
+  // how much of `color` to keep, from `0` (all `base`) to `1` (all `color`).
+  // values outside that range are clamped.
+  ratio: number,
+
+  options?: {
+    // the color to mix toward.
+    // defaults to `"light-dark(#ffffff, #000000)"`, white in light mode and black in dark mode.
+    base?: string;
+
+    // the color space to mix in. defaults to `"srgb"`.
+    colorSpace?: string;
+  },
+): string;
+```
+
+```ts
+colorWithFade("#1647E8", 0.2);
+// "color-mix(in srgb, #1647E8 20%, light-dark(#ffffff, #000000))"
+```
+
+**The result is opaque**. Use it for soft tints that should hide what's behind
+them, such as alert banners on a busy background.
+
+---
+
+## colorWithOpacity
+
+Makes a color translucent, by mixing it toward `transparent`:
+
+```ts
+function colorWithOpacity(
+  // any CSS color, including a token like `tokens.colors.primary`.
+  color: string,
+
+  // from `0` (fully transparent) to `1` (fully opaque).
+  // values outside that range are clamped.
+  opacity: number,
+
+  options?: {
+    // the color space to mix in. defaults to `"srgb"`.
+    colorSpace?: string;
+  },
+): string;
+```
+
+```ts
+colorWithOpacity(tokens.colors.primary, 0.1);
+// "color-mix(in srgb, var(--color-primary, #1647E8) 10%, transparent)"
+```
+
+**The result lets what's behind it show through**. Use it for hover and
+selection highlights that should blend with any background.
+
+---
+
+## Color Spaces
+
+Both color functions mix in `srgb` by default, the way most design tools
+blend colors. Pass `colorSpace` to mix in any color space `color-mix()`
+accepts, such as `oklab` or `oklch`, which mix more evenly to the eye: tints
+keep their brightness and saturation better, instead of turning dull partway
+through.
+
+**The value is written into the CSS as it is, and isn't checked.** A color
+space the browser doesn't recognize makes the whole `color-mix()` invalid, so
+the property it's used in is ignored.

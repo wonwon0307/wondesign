@@ -1,38 +1,32 @@
 ---
-metaTitle: Setup | Tokens
-title: Setup
+metaTitle: Quick Start | Tokens
+title: Quick Start
 description: Install the token stylesheet in NextJS, Vite, and other frameworks, then set up the color scheme and load the fonts your tokens name.
 ---
 
 import { Callout } from "@wondesign/ui/texts";
 
-# Getting Your App Ready
+# Quick Start
 
-Setting up the tokens takes up to three steps:
+The tokens work without any setup, at their default values. Each step adds
+something on top:
 
-- **CSS Variables** — install the token stylesheet, so your values apply.
-- **Colors** — set the page's `color-scheme`, so light and dark colors follow
-  it.
-- **Fonts** — load the fonts your font family tokens name, since the tokens
-  don't load them.
-
-Only the stylesheet is always needed. The other two depend on the values you
-install.
+- 🔹 **CSS Variables** — install the token stylesheet, so your values apply.
+- 🔹 **Colors** — set the page's `color-scheme`, so light and dark colors
+  follow it.
+- 🔹 **Fonts** — load the fonts your font family tokens name.
 
 ---
 
 ## CSS Variables
 
-Every token in `@wondesign/tokens` is a CSS variable with a built-in fallback.
-To apply your values, render them as one `<style>` tag in the `<head>`, so the
-variables are in place before the first paint.
+Render the stylesheet as one `<style>` tag in the `<head>`, so the variables
+are in place before the first paint. **Install it last**: a stylesheet after
+it that defines the same variables overrides your values.
 
-Without the stylesheet nothing breaks, but no variable is ever defined. **Every
-token falls back to its default value, and your own values never apply.**
-
-The examples below install `wondesignTokenVariables`, the WonDesign preset. To
-install your own values, swap in the string from `buildCssVariables` — see
-[Customization](/foundations/tokens/customization).
+The examples install `wondesignTokenVariables`, the WonDesign preset. For your
+own values, swap in the string from
+[`buildCssVariables`](/foundations/tokens/customization).
 
 ### NextJS (App Router)
 
@@ -110,6 +104,22 @@ setting. **Without it, the page always shows the light colors.**
 
 You can skip this step if you're happy with light colors only, or if your own
 colors don't use `light-dark()` or `mergeLightDark`.
+
+**NextJS**: NextJS rewrites `light-dark()` for older browsers, and the
+rewritten colors only follow a `color-scheme` declared in your CSS. **Without
+one, `colorWithFade` colors don't show, or fall back to an unexpected
+color.** Declare it on the root:
+
+```css
+:root {
+  color-scheme: light dark;
+}
+```
+
+With `@wondesign/theme`, that rule alone ignores a theme the user picks by
+hand. See the [Theme NextJS setup](/foundations/theme/setup#nextjs-app-router)
+for the full fix, which also covers leaving `light-dark()` as is with
+`browserslist`.
 
 ---
 

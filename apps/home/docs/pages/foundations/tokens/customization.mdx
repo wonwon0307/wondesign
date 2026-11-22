@@ -4,13 +4,11 @@ title: Customization
 description: Build your own token values from the defaults — extending categories with keys of your own, light and dark colors, scoped themes, and your own media queries.
 ---
 
-import { Callout } from "@wondesign/ui/texts";
-
 # Making the Tokens Your Own
 
 `buildCssVariables` turns a set of token values into a stylesheet string. Pass
 it the categories you want to change, and install the result the same way as
-`wondesignTokenVariables` — see [Setup](/foundations/tokens/setup#css-variables).
+`wondesignTokenVariables` — see [Quick Start](/foundations/tokens/quick-start#css-variables).
 
 ---
 
@@ -41,7 +39,7 @@ export const tokenVariables = buildCssVariables({
 Each category's default is exported as `default` and the category's name —
 `defaultSpacing`, `defaultZIndex`, and so on. Colors are flat too, but start
 from `wondesignLight` — see [Light and Dark Colors](#light-and-dark-colors).
-See the [Reference](/foundations/tokens/design-tokens/reference) for every key.
+See [Tokens](/foundations/tokens/design-tokens) for every key.
 
 ### Typography
 
@@ -147,7 +145,7 @@ buildCssVariables({
 ```
 
 `light-dark()` follows the page's `color-scheme` — see
-[Colors](/foundations/tokens/setup#colors) in Setup.
+[Colors](/foundations/tokens/quick-start#colors) in Quick Start.
 
 ---
 
@@ -178,15 +176,6 @@ export const marketingVariables = buildCssVariables(
 </section>
 ```
 
-<Callout title="Every category is written" variant="warning">
-  `buildCssVariables` always writes every category, filling in the defaults for
-  the ones you leave out. Inside the scope, those defaults replace your `:root`
-  values — so if your `:root` stylesheet uses custom spacing, pass the same
-  spacing to the scoped one too. Colors default to `wondesignLight`, a
-  light-only palette, so a scope without its own colors stays light in dark
-  mode.
-</Callout>
-
 ---
 
 ## Media Queries
@@ -213,5 +202,23 @@ export const mediaQueries = {
 
 Your styles then import `mediaQueries` from your own module instead of the
 package, and read exactly the same. See
-[Breakpoints](/foundations/tokens/utilities/breakpoints) for the breakpoint
-helpers and what they return.
+[Media Queries](/foundations/tokens/media-queries) for the breakpoint
+functions and what they return.
+
+---
+
+## Watch Out
+
+- ⚠️ **Scoped themes write every category**: `buildCssVariables` fills in the
+  defaults for any category you leave out, and inside the scope, **they
+  replace your `:root` values**. Colors default to `wondesignLight`, so a scope
+  without its own colors also stays light in dark mode. Pass the scoped
+  stylesheet the same values as your `:root` one, and change only what the
+  scope needs:
+
+  ```ts
+  export const marketingVariables = buildCssVariables(
+    { ...myValues, colors: { ...myValues.colors, primary: "#E11D48" } },
+    '[data-theme-scope="marketing"]',
+  );
+  ```

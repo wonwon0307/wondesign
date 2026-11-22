@@ -1,24 +1,21 @@
 ---
 metaTitle: Media Queries | Tokens
 title: Media Queries
-description: Ready-made breakpoint, hover and reduced motion queries, and how to use them in CSS-in-JS, vanilla-extract, and JavaScript.
+description: The ready-made breakpoint, hover and reduced motion queries, and the functions that build breakpoints from your own widths.
 ---
 
 # Media Queries
 
-**CSS variables can't be used inside media queries**, so breakpoints can't be
-tokens. Instead, `@wondesign/tokens` provides them as plain query strings: a
-ready-made `mediaQueries` object, and functions to build breakpoints from your
-own widths. **They're JavaScript strings, so they only work where you write
-styles in JavaScript.**
+Every query in `@wondesign/tokens`: the ready-made `mediaQueries` object, and
+the breakpoints you can build from your own widths. All of them are plain
+strings, used as in [Styling](/foundations/tokens/styling).
 
 ---
 
 ## Default Queries
 
-The `mediaQueries` object holds ready-made query strings: three breakpoints
-with their combinations, a query for devices that can hover, and a query for
-users who prefer reduced motion:
+`mediaQueries` holds three breakpoints with their combinations, a query for
+devices that can hover, and a query for users who prefer reduced motion:
 
 ```ts
 {
@@ -34,117 +31,86 @@ users who prefer reduced motion:
 }
 ```
 
----
-
-## Breakpoints
-
-`mediaQueries.breakpoints` splits the screen at `768px` and `1280px`. Each
-range includes its lower bound and excludes its upper bound, so every width
-matches exactly one of `small`, `medium`, and `large`.
-
-For other widths, or more ranges, build your own with
-`createSimpleBreakpointQueries` or `createBreakpointQueries` — see
-[Breakpoints](/foundations/tokens/utilities/breakpoints) in Utilities.
+Each range includes its lower bound and excludes its upper bound, so **every
+width matches exactly one of `small`, `medium`, and `large`**. A screen exactly
+`768px` wide is `medium`, not both, and not neither.
 
 ---
 
-## Usage
+## Simple Breakpoints
 
-Every query is a plain string, so it goes wherever your styling approach
-takes a media query. The examples use `mediaQueries`, but the breakpoints you
-build work the same way.
-
-### CSS-in-JS
-
-Interpolate a query after `@media`:
-
-```tsx
-import styled from "styled-components"; // or "@emotion/styled"
-import { mediaQueries, tokens } from "@wondesign/tokens";
-
-const Card = styled.div`
-  padding: ${tokens.spacing.lg};
-
-  @media ${mediaQueries.breakpoints.small} {
-    padding: ${tokens.spacing.md};
-  }
-`;
-```
-
-### Vanilla Extract
-
-Use queries as keys under `@media`:
+`createSimpleBreakpointQueries` splits the screen into three ranges, `small`,
+`medium` and `large`, at two widths. `mediaQueries.breakpoints` is built with
+its default widths:
 
 ```ts
-// card.css.ts
-import { style } from "@vanilla-extract/css";
-import { mediaQueries, tokens } from "@wondesign/tokens";
+function createSimpleBreakpointQueries(widths?: {
+  sm?: string; // defaults to "768px"
+  lg?: string; // defaults to "1280px"
+}): SimpleBreakpointQueries;
+```
 
-export const card = style({
-  padding: tokens.spacing.lg,
-  "@media": {
-    [mediaQueries.breakpoints.small]: {
-      padding: tokens.spacing.md,
-    },
+It returns the same five queries as `mediaQueries.breakpoints`, at your
+widths. To use them in its place, see
+[Media Queries](/foundations/tokens/customization#media-queries) in
+Customization.
+
+---
+
+## Device Breakpoints
+
+`createBreakpointQueries` splits the screen into six ranges, for devices and
+their orientation, at five widths:
+
+```ts
+function createBreakpointQueries(widths?: {
+  xs?: string; // defaults to "480px"
+  sm?: string; // defaults to "768px"
+  md?: string; // defaults to "1024px"
+  lg?: string; // defaults to "1280px"
+  xl?: string; // defaults to "1440px"
+}): BreakpointQueries;
+```
+
+It returns one entry per range, each with up to three queries:
+
+- 🔹 `only` — just this range.
+- 🔹 `andSmaller` — this range and everything below it.
+- 🔹 `andLarger` — this range and everything above it.
+
+With the default widths:
+
+```ts
+{
+  mobilePortrait: {
+    only: "screen and (width < 480px)",
   },
-});
-```
-
-`hoverable` keeps hover styles off touch screens, where a tap would otherwise
-leave them stuck on:
-
-```ts
-export const link = style({
-  "@media": {
-    [mediaQueries.hoverable]: {
-      selectors: {
-        "&:hover": { textDecoration: "underline" },
-      },
-    },
+  mobileLandscape: {
+    only: "screen and (480px <= width < 768px)",
+    andSmaller: "screen and (width < 768px)",
+    andLarger: "screen and (width >= 480px)",
   },
-});
-```
-
-`reducedMotion` tones down or turns off animations for users who've asked
-their system for less motion:
-
-```ts
-export const panel = style({
-  transition: "height 200ms ease",
-  "@media": {
-    [mediaQueries.reducedMotion]: {
-      transition: "none",
-    },
+  tabletPortrait: {
+    only: "screen and (768px <= width < 1024px)",
+    andSmaller: "screen and (width < 1024px)",
+    andLarger: "screen and (width >= 768px)",
   },
-});
-```
-
-### JavaScript
-
-To react to a query in code, pass it to `matchMedia`:
-
-```ts
-import { mediaQueries } from "@wondesign/tokens";
-
-const small = window.matchMedia(mediaQueries.breakpoints.small);
-
-small.matches; // true while the viewport is narrower than 768px
-small.addEventListener("change", (event) => {
-  console.log(event.matches);
-});
-```
-
-### Plain CSS and Inline Styles
-
-**`mediaQueries` is only available from JavaScript**, and CSS variables can't
-be used inside media queries — so in CSS files, write the query out:
-
-```css
-@media screen and (width < 768px) {
-  .card {
-    padding: var(--spacing-md);
-  }
+  tabletLandscape: {
+    only: "screen and (1024px <= width < 1280px)",
+    andSmaller: "screen and (width < 1280px)",
+    andLarger: "screen and (width >= 1024px)",
+  },
+  laptop: {
+    only: "screen and (1280px <= width < 1440px)",
+    andSmaller: "screen and (width < 1440px)",
+    andLarger: "screen and (width >= 1280px)",
+  },
+  desktop: {
+    only: "screen and (width >= 1440px)",
+  },
 }
 ```
 
-**Inline styles can't hold media queries at all.**
+`mobilePortrait` and `desktop` only have `only`. They're the two ends of the
+screen, so their other queries would be either the same as `only` or match
+every width.
