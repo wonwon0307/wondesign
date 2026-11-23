@@ -9,7 +9,3 @@ export type { HyperlinkProps } from "@wondesign/links/Hyperlink";
 
 export { IconLink } from "@wondesign/links/IconLink";
 export type { IconLinkProps } from "@wondesign/links/IconLink";
-
-// headless
-export { Anchor as HeadlessAnchor } from "@wondesign/headless/Anchor";
-export type { AnchorProps as HeadlessAnchorProps } from "@wondesign/headless/Anchor";
