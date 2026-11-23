@@ -1,5 +1,6 @@
 import { useId, useMemo, useRef, useState } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
+import { usePresence } from "@wondesign/disclosure/presence";
 import { useScrollLock } from "@wondesign/disclosure/scroll-lock";
 import { useAutoFocus } from "@wondesign/focus/auto-focus";
 import { useBackgroundInert } from "@wondesign/focus/background-inert";
@@ -45,6 +46,7 @@ export function AlertProvider({
   const [titleId, setTitleId] = useState<string | undefined>(undefined);
   const [messageId, setMessageId] = useState<string | undefined>(undefined);
   const [contentId, setContentId] = useState<string | undefined>(undefined);
+  const { isPresent, status } = usePresence(wrapperRef, isOpen);
   const scopeKey = useId();
 
   useBackgroundInert(wrapperRef, { enabled: isOpen });
@@ -60,6 +62,8 @@ export function AlertProvider({
   const contextValue = useMemo(
     () => ({
       isOpen,
+      isPresent,
+      status,
       showAlert,
       closeAlert,
       keepMounted,
@@ -76,6 +80,8 @@ export function AlertProvider({
     }),
     [
       isOpen,
+      isPresent,
+      status,
       showAlert,
       closeAlert,
       keepMounted,
