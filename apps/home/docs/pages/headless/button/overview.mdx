@@ -2,35 +2,29 @@ import { Keyboard } from "@wondesign/ui/code";
 
 # Button
 
-`Button` renders a plain `<button>` and accepts all of its props, with disabled
-and loading states built in, following the
-[WAI-ARIA Button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/). It stays focusable while it can't be pressed, so
-keyboard and screen reader users can still find it.
+`Button` is a `<button>` with accessible disabled and loading states, following
+the [WAI-ARIA Button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/).
+Unlike the native `disabled` attribute, it **stays focusable** while it can't
+be pressed, so keyboard and screen reader users can still find it.
 
-While disabled or loading, clicks and <Keyboard>Enter</Keyboard> or <Keyboard>Space</Keyboard>
-do nothing, but the button **stays focusable and keeps its place in the tab
-order**. Screen readers announce it as disabled or
-busy. It defaults to `type="button"`, so it **doesn't submit a form by
-accident**.
+While loading, it's announced as unavailable too. It also defaults to
+`type="button"`, so it never submits a form by accident.
 
 ```tsx
 import { Button } from "@wondesign/headless/Button";
-
-<Button onClick={save} isLoading={isSaving}>
-  Save
-</Button>;
+// or
+import { Button } from "@wondesign/ui/headless";
 ```
 
 For ready-made styled buttons, use [`@wondesign/buttons`](/components/buttons).
-It builds on `Button`, and other styled packages build on it in turn, like
-[`@wondesign/alert`](/components/alert) and [`@wondesign/code`](/components/code).
+It builds on `Button`, and other styled packages build on it in turn.
 
 ---
 
 ## Key Features
 
 - ✅ **Stays Focusable When Disabled**: Users can still reach it, but can't press it
-- ✅ **Loading State**: Blocks presses and tells assistive technology it's busy
+- ✅ **Loading State**: Blocks presses and tells assistive technology it's unavailable
 - ✅ **Safe in Forms**: Doesn't submit a form unless you ask it to
 - ✅ **Composable**: Render your own element with `asChild`
 - ✅ **Ref Forwarding**: Your `ref` reaches the rendered element, even with `asChild`
@@ -51,6 +45,9 @@ For what you can configure, refer to the
 
 ## Watch Out
 
+- ⚠️ **Render a button with asChild**: The child should be a `<button>`, or a
+  component that renders one. Otherwise, keyboard and screen reader support
+  could be **lost silently**.
 - ⚠️ **Handlers on the child aren't blocked**: With `asChild`, handlers written
   on the child still run while disabled or loading. Pass them to `Button`
   instead, as described in the

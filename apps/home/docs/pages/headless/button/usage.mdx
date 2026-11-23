@@ -23,8 +23,8 @@ prop **isn't accepted**, so `isDisabled` is the only way to disable it:
 
 ## Loading
 
-Pass `isLoading` while an action is in progress. Presses are blocked, just like
-when disabled, and the button is marked as busy for assistive technology:
+Pass `isLoading` while an action is in progress. Presses are blocked, and
+assistive technology announces it as unavailable, just like when disabled:
 
 ```tsx
 <Button isLoading={isSaving} onClick={save}>
@@ -47,10 +47,11 @@ Set the `type` yourself when the button should submit a form:
 
 ---
 
-## Styling with Data Attributes
+## Styling
 
-Style it with `className` and `style`. Its states show up as
-[data attributes](/headless/button/api#data-attributes):
+Style it with `className` and `style`, like any other element. Its states
+show up as [data attributes](/headless/button/api#data-attributes), so you
+can style each state without extra props:
 
 ```css
 .button[data-disabled] { … }

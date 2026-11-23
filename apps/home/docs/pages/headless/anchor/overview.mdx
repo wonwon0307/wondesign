@@ -1,21 +1,16 @@
 # Anchor
 
-`Anchor` renders a plain `<a>` and accepts all of its props. It knows when to
-open a new tab, can be disabled, and works with your router's link component.
+`Anchor` is an `<a>` that follows the
+[WAI-ARIA Link pattern](https://www.w3.org/WAI/ARIA/apg/patterns/link/). It
+also opens external links in a new tab, **safely**, so the new page can't
+reach back into yours, and renders your router's link component.
 
-Any `href` starting with `http://`, `https://` or `//` counts as external, and
-opens in a new tab, safely, so the new page can't reach back into yours. This
-**includes full URLs to your own site**. Every other `href`, like `/docs`,
-`#faq` or `mailto:`, opens in the current tab.
-
-A disabled link loses its `href`, can't be clicked, and **leaves the tab
-order**. It also renders a plain `<a>` even if you passed `as`, so your router
-can't navigate.
+It can also be disabled, which a native `<a>` can't.
 
 ```tsx
 import { Anchor } from "@wondesign/headless/Anchor";
-
-<Anchor href="/pricing">Pricing</Anchor>;
+// or
+import { Anchor } from "@wondesign/ui/headless";
 ```
 
 For ready-made styled links, use [`@wondesign/links`](/components/links),
