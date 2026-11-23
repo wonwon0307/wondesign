@@ -48,7 +48,6 @@ export function PopoverTrigger({
     <Button
       {...rest}
       ref={mergedRef}
-      type="button"
       onClick={finalOnClick}
       aria-haspopup="dialog"
       aria-expanded={isOpen}

@@ -19,7 +19,6 @@ export interface TooltipTriggerProps extends Omit<
 
 export function TooltipTrigger({
   children,
-  asChild = false,
   ref,
   ...rest
 }: Readonly<TooltipTriggerProps>) {
@@ -51,9 +50,7 @@ export function TooltipTrigger({
   return (
     <Button
       {...rest}
-      type="button"
       ref={mergedRef}
-      asChild={asChild}
       aria-describedby={ariaDescribedBy}
       onMouseEnter={showWithDelay}
       onMouseLeave={hideWithDelay}
