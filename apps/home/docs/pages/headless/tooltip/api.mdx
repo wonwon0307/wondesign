@@ -1,8 +1,5 @@
 # API
 
-This page covers every part of `Tooltip`, its hook and its types. Import them
-from `@wondesign/headless/Tooltip`:
-
 ```ts
 import {
   // compound component, with its parts attached
@@ -20,24 +17,32 @@ import {
   type TooltipContentProps,
   type TooltipArrowProps,
 } from "@wondesign/headless/Tooltip";
+// or from @wondesign/ui/headless
 ```
 
 ---
 
 ## Components
 
-The parts that make up a `Tooltip`. Each one, apart from the provider, renders
-a single element and accepts that element's props. Every part must be inside
-the provider.
+Each part below lists its key props, followed by its data attributes if it
+has any.
 
 ### Provider
 
-`Tooltip` or `TooltipProvider`. Coordinates every part: it holds the open
-state, handles the delays and dismissal, gives the trigger and content the id
-that links them, and works out where the content and arrow go. **Renders no
-element of its own.**
+`Tooltip` or `TooltipProvider`. Renders no element of its own.
 
 **Props**
+
+- 🔹 **isOpen**, **onOpenChange**: control the open state yourself. See
+  [Open State](/headless/tooltip/usage#open-state).
+- 🔹 **keepMounted**: closed content is removed from the page by default. This
+  hides it with the `hidden` attribute instead. Watch out for
+  [closed content that stays visible](/headless/tooltip/overview#watch-out).
+- 🔹 **showDelay**, **hideDelay**: how long it waits on hover before showing
+  or hiding. Focus and long press ignore them.
+- 🔹 **placement**, **forcePlacement**, **align**, **offset**, **padding**:
+  the `FloatingOptions` of
+  [Floating Position](/interactions/position/floating-position/overview#api).
 
 ```ts
 interface TooltipProps {
@@ -58,27 +63,27 @@ interface TooltipProps {
 ### Trigger
 
 `Tooltip.Trigger` or `TooltipTrigger`. Renders a `<button>` that the tooltip
-describes. Use it outside `Tooltip.Content`. Inside it, **it only logs a
+describes, and accepts all props of [Headless Button](/headless/button/api),
+except `type`, `aria-describedby`, `onMouseEnter`, `onMouseLeave`, `onFocus`
+and `onBlur`. Use it outside `Tooltip.Content`. Inside it, **it only logs a
 warning** in development.
+
+**A click doesn't open the tooltip.** On touch screens, a long press opens it
+instead. The hide timer stops while the pointer is on the trigger.
 
 **Props**
 
-Accepts all props of [Headless Button](/headless/button), except
-`type`, `aria-describedby`, and the mouse and focus handlers (`onMouseEnter`,
-`onMouseLeave`, `onFocus` and `onBlur`), which the trigger manages.
-Key props:
+- 🔹 **isDisabled**: it can't be pressed, but **still shows its tooltip**, so
+  it can explain why it's disabled.
 
 ```ts
 interface TooltipTriggerProps {
   children: React.ReactNode;
-  asChild?: boolean;
-  isDisabled?: boolean; // defaults to `false`, the tooltip still shows
+  asChild?: boolean; // defaults to `false`
+  isDisabled?: boolean; // defaults to `false`
   // ...
 }
 ```
-
-> When using `asChild` on the trigger, render a `<button>` (or a component that renders one).
-> Otherwise, keyboard and screen reader support could be **lost silently**.
 
 **Data Attributes**
 
@@ -90,23 +95,21 @@ interface TooltipTriggerProps {
 
 ### Content
 
-`Tooltip.Content` or `TooltipContent`. Renders a `<div>` that holds the tooltip's
-content. When it hides, it stays on the page until its exit animation
-finishes.
+`Tooltip.Content` or `TooltipContent`. Renders a `<div>`, and accepts all its
+props, except `id`, `role`, `hidden`, `onMouseEnter` and `onMouseLeave`.
+The hide timer stops while the pointer is on the content, so the tooltip stays
+open.
 
 **Props**
 
-Accepts all `<div>` props, except `id`, `role`, `hidden`, `onMouseEnter`
-and `onMouseLeave`, which the content manages.
-
-It also adds a prop of its own. `disablePortal` renders the content where it
-is, instead of in a [Portal](/headless/portal) at the end of
-`<body>`. Key props:
+- 🔹 **disablePortal**: renders the content where it is, instead of in a
+  [Portal](/headless/portal) at the end of `<body>`. Watch out for
+  [content that ends up somewhere unexpected](/headless/tooltip/overview#watch-out).
 
 ```ts
 interface TooltipContentProps {
   children: React.ReactNode;
-  asChild?: boolean;
+  asChild?: boolean; // defaults to `false`
   disablePortal?: boolean; // defaults to `false`
   // ...
 }
@@ -121,17 +124,16 @@ interface TooltipContentProps {
 
 ### Arrow
 
-`Tooltip.Arrow` or `TooltipArrow`. Renders a `<div>` for an arrow pointing at
-the trigger. Must be used inside `Tooltip.Content`.
+`Tooltip.Arrow` or `TooltipArrow`. Renders a `<div>`, and accepts all its
+props, except `aria-hidden`. Must be used inside `Tooltip.Content`.
 
 **Props**
 
-Accepts all `<div>` props, except `aria-hidden`, which the arrow manages. Key
-props:
+- 🔹 **children**: the arrow's shape, like an SVG.
 
 ```ts
 interface TooltipArrowProps {
-  children?: React.ReactNode; // the arrow's shape, like an SVG
+  children?: React.ReactNode;
   // ...
 }
 ```
@@ -146,18 +148,16 @@ interface TooltipArrowProps {
 
 ## Hooks
 
-Hooks read the state of the nearest provider, for building your own parts.
-They throw an error when used outside one.
-
 ### useTooltip
 
-Reads the state and position of the nearest `Tooltip`.
-
-**Returns**
+Reads the state and position of the nearest `Tooltip`. Throws an error
+outside one.
 
 ```ts
 function useTooltip(): {
   isOpen: boolean; // whether the tooltip is open
+  isPresent: boolean; // whether the content is on the page, including while it animates out
+  status: "open" | "closing" | "closed";
   showImmediate: () => void; // shows it, without the delay
   showWithDelay: () => void; // shows it after `showDelay`
   hideImmediate: () => void; // hides it, without the delay
