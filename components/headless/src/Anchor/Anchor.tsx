@@ -10,6 +10,7 @@ export interface AnchorProps extends Omit<
 export function Anchor({
   children,
   as = "a",
+  role,
   href,
   onClick,
   onKeyDown,
@@ -40,9 +41,12 @@ export function Anchor({
     }
   };
 
+  const finalRole = role ?? (isDisabled ? "link" : undefined);
+
   return (
     <Component
       {...rest}
+      role={finalRole}
       href={isDisabled ? undefined : href}
       onClick={isDisabled ? doNothingOnClick : onClick}
       onKeyDown={isDisabled ? doNothingOnKeyDown : onKeyDown}
