@@ -1,35 +1,35 @@
-import { Keyboard, KeyboardGroup } from "@wondesign/ui/code";
+import { Keyboard } from "@wondesign/ui/code";
 
 # Alert
 
 `Alert` interrupts the user with an urgent message and waits for a response,
 following the
-[WAI-ARIA Alert Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/).
-It handles opening and closing, moves and keeps focus inside, blocks the page
-behind, and links its title and message for assistive technology, so you only
-bring the look.
+[WAI-ARIA Alert Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/),
+not the WAI-ARIA Alert pattern despite its name. It handles the open state and
+focus, and blocks the page behind, so you only bring the look.
 
-Use it when the user has to answer before they carry on, like confirming a
-logout ("Log out of all devices?"), confirming a destructive action, or
-acknowledging an error that blocks their work. Despite its name, it **doesn't
-follow the [WAI-ARIA Alert pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)**,
-which announces a message without interrupting the user. For messages that
-don't need an answer, like "Saved", **use something that doesn't interrupt,
-like a [Toast](/headless/toast), instead**. For content that isn't
-urgent, like a form, use a [Modal](/headless/modal).
+Use it when the user has to answer before they carry on. For messages that
+don't need an answer, use a [Toast](/headless/toast) instead. For content
+that isn't urgent, use a [Modal](/headless/modal) instead.
 
-`Alert` works well with [`@wondesign/alert`](/components/alert). Its `Alerter`
-shows each alert for you, so you can open one from anywhere with `showAlert`
-or `showConfirm`, without managing the open state yourself.
+```tsx
+import { Alert } from "@wondesign/headless/Alert";
+// or
+import { Alert } from "@wondesign/ui/headless";
+```
+
+For ready-made styled alerts, use [`@wondesign/alert`](/components/alert),
+which builds on `Alert`. Its `Alerter` lets you open one from anywhere with
+`showAlert` or `showConfirm`.
 
 ---
 
 ## Key Features
 
 - ✅ **Accessible by Default**: Announced as an alert dialog, with its title and message
-- ✅ **Focus Management**: Moves focus in when it opens, keeps it inside, and returns it when it closes
-- ✅ **Blocks the Page Behind**: The page behind can't be clicked, focused or scrolled while the alert is open
-- ✅ **Optional Backdrop**: Add a layer behind the alert, or leave it out
+- ✅ **Focus Management**: Moves focus in, keeps it inside, and returns it on close
+- ✅ **Blocks the Page Behind**: Nothing behind it can be clicked, focused or scrolled
+- ✅ **Optional Backdrop**: Add a layer behind it, or leave it out
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
 - ✅ **Exit Animations**: Closed content stays until its exit animation finishes
@@ -39,23 +39,20 @@ or `showConfirm`, without managing the open state yourself.
 
 ## Structure
 
-For what you can configure, refer to the
-[Usage tab](/headless/alert/usage). For every prop, refer to the
+For how to control, extend and style it, refer to the
+[Usage tab](/headless/alert/usage). For what each prop does, refer to the
 [API tab](/headless/alert/api).
 
-- 🧩 **Alert**: coordinates every part. It holds the open state, manages focus,
-  and blocks the page behind while it's open. **Renders no element of its
-  own.**
-- 🧩 **Alert.Trigger**: the button that opens the alert, after running its
-  `onClick`.
-- 🧩 **Alert.Backdrop**: an optional layer behind the alert.
-- 🧩 **Alert.Content**: the alert dialog itself.
-- 🧩 **Alert.Title**: the heading that names the alert.
-- 🧩 **Alert.Message**: the text that describes the alert.
-- 🧩 **Alert.Close**: a button that closes the alert, after running its
-  `onClick`.
+- 🧩 **Alert**: holds the open state, manages focus and blocks the page behind
+- 🧩 **Alert.Trigger**: the button that opens the alert
+- 🧩 **Alert.Backdrop**: an optional layer behind the alert
+- 🧩 **Alert.Content**: the alert dialog itself
+- 🧩 **Alert.Title**: the heading that names the alert
+- 🧩 **Alert.Message**: the text that describes the alert
+- 🧩 **Alert.Close**: a button that closes the alert
 
 ```tsx
+// compound component, with its parts attached
 <Alert>
   <Alert.Trigger>Log out</Alert.Trigger>
   <Alert.Backdrop />
@@ -82,68 +79,31 @@ For what you can configure, refer to the
 
 ---
 
-## How It Works
-
-An alert dialog has to make sure the user sees it and answers it before
-anything else. `Alert` builds this in, following the
-[WAI-ARIA Alert Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/):
-it decides how the alert closes, where focus goes, what happens to the page
-behind, and what screen readers announce. You don't need to wire up any of it.
-
-### Closing
-
-The alert closes through `Alert.Close` and <Keyboard>Esc</Keyboard> (unless
-switched off). Clicks outside don't close it, so the user has to choose a response.
-
-<Keyboard>Esc</Keyboard> is handled by [Escape
-Key](/interactions/key-events/escape-key).
-
-### Focus
-
-When the alert opens, focus moves to the **first focusable element inside the
-content**, usually the first close button. With nothing focusable inside, the
-content itself takes focus.
-
-While it's open, <Keyboard>Tab</Keyboard> and
-{<KeyboardGroup shortkey="Shift+Tab" />} stay inside the content. When it closes,
-focus returns to `Alert.Trigger`. If the trigger doesn't exist, focus returns to
-whatever had it before the alert opened.
-
-Focus is handled by [Auto Focus](/interactions/focus/auto-focus) and
-[Focus Trap](/interactions/focus/focus-trap).
-
-### The Page Behind
-
-While the alert is open, everything outside the content can't be clicked or
-focused, and the page stops scrolling. These are handled by
-[Background Inert](/interactions/focus/background-inert) and
-[Scroll Lock](/interactions/disclosure/scroll-lock) respectively, so **their
-known issues carry over to `Alert`**.
-
-### Exit Animations
-
-When the alert closes, the content's and backdrop's `data-state` changes to
-`"closed"` right away, but they **stay on the page until their animations and
-transitions finish**. Then they're removed, or hidden with `keepMounted`.
-While they're leaving, they can't be clicked or focused, and screen readers
-treat them as closed. The page behind doesn't wait: it's usable again as soon
-as the alert closes. **Infinite animations aren't waited for.**
-
-### Screen Readers
-
-The content is announced as an alert dialog. `Alert.Title` names it and
-`Alert.Message` describes it, so screen readers read both when it opens.
-Without a title, they only announce its `aria-label`, "Alert" by default, so
-**a title is strongly recommended**.
-
----
-
 ## Known Issues
 
 - 🐞 **Content added in the background while the alert is open**: It can
   still be clicked and focused.
 - 🐞 **The page shifts sideways**: Where scrollbars take up space, the page
   shifts by the scrollbar's width while the alert is open.
+
+---
+
+## Watch Out
+
+- ⚠️ **Use named exports in Server Components**: The parts are client
+  components, so a Server Component **can't reach `Alert.Trigger` through
+  `Alert`**. Import `AlertTrigger` and the other parts on their own instead.
+- ⚠️ **Match the backdrop's and content's animations**: It's strongly
+  recommended to give the backdrop and content exit animations of the same
+  duration. Otherwise, `isPresent` and `status` from `useAlert` can change
+  while the backdrop is still on screen.
+- ⚠️ **Closed content can stay visible**: With `keepMounted`, a `display`
+  value in your styles overrides the `hidden` attribute, so **it stays
+  visible** with no error. Set the `display` only while it's open, with
+  `[data-state="open"]`.
+- ⚠️ **Rendering in place**: With `disablePortal`, the backdrop and content
+  stay inside their parents, so **an `overflow` or stacking context there can
+  clip or cover them**.
 
 ---
 

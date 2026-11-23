@@ -1,7 +1,6 @@
-# API
+import { Keyboard } from "@wondesign/ui/code";
 
-This page covers every part of `Alert`, its hook and its types. Import them
-from `@wondesign/headless/Alert`:
+# API
 
 ```ts
 import {
@@ -26,23 +25,37 @@ import {
   type AlertMessageProps,
   type AlertCloseProps,
 } from "@wondesign/headless/Alert";
+// or from @wondesign/ui/headless
 ```
 
 ---
 
 ## Components
 
-The parts that make up an `Alert`. Each one, apart from the provider, renders
-a single element and accepts that element's props. Every part must be inside
-the provider.
+Each part below lists its key props, followed by its data attributes if it
+has any.
 
 ### Provider
 
-`Alert` or `AlertProvider`. Coordinates every part: it holds the open state,
-moves and traps focus, blocks the page behind while it's open, and gives the
-parts the ids that link them. **Renders no element of its own.**
+`Alert` or `AlertProvider`. Renders no element of its own.
 
 **Props**
+
+- 🔹 **isOpen**, **onOpenChange**: control the open state yourself. See
+  [Open State](/headless/alert/usage#open-state).
+- 🔹 **defaultOpen**: starts the alert open.
+- 🔹 **keepMounted**: closed content is removed from the page by default. This
+  hides it with the `hidden` attribute instead, so what's inside keeps its
+  state. Watch out for
+  [closed content that stays visible](/headless/alert/overview#watch-out).
+- 🔹 **disablePortal**: renders the backdrop and content where they are in the
+  DOM, instead of in a [Portal](/headless/portal) at the end of `<body>`.
+  Watch out for
+  [a backdrop and content that get clipped](/headless/alert/overview#watch-out).
+- 🔹 **disableEscapeKey**: keeps the alert open on <Keyboard>Esc</Keyboard>,
+  so only `Alert.Close` closes it.
+- 🔹 **initialFocusRef**, **returnFocusRef**: the focus options. See
+  [Focus Management](/headless/alert/usage#focus-management).
 
 ```ts
 interface AlertProps {
@@ -51,38 +64,35 @@ interface AlertProps {
   onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean; // defaults to `false`
   keepMounted?: boolean; // defaults to `false`
-  disablePortal?: boolean; // defaults to `false`, applies to the backdrop and content
-  disableEscapeKey?: boolean; // defaults to `false`. keeps the alert open on `Esc`
-  initialFocusRef?: React.RefObject<HTMLElement | null>; // takes focus on open, instead of the first focusable element. must be inside the content
-  returnFocusRef?: React.RefObject<HTMLElement | null>; // takes focus back on close, instead of the trigger
+  disablePortal?: boolean; // defaults to `false`
+  disableEscapeKey?: boolean; // defaults to `false`
+  initialFocusRef?: React.RefObject<HTMLElement | null>;
+  returnFocusRef?: React.RefObject<HTMLElement | null>;
 }
 ```
 
 ### Trigger
 
-`Alert.Trigger` or `AlertTrigger`. Renders a `<button>` that runs its
-`onClick`, then opens the alert, unless `onClick` calls
-`event.preventDefault()`. Use it outside `Alert.Content`. Inside it, **it only
-logs a warning** in development.
+`Alert.Trigger` or `AlertTrigger`. Renders a `<button>`, and accepts all props
+of [Headless Button](/headless/button/api), except `type`, `aria-haspopup`
+and `aria-controls`. Use it outside `Alert.Content` and `Alert.Backdrop`.
+Inside either, **it only logs a warning** in development.
 
 **Props**
 
-Accepts all props of [Headless Button](/headless/button), except
-`type`, `aria-haspopup` and `aria-controls`, which the trigger manages. Key
-props:
+- 🔹 **onClick**: runs before the alert opens. Call `event.preventDefault()`
+  to keep it closed. See
+  [Running an Action](/headless/alert/usage#running-an-action).
 
 ```ts
 interface AlertTriggerProps {
   children: React.ReactNode;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the alert opens. call `event.preventDefault()` to keep it closed
-  asChild?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  asChild?: boolean; // defaults to `false`
   isDisabled?: boolean; // defaults to `false`
   // ...
 }
 ```
-
-> When using `asChild` on the trigger, render a `<button>` (or a component that renders one).
-> Otherwise, keyboard and screen reader support could be **lost silently**.
 
 **Data Attributes**
 
@@ -94,16 +104,22 @@ interface AlertTriggerProps {
 
 ### Backdrop
 
-`Alert.Backdrop` or `AlertBackdrop`. Renders an empty `<div>` behind the
-alert, in its own [Portal](/headless/portal) unless `disablePortal`
-is `true`. When the alert closes, it stays on the page until its exit
-animation finishes. It **doesn't close the alert when clicked**. Use it outside
-`Alert.Content`. Inside it, **it only logs a warning** in development.
+`Alert.Backdrop` or `AlertBackdrop`. Renders a `<div>`, and accepts all its
+props, except `hidden`. It **doesn't close the alert when clicked**. Wrap
+`Alert.Content` with it, or use it as a sibling. Placing it inside
+`Alert.Content` **only logs a warning** in development.
 
 **Props**
 
-Accepts all `<div>` props, except `children` and `hidden`, which the backdrop
-manages.
+- 🔹 **children**: the content, when the backdrop wraps it. See
+  [Adding a Backdrop](/headless/alert/usage#adding-a-backdrop).
+
+```ts
+interface AlertBackdropProps {
+  children?: React.ReactNode;
+  // ...
+}
+```
 
 **Data Attributes**
 
@@ -114,21 +130,18 @@ manages.
 ### Content
 
 `Alert.Content` or `AlertContent`. Renders a `<div>` with the `alertdialog`
-role, in its own [Portal](/headless/portal) unless `disablePortal`
-is `true`. When the alert closes, it stays on the page until its exit
-animation finishes.
+role, and accepts all its props, except `id`, `role`, `tabIndex`, `hidden`,
+`aria-modal`, `aria-labelledby` and `aria-describedby`.
 
 **Props**
 
-Accepts all `<div>` props, except `id`, `role`, `tabIndex`, `hidden`,
-`aria-modal`, `aria-labelledby` and `aria-describedby`, which the content
-manages. Key props:
+- 🔹 **aria-label**: names the alert when it has no `Alert.Title`.
 
 ```ts
 interface AlertContentProps {
   children: React.ReactNode;
-  asChild?: boolean;
-  "aria-label"?: string; // defaults to `"Alert"`, used only without `Alert.Title`
+  asChild?: boolean; // defaults to `false`
+  "aria-label"?: string; // defaults to `"Alert"`
   // ...
 }
 ```
@@ -141,55 +154,56 @@ interface AlertContentProps {
 
 ### Title
 
-`Alert.Title` or `AlertTitle`. Renders an `<h2>` that names the alert. Must be
-used inside `Alert.Content`.
+`Alert.Title` or `AlertTitle`. Renders an `<h2>` that names the alert, and
+accepts all its props, except `id`. Must be used inside `Alert.Content`.
+
+Without a title, the alert is named by the content's `aria-label`, so **a
+title is strongly recommended**.
 
 **Props**
-
-Accepts all `<h2>` props, except `id`, which the title manages. Key props:
 
 ```ts
 interface AlertTitleProps {
   children: React.ReactNode;
-  asChild?: boolean;
+  asChild?: boolean; // defaults to `false`
   // ...
 }
 ```
 
 ### Message
 
-`Alert.Message` or `AlertMessage`. Renders a `<p>` that describes the alert.
-Must be used inside `Alert.Content`.
+`Alert.Message` or `AlertMessage`. Renders a `<p>` that describes the alert,
+and accepts all its props, except `id`. Must be used inside `Alert.Content`.
 
 **Props**
-
-Accepts all `<p>` props, except `id`, which the message manages. Key props:
 
 ```ts
 interface AlertMessageProps {
   children: React.ReactNode;
-  asChild?: boolean;
+  asChild?: boolean; // defaults to `false`
   // ...
 }
 ```
 
 ### Close
 
-`Alert.Close` or `AlertClose`. Renders a `<button>` that runs its `onClick`,
-then closes the alert, unless `onClick` calls `event.preventDefault()`. **It
-doesn't wait for a returned promise.** Must be used inside `Alert.Content`.
+`Alert.Close` or `AlertClose`. Renders a `<button>`, and accepts all props of
+[Headless Button](/headless/button/api), except `type`. Must be used inside
+`Alert.Content`.
 
 **Props**
 
-Accepts all props of [Headless Button](/headless/button), except
-`type`, which the close button manages. Key props:
+- 🔹 **onClick**: runs before the alert closes. Call `event.preventDefault()`
+  to keep it open. See
+  [Running an Action](/headless/alert/usage#running-an-action).
 
 ```ts
 interface AlertCloseProps {
   children: React.ReactNode;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the alert closes. call `event.preventDefault()` to keep it open
-  asChild?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  asChild?: boolean; // defaults to `false`
   isDisabled?: boolean; // defaults to `false`
+  isLoading?: boolean; // defaults to `false`
   // ...
 }
 ```
@@ -205,21 +219,17 @@ interface AlertCloseProps {
 
 ## Hooks
 
-Hooks read the state of the nearest provider, for building your own parts.
-They throw an error when used outside one.
-
 ### useAlert
 
-Reads the state of the nearest `Alert`.
-
-**Returns**
+Reads the state of the nearest `Alert`. Throws an error outside one.
 
 ```ts
 function useAlert(): {
   isOpen: boolean; // whether the alert is open
+  isPresent: boolean; // whether the alert is on the page, including while it animates out
+  status: "open" | "closing" | "closed";
   showAlert: () => void; // opens it
   closeAlert: () => void; // closes it
   keepMounted: boolean; // the `keepMounted` prop
-  disablePortal: boolean; // the `disablePortal` prop
 };
 ```
