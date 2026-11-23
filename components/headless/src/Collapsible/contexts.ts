@@ -1,12 +1,16 @@
 import { createContext, useContext } from "react";
+import type { PresenceStatus } from "@wondesign/disclosure/presence";
 
 type CollapsibleContextValue = {
   isOpen: boolean;
+  isPresent: boolean;
+  status: PresenceStatus;
   keepMounted: boolean;
   toggle: () => void;
   toggleId: string;
   contentId: string | undefined;
   setContentId: (contentId: string | undefined) => void;
+  contentRef: React.RefObject<HTMLDivElement | null>;
   scopeKey: string;
 };
 
@@ -28,7 +32,8 @@ export function useCollapsibleInternal() {
 }
 
 export function useCollapsible() {
-  const { isOpen, toggle, keepMounted } = useCollapsibleInternal();
+  const { isOpen, isPresent, status, toggle, keepMounted } =
+    useCollapsibleInternal();
 
-  return { isOpen, toggle, keepMounted };
+  return { isOpen, isPresent, status, toggle, keepMounted };
 }
