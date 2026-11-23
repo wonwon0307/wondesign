@@ -19,6 +19,7 @@ export function PopoverTrigger({
 }: Readonly<PopoverTriggerProps>) {
   const {
     isOpen,
+    isPresent,
     togglePopover,
     keepMounted,
     contentId,
@@ -36,7 +37,7 @@ export function PopoverTrigger({
     }
   }, [isInsideContent]);
 
-  const ariaControls = !keepMounted && !isOpen ? undefined : contentId;
+  const ariaControls = !keepMounted && !isPresent ? undefined : contentId;
 
   const finalOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     onClick?.(e);

@@ -1,5 +1,6 @@
 import { useId, useMemo, useState } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
+import { usePresence } from "@wondesign/disclosure/presence";
 import { useAutoFocus } from "@wondesign/focus/auto-focus";
 import { useEscapeKey } from "@wondesign/key-events/escape-key";
 import { useClickOutside } from "@wondesign/pointer/click-outside";
@@ -68,6 +69,7 @@ export function PopoverProvider({
       padding,
     },
   );
+  const { isPresent, status } = usePresence(floatingRef, isOpen);
 
   useClickOutside(floatingRef, hidePopover, {
     enabled: isOpen && !disableOutsideClick,
@@ -86,6 +88,8 @@ export function PopoverProvider({
   const contextValue = useMemo(
     () => ({
       isOpen,
+      isPresent,
+      status,
       togglePopover,
       showPopover,
       hidePopover,
@@ -106,6 +110,8 @@ export function PopoverProvider({
     }),
     [
       isOpen,
+      isPresent,
+      status,
       togglePopover,
       showPopover,
       hidePopover,
