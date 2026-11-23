@@ -1,29 +1,10 @@
-import { Keyboard } from "@wondesign/ui/code";
-import { Callout } from "@wondesign/ui/texts";
-
 # Usage
 
-This page covers what you can configure on `Tabs`. For every prop, refer to
-the [API tab](/headless/tabs/api).
+This page covers how to control, extend and style `Tabs`. For what each prop
+does, refer to the [API tab](/headless/tabs/api).
 
 To see real, styled examples of `Tabs`, go to the
 [Examples tab](/components/tabs/examples) of `@wondesign/tabs`.
-
----
-
-## Labelling the List
-
-Label the list with an `aria-label`, or `aria-labelledby` pointing to a visible
-heading. `Tabs.List` warns in development when it has neither:
-
-```tsx
-<Tabs.List aria-label="Settings">…</Tabs.List>
-
-<h2 id="settings-heading">Settings</h2>
-<Tabs.List aria-labelledby="settings-heading">…</Tabs.List>
-```
-
-If you pass both, `aria-labelledby` is used and **`aria-label` is dropped**.
 
 ---
 
@@ -51,121 +32,50 @@ If no enabled tab matches, **the first enabled tab is selected**, and
 
 ---
 
-## Checking Before Switching
+## Running an Action
 
-`Tabs.Tab` runs its `onClick`, then selects its panel. To keep the current
-tab, call `event.preventDefault()`:
+Pass `onClick` to `Tabs.Tab` to run an action. It runs your `onClick` first,
+then selects its panel, so you don't need to select it yourself. To keep the
+current tab in certain cases, call `event.preventDefault()`:
 
 ```tsx
-<Tabs.Tab
-  tabName="billing"
-  onClick={(event) => {
-    if (hasUnsavedChanges) {
-      event.preventDefault(); // keeps the current tab
-      showToast("Save your changes first");
-    }
-  }}
->
+const handleBillingClick = (event) => {
+  if (hasUnsavedChanges) {
+    event.preventDefault(); // keeps the current tab
+    showToast("Save your changes first");
+  }
+};
+
+<Tabs.Tab tabName="billing" onClick={handleBillingClick}>
   Billing
-</Tabs.Tab>
+</Tabs.Tab>;
 ```
 
-With [`switchOnFocus`](#selecting-on-focus), a tab is selected as soon as it's
-focused, before any click. **`onClick` can't keep the current tab then**, and
-moving with the arrow keys doesn't run it at all.
+With `switchOnFocus`, a tab is selected as soon as it's focused, before
+`onClick` can run. **Leave it off when an action has to run before
+switching.**
 
 ---
 
-## Selecting on Focus
+## Labelling the List
 
-By default, the arrow keys only move focus, and <Keyboard>Enter</Keyboard> or <Keyboard>Space</Keyboard>
-selects the focused tab. Pass `switchOnFocus` to
-select a tab as soon as it's focused:
+Label the list with an `aria-label`, or `aria-labelledby` pointing to a visible
+heading. `Tabs.List` warns in development when it has neither:
 
 ```tsx
-<Tabs defaultTab="account" switchOnFocus>
-  …
-</Tabs>
+// labelled by aria-label
+<Tabs.List aria-label="Settings">…</Tabs.List>
+
+// labelled by a visible heading
+<h2 id="settings-heading">Settings</h2>
+<Tabs.List aria-labelledby="settings-heading">…</Tabs.List>
 ```
 
-This suits panels that render instantly. **Keep the default when switching
-panels is slow**, like when each one fetches data.
+If you pass both, `aria-labelledby` is used and **`aria-label` is dropped**.
 
 ---
 
-## Vertical Tabs
-
-Pass `vertical` to the list, and <Keyboard>↑</Keyboard> and <Keyboard>↓</Keyboard>
-move between tabs instead. Arrow key navigation is
-powered by [Focus](/interactions/focus), so it behaves exactly as described
-there.
-
-```tsx
-// horizontal by default: left and right arrow keys
-<Tabs.List aria-label="Settings">
-  …
-</Tabs.List>
-
-// vertical: up and down arrow keys
-<Tabs.List aria-label="Settings" vertical>
-  …
-</Tabs.List>
-```
-
----
-
-## Looping
-
-By default, the arrow keys stop at the first and last tab. Pass `loop` to the
-list to wrap around instead, so moving past the last tab goes back to the
-first:
-
-```tsx
-<Tabs.List aria-label="Settings" loop>
-  …
-</Tabs.List>
-```
-
----
-
-## Disabling Tabs
-
-Pass `isDisabled` to a tab to disable just that one, or to `Tabs` to disable
-them all. Disabled tabs are **skipped by the arrow keys**:
-
-```tsx
-// disable a single tab
-<Tabs.Tab tabName="billing" isDisabled>
-  Billing
-</Tabs.Tab>
-
-// disable all tabs
-<Tabs defaultTab="account" isDisabled>…</Tabs>
-```
-
----
-
-## Keeping Panels Mounted
-
-Inactive panels are **removed from the page** by default. Pass
-`keepPanelsMounted` to keep them in the page, hidden with the `hidden`
-attribute, so anything inside keeps its state:
-
-```tsx
-<Tabs defaultTab="account" keepPanelsMounted>
-  …
-</Tabs>
-```
-
-<Callout variant="warning" title="Inactive panels can stay visible">
-  A `display` value in your styles overrides the `hidden` attribute, so **they
-  stay visible** with no error. Set the `display` only while active, with
-  `[data-state="active"]`.
-</Callout>
-
----
-
-## Building Your Own Parts
+## Custom Parts
 
 `useTabs` gives any component inside `Tabs` the selected tab, a way to change
 it, and whether the tabs are disabled:
@@ -180,16 +90,40 @@ function NextButton() {
 }
 ```
 
-For everything the hooks return, refer to the
-[API tab](/headless/tabs/api#usetabs).
+---
+
+## Your Own Elements
+
+`Tabs.List`, `Tabs.Tab` and `Tabs.Panel` take `asChild`, which renders your
+own element or component instead, like a `<section>` for a panel:
+
+```tsx
+<Tabs.Panel tabName="account" asChild>
+  <section>…</section>
+</Tabs.Panel>
+```
+
+For how props and refs are merged, refer to
+[AsChild](/headless/as-child/usage).
 
 ---
 
-## Animating the Panels
+## Styling
+
+Style each part with `className` and `style`, like any other element. Their
+states show up as [data attributes](/headless/tabs/api), so you can style
+each state without extra props:
+
+```css
+.tab[data-state="active"] { … }
+.list[data-orientation="vertical"] { … }
+```
+
+### Exit Animations
 
 Animate the panels with CSS, using their `data-state`. When another tab is
-selected, the old panel waits for your exit animation to finish before it
-leaves the page:
+selected, the old panel stays on the page until its animations and
+transitions finish:
 
 ```css
 .panel[data-state="active"] {
@@ -201,19 +135,9 @@ leaves the page:
 }
 ```
 
+While it's leaving, it can't be clicked or focused, and screen readers skip
+it. **Animations that repeat forever aren't waited for.**
+
 While the old panel leaves, **both panels are on the page**, so the new one
 shows below it until it's gone. Stack the panels in your styles, like in one
 grid cell, to animate one over the other.
-
----
-
-## Styling with Data Attributes
-
-Each part exposes its state as
-[data attributes](/headless/tabs/api), so you can style each state
-with plain CSS:
-
-```css
-.tab[data-state="active"] { … }
-.list[data-orientation="vertical"] { … }
-```

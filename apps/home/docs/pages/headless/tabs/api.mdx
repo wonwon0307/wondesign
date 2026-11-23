@@ -2,9 +2,6 @@ import { Keyboard } from "@wondesign/ui/code";
 
 # API
 
-This page covers every part of `Tabs`, its hooks and its types. Import them
-from `@wondesign/headless/Tabs`:
-
 ```ts
 import {
   // compound component, with its parts attached
@@ -23,24 +20,32 @@ import {
   type TabProps,
   type TabPanelProps,
 } from "@wondesign/headless/Tabs";
+// or from @wondesign/ui/headless
 ```
 
 ---
 
 ## Components
 
-The parts that make up `Tabs`. Each one, apart from the provider, renders a
-single element and accepts that element's props. Every part must be inside the
-provider.
+Each part below lists its key props, followed by its data attributes if it
+has any.
 
 ### Provider
 
-`Tabs` or `TabsProvider`. Coordinates every part: it holds the selected tab,
-gives each tab and panel the ids that link them, and passes shared settings like
-`isDisabled`, `switchOnFocus` and `keepPanelsMounted` down to them. **Renders
-no element of its own.**
+`Tabs` or `TabsProvider`. Renders no element of its own.
 
 **Props**
+
+- 🔹 **defaultTab**: the tab it starts on.
+- 🔹 **selectedTab**, **onTabChange**: control the selected tab yourself. See
+  [Selected Tab](/headless/tabs/usage#selected-tab).
+- 🔹 **isDisabled**: disables every tab.
+- 🔹 **switchOnFocus**: selects a tab as soon as it's focused, instead of on
+  <Keyboard>Enter</Keyboard> or <Keyboard>Space</Keyboard>.
+- 🔹 **keepMounted**: inactive panels are removed from the page by
+  default. This hides them with the `hidden` attribute instead, so anything
+  inside keeps its state. Watch out for
+  [inactive panels that stay visible](/headless/tabs/overview#watch-out).
 
 ```ts
 interface TabsProps {
@@ -48,31 +53,30 @@ interface TabsProps {
   defaultTab?: string; // defaults to the first enabled tab
   selectedTab?: string;
   onTabChange?: (tab: string) => void;
-  isDisabled?: boolean; // defaults to `false`, disables every tab
+  isDisabled?: boolean; // defaults to `false`
   switchOnFocus?: boolean; // defaults to `false`
-  keepPanelsMounted?: boolean; // defaults to `false`
+  keepMounted?: boolean; // defaults to `false`
 }
 ```
 
 ### List
 
-`Tabs.List` or `TabsList`. Renders a `<div>` that groups the tabs.
+`Tabs.List` or `TabsList`. Renders a `<div>`, and accepts all its props,
+except `role` and `aria-orientation`. Label it with an `aria-label` or
+`aria-labelledby`. See [Labelling the List](/headless/tabs/usage#labelling-the-list).
 
 **Props**
 
-Accepts all `<div>` props, except `role` and `aria-orientation`, which the list
-manages.
-
-It also adds two props of its own. `vertical` marks the list as vertical, so <Keyboard>↑</Keyboard> and <Keyboard>↓</Keyboard>
-move between tabs instead of <Keyboard>←</Keyboard> and <Keyboard>→</Keyboard>. It **doesn't change the
-layout**; style that yourself with `data-orientation`, or the `orientation` from
-the [`useTabsList`](#usetabslist) hook. `loop` lets the arrow keys wrap around
-from the last tab to the first, instead of stopping at the ends. Key props:
+- 🔹 **vertical**: <Keyboard>↑</Keyboard> and <Keyboard>↓</Keyboard> move
+  between tabs, instead of <Keyboard>←</Keyboard> and <Keyboard>→</Keyboard>.
+  It **doesn't change the layout**.
+- 🔹 **loop**: the arrow keys wrap around from the last tab to the first,
+  instead of stopping at the ends.
 
 ```ts
 interface TabsListProps {
   children: React.ReactNode;
-  asChild?: boolean;
+  asChild?: boolean; // defaults to `false`
   vertical?: boolean; // defaults to `false`
   loop?: boolean; // defaults to `false`
   // ...
@@ -88,33 +92,31 @@ interface TabsListProps {
 
 ### Tab
 
-`Tabs.Tab` or `Tab`. Renders a `<button>` that runs its `onClick`, then
-selects its panel, unless `onClick` calls `event.preventDefault()`. Must be
-used inside `Tabs.List`.
+`Tabs.Tab` or `Tab`. Renders a `<button>`, and accepts all props of
+[Headless Button](/headless/button/api), except `id`, `role`, `tabIndex`,
+`onFocus`, `aria-selected`, `aria-controls` and `isLoading`. Must be used
+inside `Tabs.List`.
 
 **Props**
 
-Accepts all props of [Headless Button](/headless/button), except
-`id`, `role`, `tabIndex`, `onFocus`, `aria-selected`, `aria-controls` and
-`isLoading`, which the tab manages.
-
-It also adds a prop of its own. `tabName` is required, and names the tab: it
-pairs the tab with the panel of the same `tabName`, and it's the value you get
-from `onTabChange`, `useTabs` and `data-value`. Key props:
+- 🔹 **tabName**: pairs the tab with the panel of the same `tabName`. It's the
+  value you get from `onTabChange`, `useTabs` and `data-value`.
+- 🔹 **onClick**: runs before the tab is selected. Call
+  `event.preventDefault()` to keep the current tab. See
+  [Running an Action](/headless/tabs/usage#running-an-action).
+- 🔹 **isDisabled**: disables just this tab. Disabled tabs are **skipped by the
+  arrow keys**.
 
 ```ts
 interface TabProps {
   children: React.ReactNode;
-  tabName: string; // matches its panel's `tabName`
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the tab is selected. call `event.preventDefault()` to keep the current tab. doesn't run on focus with `switchOnFocus`
-  asChild?: boolean;
+  tabName: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  asChild?: boolean; // defaults to `false`
   isDisabled?: boolean; // defaults to `false`
   // ...
 }
 ```
-
-> When using `asChild` on a tab, render a `<button>` (or a component that renders one).
-> Otherwise, keyboard and screen reader support could be **lost silently**.
 
 **Data Attributes**
 
@@ -127,23 +129,19 @@ interface TabProps {
 
 ### Panel
 
-`Tabs.Panel` or `TabPanel`. Renders a `<div>` shown for its tab. When another
-tab is selected, it stays on the page until its exit animation finishes.
+`Tabs.Panel` or `TabPanel`. Renders a `<div>`, and accepts all its props,
+except `id`, `role`, `hidden`, `tabIndex` and `aria-labelledby`.
 
 **Props**
 
-Accepts all `<div>` props, except `id`, `role`, `hidden`, `tabIndex` and
-`aria-labelledby`, which the panel manages.
-
-It also adds a prop of its own. `tabName` is required, and pairs the panel with
-the tab of the same `tabName`: the panel is shown while that tab is selected.
-Key props:
+- 🔹 **tabName**: pairs the panel with the tab of the same `tabName`. The panel
+  is shown while that tab is selected.
 
 ```ts
 interface TabPanelProps {
   children: React.ReactNode;
-  tabName: string; // matches its tab's `tabName`
-  asChild?: boolean;
+  tabName: string;
+  asChild?: boolean; // defaults to `false`
   // ...
 }
 ```
@@ -158,14 +156,9 @@ interface TabPanelProps {
 
 ## Hooks
 
-Hooks read the state of the nearest provider or list, for building your own
-parts. They throw an error when used outside one.
-
 ### useTabs
 
-Reads the state of the nearest `Tabs`.
-
-**Returns**
+Reads the state of the nearest `Tabs`. Throws an error outside one.
 
 ```ts
 function useTabs(): {
@@ -177,9 +170,7 @@ function useTabs(): {
 
 ### useTabsList
 
-Reads the state of the nearest `Tabs.List`.
-
-**Returns**
+Reads the state of the nearest `Tabs.List`. Throws an error outside one.
 
 ```ts
 function useTabsList(): {
