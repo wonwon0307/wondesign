@@ -54,8 +54,8 @@ describe("Tabs - properties", () => {
     );
   });
 
-  it("handles keepPanelsMounted property correctly", () => {
-    const { getByTestId } = render(<TestComponent keepPanelsMounted />);
+  it("handles keepMounted property correctly", () => {
+    const { getByTestId } = render(<TestComponent keepMounted />);
 
     const inactivePanel = getByTestId("panel2");
 
