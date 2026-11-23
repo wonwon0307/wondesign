@@ -48,6 +48,8 @@ export function useTooltipInternal() {
 export function useTooltip() {
   const {
     isOpen,
+    isPresent,
+    status,
     showImmediate,
     showWithDelay,
     hideImmediate,
@@ -62,6 +64,8 @@ export function useTooltip() {
 
   return {
     isOpen,
+    isPresent,
+    status,
     showImmediate,
     showWithDelay,
     hideImmediate,
