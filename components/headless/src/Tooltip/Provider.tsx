@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
+import { usePresence } from "@wondesign/disclosure/presence";
 import { useEscapeKey } from "@wondesign/key-events/escape-key";
 import { useClickOutside } from "@wondesign/pointer/click-outside";
 import { useLongPress } from "@wondesign/pointer/long-press";
@@ -60,6 +61,7 @@ export function TooltipProvider({
   });
   const [tooltipId, setTooltipId] = useState<string | undefined>(undefined);
   const timer = useRef<NodeJS.Timeout | null>(null);
+  const { isPresent, status } = usePresence(floatingRef, isOpen);
   const scopeKey = useId();
 
   useClickOutside(floatingRef, hideImmediate, {
@@ -95,6 +97,8 @@ export function TooltipProvider({
   const contextValue = useMemo(
     () => ({
       isOpen,
+      isPresent,
+      status,
       keepMounted,
       showImmediate,
       showWithDelay,
@@ -118,6 +122,8 @@ export function TooltipProvider({
       floatingRef,
       arrowRef,
       isOpen,
+      isPresent,
+      status,
       keepMounted,
       showImmediate,
       showWithDelay,

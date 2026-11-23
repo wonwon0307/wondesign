@@ -25,6 +25,7 @@ export function TooltipTrigger({
 }: Readonly<TooltipTriggerProps>) {
   const {
     isOpen,
+    isPresent,
     keepMounted,
     showWithDelay,
     hideWithDelay,
@@ -45,7 +46,7 @@ export function TooltipTrigger({
     }
   }, [isInsideContent]);
 
-  const ariaDescribedBy = !keepMounted && !isOpen ? undefined : tooltipId;
+  const ariaDescribedBy = !keepMounted && !isPresent ? undefined : tooltipId;
 
   return (
     <Button

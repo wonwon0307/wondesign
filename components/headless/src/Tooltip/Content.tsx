@@ -1,5 +1,4 @@
 import { useId, useLayoutEffect, useMemo } from "react";
-import { usePresence } from "@wondesign/disclosure/presence";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
@@ -25,6 +24,8 @@ export function TooltipContent({
 }: Readonly<TooltipContentProps>) {
   const {
     isOpen,
+    isPresent,
+    status,
     keepMounted,
     setTooltipId,
     placement,
@@ -34,7 +35,6 @@ export function TooltipContent({
     scopeKey,
   } = useTooltipInternal();
   const tooltipId = useId();
-  const { isPresent, status } = usePresence(floatingRef, isOpen);
   const mergedRef = useMemo(
     () => mergeRef(floatingRef, ref),
     [floatingRef, ref],
