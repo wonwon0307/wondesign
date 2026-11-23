@@ -1,8 +1,5 @@
 # API
 
-This page covers every part of `Collapsible`, its hook and its types. Import
-them from `@wondesign/headless/Collapsible`:
-
 ```ts
 import {
   // compound component, with its parts attached
@@ -18,24 +15,29 @@ import {
   type CollapsibleToggleProps,
   type CollapsibleContentProps,
 } from "@wondesign/headless/Collapsible";
+// or from @wondesign/ui/headless
 ```
 
 ---
 
 ## Components
 
-The parts that make up a `Collapsible`. Each one, apart from the provider,
-renders a single element and accepts that element's props. Every part must be
-inside the provider.
+Each part below lists its key props, followed by its data attributes if it
+has any.
 
 ### Provider
 
-`Collapsible` or `CollapsibleProvider`. Coordinates every part: it holds the
-open state, gives the toggle and content the ids that link them, and passes
-shared settings like `keepMounted` down to them. **Renders no element of its
-own.**
+`Collapsible` or `CollapsibleProvider`. Renders no element of its own.
 
 **Props**
+
+- 🔹 **isOpen**, **onOpenChange**: control the open state yourself. See
+  [Open State](/headless/collapsible/usage#open-state).
+- 🔹 **defaultOpen**: starts the content open.
+- 🔹 **keepMounted**: closed content is removed from the page by default. This
+  hides it with the `hidden` attribute instead, so anything inside keeps its
+  state. Watch out for
+  [closed content that stays visible](/headless/collapsible/overview#watch-out).
 
 ```ts
 interface CollapsibleProps {
@@ -49,29 +51,30 @@ interface CollapsibleProps {
 
 ### Toggle
 
-`Collapsible.Toggle` or `CollapsibleToggle`. Renders a `<button>` that runs
-its `onClick`, then opens or closes the content, unless `onClick` calls
-`event.preventDefault()`. Use it outside `Collapsible.Content`. Inside it,
-**it only logs a warning** in development.
+`Collapsible.Toggle` or `CollapsibleToggle`. Renders a `<button>`, and accepts
+all props of [Headless Button](/headless/button/api), except `id`, `type`,
+`aria-expanded` and `aria-controls`. Use it outside `Collapsible.Content`.
+Inside it, **it only logs a warning** in development. For a close button
+inside the content, build one with
+[`useCollapsible`](/headless/collapsible/usage#custom-parts) instead.
 
 **Props**
 
-Accepts all props of [Headless Button](/headless/button), except
-`id`, `type`, `aria-expanded` and `aria-controls`, which the toggle manages.
-Key props:
+- 🔹 **onClick**: runs before the content opens or closes. Call
+  `event.preventDefault()` to skip it. See
+  [Running an Action](/headless/collapsible/usage#running-an-action).
+- 🔹 **isDisabled**: stops the toggle from opening or closing the content. It
+  stays focusable, and the content stays as it is.
 
 ```ts
 interface CollapsibleToggleProps {
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // runs before the content opens or closes. call `event.preventDefault()` to keep it as it is
-  asChild?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  asChild?: boolean; // defaults to `false`
   isDisabled?: boolean; // defaults to `false`
   isLoading?: boolean; // defaults to `false`
   // ...
 }
 ```
-
-> When using `asChild` on the toggle, render a `<button>` (or a component that renders one).
-> Otherwise, keyboard and screen reader support could be **lost silently**.
 
 **Data Attributes**
 
@@ -83,24 +86,18 @@ interface CollapsibleToggleProps {
 
 ### Content
 
-`Collapsible.Content` or `CollapsibleContent`. Renders a `<div>` that's shown
-and hidden. When it closes, it stays on the page until its exit animation
-finishes.
+`Collapsible.Content` or `CollapsibleContent`. Renders a `<div>`, and accepts
+all its props, except `id`, `hidden`, `aria-hidden` and `aria-labelledby`.
 
 **Props**
 
-Accepts all `<div>` props, except `id`, `hidden`, `aria-hidden` and
-`aria-labelledby`, which the content manages.
-
-It also narrows `role` to `"group"` or `"region"`. It's a `group` by default;
-pass `"region"` when the content is a major section of the page, and it's
-labelled by its toggle. With `asChild`, it **has no role** unless you pass
-one. Key props:
+- 🔹 **role**: pass `"region"` when the content is a major section of the
+  page, and it's labelled by its toggle.
 
 ```ts
 interface CollapsibleContentProps {
   children: React.ReactNode;
-  asChild?: boolean;
+  asChild?: boolean; // defaults to `false`
   role?: "group" | "region"; // defaults to `"group"`, or none with `asChild`
   // ...
 }
@@ -116,18 +113,15 @@ interface CollapsibleContentProps {
 
 ## Hooks
 
-Hooks read the state of the nearest provider, for building your own parts.
-They throw an error when used outside one.
-
 ### useCollapsible
 
-Reads the open state of the nearest `Collapsible`.
-
-**Returns**
+Reads the state of the nearest `Collapsible`. Throws an error outside one.
 
 ```ts
 function useCollapsible(): {
   isOpen: boolean; // whether the content is open
+  isPresent: boolean; // whether the content is on the page, including while it animates out
+  status: "open" | "closing" | "closed";
   toggle: () => void; // opens or closes the content
   keepMounted: boolean; // the `keepMounted` prop
 };

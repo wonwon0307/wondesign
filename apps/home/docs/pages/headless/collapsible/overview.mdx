@@ -11,6 +11,12 @@ Use it to tuck away content that not everyone needs, like the details of an
 order summary, advanced options in a form, or the answer to each question in
 an FAQ.
 
+```tsx
+import { Collapsible } from "@wondesign/headless/Collapsible";
+// or
+import { Collapsible } from "@wondesign/ui/headless";
+```
+
 ---
 
 ## Key Features
@@ -27,18 +33,16 @@ an FAQ.
 
 ## Structure
 
-For what you can configure, refer to the
-[Usage tab](/headless/collapsible/usage). For every prop, refer to
+For how to control, extend and style it, refer to the
+[Usage tab](/headless/collapsible/usage). For what each prop does, refer to
 the [API tab](/headless/collapsible/api).
 
-- 🧩 **Collapsible**: coordinates every part. It holds the open state, links
-  the toggle to its content, and shares settings like `keepMounted`. **Renders
-  no element of its own.**
-- 🧩 **Collapsible.Toggle**: the button that opens and closes the content,
-  after running its `onClick`.
-- 🧩 **Collapsible.Content**: the section that's shown and hidden.
+- 🧩 **Collapsible**: holds the open state and links the parts
+- 🧩 **Collapsible.Toggle**: the button that opens and closes the content
+- 🧩 **Collapsible.Content**: the section that's shown and hidden
 
 ```tsx
+// compound component, with its parts attached
 <Collapsible>
   <Collapsible.Toggle>Show details</Collapsible.Toggle>
   <Collapsible.Content>…</Collapsible.Content>
@@ -53,33 +57,16 @@ the [API tab](/headless/collapsible/api).
 
 ---
 
-## How It Works
+## Watch Out
 
-A disclosure has to tell the user whether its content is shown, and let them
-change that from the keyboard. `Collapsible` builds this in, following the
-[WAI-ARIA Disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/):
-it decides how the content opens and closes, and what screen readers announce.
-You don't need to wire up any of it.
-
-### Toggling
-
-The toggle is a button, so a click, <Keyboard>Enter</Keyboard> or <Keyboard>Space</Keyboard>
-**opens the content when it's closed, and closes it
-when it's open**. Nothing else opens or closes it.
-
-### Exit Animations
-
-When the content closes, its `data-state` changes to `"closed"` right away,
-but it **stays on the page until its animations and transitions finish**.
-Then it's removed, or hidden with `keepMounted`. While it's leaving, it can't
-be clicked or focused, and screen readers treat it as closed. **Animations
-that repeat forever aren't waited for.**
-
-### Screen Readers
-
-The toggle is announced as expanded or collapsed, and points screen readers to
-the content it controls, **but only while the content is on the page**. The
-content is announced as a group of related items.
+- ⚠️ **Use named exports in Server Components**: The parts are client
+  components, so a Server Component **can't reach `Collapsible.Toggle` through
+  `Collapsible`**. Import `CollapsibleToggle` and the other parts on their own
+  instead.
+- ⚠️ **Closed content can stay visible**: With `keepMounted`, a `display`
+  value in your styles overrides the `hidden` attribute, so **it stays
+  visible** with no error. Set the `display` only while it's open, with
+  `[data-state="open"]`.
 
 ---
 
