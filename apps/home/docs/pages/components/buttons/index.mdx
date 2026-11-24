@@ -29,7 +29,7 @@ pnpm add @wondesign/buttons
 
 ## Key Features
 
-- ✅ **Accessible by Default**: Every button stays focusable while disabled, and tells screen readers when it's busy
+- ✅ **Accessible by Default**: Every button stays focusable while disabled or loading
 - ✅ **Loading State**: Presses are blocked while an action is in progress
 - ✅ **Safe in Forms**: Doesn't submit a form unless you ask it to
 - ✅ **Consistent Buttons**: The same kind of action looks the same across your app
@@ -40,18 +40,25 @@ pnpm add @wondesign/buttons
 ## Components
 
 All of the components are built on the
-[Headless Button](/headless/button), and are styled based on
-`@wondesign/tokens`.
+[Headless Button](/headless/button).
 
-- ⭐ **[Pressable](/components/buttons/pressable)** — wraps anything you want
-  to press. It only adds the bare-minimum styles, a pointer cursor and a
-  focus outline, so your content keeps its own look.
-- ⭐ **[Button](/components/buttons/button)** — a labelled button for the main
-  actions on a page or in a form.
+- ⭐ **[Pressable](/components/buttons/pressable)** — makes anything inside
+  it clickable, with only a pointer cursor and a focus outline added.
+- ⭐ **[Button](/components/buttons/button)** — a form button, for actions on
+  a page or in a form.
 - ⭐ **[IconButton](/components/buttons/icon-button)** — a compact button
   with a single icon.
 - ⭐ **[LinkButton](/components/buttons/link-button)** — a button that looks
   like a link, for actions within a sentence.
+
+---
+
+## Styling
+
+Every button takes its look from the WonDesign tokens, so redeclaring a token
+changes all of them at once. To change a single button, like adding an
+animation, pass `className` or `style`. For details, refer to
+[Styling the Components](/components#styling-the-components).
 
 ---
 
