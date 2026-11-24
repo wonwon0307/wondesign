@@ -9,7 +9,7 @@ export interface ButtonProps extends Omit<PressableProps, "children"> {
   variant?: "primary" | "secondary" | "destructive";
   size?: "small" | "medium" | "large";
   outlined?: boolean;
-  fill?: boolean;
+  stretch?: boolean;
   fallback?: React.ReactNode;
   fallbackPosition?: "left" | "replace";
   left?: React.ReactNode;
@@ -21,7 +21,7 @@ export function Button({
   variant = "primary",
   size = "medium",
   outlined = false,
-  fill = false,
+  stretch = false,
   isDisabled = false,
   isLoading = false,
   fallback = <Spinner />,
@@ -45,7 +45,7 @@ export function Button({
         styles.formButton({
           variant: finalVariant,
           size,
-          fill,
+          stretch,
         }),
         className,
       )}

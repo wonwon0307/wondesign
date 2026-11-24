@@ -60,18 +60,22 @@ describe("Button", () => {
         <Button size="small">Small</Button>
         <Button size="medium">Medium</Button>
         <Button size="large">Large</Button>
+        <Button stretch>Stretch</Button>
       </div>,
     );
 
     const smallButton = getByText("Small");
     const mediumButton = getByText("Medium");
     const largeButton = getByText("Large");
+    const stretchButton = getByText("Stretch");
     expect(smallButton).toBeTruthy();
     expect(smallButton.className).toContain("small");
     expect(mediumButton).toBeTruthy();
     expect(mediumButton.className).toContain("medium");
     expect(largeButton).toBeTruthy();
     expect(largeButton.className).toContain("large");
+    expect(stretchButton).toBeTruthy();
+    expect(stretchButton.className).toContain("stretch");
   });
 
   it("renders a disabled button correctly", () => {
