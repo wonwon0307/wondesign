@@ -9,7 +9,7 @@ export interface TabsProps {
   onTabChange?: (tab: string) => void;
   isDisabled?: boolean;
   switchOnFocus?: boolean;
-  keepPanelsMounted?: boolean;
+  keepMounted?: boolean;
 }
 
 export function TabsProvider({
@@ -19,7 +19,7 @@ export function TabsProvider({
   onTabChange,
   isDisabled = false,
   switchOnFocus = false,
-  keepPanelsMounted = false,
+  keepMounted = false,
 }: Readonly<TabsProps>) {
   const [activeTab, setActiveTab] = useState<string>(defaultTab);
   const baseId = useId();
@@ -53,7 +53,7 @@ export function TabsProvider({
       switchOnFocus,
       tabId,
       panelId,
-      keepPanelsMounted,
+      keepMounted,
     }),
     [
       finalActiveTab,
@@ -62,7 +62,7 @@ export function TabsProvider({
       switchOnFocus,
       tabId,
       panelId,
-      keepPanelsMounted,
+      keepMounted,
     ],
   );
 

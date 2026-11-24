@@ -85,6 +85,7 @@ describe("Anchor - basic usages", () => {
     const button = getByText("Button Anchor");
     expect(button).toBeTruthy();
     expect(button.tagName).toBe("A"); // disabled인 경우 "a"로 resolve
+    expect(button.getAttribute("role")).toBe("link"); // disabled인 경우 role이 "link"로 설정되어야 한다.
     expect(button.getAttribute("href")).toBe(null); // disabled 상태에서는 href가 제거되어야 한다.
     expect(button.getAttribute("target")).toBe("_blank");
     expect(button.getAttribute("rel")).toBe("noopener noreferrer");

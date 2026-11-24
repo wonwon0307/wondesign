@@ -70,6 +70,7 @@ describe("Button - basic usages", () => {
     expect(button).toBeTruthy();
 
     // aria-busy와 data-loading 속성 확인
+    expect(button.getAttribute("aria-disabled")).toBe("true");
     expect(button.getAttribute("aria-busy")).toBe("true");
     expect(button.dataset.loading).toBe("true");
 

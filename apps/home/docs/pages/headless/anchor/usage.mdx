@@ -9,7 +9,11 @@ To see real, styled examples of `Anchor`, go to the
 
 ---
 
-## Opening in a New Tab
+## New Tab
+
+Any `href` starting with `http://`, `https://` or `//` counts as external, and
+opens in a new tab. This **includes full URLs to your own site**. Every other
+`href`, like `/docs`, `#faq` or `mailto:`, opens in the current tab.
 
 Override which links open in a new tab with `openInNewTab`. `target` and `rel`
 **aren't accepted**, so `openInNewTab` is the only way to control it:
@@ -63,12 +67,17 @@ Pass `isDisabled` to turn the link off, instead of passing `href={null}`:
 </Anchor>
 ```
 
+A disabled link loses its `href`, can't be clicked, and **leaves the tab
+order**. It also renders a plain `<a>` even if you passed `as`, so your router
+can't navigate.
+
 ---
 
-## Styling with Data Attributes
+## Styling
 
-Style it with `className` and `style`. Its states show up as
-[data attributes](/headless/anchor/api#data-attributes):
+Style it with `className` and `style`, like any other element. Its states
+show up as [data attributes](/headless/anchor/api#data-attributes), so you
+can style each state without extra props:
 
 ```css
 .link[data-disabled] { … }

@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo } from "react";
 
 import { Button, type ButtonProps } from "@/Button/Button";
 import { mergeRef } from "@/utils";
-import { ContentContext, useAlertInternal } from "./contexts";
+import { BackdropContext, ContentContext, useAlertInternal } from "./contexts";
 
 export interface AlertTriggerProps extends Omit<
   ButtonProps,
@@ -17,20 +17,31 @@ export function AlertTrigger({
   ref,
   ...rest
 }: Readonly<AlertTriggerProps>) {
-  const { isOpen, showAlert, keepMounted, contentId, triggerRef, scopeKey } =
-    useAlertInternal();
+  const {
+    isOpen,
+    isPresent,
+    showAlert,
+    keepMounted,
+    contentId,
+    triggerRef,
+    scopeKey,
+  } = useAlertInternal();
+  const isInsideBackdrop = useContext(BackdropContext) === scopeKey;
   const isInsideContent = useContext(ContentContext) === scopeKey;
   const mergedRef = useMemo(() => mergeRef(triggerRef, ref), [triggerRef, ref]);
 
   useEffect(() => {
-    if (isInsideContent && process.env.NODE_ENV !== "production") {
+    if (
+      (isInsideContent || isInsideBackdrop) &&
+      process.env.NODE_ENV !== "production"
+    ) {
       console.warn(
-        "[WonDesign Headless] AlertTrigger should be rendered outside of AlertContent.",
+        "[WonDesign Headless] AlertTrigger should be rendered outside of AlertContent and AlertBackdrop.",
       );
     }
-  }, [isInsideContent]);
+  }, [isInsideContent, isInsideBackdrop]);
 
-  const ariaControls = !isOpen && !keepMounted ? undefined : contentId;
+  const ariaControls = !isPresent && !keepMounted ? undefined : contentId;
 
   const finalOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     onClick?.(e);
@@ -41,7 +52,6 @@ export function AlertTrigger({
     <Button
       {...rest}
       ref={mergedRef}
-      type="button"
       onClick={finalOnClick}
       aria-haspopup="dialog"
       aria-controls={ariaControls}

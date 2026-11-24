@@ -4,20 +4,29 @@ import { Keyboard } from "@wondesign/ui/code";
 
 `Tabs` shows one panel at a time, chosen from a list of tabs, following the
 [WAI-ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/). It
-handles selection, keyboard navigation and the wiring between each tab and its
-panel, so you only bring the look.
+handles selection and keyboard navigation, so you only bring the look.
 
 Use it to split related content into views the user switches between on the
 same page, like the sections of a settings page, or a product's description,
 specs and reviews. For tabs that navigate between pages, like a row of links
-styled as tabs, **use [Navbar](/components/navbar) instead**.
+styled as tabs, use [Navbar](/components/navbar) instead.
+
+```tsx
+import { Tabs } from "@wondesign/headless/Tabs";
+// or
+import { Tabs } from "@wondesign/ui/headless";
+```
+
+For ready-made styled tabs, use [`@wondesign/tabs`](/components/tabs), which
+builds on `Tabs`.
 
 ---
 
 ## Key Features
 
 - ✅ **Accessible by Default**: Each tab is linked to its panel for assistive technology
-- ✅ **Keyboard Navigation**: Move between tabs with the arrow keys, <Keyboard>Home</Keyboard> and <Keyboard>End</Keyboard>, then <Keyboard>Tab</Keyboard> into the panel
+- ✅ **Arrow Key Navigation**: Move between tabs with the arrow keys, <Keyboard>Home</Keyboard> and <Keyboard>End</Keyboard>
+- ✅ **Single Tab Stop**: <Keyboard>Tab</Keyboard> lands on the selected tab, and the next <Keyboard>Tab</Keyboard> moves into its panel
 - ✅ **Controlled & Uncontrolled**: Let it manage the selected tab, or drive it yourself
 - ✅ **Horizontal & Vertical**: Arrow keys follow the direction of the list
 - ✅ **Disabled Tabs**: Turn off a single tab, or all of them
@@ -29,19 +38,17 @@ styled as tabs, **use [Navbar](/components/navbar) instead**.
 
 ## Structure
 
-For what you can configure, refer to the
-[Usage tab](/headless/tabs/usage). For every prop, refer to the
+For how to control, extend and style it, refer to the
+[Usage tab](/headless/tabs/usage). For what each prop does, refer to the
 [API tab](/headless/tabs/api).
 
-- 🧩 **Tabs**: coordinates every part. It holds the selected tab, links each
-  tab to its panel, and shares settings like `isDisabled`. **Renders no element
-  of its own.**
-- 🧩 **Tabs.List**: the container that groups the tabs.
-- 🧩 **Tabs.Tab**: a button that selects its panel, after running its
-  `onClick`.
-- 🧩 **Tabs.Panel**: the content shown for its tab.
+- 🧩 **Tabs**: holds the selected tab and links each tab to its panel
+- 🧩 **Tabs.List**: the container that groups the tabs
+- 🧩 **Tabs.Tab**: a button that selects its panel
+- 🧩 **Tabs.Panel**: the content shown for its tab
 
 ```tsx
+// compound component, with its parts attached
 <Tabs defaultTab="account">
   <Tabs.List aria-label="Settings">
     <Tabs.Tab tabName="account">Account</Tabs.Tab>
@@ -64,43 +71,15 @@ For what you can configure, refer to the
 
 ---
 
-## How It Works
+## Watch Out
 
-A set of tabs has to work like a single control from the keyboard, and tell
-the user which tab is selected and which panel belongs to it. `Tabs` builds
-this in, following the
-[WAI-ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/): it
-decides how focus moves between the tabs, how a tab is selected, and what
-screen readers announce. You don't need to wire up any of it.
-
-### Keyboard
-
-The tab list is **a single <Keyboard>Tab</Keyboard> stop**:
-
-<Keyboard>Tab</Keyboard> lands on the selected tab, and the next
-<Keyboard>Tab</Keyboard> moves into its panel. Inside the list,
-<Keyboard>←</Keyboard> and <Keyboard>→</Keyboard> move between the tabs, or
-<Keyboard>↑</Keyboard> and <Keyboard>↓</Keyboard> in a vertical list, and
-<Keyboard>Home</Keyboard> and <Keyboard>End</Keyboard> jump to the first and
-last one.
-
-A click, <Keyboard>Enter</Keyboard> or <Keyboard>Space</Keyboard> selects the
-focused tab. Moving between the tabs is handled by
-[Arrow Navigation](/interactions/focus/arrow-navigation).
-
-### Exit Animations
-
-When another tab is selected, the old panel's `data-state` changes to
-`"inactive"` right away, but it **stays on the page until its animations and
-transitions finish**. Then it's removed, or hidden with `keepPanelsMounted`.
-While it's leaving, it can't be clicked or focused, and screen readers skip
-it. **Infinite animations aren't waited for.**
-
-### Screen Readers
-
-The list is announced as a set of tabs, with its label. Each tab is announced
-as selected or not, and points screen readers to its panel. Each panel is
-labelled by its tab.
+- ⚠️ **Use named exports in Server Components**: The parts are client
+  components, so a Server Component **can't reach `Tabs.List` through
+  `Tabs`**. Import `TabsList` and the other parts on their own instead.
+- ⚠️ **Inactive panels can stay visible**: With `keepMounted`, a
+  `display` value in your styles overrides the `hidden` attribute, so **they
+  stay visible** with no error. Set the `display` only while active, with
+  `[data-state="active"]`.
 
 ---
 

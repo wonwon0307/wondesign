@@ -2,25 +2,24 @@ import { Keyboard } from "@wondesign/ui/code";
 
 # Toast
 
-`Toast` shows a short message without interrupting the user, like "Saved" or
-"Link copied". It announces the message to screen readers as a status
-message, through a polite live region with the `status` role. It closes on its
-own after a while, and waits while the user is reading it, so you only bring
-the look.
+`Toast` shows a short message without interrupting the user, as a
+[WCAG status message](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html).
+It handles announcing it and closing it on its own, so you only bring the
+look.
 
-`Toast` is built on these accessibility guidelines: WAI-ARIA's
-[`aria-live`](https://www.w3.org/TR/wai-aria-1.2/#aria-live) property and
-[`status`](https://www.w3.org/TR/wai-aria-1.2/#status) role, and WCAG's
-[Status Messages](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html).
+Use it for messages that don't need an answer, like "Profile updated" or "Posted".
+For a message the user has to answer, use an [Alert](/headless/alert)
+instead.
 
-Use it for messages that don't need an answer. For messages the user has to
-answer before they carry on, or urgent ones that can't wait, like an error
-that blocks their work, **use an [Alert](/headless/alert)
-instead**.
+```tsx
+import { Toast, ToastArea } from "@wondesign/headless/Toast";
+// or
+import { Toast, ToastArea } from "@wondesign/ui/headless";
+```
 
-It is strongly recommended to use `Toast` through an imperative API, like the
-`@wondesign/toast` package, so you can show a toast from anywhere without
-managing each one's open state yourself.
+For ready-made styled toasts, use [`@wondesign/toast`](/components/toast),
+which builds on `Toast`. Its `Toaster` lets you show one from anywhere with
+an imperative API, `toast()`.
 
 ---
 
@@ -30,26 +29,23 @@ managing each one's open state yourself.
 - ✅ **Closes on Its Own**: Closes after a set time, or stays until it's closed
 - ✅ **Waits for the User**: Pauses while hovered or focused
 - ✅ **Many Toasts, One Area**: Show several toasts together in a single area
-- ✅ **Exit Animations**: A closed toast stays until its exit animation finishes
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
+- ✅ **Exit Animations**: A closed toast stays until its exit animation finishes
 - ✅ **Composable**: Render your own elements with [`asChild`](/headless/as-child)
 
 ---
 
 ## Structure
 
-For what you can configure, refer to the
-[Usage tab](/headless/toast/usage). For every prop, refer to the
+For how to control, extend and style it, refer to the
+[Usage tab](/headless/toast/usage). For what each prop does, refer to the
 [API tab](/headless/toast/api).
 
-- 🧩 **ToastArea**: the area every toast shows in. Render it once, and put
-  your toasts inside it.
-- 🧩 **Toast**: one toast. It holds its own open state and timer. Every toast
-  must go inside a `ToastArea`.
-- 🧩 **ToastMessage**: the main line of the toast, as a heading.
-- 🧩 **ToastDescription**: optional detail, shown under the message.
-- 🧩 **ToastClose**: a button that closes the toast, after running its
-  `onClick`.
+- 🧩 **ToastArea**: the area every toast shows in, rendered once
+- 🧩 **Toast**: one toast, with its own open state and timer
+- 🧩 **ToastMessage**: the main line of the toast
+- 🧩 **ToastDescription**: optional detail under the message
+- 🧩 **ToastClose**: a button that closes the toast
 
 ```tsx
 <ToastArea>
@@ -61,49 +57,7 @@ For what you can configure, refer to the
 </ToastArea>
 ```
 
----
-
-## How It Works
-
-A toast has to reach the user without getting in their way. `Toast` builds
-this in, with a WAI-ARIA live region: it decides how the toast closes, when it
-waits, and what screen readers announce.
-You don't need to wire up any of it.
-
-### Closing
-
-The toast closes after `duration`, 5 seconds by default, or through
-`ToastClose`. <Keyboard>Esc</Keyboard> also closes it when focus is inside
-the toast. Clicks outside don't close it.
-
-The timer automatically starts when the toast opens, from the full `duration`
-each time.
-
-<Keyboard>Esc</Keyboard> is handled by [Escape
-Key](/interactions/key-events/escape-key).
-
-### Waiting for the User
-
-The timer pauses while the pointer is over the toast or focus is inside it.
-Once both have left, the timer resumes, rather than starting over.
-
-### Exit Animations
-
-When a toast closes, its `data-state` changes to `"closed"` right away, but it
-**stays on the page until its animations and transitions finish**, including
-those inside it. Then it's removed. While it's leaving, it can't be clicked or
-focused. **Infinite animations aren't waited for.**
-
-### Screen Readers
-
-`ToastArea` is a polite live region, so each toast is announced when it
-appears, once the screen reader has finished what it's reading. Focus doesn't
-move, so the user can carry on where they were.
-
-Each toast is read as a whole, **including the label of its close button**
-(see [Screen Readers](/headless/toast/usage#screen-readers) for an
-example).
-Toasts already showing aren't read again when a new one appears.
+`Toast` has no dot syntax, like `Toast.Message`. Import each part on its own.
 
 ---
 
@@ -112,6 +66,16 @@ Toasts already showing aren't read again when a new one appears.
 - 🐞 **Focus is lost when a toast closes**: If focus is inside a toast when it
   closes, by `ToastClose` or <Keyboard>Esc</Keyboard>, it **moves to the start
   of the page**, and the user loses their place.
+
+---
+
+## Watch Out
+
+- ⚠️ **Keep everything else out of the area**: `ToastArea` is a live region,
+  so **anything inside it is announced** to screen readers when it changes.
+- ⚠️ **Rendering in place**: With `disablePortal`, the area stays inside its
+  parent, so **an `overflow` or stacking context there can clip or cover the
+  toasts**.
 
 ---
 

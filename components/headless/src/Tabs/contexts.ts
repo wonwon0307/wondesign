@@ -5,7 +5,7 @@ type TabsContextValue = {
   updateActiveTab: (tabName: string) => void;
   isDisabled: boolean;
   switchOnFocus: boolean;
-  keepPanelsMounted: boolean;
+  keepMounted: boolean;
   tabId: (tabName: string) => string;
   panelId: (tabName: string) => string;
 };

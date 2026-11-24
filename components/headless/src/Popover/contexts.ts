@@ -1,8 +1,11 @@
 import { createContext, useContext } from "react";
+import type { PresenceStatus } from "@wondesign/disclosure/presence";
 import type { FloatingPlacement, Position } from "@wondesign/position";
 
 type PopoverContextValue = {
   isOpen: boolean;
+  isPresent: boolean;
+  status: PresenceStatus;
   togglePopover: () => void;
   showPopover: () => void;
   hidePopover: () => void;
@@ -42,6 +45,8 @@ export function usePopoverInternal() {
 export function usePopover() {
   const {
     isOpen,
+    isPresent,
+    status,
     togglePopover,
     showPopover,
     hidePopover,
@@ -55,6 +60,8 @@ export function usePopover() {
 
   return {
     isOpen,
+    isPresent,
+    status,
     togglePopover,
     showPopover,
     hidePopover,

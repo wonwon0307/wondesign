@@ -1,9 +1,12 @@
 import { createContext, useContext } from "react";
+import type { PresenceStatus } from "@wondesign/disclosure/presence";
 import type { FloatingPlacement, Position } from "@wondesign/position";
 
 type TooltipContextValue = {
   // state
   isOpen: boolean;
+  isPresent: boolean;
+  status: PresenceStatus;
   keepMounted: boolean;
   // controls
   showImmediate: () => void;
@@ -45,6 +48,8 @@ export function useTooltipInternal() {
 export function useTooltip() {
   const {
     isOpen,
+    isPresent,
+    status,
     showImmediate,
     showWithDelay,
     hideImmediate,
@@ -59,6 +64,8 @@ export function useTooltip() {
 
   return {
     isOpen,
+    isPresent,
+    status,
     showImmediate,
     showWithDelay,
     hideImmediate,

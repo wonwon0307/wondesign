@@ -22,14 +22,14 @@ export function TabPanel({
   ref,
   ...rest
 }: Readonly<TabPanelProps>) {
-  const { activeTab, tabId, panelId, keepPanelsMounted } = useTabsInternal();
+  const { activeTab, tabId, panelId, keepMounted } = useTabsInternal();
   const Component = asChild ? AsChild : "div";
   const panelRef = useRef<HTMLDivElement>(null);
   const isActive = activeTab === tabName;
   const { isPresent, status } = usePresence(panelRef, isActive);
   const mergedRef = useMemo(() => mergeRef(ref, panelRef), [ref, panelRef]);
 
-  if (!keepPanelsMounted && !isPresent) {
+  if (!keepMounted && !isPresent) {
     return null;
   }
 

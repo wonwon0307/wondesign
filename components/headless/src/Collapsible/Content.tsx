@@ -1,5 +1,4 @@
-import { useId, useLayoutEffect, useMemo, useRef } from "react";
-import { usePresence } from "@wondesign/disclosure/presence";
+import { useId, useLayoutEffect, useMemo } from "react";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { mergeRef } from "@/utils";
@@ -22,11 +21,17 @@ export function CollapsibleContent({
   ref,
   ...rest
 }: Readonly<CollapsibleContentProps>) {
-  const { isOpen, keepMounted, toggleId, setContentId, scopeKey } =
-    useCollapsibleInternal();
+  const {
+    isOpen,
+    isPresent,
+    status,
+    keepMounted,
+    toggleId,
+    setContentId,
+    contentRef,
+    scopeKey,
+  } = useCollapsibleInternal();
   const contentId = useId();
-  const contentRef = useRef<HTMLDivElement>(null);
-  const { isPresent, status } = usePresence(contentRef, isOpen);
   const mergedRef = useMemo(() => mergeRef(contentRef, ref), [contentRef, ref]);
 
   useLayoutEffect(() => {

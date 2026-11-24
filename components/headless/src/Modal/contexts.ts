@@ -1,7 +1,10 @@
 import { createContext, useContext } from "react";
+import type { PresenceStatus } from "@wondesign/disclosure/presence";
 
 type ModalContextValue = {
   isOpen: boolean;
+  isPresent: boolean;
+  status: PresenceStatus;
   openModal: () => void;
   closeModal: () => void;
   keepMounted: boolean;
@@ -14,6 +17,7 @@ type ModalContextValue = {
 };
 
 export const ModalContext = createContext<ModalContextValue | null>(null);
+export const BackdropContext = createContext<string | null>(null);
 export const ContentContext = createContext<string | null>(null);
 
 export function useModalInternal() {
@@ -27,8 +31,8 @@ export function useModalInternal() {
 }
 
 export function useModal() {
-  const { isOpen, openModal, closeModal, keepMounted, disablePortal } =
+  const { isOpen, isPresent, status, openModal, closeModal, keepMounted } =
     useModalInternal();
 
-  return { isOpen, openModal, closeModal, keepMounted, disablePortal };
+  return { isOpen, isPresent, status, openModal, closeModal, keepMounted };
 }

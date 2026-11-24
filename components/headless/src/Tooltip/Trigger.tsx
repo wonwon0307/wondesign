@@ -19,12 +19,12 @@ export interface TooltipTriggerProps extends Omit<
 
 export function TooltipTrigger({
   children,
-  asChild = false,
   ref,
   ...rest
 }: Readonly<TooltipTriggerProps>) {
   const {
     isOpen,
+    isPresent,
     keepMounted,
     showWithDelay,
     hideWithDelay,
@@ -45,14 +45,12 @@ export function TooltipTrigger({
     }
   }, [isInsideContent]);
 
-  const ariaDescribedBy = !keepMounted && !isOpen ? undefined : tooltipId;
+  const ariaDescribedBy = !keepMounted && !isPresent ? undefined : tooltipId;
 
   return (
     <Button
       {...rest}
-      type="button"
       ref={mergedRef}
-      asChild={asChild}
       aria-describedby={ariaDescribedBy}
       onMouseEnter={showWithDelay}
       onMouseLeave={hideWithDelay}

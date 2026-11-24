@@ -1,155 +1,12 @@
 import { Keyboard } from "@wondesign/ui/code";
-import { Callout } from "@wondesign/ui/texts";
 
 # Usage
 
-This page covers what you can configure on `Alert`. For every prop, refer to
-the [API tab](/headless/alert/api).
+This page covers how to control, extend and style `Alert`. For what each prop
+does, refer to the [API tab](/headless/alert/api).
 
 To see real, styled examples of `Alert`, go to the
 [Examples tab](/components/alert/examples) of `@wondesign/alert`.
-
----
-
-## Running an Action
-
-Every close button closes the alert, **including the one that confirms**. Run
-the action itself in `onClick`. You don't need to close the alert yourself:
-`Alert.Close` does it after `onClick`.
-
-```tsx
-<Alert.Close>Cancel</Alert.Close>
-<Alert.Close onClick={logOut}>Log out</Alert.Close>
-```
-
-Both are `Alert.Close`, so nothing tells them apart but your styles.
-Make the one that runs an action look different from the ones that
-only close, so the user can tell which one acts.
-
-### Async Actions
-
-The alert closes right after `onClick` runs. **It doesn't wait for a returned
-promise**, so a failing action can't keep it open. To keep the alert open
-until an action finishes, call `event.preventDefault()` in `onClick`, and
-close the alert yourself once the action is done, by controlling it or with
-`closeAlert` from [`useAlert`](#building-your-own-parts).
-
-The alert doesn't know about your action, so while it runs, **the close
-buttons stay enabled, and <Keyboard>Esc</Keyboard> still closes the alert**.
-Disable your buttons, and ignore closes in `onOpenChange` until the action is
-done:
-
-```tsx
-const [open, setOpen] = useState(false);
-const [isDeleting, setDeleting] = useState(false);
-
-const handleDelete = async (event: React.MouseEvent) => {
-  event.preventDefault(); // keeps the alert open
-  setDeleting(true);
-
-  try {
-    await deleteFile();
-    setOpen(false); // or `closeAlert()`, inside a component of your own
-  } catch {
-    showError("Couldn't delete the file"); // keeps the alert open
-  } finally {
-    setDeleting(false);
-  }
-};
-
-<Alert isOpen={open} onOpenChange={(next) => !isDeleting && setOpen(next)}>
-  {/*...*/}
-  <Alert.Close isDisabled={isDeleting}>Cancel</Alert.Close>
-  <Alert.Close isLoading={isDeleting} onClick={handleDelete}>
-    Delete
-  </Alert.Close>
-</Alert>;
-```
-
----
-
-## Checking Before Opening
-
-`Alert.Trigger` runs its `onClick`, then opens the alert. To keep it closed,
-call `event.preventDefault()`:
-
-```tsx
-<Alert.Trigger
-  onClick={(event) => {
-    if (selectedFiles.length === 0) {
-      event.preventDefault(); // keeps the alert closed
-      showToast("Select a file first");
-    }
-  }}
->
-  Delete
-</Alert.Trigger>
-```
-
----
-
-## Escape Key
-
-<Keyboard>Esc</Keyboard> closes the alert by default. Pass `disableEscapeKey` to
-turn it off, for alerts that need a deliberate answer:
-
-```tsx
-<Alert disableEscapeKey>…</Alert>
-```
-
-Then only `Alert.Close` closes the alert.
-
----
-
-## Choosing Where Focus Goes
-
-When the alert opens, focus moves to the first focusable element inside the
-content. Pass `initialFocusRef` to start somewhere else. It's recommended to
-start on the least destructive response. When the alert closes, focus returns
-to `Alert.Trigger`. Pass `returnFocusRef` to send it somewhere else:
-
-```tsx
-const cancelRef = useRef<HTMLButtonElement>(null);
-const backToSettingsRef = useRef<HTMLButtonElement>(null);
-
-<>
-  <Alert initialFocusRef={cancelRef} returnFocusRef={backToSettingsRef}>
-    <Alert.Trigger>Delete account</Alert.Trigger>
-    <Alert.Content>
-      <Alert.Title>Delete your account?</Alert.Title>
-      <Alert.Message asChild>
-        <div>
-          Deleting the account would:
-          <ul>
-            <li>Remove all your projects</li>
-            <li>Cancel your subscription</li>
-          </ul>
-        </div>
-      </Alert.Message>
-      <button onClick={openHelp}>Read more</button>
-      <Alert.Close ref={cancelRef}>Cancel</Alert.Close>
-      <Alert.Close onClick={deleteAccount}>Delete</Alert.Close>
-    </Alert.Content>
-  </Alert>
-  <button ref={backToSettingsRef}>Back to settings</button>
-</>;
-```
-
-Both are handled by [Auto Focus](/interactions/focus/auto-focus), so they behave
-exactly as described there, including when the element can't take focus.
-
----
-
-## Heading Level
-
-`Alert.Title` renders an `<h2>`. Use `asChild` to render another heading
-level:
-
-```tsx
-<Alert.Title asChild>
-  <h3>Delete this file?</h3>
-</Alert.Title>
-```
 
 ---
 
@@ -157,7 +14,7 @@ level:
 
 `Alert` keeps its own state and starts closed. Pass `defaultOpen` to start it
 open, or `isOpen` and `onOpenChange` to control it yourself. Both modes are
-powered by [Disclosure](/interactions/disclosure/open-state), so
+powered by [Disclosure](/interactions/disclosure/open-state/usage), so
 they behave exactly as described there:
 
 ```tsx
@@ -175,77 +32,7 @@ const [open, setOpen] = useState(false);
 </Alert>;
 ```
 
----
-
-## Adding a Backdrop
-
-`Alert.Backdrop` renders an empty layer for you to style, like a dimmed
-overlay. It's optional, and it **doesn't close the alert when clicked**: like
-the rest of the page, it can't be clicked at all while the alert is open.
-
-The backdrop **doesn't accept children**, so it shouldn't be used to position
-the content. Position the content yourself, and make sure it stays on top of
-the backdrop, by its order in the document or with `z-index`:
-
-```tsx
-<Alert.Backdrop className="backdrop" />
-<Alert.Content className="content">…</Alert.Content>
-```
-
-```css
-.backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgb(0 0 0 / 50%);
-}
-
-.content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 101;
-  transform: translate(-50%, -50%);
-}
-```
-
----
-
-## Rendering in Place
-
-The backdrop and content each render in a
-[Portal](/headless/portal) at the end of `<body>`, so they aren't
-clipped by their parents. Pass `disablePortal` to `Alert` to render both where
-they are in the document instead:
-
-```tsx
-<Alert disablePortal>…</Alert>
-```
-
-**Make sure you know what you're doing**: rendered in place, they can be clipped
-by their parents or covered by other elements, and handling that is up to you.
-
----
-
-## Keeping Content Mounted
-
-Closed content is **removed from the page** by default. Pass `keepMounted` to
-keep it in the page, hidden with the `hidden` attribute, so what's inside
-keeps its state, like text typed into a field:
-
-```tsx
-<Alert keepMounted>…</Alert>
-```
-
-<Callout variant="warning" title="Closed content can stay visible">
-  A `display` value in your styles overrides the `hidden` attribute, so **it
-  stays visible** with no error. Set the `display` only while it's open, with
-  `[data-state="open"]`.
-</Callout>
-
----
-
-## Showing Alerts from Anywhere
+### Showing Alerts from Anywhere
 
 Controlling the open state of every alert yourself gets repetitive.
 [`@wondesign/alert`](/components/alert) works well for this: place its
@@ -261,13 +48,127 @@ const confirmed = await showConfirm(
 );
 ```
 
-You can also build your own in the same way: keep the alerts waiting to be
-shown in a store outside React, render the first one with `Alert` in a
-component placed once, and resolve a promise when it closes.
+---
+
+## Running an Action
+
+Pass `onClick` to `Alert.Trigger` or `Alert.Close` to run an action. It runs
+your `onClick` first, then opens or closes the alert, so you don't need to do
+it yourself. To skip that in certain cases, call `event.preventDefault()`:
+
+```tsx
+const handleDeleteClick = (event) => {
+  if (selectedFiles.length === 0) {
+    event.preventDefault(); // keeps the alert closed
+    showToast("Select a file first");
+  }
+};
+
+<Alert>
+  <Alert.Trigger onClick={handleDeleteClick}>Delete</Alert.Trigger>
+  <Alert.Content>
+    {/* … */}
+    <Alert.Close>Cancel</Alert.Close>
+    <Alert.Close onClick={deleteFiles}>Delete</Alert.Close>
+  </Alert.Content>
+</Alert>;
+```
+
+### Async Actions
+
+The alert closes right after `onClick` runs. **It doesn't wait for a returned
+promise**, so a failing action can't keep it open. To keep it open until an
+action finishes, call `event.preventDefault()`, show the progress with
+`isLoading`, and close the alert yourself with `closeAlert` from
+[`useAlert`](#custom-parts):
+
+```tsx
+import { Alert, useAlert } from "@wondesign/headless/Alert";
+
+function DeleteButtons() {
+  const { closeAlert } = useAlert();
+  const [isDeleting, setDeleting] = useState(false);
+
+  const handleDelete = async (event: React.MouseEvent) => {
+    event.preventDefault(); // keeps the alert open
+    setDeleting(true);
+
+    try {
+      await deleteFile();
+      closeAlert();
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  return (
+    <>
+      <Alert.Close isDisabled={isDeleting}>Cancel</Alert.Close>
+      <Alert.Close isLoading={isDeleting} onClick={handleDelete}>
+        Delete
+      </Alert.Close>
+    </>
+  );
+}
+```
+
+While the action runs, <Keyboard>Esc</Keyboard> **can still close the alert**.
+To block it, control the alert and ignore closes in `onOpenChange` until the
+action is done.
 
 ---
 
-## Building Your Own Parts
+## Focus Management
+
+By default, focus moves to the first focusable element inside the content when
+the alert opens, usually the first close button, and returns to
+`Alert.Trigger` when it closes. Pass `initialFocusRef` to start somewhere
+else, and `returnFocusRef` to send it somewhere else on close.
+
+`initialFocusRef` must point inside the content. Outside it, **it's ignored
+silently**, and focus moves to the first focusable element instead:
+
+```tsx
+const cancelRef = useRef<HTMLButtonElement>(null);
+const settingsRef = useRef<HTMLButtonElement>(null);
+
+<Alert initialFocusRef={cancelRef} returnFocusRef={settingsRef}>
+  <Alert.Trigger>Delete account</Alert.Trigger>
+  <Alert.Content>
+    {/* … */}
+    <Alert.Close ref={cancelRef}>Cancel</Alert.Close>
+    <Alert.Close onClick={deleteAccount}>Delete</Alert.Close>
+  </Alert.Content>
+</Alert>;
+```
+
+Moving focus in and back is handled by
+[Auto Focus](/interactions/focus/auto-focus/usage), and keeping it inside by
+[Focus Trap](/interactions/focus/focus-trap/usage), so both behave exactly as
+described there.
+
+---
+
+## Adding a Backdrop
+
+`Alert.Backdrop` renders a layer for you to style, like a dimmed overlay. It's
+optional, and it **doesn't close the alert when clicked**. Portals are handled
+for you, so place it next to the content, or wrap the content with it:
+
+```tsx
+// next to the content: one portal each
+<Alert.Backdrop />
+<Alert.Content>…</Alert.Content>
+
+// wrapping the content: one portal for both
+<Alert.Backdrop>
+  <Alert.Content>…</Alert.Content>
+</Alert.Backdrop>
+```
+
+---
+
+## Custom Parts
 
 `useAlert` gives any component inside `Alert` the open state and ways to open
 or close it. For example, a menu item that opens the alert:
@@ -286,16 +187,41 @@ function DeleteMenuItem() {
 }
 ```
 
-For everything the hook returns, refer to the
-[API tab](/headless/alert/api#usealert).
+---
+
+## Your Own Elements
+
+Every part except the provider and `Alert.Backdrop` takes `asChild`, which
+renders your own element or component instead, like another heading level for
+the title:
+
+```tsx
+<Alert.Title asChild>
+  <h3>Delete this file?</h3>
+</Alert.Title>
+```
+
+For how props and refs are merged, refer to
+[AsChild](/headless/as-child/usage).
 
 ---
 
-## Animating the Content
+## Styling
+
+Style each part with `className` and `style`, like any other element. Their
+states show up as [data attributes](/headless/alert/api), so you can style
+each state without extra props:
+
+```css
+.content[data-state="open"] { … }
+.close[data-disabled] { … }
+```
+
+### Exit Animations
 
 Animate the content and backdrop with CSS, using their `data-state`. When the
-alert closes, each one waits for its own exit animation to finish before it
-leaves the page:
+alert closes, each one stays on the page until its own animations and
+transitions finish:
 
 ```css
 .backdrop[data-state="open"],
@@ -309,15 +235,6 @@ leaves the page:
 }
 ```
 
----
-
-## Styling with Data Attributes
-
-The parts expose their state as
-[data attributes](/headless/alert/api), so you can style each state
-with plain CSS:
-
-```css
-.content[data-state="open"] { … }
-.close[data-disabled] { … }
-```
+While they're leaving, they can't be clicked or focused, and screen readers
+treat them as closed. The page behind doesn't wait: it's usable again as soon
+as the alert closes. **Animations that repeat forever aren't waited for.**

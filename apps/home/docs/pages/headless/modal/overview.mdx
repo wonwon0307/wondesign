@@ -1,30 +1,32 @@
-import { Keyboard, KeyboardGroup } from "@wondesign/ui/code";
+import { Keyboard } from "@wondesign/ui/code";
 
 # Modal
 
-`Modal` shows content on top of the page and blocks the page behind until the
-user is done, following the
+`Modal` shows content on top of the page until the user is done, following the
 [WAI-ARIA Dialog (Modal) pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
-It handles opening and closing, moves and keeps focus inside, blocks the page
-behind, and labels it for assistive technology, so you only bring the look.
+It handles the open state and focus, and blocks the page behind, so you only
+bring the look.
 
-Use it when the user has to finish a step before carrying on, like editing a
-profile, filling in a long form, or reviewing details before a purchase.
+Use it when the user has to finish a step before carrying on. For content that
+belongs next to its trigger, use a [Popover](/headless/popover) instead. For
+an urgent message that needs an answer, use an [Alert](/headless/alert)
+instead.
 
-Don't use it when the content belongs next to its trigger and the page should
-stay usable, like a filter form. Use a [Popover](/headless/popover)
-instead. For an urgent message that needs an answer, like confirming a
-destructive action, use an [Alert](/headless/alert).
+```tsx
+import { Modal } from "@wondesign/headless/Modal";
+// or
+import { Modal } from "@wondesign/ui/headless";
+```
 
 ---
 
 ## Key Features
 
 - ✅ **Accessible by Default**: Announced as a modal dialog, named by its title
-- ✅ **Closes On**: A close button, <Keyboard>Esc</Keyboard> or a click outside
-- ✅ **Focus Management**: Moves focus in when it opens, keeps it inside, and returns it when it closes
-- ✅ **Blocks the Page Behind**: The page behind can't be focused or scrolled while the modal is open
-- ✅ **Optional Backdrop**: Add a layer behind the modal, or leave it out
+- ✅ **Easy to Dismiss**: Closes with a close button, a click outside, or <Keyboard>Esc</Keyboard>
+- ✅ **Focus Management**: Moves focus in, keeps it inside, and returns it on close
+- ✅ **Blocks the Page Behind**: Nothing behind it can be focused or scrolled
+- ✅ **Optional Backdrop**: Add a layer behind it, or leave it out
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
 - ✅ **Exit Animations**: Closed content stays until its exit animation finishes
@@ -34,22 +36,19 @@ destructive action, use an [Alert](/headless/alert).
 
 ## Structure
 
-For what you can configure, refer to the
-[Usage tab](/headless/modal/usage). For every prop, refer to the
+For how to control, extend and style it, refer to the
+[Usage tab](/headless/modal/usage). For what each prop does, refer to the
 [API tab](/headless/modal/api).
 
-- 🧩 **Modal**: coordinates every part. It holds the open state, manages focus,
-  and blocks the page behind while it's open. **Renders no element of its
-  own.**
-- 🧩 **Modal.Trigger**: the button that opens the modal, after running its
-  `onClick`.
-- 🧩 **Modal.Backdrop**: an optional layer behind the modal.
-- 🧩 **Modal.Content**: the modal dialog itself.
-- 🧩 **Modal.Title**: the heading that names the modal.
-- 🧩 **Modal.Close**: a button that closes the modal, after running its
-  `onClick`.
+- 🧩 **Modal**: holds the open state, manages focus and blocks the page behind
+- 🧩 **Modal.Trigger**: the button that opens the modal
+- 🧩 **Modal.Backdrop**: an optional layer behind the modal
+- 🧩 **Modal.Content**: the modal dialog itself
+- 🧩 **Modal.Title**: the heading that names the modal
+- 🧩 **Modal.Close**: a button that closes the modal
 
 ```tsx
+// compound component, with its parts attached
 <Modal>
   <Modal.Trigger>Edit profile</Modal.Trigger>
   <Modal.Backdrop />
@@ -76,63 +75,6 @@ For what you can configure, refer to the
 
 ---
 
-## How It Works
-
-A modal has to hold the user's attention until they're done, without letting
-them lose their place on the page behind. `Modal` builds this in, following the
-[WAI-ARIA Dialog (Modal) pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/):
-it decides how the modal closes, where focus goes, what happens to the page
-behind, and what screen readers announce. You don't need to wire up any of it.
-
-### Opening and Closing
-
-A click on `Modal.Trigger` opens the modal. It closes through `Modal.Close`,
-{<Keyboard>Esc</Keyboard>} and a click outside the content (both can be switched
-off). A click on `Modal.Backdrop` counts as a click outside.
-
-Clicks outside are handled by
-[Click Outside](/interactions/pointer/click-outside), and
-{<Keyboard>Esc</Keyboard>} by [Escape Key](/interactions/key-events/escape-key).
-
-### Focus
-
-When the modal opens, focus moves to the **first focusable element inside the
-content**. With nothing focusable inside, the content itself takes focus.
-
-While it's open, <Keyboard>Tab</Keyboard> and
-{<KeyboardGroup shortkey="Shift+Tab" />} stay inside the content. When it closes,
-focus returns to `Modal.Trigger`. If the trigger doesn't exist, focus returns to
-whatever had it before the modal opened.
-
-Focus is handled by [Auto Focus](/interactions/focus/auto-focus) and
-[Focus Trap](/interactions/focus/focus-trap).
-
-### The Page Behind
-
-While the modal is open, everything outside the content can't be focused or
-interacted with, and the page stops scrolling. These are handled by
-[Background Inert](/interactions/focus/background-inert) and
-[Scroll Lock](/interactions/disclosure/scroll-lock) respectively, so **their
-known issues carry over to `Modal`**.
-
-### Exit Animations
-
-When the modal closes, the content's and backdrop's `data-state` changes to
-`"closed"` right away, but they **stay on the page until their animations and
-transitions finish**. Then they're removed, or hidden with `keepMounted`.
-While they're leaving, they can't be clicked or focused, and screen readers
-treat them as closed. The page behind doesn't wait: it's usable again as soon
-as the modal closes. **Infinite animations aren't waited for.**
-
-### Screen Readers
-
-The trigger is announced as a button that opens a dialog. The content is
-announced as a modal dialog, named by `Modal.Title`. Without a title, it's
-named by its `aria-label`, "Modal" by default, so **a title or an
-`aria-label` of your own is strongly recommended**.
-
----
-
 ## Known Issues
 
 - 🐞 **Nested overlays close the modal**: Clicking inside a popover, tooltip or
@@ -142,3 +84,27 @@ named by its `aria-label`, "Modal" by default, so **a title or an
   be clicked and focused.
 - 🐞 **The page shifts sideways**: Where scrollbars take up space, the page
   shifts by the scrollbar's width while the modal is open.
+
+---
+
+## Watch Out
+
+- ⚠️ **Use named exports in Server Components**: The parts are client
+  components, so a Server Component **can't reach `Modal.Trigger` through
+  `Modal`**. Import `ModalTrigger` and the other parts on their own instead.
+- ⚠️ **Reset the dialog's default styles**: The content renders a `<dialog>`,
+  which browsers give a default margin, border, padding and background.
+  Without resetting them, **the content lands in the wrong place** with no
+  error. Set `margin: 0`, or use [Reset CSS](/styling/reset-css), which resets
+  all of them.
+- ⚠️ **Match the backdrop's and content's animations**: It's strongly
+  recommended to give the backdrop and content exit animations of the same
+  duration. Otherwise, `isPresent` and `status` from `useModal` can change
+  while the backdrop is still on screen.
+- ⚠️ **Closed content can stay visible**: With `keepMounted`, a `display`
+  value in your styles overrides the `hidden` attribute, so **it stays
+  visible** with no error. Set the `display` only while it's open, with
+  `[data-state="open"]`.
+- ⚠️ **Rendering in place**: With `disablePortal`, the backdrop and content
+  stay inside their parents, so **an `overflow` or stacking context there can
+  clip or cover them**.

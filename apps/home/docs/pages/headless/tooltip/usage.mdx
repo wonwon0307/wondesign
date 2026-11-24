@@ -1,9 +1,7 @@
-import { Callout } from "@wondesign/ui/texts";
-
 # Usage
 
-This page covers what you can configure on `Tooltip`. For every prop, refer to
-the [API tab](/headless/tooltip/api).
+This page covers how to control, extend and style `Tooltip`. For what each
+prop does, refer to the [API tab](/headless/tooltip/api).
 
 To see real, styled examples of `Tooltip`, go to the
 [Examples tab](/components/tooltip/examples) of `@wondesign/tooltip`.
@@ -13,8 +11,12 @@ To see real, styled examples of `Tooltip`, go to the
 ## Applying the Position
 
 `Tooltip` works out where the content and arrow go, but **doesn't move them
-there**. `useTooltip` gives you the calculated positions; apply them yourself,
-usually in a small wrapper of your own:
+there**. Unless you calculate the position on your own, apply the positions
+from `useTooltip` yourself, usually in a small wrapper of your own.
+
+`content` is measured from the top left of the viewport, so use `position: fixed`.
+
+`arrow` is measured from the top left of the content, so use `position: absolute`.
 
 ```tsx
 import { Tooltip, useTooltip } from "@wondesign/headless/Tooltip";
@@ -38,12 +40,8 @@ function MyTooltipContent({ children }: { children: React.ReactNode }) {
 }
 ```
 
-`content` is measured from the top left of the viewport, and `arrow` from the
-top left of the content, so position the arrow `absolute` inside it the same
-way. `isPositioned` stays `false` until the first position is worked out, so
-hiding the content until then avoids a flash in the corner. For how the
-position is worked out, refer to
-[Floating Position](/interactions/position/floating-position).
+For more details, refer to
+[Floating Position](/interactions/position/floating-position/usage).
 
 ### Updating the Position
 
@@ -59,43 +57,11 @@ useEffect(updatePosition, [layoutChanged, updatePosition]);
 
 ---
 
-## Placement and Alignment
-
-Props on `Tooltip` choose where the content goes, relative to the trigger.
-The default placement is `"bottom"`; pass `placement` to prefer another side.
-The default alignment is `"center"`; pass `align` to line it up with the start
-or end of the trigger instead:
-
-```tsx
-<Tooltip placement="right" align="start">
-  …
-</Tooltip>
-```
-
-Pass `forcePlacement` to **keep it on the side you chose**, even without room.
-`offset` sets the gap from the trigger, and `padding` the space it keeps from
-the edges of the viewport.
-
----
-
-## Delays
-
-On hover, the tooltip waits `showDelay` before showing, and `hideDelay` before
-hiding. Focus and long press **ignore the delays**:
-
-```tsx
-<Tooltip showDelay={500} hideDelay={100}>
-  …
-</Tooltip>
-```
-
----
-
 ## Open State
 
 `Tooltip` keeps its own state and starts closed. Pass `isOpen` and
 `onOpenChange` to control it yourself. Both modes are powered by
-[Disclosure](/interactions/disclosure/open-state), so they behave
+[Disclosure](/interactions/disclosure/open-state/usage), so they behave
 exactly as described there:
 
 ```tsx
@@ -112,62 +78,7 @@ const [open, setOpen] = useState(false);
 
 ---
 
-## Disabling the Trigger
-
-A trigger with `isDisabled` can't be pressed, but it **still shows its
-tooltip** on hover, focus or long press. Use this to explain why it's
-disabled:
-
-```tsx
-<Tooltip>
-  <Tooltip.Trigger isDisabled>Save</Tooltip.Trigger>
-  <Tooltip.Content>You have no changes to save</Tooltip.Content>
-</Tooltip>
-```
-
-To show no tooltip at all, render a plain
-[Headless Button](/headless/button) instead of the `Tooltip`.
-
----
-
-## Rendering in Place
-
-The content renders in a [Portal](/headless/portal) at the end of
-`<body>`, so it isn't clipped by its parents. Pass `disablePortal` to render it
-where it is in the document instead:
-
-```tsx
-<Tooltip.Content disablePortal>…</Tooltip.Content>
-```
-
-<Callout variant="warning" title="It can end up somewhere unexpected">
-  The position from `useTooltip` is measured from the viewport. With `position:
-  fixed`, that's usually still right when the content renders in place. But
-  inside an ancestor with a `transform`, `filter` or similar, `fixed` is
-  measured from that ancestor instead, so **the content can be placed somewhere
-  unexpected** with no error.
-</Callout>
-
----
-
-## Keeping Content Mounted
-
-Closed content is **removed from the page** by default. Pass `keepMounted` to
-keep it in the page, hidden with the `hidden` attribute:
-
-```tsx
-<Tooltip keepMounted>…</Tooltip>
-```
-
-<Callout variant="warning" title="Closed content can stay visible">
-  A `display` value in your styles overrides the `hidden` attribute, so **it
-  stays visible** with no error. Set the `display` only while it's open, with
-  `[data-state="open"]`.
-</Callout>
-
----
-
-## Building Your Own Parts
+## Custom Parts
 
 `useTooltip` gives any component inside `Tooltip` the open state, the
 position, and ways to show or hide it, with or without the delays. For example,
@@ -190,15 +101,49 @@ function HelpIcon() {
 The content is **still positioned against `Tooltip.Trigger`**, wherever it's
 opened from.
 
-For everything the hook returns, refer to the
-[API tab](/headless/tooltip/api#usetooltip).
+---
+
+## Your Own Elements
+
+`Tooltip.Trigger` and `Tooltip.Content` take `asChild`, which renders your own
+element or component instead, like an [`Anchor`](/headless/anchor) for the
+trigger:
+
+```tsx
+import { Anchor } from "@wondesign/headless/Anchor";
+
+<Tooltip>
+  <Tooltip.Trigger asChild>
+    {/* give icon-only triggers a label, since the tooltip only describes them */}
+    <Anchor href="https://github.com/wonwon0307" aria-label="GitHub">
+      <GithubLogo />
+    </Anchor>
+  </Tooltip.Trigger>
+  <Tooltip.Content>Visit my GitHub</Tooltip.Content>
+</Tooltip>;
+```
+
+For how props and refs are merged, refer to
+[AsChild](/headless/as-child/usage).
 
 ---
 
-## Animating the Content
+## Styling
 
-Animate the content with CSS, using its `data-state`. When it hides, it waits
-for your exit animation to finish before it leaves the page:
+Style each part with `className` and `style`, like any other element. Their
+states show up as [data attributes](/headless/tooltip/api), so you can style
+each state without extra props:
+
+```css
+.trigger[data-state="open"] { … }
+.content[data-state="open"] { … }
+.arrow[data-placement="top"] { … }
+```
+
+### Exit Animations
+
+Animate the content with CSS, using its `data-state`. When it hides, it stays
+on the page until its animations and transitions finish:
 
 ```css
 .content[data-state="open"] {
@@ -210,16 +155,5 @@ for your exit animation to finish before it leaves the page:
 }
 ```
 
----
-
-## Styling with Data Attributes
-
-The parts expose their state as
-[data attributes](/headless/tooltip/api), so you can style each
-state with plain CSS:
-
-```css
-.trigger[data-state="open"] { … }
-.content[data-state="open"] { … }
-.arrow[data-placement="top"] { … }
-```
+While it's leaving, it can't be hovered or clicked, and screen readers treat
+it as closed. **Animations that repeat forever aren't waited for.**

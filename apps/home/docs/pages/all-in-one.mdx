@@ -91,10 +91,9 @@ import { Heading, Paragraph } from "@wondesign/ui/texts";
 import { useFocusTrap } from "@wondesign/ui/focus";
 ```
 
-Headless components come from the entry of their styled package, prefixed with
-`Headless`, so they never clash with styled components of the same name:
+Headless components all come from `@wondesign/ui/headless`, under the same
+names as in `@wondesign/headless`:
 
 ```tsx
-import { Button, HeadlessButton } from "@wondesign/ui/buttons";
-import { Anchor, HeadlessAnchor } from "@wondesign/ui/links";
+import { Button, Popover } from "@wondesign/ui/headless";
 ```

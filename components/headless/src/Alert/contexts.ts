@@ -1,7 +1,10 @@
 import { createContext, useContext } from "react";
+import type { PresenceStatus } from "@wondesign/disclosure/presence";
 
 type AlertContextValue = {
   isOpen: boolean;
+  isPresent: boolean;
+  status: PresenceStatus;
   showAlert: () => void;
   closeAlert: () => void;
   keepMounted: boolean;
@@ -19,6 +22,7 @@ type AlertContextValue = {
 };
 
 export const AlertContext = createContext<AlertContextValue | null>(null);
+export const BackdropContext = createContext<string | null>(null);
 export const ContentContext = createContext<string | null>(null);
 
 export function useAlertInternal() {
@@ -34,14 +38,15 @@ export function useAlertInternal() {
 }
 
 export function useAlert() {
-  const { isOpen, showAlert, closeAlert, keepMounted, disablePortal } =
+  const { isOpen, isPresent, status, showAlert, closeAlert, keepMounted } =
     useAlertInternal();
 
   return {
     isOpen,
+    isPresent,
+    status,
     showAlert,
     closeAlert,
     keepMounted,
-    disablePortal,
   };
 }

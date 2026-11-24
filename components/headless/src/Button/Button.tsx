@@ -49,7 +49,7 @@ export function Button({
       type={type}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      aria-disabled={isDisabled || undefined}
+      aria-disabled={disableEvents || undefined}
       aria-busy={isLoading || undefined}
       data-disabled={isDisabled || undefined}
       data-loading={isLoading || undefined}

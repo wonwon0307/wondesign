@@ -1,221 +1,9 @@
 import { Keyboard } from "@wondesign/ui/code";
-import { Callout } from "@wondesign/ui/texts";
 
 # Usage
 
-This page covers what you can configure on `Modal`. For every prop, refer to
-the [API tab](/headless/modal/api).
-
----
-
-## Positioning the Content
-
-`Modal` doesn't place the content anywhere. Position it yourself, and make sure
-it stays on top of the page, with `z-index`:
-
-```css
-.content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 101;
-  margin: 0;
-  transform: translate(-50%, -50%);
-}
-```
-
-<Callout variant="warning" title="Reset the dialog's default styles">
-  The content renders a `<dialog>`, which browsers give a default margin,
-  border, padding and background. Without resetting them, **the content lands
-  in the wrong place** with no error. Set `margin: 0`, or use
-  [Reset CSS](/styling/reset-css), which resets all of them.
-</Callout>
-
----
-
-## Adding a Backdrop
-
-`Modal.Backdrop` renders an empty layer for you to style, like a dimmed
-overlay. It's optional. A click on it **closes the modal**, like any other
-click outside the content, unless you
-[turn off outside clicks](#outside-clicks).
-
-The content isn't shown in the browser's top layer, so the `::backdrop`
-pseudo-element doesn't apply. Use `Modal.Backdrop` instead, and keep the
-content on top of it, by its order in the document or with `z-index`.
-
-The backdrop **doesn't accept children**, so it shouldn't be used to position
-the content:
-
-```tsx
-<Modal.Backdrop className="backdrop" />
-<Modal.Content className="content">…</Modal.Content>
-```
-
-```css
-.backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgb(0 0 0 / 50%);
-}
-```
-
----
-
-## Running an Action
-
-`Modal.Close` runs its `onClick`, then closes the modal. Run the action in
-`onClick`; you don't need to close the modal yourself. To keep it open, call
-`event.preventDefault()`:
-
-```tsx
-<Modal.Close>Cancel</Modal.Close>
-<Modal.Close
-  onClick={(event) => {
-    if (!isValid) {
-      event.preventDefault(); // keeps the modal open
-      return;
-    }
-    saveProfile();
-  }}
->
-  Save
-</Modal.Close>
-```
-
-### Async Actions
-
-The modal closes right after `onClick` runs. **It doesn't wait for a returned
-promise**, so a failing action can't keep it open. To keep it open until an
-action finishes, call `event.preventDefault()`, show the progress with
-`isLoading`, and close the modal yourself with `closeModal` from
-[`useModal`](#building-your-own-parts) once the action is done:
-
-```tsx
-import { Modal, useModal } from "@wondesign/headless/Modal";
-
-function SaveButton() {
-  const { closeModal } = useModal();
-  const [isSaving, setSaving] = useState(false);
-
-  const handleSave = async (event: React.MouseEvent) => {
-    event.preventDefault(); // keeps the modal open
-    setSaving(true);
-
-    try {
-      await saveProfile();
-      closeModal();
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  return (
-    <Modal.Close isLoading={isSaving} onClick={handleSave}>
-      Save
-    </Modal.Close>
-  );
-}
-```
-
-While the action runs, a click outside and <Keyboard>Esc</Keyboard> **can
-still close the modal**. To block them, control the modal and ignore closes in
-`onOpenChange` until the action is done. See [Open State](#open-state).
-
----
-
-## Checking Before Opening
-
-`Modal.Trigger` runs its `onClick`, then opens the modal. To keep it closed,
-call `event.preventDefault()`:
-
-```tsx
-<Modal.Trigger
-  onClick={(event) => {
-    if (!isSignedIn) {
-      event.preventDefault(); // keeps the modal closed
-      redirectToSignIn();
-    }
-  }}
->
-  Edit profile
-</Modal.Trigger>
-```
-
----
-
-## Outside Clicks
-
-A click outside the content closes the modal by default. Pass
-`disableOutsideClick` to keep it open, like for a long form where a stray click
-would throw away what the user typed:
-
-```tsx
-<Modal disableOutsideClick>…</Modal>
-```
-
-`Modal.Close` and <Keyboard>Esc</Keyboard> still close the modal.
-
----
-
-## Escape Key
-
-<Keyboard>Esc</Keyboard> closes the modal by default. Pass `disableEscapeKey` to
-turn it off:
-
-```tsx
-<Modal disableEscapeKey>…</Modal>
-```
-
-`Modal.Close` and a click outside still close the modal.
-
----
-
-## Choosing Where Focus Goes
-
-When the modal opens, focus moves to the first focusable element inside the
-content. Pass `initialFocusRef` to start somewhere else. When the modal
-closes, focus returns to `Modal.Trigger`. Pass `returnFocusRef` to send it
-somewhere else:
-
-```tsx
-const nameRef = useRef<HTMLInputElement>(null);
-const closeSettingsRef = useRef<HTMLButtonElement>(null);
-
-<>
-  <Modal initialFocusRef={nameRef} returnFocusRef={closeSettingsRef}>
-    <Modal.Trigger>Edit profile</Modal.Trigger>
-    <Modal.Content>
-      <Modal.Close aria-label="Close">
-        <CloseIcon />
-      </Modal.Close>
-      <Modal.Title>Profile</Modal.Title>
-      <input ref={nameRef} aria-label="Name" />
-      {/* … */}
-      <Modal.Close>Cancel</Modal.Close>
-      <Modal.Close onClick={saveProfile}>Confirm</Modal.Close>
-    </Modal.Content>
-  </Modal>
-  <button ref={closeSettingsRef}>Close settings</button>
-</>;
-```
-
-Both are handled by [Auto Focus](/interactions/focus/auto-focus), so they behave
-exactly as described there, including when the element can't take focus.
-
----
-
-## Heading Level
-
-`Modal.Title` renders an `<h2>`. Use `asChild` to render another heading
-level:
-
-```tsx
-<Modal.Title asChild>
-  <h3>Edit profile</h3>
-</Modal.Title>
-```
+This page covers how to control, extend and style `Modal`. For what each prop
+does, refer to the [API tab](/headless/modal/api).
 
 ---
 
@@ -223,7 +11,7 @@ level:
 
 `Modal` keeps its own state and starts closed. Pass `defaultOpen` to start it
 open, or `isOpen` and `onOpenChange` to control it yourself. Both modes are
-powered by [Disclosure](/interactions/disclosure/open-state), so
+powered by [Disclosure](/interactions/disclosure/open-state/usage), so
 they behave exactly as described there:
 
 ```tsx
@@ -241,48 +29,139 @@ const [open, setOpen] = useState(false);
 </Modal>;
 ```
 
-Controlling the modal is especially handy because every close goes through
-`onOpenChange`, and the modal only closes once you update the state. To keep it
-open, like while there are unsaved changes or an action is still running,
-**don't update the state**.
-
 ---
 
-## Rendering in Place
+## Running an Action
 
-The backdrop and content each render in a
-[Portal](/headless/portal) at the end of `<body>`, so they aren't
-clipped by their parents. Pass `disablePortal` to `Modal` to render both where
-they are in the document instead:
+Pass `onClick` to `Modal.Trigger` or `Modal.Close` to run an action. It runs
+your `onClick` first, then opens or closes the modal, so you don't need to do
+it yourself. To skip that in certain cases, call `event.preventDefault()`:
 
 ```tsx
-<Modal disablePortal>…</Modal>
+const handleEditClick = (event) => {
+  if (!isSignedIn) {
+    event.preventDefault(); // keeps the modal closed
+    redirectToSignIn();
+  }
+};
+
+const handleSave = (event) => {
+  if (!isValid) {
+    event.preventDefault(); // keeps the modal open
+    return;
+  }
+  saveProfile();
+};
+
+<Modal>
+  <Modal.Trigger onClick={handleEditClick}>Edit profile</Modal.Trigger>
+  <Modal.Content>
+    {/* … */}
+    <Modal.Close>Cancel</Modal.Close>
+    <Modal.Close onClick={handleSave}>Save</Modal.Close>
+  </Modal.Content>
+</Modal>;
 ```
 
-**Make sure you know what you're doing**: rendered in place, they can be clipped
-by their parents or covered by other elements, and handling that is up to you.
+### Async Actions
 
----
-
-## Keeping Content Mounted
-
-Closed content is **removed from the page** by default. Pass `keepMounted` to
-keep it in the page, hidden with the `hidden` attribute, so what's inside
-keeps its state, like text typed into a field:
+The modal closes right after `onClick` runs. **It doesn't wait for a returned
+promise**, so a failing action can't keep it open. To keep it open until an
+action finishes, call `event.preventDefault()`, show the progress with
+`isLoading`, and close the modal yourself with `closeModal` from
+[`useModal`](#custom-parts):
 
 ```tsx
-<Modal keepMounted>…</Modal>
+import { Modal, useModal } from "@wondesign/headless/Modal";
+
+function SaveButtons() {
+  const { closeModal } = useModal();
+  const [isSaving, setSaving] = useState(false);
+
+  const handleSave = async (event: React.MouseEvent) => {
+    event.preventDefault(); // keeps the modal open
+    setSaving(true);
+
+    try {
+      await saveProfile();
+      closeModal();
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <>
+      <Modal.Close isDisabled={isSaving}>Cancel</Modal.Close>
+      <Modal.Close isLoading={isSaving} onClick={handleSave}>
+        Save
+      </Modal.Close>
+    </>
+  );
+}
 ```
 
-<Callout variant="warning" title="Closed content can stay visible">
-  A `display` value in your styles overrides the `hidden` attribute, so **it
-  stays visible** with no error. Set the `display` only while it's open, with
-  `[data-state="open"]`.
-</Callout>
+While the action runs, a click outside and <Keyboard>Esc</Keyboard> **can
+still close the modal**. To block them, control the modal and ignore closes in
+`onOpenChange` until the action is done.
 
 ---
 
-## Building Your Own Parts
+## Focus Management
+
+By default, focus moves to the first focusable element inside the content when
+the modal opens, and returns to `Modal.Trigger` when it closes. Pass
+`initialFocusRef` to start somewhere else, and `returnFocusRef` to send it
+somewhere else on close.
+
+`initialFocusRef` must point inside the content. Outside it, **it's ignored
+silently**, and focus moves to the first focusable element instead:
+
+```tsx
+const nameRef = useRef<HTMLInputElement>(null);
+const settingsRef = useRef<HTMLButtonElement>(null);
+
+<Modal initialFocusRef={nameRef} returnFocusRef={settingsRef}>
+  <Modal.Trigger>Edit profile</Modal.Trigger>
+  <Modal.Content>
+    <Modal.Title>Profile</Modal.Title>
+    <input ref={nameRef} aria-label="Name" />
+    {/* … */}
+  </Modal.Content>
+</Modal>;
+```
+
+Moving focus in and back is handled by
+[Auto Focus](/interactions/focus/auto-focus/usage), and keeping it inside by
+[Focus Trap](/interactions/focus/focus-trap/usage), so both behave exactly as
+described there.
+
+---
+
+## Adding a Backdrop
+
+`Modal.Backdrop` renders a layer for you to style, like a dimmed overlay. It's
+optional, and a click on it **closes the modal**, like any other click outside
+the content. Portals are handled for you, so place it next to the content, or
+wrap the content with it:
+
+```tsx
+// next to the content: one portal each
+<Modal.Backdrop />
+<Modal.Content>…</Modal.Content>
+
+// wrapping the content: one portal for both
+<Modal.Backdrop>
+  <Modal.Content>…</Modal.Content>
+</Modal.Backdrop>
+```
+
+The content isn't shown in the browser's top layer, so the `::backdrop`
+pseudo-element doesn't apply. Use `Modal.Backdrop` instead.
+
+---
+
+## Custom Parts
 
 `useModal` gives any component inside `Modal` the open state and ways to open
 or close it. For example, a menu item that opens the modal:
@@ -301,16 +180,43 @@ function EditMenuItem() {
 }
 ```
 
-For everything the hook returns, refer to the
-[API tab](/headless/modal/api#usemodal).
+---
+
+## Your Own Elements
+
+Every part except the provider and `Modal.Backdrop` takes `asChild`, which
+renders your own element or component instead, like another heading level for
+the title:
+
+```tsx
+<Modal.Title asChild>
+  <h3>Edit profile</h3>
+</Modal.Title>
+```
+
+For how props and refs are merged, refer to
+[AsChild](/headless/as-child/usage).
 
 ---
 
-## Animating the Content
+## Styling
+
+Style each part with `className` and `style`, like any other element. Their
+states show up as [data attributes](/headless/modal/api), so you can style
+each state without extra props:
+
+```css
+.trigger[data-state="open"] { … }
+.backdrop[data-state="open"] { … }
+.content[data-state="open"] { … }
+.close[data-loading] { … }
+```
+
+### Exit Animations
 
 Animate the content and backdrop with CSS, using their `data-state`. When the
-modal closes, each one waits for its own exit animation to finish before it
-leaves the page:
+modal closes, each one stays on the page until its own animations and
+transitions finish:
 
 ```css
 .backdrop[data-state="open"],
@@ -324,17 +230,6 @@ leaves the page:
 }
 ```
 
----
-
-## Styling with Data Attributes
-
-The parts expose their state as
-[data attributes](/headless/modal/api), so you can style each state
-with plain CSS:
-
-```css
-.trigger[data-state="open"] { … }
-.backdrop[data-state="open"] { … }
-.content[data-state="open"] { … }
-.close[data-loading] { … }
-```
+While they're leaving, they can't be clicked or focused, and screen readers
+treat them as closed. The page behind doesn't wait: it's usable again as soon
+as the modal closes. **Animations that repeat forever aren't waited for.**

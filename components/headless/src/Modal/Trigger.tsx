@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo } from "react";
 
 import { Button, type ButtonProps } from "@/Button/Button";
 import { mergeRef } from "@/utils";
-import { ContentContext, useModalInternal } from "./contexts";
+import { BackdropContext, ContentContext, useModalInternal } from "./contexts";
 
 export interface ModalTriggerProps extends Omit<
   ButtonProps,
@@ -18,16 +18,20 @@ export function ModalTrigger({
   ...rest
 }: Readonly<ModalTriggerProps>) {
   const { isOpen, openModal, triggerRef, scopeKey } = useModalInternal();
+  const isInsideBackdrop = useContext(BackdropContext) === scopeKey;
   const isInsideContent = useContext(ContentContext) === scopeKey;
   const mergedRef = useMemo(() => mergeRef(triggerRef, ref), [triggerRef, ref]);
 
   useEffect(() => {
-    if (isInsideContent && process.env.NODE_ENV !== "production") {
+    if (
+      (isInsideContent || isInsideBackdrop) &&
+      process.env.NODE_ENV !== "production"
+    ) {
       console.warn(
-        "[WonDesign Headless] ModalTrigger should be rendered outside of ModalContent.",
+        "[WonDesign Headless] ModalTrigger should be rendered outside of ModalContent and ModalBackdrop.",
       );
     }
-  }, [isInsideContent]);
+  }, [isInsideContent, isInsideBackdrop]);
 
   const finalOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     onClick?.(e);
@@ -38,7 +42,6 @@ export function ModalTrigger({
     <Button
       {...rest}
       ref={mergedRef}
-      type="button"
       onClick={finalOnClick}
       aria-haspopup="dialog"
       data-state={isOpen ? "open" : "closed"}

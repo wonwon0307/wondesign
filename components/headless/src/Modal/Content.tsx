@@ -1,10 +1,9 @@
-import { useMemo } from "react";
-import { usePresence } from "@wondesign/disclosure/presence";
+import { useContext, useMemo } from "react";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
 import { mergeRef } from "@/utils";
-import { ContentContext, useModalInternal } from "./contexts";
+import { BackdropContext, ContentContext, useModalInternal } from "./contexts";
 
 export interface ModalContentProps extends Omit<
   React.ComponentProps<"dialog">,
@@ -31,9 +30,17 @@ export function ModalContent({
   ref,
   ...rest
 }: Readonly<ModalContentProps>) {
-  const { isOpen, keepMounted, disablePortal, titleId, floatingRef, scopeKey } =
-    useModalInternal();
-  const { isPresent, status } = usePresence(floatingRef, isOpen);
+  const {
+    isOpen,
+    isPresent,
+    status,
+    keepMounted,
+    disablePortal,
+    titleId,
+    floatingRef,
+    scopeKey,
+  } = useModalInternal();
+  const isInsideBackdrop = useContext(BackdropContext) === scopeKey;
   const mergedRef = useMemo(
     () => mergeRef(floatingRef, ref),
     [floatingRef, ref],
@@ -46,7 +53,7 @@ export function ModalContent({
   const Component = asChild ? AsChild : "dialog";
 
   return (
-    <Portal disable={disablePortal}>
+    <Portal disable={disablePortal || isInsideBackdrop}>
       <ContentContext.Provider value={scopeKey}>
         <Component
           {...rest}

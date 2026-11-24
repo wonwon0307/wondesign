@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import type { PresenceStatus } from "@wondesign/disclosure/presence";
 
 type ToastAreaContextValue = {
   isReady: boolean;
@@ -21,6 +22,8 @@ export function useToastArea() {
 type ToastContextValue = {
   isOpen: boolean;
   isPaused: boolean;
+  isPresent: boolean;
+  status: PresenceStatus;
   dismissToast: () => void;
   resumeTimer: () => void;
   pauseTimer: () => void;
@@ -44,12 +47,21 @@ export function useToastInternal(errMsg?: string) {
 }
 
 export function useToast() {
-  const { isOpen, isPaused, dismissToast, resumeTimer, pauseTimer } =
-    useToastInternal();
+  const {
+    isOpen,
+    isPaused,
+    isPresent,
+    status,
+    dismissToast,
+    resumeTimer,
+    pauseTimer,
+  } = useToastInternal();
 
   return {
     isOpen,
     isPaused,
+    isPresent,
+    status,
     dismissToast,
     resumeTimer,
     pauseTimer,

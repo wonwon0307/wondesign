@@ -1,5 +1,4 @@
 import { useId, useLayoutEffect, useMemo } from "react";
-import { usePresence } from "@wondesign/disclosure/presence";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
@@ -35,6 +34,8 @@ export function PopoverContent({
 }: Readonly<PopoverContentProps>) {
   const {
     isOpen,
+    isPresent,
+    status,
     keepMounted,
     placement,
     titleId,
@@ -43,7 +44,6 @@ export function PopoverContent({
     scopeKey,
   } = usePopoverInternal();
   const contentId = useId();
-  const { isPresent, status } = usePresence(floatingRef, isOpen);
   const mergedRef = useMemo(
     () => mergeRef(floatingRef, ref),
     [floatingRef, ref],

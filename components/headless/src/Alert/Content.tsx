@@ -1,10 +1,9 @@
-import { useId, useLayoutEffect, useMemo } from "react";
-import { usePresence } from "@wondesign/disclosure/presence";
+import { useContext, useId, useLayoutEffect, useMemo } from "react";
 
 import { AsChild } from "@/AsChild/AsChild";
 import { Portal } from "@/Portal/Portal";
 import { mergeRef } from "@/utils";
-import { ContentContext, useAlertInternal } from "./contexts";
+import { BackdropContext, ContentContext, useAlertInternal } from "./contexts";
 
 export interface AlertContentProps extends Omit<
   React.ComponentProps<"div">,
@@ -31,16 +30,18 @@ export function AlertContent({
 }: Readonly<AlertContentProps>) {
   const {
     isOpen,
-    disablePortal,
+    isPresent,
+    status,
     keepMounted,
+    disablePortal,
     wrapperRef,
     titleId,
     messageId,
     setContentId,
     scopeKey,
   } = useAlertInternal();
+  const isInsideBackdrop = useContext(BackdropContext) === scopeKey;
   const contentId = useId();
-  const { isPresent, status } = usePresence(wrapperRef, isOpen);
   const mergedRef = useMemo(() => mergeRef(wrapperRef, ref), [wrapperRef, ref]);
 
   useLayoutEffect(() => {
@@ -56,7 +57,7 @@ export function AlertContent({
   const Component = asChild ? AsChild : "div";
 
   return (
-    <Portal disable={disablePortal}>
+    <Portal disable={disablePortal || isInsideBackdrop}>
       <ContentContext.Provider value={scopeKey}>
         <Component
           {...rest}

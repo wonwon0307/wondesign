@@ -10,13 +10,18 @@ export type CollapsibleToggleProps = Omit<
 
 export function CollapsibleToggle({
   children,
-  asChild = false,
-  isDisabled = false,
   onClick,
   ...rest
 }: Readonly<CollapsibleToggleProps>) {
-  const { isOpen, keepMounted, toggle, contentId, toggleId, scopeKey } =
-    useCollapsibleInternal();
+  const {
+    isOpen,
+    isPresent,
+    keepMounted,
+    toggle,
+    contentId,
+    toggleId,
+    scopeKey,
+  } = useCollapsibleInternal();
   const isInsideContent = useContext(ContentContext) === scopeKey;
 
   const finalOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,15 +37,12 @@ export function CollapsibleToggle({
     }
   }, [isInsideContent]);
 
-  const ariaControls = !keepMounted && !isOpen ? undefined : contentId;
+  const ariaControls = !keepMounted && !isPresent ? undefined : contentId;
 
   return (
     <Button
       {...rest}
       id={toggleId}
-      type="button"
-      asChild={asChild}
-      isDisabled={isDisabled}
       onClick={finalOnClick}
       aria-controls={ariaControls}
       aria-expanded={isOpen}

@@ -23,7 +23,7 @@ export function ToastClose({
   };
 
   return (
-    <Button {...rest} onClick={finalOnClick} type="button">
+    <Button {...rest} onClick={finalOnClick}>
       {children}
     </Button>
   );

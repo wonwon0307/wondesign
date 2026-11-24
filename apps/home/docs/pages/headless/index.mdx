@@ -21,6 +21,8 @@ import { PackageInfo } from "@/entities/package";
 pnpm add @wondesign/headless
 ```
 
+With [All-in-One](/all-in-one), import from `@wondesign/ui/headless` instead.
+
 <Callout variant="warning" title="Requires React 19.2">
   `@wondesign/headless` needs React 19.2 or later.
 </Callout>
@@ -75,75 +77,7 @@ Multi-part components following the
 Helpers that control how and where things render. They don't render any UI of
 their own.
 
-- 🧰 **[AsChild](/headless/as-child)** — renders your own element in
+- 🔧 **[AsChild](/headless/as-child)** — renders your own element in
   place of a component's default one, merging props, handlers and refs.
-- 🧰 **[Portal](/headless/portal)** — renders its children at the end
+- 🔧 **[Portal](/headless/portal)** — renders its children at the end
   of `<body>`, safely with server rendering.
-
----
-
-## Usage
-
-Each component has its own entry point, so you only import what you use:
-
-```ts
-import { AsChild } from "@wondesign/headless/AsChild";
-import { Button } from "@wondesign/headless/Button";
-import { Tabs } from "@wondesign/headless/Tabs";
-```
-
-### Compound Components
-
-Patterns are made of parts. Use them through the dot syntax, or import each
-part on its own — both are the same components:
-
-```tsx
-import { Tabs } from "@wondesign/headless/Tabs";
-
-<Tabs defaultTab="account">
-  <Tabs.List aria-label="Settings">
-    <Tabs.Tab tabName="account">Account</Tabs.Tab>
-    <Tabs.Tab tabName="billing">Billing</Tabs.Tab>
-  </Tabs.List>
-  <Tabs.Panel tabName="account">…</Tabs.Panel>
-  <Tabs.Panel tabName="billing">…</Tabs.Panel>
-</Tabs>;
-```
-
-```tsx
-import {
-  TabsProvider,
-  TabsList,
-  Tab,
-  TabPanel,
-} from "@wondesign/headless/Tabs";
-```
-
-Dot notation keeps the parts together and reads well. **In React Server
-Components, use the named exports**: the parts are client components, and a
-Server Component can't reach `Tabs.List` through `Tabs`.
-
-### Styling
-
-Style the components with `className` and `style`, like any other element.
-Their state shows up as `data-*` attributes, so you can style it without extra
-props:
-
-```css
-.toggle[data-state="open"] { … }
-.tab[data-state="active"] { … }
-.button[data-loading] { … }
-```
-
----
-
-## Used By
-
-- 📦 **Alert** in [`@wondesign/alert`](/components/alert)
-- 📦 **Buttons** in [`@wondesign/buttons`](/components/buttons)
-- 📦 **Links** in [`@wondesign/links`](/components/links)
-- 📦 **Navbar** in [`@wondesign/navbar`](/components/navbar)
-- 📦 **Tabs** in [`@wondesign/tabs`](/components/tabs)
-- 📦 **Toast** in [`@wondesign/toast`](/components/toast)
-- 📦 **Tooltip** in [`@wondesign/tooltip`](/components/tooltip)
-- 📦 **Sidebar** in `@wondesign/sidebar`

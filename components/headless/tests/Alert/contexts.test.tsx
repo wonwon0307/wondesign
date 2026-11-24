@@ -80,7 +80,7 @@ describe("Alert - contexts", () => {
     );
 
     expect(console.warn).toHaveBeenCalledWith(
-      "[WonDesign Headless] AlertTrigger should be rendered outside of AlertContent.",
+      "[WonDesign Headless] AlertTrigger should be rendered outside of AlertContent and AlertBackdrop.",
     );
     expect(console.warn).toHaveBeenCalledWith(
       "[WonDesign Headless] AlertBackdrop should be rendered outside of AlertContent.",

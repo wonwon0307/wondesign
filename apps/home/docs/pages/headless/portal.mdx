@@ -12,6 +12,8 @@ covered by their parents.
 
 ```tsx
 import { Portal } from "@wondesign/headless/Portal";
+// or
+import { Portal } from "@wondesign/ui/headless";
 
 <Portal>
   <div className="toast">Saved!</div>
@@ -26,6 +28,13 @@ import { Portal } from "@wondesign/headless/Portal";
 - ✅ **Still in Your Tree**: Context, state and events work as if the content never moved
 - ✅ **Server Rendering Safe**: Works with SSR without hydration mismatches
 - ✅ **Can Be Turned Off**: Render in place instead with a single prop
+
+---
+
+## How It Works
+
+On the server and the very first render on the client, the children render
+where they are. They move to the end of `<body>` right after.
 
 ---
 
@@ -58,15 +67,13 @@ when the same component is sometimes floating and sometimes inline:
 
 ---
 
-## Good to Know
+## Watch Out
 
-- 💡 **CSS follows the DOM**: Portaled content no longer sits inside its
+- ⚠️ **CSS follows the DOM**: Portaled content no longer sits inside its
   parent's elements, so styles like `.parent .menu` **won't reach it**. Style it
   directly.
-- 💡 **Events follow React**: Clicks inside portaled content still bubble up to
+- ⚠️ **Events follow React**: Clicks inside portaled content still bubble up to
   the React parents, even though it lives elsewhere on the page.
-- 💡 **First render is in place**: On the server and the very first render on
-  the client, children render where they are, then move to `<body>`.
 
 ---
 
@@ -74,6 +81,8 @@ when the same component is sometimes floating and sometimes inline:
 
 - 🧩 **[Alert](/headless/alert)**: `Alert.Backdrop` and
   `Alert.Content`, which can render in place with `disablePortal` on `Alert`
+- 🧩 **[Modal](/headless/modal)**: `Modal.Backdrop` and `Modal.Content`,
+  which can render in place with `disablePortal` on `Modal`
 - 🧩 **[Popover](/headless/popover)**: `Popover.Content`, which can
   render in place with `disablePortal` on `Popover`
 - 🧩 **[Toast](/headless/toast)**: `ToastArea`, which can render in

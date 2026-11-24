@@ -4,7 +4,7 @@ import { Tab } from "@/Tabs/Tab";
 import { TabPanel } from "@/Tabs/Panel";
 
 export function TestComponent({
-  keepPanelsMounted = false,
+  keepMounted = false,
   vertical = false,
   switchOnFocus = false,
   loop = false,
@@ -21,7 +21,7 @@ export function TestComponent({
     <TabsProvider
       {...rest}
       defaultTab={defaultTab}
-      keepPanelsMounted={keepPanelsMounted}
+      keepMounted={keepMounted}
       switchOnFocus={switchOnFocus}
     >
       <div>

@@ -13,8 +13,22 @@ import { Button } from "@wondesign/headless/Button";
 </Button>;
 ```
 
-See [Usage](/headless/as-child/usage) for the two ways to use it,
-what your child needs, and where to put your props.
+The `AsChild` component gives your own reusable components the same prop:
+
+```tsx
+import { AsChild } from "@wondesign/headless/AsChild";
+// or
+import { AsChild } from "@wondesign/ui/headless";
+
+function Card({ asChild, ...props }: CardProps) {
+  const Component = asChild ? AsChild : "div";
+
+  return <Component {...props} />;
+}
+```
+
+See [Usage](/headless/as-child/usage) for the details of both, what your
+child needs, and where to put your props.
 
 ---
 
@@ -30,11 +44,11 @@ what your child needs, and where to put your props.
 
 When the component and your element both set the same prop:
 
-- 🔗 **`className`**: both are kept
-- 🔗 **`style`**: both are merged, and yours wins on conflicts
-- 🔗 **`ref`**: both are attached
-- 🔗 **Event handlers**: both run — yours first, then the component's
-- 🔗 **Anything else**: the component's wins, if it sets one
+- 🔹 **`className`**: both are kept
+- 🔹 **`style`**: both are merged, and yours wins on conflicts
+- 🔹 **`ref`**: both are attached
+- 🔹 **Event handlers**: both run — yours first, then the component's
+- 🔹 **Anything else**: the component's wins, if it sets one
 
 ```tsx
 <Tooltip.Trigger
@@ -82,8 +96,7 @@ When the component and your element both set the same prop:
   ```
 
   The single element can be your own component too. See
-  [Custom Components](/headless/as-child/usage#custom-components)
-  for what it needs.
+  [Watch Out](/headless/as-child/usage#watch-out) in Usage for what it needs.
 
 - ⚠️ **Handlers on the child aren't blocked**: When a component blocks
   interactions, like a disabled [Button](/headless/button/overview#watch-out),
@@ -93,7 +106,7 @@ When the component and your element both set the same prop:
 
 ---
 
-## Supported Components
+## Used By
 
 - 🔘 **[Button](/headless/button)**
 - 🧩 **[Alert](/headless/alert)**: `Alert.Trigger`, `Alert.Content`,

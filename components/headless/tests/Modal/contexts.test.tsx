@@ -79,7 +79,7 @@ describe("Modal - contexts", () => {
       "[WonDesign Headless] ModalBackdrop should be rendered outside of ModalContent.",
     );
     expect(console.warn).toHaveBeenLastCalledWith(
-      "[WonDesign Headless] ModalTrigger should be rendered outside of ModalContent.",
+      "[WonDesign Headless] ModalTrigger should be rendered outside of ModalContent and ModalBackdrop.",
     );
 
     vi.restoreAllMocks();

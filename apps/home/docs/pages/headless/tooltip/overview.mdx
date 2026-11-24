@@ -4,28 +4,32 @@ import { Keyboard } from "@wondesign/ui/code";
 
 `Tooltip` shows short floating content for its trigger, following the
 [WAI-ARIA Tooltip pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/).
-It handles when to show and hide it, works out where it fits on screen, and
-links it to the trigger for assistive technology, so you only bring the look.
-For a ready-styled tooltip, use [`@wondesign/tooltip`](/components/tooltip)
-instead.
+It handles when to show it and where to place it, so you only bring the look.
 
 Use it for a short hint about its trigger, like the name of an icon-only
-button, a keyboard shortcut, or why a button is disabled. Keep it to plain
-text: **links and buttons inside a tooltip can't be reached**. For content
-with something to interact with, use a
-[Popover](/headless/popover) instead.
+button or a keyboard shortcut. It can also explain why a button is disabled.
+For content with links or buttons, use a [Popover](/headless/popover)
+instead.
+
+```tsx
+import { Tooltip } from "@wondesign/headless/Tooltip";
+// or
+import { Tooltip } from "@wondesign/ui/headless";
+```
+
+For a ready-made styled tooltip, use [`@wondesign/tooltip`](/components/tooltip),
+which builds on `Tooltip`.
 
 ---
 
 ## Key Features
 
 - ✅ **Accessible by Default**: The tooltip describes its trigger for assistive technology
-- ✅ **Shows On**: Hover, focus or long press
-- ✅ **Hides On**: Pointer leave, blur, <Keyboard>Esc</Keyboard> or a click outside
-- ✅ **Auto Flip & Shift**: Flips to the opposite side when space runs short, and shifts to stay inside the viewport
+- ✅ **Hover, Focus & Long Press**: Shows while hovered, focused, or on long press
+- ✅ **Easy to Dismiss**: Hides on <Keyboard>Esc</Keyboard> or a click outside
+- ✅ **Computed Position**: Works out where it fits next to the trigger, inside the viewport
 - ✅ **Show & Hide Delays**: Tune how quickly it reacts to the pointer
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
-- ✅ **Disabled Triggers**: A disabled trigger can still explain itself with a tooltip
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
 - ✅ **Exit Animations**: Closed content stays until its exit animation finishes
 - ✅ **Composable**: Render your own elements with [`asChild`](/headless/as-child)
@@ -34,18 +38,17 @@ with something to interact with, use a
 
 ## Structure
 
-For what you can configure, refer to the
-[Usage tab](/headless/tooltip/usage). For every prop, refer to the
+For how to control, extend and style it, refer to the
+[Usage tab](/headless/tooltip/usage). For what each prop does, refer to the
 [API tab](/headless/tooltip/api).
 
-- 🧩 **Tooltip**: coordinates every part. It holds the open state, handles the
-  delays and dismissal, and works out the position. **Renders no element of its
-  own.**
-- 🧩 **Tooltip.Trigger**: the button the tooltip describes.
-- 🧩 **Tooltip.Content**: the floating body of the tooltip.
-- 🧩 **Tooltip.Arrow**: an optional arrow pointing at the trigger.
+- 🧩 **Tooltip**: holds the open state and works out the position
+- 🧩 **Tooltip.Trigger**: the button the tooltip describes
+- 🧩 **Tooltip.Content**: the floating body of the tooltip
+- 🧩 **Tooltip.Arrow**: an optional arrow pointing at the trigger
 
 ```tsx
+// compound component, with its parts attached
 <Tooltip>
   <Tooltip.Trigger>Save</Tooltip.Trigger>
   <Tooltip.Content>
@@ -66,49 +69,19 @@ For what you can configure, refer to the
 
 ---
 
-## How It Works
+## Watch Out
 
-A tooltip has to appear when the user shows interest in its trigger, get out
-of the way when they don't, and stay on screen. `Tooltip` builds this in,
-following the
-[WAI-ARIA Tooltip pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/):
-it decides when the tooltip shows and hides, where it goes, and what screen
-readers announce. You don't need to wire up any of it.
-
-### Showing and Hiding
-
-The tooltip shows on hover, after the show delay, and straight away on focus
-or a long press. It hides when the pointer leaves, the trigger loses focus,
-the user presses <Keyboard>Esc</Keyboard>, or clicks outside.
-
-A click or tap on the trigger **doesn't open the tooltip**. On touch screens,
-long press the trigger instead. Moving the pointer from the trigger onto the
-content keeps it open.
-
-Long press and clicks outside are handled by
-[Pointer](/interactions/pointer), and <Keyboard>Esc</Keyboard> by
-[Key Events](/interactions/key-events).
-
-### Placement
-
-If the preferred side doesn't have room, the tooltip **flips to the opposite
-side**, as long as that side has more room. It also shifts along its side to
-stay inside the viewport. The position is worked out by
-[Position](/interactions/position/floating-position), so it behaves exactly as
-described there.
-
-### Exit Animations
-
-When the tooltip hides, the content's `data-state` changes to `"closed"`
-right away, but it **stays on the page until its animations and transitions
-finish**. Then it's removed, or hidden with `keepMounted`. While it's leaving,
-it can't be hovered or clicked, and screen readers treat it as closed.
-**Infinite animations aren't waited for.**
-
-### Screen Readers
-
-The content describes its trigger, so screen readers read it after the
-trigger's own name.
+- ⚠️ **Use named exports in Server Components**: The parts are client
+  components, so a Server Component **can't reach `Tooltip.Trigger` through
+  `Tooltip`**. Import `TooltipTrigger` and the other parts on their own instead.
+- ⚠️ **Closed content can stay visible**: With `keepMounted`, a `display`
+  value in your styles overrides the `hidden` attribute, so **it stays
+  visible** with no error. Set the `display` only while it's open, with
+  `[data-state="open"]`.
+- ⚠️ **Content can end up somewhere unexpected**: With `disablePortal`, inside
+  an ancestor with a `transform`, `filter` or similar, `position: fixed` is
+  measured from that ancestor instead of the viewport, so **the content could be
+  placed somewhere unexpected** with no error.
 
 ---
 

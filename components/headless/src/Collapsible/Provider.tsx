@@ -1,5 +1,6 @@
-import { useId, useMemo, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
+import { usePresence } from "@wondesign/disclosure/presence";
 
 import { CollapsibleContext } from "./contexts";
 
@@ -24,20 +25,34 @@ export function CollapsibleProvider({
     initialState: defaultOpen,
   });
   const [contentId, setContentId] = useState<string | undefined>(undefined);
+  const contentRef = useRef<HTMLDivElement>(null);
   const toggleId = useId();
   const scopeKey = useId();
+  const { isPresent, status } = usePresence(contentRef, isOpen);
 
   const contextValue = useMemo(
     () => ({
       isOpen,
+      isPresent,
+      status,
       keepMounted,
       toggle,
       toggleId,
       contentId,
       setContentId,
+      contentRef,
       scopeKey,
     }),
-    [isOpen, keepMounted, toggle, contentId, toggleId, scopeKey],
+    [
+      isOpen,
+      isPresent,
+      status,
+      keepMounted,
+      toggle,
+      contentId,
+      toggleId,
+      scopeKey,
+    ],
   );
 
   return (

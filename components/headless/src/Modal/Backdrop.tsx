@@ -3,19 +3,17 @@ import { usePresence } from "@wondesign/disclosure/presence";
 
 import { Portal } from "@/Portal/Portal";
 import { mergeRef } from "@/utils";
-import { ContentContext, useModalInternal } from "./contexts";
+import { BackdropContext, ContentContext, useModalInternal } from "./contexts";
 
-export type ModalBackdropProps = Omit<
-  React.ComponentProps<"div">,
-  "children" | "hidden"
->;
+export type ModalBackdropProps = Omit<React.ComponentProps<"div">, "hidden">;
 
 export function ModalBackdrop({
+  children,
   ref,
   inert,
   ...rest
 }: Readonly<ModalBackdropProps>) {
-  const { isOpen, disablePortal, keepMounted, scopeKey } = useModalInternal();
+  const { isOpen, keepMounted, disablePortal, scopeKey } = useModalInternal();
   const isInsideContent = useContext(ContentContext) === scopeKey;
   const backdropRef = useRef<HTMLDivElement>(null);
   const { isPresent, status } = usePresence(backdropRef, isOpen);
@@ -38,13 +36,17 @@ export function ModalBackdrop({
 
   return (
     <Portal disable={disablePortal}>
-      <div
-        {...rest}
-        ref={mergedRef}
-        hidden={!isPresent}
-        inert={status === "closing" || inert}
-        data-state={isOpen ? "open" : "closed"}
-      />
+      <BackdropContext.Provider value={scopeKey}>
+        <div
+          {...rest}
+          ref={mergedRef}
+          hidden={!isPresent}
+          inert={status === "closing" || inert}
+          data-state={isOpen ? "open" : "closed"}
+        >
+          {children}
+        </div>
+      </BackdropContext.Provider>
     </Portal>
   );
 }

@@ -1,18 +1,21 @@
 import { Keyboard } from "@wondesign/ui/code";
-import { Callout } from "@wondesign/ui/texts";
 
 # Usage
 
-This page covers what you can configure on `Popover`. For every prop, refer to
-the [API tab](/headless/popover/api).
+This page covers how to control, extend and style `Popover`. For what each
+prop does, refer to the [API tab](/headless/popover/api).
 
 ---
 
 ## Applying the Position
 
-`Popover` works out where the content goes, but **doesn't move it there**.
-`usePopover` gives you the calculated position; apply it yourself, usually in a
-small wrapper of your own:
+`Popover` works out where the content and arrow go, but **doesn't move them
+there**. Unless you calculate the position on your own, apply the positions
+from `usePopover` yourself, usually in a small wrapper of your own.
+
+`content` is measured from the top left of the viewport, so use `position: fixed`.
+
+`arrow` is measured from the top left of the content, so use `position: absolute`.
 
 ```tsx
 import { Popover, usePopover } from "@wondesign/headless/Popover";
@@ -36,19 +39,8 @@ function MyPopoverContent({ children }: { children: React.ReactNode }) {
 }
 ```
 
-`content` is measured from the top left of the viewport, and `arrow` from the
-top left of the content. `isPositioned` stays `false` until the first position
-is worked out, so hiding the content until then avoids a flash in the corner.
-For how the position is worked out, refer to
-[Floating Position](/interactions/position/floating-position).
-
-<Callout variant="warning" title="Reset the dialog's default styles">
-  The content renders a `<dialog>`, which browsers center horizontally with
-  `margin: auto` by default. Without resetting it, **the content lands in the
-  wrong place** with no error. Set `margin: 0`, or use
-  [Reset CSS](/styling/reset-css), which also resets the dialog's default
-  border, padding and background.
-</Callout>
+For more details, refer to
+[Floating Position](/interactions/position/floating-position/usage).
 
 ### Updating the Position
 
@@ -64,214 +56,11 @@ useEffect(updatePosition, [layoutChanged, updatePosition]);
 
 ---
 
-## Placement and Alignment
-
-Props on `Popover` choose where the content goes, relative to the trigger.
-The default placement is `"bottom"`; pass `placement` to prefer another side.
-The default alignment is `"center"`; pass `align` to line it up with the start
-or end of the trigger instead:
-
-```tsx
-<Popover placement="right" align="start">
-  …
-</Popover>
-```
-
-Pass `forcePlacement` to **keep it on the side you chose**, even without room.
-`offset` sets the gap from the trigger, and `padding` the space it keeps from
-the edges of the viewport.
-
----
-
-## Running an Action
-
-`Popover.Close` runs its `onClick`, then closes the popover. Run the action in
-`onClick`; you don't need to close the popover yourself. To keep it open, call
-`event.preventDefault()`:
-
-```tsx
-<Popover.Close>Cancel</Popover.Close>
-<Popover.Close
-  onClick={(event) => {
-    if (!hasSelection) {
-      event.preventDefault(); // keeps the popover open
-      return;
-    }
-    applyFilters();
-  }}
->
-  Apply
-</Popover.Close>
-```
-
-### Async Actions
-
-The popover closes right after `onClick` runs. **It doesn't wait for a
-returned promise**, so a failing action can't keep it open. To keep it open
-until an action finishes, call `event.preventDefault()`, show the progress with
-`isLoading`, and close the popover yourself with `hidePopover` from
-[`usePopover`](#building-your-own-parts) once the action is done:
-
-```tsx
-import { Popover, usePopover } from "@wondesign/headless/Popover";
-
-function SaveButton() {
-  const { hidePopover } = usePopover();
-  const [isSaving, setSaving] = useState(false);
-
-  const handleSave = async (event: React.MouseEvent) => {
-    event.preventDefault(); // keeps the popover open
-    setSaving(true);
-
-    try {
-      await saveSettings();
-      hidePopover();
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  return (
-    <Popover.Close isLoading={isSaving} onClick={handleSave}>
-      Save
-    </Popover.Close>
-  );
-}
-```
-
-While the action runs, the trigger, a click outside and <Keyboard>Esc</Keyboard>
-**can still close the popover**. To block them, control the popover and ignore
-closes in `onOpenChange` until the action is done.
-
-### Submitting a Form
-
-`Popover.Close` accepts `type="submit"`, so it can submit a form inside the
-popover and close it in one click. When the form isn't valid, call
-`event.preventDefault()` to keep the popover open. This also stops the form
-from submitting:
-
-```tsx
-<Popover.Content>
-  <form onSubmit={subscribe}>
-    <input type="email" name="email" required />
-    <Popover.Close
-      type="submit"
-      onClick={(event) => {
-        if (!event.currentTarget.form?.reportValidity()) {
-          event.preventDefault(); // keeps the popover open
-        }
-      }}
-    >
-      Subscribe
-    </Popover.Close>
-  </form>
-</Popover.Content>
-```
-
----
-
-## Checking Before Opening
-
-`Popover.Trigger` runs its `onClick`, then opens or closes the popover. To
-keep it as it is, call `event.preventDefault()`:
-
-```tsx
-<Popover.Trigger
-  onClick={(event) => {
-    if (!isSignedIn) {
-      event.preventDefault(); // keeps the popover closed
-      redirectToSignIn();
-    }
-  }}
->
-  Share
-</Popover.Trigger>
-```
-
----
-
-## Outside Clicks
-
-A click outside the content closes the popover by default. Pass
-`disableOutsideClick` to keep it open while the user works on the page behind,
-like a color picker next to what it edits:
-
-```tsx
-<Popover disableOutsideClick>…</Popover>
-```
-
-`Popover.Close`, the trigger and <Keyboard>Esc</Keyboard> still close the
-popover.
-
-<Callout variant="warning" title="Give it a way to close">
-  {<Keyboard>Esc</Keyboard>} only closes the popover while focus is inside it.
-  Once the user clicks into the page, only the trigger and `Popover.Close` can
-  close it. Without a `Popover.Close`, **the user has to find the trigger
-  again**.
-</Callout>
-
----
-
-## Escape Key
-
-<Keyboard>Esc</Keyboard> closes the popover by default. Pass `disableEscapeKey`
-to turn it off:
-
-```tsx
-<Popover disableEscapeKey>…</Popover>
-```
-
-`Popover.Close`, the trigger and a click outside still close the popover.
-
----
-
-## Choosing Where Focus Goes
-
-When the popover opens, focus moves to the first focusable element inside the
-content. Pass `initialFocusRef` to start somewhere else. When the popover
-closes, focus returns to `Popover.Trigger`. Pass `returnFocusRef` to send it
-somewhere else:
-
-```tsx
-const confirmRef = useRef<HTMLButtonElement>(null);
-const dateFieldRef = useRef<HTMLInputElement>(null);
-
-<>
-  <input ref={dateFieldRef} aria-label="Date" value={selected} readOnly />
-  <Popover initialFocusRef={confirmRef} returnFocusRef={dateFieldRef}>
-    <Popover.Trigger>Pick a date</Popover.Trigger>
-    <Popover.Content>
-      <Popover.Title>Dates</Popover.Title>
-      {/* … */}
-      <Popover.Close ref={confirmRef}>Confirm</Popover.Close>
-    </Popover.Content>
-  </Popover>
-</>;
-```
-
-Both are handled by [Auto Focus](/interactions/focus/auto-focus), so they behave
-exactly as described there, including when the element can't take focus.
-
----
-
-## Heading Level
-
-`Popover.Title` renders an `<h2>`. Use `asChild` to render another heading
-level:
-
-```tsx
-<Popover.Title asChild>
-  <h3>Filters</h3>
-</Popover.Title>
-```
-
----
-
 ## Open State
 
 `Popover` keeps its own state and starts closed. Pass `defaultOpen` to start it
 open, or `isOpen` and `onOpenChange` to control it yourself. Both modes are
-powered by [Disclosure](/interactions/disclosure/open-state), so
+powered by [Disclosure](/interactions/disclosure/open-state/usage), so
 they behave exactly as described there:
 
 ```tsx
@@ -291,45 +80,142 @@ const [open, setOpen] = useState(false);
 
 ---
 
-## Rendering in Place
+## Running an Action
 
-The content renders in a [Portal](/headless/portal) at the end of
-`<body>`, so it isn't clipped by its parents. Pass `disablePortal` to render it
-where it is in the document instead:
+Pass `onClick` to `Popover.Trigger` or `Popover.Close` to run an action. It
+runs your `onClick` first, then opens or closes the popover, so you don't need
+to do it yourself. To skip that in certain cases, call
+`event.preventDefault()`:
 
 ```tsx
-<Popover.Content disablePortal>…</Popover.Content>
+const handleShare = (event) => {
+  if (!isSignedIn) {
+    event.preventDefault(); // keeps the popover closed
+    redirectToSignIn();
+  }
+};
+
+const handleSend = (event) => {
+  if (!hasRecipient) {
+    event.preventDefault(); // keeps the popover open
+    return;
+  }
+  sendInvite();
+};
+
+<Popover>
+  <Popover.Trigger onClick={handleShare}>Share</Popover.Trigger>
+  <Popover.Content>
+    {/* … */}
+    <Popover.Close>Cancel</Popover.Close>
+    <Popover.Close onClick={handleSend}>Send</Popover.Close>
+  </Popover.Content>
+</Popover>;
 ```
 
-<Callout variant="warning" title="It can end up somewhere unexpected">
-  The position from `usePopover` is measured from the viewport. With `position:
-  fixed`, that's usually still right when the content renders in place. But
-  inside an ancestor with a `transform`, `filter` or similar, `fixed` is
-  measured from that ancestor instead, so **the content can be placed somewhere
-  unexpected** with no error.
-</Callout>
+### Async Actions
+
+The popover closes right after `onClick` runs. **It doesn't wait for a
+returned promise**, so a failing action can't keep it open. To keep it open
+until an action finishes, call `event.preventDefault()`, show the progress with
+`isLoading`, and close the popover yourself with `hidePopover` from
+[`usePopover`](#custom-parts):
+
+```tsx
+import { Popover, usePopover } from "@wondesign/headless/Popover";
+
+function SaveButtons() {
+  const { hidePopover } = usePopover();
+  const [isSaving, setSaving] = useState(false);
+
+  const handleSave = async (event: React.MouseEvent) => {
+    event.preventDefault(); // keeps the popover open
+    setSaving(true);
+
+    try {
+      await saveSettings();
+      hidePopover();
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <>
+      <Popover.Close isDisabled={isSaving}>Cancel</Popover.Close>
+      <Popover.Close isLoading={isSaving} onClick={handleSave}>
+        Save
+      </Popover.Close>
+    </>
+  );
+}
+```
+
+While the action runs, the trigger, a click outside and <Keyboard>Esc</Keyboard>
+**can still close the popover**. To block them, control the popover and ignore
+closes in `onOpenChange` until the action is done.
+
+### Submitting a Form
+
+`Popover.Close` accepts `type="submit"` (`Popover.Trigger` doesn't), so it
+can submit a form inside the
+popover and close it in one click. When the form isn't valid, call
+`event.preventDefault()` to keep the popover open. This also stops the form
+from submitting:
+
+```tsx
+const handleSubscribe = (event) => {
+  if (!event.currentTarget.form?.reportValidity()) {
+    event.preventDefault(); // keeps the popover open
+  }
+};
+
+<Popover.Content>
+  <form onSubmit={subscribe}>
+    <input type="email" name="email" required />
+    <Popover.Close type="submit" onClick={handleSubscribe}>
+      Subscribe
+    </Popover.Close>
+  </form>
+</Popover.Content>;
+```
 
 ---
 
-## Keeping Content Mounted
+## Focus Management
 
-Closed content is **removed from the page** by default. Pass `keepMounted` to
-keep it in the page, hidden with the `hidden` attribute, so what's inside
-keeps its state, like text typed into a field:
+By default, focus moves to the first focusable element inside the content when
+the popover opens, and returns to `Popover.Trigger` when it closes. Pass
+`initialFocusRef` to start somewhere else, and `returnFocusRef` to send it
+somewhere else on close.
+
+`initialFocusRef` must point inside the content. Outside it,
+**it's ignored silently**, and focus moves to the first focusable element instead:
 
 ```tsx
-<Popover keepMounted>…</Popover>
+const confirmRef = useRef<HTMLButtonElement>(null);
+const dateFieldRef = useRef<HTMLInputElement>(null);
+
+<>
+  <input ref={dateFieldRef} aria-label="Date" value={selected} readOnly />
+  <Popover initialFocusRef={confirmRef} returnFocusRef={dateFieldRef}>
+    <Popover.Trigger>Pick a date</Popover.Trigger>
+    <Popover.Content>
+      <Popover.Title>Dates</Popover.Title>
+      {/* … */}
+      <Popover.Close ref={confirmRef}>Confirm</Popover.Close>
+    </Popover.Content>
+  </Popover>
+</>;
 ```
 
-<Callout variant="warning" title="Closed content can stay visible">
-  A `display` value in your styles overrides the `hidden` attribute, so **it
-  stays visible** with no error. Set the `display` only while it's open, with
-  `[data-state="open"]`.
-</Callout>
+Focus management is handled by [Auto Focus](/interactions/focus/auto-focus/usage),
+so it behaves exactly as described there, including when the element can't
+take focus.
 
 ---
 
-## Building Your Own Parts
+## Custom Parts
 
 `usePopover` gives any component inside `Popover` the open state, the position,
 and ways to open, close or toggle it. For example, a menu item that opens the
@@ -352,15 +238,42 @@ function EditMenuItem() {
 The content is **still positioned against `Popover.Trigger`**, wherever it's
 opened from.
 
-For everything the hook returns, refer to the
-[API tab](/headless/popover/api#usepopover).
+---
+
+## Your Own Elements
+
+Every part except the provider and `Popover.Arrow` takes `asChild`, which
+renders your own element or component instead, like another heading level for
+the title:
+
+```tsx
+<Popover.Title asChild>
+  <h3>Filters</h3>
+</Popover.Title>
+```
+
+For how props and refs are merged, refer to
+[AsChild](/headless/as-child/usage).
 
 ---
 
-## Animating the Content
+## Styling
 
-Animate the content with CSS, using its `data-state`. When it closes, it
-waits for your exit animation to finish before it leaves the page:
+Style each part with `className` and `style`, like any other element. Their
+states show up as [data attributes](/headless/popover/api), so you can style
+each state without extra props:
+
+```css
+.trigger[data-state="open"] { … }
+.content[data-state="open"] { … }
+.arrow[data-placement="top"] { … }
+.close[data-loading] { … }
+```
+
+### Exit Animations
+
+Animate the content with CSS, using its `data-state`. When it closes, it stays
+on the page until its animations and transitions finish:
 
 ```css
 .content[data-state="open"] {
@@ -372,17 +285,5 @@ waits for your exit animation to finish before it leaves the page:
 }
 ```
 
----
-
-## Styling with Data Attributes
-
-The parts expose their state as
-[data attributes](/headless/popover/api), so you can style each
-state with plain CSS:
-
-```css
-.trigger[data-state="open"] { … }
-.content[data-state="open"] { … }
-.arrow[data-placement="top"] { … }
-.close[data-loading] { … }
-```
+While it's leaving, it can't be clicked or focused, and screen readers treat
+it as closed. **Animations that repeat forever aren't waited for.**
