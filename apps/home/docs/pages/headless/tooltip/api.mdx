@@ -97,12 +97,13 @@ interface TooltipTriggerProps {
 
 `Tooltip.Content` or `TooltipContent`. Renders a `<div>`, and accepts all its
 props, except `id`, `role`, `hidden`, `onMouseEnter` and `onMouseLeave`.
+
 The hide timer stops while the pointer is on the content, so the tooltip stays
 open.
 
 **Props**
 
-- 🔹 **disablePortal**: renders the content where it is, instead of in a
+- 🔹 **disablePortal**: renders the content where it is in the DOM, instead of in a
   [Portal](/headless/portal) at the end of `<body>`. Watch out for
   [content that ends up somewhere unexpected](/headless/tooltip/overview#watch-out).
 
