@@ -42,7 +42,6 @@ export function ModalTrigger({
     <Button
       {...rest}
       ref={mergedRef}
-      type="button"
       onClick={finalOnClick}
       aria-haspopup="dialog"
       data-state={isOpen ? "open" : "closed"}
