@@ -1,0 +1,35 @@
+# API
+
+```ts
+import { Pressable, type PressableProps } from "@wondesign/buttons/Pressable";
+// or from @wondesign/ui/buttons
+```
+
+---
+
+## Props
+
+Renders a `<button>`, and accepts all props of the headless
+[Button](/headless/button/api). For what each prop does, refer to the
+[Examples tab](/components/buttons/pressable/examples).
+
+```ts
+interface PressableProps {
+  children?: React.ReactNode;
+  isDisabled?: boolean; // defaults to `false`
+  isLoading?: boolean; // defaults to `false`
+  asChild?: boolean; // defaults to `false`
+  type?: "button" | "submit" | "reset"; // defaults to `"button"`
+  ref?: React.Ref<HTMLButtonElement>;
+  // ...
+}
+```
+
+---
+
+## Data Attributes
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```
