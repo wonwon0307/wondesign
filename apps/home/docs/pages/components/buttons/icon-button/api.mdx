@@ -1,0 +1,41 @@
+# API
+
+```ts
+import {
+  IconButton,
+  type IconButtonProps,
+} from "@wondesign/buttons/IconButton";
+// or from @wondesign/ui/buttons
+```
+
+---
+
+## Props
+
+Renders a `<button>`, and accepts all props of
+[Pressable](/components/buttons/pressable/api). It takes either `icon` or
+`children`, and passing both is a type error. For what each prop does,
+refer to the [Examples tab](/components/buttons/icon-button/examples).
+
+```ts
+type IconButtonProps = {
+  appearance?: "filled" | "outlined" | "ghost"; // defaults to `"outlined"`
+  size?: number | string; // defaults to `"1em"`
+  rounded?: boolean; // defaults to `false`
+  spacious?: boolean; // defaults to `false`
+  isDisabled?: boolean; // defaults to `false`
+  isLoading?: boolean; // defaults to `false`
+  fallback?: React.ReactNode; // defaults to a `Spinner` the size of the icon
+  "aria-label"?: string; // defaults to `"<icon> icon button"`
+  // ...
+} & ({ icon: IconName } | { children: React.ReactNode });
+```
+
+---
+
+## Data Attributes
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```
