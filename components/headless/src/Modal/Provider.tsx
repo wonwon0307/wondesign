@@ -1,5 +1,6 @@
 import { useId, useMemo, useRef, useState } from "react";
 import { useOpenState } from "@wondesign/disclosure/open-state";
+import { usePresence } from "@wondesign/disclosure/presence";
 import { useScrollLock } from "@wondesign/disclosure/scroll-lock";
 import { useAutoFocus } from "@wondesign/focus/auto-focus";
 import { useBackgroundInert } from "@wondesign/focus/background-inert";
@@ -46,6 +47,7 @@ export function ModalProvider({
   const [titleId, setTitleId] = useState<string | undefined>(undefined);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const floatingRef = useRef<HTMLDialogElement>(null);
+  const { isPresent, status } = usePresence(floatingRef, isOpen);
   const scopeKey = useId();
 
   useClickOutside(floatingRef, closeModal, {
@@ -68,6 +70,8 @@ export function ModalProvider({
   const contextValue = useMemo(
     () => ({
       isOpen,
+      isPresent,
+      status,
       openModal,
       closeModal,
       keepMounted,
@@ -80,6 +84,8 @@ export function ModalProvider({
     }),
     [
       isOpen,
+      isPresent,
+      status,
       openModal,
       closeModal,
       keepMounted,
