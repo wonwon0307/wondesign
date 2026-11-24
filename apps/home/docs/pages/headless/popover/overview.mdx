@@ -6,9 +6,8 @@ import { Keyboard, KeyboardGroup } from "@wondesign/ui/code";
 following the
 [WAI-ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
 without the parts that make it modal (focus trap, background inert and scroll
-lock). It handles opening and closing, moves
-focus in and back out, works out where the content fits on screen, and labels
-it for assistive technology, so you only bring the look.
+lock). It handles the open state, focus and placement, so you only bring the
+look.
 
 Use it when the content belongs next to its trigger, like a filter form or
 quick settings. The page behind **stays usable** while it's open. For a long
@@ -28,9 +27,9 @@ import { Popover } from "@wondesign/ui/headless";
 
 - ✅ **Accessible by Default**: Announced as a dialog, named by its title
 - ✅ **Easy to Dismiss**: Closes with a close button, a click outside, or <Keyboard>Esc</Keyboard> while focus is inside it
-- ✅ **Focus Management**: Moves focus in when it opens, and returns it to the trigger when it closes
+- ✅ **Focus Management**: Moves focus in when it opens, and returns it when it closes
 - ✅ **Non-Modal**: Focus isn't trapped, and the page behind stays usable while it's open
-- ✅ **Computed Position**: Works out where it fits next to the trigger, and stays inside the viewport
+- ✅ **Computed Position**: Works out where it fits next to the trigger, inside the viewport
 - ✅ **Controlled & Uncontrolled**: Let it manage the open state, or drive it yourself
 - ✅ **Keep Content Mounted**: Hide closed content instead of removing it
 - ✅ **Exit Animations**: Closed content stays until its exit animation finishes
@@ -95,6 +94,11 @@ For how to control, extend and style it, refer to the
 - ⚠️ **Use named exports in Server Components**: The parts are client
   components, so a Server Component **can't reach `Popover.Trigger` through
   `Popover`**. Import `PopoverTrigger` and the other parts on their own instead.
+- ⚠️ **Reset the dialog's default styles**: The content renders a `<dialog>`,
+  which browsers give a default margin, border, padding and background.
+  Without resetting them, **the content lands in the wrong place** with no
+  error. Set `margin: 0`, or use [Reset CSS](/styling/reset-css), which resets
+  all of them.
 - ⚠️ **Closed content can stay visible**: With `keepMounted`, a `display`
   value in your styles overrides the `hidden` attribute, so **it stays
   visible** with no error. Set the `display` only while it's open, with

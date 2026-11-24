@@ -1,5 +1,4 @@
 import { Keyboard } from "@wondesign/ui/code";
-import { Callout } from "@wondesign/ui/texts";
 
 # Usage
 
@@ -42,14 +41,6 @@ function MyPopoverContent({ children }: { children: React.ReactNode }) {
 
 For more details, refer to
 [Floating Position](/interactions/position/floating-position/usage).
-
-<Callout variant="warning" title="Reset the dialog's default styles">
-  The content renders a `<dialog>`, which browsers center horizontally with
-  `margin: auto` by default. Without resetting it, **the content lands in the
-  wrong place** with no error. Set `margin: 0`, or use
-  [Reset CSS](/styling/reset-css), which also resets the dialog's default
-  border, padding and background.
-</Callout>
 
 ### Updating the Position
 
@@ -128,12 +119,12 @@ The popover closes right after `onClick` runs. **It doesn't wait for a
 returned promise**, so a failing action can't keep it open. To keep it open
 until an action finishes, call `event.preventDefault()`, show the progress with
 `isLoading`, and close the popover yourself with `hidePopover` from
-[`usePopover`](#custom-parts) once the action is done:
+[`usePopover`](#custom-parts):
 
 ```tsx
 import { Popover, usePopover } from "@wondesign/headless/Popover";
 
-function SaveButton() {
+function SaveButtons() {
   const { hidePopover } = usePopover();
   const [isSaving, setSaving] = useState(false);
 
@@ -150,9 +141,12 @@ function SaveButton() {
   };
 
   return (
-    <Popover.Close isLoading={isSaving} onClick={handleSave}>
-      Save
-    </Popover.Close>
+    <>
+      <Popover.Close isDisabled={isSaving}>Cancel</Popover.Close>
+      <Popover.Close isLoading={isSaving} onClick={handleSave}>
+        Save
+      </Popover.Close>
+    </>
   );
 }
 ```
@@ -248,8 +242,9 @@ opened from.
 
 ## Your Own Elements
 
-Pass `asChild` to render your own element instead, like another heading level
-for the title:
+Every part except the provider and `Popover.Arrow` takes `asChild`, which
+renders your own element or component instead, like another heading level for
+the title:
 
 ```tsx
 <Popover.Title asChild>
