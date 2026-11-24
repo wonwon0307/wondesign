@@ -2,9 +2,6 @@ import { Keyboard } from "@wondesign/ui/code";
 
 # API
 
-This page covers every part of `Toast`, its hook and its types. Import them
-from `@wondesign/headless/Toast`:
-
 ```ts
 import {
   // components
@@ -22,31 +19,31 @@ import {
   type ToastDescriptionProps,
   type ToastCloseProps,
 } from "@wondesign/headless/Toast";
+// or from @wondesign/ui/headless
 ```
 
 ---
 
 ## Components
 
-The parts that make up a toast. Each one renders a single element and accepts
-that element's props. Every `Toast` must be inside `ToastArea`, and every
-other part inside a `Toast`.
+Each part below lists its key props, followed by its data attributes if it
+has any.
 
 ### ToastArea
 
-Renders a `<div>` with `role="status"`, `aria-live="polite"` and
-`aria-atomic="false"`, in its own [Portal](/headless/portal) unless
-`disablePortal` is `true`.
+Renders a `<div>` with the `status` role as a polite live region, and accepts
+all its props, except `role`, `aria-live` and `aria-atomic`.
 
 **Props**
 
-Accepts all `<div>` props, except `role`, `aria-live` and `aria-atomic`, which
-the area manages. Key props:
+- 🔹 **disablePortal**: renders the area where it is in the DOM, instead of
+  in a [Portal](/headless/portal) at the end of `<body>`. Watch out for
+  [toasts that get clipped](/headless/toast/overview#watch-out).
 
 ```ts
 interface ToastAreaProps {
   children: React.ReactNode;
-  asChild?: boolean;
+  asChild?: boolean; // defaults to `false`
   disablePortal?: boolean; // defaults to `false`
   // ...
 }
@@ -54,29 +51,28 @@ interface ToastAreaProps {
 
 ### Toast
 
-Renders a `<div>` that holds one toast. It holds the open state and the timer,
-pauses the timer while hovered or focused, and closes when the user
-presses <Keyboard>Esc</Keyboard> while focus is inside it. When it closes, it
-stays on the page until its exit animation finishes. Must be used inside
-`ToastArea`.
+Renders a `<div>`, and accepts all its props, except `hidden`, `role`,
+`aria-live`, `aria-atomic`, `onMouseEnter`, `onMouseLeave`, `onFocus` and
+`onBlur`. It closes on <Keyboard>Esc</Keyboard> while focus is inside it.
+Must be used inside `ToastArea`.
 
 **Props**
 
-Accepts all `<div>` props, except `hidden`, `role`, `aria-live`,
-`aria-atomic`, `onMouseEnter`, `onMouseLeave`, `onFocus` and `onBlur`, which
-the toast manages. Key props:
+- 🔹 **duration**: how long it stays open, in milliseconds. `0` keeps it open
+  until it's closed. See [Duration](/headless/toast/usage#duration).
+- 🔹 **isOpen**, **onOpenChange**: control the open state yourself.
+  `onOpenChange` **is only called when `isOpen` is passed**. See
+  [Open State](/headless/toast/usage#open-state).
+- 🔹 **defaultOpen**: shows the toast as soon as it's rendered.
 
 ```ts
 interface ToastProps {
   children: React.ReactNode;
-  // in milliseconds, defaults to `5000`.
-  // `0` keeps it open until closed.
-  duration?: number;
+  duration?: number; // defaults to `5000`
   isOpen?: boolean;
-  // only called when `isOpen` is passed.
   onOpenChange?: (isOpen: boolean) => void;
   defaultOpen?: boolean; // defaults to `false`
-  asChild?: boolean;
+  asChild?: boolean; // defaults to `false`
   // ...
 }
 ```
@@ -90,56 +86,54 @@ interface ToastProps {
 
 ### ToastMessage
 
-Renders an `<h3>` with the main line of the toast. Must be used inside
-`Toast`.
+Renders an `<h3>` with the main line of the toast, and accepts all its props.
+Must be used inside `Toast`.
 
 **Props**
-
-Accepts all `<h3>` props. Key props:
 
 ```ts
 interface ToastMessageProps {
   children: React.ReactNode;
-  asChild?: boolean;
+  asChild?: boolean; // defaults to `false`
   // ...
 }
 ```
 
 ### ToastDescription
 
-Renders a `<p>` with optional detail, shown under the message. Must be used
+Renders a `<p>` with optional detail, and accepts all its props. Must be used
 inside `Toast`.
 
 **Props**
 
-Accepts all `<p>` props. Key props:
-
 ```ts
 interface ToastDescriptionProps {
   children: React.ReactNode;
-  asChild?: boolean;
+  asChild?: boolean; // defaults to `false`
   // ...
 }
 ```
 
 ### ToastClose
 
-Renders a `<button>` that closes the toast. If passed, `onClick` runs before
-the toast closes, and can keep it open by calling `event.preventDefault()`.
-**It doesn't wait for a returned promise.** Must be used inside `Toast`.
+Renders a `<button>`, and accepts all props of
+[Headless Button](/headless/button/api), except `type`. Must be used inside
+`Toast`.
+
+Each toast is read as a whole, **including its close button's label**, so
+pick one that makes sense after the message, like "Dismiss" or "Undo".
 
 **Props**
 
-Accepts all props of [Headless Button](/headless/button), except
-`type`, which the close button manages. Key props:
+- 🔹 **onClick**: runs before the toast closes. Call `event.preventDefault()`
+  to keep it open. See
+  [Running an Action](/headless/toast/usage#running-an-action).
 
 ```ts
 interface ToastCloseProps {
   children: React.ReactNode;
-  // runs before the toast closes.
-  // call `event.preventDefault()` to keep it open.
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  asChild?: boolean;
+  asChild?: boolean; // defaults to `false`
   isDisabled?: boolean; // defaults to `false`
   // ...
 }
@@ -156,19 +150,16 @@ interface ToastCloseProps {
 
 ## Hooks
 
-Hooks read the state of the nearest `Toast`, for building your own parts.
-They throw an error when used outside one.
-
 ### useToast
 
-Reads the state of the nearest `Toast`.
-
-**Returns**
+Reads the state of the nearest `Toast`. Throws an error outside one.
 
 ```ts
 function useToast(): {
   isOpen: boolean; // whether the toast is open
   isPaused: boolean; // whether the timer is paused
+  isPresent: boolean; // whether the toast is on the page, including while it animates out
+  status: "open" | "closing" | "closed";
   dismissToast: () => void; // closes it
   pauseTimer: () => void; // stops the timer
   resumeTimer: () => void; // continues the timer from where it stopped

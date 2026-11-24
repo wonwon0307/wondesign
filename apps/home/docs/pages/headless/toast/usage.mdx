@@ -1,102 +1,28 @@
 # Usage
 
-This page covers what you can configure on `Toast`. For every prop, refer to
-the [API tab](/headless/toast/api).
+This page covers how to control, extend and style `Toast`. For what each prop
+does, refer to the [API tab](/headless/toast/api).
 
 ---
 
-## Placing the Area
+## Setting Up the Area
 
-Render `ToastArea` once, near the root of your app, and put every toast inside
-it. It renders at the end of `<body>`, but **doesn't position or stack the
-toasts**: style it yourself, for example as a column in a corner of the
-screen.
-
-Keep everything that isn't a toast outside the area. **Anything inside it is
-announced to screen readers when it changes.**
+`ToastArea` is required. Render it once, near the root of your app, and put
+every toast inside it. **A `Toast` outside it throws an error.**
 
 ```tsx
-<ToastArea className="toast-area">
-  <Toast>…</Toast>
-  <Toast>…</Toast>
-</ToastArea>
-```
-
-```css
-.toast-area {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+function App() {
+  return (
+    <>
+      <Header />
+      <main>…</main>
+      <ToastArea>
+        <Toast>…</Toast>
+        <Toast>…</Toast>
+      </ToastArea>
+    </>
+  );
 }
-```
-
----
-
-## Duration
-
-The toast closes after 5 seconds by default. Pass `duration`, in milliseconds,
-to change it.
-
-**Pass `0` to keep the toast open until it's closed.** A toast that stays open
-needs a way to close it, like `ToastClose`:
-
-```tsx
-// closes after 10 seconds
-<Toast duration={10000}>…</Toast>;
-
-// stays open until closed
-<Toast duration={0}>
-  {/*…*/}
-  <ToastClose>Dismiss</ToastClose>
-</Toast>;
-```
-
-Don't change `duration` while the toast is open. The timer starts over with
-the new `duration`, **even while the toast is paused**, so it can close under
-the user's pointer.
-
----
-
-## Closing
-
-`ToastClose` runs its `onClick`, then closes the toast. Call
-`event.preventDefault()` in `onClick` to keep it open:
-
-```tsx
-<ToastClose>Dismiss</ToastClose>
-<ToastClose onClick={undo}>Undo</ToastClose>
-```
-
-### Screen Readers
-
-The close button's label is announced along with the message, as part of the
-toast. This toast is read as "Saved. Your changes are live. Dismiss":
-
-```tsx
-<Toast>
-  <ToastMessage>Saved</ToastMessage>
-  <ToastDescription>Your changes are live.</ToastDescription>
-  <ToastClose>Dismiss</ToastClose>
-</Toast>
-```
-
-So **pick a label that makes sense after the message**, like "Dismiss" or
-"Undo". For an icon-only button, give it an `aria-label`.
-
----
-
-## Heading Level
-
-`ToastMessage` renders an `<h3>`. Use `asChild` to render another heading
-level:
-
-```tsx
-<ToastMessage asChild>
-  <h4>Saved</h4>
-</ToastMessage>
 ```
 
 ---
@@ -105,95 +31,85 @@ level:
 
 `Toast` keeps its own state and starts closed. Pass `defaultOpen` to start it
 open, or `isOpen` and `onOpenChange` to control it yourself. Both modes are
-powered by [Disclosure](/interactions/disclosure/open-state).
-There's no trigger part, so a toast is shown in one of these two ways.
-
-**Controlled**: Pass `isOpen` and `onOpenChange`, and open the toast from
-wherever the event happens, like after a save:
+powered by [Disclosure](/interactions/disclosure/open-state/usage), so
+they behave exactly as described there:
 
 ```tsx
-const [isSaved, setSaved] = useState(false);
+// uncontrolled, starts closed
+<Toast>…</Toast>;
 
-const handleSave = async () => {
-  await save();
-  setSaved(true);
+// uncontrolled, starts open
+<Toast defaultOpen>…</Toast>;
+
+// controlled
+const [open, setOpen] = useState(false);
+
+<Toast isOpen={open} onOpenChange={setOpen}>
+  …
+</Toast>;
+```
+
+Use `defaultOpen` only for a toast you show once, like a welcome message.
+`Toast` has no trigger, so **a toast that starts open can't be opened again
+once it closes**. Control it if you need to show it more than once.
+
+### Showing Toasts from Anywhere
+
+Controlling the open state of every toast yourself gets repetitive.
+[`@wondesign/toast`](/components/toast) works well for this: place its
+`Toaster` once, then call its imperative API, `toast()`, from anywhere:
+
+```tsx
+import { toast } from "@wondesign/toast";
+
+toast.success("Saved");
+```
+
+---
+
+## Duration
+
+The toast closes after 5 seconds by default. Pass `duration`, in
+milliseconds, to change it, or `0` to keep it open until it's closed. A toast
+that stays open needs a way to close it, like `ToastClose`:
+
+```tsx
+// closes after 10 seconds
+<Toast duration={10000}>…</Toast>;
+
+// stays open until closed
+<Toast duration={0}>
+  {/* … */}
+  <ToastClose>Dismiss</ToastClose>
+</Toast>;
+```
+
+---
+
+## Running an Action
+
+Pass `onClick` to `ToastClose` to run an action. It runs your `onClick`
+first, then closes the toast, so you don't need to do it yourself. To skip
+that in certain cases, call `event.preventDefault()`:
+
+```tsx
+const handleUndo = (event) => {
+  if (!canUndo) {
+    event.preventDefault(); // keeps the toast open
+    return;
+  }
+  undo();
 };
 
-<button onClick={handleSave}>Save</button>;
-
-<ToastArea>
-  <Toast isOpen={isSaved} onOpenChange={setSaved}>
-    <ToastMessage>Saved</ToastMessage>
-  </Toast>
-</ToastArea>;
-```
-
-**Open on Render**: Pass `defaultOpen`, and the toast shows as soon as it's
-rendered, like a welcome message on page load. It **can't be opened again once
-it closes**, so control it if you need to show it more than once:
-
-```tsx
-<ToastArea>
-  <Toast defaultOpen>
-    <ToastMessage>Welcome back</ToastMessage>
-  </Toast>
-</ToastArea>
-```
-
-- 📌 `onOpenChange` is only called when the toast is controlled.
-  **It's never called with `defaultOpen` alone**, even when the
-  toast closes. Pass `isOpen` too if you need to know when it closes.
-
----
-
-## Showing Toasts from Anywhere
-
-Controlling every toast yourself doesn't scale. It is strongly recommended to
-use an imperative API instead, like the `@wondesign/toast` package, so a toast
-can be shown from anywhere.
-
-You can also build your own: keep the toasts in a store outside React, and
-render them in a component placed once. Control each toast with `isOpen`, and
-remove it from the store in `onOpenChange`. **With `defaultOpen` instead, the
-toast hides but is never removed**, so it keeps its place in the store:
-
-```tsx
-function Toaster() {
-  // your own store
-  const toasts = useSyncExternalStore(subscribe, getToasts, getToasts);
-
-  return (
-    <ToastArea>
-      {toasts.map((toast) => (
-        <Toast key={toast.id} isOpen onOpenChange={() => removeToast(toast.id)}>
-          <ToastMessage>{toast.message}</ToastMessage>
-        </Toast>
-      ))}
-    </ToastArea>
-  );
-}
+<Toast>
+  <ToastMessage>File deleted</ToastMessage>
+  <ToastClose onClick={handleUndo}>Undo</ToastClose>
+</Toast>;
 ```
 
 ---
 
-## Rendering in Place
-
-The area renders in a [Portal](/headless/portal) at the end of
-`<body>`, so it isn't clipped by its parents.
-Pass `disablePortal` to `ToastArea` to render it where it is in the document
-instead:
-
-```tsx
-<ToastArea disablePortal>…</ToastArea>
-```
-
-**Make sure you know what you're doing**: rendered in place, the toasts can be
-clipped by their parents or covered by other elements, and handling that is up
-to you.
-
----
-
-## Building Your Own Parts
+## Custom Parts
 
 `useToast` gives any component inside `Toast` the open state, a way to close
 it, and control over the timer. For example, a link that closes the toast
@@ -213,19 +129,43 @@ function ViewLink() {
 }
 ```
 
-`pauseTimer` and `resumeTimer` stop and continue the timer, as hovering and
-focusing do. `resumeTimer` **doesn't check whether the toast is still hovered
-or focused**, so calling it then lets the toast close under the user.
-
-For everything the hook returns, refer to the
-[API tab](/headless/toast/api#usetoast).
+`resumeTimer` **doesn't check whether the toast is still hovered or
+focused**, so calling it then can close the toast under the user.
 
 ---
 
-## Animating the Toast
+## Your Own Elements
 
-Animate each toast with CSS, using its `data-state`. When it closes, it waits
-for your exit animation to finish before it leaves the page:
+Every part takes `asChild`, which renders your own element or component
+instead, like another heading level for the message:
+
+```tsx
+<ToastMessage asChild>
+  <h4>Saved</h4>
+</ToastMessage>
+```
+
+For how props and refs are merged, refer to
+[AsChild](/headless/as-child/usage).
+
+---
+
+## Styling
+
+Style each part with `className` and `style`, like any other element. Their
+states show up as [data attributes](/headless/toast/api), so you can style
+each state without extra props:
+
+```css
+.toast[data-paused] { … }
+.close[data-disabled] { … }
+```
+
+### Exit Animations
+
+Animate each toast with CSS, using its `data-state`. When it closes, it stays
+on the page until its animations and transitions finish, including those
+inside it:
 
 ```css
 .toast[data-state="open"] {
@@ -237,21 +177,15 @@ for your exit animation to finish before it leaves the page:
 }
 ```
 
----
+While it's leaving, it can't be clicked or focused. **Animations that repeat
+forever aren't waited for.**
 
-## Styling with Data Attributes
+### Showing the Time Left
 
-The parts expose their state as
-[data attributes](/headless/toast/api), so you can style each state
-with plain CSS:
-
-```css
-.toast[data-paused] { … }
-.close[data-disabled] { … }
-```
-
-For example, a bar that shrinks over the toast's `duration` and stops while
-the timer is paused:
+A bar that shrinks over the `duration` can stop with the timer, using
+`data-paused`. Stop it when the toast closes as well. Otherwise, a toast
+closed early **stays until the bar runs out**, and one closed while paused
+**never leaves**:
 
 ```css
 .progress {
@@ -265,18 +199,4 @@ the timer is paused:
 .toast[data-state="closed"] .progress {
   animation: none;
 }
-
-@keyframes shrink {
-  from {
-    width: 100%;
-  }
-  to {
-    width: 0;
-  }
-}
 ```
-
-The `data-state="closed"` rule stops the bar when the toast closes. A toast
-waits for every animation inside it before it leaves, so without that rule, a
-toast closed early **stays until the bar runs out**, and one closed while
-paused **never leaves**.
