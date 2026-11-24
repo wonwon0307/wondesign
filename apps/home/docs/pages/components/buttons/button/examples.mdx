@@ -165,9 +165,8 @@ button keeps its size, so the layout around it doesn't move:
 </Preview>
 
 ```tsx
-<Button isLoading={isSaving} onClick={save}>
-  Save
-</Button>
+<Button>Save</Button>
+<Button isLoading>Save</Button>
 ```
 
 ### Fallback Position
@@ -203,11 +202,10 @@ loading, like an icon that turns into a spinner:
 </Preview>
 
 ```tsx
-<Button
-  isLoading={isUploading}
-  fallbackPosition="left"
-  left={<AppIcon icon="upload" />}
->
+<Button fallbackPosition="left" left={<AppIcon icon="upload" />}>
+  Upload
+</Button>
+<Button isLoading fallbackPosition="left" left={<AppIcon icon="upload" />}>
   Upload
 </Button>
 ```
@@ -254,5 +252,6 @@ disabled:
 </Preview>
 
 ```tsx
+<Button>Save</Button>
 <Button isDisabled>Save</Button>
 ```
