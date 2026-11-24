@@ -89,8 +89,9 @@ function HideButton() {
 
 ## Your Own Elements
 
-Pass `asChild` to render your own element instead, like a styled button for
-the toggle, or a `<section>` for the content:
+`Collapsible.Toggle` and `Collapsible.Content` take `asChild`, which renders
+your own element or component instead, like a styled button for the toggle,
+or a `<section>` for the content:
 
 ```tsx
 import { Button } from "@wondesign/buttons/Button";
@@ -106,7 +107,7 @@ import { Button } from "@wondesign/buttons/Button";
 ```
 
 With `asChild`, the content **has no role** unless you pass one. For how props
-and refs are merged, refer to the [AsChild usage tab](/headless/as-child/usage).
+and refs are merged, refer to [AsChild](/headless/as-child/usage).
 
 ---
 
