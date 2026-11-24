@@ -3,6 +3,7 @@ import { mediaQueries, tokens } from "@wondesign/tokens";
 
 const link = style({
   color: tokens.colors.primary,
+  whiteSpace: "nowrap",
   selectors: {
     "&[data-disabled]": {
       opacity: tokens.opacity.disabled,
