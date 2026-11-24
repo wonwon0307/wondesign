@@ -1,0 +1,36 @@
+# API
+
+```ts
+import {
+  LinkButton,
+  type LinkButtonProps,
+} from "@wondesign/buttons/LinkButton";
+// or from @wondesign/ui/buttons
+```
+
+---
+
+## Props
+
+Renders a `<button>`, and accepts all props of
+[Pressable](/components/buttons/pressable/api). For what each prop does,
+refer to the [Examples tab](/components/buttons/link-button/examples).
+
+```ts
+interface LinkButtonProps {
+  children: React.ReactNode;
+  isDisabled?: boolean; // defaults to `false`
+  isLoading?: boolean; // defaults to `false`
+  type?: "button" | "submit" | "reset"; // defaults to `"button"`
+  // ...
+}
+```
+
+---
+
+## Data Attributes
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```
