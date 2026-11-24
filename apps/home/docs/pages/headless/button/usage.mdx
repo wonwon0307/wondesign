@@ -47,6 +47,23 @@ Set the `type` yourself when the button should submit a form:
 
 ---
 
+## Your Own Elements
+
+`Button` takes `asChild`, which renders your own element or component instead,
+like a button you've already styled. It keeps the disabled and loading
+behaviour:
+
+```tsx
+<Button asChild isLoading={isSaving} onClick={save}>
+  <MyStyledButton>Save</MyStyledButton>
+</Button>
+```
+
+For how props and refs are merged, refer to
+[AsChild](/headless/as-child/usage).
+
+---
+
 ## Styling
 
 Style it with `className` and `style`, like any other element. Its states
