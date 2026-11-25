@@ -1,2 +1,3 @@
 export { Heading } from "./Heading";
-export type { HeadingProps } from "./props";
+
+export type { HeadingProps } from "./Heading";
