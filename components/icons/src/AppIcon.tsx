@@ -4,7 +4,15 @@ import { iconMap, type IconName } from "./iconMap";
 
 type Props = IconProps & { icon: IconName };
 
-export function AppIcon({ icon, size, ...rest }: Readonly<Props>) {
+export function AppIcon({
+  icon,
+  size,
+  role = "img",
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  "aria-hidden": ariaHidden = true,
+  ...rest
+}: Readonly<Props>) {
   const IconComponent = iconMap[icon];
 
   if (!IconComponent) {
@@ -12,5 +20,14 @@ export function AppIcon({ icon, size, ...rest }: Readonly<Props>) {
     return null;
   }
 
-  return <IconComponent size={size} {...rest} />;
+  return (
+    <IconComponent
+      {...rest}
+      role={role}
+      size={size}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledBy}
+      aria-hidden={ariaLabel || ariaLabelledBy ? undefined : ariaHidden}
+    />
+  );
 }
