@@ -1,4 +1,4 @@
-import { colorWithOpacity } from "@wondesign/tokens";
+import { colorWithOpacity, tokens } from "@wondesign/tokens";
 import { clsx } from "clsx";
 
 import { styles } from "./styles.css";
@@ -18,7 +18,7 @@ export interface BadgeProps extends Omit<
 
 export function Badge({
   label,
-  color = "gray",
+  color = tokens.colors.textMuted,
   backgroundColor = colorWithOpacity(color, 0.18),
   size = "medium",
   bold = false,
