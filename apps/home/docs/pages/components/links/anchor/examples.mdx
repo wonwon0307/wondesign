@@ -1,100 +1,64 @@
 import { Anchor } from "@wondesign/ui/links";
-import { Description, Heading } from "@wondesign/ui/texts";
+import { Badge } from "@wondesign/ui/texts";
 import { Preview } from "@/widgets/preview";
 
 # Examples
 
-Common ways to use `Anchor`, from turning a link off to styling your own
-link. Each example shows the rendered result, followed by its code.
+This page explains what each prop of `Anchor` does. Each example shows the
+rendered result, followed by its code. Unless stated otherwise, clicking a
+link below takes you to the top of the page.
 
 ---
 
 ## External and Router Links
 
 `Anchor` opens links to other sites in a new tab, and renders your router's
-link component with `as`, the same way as the headless `Anchor`. See
-[Opening in a New Tab](/headless/anchor/usage#opening-in-a-new-tab)
-and [Router Links](/headless/anchor/usage#router-links) in its
-docs.
+link component with `as`, the same way as the headless `Anchor`. Pass
+`openInNewTab` to open your own pages in a new tab too. Below, clicking the
+badge opens this page in a new tab:
+
+<Preview>
+  <Anchor href="/components/links/anchor/examples" openInNewTab>
+    <Badge label="Examples" />
+  </Anchor>
+</Preview>
+
+```tsx
+import Link from "next/link";
+
+<Anchor as={Link} href="/components/links/anchor/examples" openInNewTab>
+  <Badge label="Examples" />
+</Anchor>;
+```
+
+For more, refer to [New Tab](/headless/anchor/usage#new-tab) and
+[Router Links](/headless/anchor/usage#router-links).
 
 ---
 
 ## Disabled
 
-Pass `isDisabled` to turn the link off. It can't be followed, it leaves the
-tab order, and the cursor turns into a not-allowed cursor:
+Pass `isDisabled` to turn the link off. Navigation is blocked, and the cursor
+turns into a not-allowed cursor:
 
 <Preview>
-  <Anchor
-    href="#"
-    style={{
-      display: "block",
-      padding: "var(--spacing-lg)",
-      border: "1px solid var(--color-border)",
-      borderRadius: "var(--radius-md)",
-    }}
-  >
-    <Heading level={4}>{"Links"}</Heading>
-    <Description>{"Available"}</Description>
+  <Anchor href="#">
+    <Badge label="Available" />
   </Anchor>
-  <Anchor
-    href="#"
-    isDisabled
-    style={{
-      display: "block",
-      padding: "var(--spacing-lg)",
-      border: "1px solid var(--color-border)",
-      borderRadius: "var(--radius-md)",
-    }}
-  >
-    <Heading level={4}>{"Links"}</Heading>
-    <Description>{"Disabled"}</Description>
+  <Anchor href="#" isDisabled>
+    <Badge label="Disabled" />
   </Anchor>
 </Preview>
 
 ```tsx
-<Anchor href="/components/links" className="card">
-  <Heading level={4}>Links</Heading>
-  <Description>Available</Description>
+<Anchor href="#">
+  <Badge label="Available" />
 </Anchor>
 
-<Anchor href="/components/links" isDisabled className="card">
-  <Heading level={4}>Links</Heading>
-  <Description>Disabled</Description>
+<Anchor href="#" isDisabled>
+  <Badge label="Disabled" />
 </Anchor>
 ```
 
 - 📌 **The content doesn't look disabled.** Style it yourself with
   `[data-disabled]`.
-
----
-
-## Styling
-
-`Anchor` has no styles of its own beyond the focus outline and the disabled
-cursor. Add your own with `className` or `style`, and style its states with
-data attributes:
-
-```tsx
-<Anchor href={`/posts/${post.id}`} className="card">
-  {children}
-</Anchor>
-```
-
-```css
-.card {
-  padding: var(--spacing-lg);
-  border: 1px solid var(--color-border);
-}
-
-.card[data-disabled] {
-  opacity: 0.5;
-}
-
-.card[data-new-tab]::after {
-  content: " ↗";
-}
-```
-
-- 📌 **The focus outline has square corners**, even when your content is
-  rounded. Set a `border-radius` on the `Anchor` to match its content.

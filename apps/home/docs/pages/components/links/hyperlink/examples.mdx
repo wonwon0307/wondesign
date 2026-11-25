@@ -3,22 +3,21 @@ import { Preview } from "@/widgets/preview";
 
 # Examples
 
-Common ways to use `Hyperlink`, from picking a color to fitting it into your
-own design. Each example shows the rendered result, followed by its code.
-**Every link on this page takes you to the top of the page.**
+This page explains what each prop of `Hyperlink` does. Each example shows the
+rendered result, followed by its code. Clicking a link below takes you to the
+top of the page.
 
 ---
 
-## Appearances
+## Appearance
 
-The `appearance` property sets the color. `"default"` is the default:
+The `appearance` property sets the color, with four options. Without it, the
+link uses `"default"`.
 
-- 🎨 **`"default"`**: the classic link color, for links in body text.
-- 🎨 **`"primary"`**: the primary color, to match the rest of your design.
-- 🎨 **`"muted"`**: the muted text color, for less important links, like in
-  a footer.
-- 🎨 **`"inherit"`**: the color of the text around it, for colored
-  surfaces like banners and dark footers.
+`"default"` uses the classic blue link color. `"primary"` uses your primary
+color, which is another shade of blue in this app, but can be any color in
+yours. `"muted"` uses the muted text color, for less important links, like in a
+footer:
 
 <Preview orientation="vertical">
   <p>
@@ -43,13 +42,14 @@ The `appearance` property sets the color. `"default"` is the default:
 </Preview>
 
 ```tsx
-<Hyperlink href="/privacy">privacy policy</Hyperlink>
-<Hyperlink href="/signup" appearance="primary">Create an account</Hyperlink>
-<Hyperlink href="/support" appearance="muted">Contact support</Hyperlink>
+<Hyperlink href="#">privacy policy</Hyperlink>
+<Hyperlink href="#" appearance="primary">Create an account</Hyperlink>
+<Hyperlink href="#" appearance="muted">Contact support</Hyperlink>
 ```
 
-Use `"inherit"` on a colored surface, like an error banner. It's always
-underlined, since the underline is the only thing that shows it's a link:
+The fourth option, `"inherit"`, takes the color of the text around it, for
+colored surfaces like an error banner. It's always underlined, since the
+underline is the only thing that shows it's a link:
 
 <Preview orientation="vertical">
   <p
@@ -68,9 +68,12 @@ underlined, since the underline is the only thing that shows it's a link:
 </Preview>
 
 ```tsx
-<Hyperlink href="/billing" appearance="inherit">
-  Update your card
-</Hyperlink>
+<p className="error-banner">
+  Payment failed.{" "}
+  <Hyperlink href="#" appearance="inherit">
+    Update your card
+  </Hyperlink>
+</p>
 ```
 
 - 📌 **`underline` is ignored with `"inherit"`.**
@@ -79,13 +82,9 @@ underlined, since the underline is the only thing that shows it's a link:
 
 ## Underline
 
-The `underline` property sets when the link is underlined. `"hover"` is the
-default:
-
-- 📏 **`"hover"`**: underlined while the pointer is over it.
-- 📏 **`"always"`**: always underlined, for links within body text.
-- 📏 **`"none"`**: never underlined, for links that are clearly links, like
-  in a navigation or a footer.
+The `underline` property sets when the link is underlined: while hovered,
+always, or never, like in a navigation where links are clearly links.
+`"hover"` is the default:
 
 <Preview orientation="vertical">
   <p>
@@ -110,17 +109,17 @@ default:
 </Preview>
 
 ```tsx
-<Hyperlink href="/install">installation guide</Hyperlink>
-<Hyperlink href="/changelog" underline="always">release notes</Hyperlink>
-<Hyperlink href="https://github.com/wonwon0307" underline="none">GitHub</Hyperlink>
+<Hyperlink href="#">installation guide</Hyperlink>
+<Hyperlink href="#" underline="always">release notes</Hyperlink>
+<Hyperlink href="#" underline="none">GitHub</Hyperlink>
 ```
 
 ---
 
 ## Disabled
 
-Pass `isDisabled` to turn the link off. It can't be followed, leaves the tab
-order, fades, and isn't underlined on hover:
+Pass `isDisabled` to turn the link off. Navigation is blocked, the link
+fades, and it isn't underlined on hover:
 
 <Preview orientation="vertical">
   <p>
@@ -138,29 +137,6 @@ order, fades, and isn't underlined on hover:
 </Preview>
 
 ```tsx
-<Hyperlink href="/billing">Billing</Hyperlink>
-<Hyperlink href="/billing" isDisabled>Billing</Hyperlink>
-```
-
----
-
-## Styling
-
-When a single link needs to look different, change it with `className` or
-`style`, like a lighter font weight:
-
-<Preview orientation="vertical">
-  <p>
-    {"Read the "}
-    <Hyperlink href="#" style={{ fontWeight: "normal" }}>
-      {"full article"}
-    </Hyperlink>
-    {" for more."}
-  </p>
-</Preview>
-
-```tsx
-<Hyperlink href="/posts/42" style={{ fontWeight: "normal" }}>
-  full article
-</Hyperlink>
+<Hyperlink href="#">Billing</Hyperlink>
+<Hyperlink href="#" isDisabled>Billing</Hyperlink>
 ```

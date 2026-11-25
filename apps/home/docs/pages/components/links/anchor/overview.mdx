@@ -1,12 +1,23 @@
 import { Anchor } from "@wondesign/ui/links";
-import { Description, Heading } from "@wondesign/ui/texts";
+import { Badge } from "@wondesign/ui/texts";
 import { Preview } from "@/widgets/preview";
 
 # Anchor
 
-`Anchor` builds on the headless [Anchor](/headless/anchor) to
-render an `<a>` with no look of its own, only a focus outline. Wrap your own
-content in it to turn it into a link.
+`Anchor` makes anything inside it a link, like a card or an image, by
+wrapping it in an `<a>`. It builds on [Headless Anchor](/headless/anchor).
+
+Use it to make anything a link when none of
+[Hyperlink](/components/links/hyperlink),
+[IconLink](/components/links/icon-link) and
+[FormLink](/components/links/form-link) fits. It adds only a focus outline
+and a disabled cursor, so your content looks the same.
+
+```tsx
+import { Anchor } from "@wondesign/links/Anchor";
+// or
+import { Anchor } from "@wondesign/ui/links";
+```
 
 ---
 
@@ -15,79 +26,45 @@ content in it to turn it into a link.
 - ✅ **No Default Look**: Your content looks the same, with only a focus outline added
 - ✅ **External Links Handled**: Links to other sites open in a new tab, safely
 - ✅ **Router Friendly**: Render your router's link component, with all the same behaviour
-- ✅ **Disabled State**: A link that can't be followed or focused
+- ✅ **Disabled State**: Navigation is blocked, and the link stays focusable
 - ✅ **Ref Forwarding**: Your `ref` reaches the rendered element
 
+---
+
+## Usage
+
+`Anchor` helps you turn your own content into a link, without changing how
+it looks. Wrap the content in it, and pass `href`. Below, clicking the second
+badge takes you to the top of the page. For what each prop does, refer to the
+[Examples tab](/components/links/anchor/examples).
+
 <Preview>
-  <Anchor
-    href="#"
-    style={{
-      display: "block",
-      padding: "var(--spacing-lg)",
-      border: "1px solid var(--color-border)",
-      borderRadius: "var(--radius-md)",
-    }}
-  >
-    <Heading level={4}>{"Links"}</Heading>
-    <Description>
-      {'Clicking on this card will take you to the top of the page ("#").'}
-    </Description>
+  <Badge label="Static" />
+  <Anchor href="#">
+    <Badge label="Link" />
   </Anchor>
 </Preview>
 
 ```tsx
-import { Anchor } from "@wondesign/links/Anchor";
+// without Anchor
+<Badge label="Static" />
 
-<Anchor href="#" className="card">
-  <Heading level={4}>Links</Heading>
-  <Description>
-    Clicking on this card will take you to the top of the page ("#").
-  </Description>
-</Anchor>;
+// with Anchor
+<Anchor href="#">
+  <Badge label="Link" />
+</Anchor>
 ```
 
-See [Examples](/components/links/anchor/examples) for external and router
-links, disabled links and styling.
+For every prop and data attribute, refer to the
+[API tab](/components/links/anchor/api).
 
 ---
 
-## API
+## Watch Out
 
-Import `Anchor` and its props type from `@wondesign/links/Anchor`:
-
-```ts
-import { Anchor, type AnchorProps } from "@wondesign/links/Anchor";
-```
-
-### Props
-
-Accepts all props of the headless
-[Anchor](/headless/anchor/api#props). Your `ref` reaches the
-rendered element. Together, the key props are:
-
-```ts
-interface AnchorProps {
-  children?: React.ReactNode;
-
-  href?: string;
-
-  // opens the link in a new tab. defaults to `true` for links to other
-  // sites, and `false` for everything else.
-  openInNewTab?: boolean;
-
-  // turns the link off, and takes it out of the tab order.
-  // defaults to `false`.
-  isDisabled?: boolean;
-
-  // the element to render, like your router's link component.
-  // defaults to `"a"`.
-  as?: React.ElementType;
-
-  ref?: React.Ref<HTMLAnchorElement>;
-
-  // ...
-}
-```
+- ⚠️ **Rounded content**: The focus outline follows the corners of the
+  `Anchor`, not of your content, so **it has square corners around rounded
+  content**. Set a matching `border-radius` on the `Anchor`.
 
 ---
 

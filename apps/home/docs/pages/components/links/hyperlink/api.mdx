@@ -1,0 +1,35 @@
+# API
+
+```ts
+import { Hyperlink, type HyperlinkProps } from "@wondesign/links/Hyperlink";
+// or from @wondesign/ui/links
+```
+
+---
+
+## Props
+
+Renders an `<a>`, and accepts all props of
+[Anchor](/components/links/anchor/api). For what each prop does, refer to the
+[Examples tab](/components/links/hyperlink/examples).
+
+```ts
+interface HyperlinkProps {
+  children: React.ReactNode;
+  href?: string;
+  appearance?: "default" | "primary" | "muted" | "inherit"; // defaults to `"default"`
+  underline?: "hover" | "always" | "none"; // defaults to `"hover"`
+  isDisabled?: boolean; // defaults to `false`
+  // ...
+}
+```
+
+---
+
+## Data Attributes
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-external": "true" | undefined; // present when the `href` is external
+"data-new-tab": "true" | undefined; // present when it opens in a new tab
+```

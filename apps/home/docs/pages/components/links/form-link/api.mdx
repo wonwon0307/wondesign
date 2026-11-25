@@ -1,0 +1,37 @@
+# API
+
+```ts
+import { FormLink, type FormLinkProps } from "@wondesign/links/FormLink";
+// or from @wondesign/ui/links
+```
+
+---
+
+## Props
+
+Renders an `<a>`, and accepts all props of
+[Anchor](/components/links/anchor/api). For what each prop does, refer to the
+[Examples tab](/components/links/form-link/examples).
+
+```ts
+interface FormLinkProps {
+  children: React.ReactNode;
+  href?: string;
+  variant?: "primary" | "secondary" | "destructive"; // defaults to `"primary"`
+  size?: "small" | "medium" | "large"; // defaults to `"medium"`
+  outlined?: boolean; // defaults to `false`
+  stretch?: boolean; // defaults to `false`
+  isDisabled?: boolean; // defaults to `false`
+  // ...
+}
+```
+
+---
+
+## Data Attributes
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-external": "true" | undefined; // present when the `href` is external
+"data-new-tab": "true" | undefined; // present when it opens in a new tab
+```

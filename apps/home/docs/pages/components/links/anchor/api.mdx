@@ -1,0 +1,36 @@
+# API
+
+```ts
+import { Anchor, type AnchorProps } from "@wondesign/links/Anchor";
+// or from @wondesign/ui/links
+```
+
+---
+
+## Props
+
+Renders an `<a>`, or the component passed to `as`, and accepts all props of
+[Headless Anchor](/headless/anchor/api). For what each prop does, refer to
+the [Examples tab](/components/links/anchor/examples).
+
+```ts
+interface AnchorProps {
+  children?: React.ReactNode;
+  href?: string;
+  openInNewTab?: boolean; // defaults to `true` for external links, `false` otherwise
+  isDisabled?: boolean; // defaults to `false`
+  as?: React.ElementType; // defaults to `"a"`
+  ref?: React.Ref<HTMLAnchorElement>;
+  // ...
+}
+```
+
+---
+
+## Data Attributes
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-external": "true" | undefined; // present when the `href` is external
+"data-new-tab": "true" | undefined; // present when it opens in a new tab
+```
