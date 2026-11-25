@@ -1,0 +1,26 @@
+# API
+
+```ts
+import { Callout, type CalloutProps } from "@wondesign/texts/Callout";
+// or from @wondesign/ui/texts
+```
+
+---
+
+## Props
+
+Renders a `<div>`. **Only the props below are accepted**, and others, like
+`id` or `aria-*` attributes, are ignored. For what each prop does, refer to
+the [Examples tab](/components/texts/callout/examples).
+
+```ts
+interface CalloutProps {
+  children: React.ReactNode;
+  variant?: "info" | "warning" | "error" | "success"; // defaults to `"info"`
+  title?: React.ReactNode;
+  icon?: React.ReactNode; // defaults to the variant's icon
+  size?: "small" | "medium" | "large"; // defaults to `"medium"`
+  className?: string;
+  style?: React.CSSProperties;
+}
+```

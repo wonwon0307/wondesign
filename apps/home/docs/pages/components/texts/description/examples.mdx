@@ -3,13 +3,16 @@ import { Preview } from "@/widgets/preview";
 
 # Examples
 
-Common ways to use `Description`, from picking a size and a tone to fitting it
-into your own design. Each example shows the rendered result, followed by its
-code.
+This page explains what each prop of `Description` does. Each example shows
+the rendered result, followed by its code.
 
 ---
 
-## Sizes
+## Appearance
+
+Pick the font size with `size`, and the color with `tone`.
+
+### Sizes
 
 The `size` property sets the font size. It's `"medium"` by default:
 
@@ -31,71 +34,66 @@ The `size` property sets the font size. It's `"medium"` by default:
 <Description size="small">Small, for captions and metadata.</Description>
 ```
 
----
+### Tones
 
-## Tones
-
-The `tone` property sets the color. It's `"default"` by default.
-
-### Default
-
-The same color as body text, for a description that's read like any other
-text, like a page summary:
+The `tone` property sets the color, with four options. Without it, the
+description uses `"default"`, the same color as body text, for a description
+that's read like any other text, like a page summary:
 
 <Preview orientation="vertical">
-  <Heading level={2}>Billing</Heading>
+  <Heading level={3}>{"Billing"}</Heading>
   <Description>{"Manage your plan, payment methods and invoices."}</Description>
 </Preview>
 
 ```tsx
-<Heading level={2}>Billing</Heading>
+<Heading level={3}>Billing</Heading>
 <Description>Manage your plan, payment methods and invoices.</Description>
 ```
 
-### Muted
-
-A lighter color, for text that should step back, like metadata:
+`"muted"` uses a lighter color, for text that should step back, like
+metadata:
 
 <Preview orientation="vertical">
-  <Heading level={3}>Quarterly Report</Heading>
+  <Heading level={4}>{"Quarterly Report"}</Heading>
   <Description size="small" tone="muted">
     {"Last edited 3 days ago by Alex"}
   </Description>
 </Preview>
 
 ```tsx
-<Heading level={3}>Quarterly Report</Heading>
+<Heading level={4}>Quarterly Report</Heading>
 <Description size="small" tone="muted">
   Last edited 3 days ago by Alex
 </Description>
 ```
 
-### Danger
-
-The error color, for something that went wrong, like an invalid password:
-
-<Preview orientation="vertical">
-  <input type="password" defaultValue="hunter2" />
-  <Description size="small" tone="danger">
-    {"Password must be at least 12 characters."}
-  </Description>
-</Preview>
-
-```tsx
-<input type="password" />
-<Description size="small" tone="danger">
-  Password must be at least 12 characters.
-</Description>
-```
-
-### Success
-
-The success color, for something that went right, like an available username:
+`"success"` and `"danger"` use the success and error colors, for something
+that went right or wrong, like a field check:
 
 <Preview orientation="vertical">
-  <input type="text" defaultValue="wondesign" />
+  <input
+    type="text"
+    defaultValue="wondesign"
+    style={{
+      padding: "var(--spacing-xs) var(--spacing-sm)",
+      border: "1px solid var(--color-border)",
+      borderRadius: "var(--radius-sm)",
+    }}
+  />
   <Description size="small" tone="success">
     {"Username is available."}
+  </Description>
+  <input
+    type="password"
+    defaultValue="hunter2"
+    style={{
+      padding: "var(--spacing-xs) var(--spacing-sm)",
+      border: "1px solid var(--color-border)",
+      borderRadius: "var(--radius-sm)",
+    }}
+  />
+  <Description size="small" tone="danger">
+    {"Password must be at least 12 characters."}
   </Description>
 </Preview>
 
@@ -104,52 +102,98 @@ The success color, for something that went right, like an available username:
 <Description size="small" tone="success">
   Username is available.
 </Description>
+
+<input type="password" />
+<Description size="small" tone="danger">
+  Password must be at least 12 characters.
+</Description>
 ```
 
 ---
 
-## Elements
+## Element
 
-Pass `as` to render the element that fits where it's used. Options are:
+Pass `as` to render the element that fits where it's used. It renders a
+`<p>` by default, and the other options are `"span"`, `"div"`, `"figcaption"`
+and `"dd"`:
 
-- **`"p"`**: a block of text on its own, like a page summary
-- **`"span"`**: text inside another element, like a line of a button or a
-  list item
-- **`"div"`**: text that holds other block elements
-- **`"figcaption"`**: a caption inside a `<figure>`
-- **`"dd"`**: a value inside a `<dl>`, after its `<dt>`
+<Preview orientation="vertical">
+  <dl
+    style={{
+      display: "grid",
+      gridTemplateColumns: "auto 1fr",
+      gap: "var(--spacing-xs) var(--spacing-md)",
+    }}
+  >
+    <dt style={{ fontWeight: 600 }}>{"Status"}</dt>
+    <Description as="dd" tone="muted">
+      {"Active"}
+    </Description>
+    <dt style={{ fontWeight: 600 }}>{"Created"}</dt>
+    <Description as="dd" tone="muted">
+      {"Oct 26"}
+    </Description>
+  </dl>
+</Preview>
 
 ```tsx
-<figure>
-  <img src="/chart.png" alt="Monthly revenue" />
-  <Description as="figcaption" size="small" tone="muted">
-    Revenue for the last 12 months.
-  </Description>
-</figure>
-
 <dl>
   <dt>Status</dt>
-  <Description as="dd">Active</Description>
+  <Description as="dd" tone="muted">
+    Active
+  </Description>
+  <dt>Created</dt>
+  <Description as="dd" tone="muted">
+    Oct 26
+  </Description>
 </dl>
 ```
 
 ---
 
-## Line Length
+## Lines
 
-A description starts a new line once a line reaches `60ch`, about 60
-characters, **even when its container is wider**. Pass `fullWidth` to turn this
-off, so lines run the full width of the container:
+Set how long the lines run with `lineLength`, how they break with `wrap`, and
+how many show with `maxNumLines`. The examples below have a background, to
+show where each description ends.
+
+### Line Length
+
+A description starts a new line at about 60 characters (`60ch`), **even when
+its container is wider**. Pass a number to `lineLength` for another length in
+characters, or `"full"` to run the full width of the container:
 
 <Preview orientation="vertical">
-  <Description>
+  <Description
+    style={{
+      padding: "var(--spacing-sm)",
+      backgroundColor: "var(--color-background-muted)",
+    }}
+  >
     {
       "A description that starts a new line at about 60 characters, so each line stays easy to follow, even when its container is much wider than that."
     }
   </Description>
-  <Description fullWidth>
+  <Description
+    lineLength={40}
+    style={{
+      padding: "var(--spacing-sm)",
+      backgroundColor: "var(--color-background-muted)",
+    }}
+  >
     {
-      "A description with fullWidth, so each line runs the full width of its container, however wide that is, before it starts a new one."
+      "A description that starts a new line at about 40 characters, for a narrower column of text."
+    }
+  </Description>
+  <Description
+    lineLength="full"
+    style={{
+      padding: "var(--spacing-sm)",
+      backgroundColor: "var(--color-background-muted)",
+    }}
+  >
+    {
+      "A description that runs the full width of its container, however wide that is, before it starts a new line."
     }
   </Description>
 </Preview>
@@ -158,125 +202,104 @@ off, so lines run the full width of the container:
 // starts a new line at 60ch, the default
 <Description>A long description…</Description>
 
+// starts a new line at 40ch
+<Description lineLength={40}>A long description…</Description>
+
 // runs the full width of the container
-<Description fullWidth>A long description…</Description>
+<Description lineLength="full">A long description…</Description>
 ```
 
-For another line length, set `max-width` with `className` or `style`:
+- 📌 **A `lineLength` of `0` or less falls back to `"full"`.**
 
-```tsx
-<Description style={{ maxWidth: "40ch" }}>A long description…</Description>
-<Description style={{ maxWidth: "50%" }}>A long description…</Description>
-```
-
----
-
-## Wrapping
+### Wrapping
 
 The `wrap` property sets
-[the CSS `text-wrap` property](https://developer.mozilla.org/en-US/docs/Web/CSS/text-wrap)
-. It supports the two values that suit descriptions best, and it's
-`"pretty"` by default:
-
-- **`"pretty"`**: breaks the lines so the last line isn't left with a single
-  word. Use it for longer text.
-- **`"balance"`**: breaks the lines so they're all about the same length. Use
-  it for short text of a few lines, like a page summary.
-
-Each description below has the same text and width:
+[the CSS `text-wrap` property](https://developer.mozilla.org/en-US/docs/Web/CSS/text-wrap),
+and it's `"pretty"` by default. Each description below has the same text and
+line length:
 
 <Preview orientation="vertical">
-  <Description style={{ maxWidth: "36ch" }}>
+  <Description
+    lineLength={36}
+    style={{
+      padding: "var(--spacing-sm)",
+      backgroundColor: "var(--color-background-muted)",
+    }}
+  >
     {"Manage your plan, payment methods and invoices in one place."}
   </Description>
-  <Description wrap="balance" style={{ maxWidth: "36ch" }}>
+  <Description
+    lineLength={36}
+    wrap="balance"
+    style={{
+      padding: "var(--spacing-sm)",
+      backgroundColor: "var(--color-background-muted)",
+    }}
+  >
     {"Manage your plan, payment methods and invoices in one place."}
   </Description>
 </Preview>
 
 ```tsx
-// no single word on the last line, the default
-<Description>Manage your plan…</Description>
-
-// lines of about the same length
-<Description wrap="balance">Manage your plan…</Description>
+<Description lineLength={36}>Manage your plan…</Description>
+<Description lineLength={36} wrap="balance">Manage your plan…</Description>
 ```
 
----
-
-## Line Clamping
+### Line Clamping
 
 A description shows every line by default. Pass `maxNumLines` to cut it off
-after that many lines, with an ellipsis:
+after that many lines, with an ellipsis. The cut-off text is still on the
+page, so **screen readers read the whole description**, even though it isn't
+shown on screen:
 
 <Preview orientation="vertical">
-  <Description maxNumLines={1}>
+  <Description
+    style={{
+      padding: "var(--spacing-sm)",
+      backgroundColor: "var(--color-background-muted)",
+    }}
+  >
+    {
+      "A long description that's never cut off, because that's the default, so it wraps onto as many lines as it needs to show every single word, however long it gets. It keeps going onto a third line, and then a fourth, so you can see that nothing is hidden, from the first word right through to the very last one."
+    }
+  </Description>
+  <Description
+    maxNumLines={1}
+    style={{
+      padding: "var(--spacing-sm)",
+      backgroundColor: "var(--color-background-muted)",
+    }}
+  >
     {
       "A long description that's cut off after one line, even if there's more text left to show after it, like the rest of this sentence and everything that comes after it."
+    }
+  </Description>
+  <Description
+    maxNumLines={2}
+    style={{
+      padding: "var(--spacing-sm)",
+      backgroundColor: "var(--color-background-muted)",
+    }}
+  >
+    {
+      "A long description that's allowed to wrap onto a second line, but is cut off there, even if there's more text left to show after it, like the rest of this sentence and everything that comes after it."
     }
   </Description>
 </Preview>
 
 ```tsx
+// never cut off, the default
+<Description>A long description…</Description>
+
 // cut off after one line
 <Description maxNumLines={1}>A long description…</Description>
+
+// cut off after two lines
+<Description maxNumLines={2}>A long description…</Description>
 ```
 
 - 📌 A long word or URL is broken onto the next line, instead of running past
   the edge.
-- 📌 The cut-off text is still on the page, so screen readers read the whole
-  description. It just isn't shown on screen.
-
----
-
-## Styling
-
-Start from the default styles. When they don't fit your design everywhere,
-[change the tokens](/components/texts#customizing-tokens). When they don't fit
-in one place, override that description's styles.
-
-### Default Styles
-
-The key values are:
-
-- 🎨 **Color**: `tokens.colors.text` by default, and `tokens.colors.textMuted`,
-  `tokens.colors.error` or `tokens.colors.success` for the `"muted"`,
-  `"danger"` and `"success"` tones
-- 🎨 **Font size**: from `tokens.typography.fontSize.bodySmall` at
-  `"small"`, up to `tokens.typography.fontSize.bodyLarge` at `"large"`
-- 🎨 **Margin**: none, so **it keeps the rendered element's own margins**
-
-The rest, like the line height and the max width, have default values too.
-Override any of them with `className` or `style`.
-
-### One-Off Styles
-
-When a single description needs to look different, change them with
-`className` or `style`:
-
-<Preview orientation="vertical">
-  <Description size="large" style={{ fontStyle: "italic", color: "purple" }}>
-    {"Manage your plan, payment methods and invoices."}
-  </Description>
-</Preview>
-
-```tsx
-<Description size="large" style={{ fontStyle: "italic", color: "purple" }}>
-  Manage your plan, payment methods and invoices.
-</Description>
-
-<Description size="large" className="page-summary">
-  Manage your plan, payment methods and invoices.
-</Description>
-```
-
-```css
-.page-summary {
-  margin-block: var(--spacing-sm) var(--spacing-lg);
-  text-align: center;
-}
-```
-
-- 📌 When a description is clamped, don't set `display`, `overflow`,
-  `text-overflow` or `-webkit-box-orient` yourself. **Changing any of them
-  breaks the clamping without an error.**
+- 📌 While clamped, setting `display`, `overflow`, `text-overflow` or
+  `-webkit-box-orient` yourself **would break the clamping without an
+  error**.

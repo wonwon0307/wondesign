@@ -3,8 +3,14 @@ import { Preview } from "@/widgets/preview";
 
 # Badge
 
-`Badge` renders a short label in a colored pill, like a status, a category or
-a count. Pick a `color`, and the background follows it.
+`Badge` is a short label in a colored pill, like a status, a category or a
+count.
+
+```tsx
+import { Badge } from "@wondesign/texts/Badge";
+// or
+import { Badge } from "@wondesign/ui/texts";
+```
 
 ---
 
@@ -12,60 +18,41 @@ a count. Pick a `color`, and the background follows it.
 
 - ✅ **Any Color**: Pass any CSS color or token, and the background is tinted to match
 - ✅ **Three Sizes**: Small, medium and large, to match the text next to it
+- ✅ **Bold Option**: Make the label bolder, for a badge that should stand out
 - ✅ **Inline**: Sits in a line of text, a table cell or next to a title
-- ✅ **Left and Right Slots**: Add an icon, a dot or a count on either side of the label
-
-<Preview>
-  <Badge label="Active" color="var(--color-success)" />
-</Preview>
-
-```tsx
-import { Badge } from "@wondesign/texts/Badge";
-
-<Badge label="Active" color="var(--color-success)" />;
-```
-
-See [Examples](/components/texts/badge/examples) for colors, sizes, left and
-right content, and styling.
+- ✅ **Left and Right Slots**: Add an icon or a count on either side of the label
 
 ---
 
-## API
+## Usage
 
-Import `Badge` and its props type from `@wondesign/texts/Badge`:
+`Badge` helps you label something quickly, using its props. Pass the text as
+`label`, and set its look with props like `color` and `size`. The background
+follows the `color`. For what each prop does, refer to the
+[Examples tab](/components/texts/badge/examples).
 
-```ts
-import { Badge, type BadgeProps } from "@wondesign/texts/Badge";
+<Preview>
+  <Badge label="Draft" />
+  <Badge label="Active" color="var(--color-success)" />
+  <Badge label="Failed" color="var(--color-error)" size="small" />
+</Preview>
+
+```tsx
+<Badge label="Draft" />
+<Badge label="Active" color={tokens.colors.success} />
+<Badge label="Failed" color={tokens.colors.error} size="small" />
 ```
 
-### Props
+To change a badge's look beyond its props, pass `className` or `style`. For
+details, refer to [Styling the Components](/components#styling-the-components).
+For every prop, refer to the [API tab](/components/texts/badge/api).
 
-Accepts all props of `<span>` except `children`, plus its own `label`,
-`color`, `backgroundColor`, `size`, `left` and `right`. **Pass the text as
-`label`; `children` are ignored.** Together, the key props are:
+- 📌 Pass the text as `label`, since **`children` are ignored**.
+- 📌 **`color` and `backgroundColor` in `style` are ignored**, since the
+  `color` and `backgroundColor` props always win.
 
-```ts
-interface BadgeProps {
-  // the text inside the badge.
-  label: string;
+---
 
-  // the text color. any CSS color, or a token like `tokens.colors.success`.
-  // defaults to `"gray"`.
-  color?: string;
+## Upcoming Features
 
-  // the background color.
-  // defaults to the `color` at 18% opacity.
-  backgroundColor?: string;
-
-  // the font size and padding. defaults to `"medium"`.
-  size?: "small" | "medium" | "large";
-
-  // content before the label, like an icon or a dot.
-  left?: React.ReactNode;
-
-  // content after the label, like a count.
-  right?: React.ReactNode;
-
-  // ...
-}
-```
+- 🔜 **Status Dot**: A dot before the label, in the badge's color, like a dot for "Online"

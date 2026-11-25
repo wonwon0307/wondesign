@@ -29,10 +29,9 @@ pnpm add @wondesign/texts
 
 ## Key Features
 
-- ✅ **Elements**: Each renders a fitting native element, can render another with `as`, and passes your `ref` to it
+- ✅ **Elements**: Headings, descriptions and paragraphs, each rendering the right native element
 - ✅ **Blocks**: Ready-made components for common text patterns, like callouts and badges
-- ✅ **Consistent Text**: The same kind of text looks and behaves the same across your app, instead of a mix of `<h1>`–`<h6>`,
-  `<div>`s and `<span>`s, each styled its own way
+- ✅ **Consistent Text**: The same kind of text looks the same across your app
 - ✅ **On the Type Scale**: Sizes, weights and line heights come from the design tokens
 - ✅ **Styleable**: Your `className` and `style` are applied on top of the defaults
 
@@ -40,9 +39,7 @@ pnpm add @wondesign/texts
 
 ## Components
 
-The components come in two kinds: elements, and blocks. Both read their
-values from `@wondesign/tokens`, and fall back to the default values without
-the token stylesheet.
+The components come in two kinds: elements, and blocks.
 
 ### Elements
 
@@ -66,31 +63,6 @@ patterns that show up across many pages.
   icon and an optional title, for information, warnings, errors or successes.
 - ⭐ **[Badge](/components/texts/badge)** — a short label in a colored pill,
   like a status, a category or a count.
-
----
-
-## Customizing Tokens
-
-Every value the components read from `@wondesign/tokens` can be replaced with
-your own, from colors to spacing. For this package, the main ones are the
-typography tokens, like the font family, font sizes and line heights. To use
-your app's font everywhere, override `tokens.typography.fontFamily.normal`
-once instead of styling each component:
-
-```ts
-buildCssVariables({
-  typography: {
-    ...defaultTypography,
-    fontFamily: {
-      ...defaultTypography.fontFamily,
-      normal: "Inter, sans-serif",
-    },
-  },
-});
-```
-
-See [Changing Values](/styling/tokens/setup#changing-values) in the
-tokens docs for how to build and install your token values.
 
 ---
 
