@@ -75,7 +75,7 @@ const formLink = recipe({
         border: `1px solid ${tokens.colors.error}`,
       },
     },
-    fill: {
+    stretch: {
       true: {
         width: "100%",
       },
