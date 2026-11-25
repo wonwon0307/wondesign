@@ -1,0 +1,26 @@
+# API
+
+```ts
+import { Paragraph, type ParagraphProps } from "@wondesign/texts/Paragraph";
+// or from @wondesign/ui/texts
+```
+
+---
+
+## Props
+
+Renders a `<p>`, or the element passed to `as`, and accepts all of its props.
+For what each prop does, refer to the
+[Examples tab](/components/texts/paragraph/examples).
+
+```ts
+interface ParagraphProps {
+  children: React.ReactNode;
+  size?: "small" | "medium" | "large"; // defaults to `"medium"`
+  tone?: "default" | "muted"; // defaults to `"default"`
+  as?: "p" | "div" | "span"; // defaults to `"p"`
+  maxNumLines?: number; // defaults to `0`
+  ref?: React.Ref<HTMLElement>;
+  // ...
+}
+```

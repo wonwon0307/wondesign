@@ -4,6 +4,7 @@ import { tokens } from "@wondesign/tokens";
 const heading = recipe({
   base: {
     margin: `${tokens.spacing.lg} 0`,
+    color: tokens.colors.text,
     lineHeight: tokens.typography.lineHeight.heading,
     fontFamily: tokens.typography.fontFamily.normal,
   },

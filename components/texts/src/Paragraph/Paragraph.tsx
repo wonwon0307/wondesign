@@ -1,7 +1,17 @@
 import { clsx } from "clsx";
 
-import type { ParagraphProps } from "./props";
 import { styles } from "./styles.css";
+
+type TagOptions = Pick<React.JSX.IntrinsicElements, "p" | "div" | "span">;
+
+export interface ParagraphProps extends React.HTMLAttributes<HTMLElement> {
+  children: React.ReactNode;
+  as?: keyof TagOptions;
+  ref?: React.Ref<HTMLElement>;
+  size?: "small" | "medium" | "large";
+  tone?: "default" | "muted";
+  maxNumLines?: number;
+}
 
 export function Paragraph({
   children,

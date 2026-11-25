@@ -1,0 +1,26 @@
+# API
+
+```ts
+import { Badge, type BadgeProps } from "@wondesign/texts/Badge";
+// or from @wondesign/ui/texts
+```
+
+---
+
+## Props
+
+Renders a `<span>`, and accepts all of its props except `children`. For what
+each prop does, refer to the [Examples tab](/components/texts/badge/examples).
+
+```ts
+interface BadgeProps {
+  label: string;
+  color?: string; // defaults to `tokens.colors.textMuted`
+  backgroundColor?: string; // defaults to the `color` at 18% opacity
+  bold?: boolean; // defaults to `false`
+  size?: "small" | "medium" | "large"; // defaults to `"medium"`
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+  // ...
+}
+```

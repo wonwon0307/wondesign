@@ -3,9 +3,18 @@ import { Preview } from "@/widgets/preview";
 
 # Heading
 
-`Heading` renders a page or section title, from `<h1>` to `<h6>`. Pick a
-`level`, and it renders the matching element at that level's size on the type
+`Heading` is a page or section title, from `<h1>` to `<h6>`, on the type
 scale.
+
+Use it only for titles. Every heading is part of the page's outline, so
+**screen reader users hear it as a section title**. For text that only needs
+to look big, use another component.
+
+```tsx
+import { Heading } from "@wondesign/texts/Heading";
+// or
+import { Heading } from "@wondesign/ui/texts";
+```
 
 ---
 
@@ -16,55 +25,38 @@ scale.
 - ✅ **Single Line by Default**: Long titles are cut off with an ellipsis, or after as many lines as you like
 - ✅ **Ref Forwarding**: Your `ref` reaches the rendered element
 
+---
+
+## Usage
+
+`Heading` helps you render a title quickly, using its props. Pass the title
+as `children`, and pick a `level` that fits the page's outline, which sets
+the element.
+To make it a step larger or smaller, pass `size`. Long titles are cut off
+after one line, and `maxNumLines` allows more. For
+what each prop does, refer to the
+[Examples tab](/components/texts/heading/examples).
+
 <Preview orientation="vertical">
-  <Heading level={2}>Billing</Heading>
+  <Heading level={3}>{"Settings"}</Heading>
+  <Heading level={4}>{"Billing"}</Heading>
 </Preview>
 
 ```tsx
-import { Heading } from "@wondesign/texts/Heading";
-
-<Heading level={2}>Billing</Heading>;
+<Heading level={3}>Settings</Heading>
+<Heading level={4}>Billing</Heading>
 ```
 
-See [Examples](/components/texts/heading/examples) for levels, line clamping
-and styling.
+For every prop, refer to the [API tab](/components/texts/heading/api).
 
 ---
 
-## API
+## Styling
 
-Import `Heading` and its props type from `@wondesign/texts/Heading`:
-
-```ts
-import { Heading, type HeadingProps } from "@wondesign/texts/Heading";
-```
-
-### Props
-
-Accepts all props of `<h1>`–`<h6>`, plus its own `level`, `as` and
-`maxNumLines`. Your `ref` reaches the rendered heading element. Together, the
-key props are:
-
-```ts
-interface HeadingProps {
-  children: React.ReactNode;
-
-  // the heading's level. sets both the element and the size.
-  level: 1 | 2 | 3 | 4 | 5 | 6;
-
-  // the element to render, without changing the size.
-  // defaults to the level's element, like `"h2"` for `level={2}`.
-  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-
-  // how many lines to show before cutting the text off with an ellipsis.
-  // `0` shows every line. defaults to `1`.
-  maxNumLines?: number;
-
-  ref?: React.Ref<HTMLHeadingElement>;
-
-  // ...
-}
-```
+`Heading` relies mostly on the WonDesign typography tokens. To change the
+look of every heading across your app, redeclare those tokens. For their
+names, refer to [Design Tokens](/styling/tokens/design-tokens#typography). To
+change a single heading's look beyond its props, pass `className` or `style`.
 
 ---
 
@@ -72,11 +64,3 @@ interface HeadingProps {
 
 - 🔜 **Weight**: Override a heading's font weight, independent of its level
 - 🔜 **Eyebrow**: A short line above a heading, like "Pricing" above "Plans for every team"
-
----
-
-## Used By
-
-- 🧩 **[Callout](/components/texts/callout)**: its [`title`](/components/texts/callout/examples#basic-usage), when it's text
-- 🧩 **[Alert](/components/alert)**: the title of its default alert and confirm
-- 🧩 **[Toaster](/components/toast/toaster)**: the message of its default toast

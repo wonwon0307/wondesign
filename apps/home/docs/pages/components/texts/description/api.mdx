@@ -1,0 +1,31 @@
+# API
+
+```ts
+import {
+  Description,
+  type DescriptionProps,
+} from "@wondesign/texts/Description";
+// or from @wondesign/ui/texts
+```
+
+---
+
+## Props
+
+Renders a `<p>`, or the element passed to `as`, and accepts all of its props.
+For what each prop does, refer to the
+[Examples tab](/components/texts/description/examples).
+
+```ts
+interface DescriptionProps {
+  children: React.ReactNode;
+  size?: "small" | "medium" | "large"; // defaults to `"medium"`
+  tone?: "default" | "muted" | "danger" | "success"; // defaults to `"default"`
+  as?: "p" | "span" | "div" | "figcaption" | "dd"; // defaults to `"p"`
+  lineLength?: number | "full"; // defaults to `60`
+  wrap?: "balance" | "pretty"; // defaults to `"pretty"`
+  maxNumLines?: number; // defaults to `0`
+  ref?: React.Ref<HTMLElement>;
+  // ...
+}
+```

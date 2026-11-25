@@ -3,75 +3,63 @@ import { Preview } from "@/widgets/preview";
 
 # Callout
 
-`Callout` renders a highlighted note that stands out from the text around it,
-with an icon and an optional title. Pick a `variant` for what the note is
-about, like a warning or an error.
+`Callout` is a highlighted note that stands out from the text around it, with
+an icon and an optional title. Use it for a note that belongs with the page,
+like how billing works, a setting with side effects, or an expired card.
+
+For a short message that appears above most other components and closes on
+its own, like "Changes saved", use [Toast](/components/toast) instead.
+
+```tsx
+import { Callout } from "@wondesign/texts/Callout";
+// or
+import { Callout } from "@wondesign/ui/texts";
+```
 
 ---
 
 ## Key Features
 
 - ✅ **Four Variants**: Info, warning, error and success, each with its own color and icon
-- ✅ **Three Sizes**: Small, medium and large, for the icon, the title and the content together
-- ✅ **Optional Title**: Add a title above the content, or leave it out for a short note
-- ✅ **Custom Icons**: Use any icon from [`@wondesign/icons`](/components/icons), or your own
-- ✅ **Consistent Text**: A text title and content render as a `Heading` and a `Paragraph`
+- ✅ **Three Sizes**: Small, medium and large, for the icon, the title and the message together
+- ✅ **Optional Title**: Add a title above the message, or leave it out for a short note
+- ✅ **Custom Icons**: Use any icon from [`@wondesign/icons`](/components/icons/app-icon/overview#icon-list), or your own
+- ✅ **Consistent Text**: A text title and message render as a `Heading` and a `Paragraph`
+
+---
+
+## Usage
+
+`Callout` helps you add a note quickly, using its props. Pass the message as
+`children`, and set its look with props like `variant` and `title`. Each
+variant comes with its own color and icon. For what each prop does, refer to
+the [Examples tab](/components/texts/callout/examples).
 
 <Preview orientation="vertical">
   <Callout variant="success" title="Domain verified">
     {"Emails from your workspace are now sent from @acme.com."}
   </Callout>
+  <Callout variant="warning">
+    {"Changing your username also changes your profile URL."}
+  </Callout>
 </Preview>
 
 ```tsx
-import { Callout } from "@wondesign/texts/Callout";
-
 <Callout variant="success" title="Domain verified">
   Emails from your workspace are now sent from @acme.com.
-</Callout>;
+</Callout>
+<Callout variant="warning">
+  Changing your username also changes your profile URL.
+</Callout>
 ```
 
-See [Examples](/components/texts/callout/examples) for variants, basic usage
-and customizing.
+To change a callout's look beyond its props, pass `className` or `style`. For
+details, refer to [Styling the Components](/components#styling-the-components).
+For every prop, refer to the [API tab](/components/texts/callout/api).
 
----
-
-## API
-
-Import `Callout` and its props type from `@wondesign/texts/Callout`:
-
-```ts
-import { Callout, type CalloutProps } from "@wondesign/texts/Callout";
-```
-
-### Props
-
-**Only the props below are accepted.** Others, like `id` or `aria-*`
-attributes, are ignored. Its props are:
-
-```ts
-interface CalloutProps {
-  children: React.ReactNode;
-
-  // what the note is about. sets the color and the default icon.
-  // defaults to `"info"`.
-  variant?: "info" | "warning" | "error" | "success";
-
-  // the title above the content. text renders as a `Heading`.
-  title?: React.ReactNode;
-
-  // an icon name from `@wondesign/icons`, or your own element.
-  // defaults to the variant's icon.
-  icon?: React.ReactNode;
-
-  // the size of the icon, the title and the content.
-  // defaults to `"medium"`.
-  size?: "small" | "medium" | "large";
-
-  className?: string;
-  style?: React.CSSProperties;
-}
-```
+- 📌 **`className` and `style` apply to the callout's box only.** To style the
+  title, the message or the icon, pass them as your own components, as shown
+  in [Your Own Content](/components/texts/callout/examples#your-own-content).
 
 ---
 

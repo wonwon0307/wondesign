@@ -60,7 +60,7 @@ describe("Callout", () => {
   });
 
   it("renders correctly with different sizes", () => {
-    const { getByTestId } = render(
+    const { getByText } = render(
       <div data-testid="container">
         <Callout size="small" title="Small Title">
           Small Content
@@ -74,16 +74,14 @@ describe("Callout", () => {
       </div>,
     );
 
-    const container = getByTestId("container");
+    // titles should all be h5 despite the size
+    expect(getByText("Small Title").tagName).toBe("H5");
+    expect(getByText("Medium Title").tagName).toBe("H5");
+    expect(getByText("Large Title").tagName).toBe("H5");
 
-    expect(container.getElementsByTagName("H4")[0].textContent).toBe(
-      "Large Title",
-    );
-    expect(container.getElementsByTagName("H5")[0].textContent).toBe(
-      "Medium Title",
-    );
-    expect(container.getElementsByTagName("H6")[0].textContent).toBe(
-      "Small Title",
-    );
+    // check size
+    expect(getByText("Small Content").className).toContain("small");
+    expect(getByText("Medium Content").className).toContain("medium");
+    expect(getByText("Large Content").className).toContain("large");
   });
 });

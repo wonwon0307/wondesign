@@ -1,0 +1,24 @@
+# API
+
+```ts
+import { Heading, type HeadingProps } from "@wondesign/texts/Heading";
+// or from @wondesign/ui/texts
+```
+
+---
+
+## Props
+
+Renders an `<h1>`–`<h6>`, and accepts all of its props. For what each prop
+does, refer to the [Examples tab](/components/texts/heading/examples).
+
+```ts
+interface HeadingProps {
+  children: React.ReactNode;
+  level: 1 | 2 | 3 | 4 | 5 | 6;
+  size?: "smaller" | "normal" | "larger"; // defaults to `"normal"`
+  maxNumLines?: number; // defaults to `1`
+  ref?: React.Ref<HTMLHeadingElement>;
+  // ...
+}
+```

@@ -1,3 +1,3 @@
 export { Paragraph } from "./Paragraph";
 
-export type { ParagraphProps } from "./props";
+export type { ParagraphProps } from "./Paragraph";

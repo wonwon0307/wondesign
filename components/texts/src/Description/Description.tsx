@@ -1,7 +1,22 @@
 import { clsx } from "clsx";
 
-import type { DescriptionProps } from "./props";
 import { styles } from "./styles.css";
+
+type TagOptions = Pick<
+  React.JSX.IntrinsicElements,
+  "p" | "span" | "div" | "figcaption" | "dd"
+>;
+
+export interface DescriptionProps extends React.HTMLAttributes<HTMLElement> {
+  children: React.ReactNode;
+  as?: keyof TagOptions;
+  ref?: React.Ref<HTMLElement>;
+  size?: "small" | "medium" | "large";
+  tone?: "default" | "muted" | "danger" | "success";
+  wrap?: "balance" | "pretty";
+  maxNumLines?: number;
+  lineLength?: number | "full";
+}
 
 export function Description({
   children,
@@ -11,7 +26,7 @@ export function Description({
   tone = "default",
   wrap = "pretty",
   maxNumLines = 0,
-  fullWidth = false,
+  lineLength = 60,
   className,
   style,
   ...rest
@@ -19,15 +34,24 @@ export function Description({
   const Component = as as React.ElementType;
   const clamped = maxNumLines > 0;
 
+  // lineLength 0 or smaller falls back to full
+  const finalLineLength =
+    lineLength === "full" || lineLength <= 0 ? "full" : lineLength;
+  const maxWidth = finalLineLength === "full" ? "100%" : `${finalLineLength}ch`;
+
   return (
     <Component
       {...rest}
       ref={ref}
       className={clsx(
-        styles.description({ size, tone, wrap, fullWidth, clamped }),
+        styles.description({ size, tone, wrap, clamped }),
         className,
       )}
-      style={clamped ? { ...style, WebkitLineClamp: maxNumLines } : style}
+      style={{
+        maxWidth,
+        ...style,
+        ...(clamped && { WebkitLineClamp: maxNumLines }),
+      }}
     >
       {children}
     </Component>

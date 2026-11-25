@@ -13,13 +13,25 @@ describe("Heading", () => {
     expect(getByText("Section").tagName).toBe("H3");
   });
 
-  it("applies the 'as' prop correctly", () => {
+  it("applies the size prop correctly", () => {
     const { getByText } = render(
-      <Heading as="h6" level={1}>
-        Looks big, semantically small
-      </Heading>,
+      <>
+        <Heading size="larger" level={3}>
+          Looks big, semantically small
+        </Heading>
+        <Heading size="smaller" level={3}>
+          Looks small, semantically large
+        </Heading>
+      </>,
     );
-    expect(getByText("Looks big, semantically small").tagName).toBe("H6");
+    expect(getByText("Looks big, semantically small").tagName).toBe("H3");
+    expect(getByText("Looks big, semantically small").className).toContain(
+      "level_2",
+    );
+    expect(getByText("Looks small, semantically large").tagName).toBe("H3");
+    expect(getByText("Looks small, semantically large").className).toContain(
+      "level_4",
+    );
   });
 
   it("clamps to a single line by default", () => {

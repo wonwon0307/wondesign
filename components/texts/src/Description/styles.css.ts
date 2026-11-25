@@ -3,7 +3,6 @@ import { tokens } from "@wondesign/tokens";
 
 const description = recipe({
   base: {
-    maxWidth: "60ch",
     lineHeight: tokens.typography.lineHeight.body,
     fontWeight: tokens.typography.fontWeight.regular,
     fontFamily: tokens.typography.fontFamily.normal,
@@ -33,9 +32,6 @@ const description = recipe({
     wrap: {
       balance: { textWrap: "balance" },
       pretty: { textWrap: "pretty" },
-    },
-    fullWidth: {
-      true: { maxWidth: "100%" },
     },
   },
 });

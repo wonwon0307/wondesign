@@ -1,88 +1,41 @@
+import { Hyperlink } from "@wondesign/ui/links";
 import { Callout, Paragraph } from "@wondesign/ui/texts";
 import { Preview } from "@/widgets/preview";
 
 # Examples
 
-Common ways to use `Callout`, from picking a variant to fitting it into your
-own design. Each example shows the rendered result, followed by its code.
+This page explains what each prop of `Callout` does. Each example shows the
+rendered result, followed by its code.
 
 ---
 
 ## Variants
 
-The `variant` property sets the colors and the default icon. It's `"info"` by
-default.
-
-Each variant colors the text and the icon, and tints the background using the
-[`colorWithFade`](/styling/tokens/api#colorwithfade) utility
-from `@wondesign/tokens`.
-
-### Info
-
-Uses the `tokens.colors.text` token. Use it for something worth knowing,
-like how billing works:
+The `variant` property sets the color and the icon. The options are
+`"info"`, `"warning"`, `"error"` and `"success"`, and the default is
+`"info"`. Their icons are `info`, `warning`, `alert` and `check-fill`:
 
 <Preview orientation="vertical">
-  <Callout variant="info">
-    {"Invoices are created on the 1st of every month."}
-  </Callout>
-</Preview>
-
-```tsx
-<Callout variant="info">
-  Invoices are created on the 1st of every month.
-</Callout>
-```
-
-### Warning
-
-Uses the `tokens.colors.warning` token. Use it for something to be careful
-about, like a setting with side effects:
-
-<Preview orientation="vertical">
+  <Callout>{"Invoices are created on the 1st of every month."}</Callout>
   <Callout variant="warning">
-    {
-      "Changing your username also changes your profile URL. Links to the old URL will stop working."
-    }
+    {"Changing your username also changes your profile URL."}
   </Callout>
-</Preview>
-
-```tsx
-<Callout variant="warning">
-  Changing your username also changes your profile URL. Links to the old URL
-  will stop working.
-</Callout>
-```
-
-### Error
-
-Uses the `tokens.colors.error` token. Use it for something that's wrong and
-needs fixing, like an expired card:
-
-<Preview orientation="vertical">
   <Callout variant="error">
     {"Your card has expired. Update it to keep using paid features."}
   </Callout>
-</Preview>
-
-```tsx
-<Callout variant="error">
-  Your card has expired. Update it to keep using paid features.
-</Callout>
-```
-
-### Success
-
-Uses the `tokens.colors.success` token. Use it for something that's set up
-correctly, like a verified domain:
-
-<Preview orientation="vertical">
   <Callout variant="success">
     {"Your domain is verified. Emails are sent from @acme.com."}
   </Callout>
 </Preview>
 
 ```tsx
+<Callout>Invoices are created on the 1st of every month.</Callout>
+<Callout variant="warning">
+  Changing your username also changes your profile URL.
+</Callout>
+<Callout variant="error">
+  Your card has expired. Update it to keep using paid features.
+</Callout>
 <Callout variant="success">
   Your domain is verified. Emails are sent from @acme.com.
 </Callout>
@@ -90,129 +43,44 @@ correctly, like a verified domain:
 
 ---
 
-## Basic Usage
+## Content
 
-Pass text as the `title` and the content, and an icon's name from
-[`@wondesign/icons`](/components/icons#icon-list) as the `icon`. The content is passed as `children`, between
-the callout's opening and closing tags. The callout styles each of them for
-you: the
-title renders as a `Heading`, the content as a `Paragraph`, and the icon as
-that icon. Leave out the `title` for a short note, and the `icon` to keep the
-variant's own:
+Pass text for a quick callout, or your own components to choose how each
+part renders.
+
+### Basic Usage
+
+Pass the message as `children`. Add a `title` above it, or leave it out for a
+short note. Pass an icon name from
+[`@wondesign/icons`](/components/icons/app-icon/overview#icon-list) as
+`icon` to replace the variant's own:
 
 <Preview orientation="vertical">
-  <Callout variant="warning">
-    {"Changing your username also changes your profile URL."}
-  </Callout>
-  <Callout variant="warning" title="Username" icon="palette">
-    {"Changing your username also changes your profile URL."}
+  <Callout>{"The simplest usage, with no title."}</Callout>
+  <Callout title="Callout with title and icon" icon="palette">
+    {
+      "A simple usage, with a title and a WonDesign icon in place of the variant's own."
+    }
   </Callout>
 </Preview>
 
 ```tsx
-// without a title, with the variant's own icon
-<Callout variant="warning">
-  Changing your username also changes your profile URL.
-</Callout>
-
-// with a title and another icon
-<Callout variant="warning" title="Username" icon="palette">
-  Changing your username also changes your profile URL.
+<Callout>The simplest usage, with no title.</Callout>
+<Callout title="Callout with title and icon" icon="palette">
+  A simple usage, with a title and a WonDesign icon in place of the variant's
+  own.
 </Callout>
 ```
 
-The `size` property sets the size of all three together. It's `"medium"` by
-default:
-
-- **`"large"`**: a level 4 title, large content and a large icon
-- **`"medium"`**: a level 5 title, medium content and a medium icon
-- **`"small"`**: a level 6 title, small content and a small icon
-
-<Preview orientation="vertical">
-  <Callout size="large" title="Large">
-    {"A level 4 title, with large content."}
-  </Callout>
-  <Callout size="medium" title="Medium">
-    {"A level 5 title, with medium content."}
-  </Callout>
-  <Callout size="small" title="Small">
-    {"A level 6 title, with small content."}
-  </Callout>
-</Preview>
-
-```tsx
-<Callout size="large" title="Large">
-  A level 4 title, with large content.
-</Callout>
-<Callout size="medium" title="Medium">
-  A level 5 title, with medium content.
-</Callout>
-<Callout size="small" title="Small">
-  A level 6 title, with small content.
-</Callout>
-```
-
-- 📌 **A text title renders as a heading**, an `<h4>`, `<h5>` or `<h6>`
-  depending on the `size`, so it shows up in the page's outline.
 - 📌 **Don't write long titles.** A callout's title is a short label for the
   note, and a text title is cut off after one line.
 
-The default icons are as follows:
+### Your Own Content
 
-- 📍 **`"info"`**: `info`
-- 📍 **`"warning"`**: `warning`
-- 📍 **`"error"`**: `alert`
-- 📍 **`"success"`**: `check-fill`
-
----
-
-## Customizing
-
-### Styling
-
-When a callout needs to look different, change it with `className` or
-`style`, like a flat banner with a colored edge:
-
-<Preview orientation="vertical">
-  <Callout
-    variant="success"
-    style={{ borderRadius: 0, borderLeft: "4px solid" }}
-  >
-    {"Your domain is verified. Emails are sent from @acme.com."}
-  </Callout>
-</Preview>
-
-```tsx
-<Callout variant="success" style={{ borderRadius: 0, borderLeft: "4px solid" }}>
-  Your domain is verified. Emails are sent from @acme.com.
-</Callout>
-
-<Callout variant="success" className="banner">
-  Your domain is verified. Emails are sent from @acme.com.
-</Callout>
-```
-
-```css
-.banner {
-  border-radius: 0;
-  border-left: 4px solid;
-}
-```
-
-- 📌 **`className` and `style` apply to the callout's box only.** To style the
-  title, the content or the icon, pass them as your own components.
-
-### Custom Components
-
-Pass your own components as the `title`, the content or the `icon`, to
-choose how each of them renders:
-
-- 📍 **Title**: like a plain `<div>` that stays out of the page's outline
-- 📍 **Content**: passed as `children`, like text with a link or a list
-- 📍 **Icon**: like an emoji, or an icon from any icon library
-
-**They render as they are, without the callout's styles for them.** Use the
-text components yourself to keep the text styles:
+Pass your own components as the `title`, the message or the `icon`, like a
+plain `<div>` that stays out of the page's outline, text with a link, or an
+emoji. **They render as they are, without the callout's styles for them.**
+Use the text components yourself to keep the text styles:
 
 <Preview orientation="vertical">
   <Callout
@@ -220,25 +88,50 @@ text components yourself to keep the text styles:
     icon={<span>🎉</span>}
   >
     <Paragraph>
-      {
-        <>
-          Read the <a href="/components/texts">guides</a>, or contact support.
-        </>
-      }
+      {"Read the "}
+      <Hyperlink href="#">{"guides"}</Hyperlink>
+      {", or contact support."}
     </Paragraph>
   </Callout>
 </Preview>
 
 ```tsx
+import { Hyperlink } from "@wondesign/links/Hyperlink";
+
 <Callout
-  title={<div style={{ margin: "12px 0" }}>Need help?</div>}
+  title={<div>Need help?</div>}
   // or an icon from any icon library, like lucide-react's <Rocket size="1em" />
   icon={<span>🎉</span>}
 >
   <Paragraph>
-    Read the <a href="/guides">guides</a>, or contact support.
+    Read the <Hyperlink href="/guides">guides</Hyperlink>, or contact support.
   </Paragraph>
-</Callout>
+</Callout>;
 ```
 
-- 📌 Size your own icon at `1em` to follow the callout's `size`.
+---
+
+## Sizes
+
+The `size` property sets the size of the icon, the title and the message
+together. It's `"medium"` by default. A text title is always an `<h5>`, and
+it looks one level larger with `"large"`, and one level smaller with
+`"small"`:
+
+<Preview orientation="vertical">
+  <Callout size="large" title="Storage">
+    {"You've used 80% of your storage."}
+  </Callout>
+  <Callout size="medium" title="Storage">
+    {"You've used 80% of your storage."}
+  </Callout>
+  <Callout size="small" title="Storage">
+    {"You've used 80% of your storage."}
+  </Callout>
+</Preview>
+
+```tsx
+<Callout size="large" title="Storage">You've used 80% of your storage.</Callout>
+<Callout size="medium" title="Storage">You've used 80% of your storage.</Callout>
+<Callout size="small" title="Storage">You've used 80% of your storage.</Callout>
+```
