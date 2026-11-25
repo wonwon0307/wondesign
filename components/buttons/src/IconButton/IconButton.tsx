@@ -31,12 +31,9 @@ export function IconButton({
   spacious = false,
   size = "1em",
   isLoading = false,
-  "aria-label": ariaLabel,
   className,
   ...rest
 }: Readonly<IconButtonProps>) {
-  const defaultLabel = icon ? `${icon} icon button` : "icon button";
-
   const content = icon ? <AppIcon icon={icon} size={size} /> : children;
 
   return (
@@ -47,7 +44,6 @@ export function IconButton({
         styles.iconButton({ appearance, rounded, spacious }),
         className,
       )}
-      aria-label={ariaLabel ?? defaultLabel}
     >
       {isLoading ? (
         <>
