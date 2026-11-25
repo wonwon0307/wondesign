@@ -28,4 +28,18 @@ describe("Description", () => {
 
     expect(getByText("Clamped").style.webkitLineClamp).toBe("1");
   });
+
+  it("handles the lineLength prop correctly", () => {
+    const { getByText } = render(
+      <>
+        <Description>Default length</Description>
+        <Description lineLength={10}>Limited length</Description>
+        <Description lineLength={0}>Unlimited length</Description>
+      </>,
+    );
+
+    expect(getByText("Default length").style.maxWidth).toBe("60ch");
+    expect(getByText("Limited length").style.maxWidth).toBe("10ch");
+    expect(getByText("Unlimited length").style.maxWidth).toBe("100%");
+  });
 });
