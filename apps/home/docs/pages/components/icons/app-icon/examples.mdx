@@ -1,0 +1,46 @@
+import { AppIcon } from "@wondesign/ui/icons";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+This page explains what each prop of `AppIcon` does. Each example shows the
+rendered result, followed by its code.
+
+---
+
+## Size
+
+The `size` property sets the width and height, as any CSS length, or a
+number in pixels. `"1em"` is the default, so the icon follows the font size
+around it:
+
+<Preview>
+  <AppIcon icon="bell" />
+  <AppIcon icon="bell" size={24} />
+  <AppIcon icon="bell" size="2rem" />
+</Preview>
+
+```tsx
+<AppIcon icon="bell" />
+<AppIcon icon="bell" size={24} />
+<AppIcon icon="bell" size="2rem" />
+```
+
+---
+
+## Color
+
+The `color` property sets the color, as any CSS color. Without it, the icon
+takes the color of the text around it:
+
+<Preview>
+  <AppIcon icon="palette" size={24} />
+  <AppIcon icon="palette" size={24} color="var(--color-primary)" />
+  <AppIcon icon="palette" size={24} color="purple" />
+</Preview>
+
+```tsx
+<AppIcon icon="palette" size={24} />
+<AppIcon icon="palette" size={24} color="var(--color-primary)" />
+<AppIcon icon="palette" size={24} color="purple" />
+```

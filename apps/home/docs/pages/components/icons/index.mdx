@@ -1,0 +1,47 @@
+---
+title: Icons
+description: The WonDesign icon set as React components, rendered by name with one type-safe component.
+---
+
+import { Callout } from "@wondesign/ui/texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/icons" relPath="components/icons">
+  `@wondesign/icons` comes with a single component that renders any WonDesign
+  icon by its name. Each icon takes the size and color of the text around it.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/icons
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/icons` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Built with svg2tsx**: Generated from SVG files by [`@wondesign/svg2tsx`](/svg2tsx), as a facade component
+- ✅ **One Component**: Render any icon by its name
+- ✅ **Type-Safe Names**: Only real icon names are accepted
+- ✅ **Fits the Text**: Icons take the size and color of the text around them
+- ✅ **Hidden When Decorative**: Screen readers skip icons that have no label
+
+---
+
+## Components
+
+- ⭐ **[AppIcon](/components/icons/app-icon)** — renders any icon in the set
+  by its name.
+
+---
+
+## Upcoming Features
+
+- 🔜 **More Icon Sets**: New sets for specific topics, like `SportIcons` for sports
