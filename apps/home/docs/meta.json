@@ -154,7 +154,12 @@
               "type": "group",
               "label": "Atoms",
               "items": [
-                "[Icons](/components/icons)",
+                {
+                  "type": "link",
+                  "label": "Icons",
+                  "url": "/components/icons",
+                  "items": ["[AppIcon](/components/icons/app-icon)"]
+                },
                 {
                   "type": "link",
                   "label": "Buttons",
