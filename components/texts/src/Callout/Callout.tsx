@@ -37,15 +37,10 @@ export function Callout({
   className,
   style,
 }: Readonly<CalloutProps>) {
-  const headingLevel = () => {
-    switch (size) {
-      case "small":
-        return 6;
-      case "large":
-        return 4;
-      default:
-        return 5;
-    }
+  const headingSize = () => {
+    if (size === "small") return "smaller";
+    if (size === "large") return "larger";
+    return "normal";
   };
 
   return (
@@ -54,7 +49,7 @@ export function Callout({
         {typeof icon === "string" ? <AppIcon icon={icon as IconName} /> : icon}
       </div>
       {title && typeof title === "string" ? (
-        <Heading level={headingLevel()} className={styles.title}>
+        <Heading level={5} size={headingSize()} className={styles.title}>
           {title}
         </Heading>
       ) : (
