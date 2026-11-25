@@ -1,0 +1,26 @@
+# API
+
+```ts
+import { AppIcon, type IconName, type IconProps } from "@wondesign/icons";
+// or from @wondesign/ui/icons
+```
+
+---
+
+## Props
+
+Renders an `<svg>`, and accepts all of its props. For what each prop does,
+refer to the [Examples tab](/components/icons/app-icon/examples).
+
+```ts
+interface AppIconProps extends IconProps {
+  icon: IconName;
+  size?: number | string; // defaults to `"1em"`
+  color?: string; // defaults to `"currentColor"`
+  "aria-label"?: string;
+  // ...
+}
+```
+
+- 📌 **An unknown name renders nothing**, with a warning in the console. The
+  types catch it, unless the name comes from untyped data.

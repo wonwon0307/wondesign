@@ -2,7 +2,6 @@ import { style } from "@vanilla-extract/css";
 import { mediaQueries, tokens } from "@wondesign/tokens";
 
 const pressable = style({
-  whiteSpace: "nowrap",
   selectors: {
     "&[data-disabled]": {
       cursor: "not-allowed",

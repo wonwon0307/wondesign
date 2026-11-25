@@ -1,0 +1,37 @@
+# API
+
+```ts
+import { IconLink, type IconLinkProps } from "@wondesign/links/IconLink";
+// or from @wondesign/ui/links
+```
+
+---
+
+## Props
+
+Renders an `<a>`, and accepts all props of
+[Anchor](/components/links/anchor/api). It takes either `icon` or
+`children`, and passing both is a type error. For what each prop does, refer
+to the [Examples tab](/components/links/icon-link/examples).
+
+```ts
+type IconLinkProps = {
+  href?: string;
+  appearance?: "filled" | "outlined" | "ghost"; // defaults to `"outlined"`
+  size?: number | string; // defaults to `"1em"`
+  rounded?: boolean; // defaults to `false`
+  spacious?: boolean; // defaults to `false`
+  isDisabled?: boolean; // defaults to `false`
+  // ...
+} & ({ icon: IconName } | { children: React.ReactNode });
+```
+
+---
+
+## Data Attributes
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-external": "true" | undefined; // present when the `href` is external
+"data-new-tab": "true" | undefined; // present when it opens in a new tab
+```

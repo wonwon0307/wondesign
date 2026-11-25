@@ -5,14 +5,20 @@ import { Preview } from "@/widgets/preview";
 
 # Examples
 
-Common ways to use `Button`, from picking a variant to fitting it into your
-own design. Each example shows the rendered result, followed by its code.
+This page explains what each prop of `Button` does. Each example shows the
+rendered result, followed by its code.
 
 ---
 
-## Variants
+## Appearance
 
-The `variant` property sets the colors. It's `"primary"` by default:
+Pick the colors with `variant`, and choose between a solid background and a
+border with `outlined`.
+
+### Variants
+
+The `variant` property sets the colors for the kind of action. It's
+`"primary"` by default:
 
 <Preview>
   <Button variant="primary">Primary</Button>
@@ -26,11 +32,10 @@ The `variant` property sets the colors. It's `"primary"` by default:
 <Button variant="destructive">Destructive</Button>
 ```
 
----
+### Outlined
 
-## Outlined
-
-Pass `outlined` to swap the solid background for a border:
+Pass `outlined` to swap the solid background for a border, for less
+prominent actions:
 
 <Preview>
   <Button variant="primary" outlined>
@@ -69,31 +74,36 @@ the label and the content on either side. It's `"medium"` by default:
 <Button size="large">Large</Button>
 ```
 
-### Fill
+### Stretch
 
-Pass `fill` to make the button as wide as its container (`100%`), like the
+Pass `stretch` to make the button as wide as its container (`100%`), like the
 buttons at the bottom of a form. Buttons in the same row share the width. It
 works with every `size`:
 
 <Preview>
-  <Button fill variant="secondary" outlined>
+  <Button stretch variant="secondary" outlined>
     {"Cancel"}
   </Button>
-  <Button fill>Save</Button>
+  <Button stretch>Save</Button>
 </Preview>
 
 ```tsx
 <div style={{ display: "flex", gap: "var(--spacing-md)" }}>
-  <Button fill variant="secondary" outlined>
+  <Button stretch variant="secondary" outlined>
     Cancel
   </Button>
-  <Button fill>Save</Button>
+  <Button stretch>Save</Button>
 </div>
 ```
 
 ---
 
-## Left and Right
+## Content
+
+Add content around the label with `left` and `right`, or pass your own
+elements as `children`.
+
+### Left and Right
 
 Pass `left` or `right` to add content on either side of the label, like an
 icon:
@@ -110,22 +120,34 @@ import { AppIcon } from "@wondesign/icons";
 <Button right={<AppIcon icon="chevron-right" />}>Next</Button>
 ```
 
----
+### Your Own Content
 
-## Disabled
-
-Pass `isDisabled` to block presses:
+`children` also accepts your own elements, alongside the label. The button is
+positioned, so they can be placed against its edges, like a dot for unread
+messages:
 
 <Preview>
-  <Button isDisabled>Disabled</Button>
-  <Button variant="secondary" outlined isDisabled>
-    {"Disabled"}
+  <Button variant="secondary" outlined>
+    {"Inbox"}
+    <span
+      style={{
+        position: "absolute",
+        top: "-4px",
+        right: "-4px",
+        width: "8px",
+        height: "8px",
+        borderRadius: "50%",
+        background: "var(--color-error)",
+      }}
+    />
   </Button>
 </Preview>
 
 ```tsx
-<Button isDisabled>Disabled</Button>
-<Button variant="secondary" outlined isDisabled>Disabled</Button>
+<Button variant="secondary" outlined>
+  Inbox
+  <span className="unread-dot" />
+</Button>
 ```
 
 ---
@@ -133,10 +155,9 @@ Pass `isDisabled` to block presses:
 ## Loading
 
 Pass `isLoading` while an action is in progress, like saving a form. Presses
-are blocked, screen readers announce the button as busy, along with its
-label, the button fades slightly, and a
-[Spinner](/components/loading/spinner) takes the place of the label. **The
-button keeps its size**, so the layout around it doesn't move:
+are blocked, the button fades slightly, and a
+[Spinner](/components/loading/spinner) takes the place of the label. The
+button keeps its size, so the layout around it doesn't move:
 
 <Preview>
   <Button>Save</Button>
@@ -144,9 +165,8 @@ button keeps its size**, so the layout around it doesn't move:
 </Preview>
 
 ```tsx
-<Button isLoading={isSaving} onClick={save}>
-  Save
-</Button>
+<Button>Save</Button>
+<Button isLoading>Save</Button>
 ```
 
 ### Fallback Position
@@ -182,11 +202,10 @@ loading, like an icon that turns into a spinner:
 </Preview>
 
 ```tsx
-<Button
-  isLoading={isUploading}
-  fallbackPosition="left"
-  left={<AppIcon icon="upload" />}
->
+<Button fallbackPosition="left" left={<AppIcon icon="upload" />}>
+  Upload
+</Button>
+<Button isLoading fallbackPosition="left" left={<AppIcon icon="upload" />}>
   Upload
 </Button>
 ```
@@ -222,37 +241,17 @@ import { Spinner } from "@wondesign/loading/Spinner";
 
 ---
 
-## Submitting Forms
+## Disabled
 
-Set `type="submit"` when the button should submit its form. Without it, it
-doesn't:
-
-```tsx
-<form onSubmit={handleSubmit}>
-  {…}
-  <Button type="submit">Send</Button>
-</form>
-```
-
----
-
-## Styling
-
-When a single button needs to look different, change it with `className` or
-`style`, like a fully rounded button:
+Pass `isDisabled` to block presses. By default, the button fades while
+disabled:
 
 <Preview>
-  <Button style={{ borderRadius: "999px" }}>Subscribe</Button>
+  <Button>Save</Button>
+  <Button isDisabled>Save</Button>
 </Preview>
 
 ```tsx
-<Button style={{ borderRadius: "999px" }}>Subscribe</Button>
-
-<Button className="pill">Subscribe</Button>
-```
-
-```css
-.pill {
-  border-radius: 999px;
-}
+<Button>Save</Button>
+<Button isDisabled>Save</Button>
 ```

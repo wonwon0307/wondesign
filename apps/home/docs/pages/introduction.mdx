@@ -3,11 +3,9 @@ title: Introduction
 description: What WonDesign is, and how its four parts fit together.
 ---
 
-import { Callout } from "@wondesign/ui/texts";
-
 # WonDesign
 
-WonDesign is a design system for React, built from four parts: Styling,
+**WonDesign** is a design system for React, built from four parts: Styling,
 Interactions, Headless Components and Styled Components. Each part is a set of
 small packages you can install on their own.
 
@@ -15,8 +13,10 @@ small packages you can install on their own.
 
 ## How It Fits Together
 
-Styling and Interactions are the base, and each part built on them decides a
-little more for you. Pick the part that decides as much as you want.
+Styling, Interactions and Headless Components are the **skeleton for design
+systems**: the **low-level infrastructure** that components like alerts,
+popovers and tabs are built on. Styled Components add the WonDesign look on
+top.
 
 - 🖌️ **[Styling](/styling)**: A CSS reset, design tokens and theme switching.
   They set the base of your app's look, and render nothing.
@@ -37,16 +37,14 @@ like [SVG2TSX](/svg2tsx), which turns SVG files into React icon components.
 
 ## Philosophy
 
-<Callout title="Do the groundwork once">
-  Every React app redoes the same groundwork, from a CSS reset to the same
-  buttons and tooltips. WonDesign does it once, so you can focus on what makes
-  your product **yours**.
-</Callout>
+Every app or project ends up redoing the same groundwork, like a CSS reset, a
+set of tokens, or focus and keyboard handling. WonDesign standardizes that
+repetitive work into small, single-purpose packages, so it's **done once** and
+you can spend your time on the business logic that makes your product work.
 
-<Callout title="Every package stands on its own">
-  Install only the package you need, and it works. No other WonDesign package
-  needs to be installed or set up first, not even the tokens.
-</Callout>
+**Every package stands on its own.** Install only the package you need, and it
+works. No other WonDesign package needs to be installed or set up first, not
+even the tokens.
 
 ---
 

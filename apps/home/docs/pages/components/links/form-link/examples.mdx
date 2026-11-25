@@ -1,17 +1,24 @@
+import { AppIcon } from "@wondesign/ui/icons";
 import { FormLink } from "@wondesign/ui/links";
 import { Preview } from "@/widgets/preview";
 
 # Examples
 
-Common ways to use `FormLink`, from picking a variant to fitting it into
-your own design. Each example shows the rendered result, followed by its
-code. **Every link on this page takes you to the top of the page.**
+This page explains what each prop of `FormLink` does. Each example shows the
+rendered result, followed by its code. Clicking a link below takes you to the
+top of the page.
 
 ---
 
-## Variants
+## Appearance
 
-The `variant` property sets the colors. It's `"primary"` by default:
+Pick the colors with `variant`, and choose between a solid background and a
+border with `outlined`.
+
+### Variants
+
+The `variant` property sets the colors for the kind of destination. It's
+`"primary"` by default:
 
 <Preview>
   <FormLink variant="primary" href="#">
@@ -21,38 +28,37 @@ The `variant` property sets the colors. It's `"primary"` by default:
     {"Back"}
   </FormLink>
   <FormLink variant="destructive" href="#">
-    {"Withdraw"}
+    {"Delete account"}
   </FormLink>
 </Preview>
 
 ```tsx
-<FormLink variant="primary" href="/signup">Sign up</FormLink>
-<FormLink variant="secondary" href="/">Back</FormLink>
-<FormLink variant="destructive" href="/account/withdraw">Withdraw</FormLink>
+<FormLink variant="primary" href="#">Sign up</FormLink>
+<FormLink variant="secondary" href="#">Back</FormLink>
+<FormLink variant="destructive" href="#">Delete account</FormLink>
 ```
 
----
+### Outlined
 
-## Outlined
-
-Pass `outlined` to swap the solid background for a border:
+Pass `outlined` to swap the solid background for a border, for less
+prominent links:
 
 <Preview>
   <FormLink variant="primary" outlined href="#">
-    {"Sign up"}
+    {"Log in"}
   </FormLink>
   <FormLink variant="secondary" outlined href="#">
-    {"Back"}
+    {"Cancel"}
   </FormLink>
   <FormLink variant="destructive" outlined href="#">
-    {"Withdraw"}
+    {"Leave team"}
   </FormLink>
 </Preview>
 
 ```tsx
-<FormLink variant="primary" outlined href="/signup">Sign up</FormLink>
-<FormLink variant="secondary" outlined href="/">Back</FormLink>
-<FormLink variant="destructive" outlined href="/account/withdraw">Withdraw</FormLink>
+<FormLink variant="primary" outlined href="#">Log in</FormLink>
+<FormLink variant="secondary" outlined href="#">Cancel</FormLink>
+<FormLink variant="destructive" outlined href="#">Leave team</FormLink>
 ```
 
 ---
@@ -64,90 +70,94 @@ default:
 
 <Preview>
   <FormLink size="small" href="#">
-    {"Sign up"}
+    {"Get started"}
   </FormLink>
   <FormLink size="medium" href="#">
-    {"Sign up"}
+    {"Get started"}
   </FormLink>
   <FormLink size="large" href="#">
-    {"Sign up"}
+    {"Get started"}
   </FormLink>
 </Preview>
 
 ```tsx
-<FormLink size="small" href="/signup">Sign up</FormLink>
-<FormLink size="medium" href="/signup">Sign up</FormLink>
-<FormLink size="large" href="/signup">Sign up</FormLink>
+<FormLink size="small" href="#">Get started</FormLink>
+<FormLink size="medium" href="#">Get started</FormLink>
+<FormLink size="large" href="#">Get started</FormLink>
 ```
 
-### Fill
+### Stretch
 
-Pass `fill` to make the link as wide as its container (`100%`), like the
+Pass `stretch` to make the link as wide as its container (`100%`), like the
 links at the bottom of a form. Links in the same row share the width, and
-they line up with a filled [Button](/components/buttons/button):
+they line up with a stretched [Button](/components/buttons/button):
 
 <Preview>
-  <FormLink fill variant="secondary" outlined href="#">
+  <FormLink stretch variant="secondary" outlined href="#">
     {"Back"}
   </FormLink>
-  <FormLink fill href="#">
-    {"Sign up"}
+  <FormLink stretch href="#">
+    {"Next"}
   </FormLink>
 </Preview>
 
 ```tsx
 <div style={{ display: "flex", gap: "var(--spacing-md)" }}>
-  <FormLink fill variant="secondary" outlined href="/">
+  <FormLink stretch variant="secondary" outlined href="#">
     Back
   </FormLink>
-  <FormLink fill href="/signup">
-    Sign up
+  <FormLink stretch href="#">
+    Next
   </FormLink>
 </div>
 ```
 
 ---
 
-## Disabled
+## Content
 
-Pass `isDisabled` to turn the link off. It can't be followed, leaves the tab
-order, and fades:
+`children` also accepts your own elements alongside the label, like an icon
+on either side. They sit in a row, with space between them:
 
 <Preview>
-  <FormLink isDisabled href="#">
-    {"Sign up"}
+  <FormLink variant="secondary" outlined href="#">
+    <AppIcon icon="download" />
+    {"Download guide"}
   </FormLink>
-  <FormLink variant="secondary" outlined isDisabled href="#">
-    {"Back"}
+  <FormLink href="#">
+    {"Next"}
+    <AppIcon icon="chevron-right" />
   </FormLink>
 </Preview>
 
 ```tsx
-<FormLink isDisabled href="/signup">Sign up</FormLink>
-<FormLink variant="secondary" outlined isDisabled href="/">Back</FormLink>
+import { AppIcon } from "@wondesign/icons";
+
+<FormLink variant="secondary" outlined href="#">
+  <AppIcon icon="download" />
+  Download guide
+</FormLink>
+<FormLink href="#">
+  Next
+  <AppIcon icon="chevron-right" />
+</FormLink>
 ```
 
 ---
 
-## Styling
+## Disabled
 
-When a single link needs to look different, change it with `className` or
-`style`, like a fully rounded link:
+Pass `isDisabled` to turn the link off. Navigation is blocked, and the link
+fades:
 
 <Preview>
-  <FormLink style={{ borderRadius: "999px" }} href="#">
-    {"Sign up"}
+  <FormLink href="#">Continue</FormLink>
+  <FormLink isDisabled href="#">
+    {"Continue"}
   </FormLink>
 </Preview>
 
 ```tsx
-<FormLink style={{ borderRadius: "999px" }} href="/signup">Sign up</FormLink>
-
-<FormLink className="pill" href="/signup">Sign up</FormLink>
-```
-
-```css
-.pill {
-  border-radius: 999px;
-}
+<FormLink href="#">Continue</FormLink>
+<FormLink isDisabled href="#">Continue</FormLink>
 ```

@@ -42,6 +42,7 @@ export function Anchor({
   };
 
   const finalRole = role ?? (isDisabled ? "link" : undefined);
+  const finalTabIndex = isDisabled ? (tabIndex ?? 0) : tabIndex;
 
   return (
     <Component
@@ -52,7 +53,7 @@ export function Anchor({
       onKeyDown={isDisabled ? doNothingOnKeyDown : onKeyDown}
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noopener noreferrer" : undefined}
-      tabIndex={isDisabled ? -1 : tabIndex}
+      tabIndex={finalTabIndex}
       aria-disabled={isDisabled || undefined}
       data-disabled={isDisabled || undefined}
       data-external={isExternal || undefined}

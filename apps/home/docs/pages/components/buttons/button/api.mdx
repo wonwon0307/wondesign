@@ -1,0 +1,41 @@
+# API
+
+```ts
+import { Button, type ButtonProps } from "@wondesign/buttons/Button";
+// or from @wondesign/ui/buttons
+```
+
+---
+
+## Props
+
+Renders a `<button>`, and accepts all props of
+[Pressable](/components/buttons/pressable/api). For what each prop does, refer to
+the [Examples tab](/components/buttons/button/examples).
+
+```ts
+interface ButtonProps {
+  children: React.ReactNode;
+  variant?: "primary" | "secondary" | "destructive"; // defaults to `"primary"`
+  size?: "small" | "medium" | "large"; // defaults to `"medium"`
+  outlined?: boolean; // defaults to `false`
+  stretch?: boolean; // defaults to `false`
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+  isDisabled?: boolean; // defaults to `false`
+  isLoading?: boolean; // defaults to `false`
+  fallback?: React.ReactNode; // defaults to a `Spinner`
+  fallbackPosition?: "replace" | "left"; // defaults to `"replace"`
+  type?: "button" | "submit" | "reset"; // defaults to `"button"`
+  // ...
+}
+```
+
+---
+
+## Data Attributes
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled
+"data-loading": "true" | undefined; // present when loading
+```

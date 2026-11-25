@@ -31,7 +31,7 @@ pnpm add @wondesign/links
 
 - ✅ **External Links Handled**: Links to other sites open in a new tab, safely
 - ✅ **Router Friendly**: Render your router's link component, with all the same behaviour
-- ✅ **Disabled State**: A link that can't be followed or focused
+- ✅ **Disabled State**: Navigation is blocked, and the link stays focusable
 - ✅ **Consistent Focus**: The same focus outline as the buttons in `@wondesign/buttons`
 - ✅ **Styleable**: Your `className` and `style` are applied on top of the defaults
 
@@ -39,19 +39,26 @@ pnpm add @wondesign/links
 
 ## Components
 
-All of the components are built on the
-[Headless Anchor](/headless/anchor), and are styled based on
-`@wondesign/tokens`.
+All of the components are built on the [Headless Anchor](/headless/anchor).
 
-- ⭐ **[Anchor](/components/links/anchor)** — wraps anything you want to
-  link, like a card or an image. It only adds the bare-minimum styles, a
-  focus outline and a disabled cursor, so your content keeps its own look.
+- ⭐ **[Anchor](/components/links/anchor)** — makes anything inside it a
+  link, like a card or an image, with only a focus outline and a disabled
+  cursor added.
 - ⭐ **[Hyperlink](/components/links/hyperlink)** — a text link, for links
   within a sentence or a list.
 - ⭐ **[IconLink](/components/links/icon-link)** — a compact link with a
   single icon.
 - ⭐ **[FormLink](/components/links/form-link)** — a link that looks like a
   button, for going to another page, like "Sign up" or "Back".
+
+---
+
+## Styling
+
+Every link takes its look from the WonDesign tokens, so redeclaring a token
+changes all of them at once. To change a single link, like adding an
+animation, pass `className` or `style`. For details, refer to
+[Styling the Components](/components#styling-the-components).
 
 ---
 

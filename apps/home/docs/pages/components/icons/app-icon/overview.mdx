@@ -1,0 +1,60 @@
+import { AppIcon } from "@wondesign/ui/icons";
+import { IconPreview, Preview } from "@/widgets/preview";
+
+# AppIcon
+
+`AppIcon` renders any icon in the WonDesign icon set by its name, as an
+`<svg>`.
+
+```tsx
+import { AppIcon } from "@wondesign/icons";
+// or
+import { AppIcon } from "@wondesign/ui/icons";
+```
+
+---
+
+## Key Features
+
+- ✅ **Any Icon by Name**: Pass a name, and the icon is rendered for you
+- ✅ **Type-Safe Names**: Only real icon names are accepted
+- ✅ **Fits the Text**: Takes the size and color of the text around it
+- ✅ **Hidden When Decorative**: Screen readers skip it unless you give it a label
+
+---
+
+## Usage
+
+`AppIcon` takes `size` and `color`, so you can quickly style an icon without
+CSS. Pass an icon name from the Icon List below as `icon`. Without `size` and
+`color`, the icon takes the size and color of the text around it. For what
+each prop does, refer to the
+[Examples tab](/components/icons/app-icon/examples).
+
+<Preview>
+  <AppIcon icon="check-circle" />
+  <AppIcon icon="warning" size={24} />
+  <AppIcon icon="palette" size={32} color="purple" />
+</Preview>
+
+```tsx
+<AppIcon icon="check-circle" />
+<AppIcon icon="warning" size={24} />
+<AppIcon icon="palette" size={32} color="purple" />
+```
+
+- 📌 Styling it with `className` or `style` still works, and **your CSS takes
+  priority over `size` and `color`**.
+- 📌 An icon is decorative by default, so screen readers skip it. If it
+  carries meaning on its own, like a status with no text beside it, pass
+  `aria-label` to have it announced.
+
+For every prop, refer to the [API tab](/components/icons/app-icon/api).
+
+---
+
+## Icon List
+
+Every icon in the set, with the name to pass as `icon`:
+
+<IconPreview />

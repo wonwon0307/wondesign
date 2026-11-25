@@ -13,6 +13,7 @@ const formButton = recipe({
     fontWeight: tokens.typography.fontWeight.medium,
     fontFamily: tokens.typography.fontFamily.normal,
     borderRadius: tokens.radius.sm,
+    whiteSpace: "nowrap",
     transition: "all 0.3s ease",
     selectors: {
       "&[data-disabled]": {
@@ -82,7 +83,7 @@ const formButton = recipe({
         border: `1px solid ${tokens.colors.error}`,
       },
     },
-    fill: {
+    stretch: {
       true: {
         width: "100%",
       },

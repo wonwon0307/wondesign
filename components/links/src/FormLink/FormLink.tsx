@@ -8,7 +8,7 @@ export interface FormLinkProps extends Omit<AnchorProps, "children"> {
   variant?: "primary" | "secondary" | "destructive";
   size?: "small" | "medium" | "large";
   outlined?: boolean;
-  fill?: boolean;
+  stretch?: boolean;
 }
 
 export function FormLink({
@@ -16,7 +16,7 @@ export function FormLink({
   variant = "primary",
   size = "medium",
   outlined = false,
-  fill = false,
+  stretch = false,
   className,
   ...rest
 }: Readonly<FormLinkProps>) {
@@ -30,7 +30,7 @@ export function FormLink({
         styles.formLink({
           variant: finalVariant,
           size,
-          fill,
+          stretch,
         }),
         className,
       )}

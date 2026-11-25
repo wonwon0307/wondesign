@@ -31,4 +31,30 @@ describe("AppIcon", () => {
     );
     consoleWarnSpy.mockRestore();
   });
+
+  it("should handle aria attributes correctly", () => {
+    const { getByTestId } = render(
+      <>
+        <AppIcon icon="alert" aria-label="Alert" data-testid="icon" />
+        <AppIcon
+          icon="bell"
+          aria-labelledby="icon-label"
+          data-testid="labelled-icon"
+        />
+        <AppIcon icon="check" data-testid="hidden-icon" />
+        <AppIcon icon="copy" aria-hidden={false} data-testid="visible-icon" />
+      </>,
+    );
+
+    expect(getByTestId("icon").getAttribute("aria-label")).toBe("Alert");
+    expect(getByTestId("icon").getAttribute("aria-hidden")).toBeNull();
+    expect(getByTestId("labelled-icon").getAttribute("aria-labelledby")).toBe(
+      "icon-label",
+    );
+    expect(getByTestId("labelled-icon").getAttribute("aria-hidden")).toBeNull();
+    expect(getByTestId("hidden-icon").getAttribute("aria-hidden")).toBe("true");
+    expect(getByTestId("visible-icon").getAttribute("aria-hidden")).toBe(
+      "false",
+    );
+  });
 });

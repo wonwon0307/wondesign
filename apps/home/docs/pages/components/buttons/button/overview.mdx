@@ -3,12 +3,21 @@ import { Preview } from "@/widgets/preview";
 
 # Button
 
-`Button` builds on [Pressable](/components/buttons/pressable) to render a
-labelled button, like "Save" or "Delete". Pick a `variant` for the kind of
-action, and a `size` for where it sits. To go to another page instead, like
-"Sign up", "Back" or "Withdraw", use
-[FormLink](/components/links/form-link) from `@wondesign/links`, not
-`Button`.
+`Button` is a form button: a labelled button for actions on a page or in a
+form, like "Save" or "Delete". It builds on
+[Pressable](/components/buttons/pressable), and adds variants, sizes and a
+loading spinner.
+
+To make anything else pressable, like a card or an image, use
+[Pressable](/components/buttons/pressable) instead. To go to another page,
+like "Sign up" or "Back", use [FormLink](/components/links/form-link) from
+`@wondesign/links` instead.
+
+```tsx
+import { Button } from "@wondesign/buttons/Button";
+// or
+import { Button } from "@wondesign/ui/buttons";
+```
 
 ---
 
@@ -21,79 +30,43 @@ action, and a `size` for where it sits. To go to another page instead, like
 - ✅ **Loading Spinner**: Shows a spinner while loading, without changing the button's size
 - ✅ **Disabled State**: Presses are blocked, and the button stays focusable
 
+---
+
+## Usage
+
+`Button` helps you render a form button quickly, using its props. Pass the
+label as `children`, and set the look with props like `variant` and
+`outlined`. While an action runs, pass `isLoading` to show a spinner.
+`children` also accepts any elements, for cases where a plain label isn't
+enough. For what each prop does, refer to the
+[Examples tab](/components/buttons/button/examples).
+
 <Preview>
   <Button variant="primary">Save</Button>
-  <Button variant="secondary">Cancel</Button>
-  <Button variant="destructive">Delete</Button>
+  <Button variant="destructive" outlined>
+    {"Delete"}
+  </Button>
+  <Button isLoading fallbackPosition="left">
+    {"Submit"}
+  </Button>
 </Preview>
 
 ```tsx
-import { Button } from "@wondesign/buttons/Button";
-
-<Button variant="primary" onClick={save}>Save</Button>
-<Button variant="secondary" onClick={cancel}>Cancel</Button>
-<Button variant="destructive" onClick={remove}>Delete</Button>
+<Button variant="primary">Save</Button>
+<Button variant="destructive" outlined>Delete</Button>
+<Button isLoading fallbackPosition="left">Submit</Button>
 ```
 
-See [Examples](/components/buttons/button/examples) for variants, sizes,
-left and right content, loading and styling.
+`Button` is mainly for forms, but its `type` is `"button"` by default, so it
+doesn't submit a form by accident. To submit a form, pass `type="submit"`
+yourself:
 
----
-
-## API
-
-Import `Button` and its props type from `@wondesign/buttons/Button`:
-
-```ts
-import { Button, type ButtonProps } from "@wondesign/buttons/Button";
+```tsx
+<form onSubmit={handleSubmit}>
+  {/* … */}
+  <Button type="submit">Send</Button>
+</form>
 ```
 
-### Props
-
-Accepts all props of [Pressable](/components/buttons/pressable#props), plus
-its own `variant`, `size`, `outlined`, `fill`, `left`, `right`, `fallback`
-and `fallbackPosition`. Together, the key props are:
-
-```ts
-interface ButtonProps {
-  // the label.
-  children: React.ReactNode;
-
-  // the colors. defaults to `"primary"`.
-  variant?: "primary" | "secondary" | "destructive";
-
-  // the font size and padding. defaults to `"medium"`.
-  size?: "small" | "medium" | "large";
-
-  // a border instead of a solid background. defaults to `false`.
-  outlined?: boolean;
-
-  // as wide as its container. defaults to `false`.
-  fill?: boolean;
-
-  // content before the label, like an icon.
-  left?: React.ReactNode;
-
-  // content after the label, like an icon.
-  right?: React.ReactNode;
-
-  isDisabled?: boolean; // defaults to `false`
-  isLoading?: boolean; // defaults to `false`
-
-  // shown while loading. defaults to a `Spinner`.
-  fallback?: React.ReactNode;
-
-  // where the fallback goes while loading: in place of the label, or in
-  // place of the `left` content. defaults to `"replace"`.
-  fallbackPosition?: "replace" | "left";
-
-  // ...
-}
-```
-
----
-
-## Used By
-
-- 🧩 **[Alert](/components/alert)**: the buttons of its default alert and confirm
-- 🧩 **[Toaster](/components/toast/toaster)**: the action of its default toast
+For every prop and data attribute, refer to the
+[API tab](/components/buttons/button/api).

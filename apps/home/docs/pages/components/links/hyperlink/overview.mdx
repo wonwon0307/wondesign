@@ -3,21 +3,39 @@ import { Preview } from "@/widgets/preview";
 
 # Hyperlink
 
-`Hyperlink` builds on [Anchor](/components/links/anchor) to render a text
-link, for links within a sentence or a list. It takes the font of the text
-around it, and is underlined on hover. To run an action instead of going to
-another page, use [LinkButton](/components/buttons/link-button) from
-`@wondesign/buttons`.
+`Hyperlink` is a text link, for links within a sentence or a list. It builds
+on [Anchor](/components/links/anchor).
+
+For an action that stays on the page, like "Undo", use
+[LinkButton](/components/buttons/link-button) from `@wondesign/buttons`
+instead.
+
+```tsx
+import { Hyperlink } from "@wondesign/links/Hyperlink";
+// or
+import { Hyperlink } from "@wondesign/ui/links";
+```
 
 ---
 
 ## Key Features
 
 - ✅ **Fits Its Sentence**: Takes the font size and family of the text around it
-- ✅ **Four Appearances**: For plain text, primary text, muted text and colored backgrounds
+- ✅ **Four Appearances**: For the classic link color, primary text, muted text and colored backgrounds
 - ✅ **Underline Control**: Underlined on hover, always or never
 - ✅ **External Links Handled**: Links to other sites open in a new tab, safely
 - ✅ **Router Friendly**: Render your router's link component, with all the same behaviour
+
+---
+
+## Usage
+
+`Hyperlink` helps you add a link within your text. Pass the label as
+`children` and the destination as `href`, and place it inside your text. It
+takes the font of the text around it, and you can set its look with props
+like `appearance` and `underline`. Below, clicking the link takes you to the
+top of the page. For what each prop does, refer to the
+[Examples tab](/components/links/hyperlink/examples).
 
 <Preview orientation="vertical">
   <p>
@@ -28,50 +46,13 @@ another page, use [LinkButton](/components/buttons/link-button) from
 </Preview>
 
 ```tsx
-import { Hyperlink } from "@wondesign/links/Hyperlink";
-
 <p>
-  Read the <Hyperlink href="/components/links">links overview</Hyperlink> before
-  you start.
-</p>;
+  Read the <Hyperlink href="#">links overview</Hyperlink> before you start.
+</p>
 ```
 
-See [Examples](/components/links/hyperlink/examples) for appearances,
-underlines, disabled links and styling.
-
----
-
-## API
-
-Import `Hyperlink` and its props type from `@wondesign/links/Hyperlink`:
-
-```ts
-import { Hyperlink, type HyperlinkProps } from "@wondesign/links/Hyperlink";
-```
-
-### Props
-
-Accepts all props of [Anchor](/components/links/anchor#props), plus its own
-`appearance` and `underline`. Together, the key props are:
-
-```ts
-interface HyperlinkProps {
-  // the label.
-  children: React.ReactNode;
-
-  // the color. defaults to `"default"`.
-  appearance?: "default" | "primary" | "muted" | "inherit";
-
-  // when it's underlined. defaults to `"hover"`.
-  // always `"always"` when `appearance` is `"inherit"`.
-  underline?: "hover" | "always" | "none";
-
-  href?: string;
-  isDisabled?: boolean; // defaults to `false`
-
-  // ...
-}
-```
+For every prop and data attribute, refer to the
+[API tab](/components/links/hyperlink/api).
 
 ---
 

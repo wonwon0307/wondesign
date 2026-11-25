@@ -1,72 +1,90 @@
 ---
 metaTitle: Styled Components
-title: About WonDesign Components
-description: The React components of WonDesign — unstyled, as styled parts, or ready to use.
+title: Styled Components
+description: React components with the WonDesign look, ready to use or built from parts.
 ---
 
-# WonDesign Components
+# Styled Components
 
-**WonDesign Components** is the layer you build your UI with — **accessible
-React components**, built on top of [Foundations](/foundations/about).
-
-Foundations handle the groundwork: tokens, theming, focus, keyboard and pointer
-behaviour. Components put that groundwork to use as buttons, tabs, tooltips,
-alerts and more, so you **assemble screens instead of rebuilding the same
-controls** in every project.
+Styled Components are React components with the WonDesign look, built on
+[Headless Components](/headless) and [`@wondesign/tokens`](/styling/tokens).
+Each package installs and works on its own.
 
 ---
 
-## Layered Architecture
+## Two Forms
 
-Components are built in **two layers**: **headless** and **styled**. The
-headless layer is the base, and styled components with behaviour, like tabs
-and tooltips, are built on top of it.
-Styled components come in two forms — **separate parts**, or **batteries
-included** with the parts already put together. The line between the two is
-loose: many styled packages offer both.
+Many styled packages come in two forms, and some offer both:
 
-- 🛠️ **Headless Components**: State, keyboard support, focus and ARIA, with
-  **no styles at all**. Build your own components on top, in your own look
-- 🧩 **Styled Parts**: The pieces of a styled component, like a tab list, a
-  tab and a tab panel, **each with the WonDesign look**. Arrange them into a
-  component of your own
-- 🎁 **Batteries Included**: Ready-made styled components with the parts
-  already put together. **Drop them in** for simple, quick uses
+- 🎁 **Ready-made**: The parts already put together. Drop them in for simple,
+  quick uses.
+- 🧩 **Parts**: The pieces of a component, like a tab list, a tab and a tab
+  panel, each with the WonDesign look. Arrange them into a component of your
+  own.
 
-**Mix and match freely.** Components from any layer combine into one feature.
-For example, a "Comments" button that opens a list of comments and a text
-input can be built from a batteries-included `Tooltip`, a styled `IconButton`
-and a headless `Collapsible` — **no need to stick to a single layer**.
+---
+
+## Styling the Components
+
+Styled components ship as plain, ready-built CSS, so they don't tie you to a
+CSS library. Style them with whatever you already use, like Tailwind, CSS
+Modules or plain CSS, for your whole app or for one component at a time.
+
+### App-Wide
+
+Every styled component is styled with
+[`@wondesign/tokens`](/styling/tokens), as CSS variables. Redeclare a token to
+change every component that uses it. Below, every component that uses the
+primary color, like a button, turns purple, and every component with medium
+corners gets rounder:
+
+```css
+:root {
+  --color-primary: #7c3aed;
+  --radius-md: 12px;
+}
+```
+
+For a full set of values, dark mode and scoped themes, refer to
+[Customization](/styling/tokens/setup#customization).
+
+### One Component
+
+To change a single use, like adding space above one button, pass `className`
+or `style` as you would on any element. Your class is added to the
+component's own, so its default look stays, and your styles apply on top:
+
+```tsx
+<Button className="checkout">Checkout</Button>
+```
+
+```css
+.checkout {
+  margin-top: var(--spacing-lg);
+}
+```
+
+Use token values over hard-coded ones, like `var(--spacing-lg)` above, so your
+styles stay consistent with the rest of the app.
 
 ---
 
 ## Packages
 
-### Headless
+Packages are grouped by what they're for. Atoms are the small building
+blocks. Content Display shows content on the page. Feedback tells the user
+what's happening.
 
-- 📦 **[`@wondesign/headless`](/components/headless)** — Unstyled, accessible
-  components: elements like Button and Anchor, patterns like Alert, Tabs and
-  Tooltip, and utilities like AsChild and Portal.
-
-### Styled
-
-**Atoms**
+### Atoms
 
 - 📦 **[`@wondesign/icons`](/components/icons)** — The WonDesign icon set,
   rendered by name with one type-safe component.
-- 📦 **[`@wondesign/buttons`](/components/buttons)** — Buttons for actions, in
-  several variants and sizes, with icon-only and link-styled versions.
-- 📦 **[`@wondesign/links`](/components/links)** — Links for navigation, inline
-  in text or on their own, with an icon-only version.
+- 📦 **[`@wondesign/buttons`](/components/buttons)** — A plain clickable base,
+  form buttons, icon buttons, and buttons that look like links.
+- 📦 **[`@wondesign/links`](/components/links)** — A plain link base, text
+  links, icon links, and links that look like buttons.
 
-**Feedback**
-
-- 📦 **[`@wondesign/alert`](/components/alert)** — Alerts and confirmations,
-  shown with a single function call from anywhere in your app.
-- 📦 **[`@wondesign/loading`](/components/loading)** — Spinners and skeletons
-  for content that's still on its way.
-
-**Content Display**
+### Content Display
 
 - 📦 **[`@wondesign/texts`](/components/texts)** — Headings, paragraphs,
   descriptions, callouts and badges.
@@ -75,39 +93,11 @@ and a headless `Collapsible` — **no need to stick to a single layer**.
 - 📦 **[`@wondesign/separator`](/components/separator)** — A line that divides
   content, horizontally or vertically.
 
-### All-in-One
+### Feedback
 
-- 📦 **`@wondesign/ui`** — Every headless and styled package, the CSS reset,
-  tokens and theme under one name. See [Setup](/components/setup).
-
----
-
-## Styling Components
-
-**No component depends on a CSS library.** Styled components ship as plain,
-ready-built CSS, so your app needs no styling setup to use them. Extend or
-restyle **any layer** with whatever you already use — Tailwind, CSS-in-JS,
-vanilla-extract, CSS Modules or plain CSS.
-
-Every value in the styled components comes from
-**[`@wondesign/tokens`](/foundations/tokens)**. To change the look across
-your whole app, **redeclare the tokens** — every component that uses them
-follows. See [Customization](/foundations/tokens/customization).
-
-For one-off styles, pass `className` or `style` to the component. Even then,
-**use token values over hard-coded ones** unless you truly need a value of your
-own, so your styles stay consistent with the rest of the app.
-
-WonDesign components also expose their state, like open, active or disabled,
-through **`data-*` attributes**, as one more way to style each state.
-
----
-
-## Next Steps
-
-- **[Setup](/components/setup)** — getting your app ready, with the all-in-one
-  package or package by package.
-- **[Headless](/components/headless)** — building your own components on the
-  unstyled layer.
-- **[Foundations](/foundations/about)** — the packages Components are built
-  on.
+- 📦 **[`@wondesign/alert`](/components/alert)** — Alerts and confirms, shown
+  with a single function call from anywhere in your app.
+- 📦 **[`@wondesign/toast`](/components/toast)** — Short messages that close on
+  their own, shown with a single function call.
+- 📦 **[`@wondesign/loading`](/components/loading)** — Spinners and skeletons
+  for content that's still on its way.
