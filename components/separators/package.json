@@ -1,40 +1,23 @@
 {
-  "name": "@wondesign/separator",
-  "description": "WonDesign - Separator",
-  "version": "0.1.0",
-  "private": false,
+  "name": "@wondesign/separators",
+  "description": "WonDesign - Separators",
+  "version": "0.0.0",
+  "private": true,
   "type": "module",
   "keywords": [
     "design",
     "system",
     "ui",
     "components",
-    "separator",
+    "separators",
     "line",
     "react",
     "typescript"
   ],
-  "author": "WonWon",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wonwon0307/wondesign.git",
-    "directory": "components/separator"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
-  "license": "MIT",
-  "files": [
-    "dist"
-  ],
-  "sideEffects": [
-    "**/*.css"
-  ],
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
+    "./*": {
+      "types": "./dist/*/index.d.mts",
+      "default": "./dist/*/index.mjs"
     }
   },
   "scripts": {

@@ -39,7 +39,7 @@
     "@wondesign/navbar": "workspace:*",
     "@wondesign/pointer": "workspace:*",
     "@wondesign/position": "workspace:*",
-    "@wondesign/separator": "workspace:*",
+    "@wondesign/separators": "workspace:*",
     "@wondesign/sidebar": "workspace:*",
     "@wondesign/tabs": "workspace:*",
     "@wondesign/texts": "workspace:*",

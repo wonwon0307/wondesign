@@ -1,0 +1,26 @@
+# API
+
+```ts
+import {
+  ThemeBreak,
+  type ThemeBreakProps,
+} from "@wondesign/separators/ThemeBreak";
+// or from @wondesign/ui/separators
+```
+
+---
+
+## Props
+
+Renders an `<hr>`, and accepts all of its props except `children`. For what
+each prop does, refer to the
+[Examples tab](/components/separators/theme-break/examples).
+
+```ts
+interface ThemeBreakProps {
+  appearance?: "solid" | "dashed" | "dotted"; // defaults to `"solid"`
+  color?: string; // defaults to `tokens.colors.border`
+  bold?: boolean; // defaults to `false`
+  // ...
+}
+```

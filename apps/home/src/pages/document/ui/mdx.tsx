@@ -1,6 +1,6 @@
 import { CodeWindow, InlineCode } from "@wondesign/ui/code";
 import { Hyperlink } from "@wondesign/ui/links";
-import { Separator } from "@wondesign/ui/separator";
+import { Divider } from "@wondesign/ui/separators";
 import { Callout, Heading, Paragraph } from "@wondesign/ui/texts";
 
 import { styles } from "./styles.css";
@@ -55,7 +55,7 @@ export const mdxComponents = {
       </Heading>
     );
   },
-  hr: (props: Props) => <Separator {...props} className={styles.separator} />,
+  hr: (props: Props) => <Divider {...props} className={styles.separator} />,
   p: (props: Props) => <Paragraph {...props} />,
   a: (props: Props) => <Hyperlink {...props} appearance="primary" />,
   code: (props: Props) => <InlineCode {...props} />,

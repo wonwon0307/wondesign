@@ -1,0 +1,27 @@
+# API
+
+```ts
+import { Divider, type DividerProps } from "@wondesign/separators/Divider";
+// or from @wondesign/ui/separators
+```
+
+---
+
+## Props
+
+Renders a `<div>`, and accepts all of its props except `children`. It also
+leaves out `role`, `aria-hidden` and `aria-orientation`, since it keeps the
+line hidden from screen readers. For what each prop does, refer to the
+[Examples tab](/components/separators/divider/examples).
+
+```ts
+interface DividerProps {
+  label?: React.ReactNode;
+  labelAlign?: "start" | "center" | "end"; // defaults to `"center"`
+  appearance?: "solid" | "dashed" | "dotted"; // defaults to `"solid"`
+  color?: string; // defaults to `tokens.colors.border`
+  vertical?: boolean; // defaults to `false`
+  bold?: boolean; // defaults to `false`
+  // ...
+}
+```

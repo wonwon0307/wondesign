@@ -110,13 +110,13 @@ describe("SidebarSeparator", () => {
     expect(wrapper?.tagName).toBe("LI");
   });
 
-  it("hides the wrapper from screen readers only when decorative", () => {
+  it("hides the wrapper from screen readers only when no label is provided", () => {
     const { getByTestId } = render(
       <SidebarProvider defaultOpen>
         <SidebarBody>
           <SidebarNav>
             <SidebarSeparator data-testid="decorative" />
-            <SidebarSeparator variant="theme-break" data-testid="theme-break" />
+            <SidebarSeparator label="With Label" data-testid="with-label" />
           </SidebarNav>
         </SidebarBody>
       </SidebarProvider>,
@@ -125,9 +125,8 @@ describe("SidebarSeparator", () => {
     const decorative = getByTestId("decorative").parentElement;
     expect(decorative?.getAttribute("aria-hidden")).toBe("true");
 
-    const themeBreak = getByTestId("theme-break").parentElement;
-    expect(themeBreak?.getAttribute("aria-hidden")).toBeNull();
-    expect(getByTestId("theme-break").getAttribute("role")).toBe("separator");
+    const withLabel = getByTestId("with-label").parentElement;
+    expect(withLabel?.getAttribute("aria-hidden")).toBeNull();
   });
 
   it("throws when used outside of SidebarNav", () => {

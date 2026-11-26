@@ -212,7 +212,15 @@
                     "[KeyboardGroup](/components/code/keyboard-group)"
                   ]
                 },
-                "[Separator](/components/separator)"
+                {
+                  "type": "link",
+                  "label": "Separators",
+                  "url": "/components/separators",
+                  "items": [
+                    "[Divider](/components/separators/divider)",
+                    "[ThemeBreak](/components/separators/theme-break)"
+                  ]
+                }
               ]
             },
             {
