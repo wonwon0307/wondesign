@@ -1,0 +1,29 @@
+# API
+
+```ts
+import { Keyboard, type KeyboardProps } from "@wondesign/code/Keyboard";
+// or from @wondesign/ui/code
+```
+
+---
+
+## Props
+
+Renders a `<kbd>`, and accepts all of its props. A shortkey with more than
+one key renders a `<kbd>` for each key, inside the one that gets your props.
+For what each prop does, refer to the
+[Examples tab](/components/code/keyboard/examples).
+
+It takes either `children` or `shortkey`. Passing both is a type error.
+
+```ts
+type KeyboardProps = {
+  size?: "small" | "medium" | "large"; // defaults to `"small"`
+  "aria-label"?: string; // with `shortkey`, defaults to the key names, like `"Command K"`
+  ref?: React.Ref<HTMLElement>;
+  // ...
+} & ({ children: React.ReactNode } | { shortkey: Shortkey });
+```
+
+`Shortkey` is exported from
+[`@wondesign/key-events/shortkey`](/interactions/key-events/shortkey#api).

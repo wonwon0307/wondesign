@@ -1,17 +1,20 @@
-import { CodeBlock } from "@wondesign/ui/code";
+import { CodeBlock, CopyCodeButton } from "@wondesign/ui/code";
 import { Preview } from "@/widgets/preview";
 
 # Examples
 
-Common ways to use `CodeBlock`, from picking a language to fitting it into
-your own design. Each example shows the rendered result, followed by its code.
+This page explains what each prop of `CodeBlock` and `CopyCodeButton` does.
+Each example shows the rendered result, followed by its code.
 
 ---
 
 ## Languages
 
 The `lang` property sets the language to highlight the code as. It takes a
-language's name, like `"typescript"`, or a common alias, like `"ts"`:
+language's name, like `"typescript"`, or a common alias, like `"ts"`. The
+default is `"plaintext"`, which shows the code with no highlighting. For the
+supported languages, refer to Shiki's
+[web bundle](https://shiki.style/guide/bundles#shiki-bundle-web):
 
 <Preview orientation="vertical">
   <CodeBlock
@@ -29,10 +32,6 @@ language's name, like `"typescript"`, or a common alias, like `"ts"`:
 <CodeBlock code="pnpm add @wondesign/code" lang="bash" />
 ```
 
-Without `lang`, the code is shown as plain text. Not every language is
-supported; see [Known Issues](/components/code/code-block#known-issues) for
-which ones are.
-
 - 📌 **An unsupported language shows plain text without a warning**. Check
   the spelling when a block isn't highlighted.
 - 📌 If highlighting fails, the code is still shown as plain text, with an
@@ -42,9 +41,59 @@ which ones are.
 
 ---
 
+## Sizes
+
+The `size` property sets the font size of the code. The options are
+`"small"`, `"medium"` and `"large"`, and the default is `"medium"`:
+
+<Preview orientation="vertical">
+  <CodeBlock size="large" lang="ts" code={`const size = "large";`} />
+  <CodeBlock size="medium" lang="ts" code={`const size = "medium";`} />
+  <CodeBlock size="small" lang="ts" code={`const size = "small";`} />
+</Preview>
+
+```tsx
+<CodeBlock code={code} lang="ts" size="large" />
+<CodeBlock code={code} lang="ts" />
+<CodeBlock code={code} lang="ts" size="small" />
+```
+
+---
+
+## Max Lines
+
+Pass `maxNumLines` to show a set number of lines, and scroll for the rest.
+The default is `0`, which shows every line:
+
+<Preview orientation="vertical">
+  <CodeBlock
+    lang="ts"
+    maxNumLines={4}
+    code={`const colors = {
+    primary: "blue",
+    secondary: "purple",
+    success: "green",
+    warning: "orange",
+    error: "red",
+    text: "black",
+    background: "white",
+  };`}
+  />
+</Preview>
+
+```tsx
+<CodeBlock code={code} lang="ts" maxNumLines={4} />
+```
+
+- 📌 When `maxNumLines` is set, **a `maxHeight` in `style` is replaced** by
+  the height of that many lines. Set one or the other, not both.
+
+---
+
 ## Line Numbers
 
-Pass `showLineNumbers` to number each line:
+Pass `showLineNumbers` to number each line. The numbers can't be selected,
+so copying the code leaves them out:
 
 <Preview orientation="vertical">
   <CodeBlock
@@ -60,65 +109,77 @@ const sum = a + b;`}
 <CodeBlock code={code} lang="ts" showLineNumbers />
 ```
 
-- 📌 The numbers can't be selected, so **copying the code leaves them out**.
-
 ---
 
-## Styling
+## Copy Button
 
-Start from the default styles. When they don't fit your design everywhere,
-[change the tokens](/components/code#customizing-tokens). When they don't fit
-in one place, override that code block's styles.
+`CopyCodeButton` copies its `code` to the clipboard. By default, it shows a
+copy icon, which turns into a check once the code is copied. Screen readers
+read it as "Copy code", or "Copied" after copying.
 
-### Default Styles
-
-A code block only sets what the code needs, and **has no background, padding
-or border of its own**. Use a [CodeWindow](/components/code/code-window) for
-code in a framed window.
-
-The key values are:
-
-- 🎨 **Font family**: `tokens.typography.fontFamily.code`
-- 🎨 **Colors**: the GitHub light and dark themes, following the page's color
-  scheme
-
-The rest, like the space between the line numbers and the code, have default
-values too. Override any of them with `className` or `style`.
-
-### One-Off Styles
-
-When a single code block needs to look different, change it with `className`
-or `style`, like a framed block with a background and padding:
+**It doesn't position itself**, so place it yourself. It accepts all props of
+[Pressable](/components/buttons/pressable), so your `className` and `style`
+are applied, including the positioning:
 
 <Preview orientation="vertical">
-  <CodeBlock
-    lang="ts"
-    code={`const theme = "dark";`}
-    style={{
-      padding: "var(--spacing-md)",
-      borderRadius: "var(--radius-md)",
-      background: "var(--color-background-muted)",
-    }}
-  />
+  <div style={{ position: "relative", alignSelf: "stretch" }}>
+    <CodeBlock lang="bash" code="pnpm add @wondesign/code" />
+    <CopyCodeButton
+      code="pnpm add @wondesign/code"
+      style={{
+        position: "absolute",
+        top: "var(--spacing-md)",
+        right: "var(--spacing-md)",
+      }}
+    />
+  </div>
 </Preview>
 
 ```tsx
-<CodeBlock
+<div style={{ position: "relative" }}>
+  <CodeBlock code={code} lang="bash" />
+  <CopyCodeButton
+    code={code}
+    style={{ position: "absolute", top: 8, right: 8 }}
+  />
+</div>
+```
+
+### Custom Content
+
+Pass `children` to show your own content instead of the icon, like a text
+label. To style the copied state, use `[data-state="copied"]`, which is
+`"idle"` otherwise:
+
+<Preview orientation="vertical">
+  <CopyCodeButton code="pnpm add @wondesign/code">{"Copy"}</CopyCodeButton>
+</Preview>
+
+```tsx
+<CopyCodeButton code={code}>Copy</CopyCodeButton>
+```
+
+- 📌 Screen readers still read the button as "Copy code" or "Copied",
+  **instead of your content**.
+
+### Other Props
+
+To respond to the copy, pass `onCopy` and `onCopyFail`. `onCopy` runs after
+the code is copied, and `onCopyFail` runs when copying fails, like when the
+browser blocks the clipboard.
+
+Also, set how long the button stays in its copied state with `timeout`,
+in milliseconds. The button is disabled until then, and the default is `2000`:
+
+```tsx
+<CopyCodeButton
   code={code}
-  lang="ts"
-  style={{
-    padding: tokens.spacing.md,
-    borderRadius: tokens.radius.md,
-    background: tokens.colors.backgroundMuted,
-  }}
+  // `toast` from @wondesign/toast
+  onCopy={() => toast.success("Copied!")}
+  onCopyFail={() => toast.error("Couldn't copy the code")}
+  timeout={3000}
 />
-
-<CodeBlock code={code} lang="ts" className="snippet" />
 ```
 
-```css
-.snippet {
-  padding: var(--spacing-md);
-  font-size: var(--font-size-body-sm);
-}
-```
+- 📌 **Without `onCopyFail`, a failed copy shows nothing to the user**, and
+  is only logged in the console.

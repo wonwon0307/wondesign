@@ -1,76 +1,105 @@
 import { Keyboard } from "@wondesign/ui/code";
+import { AppIcon } from "@wondesign/ui/icons";
 import { Preview } from "@/widgets/preview";
 
 # Examples
 
-Common ways to use `Keyboard`, from picking a size to fitting it into your own
-design. Each example shows the rendered result, followed by its code.
+This page explains what each prop of `Keyboard` does. Each example shows the
+rendered result, followed by its code.
 
-For a shortcut, [KeyboardGroup](/components/code/keyboard-group) is usually
-what you want. `Keyboard` is for when you'd rather not use it, or want to
-build your own version of it from single keys.
+---
+
+## Keys
+
+Pass a shortcut as `shortkey`, or your own key as `children`. Passing both is
+a type error.
+
+### Shortkeys
+
+Pass a shortcut as `shortkey`. For how to write one, refer to
+[Writing Shortkeys](/interactions/key-events/shortkey/usage#writing-shortkeys).
+`Keyboard` shows it through
+[useShortkeyDisplay](/interactions/key-events/shortkey/usage#showing-a-shortkey),
+with the keys and the modifier order of the user's platform:
+
+<Preview orientation="vertical">
+  <Keyboard shortkey="Mod+Shift+P" />
+</Preview>
+
+```tsx
+<Keyboard shortkey="Mod+Shift+P" />
+```
+
+### Your Own Keys
+
+Pass a key as `children`. It's shown exactly as you pass it, and can be any
+content, from a symbol like `⌘` to an icon:
+
+<Preview orientation="vertical">
+  <p>
+    {"Press "}
+    <Keyboard aria-label="Enter">
+      <AppIcon icon="enter-key" />
+    </Keyboard>
+    {" to send, or "}
+    <Keyboard>{"⌘"}</Keyboard>
+    {" to see more options."}
+  </p>
+</Preview>
+
+```tsx
+<Keyboard aria-label="Enter">
+  <AppIcon icon="enter-key" />
+</Keyboard>
+<Keyboard>⌘</Keyboard>
+```
+
+- 📌 Content with no text, like an icon, **has nothing for screen readers to
+  read**, so pass an `aria-label` with it.
 
 ---
 
 ## Sizes
 
-The `size` property sets the font size and the padding together:
+The `size` property sets the font size and the padding of every key. The
+options are `"small"`, `"medium"` and `"large"`, and the default is
+`"small"`, so a key doesn't stand out more than the sentence it's in:
 
 <Preview orientation="vertical">
-  Press <Keyboard size="large">Enter</Keyboard> to send.
-
-Press <Keyboard size="medium">Enter</Keyboard> to send.
-
-Press <Keyboard size="small">Enter</Keyboard> to send.
-
+  <p>
+    {"Press "}
+    <Keyboard shortkey="Mod+Shift+P" />
+    {" to open the command palette."}
+  </p>
+  <p>
+    {"Press "}
+    <Keyboard shortkey="Mod+Shift+P" size="medium" />
+    {" to open the command palette."}
+  </p>
+  <p>
+    {"Press "}
+    <Keyboard shortkey="Mod+Shift+P" size="large" />
+    {" to open the command palette."}
+  </p>
 </Preview>
 
 ```tsx
-<Keyboard size="large">Enter</Keyboard>
-<Keyboard size="medium">Enter</Keyboard>
-<Keyboard size="small">Enter</Keyboard>
+<Keyboard shortkey="Mod+Shift+P" />
+<Keyboard shortkey="Mod+Shift+P" size="medium" />
+<Keyboard shortkey="Mod+Shift+P" size="large" />
 ```
-
-- 📌 **The default is `"small"`**, so a key doesn't stand out more than the
-  sentence it's in.
 
 ---
 
-## Styling
+## Label
 
-Start from the default styles. When they don't fit your design everywhere,
-[change the tokens](/components/code#customizing-tokens). When they don't fit
-in one place, override that key's styles.
-
-### Default Styles
-
-The key values are:
-
-- 🎨 **Font family**: `tokens.typography.fontFamily.code`
-- 🎨 **Font weight**: `tokens.typography.fontWeight.medium`
-- 🎨 **Line height**: `tokens.typography.lineHeight.single`
-
-The rest, like its colors, border, border radius and each size's font size
-and padding, have default values too. Override any of them with `className`
-or `style`.
-
-### One-Off Styles
-
-When a single key needs to look different, change it with `className` or
-`style`, like a key with a thicker bottom edge:
+By default, screen readers read a shortkey's key names, like "Command Shift
+P". To read something else, like what the shortcut does, pass `aria-label`:
 
 <Preview orientation="vertical">
-  Press <Keyboard style={{ borderBottomWidth: "3px" }}>Esc</Keyboard> to close.
+  <Keyboard shortkey="Mod+Shift+P" aria-label="Open the command palette" />
 </Preview>
 
 ```tsx
-<Keyboard style={{ borderBottomWidth: "3px" }}>Esc</Keyboard>
-
-<Keyboard className="raised-key">Esc</Keyboard>
-```
-
-```css
-.raised-key {
-  border-bottom-width: 3px;
-}
+<Keyboard shortkey="Mod+Shift+P" aria-label="Open the command palette" />
 ```

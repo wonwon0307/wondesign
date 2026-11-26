@@ -1,0 +1,63 @@
+# API
+
+```ts
+import {
+  CodeBlock,
+  CopyCodeButton,
+  type CodeBlockProps,
+  type CopyCodeButtonProps,
+} from "@wondesign/code/CodeBlock";
+// or from @wondesign/ui/code
+```
+
+---
+
+## Components
+
+For what each prop does, refer to the
+[Examples tab](/components/code/code-block/examples).
+
+### CodeBlock
+
+Renders the code in a `<code>` within a `<pre>`. It accepts all props of the
+`<pre>` except `children` and `lang`, and passes them to it.
+
+```ts
+interface CodeBlockProps {
+  code: string;
+  lang?: string; // defaults to `"plaintext"`
+  size?: "small" | "medium" | "large"; // defaults to `"medium"`
+  maxNumLines?: number; // defaults to `0`
+  showLineNumbers?: boolean; // defaults to `false`
+  ref?: React.Ref<HTMLPreElement>;
+  // ...
+}
+```
+
+### CopyCodeButton
+
+Renders an icon button, or a button with your own content when you pass
+`children`. It accepts all props of [Pressable](/components/buttons/pressable)
+except `onClick` and `aria-label`, which the button sets itself.
+
+```ts
+interface CopyCodeButtonProps {
+  code: string;
+  children?: React.ReactNode;
+  onCopy?: () => void;
+  onCopyFail?: () => void;
+  timeout?: number; // defaults to `2000`
+  // ...
+}
+```
+
+---
+
+## Data Attributes
+
+On `CopyCodeButton`:
+
+```ts
+"data-disabled": "true" | undefined; // present when disabled, like while copied
+"data-state": "copied" | "idle"; // only with `children`
+```

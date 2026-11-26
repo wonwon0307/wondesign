@@ -1,0 +1,22 @@
+# API
+
+```ts
+import { InlineCode, type InlineCodeProps } from "@wondesign/code/InlineCode";
+// or from @wondesign/ui/code
+```
+
+---
+
+## Props
+
+Renders a `<code>`, and accepts all of its props. For what each prop does,
+refer to the [Examples tab](/components/code/inline-code/examples).
+
+```ts
+interface InlineCodeProps {
+  children: React.ReactNode;
+  size?: "small" | "medium" | "large"; // defaults to `"medium"`
+  ref?: React.Ref<HTMLElement>;
+  // ...
+}
+```
