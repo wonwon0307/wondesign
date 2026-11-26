@@ -9,14 +9,14 @@ export function Alert({ size = "1em", ...props }: Readonly<IconProps>) {
       width={size}
       height={size}
     >
-      <g clipPath="url(#prefix__a)">
+      <g clipPath="url(#alert_svg__a)">
         <path
           fill="currentColor"
           d="M8 2.667a5.333 5.333 0 1 0 0 10.666A5.333 5.333 0 0 0 8 2.667m-.662 2.666a.667.667 0 0 1 1.333 0v3.063a.667.667 0 1 1-1.333 0zm.662 6a.764.764 0 1 1 0-1.529.764.764 0 0 1 0 1.53"
         />
       </g>
       <defs>
-        <clipPath id="prefix__a">
+        <clipPath id="alert_svg__a">
           <path fill="currentColor" d="M0 0h16v16H0z" />
         </clipPath>
       </defs>
