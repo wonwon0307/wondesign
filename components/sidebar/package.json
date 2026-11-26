@@ -34,7 +34,7 @@
     "@wondesign/headless": "workspace:*",
     "@wondesign/icons": "workspace:*",
     "@wondesign/key-events": "workspace:*",
-    "@wondesign/separator": "workspace:*",
+    "@wondesign/separators": "workspace:*",
     "@wondesign/tooltip": "workspace:*",
     "clsx": "catalog:"
   },
