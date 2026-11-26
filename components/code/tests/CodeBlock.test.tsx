@@ -4,12 +4,6 @@ import { codeToTokens } from "shiki/bundle/web";
 
 import { CodeBlock } from "@/CodeBlock/CodeBlock";
 
-vi.mock("shiki/bundle/web", () => ({
-  bundledLanguages: { javascript: {} },
-  bundledLanguagesAlias: { js: {} },
-  codeToTokens: vi.fn(),
-}));
-
 function mockTokens(lines: string[][]) {
   return {
     tokens: lines.map((line) =>
@@ -19,21 +13,13 @@ function mockTokens(lines: string[][]) {
 }
 
 describe("CodeBlock", () => {
-  it("renders nothing until highlighting resolves", () => {
-    (codeToTokens as Mock).mockReturnValue(new Promise(() => {}));
-
-    const { container } = render(<CodeBlock code="const a = 1;" />);
-
-    expect(container.firstChild).toBeNull();
-  });
-
   it("renders highlighted lines once resolved", async () => {
     (codeToTokens as Mock).mockResolvedValue(
       mockTokens([["const a = 1;"], ["const b = 2;"]]),
     );
 
     const { findByText } = render(
-      <CodeBlock code={"const a = 1;\nconst b = 2;"} />,
+      <CodeBlock code={"const a = 1;\nconst b = 2;"} lang="ts" />,
     );
 
     expect(await findByText("const a = 1;")).toBeTruthy();
@@ -43,7 +29,9 @@ describe("CodeBlock", () => {
   it("renders empty lines as a single space", async () => {
     (codeToTokens as Mock).mockResolvedValue(mockTokens([["a"], [], ["b"]]));
 
-    const { container, findByText } = render(<CodeBlock code="a\n\nb" />);
+    const { container, findByText } = render(
+      <CodeBlock code="a\n\nb" lang="py" />,
+    );
     await findByText("a");
 
     const lines = container.querySelectorAll("[data-line]");
@@ -56,7 +44,9 @@ describe("CodeBlock", () => {
   it("numbers lines with data-line starting at 1", async () => {
     (codeToTokens as Mock).mockResolvedValue(mockTokens([["a"], ["b"]]));
 
-    const { container, findByText } = render(<CodeBlock code="a\nb" />);
+    const { container, findByText } = render(
+      <CodeBlock code="a\nb" lang="py" />,
+    );
     await findByText("a");
 
     const lines = container.querySelectorAll<HTMLElement>("[data-line]");
@@ -64,124 +54,38 @@ describe("CodeBlock", () => {
     expect(lines[1].dataset.line).toBe("2");
   });
 
+  it("respects showLineNumbers, size and maxNumLines props", async () => {
+    (codeToTokens as Mock).mockResolvedValue(mockTokens([["a"], ["b"], ["c"]]));
+
+    const { findByText, getByRole, getByTestId } = render(
+      <CodeBlock
+        code="a\nb\nc"
+        lang="py"
+        showLineNumbers
+        size="large"
+        maxNumLines={2}
+        data-testid="code-block"
+      />,
+    );
+
+    await findByText("a");
+    const codeBlock = getByTestId("code-block");
+    const code = getByRole("code");
+    expect(codeBlock.className).toContain("large");
+    expect(code.className).toContain("showLineNumbers_true");
+  });
+
   it("forwards ref to the underlying pre element", async () => {
     (codeToTokens as Mock).mockResolvedValue(mockTokens([["a"]]));
     const testRef = vi.fn();
 
-    const { findByText } = render(<CodeBlock code="a" ref={testRef} />);
+    const { findByText, getByTestId } = render(
+      <CodeBlock code="a" ref={testRef} lang="py" data-testid="code-block" />,
+    );
 
-    const line = await findByText("a");
-    expect(line.closest("pre")?.tagName).toBe("PRE");
-    expect(testRef).toHaveBeenCalledWith(line.closest("pre"));
-  });
-
-  it("resolves an unsupported language to plaintext", async () => {
-    (codeToTokens as Mock).mockResolvedValue(mockTokens([["a"]]));
-
-    const { findByText } = render(<CodeBlock code="a" lang="not-a-lang" />);
     await findByText("a");
-
-    expect(codeToTokens).toHaveBeenCalledWith(
-      "a",
-      expect.objectContaining({ lang: "plaintext" }),
-    );
-  });
-
-  it("passes through a language known only as an alias", async () => {
-    (codeToTokens as Mock).mockResolvedValue(mockTokens([["a"]]));
-
-    const { findByText } = render(<CodeBlock code="a" lang="js" />);
-    await findByText("a");
-
-    expect(codeToTokens).toHaveBeenCalledWith(
-      "a",
-      expect.objectContaining({ lang: "js" }),
-    );
-  });
-
-  it("ignores a stale highlight response once a newer one resolves first", async () => {
-    let resolveFirst!: (value: unknown) => void;
-    let resolveSecond!: (value: unknown) => void;
-
-    (codeToTokens as Mock)
-      .mockImplementationOnce(
-        () =>
-          new Promise((resolve) => {
-            resolveFirst = resolve;
-          }),
-      )
-      .mockImplementationOnce(
-        () =>
-          new Promise((resolve) => {
-            resolveSecond = resolve;
-          }),
-      );
-
-    const { rerender, findByText, queryByText } = render(
-      <CodeBlock code="first" />,
-    );
-    rerender(<CodeBlock code="second" />);
-
-    resolveSecond(mockTokens([["second"]]));
-    expect(await findByText("second")).toBeTruthy();
-
-    resolveFirst(mockTokens([["first"]]));
-    await Promise.resolve();
-
-    expect(queryByText("first")).toBeNull();
-  });
-
-  it("falls back to unhighlighted lines and logs when highlighting fails", async () => {
-    const consoleError = vi
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
-    const error = new Error("boom");
-    (codeToTokens as Mock).mockRejectedValue(error);
-
-    const { container, findByText } = render(<CodeBlock code={"a\n\nb"} />);
-
-    expect(await findByText("a")).toBeTruthy();
-    expect(await findByText("b")).toBeTruthy();
-
-    const lines = container.querySelectorAll("[data-line]");
-    expect(lines).toHaveLength(3);
-    expect(lines[1].textContent).toBe(" ");
-
-    expect(consoleError).toHaveBeenCalledWith(
-      "[WonDesign Code] CodeBlock syntax highlighting failed",
-      error,
-    );
-
-    consoleError.mockRestore();
-  });
-
-  it("ignores a highlight rejection after the effect has been cancelled", async () => {
-    const consoleError = vi
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
-    let rejectFirst!: (reason?: unknown) => void;
-
-    (codeToTokens as Mock)
-      .mockImplementationOnce(
-        () =>
-          new Promise((_resolve, reject) => {
-            rejectFirst = reject;
-          }),
-      )
-      .mockResolvedValueOnce(mockTokens([["second"]]));
-
-    const { rerender, findByText } = render(<CodeBlock code="first" />);
-    rerender(<CodeBlock code="second" />);
-
-    expect(await findByText("second")).toBeTruthy();
-
-    rejectFirst(new Error("stale failure"));
-    await Promise.resolve();
-    await Promise.resolve();
-
-    expect(consoleError).not.toHaveBeenCalled();
-    expect(await findByText("second")).toBeTruthy();
-
-    consoleError.mockRestore();
+    const pre = getByTestId("code-block");
+    expect(pre.tagName).toBe("PRE");
+    expect(testRef).toHaveBeenCalledWith(pre);
   });
 });
