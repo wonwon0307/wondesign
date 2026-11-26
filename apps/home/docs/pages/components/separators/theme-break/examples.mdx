@@ -1,0 +1,63 @@
+import { ThemeBreak } from "@wondesign/ui/separators";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+This page explains what each prop of `ThemeBreak` does. Each example shows the
+rendered result, followed by its code.
+
+---
+
+## Appearance
+
+Pick the line's style with `appearance`, its color with `color`, and its
+weight with `bold`.
+
+### Style
+
+The `appearance` property sets how the line is drawn. The options are
+`"solid"`, `"dashed"` and `"dotted"`, and the default is `"solid"`:
+
+<Preview orientation="vertical">
+  <ThemeBreak />
+  <ThemeBreak appearance="dashed" />
+  <ThemeBreak appearance="dotted" />
+</Preview>
+
+```tsx
+<ThemeBreak />
+<ThemeBreak appearance="dashed" />
+<ThemeBreak appearance="dotted" />
+```
+
+### Color
+
+The `color` property sets the line's color, as any CSS color, including a
+token. The default is the border color:
+
+<Preview orientation="vertical">
+  <ThemeBreak />
+  <ThemeBreak color="var(--color-primary)" />
+</Preview>
+
+```tsx
+import { tokens } from "@wondesign/tokens";
+
+<ThemeBreak />
+<ThemeBreak color={tokens.colors.primary} />
+```
+
+### Weight
+
+Pass `bold` to draw a 2px line instead of a 1px one, for breaks that should
+stand out more:
+
+<Preview orientation="vertical">
+  <ThemeBreak />
+  <ThemeBreak bold />
+</Preview>
+
+```tsx
+<ThemeBreak />
+<ThemeBreak bold />
+```

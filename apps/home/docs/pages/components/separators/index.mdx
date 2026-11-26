@@ -1,0 +1,53 @@
+---
+title: Separators
+description: Styled React components for lines that divide content, from decorative dividers to real breaks between topics.
+---
+
+import { Callout } from "@wondesign/ui/texts";
+import { PackageInfo } from "@/entities/package";
+
+<PackageInfo name="@wondesign/separators" relPath="components/separators">
+  `@wondesign/separators` comes with lines that divide content: decorative
+  dividers, with an optional label, and theme breaks that mark a real change of
+  topic. Screen readers skip the dividers, and announce only the breaks.
+</PackageInfo>
+
+---
+
+## Installation
+
+```bash
+pnpm add @wondesign/separators
+```
+
+<Callout variant="warning" title="Requires React 19">
+  `@wondesign/separators` needs React 19 or later.
+</Callout>
+
+---
+
+## Key Features
+
+- ✅ **Decorative or Semantic**: A divider for the layout, or a theme break that screen readers announce
+- ✅ **Three Appearances**: Solid, dashed and dotted lines
+- ✅ **Any Color**: Pass any CSS color or token for the line
+- ✅ **Two Weights**: A regular line, or a bold one for stronger breaks
+- ✅ **Styleable**: Your `className` and `style` are applied on top of the defaults
+
+---
+
+## Components
+
+The components differ in whether screen readers announce them.
+
+- ⭐ **[Divider](/components/separators/divider)** — a decorative line, with
+  an optional label.
+- ⭐ **[ThemeBreak](/components/separators/theme-break)** — a line that marks a
+  real change of topic.
+
+---
+
+## Upcoming Features
+
+- 🔜 **Resize Splitter**: A divider with a handle, dragged to resize the content on either side
+- 🔜 **Join**: A separator placed between each of the children, without adding them one by one

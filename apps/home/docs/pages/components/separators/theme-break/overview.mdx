@@ -1,0 +1,60 @@
+import { ThemeBreak } from "@wondesign/ui/separators";
+import { Preview } from "@/widgets/preview";
+
+# ThemeBreak
+
+`ThemeBreak` is a horizontal line that marks a real change of topic, like the
+break between two scenes in a story, or between two parts of an article.
+
+For a line that's only there for the layout, and shouldn't be read by screen
+readers, use [Divider](/components/separators/divider) instead.
+
+```tsx
+import { ThemeBreak } from "@wondesign/separators/ThemeBreak";
+// or
+import { ThemeBreak } from "@wondesign/ui/separators";
+```
+
+---
+
+## Key Features
+
+- ✅ **Announced as a Break**: Renders an `<hr>`, so screen readers tell users where the topic changes
+- ✅ **Three Appearances**: Solid, dashed and dotted lines
+- ✅ **Any Color**: Pass any CSS color or token for the line
+- ✅ **Two Weights**: A regular line, or a bold one for stronger breaks
+- ✅ **Fills Its Container**: Stretches to the full width of the space it's in
+
+---
+
+## Usage
+
+`ThemeBreak` helps you mark a change of topic quickly, using its props. Place
+it between the two parts of your content, and set its look with props like
+`appearance` and `color`. The space above and below it is the
+[`xl` spacing token](/styling/tokens/design-tokens#spacing). For what each
+prop does, refer to the
+[Examples tab](/components/separators/theme-break/examples).
+
+<Preview orientation="vertical">
+  <p>{"The first scene ends here."}</p>
+  <ThemeBreak />
+  <p>{"The second scene starts here."}</p>
+</Preview>
+
+```tsx
+<p>The first scene ends here.</p>
+<ThemeBreak />
+<p>The second scene starts here.</p>
+```
+
+To change a theme break's look beyond its props, pass `className` or `style`.
+For details, refer to
+[Styling the Components](/components#styling-the-components). For every prop,
+refer to the [API tab](/components/separators/theme-break/api).
+
+---
+
+## Upcoming Features
+
+- 🔜 **Ornament**: A centered glyph or icon in place of the line, like the `* * *` between scenes in a story

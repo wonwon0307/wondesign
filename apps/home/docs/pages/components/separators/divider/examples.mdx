@@ -1,0 +1,161 @@
+import { AppIcon } from "@wondesign/ui/icons";
+import { Divider } from "@wondesign/ui/separators";
+import { Preview } from "@/widgets/preview";
+
+# Examples
+
+This page explains what each prop of `Divider` does. Each example shows the
+rendered result, followed by its code.
+
+---
+
+## Orientation
+
+By default, the line is horizontal and divides content stacked on top of each
+other:
+
+<Preview orientation="vertical">
+  <p>{"First section of the page."}</p>
+  <Divider />
+  <p>{"Second section of the page."}</p>
+</Preview>
+
+```tsx
+<p>First section of the page.</p>
+<Divider />
+<p>Second section of the page.</p>
+```
+
+Pass `vertical` to divide content placed side by side, like the details under
+a post's title:
+
+<Preview>
+  <span>{"Oct 26"}</span>
+  <Divider vertical />
+  <span>{"5 min read"}</span>
+  <Divider vertical />
+  <span>{"Design"}</span>
+</Preview>
+
+```tsx
+<span>Oct 26</span>
+<Divider vertical />
+<span>5 min read</span>
+<Divider vertical />
+<span>Design</span>
+```
+
+---
+
+## Label
+
+Add text to the line with `label`, and place it along the line with
+`labelAlign`.
+
+### Alignment
+
+The `label` property puts text in the line, like the "or" between login
+options. The `labelAlign` property sets where it sits along the line. The
+options are `"start"`, `"center"` and `"end"`, and the default is `"center"`.
+At the start or the end, the line runs on the other side only:
+
+<Preview orientation="vertical">
+  <Divider label="Start" labelAlign="start" />
+  <Divider label="Center" />
+  <Divider label="End" labelAlign="end" />
+</Preview>
+
+```tsx
+<Divider label="Start" labelAlign="start" />
+<Divider label="Center" />
+<Divider label="End" labelAlign="end" />
+```
+
+### Custom Labels
+
+The `label` property also takes any React node, like an icon next to the
+text:
+
+<Preview orientation="vertical">
+  <Divider
+    label={
+      <>
+        <AppIcon icon="check-circle" />
+        {"Completed"}
+      </>
+    }
+  />
+</Preview>
+
+```tsx
+<Divider
+  label={
+    <>
+      <AppIcon icon="check-circle" />
+      Completed
+    </>
+  }
+/>
+```
+
+- 📌 **`color` and `bold` only change the lines, not the label.** To change
+  the label's look, pass `className` or `style`, or pass the label as your own
+  element.
+- ⚠️ **Be careful with a label on a vertical divider.** Used without care, it
+  can break the divider's layout.
+
+---
+
+## Appearance
+
+Pick the line's style with `appearance`, its color with `color`, and its
+weight with `bold`.
+
+### Style
+
+The `appearance` property sets how the line is drawn. The options are
+`"solid"`, `"dashed"` and `"dotted"`, and the default is `"solid"`:
+
+<Preview orientation="vertical">
+  <Divider />
+  <Divider appearance="dashed" />
+  <Divider appearance="dotted" />
+</Preview>
+
+```tsx
+<Divider />
+<Divider appearance="dashed" />
+<Divider appearance="dotted" />
+```
+
+### Color
+
+The `color` property sets the line's color, as any CSS color, including a
+token. The default is the border color:
+
+<Preview orientation="vertical">
+  <Divider />
+  <Divider color="var(--color-primary)" />
+</Preview>
+
+```tsx
+import { tokens } from "@wondesign/tokens";
+
+<Divider />
+<Divider color={tokens.colors.primary} />
+```
+
+### Weight
+
+Pass `bold` to draw a 2px line instead of a 1px one, for breaks that should
+stand out more:
+
+<Preview orientation="vertical">
+  <Divider />
+  <Divider bold />
+</Preview>
+
+```tsx
+<Divider />
+<Divider bold />
+```

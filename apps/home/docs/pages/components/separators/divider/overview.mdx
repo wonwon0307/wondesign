@@ -1,0 +1,57 @@
+import { Divider } from "@wondesign/ui/separators";
+import { Preview } from "@/widgets/preview";
+
+# Divider
+
+`Divider` is a decorative line between pieces of content, horizontal or
+vertical, with an optional label. It hides the line from screen readers for
+you.
+
+For a real change of topic that screen readers should announce, use
+[ThemeBreak](/components/separators/theme-break) instead.
+
+```tsx
+import { Divider } from "@wondesign/separators/Divider";
+// or
+import { Divider } from "@wondesign/ui/separators";
+```
+
+---
+
+## Key Features
+
+- ✅ **Two Orientations**: Divide content stacked on top of each other, or placed side by side
+- ✅ **Optional Label**: Text in the line, at its start, center or end
+- ✅ **Three Appearances**: Solid, dashed and dotted lines
+- ✅ **Any Color**: Pass any CSS color or token for the line
+- ✅ **Two Weights**: A regular line, or a bold one for stronger breaks
+- ✅ **Quiet for Screen Readers**: The line is skipped, since it's only there for the layout
+
+---
+
+## Usage
+
+`Divider` helps you divide content quickly, using its props. Place it between
+the pieces of content, and set it with props like `vertical` and `label`. It
+has no margin of its own, so the space around it comes from its container,
+like a `gap`. For what each prop does, refer to the
+[Examples tab](/components/separators/divider/examples).
+
+<Preview orientation="vertical">
+  <p>{"First section of the page."}</p>
+  <Divider />
+  <p>{"Second section of the page."}</p>
+</Preview>
+
+```tsx
+<p>First section of the page.</p>
+<Divider />
+<p>Second section of the page.</p>
+```
+
+To change a divider's look beyond its props, pass `className` or `style`. For
+details, refer to [Styling the Components](/components#styling-the-components).
+For every prop, refer to the [API tab](/components/separators/divider/api).
+
+- 📌 Screen readers skip the line, and read a label as plain text.
+- 📌 Pass the content as `label`, since **`children` are ignored**.
