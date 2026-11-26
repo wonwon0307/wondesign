@@ -1,4 +1,4 @@
-import { KeyboardGroup } from "@wondesign/code/KeyboardGroup";
+import { Keyboard } from "@wondesign/code/Keyboard";
 import { Tooltip } from "@wondesign/tooltip";
 import { clsx } from "clsx";
 
@@ -23,7 +23,7 @@ export function SidebarToggle({
     return (
       <Tooltip
         placement={side === "left" ? "right" : "left"}
-        text={<KeyboardGroup shortkey={shortkey} />}
+        text={<Keyboard shortkey={shortkey} />}
         asChild
       >
         <HeadlessToggle {...rest} className={clsx(styles.toggle, className)}>
