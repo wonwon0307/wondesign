@@ -13,6 +13,7 @@ import { CopyCode } from "./components/CopyCode";
 import { Copy } from "./components/Copy";
 import { DownloadCode } from "./components/DownloadCode";
 import { Download } from "./components/Download";
+import { EnterKey } from "./components/EnterKey";
 import { ErrorCircle } from "./components/ErrorCircle";
 import { ExternalLink } from "./components/ExternalLink";
 import { Info } from "./components/Info";
@@ -40,6 +41,7 @@ export type IconName =
   | "copy"
   | "download-code"
   | "download"
+  | "enter-key"
   | "error-circle"
   | "external-link"
   | "info"
@@ -67,6 +69,7 @@ export const iconMap: Record<IconName, ComponentType<IconProps>> = {
   copy: Copy,
   "download-code": DownloadCode,
   download: Download,
+  "enter-key": EnterKey,
   "error-circle": ErrorCircle,
   "external-link": ExternalLink,
   info: Info,
