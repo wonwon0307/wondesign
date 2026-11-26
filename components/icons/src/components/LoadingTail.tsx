@@ -19,7 +19,7 @@ export function LoadingTail({ size = "1em", ...props }: Readonly<IconProps>) {
       />
       <defs>
         <linearGradient
-          id="prefix__a"
+          id="loading-tail_svg__a"
           x1={6.75}
           x2={6.75}
           y1={2.73}
@@ -30,7 +30,7 @@ export function LoadingTail({ size = "1em", ...props }: Readonly<IconProps>) {
           <stop offset={1} stopOpacity={0.55} />
         </linearGradient>
         <linearGradient
-          id="prefix__b"
+          id="loading-tail_svg__b"
           x1={17.25}
           x2={17.25}
           y1={6.649}

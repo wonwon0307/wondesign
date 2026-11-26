@@ -56,6 +56,7 @@ export class IconFile {
       Converter.config.getConfig(this.familyName).svgrOptions,
       {
         componentName: this.componentName,
+        filePath: this.srcPath,
       },
     );
 

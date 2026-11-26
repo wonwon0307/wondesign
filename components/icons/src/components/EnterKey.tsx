@@ -14,14 +14,14 @@ export function EnterKey({ size = "1em", ...props }: Readonly<IconProps>) {
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={1.333}
-        clipPath="url(#prefix__a)"
+        clipPath="url(#enter-key_svg__a)"
       >
         <path d="M14.667 14.667V1.333H8v5.334H1.333v8z" />
         <path d="m7 9.333-1.333 1.334L7 12" />
         <path d="M11.333 7.667v3H5.667" />
       </g>
       <defs>
-        <clipPath id="prefix__a">
+        <clipPath id="enter-key_svg__a">
           <path fill="currentColor" d="M0 0h16v16H0z" />
         </clipPath>
       </defs>
