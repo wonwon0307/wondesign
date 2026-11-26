@@ -2,8 +2,7 @@ import { clsx } from "clsx";
 
 import { styles } from "./styles.css";
 
-export interface InlineCodeProps
-  extends React.HTMLAttributes<HTMLElement>, React.RefAttributes<HTMLElement> {
+export interface InlineCodeProps extends React.ComponentProps<"code"> {
   children: React.ReactNode;
   size?: "small" | "medium" | "large";
 }
