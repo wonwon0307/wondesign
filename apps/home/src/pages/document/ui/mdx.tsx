@@ -1,4 +1,4 @@
-import { CodeWindow, InlineCode } from "@wondesign/ui/code";
+import { CodeBlock, CopyCodeButton, InlineCode } from "@wondesign/ui/code";
 import { Hyperlink } from "@wondesign/ui/links";
 import { Divider } from "@wondesign/ui/separators";
 import { Callout, Heading, Paragraph } from "@wondesign/ui/texts";
@@ -60,16 +60,14 @@ export const mdxComponents = {
   a: (props: Props) => <Hyperlink {...props} appearance="primary" />,
   code: (props: Props) => <InlineCode {...props} />,
   pre: ({ children, ...rest }: PreProps) => {
-    const code = children.props.children;
+    const code = children.props.children.replace(/\n$/, "");
     const language = children.props.className?.replace("language-", "");
 
     return (
-      <CodeWindow
-        {...rest}
-        code={code}
-        lang={language}
-        className={styles.codeBlock}
-      />
+      <div className={styles.codeBlock}>
+        <CodeBlock {...rest} code={code} lang={language} />
+        <CopyCodeButton code={code} className={styles.copyButton} />
+      </div>
     );
   },
   blockquote: (props: Props) => (

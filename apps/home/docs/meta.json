@@ -207,9 +207,7 @@
                   "items": [
                     "[InlineCode](/components/code/inline-code)",
                     "[CodeBlock](/components/code/code-block)",
-                    "[CodeWindow](/components/code/code-window)",
-                    "[Keyboard](/components/code/keyboard)",
-                    "[KeyboardGroup](/components/code/keyboard-group)"
+                    "[Keyboard](/components/code/keyboard)"
                   ]
                 },
                 {

@@ -10,13 +10,15 @@ import { clsx } from "clsx";
 
 import { styles } from "./styles.css";
 
-export interface CodeBlockProps
-  extends
-    Omit<React.HTMLAttributes<HTMLPreElement>, "children">,
-    React.RefAttributes<HTMLPreElement> {
+export interface CodeBlockProps extends Omit<
+  React.ComponentProps<"pre">,
+  "children" | "lang"
+> {
   code: string;
   lang?: string;
   showLineNumbers?: boolean;
+  size?: "small" | "medium" | "large";
+  maxNumLines?: number;
 }
 
 function resolveLang(lang: string): BundledLanguage | "plaintext" {
@@ -30,21 +32,27 @@ function resolveLang(lang: string): BundledLanguage | "plaintext" {
 export function CodeBlock({
   code,
   lang = "plaintext",
+  size = "medium",
   showLineNumbers = false,
+  maxNumLines = 0,
   className,
+  style,
   ...rest
 }: Readonly<CodeBlockProps>) {
   const [tokens, setTokens] = useState<ThemedToken[][]>();
   const [failed, setFailed] = useState<boolean>(false);
   const resolvedLang = resolveLang(lang);
-  const trimmedCode = code.replace(/\n$/, "");
+
+  const vertical = maxNumLines ? "scroll" : "auto";
+  const finalStyle =
+    vertical === "scroll" ? { ...style, maxHeight: `${maxNumLines}lh` } : style;
 
   useEffect(() => {
     let cancelled = false;
 
     async function highlight() {
       try {
-        const result = await codeToTokens(trimmedCode, {
+        const result = await codeToTokens(code, {
           lang: resolvedLang,
           themes: {
             light: "github-light-default",
@@ -71,13 +79,17 @@ export function CodeBlock({
     return () => {
       cancelled = true;
     };
-  }, [trimmedCode, resolvedLang]);
+  }, [code, resolvedLang]);
 
-  if (failed) {
-    const lines = trimmedCode.split("\n");
+  if (failed || !tokens) {
+    const lines = code.split("\n");
 
     return (
-      <pre {...rest} className={clsx(styles.pre, className)}>
+      <pre
+        {...rest}
+        className={clsx(styles.pre({ size, vertical }), className)}
+        style={finalStyle}
+      >
         <code className={styles.code({ showLineNumbers })}>
           {lines.map((line, index) => (
             <span
@@ -93,10 +105,12 @@ export function CodeBlock({
     );
   }
 
-  if (!tokens) return null;
-
   return (
-    <pre {...rest} className={clsx(styles.pre, className)}>
+    <pre
+      {...rest}
+      className={clsx(styles.pre({ size, vertical }), className)}
+      style={finalStyle}
+    >
       <code className={styles.code({ showLineNumbers })}>
         {tokens.map((line, i) => (
           <span

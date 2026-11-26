@@ -6,7 +6,7 @@ vi.mock("@wondesign/ui/code", () => ({
   InlineCode: ({ children }: { children: React.ReactNode }) => (
     <code>{children}</code>
   ),
-  CodeWindow: ({
+  CodeBlock: ({
     children,
     code,
   }: {
@@ -18,6 +18,7 @@ vi.mock("@wondesign/ui/code", () => ({
       {code}
     </div>
   ),
+  CopyCodeButton: () => <button>Copy</button>,
 }));
 
 describe("MDX Components", () => {

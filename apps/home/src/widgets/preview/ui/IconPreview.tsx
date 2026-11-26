@@ -16,6 +16,7 @@ const allIcons: IconName[] = [
   "copy-code",
   "download",
   "download-code",
+  "enter-key",
   "error-circle",
   "external-link",
   "info",

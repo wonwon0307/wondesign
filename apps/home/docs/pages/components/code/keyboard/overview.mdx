@@ -3,66 +3,94 @@ import { Preview } from "@/widgets/preview";
 
 # Keyboard
 
-`Keyboard` renders a single key, like `Enter` or `⌘`. It renders a `<kbd>`
-element in the code font, with a muted background and a border that set it
-apart from the text around it.
+`Keyboard` is a key, like `Enter`, or a keyboard shortcut, like `Mod+K`. A
+shortcut is shown the way the user's platform writes it: `⌘ K` on a Mac, and
+`Ctrl K` on Windows. It renders the keys in `<kbd>` elements, the native
+markup for keyboard input.
 
-`Keyboard` **shows exactly what you pass**: no platform detection, no
-shortkey parsing and no validation. `⌘` stays `⌘` on Windows too. For a
-shortcut like `Mod+K`, use [KeyboardGroup](/components/code/keyboard-group),
-which shows the keys of the user's platform and reads their names to screen
-readers.
+Shortcuts are written as shortkeys, the same way as for
+[Shortkey](/interactions/key-events/shortkey) in `@wondesign/key-events`, so
+you can show the same shortkey you bind.
+
+```tsx
+import { Keyboard } from "@wondesign/code/Keyboard";
+// or
+import { Keyboard } from "@wondesign/ui/code";
+```
 
 ---
 
 ## Key Features
 
+- ✅ **Your Own Keys**: Shows any key exactly as you write it, like `Enter` or `⌘`
+- ✅ **Shortkeys**: Shows a shortcut from the same shortkey you bind with `useShortkey`
+- ✅ **Platform-Aware**: Shows `⌘ K` on a Mac, and `Ctrl K` everywhere else
+- ✅ **Familiar Order**: Shows modifiers in each platform's usual order
+- ✅ **Screen Reader Support**: Reads a shortcut's key names, handled for you
 - ✅ **Three Sizes**: Small, medium and large, to match the text around it
-- ✅ **Any Key**: Shows the key exactly as you write it, from a word like `Enter` to a symbol like `⌘`
+
+---
+
+## Usage
+
+`Keyboard` helps you show keys quickly, using its props. Pass a key as
+`children`, or a shortcut as `shortkey`, and set its size with `size`. For
+what each prop does, refer to the
+[Examples tab](/components/code/keyboard/examples).
 
 <Preview orientation="vertical">
-  Press <Keyboard>Enter</Keyboard> to send the message.
+  <p>
+    {"Press "}
+    <Keyboard>{"Enter"}</Keyboard>
+    {" to send the message, or "}
+    <Keyboard shortkey="Mod+K" />
+    {" to search."}
+  </p>
 </Preview>
 
 ```tsx
-import { Keyboard } from "@wondesign/code/Keyboard";
-
-<p>
-  Press <Keyboard>Enter</Keyboard> to send the message.
-</p>;
+<Keyboard>Enter</Keyboard>
+<Keyboard shortkey="Mod+K" />
 ```
 
-See [Examples](/components/code/keyboard/examples) for sizes and styling.
+For every prop, refer to the [API tab](/components/code/keyboard/api).
 
----
+- 📌 Pass either `children` or `shortkey`. Passing both is a type error.
+- 📌 `children` are **shown exactly as you pass them**, with no platform
+  detection, so `⌘` stays `⌘` on Windows too.
+- 📌 **A `Keyboard` with a `shortkey` with modifiers renders nothing on the
+  server**, and
+  appears after hydration in the browser. The text around it may shift when
+  it does.
 
-## API
+When you bind a shortkey with `useShortkey`, show it with `Keyboard` on the
+button that does the same thing, so users can learn the shortcut. Keep the
+shortkey in one constant, so the shortcut you show is always the one that
+works:
 
-Import `Keyboard` and its props type from `@wondesign/code/Keyboard`:
+```tsx
+const SEARCH_SHORTKEY = "Mod+K";
 
-```ts
-import { Keyboard, type KeyboardProps } from "@wondesign/code/Keyboard";
-```
+useShortkey(SEARCH_SHORTKEY, openSearch);
 
-### Props
-
-Accepts all props of `<kbd>`, plus its own `size`. **The key must be a
-string**, not other elements. Together, the key props are:
-
-```ts
-interface KeyboardProps {
-  // the key to show, like `"Enter"` or `"⌘"`.
-  children: string;
-
-  // the font size and padding. defaults to `"small"`.
-  size?: "small" | "medium" | "large";
-
-  // ...
-}
+<button onClick={openSearch}>
+  Search <Keyboard shortkey={SEARCH_SHORTKEY} />
+</button>;
 ```
 
 ---
 
-## Used By
+## Styling
 
-- 🧩 **[KeyboardGroup](/components/code/keyboard-group)**: each key of the shortcut
+`Keyboard` relies on the WonDesign tokens, especially the code font. To
+change the look of every key across your app, redeclare those tokens. For
+their names, refer to
+[Design Tokens](/styling/tokens/design-tokens#font-family). To change a
+single key's look beyond its props, pass `className` or `style`.
+
+---
+
+## Known Issues
+
+- 🐞 **Some screen readers skip shortcuts with modifiers**: Not every screen
+  reader reads a shortcut's label, so some **read nothing** for it.

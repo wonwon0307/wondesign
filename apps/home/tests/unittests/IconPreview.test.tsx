@@ -10,6 +10,6 @@ describe("IconPreview", () => {
   it("renders <IconPreview> correctly", () => {
     const { getAllByText } = render(<IconPreview />);
 
-    expect(getAllByText("AppIcon")).toHaveLength(25);
+    expect(getAllByText("AppIcon")).toHaveLength(26);
   });
 });
