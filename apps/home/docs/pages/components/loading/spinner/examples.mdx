@@ -3,15 +3,16 @@ import { Preview } from "@/widgets/preview";
 
 # Examples
 
-Common ways to use `Spinner`, from picking a style to making loading clear to
-screen readers. Each example shows the rendered result, followed by its code.
+This page explains what each prop of `Spinner` does. Each example shows the
+rendered result, followed by its code.
 
 ---
 
 ## Appearances
 
-The `appearance` property sets the spinner's style. It's `"default"` by
-default:
+The `appearance` property sets the spinner's style. The options are
+`"default"`, `"tail"`, `"line"` and `"bubble"`, and the default is
+`"default"`:
 
 <Preview>
   <Spinner appearance="default" />
@@ -21,7 +22,7 @@ default:
 </Preview>
 
 ```tsx
-<Spinner appearance="default" />
+<Spinner />
 <Spinner appearance="tail" />
 <Spinner appearance="line" />
 <Spinner appearance="bubble" />
@@ -31,42 +32,19 @@ default:
 
 ## Sizes
 
-The spinner is `1.25em` wide and tall by default, so it follows the font size
-of the text around it:
+The `size` property sets the width and height, as any CSS length, or a
+number in pixels. The default is `"1.25em"`, so the spinner follows the font
+size of the text around it:
 
 <Preview>
-  <span style={{ fontSize: "var(--font-size-body-sm)" }}>
-    <Spinner />
-  </span>
-  <span style={{ fontSize: "var(--font-size-body-md)" }}>
-    <Spinner />
-  </span>
-  <span style={{ fontSize: "var(--font-size-body-lg)" }}>
-    <Spinner />
-  </span>
-</Preview>
-
-```tsx
-<span style={{ fontSize: tokens.typography.fontSize.bodySmall }}>
   <Spinner />
-</span>
-<span style={{ fontSize: tokens.typography.fontSize.bodyMedium }}>
-  <Spinner />
-</span>
-<span style={{ fontSize: tokens.typography.fontSize.bodyLarge }}>
-  <Spinner />
-</span>
-```
-
-Pass `size` to set it yourself, as any CSS length, or a number in pixels:
-
-<Preview>
   <Spinner size={16} />
   <Spinner size="2rem" />
   <Spinner size={48} />
 </Preview>
 
 ```tsx
+<Spinner />
 <Spinner size={16} />
 <Spinner size="2rem" />
 <Spinner size={48} />
@@ -76,7 +54,9 @@ Pass `size` to set it yourself, as any CSS length, or a number in pixels:
 
 ## Speeds
 
-The `speed` property sets how fast it spins. It's `"normal"` by default:
+The `speed` property sets how fast it spins. The options are `"slow"`,
+`"normal"` and `"fast"`, for a full turn in `1.5s`, `1s` or `0.5s`, and the
+default is `"normal"`:
 
 <Preview>
   <Spinner speed="slow" />
@@ -86,91 +66,46 @@ The `speed` property sets how fast it spins. It's `"normal"` by default:
 
 ```tsx
 <Spinner speed="slow" />
-<Spinner speed="normal" />
+<Spinner />
 <Spinner speed="fast" />
 ```
 
-- 📌 A full turn takes `1.5s`, `1s` or `0.5s`. When the user has asked for
-  reduced motion, **every speed is 2.5 times slower**.
+- 📌 When the user has asked for reduced motion, every speed is 2.5 times
+  slower.
+- 📌 If you set `animationDuration` in `style`, the spinner spins at that
+  speed for every user, **ignoring reduced motion**. Use `speed` instead, or
+  handle reduced motion yourself.
 
 ---
 
 ## Colors
 
-The spinner takes the color of the text around it. Set `color` on the
-spinner, or on the element around it:
+The `color` property sets the color, as any CSS color. The default is
+`"currentColor"`, so the spinner takes the color of the text around it:
 
 <Preview>
   <Spinner />
-  <Spinner style={{ color: "var(--color-primary)" }} />
-  <div
-    style={{
-      display: "flex",
-      alignItems: "center",
-      gap: "var(--spacing-sm)",
-      color: "var(--color-error)",
-    }}
-  >
-    <Spinner />
-    <span>Retrying…</span>
-  </div>
+  <Spinner color="var(--color-primary)" />
+  <Spinner color="purple" />
 </Preview>
 
 ```tsx
 <Spinner />
-<Spinner style={{ color: tokens.colors.primary }} />
-<div className="retrying" style={{ color: tokens.colors.error }}>
-  <Spinner />
-  {/* the spinner takes the same color as this text */}
-  <span>Retrying…</span>
-</div>
+<Spinner color="var(--color-primary)" />
+<Spinner color="purple" />
 ```
 
 ---
 
-## Accessibility
+## Label
 
-The spinner is hidden from screen readers, so mark the content that's
-loading instead. Either set `aria-busy` on the content while it loads:
-
-```tsx
-<section aria-busy={isLoading}>
-  {isLoading ? <Spinner /> : <Results items={items} />}
-</section>
-```
-
-Or show loading text next to the spinner, which screen readers read like
-any other text:
+The spinner is hidden from screen readers by default. To have it announced,
+like when there's no loading text next to it, pass `aria-label`:
 
 <Preview>
-  <Spinner />
-  <span>Loading results…</span>
+  <Spinner aria-label="Loading results" />
 </Preview>
 
 ```tsx
-<div className="loading">
-  <Spinner />
-  <span>Loading results…</span>
-</div>
+<Spinner aria-label="Loading results" />
 ```
-
-- 📌 [Button](/components/buttons/button#loading) already marks itself as
-  busy while loading, so its spinner needs nothing extra.
-
----
-
-## Styling
-
-When a single spinner needs to look different, change it with `className` or
-`style`, like a fainter spinner:
-
-<Preview>
-  <Spinner style={{ opacity: 0.5 }} />
-</Preview>
-
-```tsx
-<Spinner style={{ opacity: 0.5 }} />
-```
-
-- 📌 **An `animationDuration` in `style` ignores reduced motion**, and spins
-  at the same speed for every user. Use `speed` to change how fast it spins.

@@ -3,9 +3,18 @@ import { Preview } from "@/widgets/preview";
 
 # Skeleton
 
-`Skeleton` renders a placeholder in the shape of the content that's loading,
-like a paragraph, an avatar or an image. Show it in place of the content,
-and swap it out once the content arrives.
+`Skeleton` is a placeholder in the shape of the content that's loading, like
+a paragraph, an avatar or an image. Show it in place of the content, and
+swap it out once the content arrives.
+
+For an action in progress, like saving a form, use
+[Spinner](/components/loading/spinner) instead.
+
+```tsx
+import { Skeleton } from "@wondesign/loading/Skeleton";
+// or
+import { Skeleton } from "@wondesign/ui/loading";
+```
 
 ---
 
@@ -17,73 +26,43 @@ and swap it out once the content arrives.
 - ✅ **Two Animations**: A pulse or a wave, or no animation at all
 - ✅ **Respects Reduced Motion**: Fades gently when the user asks for less motion
 
+---
+
+## Usage
+
+`Skeleton` helps you hold the place of content quickly, using its props. Set
+its size with `width` and `height`, draw a paragraph with `lines`, and make
+a circle with `circle`. Put skeletons together in the layout of the content
+they stand for, like an avatar next to a short bio. For what each prop does,
+refer to the [Examples tab](/components/loading/skeleton/examples).
+
 <Preview orientation="vertical">
   <div style={{ display: "flex", gap: "var(--spacing-md)", width: "100%" }}>
-    <Skeleton circle width={40} />
+    <Skeleton circle />
     <Skeleton lines={3} style={{ flex: 1 }} />
   </div>
 </Preview>
 
 ```tsx
-import { Skeleton } from "@wondesign/loading/Skeleton";
-
-<Skeleton circle width={40} />
+<Skeleton circle />
 <Skeleton lines={3} />
 ```
 
-See [Examples](/components/loading/skeleton/examples) for sizes, lines,
-circles, animations and accessibility.
+For every prop, refer to the [API tab](/components/loading/skeleton/api).
 
----
+Skeletons are hidden from screen readers, so mark the content that's loading
+instead, with `aria-busy`:
 
-## API
-
-Import `Skeleton` and its props type from `@wondesign/loading/Skeleton`:
-
-```ts
-import { Skeleton, type SkeletonProps } from "@wondesign/loading/Skeleton";
-```
-
-### Props
-
-Renders a `<div>`. Accepts all `<div>` props except `aria-hidden`, plus its
-own `width`, `height`, `lines`, `circle` and `animation`. `aria-hidden`
-**isn't accepted**, since the skeleton is always hidden from screen readers.
-Together, the key props are:
-
-```ts
-interface SkeletonProps {
-  // the width. any CSS length, or a number in pixels.
-  // defaults to the full width of its container, or `40px` for a circle.
-  width?: number | string;
-
-  // the height. any CSS length, or a number in pixels.
-  // defaults to `1em`. with `lines`, the height of each line.
-  // ignored for a circle, where `width` is applied.
-  height?: number | string;
-
-  // the number of lines. defaults to `1`.
-  lines?: number;
-
-  // makes it a circle, as tall as it is wide. ignored when `lines` is more
-  // than `1`. defaults to `false`.
-  circle?: boolean;
-
-  // the animation. defaults to `"pulse"`.
-  animation?: "pulse" | "wave" | "none";
-
-  // ...
-}
+```tsx
+<section aria-busy={isLoading}>
+  {isLoading ? <Skeleton lines={3} /> : <Article article={article} />}
+</section>
 ```
 
 ---
 
-## Watch Out
+## Upcoming Features
 
-- ⚠️ **Mark what's loading yourself**: **Screen readers don't announce
-  skeletons**. Use `aria-busy` on the content that's loading. See
-  [Accessibility](/components/loading/skeleton/examples#accessibility).
-- ⚠️ **Size with props, not `style`**: **A `width` or `height` in `style` is
-  ignored**. Use the `width` and `height` props.
-- ⚠️ **No circles with lines**: **`circle` is ignored when `lines` is more
-  than `1`**.
+- 🔜 **Fit to Content**: Wrap the real content, and take its size while it loads, with no `width` or `height` to set
+- 🔜 **Delays**: Wait before showing, and stay a moment before hiding, so quick loads don't flash a placeholder
+- 🔜 **Last Line Width**: Set how wide the last line of a paragraph is
