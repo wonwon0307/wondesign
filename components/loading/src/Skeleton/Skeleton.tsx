@@ -25,19 +25,26 @@ export function Skeleton({
   style,
   ...rest
 }: Readonly<SkeletonProps>) {
+  const { width: styleWidth, height: styleHeight, ...restStyle } = style ?? {};
+  const finalWidth = width ?? styleWidth;
+  const finalHeight = height ?? styleHeight;
+
   if (lines > 1) {
     return (
       <div
         {...rest}
         aria-hidden="true"
         className={clsx(styles.lines, className)}
-        style={{ ...style, width }}
+        style={{ ...restStyle, width: finalWidth }}
       >
         {Array.from({ length: lines }).map((_, i) => (
           <div
             key={i}
             className={styles.skeleton({ animation })}
-            style={{ width: i === lines - 1 ? "60%" : "100%", height }}
+            style={{
+              width: i === lines - 1 ? "60%" : "100%",
+              height: finalHeight,
+            }}
           />
         ))}
       </div>
@@ -49,7 +56,11 @@ export function Skeleton({
       {...rest}
       aria-hidden="true"
       className={clsx(styles.skeleton({ animation, circle }), className)}
-      style={{ ...style, width, height: circle ? width : height }}
+      style={{
+        ...restStyle,
+        width: finalWidth,
+        height: circle ? finalWidth : finalHeight,
+      }}
     />
   );
 }
