@@ -85,6 +85,13 @@ const separator = style({
 
 const codeBlock = style({
   margin: `${tokens.spacing.md} 0`,
+  position: "relative",
+});
+
+const copyButton = style({
+  position: "absolute",
+  top: tokens.spacing.md,
+  right: tokens.spacing.md,
 });
 
 const callout = style({
@@ -115,6 +122,7 @@ export const styles = {
   heading,
   separator,
   codeBlock,
+  copyButton,
   callout,
   list,
   listItem,
