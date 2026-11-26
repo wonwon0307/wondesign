@@ -3,7 +3,7 @@ title: Key Events
 description: React hooks for keyboard interactions — closing on Escape and binding shortkeys like Mod+K, on every platform.
 ---
 
-import { Keyboard, KeyboardGroup } from "@wondesign/ui/code";
+import { Keyboard } from "@wondesign/ui/code";
 import { Callout } from "@wondesign/ui/texts";
 import { PackageInfo } from "@/entities/package";
 
@@ -33,7 +33,7 @@ instead.
 ## Key Features
 
 - ✅ **Escape to Close**: Run a callback when the user presses <Keyboard>Esc</Keyboard>
-- ✅ **Cross-Platform Shortkeys**: Bind shortkeys like <KeyboardGroup shortkey="Mod+K" />, with <Keyboard>Mod</Keyboard> following the user's platform
+- ✅ **Cross-Platform Shortkeys**: Bind shortkeys like <Keyboard shortkey="Mod+K" />, with <Keyboard>Mod</Keyboard> following the user's platform
 - ✅ **Ready to Show**: Show a shortkey's keys the way the user's platform writes them
 
 ---
@@ -47,5 +47,5 @@ only bundle the ones you use.
   when the user presses <Keyboard>Esc</Keyboard>, to close a dialog, menu or
   tooltip.
 - ⭐ **[Shortkey](/interactions/key-events/shortkey)** — listens for a shortkey
-  like <KeyboardGroup shortkey="Mod+K" />, and shows its keys for the user's
+  like <Keyboard shortkey="Mod+K" />, and shows its keys for the user's
   platform.

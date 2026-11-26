@@ -1,11 +1,11 @@
-import { Keyboard, KeyboardGroup } from "@wondesign/ui/code";
+import { Keyboard } from "@wondesign/ui/code";
 
 # Usage
 
 `useShortkey` listens on the whole page, wherever focus is, and a matched
 shortkey replaces whatever the browser would do for it. Shortkeys without
 {<Keyboard>Ctrl</Keyboard>} or <Keyboard>⌘</Keyboard>, like
-{<Keyboard>/</Keyboard>} or <KeyboardGroup shortkey="Shift+S" />, **don't fire
+{<Keyboard>/</Keyboard>} or <Keyboard shortkey="Shift+S" />, **don't fire
 while the user is typing** in an input, textarea, select or editable element.
 Holding a shortkey down calls `callback` once, not on every repeat.
 
@@ -116,8 +116,8 @@ held.
   `Ctrl+K`, unless you really mean Control.
 - ⚠️ **Write the unshifted symbol**: To bind `?`, write `Shift+/` — the key
   it's on. `?` itself is an invalid key.
-- ⚠️ **Browser shortcuts are replaced**: Binding <KeyboardGroup shortkey="Mod+S" />,
-  <KeyboardGroup shortkey="Mod+F" /> or <KeyboardGroup shortkey="Mod+P" />
+- ⚠️ **Browser shortcuts are replaced**: Binding <Keyboard shortkey="Mod+S" />,
+  <Keyboard shortkey="Mod+F" /> or <Keyboard shortkey="Mod+P" />
   **stops the browser from saving, finding or printing**. It's not recommended
   to turn a browser shortcut into a different feature — only do so if you really
   know what you're doing.
@@ -129,5 +129,5 @@ held.
 - ⚠️ **Avoid `Ctrl+Alt` shortkeys**: On Windows, the <Keyboard>AltGr</Keyboard> key
   counts as <Keyboard>Ctrl</Keyboard> + <Keyboard>Alt</Keyboard>, and many
   keyboards type characters with it — like `ą` on Polish or `@` on German
-  keyboards. Binding <KeyboardGroup shortkey="Ctrl+Alt+A" /> **stops Polish users from
+  keyboards. Binding <Keyboard shortkey="Ctrl+Alt+A" /> **stops Polish users from
   typing `ą`**, even inside inputs.

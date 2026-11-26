@@ -1,4 +1,4 @@
-import { Keyboard, KeyboardGroup } from "@wondesign/ui/code";
+import { Keyboard } from "@wondesign/ui/code";
 
 # Usage
 
@@ -12,7 +12,7 @@ the content moves focus out, and a trap inside another trap can let focus
 slip out).
 
 While it's on, <Keyboard>Tab</Keyboard> on the last element moves to the
-first, and {<KeyboardGroup shortkey="Shift+Tab" />} on the first moves to the
+first, and {<Keyboard shortkey="Shift+Tab" />} on the first moves to the
 last. Disabled, hidden and inert elements are skipped. If focus is lost, like
 when the focused element is removed, the next <Keyboard>Tab</Keyboard> brings
 it back inside. Focus held by something else, like another trap, is left
