@@ -1,0 +1,27 @@
+# API
+
+```ts
+import { Spinner, type SpinnerProps } from "@wondesign/loading/Spinner";
+// or from @wondesign/ui/loading
+```
+
+---
+
+## Props
+
+Renders an `<svg>`, and accepts all of its props except `aria-hidden`. It's
+hidden from screen readers unless you pass `aria-label` or
+`aria-labelledby`. For what each prop does, refer to the
+[Examples tab](/components/loading/spinner/examples).
+
+```ts
+interface SpinnerProps {
+  appearance?: "default" | "tail" | "line" | "bubble"; // defaults to `"default"`
+  size?: number | string; // defaults to `"1.25em"`
+  speed?: "slow" | "normal" | "fast"; // defaults to `"normal"`
+  color?: string; // defaults to `"currentColor"`
+  "aria-label"?: string;
+  ref?: React.Ref<SVGSVGElement>;
+  // ...
+}
+```

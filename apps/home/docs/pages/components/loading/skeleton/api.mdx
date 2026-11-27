@@ -1,0 +1,26 @@
+# API
+
+```ts
+import { Skeleton, type SkeletonProps } from "@wondesign/loading/Skeleton";
+// or from @wondesign/ui/loading
+```
+
+---
+
+## Props
+
+Renders a `<div>`, and accepts all of its props except `aria-hidden`, since
+the skeleton is always hidden from screen readers. For what each prop does,
+refer to the [Examples tab](/components/loading/skeleton/examples).
+
+```ts
+interface SkeletonProps {
+  width?: number | string; // defaults to `"100%"`, or `40px` for a circle
+  height?: number | string; // defaults to `"1em"`
+  lines?: number; // defaults to `1`
+  circle?: boolean; // defaults to `false`
+  animation?: "pulse" | "wave" | "none"; // defaults to `"pulse"`
+  ref?: React.Ref<HTMLDivElement>;
+  // ...
+}
+```

@@ -3,9 +3,18 @@ import { Preview } from "@/widgets/preview";
 
 # Spinner
 
-`Spinner` renders a spinning icon, for an action in progress, like saving a
-form or loading a list. It's sized to the text around it, so it fits next to
-a label or inside a button.
+`Spinner` is a spinning icon, for an action in progress, like saving a form
+or loading a list. It's sized to the text around it, so it fits next to a
+label or inside a button.
+
+To hold the place of content until it loads, like a list or a card, use
+[Skeleton](/components/loading/skeleton) instead.
+
+```tsx
+import { Spinner } from "@wondesign/loading/Spinner";
+// or
+import { Spinner } from "@wondesign/ui/loading";
+```
 
 ---
 
@@ -16,73 +25,40 @@ a label or inside a button.
 - ✅ **Three Speeds**: Slow, normal and fast
 - ✅ **Respects Reduced Motion**: Spins slower when the user asks for less motion
 
+---
+
+## Usage
+
+`Spinner` helps you show an action in progress quickly, using its props. Set
+its style with `appearance`, and how fast it spins with `speed`. For what
+each prop does, refer to the
+[Examples tab](/components/loading/spinner/examples).
+
 <Preview>
-  <Spinner appearance="default" />
-  <Spinner appearance="tail" />
-  <Spinner appearance="line" />
-  <Spinner appearance="bubble" />
+  <Spinner />
+  <span>{"Saving…"}</span>
 </Preview>
 
 ```tsx
-import { Spinner } from "@wondesign/loading/Spinner";
-
-<Spinner />;
+<Spinner />
 ```
 
-See [Examples](/components/loading/spinner/examples) for styles, sizes,
-speeds, colors and accessibility.
+For every prop, refer to the [API tab](/components/loading/spinner/api).
 
----
+The spinner is hidden from screen readers by default, so mark the content
+that's loading instead. Set `aria-busy` on the content while it loads, or
+show loading text next to the spinner, which screen readers read like any
+other text:
 
-## API
-
-Import `Spinner` and its props type from `@wondesign/loading/Spinner`:
-
-```ts
-import { Spinner, type SpinnerProps } from "@wondesign/loading/Spinner";
+```tsx
+<section aria-busy={isLoading}>
+  {isLoading ? <Spinner /> : <Results items={items} />}
+</section>
 ```
-
-### Props
-
-Renders an `<svg>`. Accepts all `<svg>` props except `aria-hidden`, plus its
-own `appearance`, `size` and `speed`. `aria-hidden` **isn't accepted**, since
-the spinner is always hidden from screen readers. Together, the key props
-are:
-
-```ts
-interface SpinnerProps {
-  // the spinner's style. defaults to `"default"`.
-  appearance?: "default" | "tail" | "line" | "bubble";
-
-  // the width and height. any CSS length, or a number in pixels.
-  // defaults to `"1.25em"`, which follows the font size around it.
-  size?: number | string;
-
-  // how fast it spins. defaults to `"normal"`.
-  speed?: "slow" | "normal" | "fast";
-
-  // ...
-}
-```
-
----
-
-## Watch Out
-
-- ⚠️ **Mark what's loading yourself**: **Screen readers don't announce the
-  spinner**. Use `aria-busy` or loading text. See
-  [Accessibility](/components/loading/spinner/examples#accessibility).
 
 ---
 
 ## Upcoming Features
 
 - 🔜 **Easing**: Choose how the spin moves, from a steady spin to one that speeds up and slows down
-
----
-
-## Used By
-
-- 🧩 **[Button](/components/buttons/button)**,
-  **[IconButton](/components/buttons/icon-button)**: the default `fallback`
-  while loading
+- 🔜 **Delays**: Wait before showing, and stay a moment before hiding, so quick actions don't flash a spinner
